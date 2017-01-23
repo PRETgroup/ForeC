@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!-- Supplementary information generated for static analysis (Main.cpp::output). -->
+<information>
+	<!-- Header filename (Multicore.cpp::toXml). -->
+	<filename elf="Example" />
+	<architecture model="x86" />
+	<!-- Allocation of threads for each core (Multicore.cpp::toXml). -->
+	<allocations>
+		<core id="0">
+			<thread id="main" />
+			<thread id="t0" />
+			<thread id="t1" />
+		</core>
+	</allocations>
+	<!-- Aborts around each par(...) (Abort.cpp::outputXml). -->
+	<aborts>
+	</aborts>
+	<!-- Nested thread structure (Tarot.cpp::outputXml). -->
+	<tarot>
+		<thread id="main">
+			<par id="0">
+				<thread id="t0"></thread>
+				<thread id="t1"></thread>
+			</par>
+		</thread>
+	</tarot>
+	<!-- Index of each par(...) in the par handlers of each core (Tarot.cpp::outputXml). -->
+	<parIndexes>
+		<core id="0">
+			<threadScope id="main">
+				<par id="0" handlers="4" />
+			</threadScope>
+		</core>
+	</parIndexes>
+	<!-- Cores involved in executing each par(...) (Tarot.cpp::outputXml). -->
+	<allocatedParCores>
+		<par id="0">
+			<core id="0" />
+		</par>
+	</allocatedParCores>
+	<!-- Cores involved in executing all the par(...)s in each thread (Tarot.cpp::outputXml). -->
+	<activeParCores>
+		<thread id="main">
+			<core id="0" />
+		</thread>
+	</activeParCores>
+	<!-- Shared variables (SymbolTable.cpp::outputXml). -->
+	<shared>
+		<threadScope id="main">
+			<par id="0">
+				<variable id="x__global_0_0" defines="2" combine="plus"/>
+			</par>
+		</threadScope>
+	</shared>
+</information>

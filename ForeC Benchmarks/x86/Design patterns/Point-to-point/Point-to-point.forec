@@ -1,0 +1,28 @@
+#include <stdio.h>
+
+thread t0(void);
+thread t1(void);
+
+shared int value = 0;
+
+void main(int argc, char **argv) {
+	par(t0, t1);
+}
+
+
+thread t0(void) {
+	int i;
+	for (i = 0; i < 10; ++i) {
+		value = value + 1;
+		pause;
+	}
+}
+
+thread t1(void) {
+	int i;
+	for (i = 0; i < 10; ++i) {
+		printf("Received value: %d\n", value);
+		pause;
+	}
+}
+

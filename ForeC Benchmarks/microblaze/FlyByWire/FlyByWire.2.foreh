@@ -1,0 +1,16 @@
+architecture:
+microblaze
+
+0:
+main
+flight
+timer
+failsafe
+
+1:
+servo
+servo0
+servo1
+servo2
+servo3
+

@@ -1,0 +1,24 @@
+#include <stdio.h>
+
+thread t0(void);
+thread t1(void);
+thread t2(void);
+
+int main(int argc, char **argv) {
+	par(t0, t1, t2);
+	
+	return 0;
+}
+
+
+thread t0(void) {
+	printf("t0 did its task.\n");
+}
+
+thread t1(void) {
+	printf("t1 did its task.\n");
+}
+
+thread t2(void) {
+	printf("t2 did its task.\n");
+}

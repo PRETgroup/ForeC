@@ -1,0 +1,1790 @@
+ForeC Compiler (multicore distribution)
+Version: 0.985 (28 September 2013)
+Debug output
+---------------------------------------
+
+Source file name: pacemaker_uppaal.forec
+Header file name: pacemaker_uppaal.foreh
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	x86
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	0		avi_ms__thread
+	0		counter_ms__thread
+	0		counter_vpAs__thread
+	0		duration_ms__thread
+	0		ekgSensing__thread
+	0		interval_ms__thread
+	0		logging__thread
+	0		lri_ms__thread
+	0		main__thread
+	0		pattern_vpAs__thread
+	0		pvarp_elt__thread
+	0		uri__thread
+	0		vrp__thread
+
+
+==============================
+tools::SymbolTable::toString()
+==============================
+Symbol tables:
+--------------
+	Scope name: avi_ms
+		Scope level: 0
+			Instance: 0
+				(enumeration) Init_avi_ms
+				(enumeration) AVI
+				(enumeration) Wait_URI
+				(enumeration) VDI_Idle
+				(enumeration) VDI_AVI
+				(storage) State__avi_ms_0_0
+				(variable) state_avi_ms__avi_ms_0_0
+				(variable) timer_avi_ms__avi_ms_0_0
+
+	Scope name: counter_ms
+		Scope level: 0
+			Instance: 0
+				(enumeration) Init_counter_ms
+				(enumeration) Fast1
+				(enumeration) Fast2
+				(enumeration) Fast3
+				(enumeration) Fast4
+				(enumeration) Fast5
+				(enumeration) Fast6
+				(enumeration) Fast7
+				(enumeration) Fast8
+				(storage) State__counter_ms_0_0
+				(variable) state_counter_ms__counter_ms_0_0
+
+	Scope name: counter_vpAs
+		Scope level: 0
+			Instance: 0
+				(enumeration) Init_counter_vpAs
+				(enumeration) E1
+				(enumeration) E2
+				(enumeration) E3
+				(enumeration) E4
+				(enumeration) E5
+				(enumeration) E6
+				(enumeration) E7
+				(enumeration) E8
+				(storage) State__counter_vpAs_0_0
+				(variable) state_counter_vpAs__counter_vpAs_0_0
+
+	Scope name: duration_ms
+		Scope level: 0
+			Instance: 0
+				(enumeration) Init_duration_ms
+				(enumeration) V1
+				(enumeration) V2
+				(enumeration) V3
+				(enumeration) V4
+				(enumeration) V5
+				(enumeration) V6
+				(enumeration) V7
+				(enumeration) V8
+				(enumeration) V9
+				(storage) State__duration_ms_0_0
+				(variable) state_duration_ms__duration_ms_0_0
+
+	Scope name: ekgSensing
+		Scope level: 0
+			Instance: 0
+				(enumeration) Init_conduction
+				(enumeration) Ante
+				(enumeration) Retro
+				(variable) state_conduction__ekgSensing_0_0
+				(variable) timer_rhm_a__ekgSensing_0_0
+				(variable) timer_rhm_v__ekgSensing_0_0
+				(variable) timer_conduction__ekgSensing_0_0
+
+	Scope name: global
+		Scope level: 0
+			Instance: 0
+				(enumeration) absent
+				(enumeration) present
+				(typedef) Signal__global_0_0
+				(typedef) Event__global_0_0
+				(typedef) Log__global_0_0
+				(variable) Base_Period__global_0_0
+				(shared) TURI__global_0_0
+				(shared) TLRI__global_0_0
+				(shared) TAVI__global_0_0
+				(variable) TVRP__global_0_0
+				(variable) TPVAB__global_0_0
+				(variable) Threshold__global_0_0
+				(shared) TPVARP__global_0_0
+				(variable) TPVARP_100__global_0_0
+				(variable) TPVARP_500__global_0_0
+				(variable) T_150__global_0_0
+				(variable) T_200__global_0_0
+				(variable) T_500__global_0_0
+				(variable) Aminwait__global_0_0
+				(variable) Vminwait__global_0_0
+				(variable) Tantemin__global_0_0
+				(variable) Tretromin__global_0_0
+				(shared) timer_uri__global_0_0
+				(shared) A_Get__global_0_0
+				(input) A_Get_o__global_0_0
+				(shared) A_Act__global_0_0
+				(input) A_Act_o__global_0_0
+				(shared) V_Get__global_0_0
+				(input) V_Get_o__global_0_0
+				(shared) V_Act__global_0_0
+				(input) V_Act_o__global_0_0
+				(shared) AP__global_0_0
+				(output) AP_o__global_0_0
+				(shared) VP__global_0_0
+				(output) VP_o__global_0_0
+				(shared) AS__global_0_0
+				(shared) AR__global_0_0
+				(shared) VS__global_0_0
+				(shared) DDD__global_0_0
+				(shared) VDI__global_0_0
+				(shared) A_Block__global_0_0
+				(shared) V_Block__global_0_0
+				(shared) Fast__global_0_0
+				(shared) Slow__global_0_0
+				(shared) D_Beg__global_0_0
+				(shared) D_End__global_0_0
+				(shared) VP_AS__global_0_0
+				(shared) Reset__global_0_0
+				(shared) log__global_0_0
+				(thread) ekgSensing__thread
+				(thread) lri_ms__thread
+				(thread) avi_ms__thread
+				(thread) uri__thread
+				(thread) pvarp_elt__thread
+				(thread) vrp__thread
+				(thread) interval_ms__thread
+				(thread) counter_ms__thread
+				(thread) duration_ms__thread
+				(thread) pattern_vpAs__thread
+				(thread) counter_vpAs__thread
+				(thread) logging__thread
+
+	Scope name: interval_ms
+		Scope level: 0
+			Instance: 0
+				(enumeration) Init_interval_ms
+				(enumeration) Wait
+				(storage) State__interval_ms_0_0
+				(variable) state_interval_ms__interval_ms_0_0
+				(variable) timer_interval_ms__interval_ms_0_0
+
+	Scope name: logging
+		Scope level: 0
+			Instance: 0
+				(enumeration) Init_lrl
+				(enumeration) Wait_lrl
+				(variable) state_lrl__logging_0_0
+				(enumeration) Init_url
+				(enumeration) Wait_url
+				(variable) state_url__logging_0_0
+				(enumeration) Init_pmt
+				(enumeration) Wait_pmt
+				(enumeration) Error_pmt
+				(variable) state_pmt__logging_0_0
+				(enumeration) Init_vurl
+				(enumeration) V_vurl
+				(enumeration) Error_vurl
+				(variable) state_vurl__logging_0_0
+				(enumeration) Init_elt
+				(enumeration) AS_elt
+				(enumeration) VP_elt
+				(enumeration) Error_elt
+				(variable) state_elt__logging_0_0
+				(variable) timer_lrl__logging_0_0
+				(variable) timer_url__logging_0_0
+				(variable) timer_pmt__logging_0_0
+				(variable) timer_vurl__logging_0_0
+				(variable) violated__logging_0_0
+				(variable) event__logging_0_0
+
+	Scope name: lri_ms
+		Scope level: 0
+			Instance: 0
+				(enumeration) Init_lri_ms
+				(enumeration) Sensed
+				(enumeration) VDI_LRI
+				(storage) State__lri_ms_0_0
+				(variable) state_lri_ms__lri_ms_0_0
+				(variable) timer_lri_ms__lri_ms_0_0
+				(variable) VP_new__lri_ms_0_0
+
+	Scope name: main
+		Scope level: 0
+			Instance: 0
+				(variable) argc__main_0_0
+				(variable) argv__main_0_0
+
+	Scope name: max
+		Scope level: 0
+			Instance: 0
+				(variable) copy1__max_0_0
+				(variable) copy2__max_0_0
+
+	Scope name: or
+		Scope level: 0
+			Instance: 0
+				(variable) copy1__or_0_0
+				(variable) copy2__or_0_0
+
+	Scope name: pattern_vpAs
+		Scope level: 0
+			Instance: 0
+				(enumeration) Init_pattern_vpAs
+				(enumeration) VP1
+				(storage) State__pattern_vpAs_0_0
+				(variable) state_pattern_vpAs__pattern_vpAs_0_0
+				(variable) timer_pattern_vpAs__pattern_vpAs_0_0
+
+	Scope name: pvarp_elt
+		Scope level: 0
+			Instance: 0
+				(enumeration) Init_pvarp_elt
+				(enumeration) PVAB
+				(enumeration) PVARP
+				(storage) State__pvarp_elt_0_0
+				(variable) state_pvarp_elt__pvarp_elt_0_0
+				(variable) timer_pvarp_elt__pvarp_elt_0_0
+
+	Scope name: vrp
+		Scope level: 0
+			Instance: 0
+				(enumeration) Init_vrp
+				(enumeration) VRP
+				(storage) State__vrp_0_0
+				(variable) state_vrp__vrp_0_0
+				(variable) timer_vrp__vrp_0_0
+
+
+Declared shared symbols:
+------------------------
+	Scope name: global
+		(Shared_TURI__global_0_0) TURI__global_0_0
+		(Shared_TLRI__global_0_0) TLRI__global_0_0
+		(Shared_TAVI__global_0_0) TAVI__global_0_0
+		(Shared_TPVARP__global_0_0) TPVARP__global_0_0
+		(Shared_timer_uri__global_0_0) timer_uri__global_0_0
+		(Shared_A_Get__global_0_0) A_Get__global_0_0
+		(Shared_A_Act__global_0_0) A_Act__global_0_0
+		(Shared_V_Get__global_0_0) V_Get__global_0_0
+		(Shared_V_Act__global_0_0) V_Act__global_0_0
+		(Shared_AP__global_0_0) AP__global_0_0
+		(Shared_VP__global_0_0) VP__global_0_0
+		(Shared_AS__global_0_0) AS__global_0_0
+		(Shared_AR__global_0_0) AR__global_0_0
+		(Shared_VS__global_0_0) VS__global_0_0
+		(Shared_DDD__global_0_0) DDD__global_0_0
+		(Shared_VDI__global_0_0) VDI__global_0_0
+		(Shared_A_Block__global_0_0) A_Block__global_0_0
+		(Shared_V_Block__global_0_0) V_Block__global_0_0
+		(Shared_Fast__global_0_0) Fast__global_0_0
+		(Shared_Slow__global_0_0) Slow__global_0_0
+		(Shared_D_Beg__global_0_0) D_Beg__global_0_0
+		(Shared_D_End__global_0_0) D_End__global_0_0
+		(Shared_VP_AS__global_0_0) VP_AS__global_0_0
+		(Shared_Reset__global_0_0) Reset__global_0_0
+		(Shared_log__global_0_0) log__global_0_0
+
+
+Use/Def of symbols:
+-------------------
+	Scope name: avi_ms
+		def:
+			(shared) VP__global_0_0
+			(variable) state_avi_ms__avi_ms_0_0
+			(variable) timer_avi_ms__avi_ms_0_0
+
+		use:
+			(enumeration) absent
+			(enumeration) present
+			(shared) TURI__global_0_0
+			(shared) TAVI__global_0_0
+			(shared) timer_uri__global_0_0
+			(shared) AP__global_0_0
+			(shared) AS__global_0_0
+			(shared) VS__global_0_0
+			(shared) DDD__global_0_0
+			(shared) VDI__global_0_0
+			(enumeration) Init_avi_ms
+			(enumeration) AVI
+			(enumeration) Wait_URI
+			(enumeration) VDI_Idle
+			(enumeration) VDI_AVI
+			(variable) state_avi_ms__avi_ms_0_0
+			(variable) timer_avi_ms__avi_ms_0_0
+
+	Scope name: counter_ms
+		def:
+			(shared) DDD__global_0_0
+			(shared) VDI__global_0_0
+			(shared) D_Beg__global_0_0
+			(variable) state_counter_ms__counter_ms_0_0
+
+		use:
+			(enumeration) absent
+			(enumeration) present
+			(shared) Fast__global_0_0
+			(shared) Slow__global_0_0
+			(shared) D_End__global_0_0
+			(enumeration) Init_counter_ms
+			(enumeration) Fast1
+			(enumeration) Fast2
+			(enumeration) Fast7
+			(enumeration) Fast8
+			(variable) state_counter_ms__counter_ms_0_0
+
+	Scope name: counter_vpAs
+		def:
+			(shared) TPVARP__global_0_0
+			(variable) state_counter_vpAs__counter_vpAs_0_0
+
+		use:
+			(enumeration) present
+			(variable) T_500__global_0_0
+			(shared) VP_AS__global_0_0
+			(shared) Reset__global_0_0
+			(enumeration) Init_counter_vpAs
+			(enumeration) E1
+			(enumeration) E8
+			(variable) state_counter_vpAs__counter_vpAs_0_0
+
+	Scope name: duration_ms
+		def:
+			(shared) D_End__global_0_0
+			(variable) state_duration_ms__duration_ms_0_0
+
+		use:
+			(enumeration) absent
+			(enumeration) present
+			(shared) VP__global_0_0
+			(shared) VS__global_0_0
+			(shared) D_Beg__global_0_0
+			(enumeration) Init_duration_ms
+			(enumeration) V1
+			(enumeration) V9
+			(variable) state_duration_ms__duration_ms_0_0
+
+	Scope name: ekgSensing
+		def:
+			(shared) A_Get__global_0_0
+			(shared) A_Act__global_0_0
+			(shared) V_Get__global_0_0
+			(shared) V_Act__global_0_0
+			(variable) state_conduction__ekgSensing_0_0
+			(variable) timer_rhm_a__ekgSensing_0_0
+			(variable) timer_rhm_v__ekgSensing_0_0
+			(variable) timer_conduction__ekgSensing_0_0
+
+		use:
+			(enumeration) present
+			(variable) Aminwait__global_0_0
+			(variable) Vminwait__global_0_0
+			(variable) Tantemin__global_0_0
+			(variable) Tretromin__global_0_0
+			(shared) A_Get__global_0_0
+			(shared) A_Act__global_0_0
+			(shared) V_Get__global_0_0
+			(shared) V_Act__global_0_0
+			(shared) AP__global_0_0
+			(shared) VP__global_0_0
+			(enumeration) Init_conduction
+			(enumeration) Ante
+			(enumeration) Retro
+			(variable) state_conduction__ekgSensing_0_0
+			(variable) timer_rhm_a__ekgSensing_0_0
+			(variable) timer_rhm_v__ekgSensing_0_0
+			(variable) timer_conduction__ekgSensing_0_0
+
+	Scope name: interval_ms
+		def:
+			(shared) Fast__global_0_0
+			(shared) Slow__global_0_0
+			(variable) state_interval_ms__interval_ms_0_0
+			(variable) timer_interval_ms__interval_ms_0_0
+
+		use:
+			(enumeration) absent
+			(enumeration) present
+			(variable) Threshold__global_0_0
+			(shared) AP__global_0_0
+			(shared) AS__global_0_0
+			(shared) AR__global_0_0
+			(enumeration) Init_interval_ms
+			(enumeration) Wait
+			(variable) state_interval_ms__interval_ms_0_0
+			(variable) timer_interval_ms__interval_ms_0_0
+
+	Scope name: logging
+		def:
+			() Signal__global_0_0
+			() Event__global_0_0
+			(shared) log__global_0_0
+			(variable) state_lrl__logging_0_0
+			(variable) state_url__logging_0_0
+			(variable) state_pmt__logging_0_0
+			(variable) state_vurl__logging_0_0
+			(variable) state_elt__logging_0_0
+			(variable) timer_lrl__logging_0_0
+			(variable) timer_url__logging_0_0
+			(variable) timer_pmt__logging_0_0
+			(variable) timer_vurl__logging_0_0
+			(variable) violated__logging_0_0
+			(variable) event__logging_0_0
+
+		use:
+			(enumeration) absent
+			(enumeration) present
+			(shared) TURI__global_0_0
+			(shared) TLRI__global_0_0
+			(shared) AP__global_0_0
+			(shared) VP__global_0_0
+			(shared) AS__global_0_0
+			(shared) AR__global_0_0
+			(shared) VS__global_0_0
+			(shared) DDD__global_0_0
+			(shared) VDI__global_0_0
+			(shared) A_Block__global_0_0
+			(shared) V_Block__global_0_0
+			(shared) log__global_0_0
+			(enumeration) Init_lrl
+			(enumeration) Wait_lrl
+			(variable) state_lrl__logging_0_0
+			(enumeration) Init_url
+			(enumeration) Wait_url
+			(variable) state_url__logging_0_0
+			(enumeration) Init_pmt
+			(enumeration) Wait_pmt
+			(variable) state_pmt__logging_0_0
+			(enumeration) Init_vurl
+			(enumeration) V_vurl
+			(enumeration) Error_vurl
+			(variable) state_vurl__logging_0_0
+			(enumeration) Init_elt
+			(enumeration) AS_elt
+			(enumeration) VP_elt
+			(enumeration) Error_elt
+			(variable) state_elt__logging_0_0
+			(variable) timer_lrl__logging_0_0
+			(variable) timer_url__logging_0_0
+			(variable) timer_pmt__logging_0_0
+			(variable) timer_vurl__logging_0_0
+			(variable) violated__logging_0_0
+			(variable) event__logging_0_0
+
+	Scope name: lri_ms
+		def:
+			() Signal__global_0_0
+			(shared) AP__global_0_0
+			(shared) VP__global_0_0
+			(variable) state_lri_ms__lri_ms_0_0
+			(variable) timer_lri_ms__lri_ms_0_0
+			(variable) VP_new__lri_ms_0_0
+
+		use:
+			(enumeration) absent
+			(enumeration) present
+			(shared) TLRI__global_0_0
+			(shared) TAVI__global_0_0
+			(shared) VP__global_0_0
+			(shared) AS__global_0_0
+			(shared) VS__global_0_0
+			(shared) DDD__global_0_0
+			(shared) VDI__global_0_0
+			(enumeration) Init_lri_ms
+			(enumeration) Sensed
+			(enumeration) VDI_LRI
+			(variable) state_lri_ms__lri_ms_0_0
+			(variable) timer_lri_ms__lri_ms_0_0
+			(variable) VP_new__lri_ms_0_0
+
+	Scope name: main
+		use:
+			(thread) ekgSensing__thread
+			(thread) lri_ms__thread
+			(thread) avi_ms__thread
+			(thread) uri__thread
+			(thread) pvarp_elt__thread
+			(thread) vrp__thread
+			(thread) interval_ms__thread
+			(thread) counter_ms__thread
+			(thread) duration_ms__thread
+			(thread) pattern_vpAs__thread
+			(thread) counter_vpAs__thread
+			(thread) logging__thread
+
+	Scope name: max
+		use:
+			(variable) copy1__max_0_0
+			(variable) copy2__max_0_0
+
+	Scope name: or
+		def:
+			() Signal__global_0_0
+
+		use:
+			(enumeration) absent
+			(enumeration) present
+			(variable) copy1__or_0_0
+			(variable) copy2__or_0_0
+
+	Scope name: pattern_vpAs
+		def:
+			(shared) VP_AS__global_0_0
+			(shared) Reset__global_0_0
+			(variable) state_pattern_vpAs__pattern_vpAs_0_0
+			(variable) timer_pattern_vpAs__pattern_vpAs_0_0
+
+		use:
+			(enumeration) absent
+			(enumeration) present
+			(variable) T_150__global_0_0
+			(variable) T_200__global_0_0
+			(shared) AP__global_0_0
+			(shared) VP__global_0_0
+			(shared) AS__global_0_0
+			(shared) AR__global_0_0
+			(shared) VS__global_0_0
+			(enumeration) Init_pattern_vpAs
+			(enumeration) VP1
+			(variable) state_pattern_vpAs__pattern_vpAs_0_0
+			(variable) timer_pattern_vpAs__pattern_vpAs_0_0
+
+	Scope name: pvarp_elt
+		def:
+			(shared) TPVARP__global_0_0
+			(shared) AS__global_0_0
+			(shared) AR__global_0_0
+			(shared) A_Block__global_0_0
+			(variable) state_pvarp_elt__pvarp_elt_0_0
+			(variable) timer_pvarp_elt__pvarp_elt_0_0
+
+		use:
+			(enumeration) absent
+			(enumeration) present
+			(variable) TPVAB__global_0_0
+			(shared) TPVARP__global_0_0
+			(variable) TPVARP_100__global_0_0
+			(shared) A_Get__global_0_0
+			(shared) A_Act__global_0_0
+			(shared) VS__global_0_0
+			(enumeration) Init_pvarp_elt
+			(enumeration) PVAB
+			(enumeration) PVARP
+			(variable) state_pvarp_elt__pvarp_elt_0_0
+			(variable) timer_pvarp_elt__pvarp_elt_0_0
+
+	Scope name: uri
+		def:
+			(shared) timer_uri__global_0_0
+
+		use:
+			(enumeration) present
+			(shared) timer_uri__global_0_0
+			(shared) VP__global_0_0
+			(shared) VS__global_0_0
+
+	Scope name: vrp
+		def:
+			(shared) VS__global_0_0
+			(shared) V_Block__global_0_0
+			(variable) state_vrp__vrp_0_0
+			(variable) timer_vrp__vrp_0_0
+
+		use:
+			(enumeration) absent
+			(enumeration) present
+			(variable) TVRP__global_0_0
+			(shared) V_Get__global_0_0
+			(shared) V_Act__global_0_0
+			(shared) VP__global_0_0
+			(enumeration) Init_vrp
+			(enumeration) VRP
+			(variable) state_vrp__vrp_0_0
+			(variable) timer_vrp__vrp_0_0
+
+
+Indirect use/def of symbols by parId:
+-------------------------------------
+	par0:
+		TURI__global_0_0
+			use (skip): avi_ms logging 
+
+		TLRI__global_0_0
+			use (skip): logging lri_ms 
+
+		TAVI__global_0_0
+			use (skip): avi_ms lri_ms 
+
+		TVRP__global_0_0
+			use (skip): vrp 
+
+		TPVAB__global_0_0
+			use (skip): pvarp_elt 
+
+		Threshold__global_0_0
+			use (skip): interval_ms 
+
+		TPVARP__global_0_0
+			def (root): counter_vpAs pvarp_elt 
+			use (root): pvarp_elt 
+
+		TPVARP_100__global_0_0
+			use (skip): pvarp_elt 
+
+		T_150__global_0_0
+			use (skip): pattern_vpAs 
+
+		T_200__global_0_0
+			use (skip): pattern_vpAs 
+
+		T_500__global_0_0
+			use (skip): counter_vpAs 
+
+		Aminwait__global_0_0
+			use (skip): ekgSensing 
+
+		Vminwait__global_0_0
+			use (skip): ekgSensing 
+
+		Tantemin__global_0_0
+			use (skip): ekgSensing 
+
+		Tretromin__global_0_0
+			use (skip): ekgSensing 
+
+		timer_uri__global_0_0
+			def (root): uri 
+			use (root): avi_ms uri 
+
+		A_Get__global_0_0
+			def (root): ekgSensing 
+			use (root): ekgSensing pvarp_elt 
+
+		A_Act__global_0_0
+			def (root): ekgSensing 
+			use (root): ekgSensing pvarp_elt 
+
+		V_Get__global_0_0
+			def (root): ekgSensing 
+			use (root): ekgSensing vrp 
+
+		V_Act__global_0_0
+			def (root): ekgSensing 
+			use (root): ekgSensing vrp 
+
+		AP__global_0_0
+			def (root): lri_ms 
+			use (root): avi_ms ekgSensing interval_ms logging pattern_vpAs 
+
+		VP__global_0_0
+			def (root): avi_ms lri_ms 
+			use (root): duration_ms ekgSensing logging lri_ms pattern_vpAs uri vrp 
+
+		AS__global_0_0
+			def (root): pvarp_elt 
+			use (root): avi_ms interval_ms logging lri_ms pattern_vpAs 
+
+		AR__global_0_0
+			def (root): pvarp_elt 
+			use (root): interval_ms logging pattern_vpAs 
+
+		VS__global_0_0
+			def (root): vrp 
+			use (root): avi_ms duration_ms logging lri_ms pattern_vpAs pvarp_elt uri 
+
+		DDD__global_0_0
+			def (root): counter_ms 
+			use (root): avi_ms logging lri_ms 
+
+		VDI__global_0_0
+			def (root): counter_ms 
+			use (root): avi_ms logging lri_ms 
+
+		A_Block__global_0_0
+			def (root): pvarp_elt 
+			use (root): logging 
+
+		V_Block__global_0_0
+			def (root): vrp 
+			use (root): logging 
+
+		Fast__global_0_0
+			def (root): interval_ms 
+			use (root): counter_ms 
+
+		Slow__global_0_0
+			def (root): interval_ms 
+			use (root): counter_ms 
+
+		D_Beg__global_0_0
+			def (root): counter_ms 
+			use (root): duration_ms 
+
+		D_End__global_0_0
+			def (root): duration_ms 
+			use (root): counter_ms 
+
+		VP_AS__global_0_0
+			def (root): pattern_vpAs 
+			use (root): counter_vpAs 
+
+		Reset__global_0_0
+			def (root): pattern_vpAs 
+			use (root): counter_vpAs 
+
+		log__global_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		state_conduction__ekgSensing_0_0
+			def (skip): ekgSensing 
+			use (skip): ekgSensing 
+
+		timer_rhm_a__ekgSensing_0_0
+			def (skip): ekgSensing 
+			use (skip): ekgSensing 
+
+		timer_rhm_v__ekgSensing_0_0
+			def (skip): ekgSensing 
+			use (skip): ekgSensing 
+
+		timer_conduction__ekgSensing_0_0
+			def (skip): ekgSensing 
+			use (skip): ekgSensing 
+
+		state_lri_ms__lri_ms_0_0
+			def (skip): lri_ms 
+			use (skip): lri_ms 
+
+		timer_lri_ms__lri_ms_0_0
+			def (skip): lri_ms 
+			use (skip): lri_ms 
+
+		VP_new__lri_ms_0_0
+			def (skip): lri_ms 
+			use (skip): lri_ms 
+
+		state_avi_ms__avi_ms_0_0
+			def (skip): avi_ms 
+			use (skip): avi_ms 
+
+		timer_avi_ms__avi_ms_0_0
+			def (skip): avi_ms 
+			use (skip): avi_ms 
+
+		state_pvarp_elt__pvarp_elt_0_0
+			def (skip): pvarp_elt 
+			use (skip): pvarp_elt 
+
+		timer_pvarp_elt__pvarp_elt_0_0
+			def (skip): pvarp_elt 
+			use (skip): pvarp_elt 
+
+		state_vrp__vrp_0_0
+			def (skip): vrp 
+			use (skip): vrp 
+
+		timer_vrp__vrp_0_0
+			def (skip): vrp 
+			use (skip): vrp 
+
+		state_interval_ms__interval_ms_0_0
+			def (skip): interval_ms 
+			use (skip): interval_ms 
+
+		timer_interval_ms__interval_ms_0_0
+			def (skip): interval_ms 
+			use (skip): interval_ms 
+
+		state_counter_ms__counter_ms_0_0
+			def (skip): counter_ms 
+			use (skip): counter_ms 
+
+		state_duration_ms__duration_ms_0_0
+			def (skip): duration_ms 
+			use (skip): duration_ms 
+
+		state_pattern_vpAs__pattern_vpAs_0_0
+			def (skip): pattern_vpAs 
+			use (skip): pattern_vpAs 
+
+		timer_pattern_vpAs__pattern_vpAs_0_0
+			def (skip): pattern_vpAs 
+			use (skip): pattern_vpAs 
+
+		state_counter_vpAs__counter_vpAs_0_0
+			def (skip): counter_vpAs 
+			use (skip): counter_vpAs 
+
+		state_lrl__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		state_url__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		state_pmt__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		state_vurl__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		state_elt__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		timer_lrl__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		timer_url__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		timer_pmt__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		timer_vurl__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		violated__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		event__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+
+Indirect use/def of symbols by threadId:
+----------------------------------------
+	avi_ms:
+		TURI__global_0_0
+			use (root): avi_ms 
+
+		TAVI__global_0_0
+			use (root): avi_ms 
+
+		timer_uri__global_0_0
+			use (intermediate): avi_ms 
+
+		AP__global_0_0
+			use (intermediate): avi_ms 
+
+		VP__global_0_0
+			def (intermediate): avi_ms 
+
+		AS__global_0_0
+			use (intermediate): avi_ms 
+
+		VS__global_0_0
+			use (intermediate): avi_ms 
+
+		DDD__global_0_0
+			use (intermediate): avi_ms 
+
+		VDI__global_0_0
+			use (intermediate): avi_ms 
+
+		state_avi_ms__avi_ms_0_0
+			def (skip): avi_ms 
+			use (skip): avi_ms 
+
+		timer_avi_ms__avi_ms_0_0
+			def (skip): avi_ms 
+			use (skip): avi_ms 
+
+	counter_ms:
+		DDD__global_0_0
+			def (intermediate): counter_ms 
+
+		VDI__global_0_0
+			def (intermediate): counter_ms 
+
+		Fast__global_0_0
+			use (intermediate): counter_ms 
+
+		Slow__global_0_0
+			use (intermediate): counter_ms 
+
+		D_Beg__global_0_0
+			def (intermediate): counter_ms 
+
+		D_End__global_0_0
+			use (intermediate): counter_ms 
+
+		state_counter_ms__counter_ms_0_0
+			def (skip): counter_ms 
+			use (skip): counter_ms 
+
+	counter_vpAs:
+		TPVARP__global_0_0
+			def (intermediate): counter_vpAs 
+
+		T_500__global_0_0
+			use (skip): counter_vpAs 
+
+		VP_AS__global_0_0
+			use (intermediate): counter_vpAs 
+
+		Reset__global_0_0
+			use (intermediate): counter_vpAs 
+
+		state_counter_vpAs__counter_vpAs_0_0
+			def (skip): counter_vpAs 
+			use (skip): counter_vpAs 
+
+	duration_ms:
+		VP__global_0_0
+			use (intermediate): duration_ms 
+
+		VS__global_0_0
+			use (intermediate): duration_ms 
+
+		D_Beg__global_0_0
+			use (intermediate): duration_ms 
+
+		D_End__global_0_0
+			def (intermediate): duration_ms 
+
+		state_duration_ms__duration_ms_0_0
+			def (skip): duration_ms 
+			use (skip): duration_ms 
+
+	ekgSensing:
+		Aminwait__global_0_0
+			use (skip): ekgSensing 
+
+		Vminwait__global_0_0
+			use (skip): ekgSensing 
+
+		Tantemin__global_0_0
+			use (skip): ekgSensing 
+
+		Tretromin__global_0_0
+			use (skip): ekgSensing 
+
+		A_Get__global_0_0
+			def (intermediate): ekgSensing 
+			use (intermediate): ekgSensing 
+
+		A_Act__global_0_0
+			def (intermediate): ekgSensing 
+			use (intermediate): ekgSensing 
+
+		V_Get__global_0_0
+			def (intermediate): ekgSensing 
+			use (intermediate): ekgSensing 
+
+		V_Act__global_0_0
+			def (intermediate): ekgSensing 
+			use (intermediate): ekgSensing 
+
+		AP__global_0_0
+			use (intermediate): ekgSensing 
+
+		VP__global_0_0
+			use (intermediate): ekgSensing 
+
+		state_conduction__ekgSensing_0_0
+			def (skip): ekgSensing 
+			use (skip): ekgSensing 
+
+		timer_rhm_a__ekgSensing_0_0
+			def (skip): ekgSensing 
+			use (skip): ekgSensing 
+
+		timer_rhm_v__ekgSensing_0_0
+			def (skip): ekgSensing 
+			use (skip): ekgSensing 
+
+		timer_conduction__ekgSensing_0_0
+			def (skip): ekgSensing 
+			use (skip): ekgSensing 
+
+	interval_ms:
+		Threshold__global_0_0
+			use (skip): interval_ms 
+
+		AP__global_0_0
+			use (intermediate): interval_ms 
+
+		AS__global_0_0
+			use (intermediate): interval_ms 
+
+		AR__global_0_0
+			use (intermediate): interval_ms 
+
+		Fast__global_0_0
+			def (intermediate): interval_ms 
+
+		Slow__global_0_0
+			def (intermediate): interval_ms 
+
+		state_interval_ms__interval_ms_0_0
+			def (skip): interval_ms 
+			use (skip): interval_ms 
+
+		timer_interval_ms__interval_ms_0_0
+			def (skip): interval_ms 
+			use (skip): interval_ms 
+
+	logging:
+		TURI__global_0_0
+			use (root): logging 
+
+		TLRI__global_0_0
+			use (root): logging 
+
+		AP__global_0_0
+			use (intermediate): logging 
+
+		VP__global_0_0
+			use (intermediate): logging 
+
+		AS__global_0_0
+			use (intermediate): logging 
+
+		AR__global_0_0
+			use (intermediate): logging 
+
+		VS__global_0_0
+			use (intermediate): logging 
+
+		DDD__global_0_0
+			use (intermediate): logging 
+
+		VDI__global_0_0
+			use (intermediate): logging 
+
+		A_Block__global_0_0
+			use (intermediate): logging 
+
+		V_Block__global_0_0
+			use (intermediate): logging 
+
+		log__global_0_0
+			def (root): logging 
+			use (root): logging 
+
+		state_lrl__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		state_url__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		state_pmt__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		state_vurl__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		state_elt__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		timer_lrl__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		timer_url__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		timer_pmt__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		timer_vurl__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		violated__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		event__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+	lri_ms:
+		TLRI__global_0_0
+			use (root): lri_ms 
+
+		TAVI__global_0_0
+			use (root): lri_ms 
+
+		AP__global_0_0
+			def (intermediate): lri_ms 
+
+		VP__global_0_0
+			def (intermediate): lri_ms 
+			use (intermediate): lri_ms 
+
+		AS__global_0_0
+			use (intermediate): lri_ms 
+
+		VS__global_0_0
+			use (intermediate): lri_ms 
+
+		DDD__global_0_0
+			use (intermediate): lri_ms 
+
+		VDI__global_0_0
+			use (intermediate): lri_ms 
+
+		state_lri_ms__lri_ms_0_0
+			def (skip): lri_ms 
+			use (skip): lri_ms 
+
+		timer_lri_ms__lri_ms_0_0
+			def (skip): lri_ms 
+			use (skip): lri_ms 
+
+		VP_new__lri_ms_0_0
+			def (skip): lri_ms 
+			use (skip): lri_ms 
+
+	main:
+		TURI__global_0_0
+			use (skip): main 
+
+		TLRI__global_0_0
+			use (skip): main 
+
+		TAVI__global_0_0
+			use (skip): main 
+
+		TVRP__global_0_0
+			use (skip): main 
+
+		TPVAB__global_0_0
+			use (skip): main 
+
+		Threshold__global_0_0
+			use (skip): main 
+
+		TPVARP__global_0_0
+			def (root): main 
+			use (root): main 
+
+		TPVARP_100__global_0_0
+			use (skip): main 
+
+		T_150__global_0_0
+			use (skip): main 
+
+		T_200__global_0_0
+			use (skip): main 
+
+		T_500__global_0_0
+			use (skip): main 
+
+		Aminwait__global_0_0
+			use (skip): main 
+
+		Vminwait__global_0_0
+			use (skip): main 
+
+		Tantemin__global_0_0
+			use (skip): main 
+
+		Tretromin__global_0_0
+			use (skip): main 
+
+		timer_uri__global_0_0
+			def (root): main 
+			use (root): main 
+
+		A_Get__global_0_0
+			def (root): main 
+			use (root): main 
+
+		A_Act__global_0_0
+			def (root): main 
+			use (root): main 
+
+		V_Get__global_0_0
+			def (root): main 
+			use (root): main 
+
+		V_Act__global_0_0
+			def (root): main 
+			use (root): main 
+
+		AP__global_0_0
+			def (root): main 
+			use (root): main 
+
+		VP__global_0_0
+			def (root): main 
+			use (root): main 
+
+		AS__global_0_0
+			def (root): main 
+			use (root): main 
+
+		AR__global_0_0
+			def (root): main 
+			use (root): main 
+
+		VS__global_0_0
+			def (root): main 
+			use (root): main 
+
+		DDD__global_0_0
+			def (root): main 
+			use (root): main 
+
+		VDI__global_0_0
+			def (root): main 
+			use (root): main 
+
+		A_Block__global_0_0
+			def (root): main 
+			use (root): main 
+
+		V_Block__global_0_0
+			def (root): main 
+			use (root): main 
+
+		Fast__global_0_0
+			def (root): main 
+			use (root): main 
+
+		Slow__global_0_0
+			def (root): main 
+			use (root): main 
+
+		D_Beg__global_0_0
+			def (root): main 
+			use (root): main 
+
+		D_End__global_0_0
+			def (root): main 
+			use (root): main 
+
+		VP_AS__global_0_0
+			def (root): main 
+			use (root): main 
+
+		Reset__global_0_0
+			def (root): main 
+			use (root): main 
+
+		log__global_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_conduction__ekgSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_rhm_a__ekgSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_rhm_v__ekgSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_conduction__ekgSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_lri_ms__lri_ms_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_lri_ms__lri_ms_0_0
+			def (skip): main 
+			use (skip): main 
+
+		VP_new__lri_ms_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_avi_ms__avi_ms_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_avi_ms__avi_ms_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_pvarp_elt__pvarp_elt_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_pvarp_elt__pvarp_elt_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_vrp__vrp_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_vrp__vrp_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_interval_ms__interval_ms_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_interval_ms__interval_ms_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_counter_ms__counter_ms_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_duration_ms__duration_ms_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_pattern_vpAs__pattern_vpAs_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_pattern_vpAs__pattern_vpAs_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_counter_vpAs__counter_vpAs_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_lrl__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_url__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_pmt__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_vurl__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_elt__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_lrl__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_url__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_pmt__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_vurl__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+		violated__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+		event__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+	pattern_vpAs:
+		T_150__global_0_0
+			use (skip): pattern_vpAs 
+
+		T_200__global_0_0
+			use (skip): pattern_vpAs 
+
+		AP__global_0_0
+			use (intermediate): pattern_vpAs 
+
+		VP__global_0_0
+			use (intermediate): pattern_vpAs 
+
+		AS__global_0_0
+			use (intermediate): pattern_vpAs 
+
+		AR__global_0_0
+			use (intermediate): pattern_vpAs 
+
+		VS__global_0_0
+			use (intermediate): pattern_vpAs 
+
+		VP_AS__global_0_0
+			def (intermediate): pattern_vpAs 
+
+		Reset__global_0_0
+			def (intermediate): pattern_vpAs 
+
+		state_pattern_vpAs__pattern_vpAs_0_0
+			def (skip): pattern_vpAs 
+			use (skip): pattern_vpAs 
+
+		timer_pattern_vpAs__pattern_vpAs_0_0
+			def (skip): pattern_vpAs 
+			use (skip): pattern_vpAs 
+
+	pvarp_elt:
+		TPVAB__global_0_0
+			use (skip): pvarp_elt 
+
+		TPVARP__global_0_0
+			def (intermediate): pvarp_elt 
+			use (intermediate): pvarp_elt 
+
+		TPVARP_100__global_0_0
+			use (skip): pvarp_elt 
+
+		A_Get__global_0_0
+			use (intermediate): pvarp_elt 
+
+		A_Act__global_0_0
+			use (intermediate): pvarp_elt 
+
+		AS__global_0_0
+			def (intermediate): pvarp_elt 
+
+		AR__global_0_0
+			def (intermediate): pvarp_elt 
+
+		VS__global_0_0
+			use (intermediate): pvarp_elt 
+
+		A_Block__global_0_0
+			def (intermediate): pvarp_elt 
+
+		state_pvarp_elt__pvarp_elt_0_0
+			def (skip): pvarp_elt 
+			use (skip): pvarp_elt 
+
+		timer_pvarp_elt__pvarp_elt_0_0
+			def (skip): pvarp_elt 
+			use (skip): pvarp_elt 
+
+	uri:
+		timer_uri__global_0_0
+			def (intermediate): uri 
+			use (intermediate): uri 
+
+		VP__global_0_0
+			use (intermediate): uri 
+
+		VS__global_0_0
+			use (intermediate): uri 
+
+	vrp:
+		TVRP__global_0_0
+			use (skip): vrp 
+
+		V_Get__global_0_0
+			use (intermediate): vrp 
+
+		V_Act__global_0_0
+			use (intermediate): vrp 
+
+		VP__global_0_0
+			use (intermediate): vrp 
+
+		VS__global_0_0
+			def (intermediate): vrp 
+
+		V_Block__global_0_0
+			def (intermediate): vrp 
+
+		state_vrp__vrp_0_0
+			def (skip): vrp 
+			use (skip): vrp 
+
+		timer_vrp__vrp_0_0
+			def (skip): vrp 
+			use (skip): vrp 
+
+
+Functions used for combining shared variables:
+----------------------------------------------
+	max
+	or
+
+============================
+tools::Threading::toString()
+============================
+Threads declared:
+-----------------
+	* avi_ms__thread
+	* counter_ms__thread
+	* counter_vpAs__thread
+	* duration_ms__thread
+	* ekgSensing__thread
+	* interval_ms__thread
+	* logging__thread
+	* lri_ms__thread
+	* main__thread
+	* pattern_vpAs__thread
+	* pvarp_elt__thread
+	* uri__thread
+	* vrp__thread
+
+Threads unused:
+---------------
+
+par(...) statements:
+--------------------
+	Thread scope: main
+		par0:
+		* ekgSensing__thread
+		* lri_ms__thread
+		* avi_ms__thread
+		* uri__thread
+		* pvarp_elt__thread
+		* vrp__thread
+		* interval_ms__thread
+		* counter_ms__thread
+		* duration_ms__thread
+		* pattern_vpAs__thread
+		* counter_vpAs__thread
+		* logging__thread
+
+========================
+tools::Abort::toString()
+========================
+============================
+tools::Condition::toString()
+============================
+
+========================
+tarot::Tarot::toString()
+========================
+Full tarot:
+-----------
+	core0: main__thread
+	.	core0: par0
+	.	|	core0: ekgSensing__thread
+	.	|	.	core0: while_0
+	.	|	.	.	pause0
+	.	|	core0: lri_ms__thread
+	.	|	.	core0: while_1
+	.	|	.	.	pause1
+	.	|	core0: avi_ms__thread
+	.	|	.	core0: while_2
+	.	|	.	.	pause2
+	.	|	core0: uri__thread
+	.	|	.	core0: while_3
+	.	|	.	.	pause3
+	.	|	core0: pvarp_elt__thread
+	.	|	.	core0: while_4
+	.	|	.	.	pause4
+	.	|	core0: vrp__thread
+	.	|	.	core0: while_5
+	.	|	.	.	pause5
+	.	|	core0: interval_ms__thread
+	.	|	.	core0: while_6
+	.	|	.	.	pause6
+	.	|	core0: counter_ms__thread
+	.	|	.	core0: while_7
+	.	|	.	.	pause7
+	.	|	core0: duration_ms__thread
+	.	|	.	core0: while_8
+	.	|	.	.	pause8
+	.	|	core0: pattern_vpAs__thread
+	.	|	.	core0: while_9
+	.	|	.	.	pause9
+	.	|	core0: counter_vpAs__thread
+	.	|	.	core0: while_10
+	.	|	.	.	pause10
+	.	|	core0: logging__thread
+	.	|	.	core0: while_11
+	.	|	.	.	pause11
+
+
+Tarot by coreId:
+----------------
+	core0:
+	-------
+		core0: main__thread
+		.	core0: par0
+		.	|	core0: ekgSensing__thread
+		.	|	.	core0: while_0
+		.	|	.	.	pause0
+		.	|	core0: lri_ms__thread
+		.	|	.	core0: while_1
+		.	|	.	.	pause1
+		.	|	core0: avi_ms__thread
+		.	|	.	core0: while_2
+		.	|	.	.	pause2
+		.	|	core0: uri__thread
+		.	|	.	core0: while_3
+		.	|	.	.	pause3
+		.	|	core0: pvarp_elt__thread
+		.	|	.	core0: while_4
+		.	|	.	.	pause4
+		.	|	core0: vrp__thread
+		.	|	.	core0: while_5
+		.	|	.	.	pause5
+		.	|	core0: interval_ms__thread
+		.	|	.	core0: while_6
+		.	|	.	.	pause6
+		.	|	core0: counter_ms__thread
+		.	|	.	core0: while_7
+		.	|	.	.	pause7
+		.	|	core0: duration_ms__thread
+		.	|	.	core0: while_8
+		.	|	.	.	pause8
+		.	|	core0: pattern_vpAs__thread
+		.	|	.	core0: while_9
+		.	|	.	.	pause9
+		.	|	core0: counter_vpAs__thread
+		.	|	.	core0: while_10
+		.	|	.	.	pause10
+		.	|	core0: logging__thread
+		.	|	.	core0: while_11
+		.	|	.	.	pause11
+
+
+par(...) statements with core allocation:
+-----------------------------------------
+	Thread main__thread:
+		all:
+		* core0
+
+		par0:
+		* core0
+
+
+par(...) statements with active cores:
+--------------------------------------
+	Thread main__thread:
+		all:
+		* core0
+
+		par0:
+		* core0
+
+
+Reaction starts:
+----------------
+	core0:
+		main: Master
+
+
+Reaction ends:
+--------------
+	core0:
+		par0:
+			coreIds:
+			* 0
+
+			isMaster:
+			* true
+
+			threadScope:
+			* main
+
+
+Par(...) handlers:
+------------------
+	par0:
+	* avi_ms__thread
+	* counter_ms__thread
+	* counter_vpAs__thread
+	* duration_ms__thread
+	* ekgSensing__thread
+	* interval_ms__thread
+	* logging__thread
+	* lri_ms__thread
+	* pattern_vpAs__thread
+	* pvarp_elt__thread
+	* uri__thread
+	* vrp__thread
+	* mainReactionStartMaster0
+	* mainReactionEndMaster0
+
+
+Linked lists:
+-------------
+	core0:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartMaster0
+			* (thread) ekgSensing__thread
+			* (thread) lri_ms__thread
+			* (thread) avi_ms__thread
+			* (thread) uri__thread
+			* (thread) pvarp_elt__thread
+			* (thread) vrp__thread
+			* (thread) interval_ms__thread
+			* (thread) counter_ms__thread
+			* (thread) duration_ms__thread
+			* (thread) pattern_vpAs__thread
+			* (thread) counter_vpAs__thread
+			* (thread) logging__thread
+			* (parEnd) mainReactionEndMaster0
+
+
+par(...) handlers in thread scopes:
+-----------------------------------
+	par0	main__thread
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	x86
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	0		avi_ms__thread
+	0		counter_ms__thread
+	0		counter_vpAs__thread
+	0		duration_ms__thread
+	0		ekgSensing__thread
+	0		interval_ms__thread
+	0		logging__thread
+	0		lri_ms__thread
+	0		main__thread
+	0		pattern_vpAs__thread
+	0		pvarp_elt__thread
+	0		uri__thread
+	0		vrp__thread
+
+
+========================
+tools::Mutex::toString()
+========================
+Mutex information:
+------------------
+

@@ -1,0 +1,42 @@
+#include <stdio.h>
+
+const int plus(const int *copy1, const int *copy2) {
+	return *copy1 + *copy2;
+}
+
+// Thread prototypes. Input arguments ignored by the compiler.
+thread t1(void);
+thread t2(void);
+thread accumulate(void);
+
+// Shared variable
+shared int count = 0 combine with plus;
+
+// Function main: The entry point of the program.
+void main(int argc, char **argv) {
+	// par statement to fork three threads.
+	par(t1, t2, accumulate);
+}
+
+// Thread
+thread t1(void) {
+	while (1) {
+		count = count + 1;
+		pause;
+	}
+}
+
+// Thread
+thread t2(void) {
+	while (1) {
+		count = count + 1;
+		pause;
+	}
+}
+
+thread accumulate(void) {
+	while (1) {
+		pause;
+		printf("%d\n", count);
+	}
+}

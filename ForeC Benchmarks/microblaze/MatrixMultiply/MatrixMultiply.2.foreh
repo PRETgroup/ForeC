@@ -1,0 +1,16 @@
+architecture:
+microblaze
+
+0:
+main
+multiply0
+multiply1
+multiply2
+multiply3
+
+1:
+multiply4
+multiply5
+multiply6
+multiply7
+

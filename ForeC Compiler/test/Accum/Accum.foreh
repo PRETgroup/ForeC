@@ -1,0 +1,8 @@
+architecture:
+x86
+
+0:
+main
+t1
+t2
+accumulate

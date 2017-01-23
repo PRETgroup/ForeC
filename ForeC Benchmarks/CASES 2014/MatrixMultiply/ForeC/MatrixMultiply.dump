@@ -1,0 +1,2733 @@
+
+MatrixMultiply.1.elf:     file format elf32-microblaze
+
+Disassembly of section .vectors.reset:
+
+00000000 <_start>:
+   0:	b8080050 	brai	80	// 50 <_start1>
+Disassembly of section .vectors.sw_exception:
+
+00000008 <_vector_sw_exception>:
+   8:	b80816c0 	brai	5824	// 16c0 <_exception_handler>
+Disassembly of section .vectors.interrupt:
+
+00000010 <_vector_interrupt>:
+  10:	b80816dc 	brai	5852	// 16dc <__interrupt_handler>
+Disassembly of section .vectors.hw_exception:
+
+00000020 <_vector_hw_exception>:
+  20:	b80816d8 	brai	5848	// 16d8 <_hw_exception_handler>
+Disassembly of section .text:
+
+00000050 <_start1>:
+      50:	31a00002 	addik	r13, r0, 2	// 2 <_SDA_BASE_>
+      54:	30400000 	addik	r2, r0, 0
+      58:	30203118 	addik	r1, r0, 12568
+      5c:	b9f400ec 	brlid	r15, 236	// 148 <_crtinit>
+      60:	80000000 	or	r0, r0, r0
+      64:	b9f417dc 	brlid	r15, 6108	// 1840 <exit>
+      68:	30a30000 	addik	r5, r3, 0
+
+0000006c <_exit>:
+      6c:	b8000000 	bri	0	// 6c <_exit>
+
+00000070 <__do_global_dtors_aux>:
+      70:	b0008539 	imm	-31431
+      74:	e0600158 	lbui	r3, r0, 344
+      78:	3021ffe4 	addik	r1, r1, -28
+      7c:	be030020 	beqid	r3, 32		// 9c
+      80:	f9e10000 	swi	r15, r1, 0
+      84:	b8100058 	brid	88		// dc
+      88:	e9e10000 	lwi	r15, r1, 0
+      8c:	b0008539 	imm	-31431
+      90:	f8600008 	swi	r3, r0, 8
+      94:	99fc2000 	brald	r15, r4
+      98:	80000000 	or	r0, r0, r0
+      9c:	b0008539 	imm	-31431
+      a0:	e8600008 	lwi	r3, r0, 8
+      a4:	e8830000 	lwi	r4, r3, 0
+      a8:	be24ffe4 	bneid	r4, -28		// 8c
+      ac:	30630004 	addik	r3, r3, 4
+      b0:	b0000000 	imm	0
+      b4:	30600000 	addik	r3, r0, 0
+      b8:	bc030014 	beqi	r3, 20		// cc
+      bc:	b0008539 	imm	-31431
+      c0:	30a0014c 	addik	r5, r0, 332
+      c4:	99fc1800 	brald	r15, r3
+      c8:	80000000 	or	r0, r0, r0
+      cc:	30600001 	addik	r3, r0, 1
+      d0:	b0008539 	imm	-31431
+      d4:	f0600158 	sbi	r3, r0, 344
+      d8:	e9e10000 	lwi	r15, r1, 0
+      dc:	b60f0008 	rtsd	r15, 8
+      e0:	3021001c 	addik	r1, r1, 28
+
+000000e4 <frame_dummy>:
+      e4:	b0000000 	imm	0
+      e8:	30600000 	addik	r3, r0, 0
+      ec:	3021ffe4 	addik	r1, r1, -28
+      f0:	b0008539 	imm	-31431
+      f4:	30a0014c 	addik	r5, r0, 332
+      f8:	b0008539 	imm	-31431
+      fc:	30c0015c 	addik	r6, r0, 348
+     100:	be030010 	beqid	r3, 16		// 110
+     104:	f9e10000 	swi	r15, r1, 0
+     108:	99fc1800 	brald	r15, r3
+     10c:	80000000 	or	r0, r0, r0
+     110:	b0008539 	imm	-31431
+     114:	e8600150 	lwi	r3, r0, 336
+     118:	b0000000 	imm	0
+     11c:	30800000 	addik	r4, r0, 0
+     120:	be030020 	beqid	r3, 32		// 140
+     124:	e9e10000 	lwi	r15, r1, 0
+     128:	b0008539 	imm	-31431
+     12c:	30a00150 	addik	r5, r0, 336
+     130:	bc040010 	beqi	r4, 16		// 140
+     134:	99fc2000 	brald	r15, r4
+     138:	80000000 	or	r0, r0, r0
+     13c:	e9e10000 	lwi	r15, r1, 0
+     140:	b60f0008 	rtsd	r15, 8
+     144:	3021001c 	addik	r1, r1, 28
+
+00000148 <_crtinit>:
+     148:	2021ffec 	addi	r1, r1, -20
+     14c:	f9e10000 	swi	r15, r1, 0
+     150:	b0008539 	imm	-31431
+     154:	20c00154 	addi	r6, r0, 340
+     158:	b0008539 	imm	-31431
+     15c:	20e00158 	addi	r7, r0, 344
+     160:	06463800 	rsub	r18, r6, r7
+     164:	bc720014 	blei	r18, 20		// 178
+     168:	f8060000 	swi	r0, r6, 0
+     16c:	20c60004 	addi	r6, r6, 4
+     170:	06463800 	rsub	r18, r6, r7
+     174:	bc92fff4 	bgti	r18, -12		// 168
+     178:	b0008539 	imm	-31431
+     17c:	20c00158 	addi	r6, r0, 344
+     180:	b000853a 	imm	-31430
+     184:	20e02dc0 	addi	r7, r0, 11712
+     188:	06463800 	rsub	r18, r6, r7
+     18c:	bc720014 	blei	r18, 20		// 1a0
+     190:	f8060000 	swi	r0, r6, 0
+     194:	20c60004 	addi	r6, r6, 4
+     198:	06463800 	rsub	r18, r6, r7
+     19c:	bc92fff4 	bgti	r18, -12		// 190
+     1a0:	b9f41530 	brlid	r15, 5424	// 16d0 <_program_init>
+     1a4:	80000000 	or	r0, r0, r0
+     1a8:	b9f41ad8 	brlid	r15, 6872	// 1c80 <__init>
+     1ac:	80000000 	or	r0, r0, r0
+     1b0:	20c00000 	addi	r6, r0, 0
+     1b4:	20e00000 	addi	r7, r0, 0
+     1b8:	b9f4002c 	brlid	r15, 44	// 1e4 <main>
+     1bc:	20a00000 	addi	r5, r0, 0
+     1c0:	32630000 	addik	r19, r3, 0
+     1c4:	b9f41ae0 	brlid	r15, 6880	// 1ca4 <__fini>
+     1c8:	80000000 	or	r0, r0, r0
+     1cc:	b9f414fc 	brlid	r15, 5372	// 16c8 <_program_clean>
+     1d0:	80000000 	or	r0, r0, r0
+     1d4:	c9e10000 	lw	r15, r1, r0
+     1d8:	30730000 	addik	r3, r19, 0
+     1dc:	b60f0008 	rtsd	r15, 8
+     1e0:	20210014 	addi	r1, r1, 20
+
+000001e4 <main>:
+// multiply6
+// multiply7
+
+// forec:scheduler:boot:start
+int main(int argc__main_0_0, char ** argv__main_0_0) {
+     1e4:	3021fef8 	addik	r1, r1, -264
+     1e8:	f9e10000 	swi	r15, r1, 0
+     1ec:	fa610104 	swi	r19, r1, 260
+     1f0:	12610000 	addk	r19, r1, r0
+     1f4:	f8b3010c 	swi	r5, r19, 268
+     1f8:	f8d30110 	swi	r6, r19, 272
+
+/*==============================================================
+| Multicore startup:
+| Platform dependent code.  Core identifies itself and
+| executes its corresponding start up code.
+*=============================================================*/
+	// Initialise ForeC specific values ----------------------------
+	// Thread main with par(...)s
+	mainParParent.parStatus = FOREC_PAR_OFF;
+     1fc:	b000853a 	imm	-31430
+     200:	f8002db4 	swi	r0, r0, 11700
+	mainParCore0.sync = 1;
+     204:	30600001 	addik	r3, r0, 1
+     208:	b000853a 	imm	-31430
+     20c:	f8602da0 	swi	r3, r0, 11680
+	mainParCore0.status = FOREC_CORE_REACTING;
+     210:	30600002 	addik	r3, r0, 2	// 2 <_SDA_BASE_>
+     214:	b000853a 	imm	-31430
+     218:	f8602da8 	swi	r3, r0, 11688
+	mainParReactionCounter = 0;
+     21c:	b000853a 	imm	-31430
+     220:	f8002d7c 	swi	r0, r0, 11644
+
+
+	// ForeC mutex -------------------------------------------------
+	unsigned int forec_mutex_value;
+	forec_mutex_reset(FSL_FOREC_MUTEX_RESET_ID);
+     224:	10600000 	addk	r3, r0, r0
+     228:	6c038001 	put	r3, rfsl1
+	
+	// Variables for par()s ----------------------------------------
+	// par0
+	Thread fillMatrixA0__thread;
+	Thread fillMatrixA1__thread;
+	Thread fillMatrixA2__thread;
+	Thread fillMatrixA3__thread;
+	Thread fillMatrixB0__thread;
+	Thread fillMatrixB1__thread;
+	Thread fillMatrixB2__thread;
+	Thread fillMatrixB3__thread;
+	Thread mainReactionStartMaster0;
+	Thread mainReactionEndMaster0;
+
+	// par1
+	Thread multiply0__thread;
+	Thread multiply1__thread;
+	Thread multiply2__thread;
+	Thread multiply3__thread;
+	Thread multiply4__thread;
+	Thread multiply5__thread;
+	Thread multiply6__thread;
+	Thread multiply7__thread;
+	// Thread mainReactionStartMaster0;
+	// Thread mainReactionEndMaster0;
+
+
+	// Synchronise execution of cores ------------------------------
+	// pvr = Processor Version Register
+	unsigned int pvr0;
+	getpvr(0, pvr0);
+     22c:	9460a000 	mfs	r3, rpvr0
+     230:	f873001c 	swi	r3, r19, 28
+	pvr0 &= MICROBLAZE_PVR0_USER1_MASK;
+     234:	e873001c 	lwi	r3, r19, 28
+     238:	a46300ff 	andi	r3, r3, 255
+     23c:	f873001c 	swi	r3, r19, 28
+
+	switch (pvr0) {
+     240:	e873001c 	lwi	r3, r19, 28
+     244:	bc030008 	beqi	r3, 8		// 24c
+		case (0):
+			goto mainParCore0;
+
+		default:
+			// "Lock-up" unused cores.
+			while(1);
+     248:	b8000000 	bri	0		// 248
+	}
+// forec:scheduler:boot:end
+
+/*==============================================================
+| Core specific instructions:
+| Contains par, abort and synchronisation handlers.
+*=============================================================*/
+
+	// forec:thread:main:start
+	/*--------------------------------------------------------------
+	| Master core: core0
+	| ForeC program's main() function:
+	| Original main() function code with ForeC constructs
+	| translated into C code.
+	*-------------------------------------------------------------*/
+
+	// Thread local declarations -----------------------------------
+	// No declarations.
+mainParCore0: {
+	// forec:scheduler:counter:start
+	// Initialise and start counting the elapsed cycles for each reaction.
+	counterInitialise(counter);
+     24c:	b000853a 	imm	-31430
+     250:	f8002d80 	swi	r0, r0, 11648
+     254:	b000853a 	imm	-31430
+     258:	f8002d84 	swi	r0, r0, 11652
+     25c:	b000853a 	imm	-31430
+     260:	f8002d88 	swi	r0, r0, 11656
+     264:	b0007fff 	imm	32767
+     268:	3060ffff 	addik	r3, r0, -1
+     26c:	b000853a 	imm	-31430
+     270:	f8602d8c 	swi	r3, r0, 11660
+     274:	b000853a 	imm	-31430
+     278:	f8002d90 	swi	r0, r0, 11664
+     27c:	b000853a 	imm	-31430
+     280:	f8002d94 	swi	r0, r0, 11668
+     284:	b000853a 	imm	-31430
+     288:	f8002d98 	swi	r0, r0, 11672
+     28c:	b000853a 	imm	-31430
+     290:	f8002d9c 	swi	r0, r0, 11676
+	counterStart(counter, FSL_COUNTER_ID);
+     294:	b000853a 	imm	-31430
+     298:	e8602d80 	lwi	r3, r0, 11648
+     29c:	6c038002 	put	r3, rfsl2
+	// forec:scheduler:counter:end
+	
+	//--------------------------------------------------------------
+
+	// par0(fillMatrixA0__thread, fillMatrixA1__thread, fillMatrixA2__thread, fillMatrixA3__thread, fillMatrixB0__thread, fillMatrixB1__thread, fillMatrixB2__thread, fillMatrixB3__thread);
+	// forec:statement:par:par0:start
+	// Set the par(...) information.
+	mainParParent.parId = 0;
+     2a0:	b000853a 	imm	-31430
+     2a4:	f8002db8 	swi	r0, r0, 11704
+	mainParParent.parStatus = FOREC_PAR_ON;
+     2a8:	30600001 	addik	r3, r0, 1
+     2ac:	b000853a 	imm	-31430
+     2b0:	f8602db4 	swi	r3, r0, 11700
+
+	// Link the threads and handlers together.
+	mainReactionStartMaster0.programCounter = &&mainReactionStartMaster0;
+     2b4:	3060065c 	addik	r3, r0, 1628
+     2b8:	f8730084 	swi	r3, r19, 132
+	fillMatrixA0__thread.programCounter = &&fillMatrixA0__thread;
+     2bc:	30600708 	addik	r3, r0, 1800
+     2c0:	f8730024 	swi	r3, r19, 36
+	mainReactionStartMaster0.nextThread = &fillMatrixA0__thread;
+     2c4:	30730024 	addik	r3, r19, 36
+     2c8:	f8730088 	swi	r3, r19, 136
+	fillMatrixA0__thread.prevThread = &mainReactionStartMaster0;
+     2cc:	30730084 	addik	r3, r19, 132
+     2d0:	f873002c 	swi	r3, r19, 44
+	fillMatrixA1__thread.programCounter = &&fillMatrixA1__thread;
+     2d4:	30600768 	addik	r3, r0, 1896
+     2d8:	f8730030 	swi	r3, r19, 48
+	fillMatrixA0__thread.nextThread = &fillMatrixA1__thread;
+     2dc:	30730030 	addik	r3, r19, 48
+     2e0:	f8730028 	swi	r3, r19, 40
+	fillMatrixA1__thread.prevThread = &fillMatrixA0__thread;
+     2e4:	30730024 	addik	r3, r19, 36
+     2e8:	f8730038 	swi	r3, r19, 56
+	fillMatrixA2__thread.programCounter = &&fillMatrixA2__thread;
+     2ec:	306007c8 	addik	r3, r0, 1992
+     2f0:	f873003c 	swi	r3, r19, 60
+	fillMatrixA1__thread.nextThread = &fillMatrixA2__thread;
+     2f4:	3073003c 	addik	r3, r19, 60
+     2f8:	f8730034 	swi	r3, r19, 52
+	fillMatrixA2__thread.prevThread = &fillMatrixA1__thread;
+     2fc:	30730030 	addik	r3, r19, 48
+     300:	f8730044 	swi	r3, r19, 68
+	fillMatrixA3__thread.programCounter = &&fillMatrixA3__thread;
+     304:	30600828 	addik	r3, r0, 2088
+     308:	f8730048 	swi	r3, r19, 72
+	fillMatrixA2__thread.nextThread = &fillMatrixA3__thread;
+     30c:	30730048 	addik	r3, r19, 72
+     310:	f8730040 	swi	r3, r19, 64
+	fillMatrixA3__thread.prevThread = &fillMatrixA2__thread;
+     314:	3073003c 	addik	r3, r19, 60
+     318:	f8730050 	swi	r3, r19, 80
+	fillMatrixB0__thread.programCounter = &&fillMatrixB0__thread;
+     31c:	30600888 	addik	r3, r0, 2184
+     320:	f8730054 	swi	r3, r19, 84
+	fillMatrixA3__thread.nextThread = &fillMatrixB0__thread;
+     324:	30730054 	addik	r3, r19, 84
+     328:	f873004c 	swi	r3, r19, 76
+	fillMatrixB0__thread.prevThread = &fillMatrixA3__thread;
+     32c:	30730048 	addik	r3, r19, 72
+     330:	f873005c 	swi	r3, r19, 92
+	fillMatrixB1__thread.programCounter = &&fillMatrixB1__thread;
+     334:	306008e8 	addik	r3, r0, 2280
+     338:	f8730060 	swi	r3, r19, 96
+	fillMatrixB0__thread.nextThread = &fillMatrixB1__thread;
+     33c:	30730060 	addik	r3, r19, 96
+     340:	f8730058 	swi	r3, r19, 88
+	fillMatrixB1__thread.prevThread = &fillMatrixB0__thread;
+     344:	30730054 	addik	r3, r19, 84
+     348:	f8730068 	swi	r3, r19, 104
+	fillMatrixB2__thread.programCounter = &&fillMatrixB2__thread;
+     34c:	30600948 	addik	r3, r0, 2376
+     350:	f873006c 	swi	r3, r19, 108
+	fillMatrixB1__thread.nextThread = &fillMatrixB2__thread;
+     354:	3073006c 	addik	r3, r19, 108
+     358:	f8730064 	swi	r3, r19, 100
+	fillMatrixB2__thread.prevThread = &fillMatrixB1__thread;
+     35c:	30730060 	addik	r3, r19, 96
+     360:	f8730074 	swi	r3, r19, 116
+	fillMatrixB3__thread.programCounter = &&fillMatrixB3__thread;
+     364:	306009a8 	addik	r3, r0, 2472
+     368:	f8730078 	swi	r3, r19, 120
+	fillMatrixB2__thread.nextThread = &fillMatrixB3__thread;
+     36c:	30730078 	addik	r3, r19, 120
+     370:	f8730070 	swi	r3, r19, 112
+	fillMatrixB3__thread.prevThread = &fillMatrixB2__thread;
+     374:	3073006c 	addik	r3, r19, 108
+     378:	f8730080 	swi	r3, r19, 128
+	mainReactionEndMaster0.programCounter = &&mainReactionEndMaster0;
+     37c:	3060066c 	addik	r3, r0, 1644
+     380:	f8730090 	swi	r3, r19, 144
+	fillMatrixB3__thread.nextThread = &mainReactionEndMaster0;
+     384:	30730090 	addik	r3, r19, 144
+     388:	f873007c 	swi	r3, r19, 124
+	mainReactionEndMaster0.prevThread = &fillMatrixB3__thread;
+     38c:	30730078 	addik	r3, r19, 120
+     390:	f8730098 	swi	r3, r19, 152
+
+	// Link the last and first threads/handlers together.
+	mainReactionEndMaster0.nextThread = &mainReactionStartMaster0;
+     394:	30730084 	addik	r3, r19, 132
+     398:	f8730094 	swi	r3, r19, 148
+	mainReactionStartMaster0.prevThread = &mainReactionEndMaster0;
+     39c:	30730090 	addik	r3, r19, 144
+     3a0:	f873008c 	swi	r3, r19, 140
+
+	// Set the join address.
+	mainParParent.programCounter = &&par0JoinAddress_mainParCore0;
+     3a4:	306003d0 	addik	r3, r0, 976
+     3a8:	b000853a 	imm	-31430
+     3ac:	f8602db0 	swi	r3, r0, 11696
+
+	// Set the core information.
+	mainParCore0.activeThreads = 8;
+     3b0:	30600008 	addik	r3, r0, 8	// 8 <_vector_sw_exception>
+     3b4:	b000853a 	imm	-31430
+     3b8:	f8602da4 	swi	r3, r0, 11684
+	mainParCore0.reactionCounter = mainParReactionCounter;
+     3bc:	b000853a 	imm	-31430
+     3c0:	e8602d7c 	lwi	r3, r0, 11644
+     3c4:	b000853a 	imm	-31430
+     3c8:	f8602dac 	swi	r3, r0, 11692
+
+	// Go to the first thread.
+	goto fillMatrixA0__thread;
+     3cc:	b800033c 	bri	828		// 708
+	par0JoinAddress_mainParCore0:;
+	// forec:statement:par:par0:end
+
+	// par1(multiply0__thread, multiply1__thread, multiply2__thread, multiply3__thread, multiply4__thread, multiply5__thread, multiply6__thread, multiply7__thread);
+	// forec:statement:par:par1:start
+	// Set the par(...) information.
+	mainParParent.parId = 1;
+     3d0:	30600001 	addik	r3, r0, 1
+     3d4:	b000853a 	imm	-31430
+     3d8:	f8602db8 	swi	r3, r0, 11704
+	mainParParent.parStatus = FOREC_PAR_ON;
+     3dc:	30600001 	addik	r3, r0, 1
+     3e0:	b000853a 	imm	-31430
+     3e4:	f8602db4 	swi	r3, r0, 11700
+
+	// Link the threads and handlers together.
+	mainReactionStartMaster0.programCounter = &&mainReactionStartMaster0;
+     3e8:	3060065c 	addik	r3, r0, 1628
+     3ec:	f8730084 	swi	r3, r19, 132
+	multiply0__thread.programCounter = &&multiply0__thread;
+     3f0:	30600a08 	addik	r3, r0, 2568
+     3f4:	f873009c 	swi	r3, r19, 156
+	mainReactionStartMaster0.nextThread = &multiply0__thread;
+     3f8:	3073009c 	addik	r3, r19, 156
+     3fc:	f8730088 	swi	r3, r19, 136
+	multiply0__thread.prevThread = &mainReactionStartMaster0;
+     400:	30730084 	addik	r3, r19, 132
+     404:	f87300a4 	swi	r3, r19, 164
+	multiply1__thread.programCounter = &&multiply1__thread;
+     408:	30600a78 	addik	r3, r0, 2680
+     40c:	f87300a8 	swi	r3, r19, 168
+	multiply0__thread.nextThread = &multiply1__thread;
+     410:	307300a8 	addik	r3, r19, 168
+     414:	f87300a0 	swi	r3, r19, 160
+	multiply1__thread.prevThread = &multiply0__thread;
+     418:	3073009c 	addik	r3, r19, 156
+     41c:	f87300b0 	swi	r3, r19, 176
+	multiply2__thread.programCounter = &&multiply2__thread;
+     420:	30600ae8 	addik	r3, r0, 2792
+     424:	f87300b4 	swi	r3, r19, 180
+	multiply1__thread.nextThread = &multiply2__thread;
+     428:	307300b4 	addik	r3, r19, 180
+     42c:	f87300ac 	swi	r3, r19, 172
+	multiply2__thread.prevThread = &multiply1__thread;
+     430:	307300a8 	addik	r3, r19, 168
+     434:	f87300bc 	swi	r3, r19, 188
+	multiply3__thread.programCounter = &&multiply3__thread;
+     438:	30600b58 	addik	r3, r0, 2904
+     43c:	f87300c0 	swi	r3, r19, 192
+	multiply2__thread.nextThread = &multiply3__thread;
+     440:	307300c0 	addik	r3, r19, 192
+     444:	f87300b8 	swi	r3, r19, 184
+	multiply3__thread.prevThread = &multiply2__thread;
+     448:	307300b4 	addik	r3, r19, 180
+     44c:	f87300c8 	swi	r3, r19, 200
+	multiply4__thread.programCounter = &&multiply4__thread;
+     450:	30600bc8 	addik	r3, r0, 3016
+     454:	f87300cc 	swi	r3, r19, 204
+	multiply3__thread.nextThread = &multiply4__thread;
+     458:	307300cc 	addik	r3, r19, 204
+     45c:	f87300c4 	swi	r3, r19, 196
+	multiply4__thread.prevThread = &multiply3__thread;
+     460:	307300c0 	addik	r3, r19, 192
+     464:	f87300d4 	swi	r3, r19, 212
+	multiply5__thread.programCounter = &&multiply5__thread;
+     468:	30600c38 	addik	r3, r0, 3128
+     46c:	f87300d8 	swi	r3, r19, 216
+	multiply4__thread.nextThread = &multiply5__thread;
+     470:	307300d8 	addik	r3, r19, 216
+     474:	f87300d0 	swi	r3, r19, 208
+	multiply5__thread.prevThread = &multiply4__thread;
+     478:	307300cc 	addik	r3, r19, 204
+     47c:	f87300e0 	swi	r3, r19, 224
+	multiply6__thread.programCounter = &&multiply6__thread;
+     480:	30600ca8 	addik	r3, r0, 3240
+     484:	f87300e4 	swi	r3, r19, 228
+	multiply5__thread.nextThread = &multiply6__thread;
+     488:	307300e4 	addik	r3, r19, 228
+     48c:	f87300dc 	swi	r3, r19, 220
+	multiply6__thread.prevThread = &multiply5__thread;
+     490:	307300d8 	addik	r3, r19, 216
+     494:	f87300ec 	swi	r3, r19, 236
+	multiply7__thread.programCounter = &&multiply7__thread;
+     498:	30600d18 	addik	r3, r0, 3352
+     49c:	f87300f0 	swi	r3, r19, 240
+	multiply6__thread.nextThread = &multiply7__thread;
+     4a0:	307300f0 	addik	r3, r19, 240
+     4a4:	f87300e8 	swi	r3, r19, 232
+	multiply7__thread.prevThread = &multiply6__thread;
+     4a8:	307300e4 	addik	r3, r19, 228
+     4ac:	f87300f8 	swi	r3, r19, 248
+	mainReactionEndMaster0.programCounter = &&mainReactionEndMaster0;
+     4b0:	3060066c 	addik	r3, r0, 1644
+     4b4:	f8730090 	swi	r3, r19, 144
+	multiply7__thread.nextThread = &mainReactionEndMaster0;
+     4b8:	30730090 	addik	r3, r19, 144
+     4bc:	f87300f4 	swi	r3, r19, 244
+	mainReactionEndMaster0.prevThread = &multiply7__thread;
+     4c0:	307300f0 	addik	r3, r19, 240
+     4c4:	f8730098 	swi	r3, r19, 152
+
+	// Link the last and first threads/handlers together.
+	mainReactionEndMaster0.nextThread = &mainReactionStartMaster0;
+     4c8:	30730084 	addik	r3, r19, 132
+     4cc:	f8730094 	swi	r3, r19, 148
+	mainReactionStartMaster0.prevThread = &mainReactionEndMaster0;
+     4d0:	30730090 	addik	r3, r19, 144
+     4d4:	f873008c 	swi	r3, r19, 140
+
+	// Set the join address.
+	mainParParent.programCounter = &&par1JoinAddress_mainParCore0;
+     4d8:	30600504 	addik	r3, r0, 1284
+     4dc:	b000853a 	imm	-31430
+     4e0:	f8602db0 	swi	r3, r0, 11696
+
+	// Set the core information.
+	mainParCore0.activeThreads = 8;
+     4e4:	30600008 	addik	r3, r0, 8	// 8 <_vector_sw_exception>
+     4e8:	b000853a 	imm	-31430
+     4ec:	f8602da4 	swi	r3, r0, 11684
+	mainParCore0.reactionCounter = mainParReactionCounter;
+     4f0:	b000853a 	imm	-31430
+     4f4:	e8602d7c 	lwi	r3, r0, 11644
+     4f8:	b000853a 	imm	-31430
+     4fc:	f8602dac 	swi	r3, r0, 11692
+
+	// Go to the first thread.
+	goto multiply0__thread;
+     500:	b8000508 	bri	1288		// a08
+	par1JoinAddress_mainParCore0:;
+	// forec:statement:par:par1:end
+
+	//--------------------------------------------------------------
+
+	// forec:scheduler:threadRemove:main:start
+
+	// forec:scheduler:counter:start
+	// Stop counting the elapsed cycles for the current reaction.
+	counterStop(FSL_COUNTER_ID);
+     504:	10600000 	addk	r3, r0, r0
+     508:	6c038002 	put	r3, rfsl2
+	counterRead(counter, FSL_COUNTER_ID);
+     50c:	6c600002 	get	r3, rfsl2
+     510:	b000853a 	imm	-31430
+     514:	f8602d80 	swi	r3, r0, 11648
+     518:	b000853a 	imm	-31430
+     51c:	e8602d80 	lwi	r3, r0, 11648
+     520:	3063fffd 	addik	r3, r3, -3
+     524:	b000853a 	imm	-31430
+     528:	f8602d80 	swi	r3, r0, 11648
+	counterDifference(counter);
+     52c:	b000853a 	imm	-31430
+     530:	e8802d80 	lwi	r4, r0, 11648
+     534:	b000853a 	imm	-31430
+     538:	e8602d84 	lwi	r3, r0, 11652
+     53c:	14632000 	rsubk	r3, r3, r4
+     540:	b000853a 	imm	-31430
+     544:	f8602d88 	swi	r3, r0, 11656
+	counterMaximum(counter);
+     548:	b000853a 	imm	-31430
+     54c:	e8802d94 	lwi	r4, r0, 11668
+     550:	b000853a 	imm	-31430
+     554:	e8602d88 	lwi	r3, r0, 11656
+     558:	16432001 	cmp	r18, r3, r4
+     55c:	bcb20014 	bgei	r18, 20		// 570
+     560:	b000853a 	imm	-31430
+     564:	e8602d88 	lwi	r3, r0, 11656
+     568:	b000853a 	imm	-31430
+     56c:	f8602d94 	swi	r3, r0, 11668
+	counterMinimum(counter);
+     570:	b000853a 	imm	-31430
+     574:	e8802d8c 	lwi	r4, r0, 11660
+     578:	b000853a 	imm	-31430
+     57c:	e8602d88 	lwi	r3, r0, 11656
+     580:	16441801 	cmp	r18, r4, r3
+     584:	bcb20014 	bgei	r18, 20		// 598
+     588:	b000853a 	imm	-31430
+     58c:	e8602d88 	lwi	r3, r0, 11656
+     590:	b000853a 	imm	-31430
+     594:	f8602d8c 	swi	r3, r0, 11660
+	counterAccumulate(counter);
+     598:	b000853a 	imm	-31430
+     59c:	e8802d98 	lwi	r4, r0, 11672
+     5a0:	b000853a 	imm	-31430
+     5a4:	e8602d88 	lwi	r3, r0, 11656
+     5a8:	10641800 	addk	r3, r4, r3
+     5ac:	b000853a 	imm	-31430
+     5b0:	f8602d98 	swi	r3, r0, 11672
+     5b4:	b000853a 	imm	-31430
+     5b8:	e8602d9c 	lwi	r3, r0, 11676
+     5bc:	30630001 	addik	r3, r3, 1
+     5c0:	b000853a 	imm	-31430
+     5c4:	f8602d9c 	swi	r3, r0, 11676
+	counterAverage(counter);
+     5c8:	b000853a 	imm	-31430
+     5cc:	e8802d98 	lwi	r4, r0, 11672
+     5d0:	b000853a 	imm	-31430
+     5d4:	e8602d9c 	lwi	r3, r0, 11676
+     5d8:	48632000 	idiv	r3, r3, r4
+     5dc:	b000853a 	imm	-31430
+     5e0:	f8602d90 	swi	r3, r0, 11664
+	xil_printf("%ld Reaction time: %d cycles, Min: %d, Avg: %d, Max: %d\r\n", globalReactions, counter.difference, counter.min, counter.avg, counter.max);
+     5e4:	b0008539 	imm	-31431
+     5e8:	e8600174 	lwi	r3, r0, 372
+     5ec:	b000853a 	imm	-31430
+     5f0:	e8802d88 	lwi	r4, r0, 11656
+     5f4:	b000853a 	imm	-31430
+     5f8:	e9002d8c 	lwi	r8, r0, 11660
+     5fc:	b000853a 	imm	-31430
+     600:	e9202d90 	lwi	r9, r0, 11664
+     604:	b000853a 	imm	-31430
+     608:	e9402d94 	lwi	r10, r0, 11668
+     60c:	30a01cc0 	addik	r5, r0, 7360	// 1cc0 <__rodata_start>
+     610:	10c30000 	addk	r6, r3, r0
+     614:	10e40000 	addk	r7, r4, r0
+     618:	b9f40d44 	brlid	r15, 3396	// 135c <xil_printf>
+     61c:	80000000 	or	r0, r0, r0
+	xil_printf("Total time: %d cycles\r\n", counter.total);
+     620:	b000853a 	imm	-31430
+     624:	e8602d98 	lwi	r3, r0, 11672
+     628:	30a01cfc 	addik	r5, r0, 7420
+     62c:	10c30000 	addk	r6, r3, r0
+     630:	b9f40d2c 	brlid	r15, 3372	// 135c <xil_printf>
+     634:	80000000 	or	r0, r0, r0
+	xil_printf("Program termination\r\n");
+     638:	30a01d14 	addik	r5, r0, 7444
+     63c:	b9f40d20 	brlid	r15, 3360	// 135c <xil_printf>
+     640:	80000000 	or	r0, r0, r0
+	// forec:scheduler:counter:end
+
+	asm volatile (".long 0x80000001\r\n");
+     644:	80000001 		r0, r0, r0
+	return 0;
+     648:	10600000 	addk	r3, r0, r0
+     64c:	f8730100 	swi	r3, r19, 256
+     650:	b8000738 	bri	1848		// d88
+     654:	e87300fc 	lwi	r3, r19, 252
+     658:	98081800 	bra	r3
+	// forec:scheduler:threadRemove:main:end
+} // mainParCore0
+	// forec:thread:main:end
+
+// forec:scheduler:parHandler:main:master:0:start
+mainParHandlerMaster0: {
+	if (mainParParent.parId == -2) {
+		// Iteration
+		// Wait for other cores to complete their reaction.
+
+		mainParParent.parStatus = FOREC_PAR_OFF;
+		mainParParent.parId = -1;
+
+		// Set slave cores' status to reacting.
+
+		// Increment the reaction counter for synchronisation.
+		mainParReactionCounter++;
+
+		// Return to thread main.
+		goto *mainParParent.programCounter;
+	}
+
+	// Control should not reach here.
+	goto mainParHandlerMaster0;
+}
+// forec:scheduler:parHandler:main:master:0:end
+
+
+	// Nested par(...) handlers ------------------------------------
+
+
+	// Reaction start handlers ---------------------------------------
+	// forec:scheduler:reactionStart:main:master:0:start
+	//-- main:
+mainReactionStartMaster0: {
+	// Go to the next thread.
+	goto *mainReactionStartMaster0.nextThread -> programCounter;
+     65c:	e8730088 	lwi	r3, r19, 136
+     660:	e8630000 	lwi	r3, r3, 0
+     664:	f87300fc 	swi	r3, r19, 252
+     668:	b800ffec 	bri	-20		// 654
+}
+	// forec:scheduler:reactionStart:main:master:0:end
+ 
+
+
+	// Reaction end handlers ---------------------------------------
+	// forec:scheduler:reactionEnd:main:master:0:start
+	//-- main:
+mainReactionEndMaster0: {
+	// Determine if the core can still react or not.
+	if (mainParCore0.activeThreads) {
+     66c:	b000853a 	imm	-31430
+     670:	e8602da4 	lwi	r3, r0, 11684
+     674:	bc030014 	beqi	r3, 20		// 688
+		mainParCore0.status = FOREC_CORE_REACTED;
+     678:	30600003 	addik	r3, r0, 3
+     67c:	b000853a 	imm	-31430
+     680:	f8602da8 	swi	r3, r0, 11688
+     684:	b8000010 	bri	16		// 694
+	} else {
+		mainParCore0.status = FOREC_CORE_TERMINATED;
+     688:	30600004 	addik	r3, r0, 4
+     68c:	b000853a 	imm	-31430
+     690:	f8602da8 	swi	r3, r0, 11688
+	}
+	
+	// Wait for other cores to complete their reaction.
+
+	// Reset the mutex.
+	forec_mutex_reset(FSL_FOREC_MUTEX_RESET_ID);
+     694:	10600000 	addk	r3, r0, r0
+     698:	6c038001 	put	r3, rfsl1
+
+	// Return back to the parent thread if all the cores have terminated.
+	if (1 && mainParCore0.status == FOREC_CORE_TERMINATED) {
+     69c:	b000853a 	imm	-31430
+     6a0:	e8602da8 	lwi	r3, r0, 11688
+     6a4:	aa430004 	xori	r18, r3, 4
+     6a8:	bc32003c 	bnei	r18, 60		// 6e4
+		mainParParent.parStatus = FOREC_PAR_OFF;
+     6ac:	b000853a 	imm	-31430
+     6b0:	f8002db4 	swi	r0, r0, 11700
+		mainParParent.parId = -1;
+     6b4:	3060ffff 	addik	r3, r0, -1
+     6b8:	b000853a 	imm	-31430
+     6bc:	f8602db8 	swi	r3, r0, 11704
+		
+		// Set slave cores' status to reacting
+
+		// Increment the reaction counter for synchronization.
+		mainParReactionCounter++;
+     6c0:	b000853a 	imm	-31430
+     6c4:	e8602d7c 	lwi	r3, r0, 11644
+     6c8:	30630001 	addik	r3, r3, 1
+     6cc:	b000853a 	imm	-31430
+     6d0:	f8602d7c 	swi	r3, r0, 11644
+
+		goto *mainParParent.programCounter;
+     6d4:	b000853a 	imm	-31430
+     6d8:	e8602db0 	lwi	r3, r0, 11696
+     6dc:	f87300fc 	swi	r3, r19, 252
+     6e0:	b800ff74 	bri	-140		// 654
+	}
+
+	// Set slave cores' status to reacting
+
+	// Increment the reaction counter for synchronization.
+	mainParReactionCounter++;
+     6e4:	b000853a 	imm	-31430
+     6e8:	e8602d7c 	lwi	r3, r0, 11644
+     6ec:	30630001 	addik	r3, r3, 1
+     6f0:	b000853a 	imm	-31430
+     6f4:	f8602d7c 	swi	r3, r0, 11644
+
+	// Go to the next thread.
+	goto *mainReactionEndMaster0.nextThread -> programCounter;
+     6f8:	e8730094 	lwi	r3, r19, 148
+     6fc:	e8630000 	lwi	r3, r3, 0
+     700:	f87300fc 	swi	r3, r19, 252
+     704:	b800ff50 	bri	-176		// 654
+}
+	// forec:scheduler:reactionEnd:main:master:0:end
+ 
+
+
+	// Abort check handlers ----------------------------------------
+
+
+
+
+/*==============================================================
+| ForeC threads:
+| Threads code translated into C code.
+*=============================================================*/
+	// forec:thread:fillMatrixA0:start
+	/*--------------------------------------------------------------
+	| Thread fillMatrixA0
+	*-------------------------------------------------------------*/
+
+	// Thread local declarations -----------------------------------
+	// No declarations.
+
+	// Thread body -------------------------------------------------
+	fillMatrixA0__thread: {
+		// Initialise the local copies of shared variables.
+		//--------------------------------------------------------------
+
+		fillMatrix(A_ptr__global_0_0.value, 0, SIZE__global_0_0.value);
+     708:	b0008539 	imm	-31431
+     70c:	e860001c 	lwi	r3, r0, 28
+     710:	b0008539 	imm	-31431
+     714:	e880000c 	lwi	r4, r0, 12
+     718:	10a30000 	addk	r5, r3, r0
+     71c:	10c00000 	addk	r6, r0, r0
+     720:	10e40000 	addk	r7, r4, r0
+     724:	b9f40680 	brlid	r15, 1664	// da4 <fillMatrix>
+     728:	80000000 	or	r0, r0, r0
+
+		//--------------------------------------------------------------
+		// Write the defined shared variables back to their global copy.
+
+		// forec:scheduler:threadRemove:fillMatrixA0:start
+
+		// Delete thread from the linked list and core.
+		mainParCore0.activeThreads--;
+     72c:	b000853a 	imm	-31430
+     730:	e8602da4 	lwi	r3, r0, 11684
+     734:	3063ffff 	addik	r3, r3, -1
+     738:	b000853a 	imm	-31430
+     73c:	f8602da4 	swi	r3, r0, 11684
+		fillMatrixA0__thread.nextThread -> prevThread = fillMatrixA0__thread.prevThread;
+     740:	e8930028 	lwi	r4, r19, 40
+     744:	e873002c 	lwi	r3, r19, 44
+     748:	f8640008 	swi	r3, r4, 8
+		fillMatrixA0__thread.prevThread -> nextThread = fillMatrixA0__thread.nextThread;
+     74c:	e893002c 	lwi	r4, r19, 44
+     750:	e8730028 	lwi	r3, r19, 40
+     754:	f8640004 	swi	r3, r4, 4
+		goto *fillMatrixA0__thread.nextThread -> programCounter;
+     758:	e8730028 	lwi	r3, r19, 40
+     75c:	e8630000 	lwi	r3, r3, 0
+     760:	f87300fc 	swi	r3, r19, 252
+     764:	b800fef0 	bri	-272		// 654
+		// forec:scheduler:threadRemove:fillMatrixA0:end
+	} // fillMatrixA0__thread
+	// forec:thread:fillMatrixA0:end
+
+	// forec:thread:fillMatrixA1:start
+	/*--------------------------------------------------------------
+	| Thread fillMatrixA1
+	*-------------------------------------------------------------*/
+
+	// Thread local declarations -----------------------------------
+	// No declarations.
+
+	// Thread body -------------------------------------------------
+	fillMatrixA1__thread: {
+		// Initialise the local copies of shared variables.
+		//--------------------------------------------------------------
+
+		fillMatrix(A_ptr__global_0_0.value, 1, SIZE__global_0_0.value);
+     768:	b0008539 	imm	-31431
+     76c:	e860001c 	lwi	r3, r0, 28
+     770:	b0008539 	imm	-31431
+     774:	e880000c 	lwi	r4, r0, 12
+     778:	10a30000 	addk	r5, r3, r0
+     77c:	30c00001 	addik	r6, r0, 1
+     780:	10e40000 	addk	r7, r4, r0
+     784:	b9f40620 	brlid	r15, 1568	// da4 <fillMatrix>
+     788:	80000000 	or	r0, r0, r0
+
+		//--------------------------------------------------------------
+		// Write the defined shared variables back to their global copy.
+
+		// forec:scheduler:threadRemove:fillMatrixA1:start
+
+		// Delete thread from the linked list and core.
+		mainParCore0.activeThreads--;
+     78c:	b000853a 	imm	-31430
+     790:	e8602da4 	lwi	r3, r0, 11684
+     794:	3063ffff 	addik	r3, r3, -1
+     798:	b000853a 	imm	-31430
+     79c:	f8602da4 	swi	r3, r0, 11684
+		fillMatrixA1__thread.nextThread -> prevThread = fillMatrixA1__thread.prevThread;
+     7a0:	e8930034 	lwi	r4, r19, 52
+     7a4:	e8730038 	lwi	r3, r19, 56
+     7a8:	f8640008 	swi	r3, r4, 8
+		fillMatrixA1__thread.prevThread -> nextThread = fillMatrixA1__thread.nextThread;
+     7ac:	e8930038 	lwi	r4, r19, 56
+     7b0:	e8730034 	lwi	r3, r19, 52
+     7b4:	f8640004 	swi	r3, r4, 4
+		goto *fillMatrixA1__thread.nextThread -> programCounter;
+     7b8:	e8730034 	lwi	r3, r19, 52
+     7bc:	e8630000 	lwi	r3, r3, 0
+     7c0:	f87300fc 	swi	r3, r19, 252
+     7c4:	b800fe90 	bri	-368		// 654
+		// forec:scheduler:threadRemove:fillMatrixA1:end
+	} // fillMatrixA1__thread
+	// forec:thread:fillMatrixA1:end
+
+	// forec:thread:fillMatrixA2:start
+	/*--------------------------------------------------------------
+	| Thread fillMatrixA2
+	*-------------------------------------------------------------*/
+
+	// Thread local declarations -----------------------------------
+	// No declarations.
+
+	// Thread body -------------------------------------------------
+	fillMatrixA2__thread: {
+		// Initialise the local copies of shared variables.
+		//--------------------------------------------------------------
+
+		fillMatrix(A_ptr__global_0_0.value, 2, SIZE__global_0_0.value);
+     7c8:	b0008539 	imm	-31431
+     7cc:	e860001c 	lwi	r3, r0, 28
+     7d0:	b0008539 	imm	-31431
+     7d4:	e880000c 	lwi	r4, r0, 12
+     7d8:	10a30000 	addk	r5, r3, r0
+     7dc:	30c00002 	addik	r6, r0, 2	// 2 <_SDA_BASE_>
+     7e0:	10e40000 	addk	r7, r4, r0
+     7e4:	b9f405c0 	brlid	r15, 1472	// da4 <fillMatrix>
+     7e8:	80000000 	or	r0, r0, r0
+
+		//--------------------------------------------------------------
+		// Write the defined shared variables back to their global copy.
+
+		// forec:scheduler:threadRemove:fillMatrixA2:start
+
+		// Delete thread from the linked list and core.
+		mainParCore0.activeThreads--;
+     7ec:	b000853a 	imm	-31430
+     7f0:	e8602da4 	lwi	r3, r0, 11684
+     7f4:	3063ffff 	addik	r3, r3, -1
+     7f8:	b000853a 	imm	-31430
+     7fc:	f8602da4 	swi	r3, r0, 11684
+		fillMatrixA2__thread.nextThread -> prevThread = fillMatrixA2__thread.prevThread;
+     800:	e8930040 	lwi	r4, r19, 64
+     804:	e8730044 	lwi	r3, r19, 68
+     808:	f8640008 	swi	r3, r4, 8
+		fillMatrixA2__thread.prevThread -> nextThread = fillMatrixA2__thread.nextThread;
+     80c:	e8930044 	lwi	r4, r19, 68
+     810:	e8730040 	lwi	r3, r19, 64
+     814:	f8640004 	swi	r3, r4, 4
+		goto *fillMatrixA2__thread.nextThread -> programCounter;
+     818:	e8730040 	lwi	r3, r19, 64
+     81c:	e8630000 	lwi	r3, r3, 0
+     820:	f87300fc 	swi	r3, r19, 252
+     824:	b800fe30 	bri	-464		// 654
+		// forec:scheduler:threadRemove:fillMatrixA2:end
+	} // fillMatrixA2__thread
+	// forec:thread:fillMatrixA2:end
+
+	// forec:thread:fillMatrixA3:start
+	/*--------------------------------------------------------------
+	| Thread fillMatrixA3
+	*-------------------------------------------------------------*/
+
+	// Thread local declarations -----------------------------------
+	// No declarations.
+
+	// Thread body -------------------------------------------------
+	fillMatrixA3__thread: {
+		// Initialise the local copies of shared variables.
+		//--------------------------------------------------------------
+
+		fillMatrix(A_ptr__global_0_0.value, 3, SIZE__global_0_0.value);
+     828:	b0008539 	imm	-31431
+     82c:	e860001c 	lwi	r3, r0, 28
+     830:	b0008539 	imm	-31431
+     834:	e880000c 	lwi	r4, r0, 12
+     838:	10a30000 	addk	r5, r3, r0
+     83c:	30c00003 	addik	r6, r0, 3
+     840:	10e40000 	addk	r7, r4, r0
+     844:	b9f40560 	brlid	r15, 1376	// da4 <fillMatrix>
+     848:	80000000 	or	r0, r0, r0
+
+		//--------------------------------------------------------------
+		// Write the defined shared variables back to their global copy.
+
+		// forec:scheduler:threadRemove:fillMatrixA3:start
+
+		// Delete thread from the linked list and core.
+		mainParCore0.activeThreads--;
+     84c:	b000853a 	imm	-31430
+     850:	e8602da4 	lwi	r3, r0, 11684
+     854:	3063ffff 	addik	r3, r3, -1
+     858:	b000853a 	imm	-31430
+     85c:	f8602da4 	swi	r3, r0, 11684
+		fillMatrixA3__thread.nextThread -> prevThread = fillMatrixA3__thread.prevThread;
+     860:	e893004c 	lwi	r4, r19, 76
+     864:	e8730050 	lwi	r3, r19, 80
+     868:	f8640008 	swi	r3, r4, 8
+		fillMatrixA3__thread.prevThread -> nextThread = fillMatrixA3__thread.nextThread;
+     86c:	e8930050 	lwi	r4, r19, 80
+     870:	e873004c 	lwi	r3, r19, 76
+     874:	f8640004 	swi	r3, r4, 4
+		goto *fillMatrixA3__thread.nextThread -> programCounter;
+     878:	e873004c 	lwi	r3, r19, 76
+     87c:	e8630000 	lwi	r3, r3, 0
+     880:	f87300fc 	swi	r3, r19, 252
+     884:	b800fdd0 	bri	-560		// 654
+		// forec:scheduler:threadRemove:fillMatrixA3:end
+	} // fillMatrixA3__thread
+	// forec:thread:fillMatrixA3:end
+
+	// forec:thread:fillMatrixB0:start
+	/*--------------------------------------------------------------
+	| Thread fillMatrixB0
+	*-------------------------------------------------------------*/
+
+	// Thread local declarations -----------------------------------
+	// No declarations.
+
+	// Thread body -------------------------------------------------
+	fillMatrixB0__thread: {
+		// Initialise the local copies of shared variables.
+		//--------------------------------------------------------------
+
+		fillMatrix(B_ptr__global_0_0.value, 0, SIZE__global_0_0.value);
+     888:	b0008539 	imm	-31431
+     88c:	e8600024 	lwi	r3, r0, 36
+     890:	b0008539 	imm	-31431
+     894:	e880000c 	lwi	r4, r0, 12
+     898:	10a30000 	addk	r5, r3, r0
+     89c:	10c00000 	addk	r6, r0, r0
+     8a0:	10e40000 	addk	r7, r4, r0
+     8a4:	b9f40500 	brlid	r15, 1280	// da4 <fillMatrix>
+     8a8:	80000000 	or	r0, r0, r0
+
+		//--------------------------------------------------------------
+		// Write the defined shared variables back to their global copy.
+
+		// forec:scheduler:threadRemove:fillMatrixB0:start
+
+		// Delete thread from the linked list and core.
+		mainParCore0.activeThreads--;
+     8ac:	b000853a 	imm	-31430
+     8b0:	e8602da4 	lwi	r3, r0, 11684
+     8b4:	3063ffff 	addik	r3, r3, -1
+     8b8:	b000853a 	imm	-31430
+     8bc:	f8602da4 	swi	r3, r0, 11684
+		fillMatrixB0__thread.nextThread -> prevThread = fillMatrixB0__thread.prevThread;
+     8c0:	e8930058 	lwi	r4, r19, 88
+     8c4:	e873005c 	lwi	r3, r19, 92
+     8c8:	f8640008 	swi	r3, r4, 8
+		fillMatrixB0__thread.prevThread -> nextThread = fillMatrixB0__thread.nextThread;
+     8cc:	e893005c 	lwi	r4, r19, 92
+     8d0:	e8730058 	lwi	r3, r19, 88
+     8d4:	f8640004 	swi	r3, r4, 4
+		goto *fillMatrixB0__thread.nextThread -> programCounter;
+     8d8:	e8730058 	lwi	r3, r19, 88
+     8dc:	e8630000 	lwi	r3, r3, 0
+     8e0:	f87300fc 	swi	r3, r19, 252
+     8e4:	b800fd70 	bri	-656		// 654
+		// forec:scheduler:threadRemove:fillMatrixB0:end
+	} // fillMatrixB0__thread
+	// forec:thread:fillMatrixB0:end
+
+	// forec:thread:fillMatrixB1:start
+	/*--------------------------------------------------------------
+	| Thread fillMatrixB1
+	*-------------------------------------------------------------*/
+
+	// Thread local declarations -----------------------------------
+	// No declarations.
+
+	// Thread body -------------------------------------------------
+	fillMatrixB1__thread: {
+		// Initialise the local copies of shared variables.
+		//--------------------------------------------------------------
+
+		fillMatrix(B_ptr__global_0_0.value, 1, SIZE__global_0_0.value);
+     8e8:	b0008539 	imm	-31431
+     8ec:	e8600024 	lwi	r3, r0, 36
+     8f0:	b0008539 	imm	-31431
+     8f4:	e880000c 	lwi	r4, r0, 12
+     8f8:	10a30000 	addk	r5, r3, r0
+     8fc:	30c00001 	addik	r6, r0, 1
+     900:	10e40000 	addk	r7, r4, r0
+     904:	b9f404a0 	brlid	r15, 1184	// da4 <fillMatrix>
+     908:	80000000 	or	r0, r0, r0
+
+		//--------------------------------------------------------------
+		// Write the defined shared variables back to their global copy.
+
+		// forec:scheduler:threadRemove:fillMatrixB1:start
+
+		// Delete thread from the linked list and core.
+		mainParCore0.activeThreads--;
+     90c:	b000853a 	imm	-31430
+     910:	e8602da4 	lwi	r3, r0, 11684
+     914:	3063ffff 	addik	r3, r3, -1
+     918:	b000853a 	imm	-31430
+     91c:	f8602da4 	swi	r3, r0, 11684
+		fillMatrixB1__thread.nextThread -> prevThread = fillMatrixB1__thread.prevThread;
+     920:	e8930064 	lwi	r4, r19, 100
+     924:	e8730068 	lwi	r3, r19, 104
+     928:	f8640008 	swi	r3, r4, 8
+		fillMatrixB1__thread.prevThread -> nextThread = fillMatrixB1__thread.nextThread;
+     92c:	e8930068 	lwi	r4, r19, 104
+     930:	e8730064 	lwi	r3, r19, 100
+     934:	f8640004 	swi	r3, r4, 4
+		goto *fillMatrixB1__thread.nextThread -> programCounter;
+     938:	e8730064 	lwi	r3, r19, 100
+     93c:	e8630000 	lwi	r3, r3, 0
+     940:	f87300fc 	swi	r3, r19, 252
+     944:	b800fd10 	bri	-752		// 654
+		// forec:scheduler:threadRemove:fillMatrixB1:end
+	} // fillMatrixB1__thread
+	// forec:thread:fillMatrixB1:end
+
+	// forec:thread:fillMatrixB2:start
+	/*--------------------------------------------------------------
+	| Thread fillMatrixB2
+	*-------------------------------------------------------------*/
+
+	// Thread local declarations -----------------------------------
+	// No declarations.
+
+	// Thread body -------------------------------------------------
+	fillMatrixB2__thread: {
+		// Initialise the local copies of shared variables.
+		//--------------------------------------------------------------
+
+		fillMatrix(B_ptr__global_0_0.value, 2, SIZE__global_0_0.value);
+     948:	b0008539 	imm	-31431
+     94c:	e8600024 	lwi	r3, r0, 36
+     950:	b0008539 	imm	-31431
+     954:	e880000c 	lwi	r4, r0, 12
+     958:	10a30000 	addk	r5, r3, r0
+     95c:	30c00002 	addik	r6, r0, 2	// 2 <_SDA_BASE_>
+     960:	10e40000 	addk	r7, r4, r0
+     964:	b9f40440 	brlid	r15, 1088	// da4 <fillMatrix>
+     968:	80000000 	or	r0, r0, r0
+
+		//--------------------------------------------------------------
+		// Write the defined shared variables back to their global copy.
+
+		// forec:scheduler:threadRemove:fillMatrixB2:start
+
+		// Delete thread from the linked list and core.
+		mainParCore0.activeThreads--;
+     96c:	b000853a 	imm	-31430
+     970:	e8602da4 	lwi	r3, r0, 11684
+     974:	3063ffff 	addik	r3, r3, -1
+     978:	b000853a 	imm	-31430
+     97c:	f8602da4 	swi	r3, r0, 11684
+		fillMatrixB2__thread.nextThread -> prevThread = fillMatrixB2__thread.prevThread;
+     980:	e8930070 	lwi	r4, r19, 112
+     984:	e8730074 	lwi	r3, r19, 116
+     988:	f8640008 	swi	r3, r4, 8
+		fillMatrixB2__thread.prevThread -> nextThread = fillMatrixB2__thread.nextThread;
+     98c:	e8930074 	lwi	r4, r19, 116
+     990:	e8730070 	lwi	r3, r19, 112
+     994:	f8640004 	swi	r3, r4, 4
+		goto *fillMatrixB2__thread.nextThread -> programCounter;
+     998:	e8730070 	lwi	r3, r19, 112
+     99c:	e8630000 	lwi	r3, r3, 0
+     9a0:	f87300fc 	swi	r3, r19, 252
+     9a4:	b800fcb0 	bri	-848		// 654
+		// forec:scheduler:threadRemove:fillMatrixB2:end
+	} // fillMatrixB2__thread
+	// forec:thread:fillMatrixB2:end
+
+	// forec:thread:fillMatrixB3:start
+	/*--------------------------------------------------------------
+	| Thread fillMatrixB3
+	*-------------------------------------------------------------*/
+
+	// Thread local declarations -----------------------------------
+	// No declarations.
+
+	// Thread body -------------------------------------------------
+	fillMatrixB3__thread: {
+		// Initialise the local copies of shared variables.
+		//--------------------------------------------------------------
+
+		fillMatrix(B_ptr__global_0_0.value, 3, SIZE__global_0_0.value);
+     9a8:	b0008539 	imm	-31431
+     9ac:	e8600024 	lwi	r3, r0, 36
+     9b0:	b0008539 	imm	-31431
+     9b4:	e880000c 	lwi	r4, r0, 12
+     9b8:	10a30000 	addk	r5, r3, r0
+     9bc:	30c00003 	addik	r6, r0, 3
+     9c0:	10e40000 	addk	r7, r4, r0
+     9c4:	b9f403e0 	brlid	r15, 992	// da4 <fillMatrix>
+     9c8:	80000000 	or	r0, r0, r0
+
+		//--------------------------------------------------------------
+		// Write the defined shared variables back to their global copy.
+
+		// forec:scheduler:threadRemove:fillMatrixB3:start
+
+		// Delete thread from the linked list and core.
+		mainParCore0.activeThreads--;
+     9cc:	b000853a 	imm	-31430
+     9d0:	e8602da4 	lwi	r3, r0, 11684
+     9d4:	3063ffff 	addik	r3, r3, -1
+     9d8:	b000853a 	imm	-31430
+     9dc:	f8602da4 	swi	r3, r0, 11684
+		fillMatrixB3__thread.nextThread -> prevThread = fillMatrixB3__thread.prevThread;
+     9e0:	e893007c 	lwi	r4, r19, 124
+     9e4:	e8730080 	lwi	r3, r19, 128
+     9e8:	f8640008 	swi	r3, r4, 8
+		fillMatrixB3__thread.prevThread -> nextThread = fillMatrixB3__thread.nextThread;
+     9ec:	e8930080 	lwi	r4, r19, 128
+     9f0:	e873007c 	lwi	r3, r19, 124
+     9f4:	f8640004 	swi	r3, r4, 4
+		goto *fillMatrixB3__thread.nextThread -> programCounter;
+     9f8:	e873007c 	lwi	r3, r19, 124
+     9fc:	e8630000 	lwi	r3, r3, 0
+     a00:	f87300fc 	swi	r3, r19, 252
+     a04:	b800fc50 	bri	-944		// 654
+		// forec:scheduler:threadRemove:fillMatrixB3:end
+	} // fillMatrixB3__thread
+	// forec:thread:fillMatrixB3:end
+
+	// forec:thread:multiply0:start
+	/*--------------------------------------------------------------
+	| Thread multiply0
+	*-------------------------------------------------------------*/
+
+	// Thread local declarations -----------------------------------
+	// No declarations.
+
+	// Thread body -------------------------------------------------
+	multiply0__thread: {
+		// Initialise the local copies of shared variables.
+		//--------------------------------------------------------------
+
+		multiply(A_ptr__global_0_0.value, B_ptr__global_0_0.value, C_ptr__global_0_0.value, 0, SIZE__global_0_0.value);
+     a08:	b0008539 	imm	-31431
+     a0c:	e860001c 	lwi	r3, r0, 28
+     a10:	b0008539 	imm	-31431
+     a14:	e8800024 	lwi	r4, r0, 36
+     a18:	b0008539 	imm	-31431
+     a1c:	e8e0002c 	lwi	r7, r0, 44
+     a20:	b0008539 	imm	-31431
+     a24:	e920000c 	lwi	r9, r0, 12
+     a28:	10a30000 	addk	r5, r3, r0
+     a2c:	10c40000 	addk	r6, r4, r0
+     a30:	11000000 	addk	r8, r0, r0
+     a34:	b9f4044c 	brlid	r15, 1100	// e80 <multiply>
+     a38:	80000000 	or	r0, r0, r0
+
+		//--------------------------------------------------------------
+		// Write the defined shared variables back to their global copy.
+
+		// forec:scheduler:threadRemove:multiply0:start
+
+		// Delete thread from the linked list and core.
+		mainParCore0.activeThreads--;
+     a3c:	b000853a 	imm	-31430
+     a40:	e8602da4 	lwi	r3, r0, 11684
+     a44:	3063ffff 	addik	r3, r3, -1
+     a48:	b000853a 	imm	-31430
+     a4c:	f8602da4 	swi	r3, r0, 11684
+		multiply0__thread.nextThread -> prevThread = multiply0__thread.prevThread;
+     a50:	e89300a0 	lwi	r4, r19, 160
+     a54:	e87300a4 	lwi	r3, r19, 164
+     a58:	f8640008 	swi	r3, r4, 8
+		multiply0__thread.prevThread -> nextThread = multiply0__thread.nextThread;
+     a5c:	e89300a4 	lwi	r4, r19, 164
+     a60:	e87300a0 	lwi	r3, r19, 160
+     a64:	f8640004 	swi	r3, r4, 4
+		goto *multiply0__thread.nextThread -> programCounter;
+     a68:	e87300a0 	lwi	r3, r19, 160
+     a6c:	e8630000 	lwi	r3, r3, 0
+     a70:	f87300fc 	swi	r3, r19, 252
+     a74:	b800fbe0 	bri	-1056		// 654
+		// forec:scheduler:threadRemove:multiply0:end
+	} // multiply0__thread
+	// forec:thread:multiply0:end
+
+	// forec:thread:multiply1:start
+	/*--------------------------------------------------------------
+	| Thread multiply1
+	*-------------------------------------------------------------*/
+
+	// Thread local declarations -----------------------------------
+	// No declarations.
+
+	// Thread body -------------------------------------------------
+	multiply1__thread: {
+		// Initialise the local copies of shared variables.
+		//--------------------------------------------------------------
+
+		multiply(A_ptr__global_0_0.value, B_ptr__global_0_0.value, C_ptr__global_0_0.value, 1, SIZE__global_0_0.value);
+     a78:	b0008539 	imm	-31431
+     a7c:	e860001c 	lwi	r3, r0, 28
+     a80:	b0008539 	imm	-31431
+     a84:	e8800024 	lwi	r4, r0, 36
+     a88:	b0008539 	imm	-31431
+     a8c:	e8e0002c 	lwi	r7, r0, 44
+     a90:	b0008539 	imm	-31431
+     a94:	e920000c 	lwi	r9, r0, 12
+     a98:	10a30000 	addk	r5, r3, r0
+     a9c:	10c40000 	addk	r6, r4, r0
+     aa0:	31000001 	addik	r8, r0, 1
+     aa4:	b9f403dc 	brlid	r15, 988	// e80 <multiply>
+     aa8:	80000000 	or	r0, r0, r0
+
+		//--------------------------------------------------------------
+		// Write the defined shared variables back to their global copy.
+
+		// forec:scheduler:threadRemove:multiply1:start
+
+		// Delete thread from the linked list and core.
+		mainParCore0.activeThreads--;
+     aac:	b000853a 	imm	-31430
+     ab0:	e8602da4 	lwi	r3, r0, 11684
+     ab4:	3063ffff 	addik	r3, r3, -1
+     ab8:	b000853a 	imm	-31430
+     abc:	f8602da4 	swi	r3, r0, 11684
+		multiply1__thread.nextThread -> prevThread = multiply1__thread.prevThread;
+     ac0:	e89300ac 	lwi	r4, r19, 172
+     ac4:	e87300b0 	lwi	r3, r19, 176
+     ac8:	f8640008 	swi	r3, r4, 8
+		multiply1__thread.prevThread -> nextThread = multiply1__thread.nextThread;
+     acc:	e89300b0 	lwi	r4, r19, 176
+     ad0:	e87300ac 	lwi	r3, r19, 172
+     ad4:	f8640004 	swi	r3, r4, 4
+		goto *multiply1__thread.nextThread -> programCounter;
+     ad8:	e87300ac 	lwi	r3, r19, 172
+     adc:	e8630000 	lwi	r3, r3, 0
+     ae0:	f87300fc 	swi	r3, r19, 252
+     ae4:	b800fb70 	bri	-1168		// 654
+		// forec:scheduler:threadRemove:multiply1:end
+	} // multiply1__thread
+	// forec:thread:multiply1:end
+
+	// forec:thread:multiply2:start
+	/*--------------------------------------------------------------
+	| Thread multiply2
+	*-------------------------------------------------------------*/
+
+	// Thread local declarations -----------------------------------
+	// No declarations.
+
+	// Thread body -------------------------------------------------
+	multiply2__thread: {
+		// Initialise the local copies of shared variables.
+		//--------------------------------------------------------------
+
+		multiply(A_ptr__global_0_0.value, B_ptr__global_0_0.value, C_ptr__global_0_0.value, 2, SIZE__global_0_0.value);
+     ae8:	b0008539 	imm	-31431
+     aec:	e860001c 	lwi	r3, r0, 28
+     af0:	b0008539 	imm	-31431
+     af4:	e8800024 	lwi	r4, r0, 36
+     af8:	b0008539 	imm	-31431
+     afc:	e8e0002c 	lwi	r7, r0, 44
+     b00:	b0008539 	imm	-31431
+     b04:	e920000c 	lwi	r9, r0, 12
+     b08:	10a30000 	addk	r5, r3, r0
+     b0c:	10c40000 	addk	r6, r4, r0
+     b10:	31000002 	addik	r8, r0, 2	// 2 <_SDA_BASE_>
+     b14:	b9f4036c 	brlid	r15, 876	// e80 <multiply>
+     b18:	80000000 	or	r0, r0, r0
+
+		//--------------------------------------------------------------
+		// Write the defined shared variables back to their global copy.
+
+		// forec:scheduler:threadRemove:multiply2:start
+
+		// Delete thread from the linked list and core.
+		mainParCore0.activeThreads--;
+     b1c:	b000853a 	imm	-31430
+     b20:	e8602da4 	lwi	r3, r0, 11684
+     b24:	3063ffff 	addik	r3, r3, -1
+     b28:	b000853a 	imm	-31430
+     b2c:	f8602da4 	swi	r3, r0, 11684
+		multiply2__thread.nextThread -> prevThread = multiply2__thread.prevThread;
+     b30:	e89300b8 	lwi	r4, r19, 184
+     b34:	e87300bc 	lwi	r3, r19, 188
+     b38:	f8640008 	swi	r3, r4, 8
+		multiply2__thread.prevThread -> nextThread = multiply2__thread.nextThread;
+     b3c:	e89300bc 	lwi	r4, r19, 188
+     b40:	e87300b8 	lwi	r3, r19, 184
+     b44:	f8640004 	swi	r3, r4, 4
+		goto *multiply2__thread.nextThread -> programCounter;
+     b48:	e87300b8 	lwi	r3, r19, 184
+     b4c:	e8630000 	lwi	r3, r3, 0
+     b50:	f87300fc 	swi	r3, r19, 252
+     b54:	b800fb00 	bri	-1280		// 654
+		// forec:scheduler:threadRemove:multiply2:end
+	} // multiply2__thread
+	// forec:thread:multiply2:end
+
+	// forec:thread:multiply3:start
+	/*--------------------------------------------------------------
+	| Thread multiply3
+	*-------------------------------------------------------------*/
+
+	// Thread local declarations -----------------------------------
+	// No declarations.
+
+	// Thread body -------------------------------------------------
+	multiply3__thread: {
+		// Initialise the local copies of shared variables.
+		//--------------------------------------------------------------
+
+		multiply(A_ptr__global_0_0.value, B_ptr__global_0_0.value, C_ptr__global_0_0.value, 3, SIZE__global_0_0.value);
+     b58:	b0008539 	imm	-31431
+     b5c:	e860001c 	lwi	r3, r0, 28
+     b60:	b0008539 	imm	-31431
+     b64:	e8800024 	lwi	r4, r0, 36
+     b68:	b0008539 	imm	-31431
+     b6c:	e8e0002c 	lwi	r7, r0, 44
+     b70:	b0008539 	imm	-31431
+     b74:	e920000c 	lwi	r9, r0, 12
+     b78:	10a30000 	addk	r5, r3, r0
+     b7c:	10c40000 	addk	r6, r4, r0
+     b80:	31000003 	addik	r8, r0, 3
+     b84:	b9f402fc 	brlid	r15, 764	// e80 <multiply>
+     b88:	80000000 	or	r0, r0, r0
+
+		//--------------------------------------------------------------
+		// Write the defined shared variables back to their global copy.
+
+		// forec:scheduler:threadRemove:multiply3:start
+
+		// Delete thread from the linked list and core.
+		mainParCore0.activeThreads--;
+     b8c:	b000853a 	imm	-31430
+     b90:	e8602da4 	lwi	r3, r0, 11684
+     b94:	3063ffff 	addik	r3, r3, -1
+     b98:	b000853a 	imm	-31430
+     b9c:	f8602da4 	swi	r3, r0, 11684
+		multiply3__thread.nextThread -> prevThread = multiply3__thread.prevThread;
+     ba0:	e89300c4 	lwi	r4, r19, 196
+     ba4:	e87300c8 	lwi	r3, r19, 200
+     ba8:	f8640008 	swi	r3, r4, 8
+		multiply3__thread.prevThread -> nextThread = multiply3__thread.nextThread;
+     bac:	e89300c8 	lwi	r4, r19, 200
+     bb0:	e87300c4 	lwi	r3, r19, 196
+     bb4:	f8640004 	swi	r3, r4, 4
+		goto *multiply3__thread.nextThread -> programCounter;
+     bb8:	e87300c4 	lwi	r3, r19, 196
+     bbc:	e8630000 	lwi	r3, r3, 0
+     bc0:	f87300fc 	swi	r3, r19, 252
+     bc4:	b800fa90 	bri	-1392		// 654
+		// forec:scheduler:threadRemove:multiply3:end
+	} // multiply3__thread
+	// forec:thread:multiply3:end
+
+	// forec:thread:multiply4:start
+	/*--------------------------------------------------------------
+	| Thread multiply4
+	*-------------------------------------------------------------*/
+
+	// Thread local declarations -----------------------------------
+	// No declarations.
+
+	// Thread body -------------------------------------------------
+	multiply4__thread: {
+		// Initialise the local copies of shared variables.
+		//--------------------------------------------------------------
+
+		multiply(A_ptr__global_0_0.value, B_ptr__global_0_0.value, C_ptr__global_0_0.value, 4, SIZE__global_0_0.value);
+     bc8:	b0008539 	imm	-31431
+     bcc:	e860001c 	lwi	r3, r0, 28
+     bd0:	b0008539 	imm	-31431
+     bd4:	e8800024 	lwi	r4, r0, 36
+     bd8:	b0008539 	imm	-31431
+     bdc:	e8e0002c 	lwi	r7, r0, 44
+     be0:	b0008539 	imm	-31431
+     be4:	e920000c 	lwi	r9, r0, 12
+     be8:	10a30000 	addk	r5, r3, r0
+     bec:	10c40000 	addk	r6, r4, r0
+     bf0:	31000004 	addik	r8, r0, 4
+     bf4:	b9f4028c 	brlid	r15, 652	// e80 <multiply>
+     bf8:	80000000 	or	r0, r0, r0
+
+		//--------------------------------------------------------------
+		// Write the defined shared variables back to their global copy.
+
+		// forec:scheduler:threadRemove:multiply4:start
+
+		// Delete thread from the linked list and core.
+		mainParCore0.activeThreads--;
+     bfc:	b000853a 	imm	-31430
+     c00:	e8602da4 	lwi	r3, r0, 11684
+     c04:	3063ffff 	addik	r3, r3, -1
+     c08:	b000853a 	imm	-31430
+     c0c:	f8602da4 	swi	r3, r0, 11684
+		multiply4__thread.nextThread -> prevThread = multiply4__thread.prevThread;
+     c10:	e89300d0 	lwi	r4, r19, 208
+     c14:	e87300d4 	lwi	r3, r19, 212
+     c18:	f8640008 	swi	r3, r4, 8
+		multiply4__thread.prevThread -> nextThread = multiply4__thread.nextThread;
+     c1c:	e89300d4 	lwi	r4, r19, 212
+     c20:	e87300d0 	lwi	r3, r19, 208
+     c24:	f8640004 	swi	r3, r4, 4
+		goto *multiply4__thread.nextThread -> programCounter;
+     c28:	e87300d0 	lwi	r3, r19, 208
+     c2c:	e8630000 	lwi	r3, r3, 0
+     c30:	f87300fc 	swi	r3, r19, 252
+     c34:	b800fa20 	bri	-1504		// 654
+		// forec:scheduler:threadRemove:multiply4:end
+	} // multiply4__thread
+	// forec:thread:multiply4:end
+
+	// forec:thread:multiply5:start
+	/*--------------------------------------------------------------
+	| Thread multiply5
+	*-------------------------------------------------------------*/
+
+	// Thread local declarations -----------------------------------
+	// No declarations.
+
+	// Thread body -------------------------------------------------
+	multiply5__thread: {
+		// Initialise the local copies of shared variables.
+		//--------------------------------------------------------------
+
+		multiply(A_ptr__global_0_0.value, B_ptr__global_0_0.value, C_ptr__global_0_0.value, 5, SIZE__global_0_0.value);
+     c38:	b0008539 	imm	-31431
+     c3c:	e860001c 	lwi	r3, r0, 28
+     c40:	b0008539 	imm	-31431
+     c44:	e8800024 	lwi	r4, r0, 36
+     c48:	b0008539 	imm	-31431
+     c4c:	e8e0002c 	lwi	r7, r0, 44
+     c50:	b0008539 	imm	-31431
+     c54:	e920000c 	lwi	r9, r0, 12
+     c58:	10a30000 	addk	r5, r3, r0
+     c5c:	10c40000 	addk	r6, r4, r0
+     c60:	31000005 	addik	r8, r0, 5
+     c64:	b9f4021c 	brlid	r15, 540	// e80 <multiply>
+     c68:	80000000 	or	r0, r0, r0
+
+		//--------------------------------------------------------------
+		// Write the defined shared variables back to their global copy.
+
+		// forec:scheduler:threadRemove:multiply5:start
+
+		// Delete thread from the linked list and core.
+		mainParCore0.activeThreads--;
+     c6c:	b000853a 	imm	-31430
+     c70:	e8602da4 	lwi	r3, r0, 11684
+     c74:	3063ffff 	addik	r3, r3, -1
+     c78:	b000853a 	imm	-31430
+     c7c:	f8602da4 	swi	r3, r0, 11684
+		multiply5__thread.nextThread -> prevThread = multiply5__thread.prevThread;
+     c80:	e89300dc 	lwi	r4, r19, 220
+     c84:	e87300e0 	lwi	r3, r19, 224
+     c88:	f8640008 	swi	r3, r4, 8
+		multiply5__thread.prevThread -> nextThread = multiply5__thread.nextThread;
+     c8c:	e89300e0 	lwi	r4, r19, 224
+     c90:	e87300dc 	lwi	r3, r19, 220
+     c94:	f8640004 	swi	r3, r4, 4
+		goto *multiply5__thread.nextThread -> programCounter;
+     c98:	e87300dc 	lwi	r3, r19, 220
+     c9c:	e8630000 	lwi	r3, r3, 0
+     ca0:	f87300fc 	swi	r3, r19, 252
+     ca4:	b800f9b0 	bri	-1616		// 654
+		// forec:scheduler:threadRemove:multiply5:end
+	} // multiply5__thread
+	// forec:thread:multiply5:end
+
+	// forec:thread:multiply6:start
+	/*--------------------------------------------------------------
+	| Thread multiply6
+	*-------------------------------------------------------------*/
+
+	// Thread local declarations -----------------------------------
+	// No declarations.
+
+	// Thread body -------------------------------------------------
+	multiply6__thread: {
+		// Initialise the local copies of shared variables.
+		//--------------------------------------------------------------
+
+		multiply(A_ptr__global_0_0.value, B_ptr__global_0_0.value, C_ptr__global_0_0.value, 6, SIZE__global_0_0.value);
+     ca8:	b0008539 	imm	-31431
+     cac:	e860001c 	lwi	r3, r0, 28
+     cb0:	b0008539 	imm	-31431
+     cb4:	e8800024 	lwi	r4, r0, 36
+     cb8:	b0008539 	imm	-31431
+     cbc:	e8e0002c 	lwi	r7, r0, 44
+     cc0:	b0008539 	imm	-31431
+     cc4:	e920000c 	lwi	r9, r0, 12
+     cc8:	10a30000 	addk	r5, r3, r0
+     ccc:	10c40000 	addk	r6, r4, r0
+     cd0:	31000006 	addik	r8, r0, 6
+     cd4:	b9f401ac 	brlid	r15, 428	// e80 <multiply>
+     cd8:	80000000 	or	r0, r0, r0
+
+		//--------------------------------------------------------------
+		// Write the defined shared variables back to their global copy.
+
+		// forec:scheduler:threadRemove:multiply6:start
+
+		// Delete thread from the linked list and core.
+		mainParCore0.activeThreads--;
+     cdc:	b000853a 	imm	-31430
+     ce0:	e8602da4 	lwi	r3, r0, 11684
+     ce4:	3063ffff 	addik	r3, r3, -1
+     ce8:	b000853a 	imm	-31430
+     cec:	f8602da4 	swi	r3, r0, 11684
+		multiply6__thread.nextThread -> prevThread = multiply6__thread.prevThread;
+     cf0:	e89300e8 	lwi	r4, r19, 232
+     cf4:	e87300ec 	lwi	r3, r19, 236
+     cf8:	f8640008 	swi	r3, r4, 8
+		multiply6__thread.prevThread -> nextThread = multiply6__thread.nextThread;
+     cfc:	e89300ec 	lwi	r4, r19, 236
+     d00:	e87300e8 	lwi	r3, r19, 232
+     d04:	f8640004 	swi	r3, r4, 4
+		goto *multiply6__thread.nextThread -> programCounter;
+     d08:	e87300e8 	lwi	r3, r19, 232
+     d0c:	e8630000 	lwi	r3, r3, 0
+     d10:	f87300fc 	swi	r3, r19, 252
+     d14:	b800f940 	bri	-1728		// 654
+		// forec:scheduler:threadRemove:multiply6:end
+	} // multiply6__thread
+	// forec:thread:multiply6:end
+
+	// forec:thread:multiply7:start
+	/*--------------------------------------------------------------
+	| Thread multiply7
+	*-------------------------------------------------------------*/
+
+	// Thread local declarations -----------------------------------
+	// No declarations.
+
+	// Thread body -------------------------------------------------
+	multiply7__thread: {
+		// Initialise the local copies of shared variables.
+		//--------------------------------------------------------------
+
+		multiply(A_ptr__global_0_0.value, B_ptr__global_0_0.value, C_ptr__global_0_0.value, 7, SIZE__global_0_0.value);
+     d18:	b0008539 	imm	-31431
+     d1c:	e860001c 	lwi	r3, r0, 28
+     d20:	b0008539 	imm	-31431
+     d24:	e8800024 	lwi	r4, r0, 36
+     d28:	b0008539 	imm	-31431
+     d2c:	e8e0002c 	lwi	r7, r0, 44
+     d30:	b0008539 	imm	-31431
+     d34:	e920000c 	lwi	r9, r0, 12
+     d38:	10a30000 	addk	r5, r3, r0
+     d3c:	10c40000 	addk	r6, r4, r0
+     d40:	31000007 	addik	r8, r0, 7
+     d44:	b9f4013c 	brlid	r15, 316	// e80 <multiply>
+     d48:	80000000 	or	r0, r0, r0
+
+		//--------------------------------------------------------------
+		// Write the defined shared variables back to their global copy.
+
+		// forec:scheduler:threadRemove:multiply7:start
+
+		// Delete thread from the linked list and core.
+		mainParCore0.activeThreads--;
+     d4c:	b000853a 	imm	-31430
+     d50:	e8602da4 	lwi	r3, r0, 11684
+     d54:	3063ffff 	addik	r3, r3, -1
+     d58:	b000853a 	imm	-31430
+     d5c:	f8602da4 	swi	r3, r0, 11684
+		multiply7__thread.nextThread -> prevThread = multiply7__thread.prevThread;
+     d60:	e89300f4 	lwi	r4, r19, 244
+     d64:	e87300f8 	lwi	r3, r19, 248
+     d68:	f8640008 	swi	r3, r4, 8
+		multiply7__thread.prevThread -> nextThread = multiply7__thread.nextThread;
+     d6c:	e89300f8 	lwi	r4, r19, 248
+     d70:	e87300f4 	lwi	r3, r19, 244
+     d74:	f8640004 	swi	r3, r4, 4
+		goto *multiply7__thread.nextThread -> programCounter;
+     d78:	e87300f4 	lwi	r3, r19, 244
+     d7c:	e8630000 	lwi	r3, r3, 0
+     d80:	f87300fc 	swi	r3, r19, 252
+     d84:	b800f8d0 	bri	-1840		// 654
+		// forec:scheduler:threadRemove:multiply7:end
+	} // multiply7__thread
+	// forec:thread:multiply7:end
+
+
+} // End of the main() function.
+     d88:	e8730100 	lwi	r3, r19, 256
+     d8c:	e9e10000 	lwi	r15, r1, 0
+     d90:	10330000 	addk	r1, r19, r0
+     d94:	ea610104 	lwi	r19, r1, 260
+     d98:	30210108 	addik	r1, r1, 264
+     d9c:	b60f0008 	rtsd	r15, 8
+     da0:	80000000 	or	r0, r0, r0
+
+00000da4 <fillMatrix>:
+
+void fillMatrix(int (*A__fillMatrix_0_0)[80][80], int threadId__fillMatrix_0_0, int SIZE__fillMatrix_0_0) {
+     da4:	3021ffe8 	addik	r1, r1, -24
+     da8:	fa610014 	swi	r19, r1, 20
+     dac:	12610000 	addk	r19, r1, r0
+     db0:	f8b3001c 	swi	r5, r19, 28
+     db4:	f8d30020 	swi	r6, r19, 32
+     db8:	f8f30024 	swi	r7, r19, 36
+	int startRow__fillMatrix_0_0 = threadId__fillMatrix_0_0*SIZE__fillMatrix_0_0/NumberOfFillThreads__global_0_0;
+     dbc:	e8930020 	lwi	r4, r19, 32
+     dc0:	e8730024 	lwi	r3, r19, 36
+     dc4:	40841800 	mul	r4, r4, r3
+     dc8:	b0008539 	imm	-31431
+     dcc:	e8600014 	lwi	r3, r0, 20
+     dd0:	48632000 	idiv	r3, r3, r4
+     dd4:	f8730010 	swi	r3, r19, 16
+	int range__fillMatrix_0_0 = SIZE__fillMatrix_0_0/NumberOfFillThreads__global_0_0;
+     dd8:	b0008539 	imm	-31431
+     ddc:	e8800014 	lwi	r4, r0, 20
+     de0:	e8730024 	lwi	r3, r19, 36
+     de4:	48641800 	idiv	r3, r4, r3
+     de8:	f873000c 	swi	r3, r19, 12
+	int i__fillMatrix_0_0;
+	for (i__fillMatrix_0_0 = startRow__fillMatrix_0_0; i__fillMatrix_0_0 < (startRow__fillMatrix_0_0 + range__fillMatrix_0_0); i__fillMatrix_0_0++) {
+     dec:	e8730010 	lwi	r3, r19, 16
+     df0:	f8730008 	swi	r3, r19, 8
+     df4:	b8000060 	bri	96		// e54
+		int j__fillMatrix_1_0;
+		for (j__fillMatrix_1_0 = 0; j__fillMatrix_1_0 < SIZE__fillMatrix_0_0; j__fillMatrix_1_0++) {
+     df8:	f8130004 	swi	r0, r19, 4
+     dfc:	b8000038 	bri	56		// e34
+			(* A__fillMatrix_0_0)[i__fillMatrix_0_0][j__fillMatrix_1_0] = j__fillMatrix_1_0;
+     e00:	e8730008 	lwi	r3, r19, 8
+     e04:	e8930004 	lwi	r4, r19, 4
+     e08:	e8b3001c 	lwi	r5, r19, 28
+     e0c:	60630050 	muli	r3, r3, 80
+     e10:	10632000 	addk	r3, r3, r4
+     e14:	60630004 	muli	r3, r3, 4
+     e18:	10832800 	addk	r4, r3, r5
+     e1c:	e8730004 	lwi	r3, r19, 4
+     e20:	f8640000 	swi	r3, r4, 0
+			asm volatile ("nop");
+     e24:	80000000 	or	r0, r0, r0
+     e28:	e8730004 	lwi	r3, r19, 4
+     e2c:	30630001 	addik	r3, r3, 1
+     e30:	f8730004 	swi	r3, r19, 4
+     e34:	e8930004 	lwi	r4, r19, 4
+     e38:	e8730024 	lwi	r3, r19, 36
+     e3c:	16432001 	cmp	r18, r3, r4
+     e40:	bc52ffc0 	blti	r18, -64		// e00
+			// forec:iteration:for1_0:bound:80:80
+		}
+		asm volatile ("nop");
+     e44:	80000000 	or	r0, r0, r0
+     e48:	e8730008 	lwi	r3, r19, 8
+     e4c:	30630001 	addik	r3, r3, 1
+     e50:	f8730008 	swi	r3, r19, 8
+     e54:	e8930010 	lwi	r4, r19, 16
+     e58:	e873000c 	lwi	r3, r19, 12
+     e5c:	10841800 	addk	r4, r4, r3
+     e60:	e8730008 	lwi	r3, r19, 8
+     e64:	16441801 	cmp	r18, r4, r3
+     e68:	bc52ff90 	blti	r18, -112		// df8
+		// forec:iteration:for1_1:bound:20:20
+	}
+}
+     e6c:	10330000 	addk	r1, r19, r0
+     e70:	ea610014 	lwi	r19, r1, 20
+     e74:	30210018 	addik	r1, r1, 24
+     e78:	b60f0008 	rtsd	r15, 8
+     e7c:	80000000 	or	r0, r0, r0
+
+00000e80 <multiply>:
+
+void multiply(int (*A__multiply_0_0)[80][80], int (*B__multiply_0_0)[80][80], int (*C__multiply_0_0)[80][80], int threadId__multiply_0_0, int SIZE__multiply_0_0) {
+     e80:	3021ffe4 	addik	r1, r1, -28
+     e84:	fa610018 	swi	r19, r1, 24
+     e88:	12610000 	addk	r19, r1, r0
+     e8c:	f8b30020 	swi	r5, r19, 32
+     e90:	f8d30024 	swi	r6, r19, 36
+     e94:	f8f30028 	swi	r7, r19, 40
+     e98:	f913002c 	swi	r8, r19, 44
+     e9c:	f9330030 	swi	r9, r19, 48
+	int startRow__multiply_0_0 = threadId__multiply_0_0*SIZE__multiply_0_0/NumberOfMultiplyThreads__global_0_0;
+     ea0:	e893002c 	lwi	r4, r19, 44
+     ea4:	e8730030 	lwi	r3, r19, 48
+     ea8:	40841800 	mul	r4, r4, r3
+     eac:	b0008539 	imm	-31431
+     eb0:	e8600018 	lwi	r3, r0, 24
+     eb4:	48632000 	idiv	r3, r3, r4
+     eb8:	f8730014 	swi	r3, r19, 20
+	int range__multiply_0_0 = SIZE__multiply_0_0/NumberOfMultiplyThreads__global_0_0;
+     ebc:	b0008539 	imm	-31431
+     ec0:	e8800018 	lwi	r4, r0, 24
+     ec4:	e8730030 	lwi	r3, r19, 48
+     ec8:	48641800 	idiv	r3, r4, r3
+     ecc:	f8730010 	swi	r3, r19, 16
+	int i__multiply_0_0;
+	for (i__multiply_0_0 = startRow__multiply_0_0; i__multiply_0_0 < (startRow__multiply_0_0 + range__multiply_0_0); i__multiply_0_0++) {
+     ed0:	e8730014 	lwi	r3, r19, 20
+     ed4:	f873000c 	swi	r3, r19, 12
+     ed8:	b800010c 	bri	268		// fe4
+		int j__multiply_1_0;
+		for (j__multiply_1_0 = 0; j__multiply_1_0 < SIZE__multiply_0_0; j__multiply_1_0++) {
+     edc:	f8130008 	swi	r0, r19, 8
+     ee0:	b80000e4 	bri	228		// fc4
+			(* C__multiply_0_0)[i__multiply_0_0][j__multiply_1_0] = 0;
+     ee4:	e873000c 	lwi	r3, r19, 12
+     ee8:	e8930008 	lwi	r4, r19, 8
+     eec:	e8b30028 	lwi	r5, r19, 40
+     ef0:	60630050 	muli	r3, r3, 80
+     ef4:	10632000 	addk	r3, r3, r4
+     ef8:	60630004 	muli	r3, r3, 4
+     efc:	10632800 	addk	r3, r3, r5
+     f00:	f8030000 	swi	r0, r3, 0
+			int k__multiply_2_0;
+			for (k__multiply_2_0 = 0; k__multiply_2_0 < SIZE__multiply_0_0; k__multiply_2_0++) {
+     f04:	f8130004 	swi	r0, r19, 4
+     f08:	b800009c 	bri	156		// fa4
+				(* C__multiply_0_0)[i__multiply_0_0][j__multiply_1_0] += (* A__multiply_0_0)[i__multiply_0_0][k__multiply_2_0]*(* B__multiply_0_0)[k__multiply_2_0][j__multiply_1_0];
+     f0c:	e8f3000c 	lwi	r7, r19, 12
+     f10:	e9130008 	lwi	r8, r19, 8
+     f14:	e873000c 	lwi	r3, r19, 12
+     f18:	e8930008 	lwi	r4, r19, 8
+     f1c:	e8b30028 	lwi	r5, r19, 40
+     f20:	60630050 	muli	r3, r3, 80
+     f24:	10632000 	addk	r3, r3, r4
+     f28:	60630004 	muli	r3, r3, 4
+     f2c:	10632800 	addk	r3, r3, r5
+     f30:	e9230000 	lwi	r9, r3, 0
+     f34:	e873000c 	lwi	r3, r19, 12
+     f38:	e8930004 	lwi	r4, r19, 4
+     f3c:	e8b30020 	lwi	r5, r19, 32
+     f40:	60630050 	muli	r3, r3, 80
+     f44:	10632000 	addk	r3, r3, r4
+     f48:	60630004 	muli	r3, r3, 4
+     f4c:	10632800 	addk	r3, r3, r5
+     f50:	e8c30000 	lwi	r6, r3, 0
+     f54:	e8730004 	lwi	r3, r19, 4
+     f58:	e8930008 	lwi	r4, r19, 8
+     f5c:	e8b30024 	lwi	r5, r19, 36
+     f60:	60630050 	muli	r3, r3, 80
+     f64:	10632000 	addk	r3, r3, r4
+     f68:	60630004 	muli	r3, r3, 4
+     f6c:	10632800 	addk	r3, r3, r5
+     f70:	e8630000 	lwi	r3, r3, 0
+     f74:	40661800 	mul	r3, r6, r3
+     f78:	10a91800 	addk	r5, r9, r3
+     f7c:	e8930028 	lwi	r4, r19, 40
+     f80:	60670050 	muli	r3, r7, 80
+     f84:	10634000 	addk	r3, r3, r8
+     f88:	60630004 	muli	r3, r3, 4
+     f8c:	10632000 	addk	r3, r3, r4
+     f90:	f8a30000 	swi	r5, r3, 0
+				asm volatile ("nop");
+     f94:	80000000 	or	r0, r0, r0
+     f98:	e8730004 	lwi	r3, r19, 4
+     f9c:	30630001 	addik	r3, r3, 1
+     fa0:	f8730004 	swi	r3, r19, 4
+     fa4:	e8930004 	lwi	r4, r19, 4
+     fa8:	e8730030 	lwi	r3, r19, 48
+     fac:	16432001 	cmp	r18, r3, r4
+     fb0:	bc52ff5c 	blti	r18, -164		// f0c
+				// forec:iteration:for1_2:bound:80:80
+			}
+			asm volatile ("nop");
+     fb4:	80000000 	or	r0, r0, r0
+     fb8:	e8730008 	lwi	r3, r19, 8
+     fbc:	30630001 	addik	r3, r3, 1
+     fc0:	f8730008 	swi	r3, r19, 8
+     fc4:	e8930008 	lwi	r4, r19, 8
+     fc8:	e8730030 	lwi	r3, r19, 48
+     fcc:	16432001 	cmp	r18, r3, r4
+     fd0:	bc52ff14 	blti	r18, -236		// ee4
+			// forec:iteration:for1_3:bound:80:80
+		}
+		asm volatile ("nop");
+     fd4:	80000000 	or	r0, r0, r0
+     fd8:	e873000c 	lwi	r3, r19, 12
+     fdc:	30630001 	addik	r3, r3, 1
+     fe0:	f873000c 	swi	r3, r19, 12
+     fe4:	e8930014 	lwi	r4, r19, 20
+     fe8:	e8730010 	lwi	r3, r19, 16
+     fec:	10841800 	addk	r4, r4, r3
+     ff0:	e873000c 	lwi	r3, r19, 12
+     ff4:	16441801 	cmp	r18, r4, r3
+     ff8:	bc52fee4 	blti	r18, -284		// edc
+		// forec:iteration:for1_4:bound:20:20
+	}
+}
+     ffc:	10330000 	addk	r1, r19, r0
+    1000:	ea610018 	lwi	r19, r1, 24
+    1004:	3021001c 	addik	r1, r1, 28
+    1008:	b60f0008 	rtsd	r15, 8
+    100c:	80000000 	or	r0, r0, r0
+
+00001010 <printOut>:
+
+void printOut(int (*A__printOut_0_0)[80][80], int SIZE__printOut_0_0) {
+    1010:	3021ffd8 	addik	r1, r1, -40
+    1014:	f9e10000 	swi	r15, r1, 0
+    1018:	fa610024 	swi	r19, r1, 36
+    101c:	12610000 	addk	r19, r1, r0
+    1020:	f8b3002c 	swi	r5, r19, 44
+    1024:	f8d30030 	swi	r6, r19, 48
+	int i__printOut_0_0;
+	for (i__printOut_0_0 = 0; i__printOut_0_0 < SIZE__printOut_0_0; i__printOut_0_0++) {
+    1028:	f8130020 	swi	r0, r19, 32
+    102c:	b8000078 	bri	120		// 10a4
+		int j__printOut_1_0;
+		for (j__printOut_1_0 = 0; j__printOut_1_0 < SIZE__printOut_0_0; j__printOut_1_0++) {
+    1030:	f813001c 	swi	r0, r19, 28
+    1034:	b8000044 	bri	68		// 1078
+			xil_printf("%d ", (* A__printOut_0_0)[i__printOut_0_0][j__printOut_1_0]);
+    1038:	e8730020 	lwi	r3, r19, 32
+    103c:	e893001c 	lwi	r4, r19, 28
+    1040:	e8b3002c 	lwi	r5, r19, 44
+    1044:	60630050 	muli	r3, r3, 80
+    1048:	10632000 	addk	r3, r3, r4
+    104c:	60630004 	muli	r3, r3, 4
+    1050:	10632800 	addk	r3, r3, r5
+    1054:	e8630000 	lwi	r3, r3, 0
+    1058:	30a01d2c 	addik	r5, r0, 7468
+    105c:	10c30000 	addk	r6, r3, r0
+    1060:	b9f402fc 	brlid	r15, 764	// 135c <xil_printf>
+    1064:	80000000 	or	r0, r0, r0
+			asm volatile ("nop");
+    1068:	80000000 	or	r0, r0, r0
+    106c:	e873001c 	lwi	r3, r19, 28
+    1070:	30630001 	addik	r3, r3, 1
+    1074:	f873001c 	swi	r3, r19, 28
+    1078:	e893001c 	lwi	r4, r19, 28
+    107c:	e8730030 	lwi	r3, r19, 48
+    1080:	16432001 	cmp	r18, r3, r4
+    1084:	bc52ffb4 	blti	r18, -76		// 1038
+			// forec:iteration:for1_5:bound:80:80
+		}
+		xil_printf("\n");
+    1088:	30a01d30 	addik	r5, r0, 7472
+    108c:	b9f402d0 	brlid	r15, 720	// 135c <xil_printf>
+    1090:	80000000 	or	r0, r0, r0
+		asm volatile ("nop");
+    1094:	80000000 	or	r0, r0, r0
+    1098:	e8730020 	lwi	r3, r19, 32
+    109c:	30630001 	addik	r3, r3, 1
+    10a0:	f8730020 	swi	r3, r19, 32
+    10a4:	e8930020 	lwi	r4, r19, 32
+    10a8:	e8730030 	lwi	r3, r19, 48
+    10ac:	16432001 	cmp	r18, r3, r4
+    10b0:	bc52ff80 	blti	r18, -128		// 1030
+		// forec:iteration:for1_6:bound:80:80
+	}
+	xil_printf("\n");
+    10b4:	30a01d30 	addik	r5, r0, 7472
+    10b8:	b9f402a4 	brlid	r15, 676	// 135c <xil_printf>
+    10bc:	80000000 	or	r0, r0, r0
+}
+    10c0:	e9e10000 	lwi	r15, r1, 0
+    10c4:	10330000 	addk	r1, r19, r0
+    10c8:	ea610024 	lwi	r19, r1, 36
+    10cc:	30210028 	addik	r1, r1, 40
+    10d0:	b60f0008 	rtsd	r15, 8
+    10d4:	80000000 	or	r0, r0, r0
+
+000010d8 <getnum>:
+    10d8:	e9050000 	lwi	r8, r5, 0
+    10dc:	b0008539 	imm	-31431
+    10e0:	e9200040 	lwi	r9, r0, 64
+    10e4:	11450000 	addk	r10, r5, r0
+    10e8:	e0880000 	lbui	r4, r8, 0
+    10ec:	90e40060 	sext8	r7, r4
+    10f0:	c0693800 	lbu	r3, r9, r7
+    10f4:	a4630004 	andi	r3, r3, 4
+    10f8:	be030038 	beqid	r3, 56		// 1130
+    10fc:	10c30000 	addk	r6, r3, r0
+    1100:	10c00000 	addk	r6, r0, r0
+    1104:	31080001 	addik	r8, r8, 1
+    1108:	60660004 	muli	r3, r6, 4
+    110c:	e0a80000 	lbui	r5, r8, 0
+    1110:	10633000 	addk	r3, r3, r6
+    1114:	10631800 	addk	r3, r3, r3
+    1118:	10633800 	addk	r3, r3, r7
+    111c:	90e50060 	sext8	r7, r5
+    1120:	c0893800 	lbu	r4, r9, r7
+    1124:	a4840004 	andi	r4, r4, 4
+    1128:	be24ffdc 	bneid	r4, -36		// 1104
+    112c:	30c3ffd0 	addik	r6, r3, -48
+    1130:	10660000 	addk	r3, r6, r0
+    1134:	b60f0008 	rtsd	r15, 8
+    1138:	f90a0000 	swi	r8, r10, 0
+
+0000113c <padding>:
+    113c:	3021ffdc 	addik	r1, r1, -36
+    1140:	fac10020 	swi	r22, r1, 32
+    1144:	f9e10000 	swi	r15, r1, 0
+    1148:	fa61001c 	swi	r19, r1, 28
+    114c:	e8660010 	lwi	r3, r6, 16
+    1150:	be03000c 	beqid	r3, 12		// 115c
+    1154:	12c60000 	addk	r22, r6, r0
+    1158:	bc250018 	bnei	r5, 24		// 1170
+    115c:	e9e10000 	lwi	r15, r1, 0
+    1160:	ea61001c 	lwi	r19, r1, 28
+    1164:	eac10020 	lwi	r22, r1, 32
+    1168:	b60f0008 	rtsd	r15, 8
+    116c:	30210024 	addik	r1, r1, 36
+    1170:	ea660000 	lwi	r19, r6, 0
+    1174:	e8660004 	lwi	r3, r6, 4
+    1178:	16439801 	cmp	r18, r3, r19
+    117c:	beb2ffe4 	bgeid	r18, -28		// 1160
+    1180:	e9e10000 	lwi	r15, r1, 0
+    1184:	e0b6000c 	lbui	r5, r22, 12
+    1188:	b9f40608 	brlid	r15, 1544	// 1790 <outbyte>
+    118c:	32730001 	addik	r19, r19, 1
+    1190:	e8760004 	lwi	r3, r22, 4
+    1194:	16439801 	cmp	r18, r3, r19
+    1198:	be52ffec 	bltid	r18, -20		// 1184
+    119c:	e9e10000 	lwi	r15, r1, 0
+    11a0:	b810ffc4 	brid	-60		// 1164
+    11a4:	ea61001c 	lwi	r19, r1, 28
+
+000011a8 <outnum>:
+    11a8:	e8801d38 	lwi	r4, r0, 7480
+    11ac:	3021ff98 	addik	r1, r1, -104
+    11b0:	e8601d34 	lwi	r3, r0, 7476
+    11b4:	f8810020 	swi	r4, r1, 32
+    11b8:	e8801d40 	lwi	r4, r0, 7488
+    11bc:	f861001c 	swi	r3, r1, 28
+    11c0:	e8601d3c 	lwi	r3, r0, 7484
+    11c4:	f8810028 	swi	r4, r1, 40
+    11c8:	e0801d44 	lbui	r4, r0, 7492
+    11cc:	fae10058 	swi	r23, r1, 88
+    11d0:	fb210060 	swi	r25, r1, 96
+    11d4:	f8610024 	swi	r3, r1, 36
+    11d8:	f9e10000 	swi	r15, r1, 0
+    11dc:	fa610050 	swi	r19, r1, 80
+    11e0:	fac10054 	swi	r22, r1, 84
+    11e4:	fb01005c 	swi	r24, r1, 92
+    11e8:	fb410064 	swi	r26, r1, 100
+    11ec:	12e60000 	addk	r23, r6, r0
+    11f0:	10650000 	addk	r3, r5, r0
+    11f4:	13270000 	addk	r25, r7, r0
+    11f8:	aa46000a 	xori	r18, r6, 10
+    11fc:	be120150 	beqid	r18, 336		// 134c
+    1200:	f081002c 	sbi	r4, r1, 44
+    1204:	12630000 	addk	r19, r3, r0
+    1208:	13400000 	addk	r26, r0, r0
+    120c:	33010030 	addik	r24, r1, 48
+    1210:	12d80000 	addk	r22, r24, r0
+    1214:	10b30000 	addk	r5, r19, r0
+    1218:	b9f408bc 	brlid	r15, 2236	// 1ad4 <__umodsi3>
+    121c:	10d70000 	addk	r6, r23, r0
+    1220:	10611800 	addk	r3, r1, r3
+    1224:	e063001c 	lbui	r3, r3, 28
+    1228:	10b30000 	addk	r5, r19, r0
+    122c:	10d70000 	addk	r6, r23, r0
+    1230:	f0760000 	sbi	r3, r22, 0
+    1234:	b9f4095c 	brlid	r15, 2396	// 1b90 <__udivsi3>
+    1238:	32d60001 	addik	r22, r22, 1
+    123c:	be23ffd8 	bneid	r3, -40		// 1214
+    1240:	12630000 	addk	r19, r3, r0
+    1244:	be1a0014 	beqid	r26, 20		// 1258
+    1248:	10b80000 	addk	r5, r24, r0
+    124c:	3060002d 	addik	r3, r0, 45
+    1250:	f0760000 	sbi	r3, r22, 0
+    1254:	32d60001 	addik	r22, r22, 1
+    1258:	f2760000 	sbi	r19, r22, 0
+    125c:	b9f40618 	brlid	r15, 1560	// 1874 <strlen>
+    1260:	3276ffff 	addik	r19, r22, -1
+    1264:	e8990014 	lwi	r4, r25, 20
+    1268:	10d90000 	addk	r6, r25, r0
+    126c:	14a40000 	rsubk	r5, r4, r0
+    1270:	80a52000 	or	r5, r5, r4
+    1274:	a8a5ffff 	xori	r5, r5, -1
+    1278:	90a50041 	srl	r5, r5
+    127c:	90a50041 	srl	r5, r5
+    1280:	90a50041 	srl	r5, r5
+    1284:	90a50041 	srl	r5, r5
+    1288:	90a50041 	srl	r5, r5
+    128c:	90a50041 	srl	r5, r5
+    1290:	90a50041 	srl	r5, r5
+    1294:	90a50041 	srl	r5, r5
+    1298:	90a50041 	srl	r5, r5
+    129c:	90a50041 	srl	r5, r5
+    12a0:	90a50041 	srl	r5, r5
+    12a4:	90a50041 	srl	r5, r5
+    12a8:	90a50041 	srl	r5, r5
+    12ac:	90a50041 	srl	r5, r5
+    12b0:	90a50041 	srl	r5, r5
+    12b4:	90a50041 	srl	r5, r5
+    12b8:	90a50041 	srl	r5, r5
+    12bc:	90a50041 	srl	r5, r5
+    12c0:	90a50041 	srl	r5, r5
+    12c4:	90a50041 	srl	r5, r5
+    12c8:	90a50041 	srl	r5, r5
+    12cc:	90a50041 	srl	r5, r5
+    12d0:	90a50041 	srl	r5, r5
+    12d4:	90a50041 	srl	r5, r5
+    12d8:	90a50041 	srl	r5, r5
+    12dc:	90a50041 	srl	r5, r5
+    12e0:	90a50041 	srl	r5, r5
+    12e4:	90a50041 	srl	r5, r5
+    12e8:	90a50041 	srl	r5, r5
+    12ec:	90a50041 	srl	r5, r5
+    12f0:	90a50041 	srl	r5, r5
+    12f4:	b9f4fe48 	brlid	r15, -440	// 113c <padding>
+    12f8:	f8790000 	swi	r3, r25, 0
+    12fc:	16589803 	cmpu	r18, r24, r19
+    1300:	be520020 	bltid	r18, 32		// 1320
+    1304:	10d90000 	addk	r6, r25, r0
+    1308:	e0b30000 	lbui	r5, r19, 0
+    130c:	b9f40484 	brlid	r15, 1156	// 1790 <outbyte>
+    1310:	3273ffff 	addik	r19, r19, -1
+    1314:	16589803 	cmpu	r18, r24, r19
+    1318:	beb2fff0 	bgeid	r18, -16		// 1308
+    131c:	10d90000 	addk	r6, r25, r0
+    1320:	b9f4fe1c 	brlid	r15, -484	// 113c <padding>
+    1324:	e8b90014 	lwi	r5, r25, 20
+    1328:	e9e10000 	lwi	r15, r1, 0
+    132c:	ea610050 	lwi	r19, r1, 80
+    1330:	eac10054 	lwi	r22, r1, 84
+    1334:	eae10058 	lwi	r23, r1, 88
+    1338:	eb01005c 	lwi	r24, r1, 92
+    133c:	eb210060 	lwi	r25, r1, 96
+    1340:	eb410064 	lwi	r26, r1, 100
+    1344:	b60f0008 	rtsd	r15, 8
+    1348:	30210068 	addik	r1, r1, 104
+    134c:	bea5feb8 	bgeid	r5, -328		// 1204
+    1350:	33400001 	addik	r26, r0, 1
+    1354:	b810feb8 	brid	-328		// 120c
+    1358:	16650000 	rsubk	r19, r5, r0
+
+0000135c <xil_printf>:
+    135c:	f8a10004 	swi	r5, r1, 4
+    1360:	f8c10008 	swi	r6, r1, 8
+    1364:	f8e1000c 	swi	r7, r1, 12
+    1368:	f9010010 	swi	r8, r1, 16
+    136c:	f9210014 	swi	r9, r1, 20
+    1370:	f9410018 	swi	r10, r1, 24
+    1374:	3021ffbc 	addik	r1, r1, -68
+    1378:	3061004c 	addik	r3, r1, 76
+    137c:	f9e10000 	swi	r15, r1, 0
+    1380:	fa61003c 	swi	r19, r1, 60
+    1384:	fac10040 	swi	r22, r1, 64
+    1388:	f861001c 	swi	r3, r1, 28
+    138c:	f8a10020 	swi	r5, r1, 32
+    1390:	e0650000 	lbui	r3, r5, 0
+    1394:	90630060 	sext8	r3, r3
+    1398:	be230034 	bneid	r3, 52		// 13cc
+    139c:	e9e10000 	lwi	r15, r1, 0
+    13a0:	b8100104 	brid	260		// 14a4
+    13a4:	ea61003c 	lwi	r19, r1, 60
+    13a8:	b9f403e8 	brlid	r15, 1000	// 1790 <outbyte>
+    13ac:	10a30000 	addk	r5, r3, r0
+    13b0:	e8a10020 	lwi	r5, r1, 32
+    13b4:	30650001 	addik	r3, r5, 1
+    13b8:	f8610020 	swi	r3, r1, 32
+    13bc:	e0850001 	lbui	r4, r5, 1
+    13c0:	90640060 	sext8	r3, r4
+    13c4:	be0300dc 	beqid	r3, 220		// 14a0
+    13c8:	e9e10000 	lwi	r15, r1, 0
+    13cc:	aa430025 	xori	r18, r3, 37
+    13d0:	be32ffd8 	bneid	r18, -40		// 13a8
+    13d4:	12600000 	addk	r19, r0, r0
+    13d8:	30607fff 	addik	r3, r0, 32767
+    13dc:	12d30000 	addk	r22, r19, r0
+    13e0:	e8a10020 	lwi	r5, r1, 32
+    13e4:	b0008539 	imm	-31431
+    13e8:	e8e00040 	lwi	r7, r0, 64
+    13ec:	f861002c 	swi	r3, r1, 44
+    13f0:	30600020 	addik	r3, r0, 32	// 20 <_vector_hw_exception>
+    13f4:	fa610034 	swi	r19, r1, 52
+    13f8:	fa610038 	swi	r19, r1, 56
+    13fc:	f0610030 	sbi	r3, r1, 48
+    1400:	10650000 	addk	r3, r5, r0
+    1404:	30a50001 	addik	r5, r5, 1
+    1408:	f8a10020 	swi	r5, r1, 32
+    140c:	e0830001 	lbui	r4, r3, 1
+    1410:	90c40060 	sext8	r6, r4
+    1414:	c0873000 	lbu	r4, r7, r6
+    1418:	a4640004 	andi	r3, r4, 4
+    141c:	bc030040 	beqi	r3, 64		// 145c
+    1420:	bc360068 	bnei	r22, 104		// 1488
+    1424:	aa460030 	xori	r18, r6, 48
+    1428:	be120070 	beqid	r18, 112		// 1498
+    142c:	30600030 	addik	r3, r0, 48
+    1430:	b9f4fca8 	brlid	r15, -856	// 10d8 <getnum>
+    1434:	30a10020 	addik	r5, r1, 32
+    1438:	f8610028 	swi	r3, r1, 40
+    143c:	30600001 	addik	r3, r0, 1
+    1440:	f8610034 	swi	r3, r1, 52
+    1444:	e8a10020 	lwi	r5, r1, 32
+    1448:	b0008539 	imm	-31431
+    144c:	e8e00040 	lwi	r7, r0, 64
+    1450:	30a5ffff 	addik	r5, r5, -1
+    1454:	b810ffac 	brid	-84		// 1400
+    1458:	f8a10020 	swi	r5, r1, 32
+    145c:	a4640001 	andi	r3, r4, 1
+    1460:	be03000c 	beqid	r3, 12		// 146c
+    1464:	10860000 	addk	r4, r6, r0
+    1468:	30860020 	addik	r4, r6, 32
+    146c:	3064ffdb 	addik	r3, r4, -37
+    1470:	22400053 	addi	r18, r0, 83
+    1474:	16439003 	cmpu	r18, r3, r18
+    1478:	be52ff3c 	bltid	r18, -196		// 13b4
+    147c:	60630004 	muli	r3, r3, 4
+    1480:	e8831d48 	lwi	r4, r3, 7496
+    1484:	98082000 	bra	r4
+    1488:	b9f4fc50 	brlid	r15, -944	// 10d8 <getnum>
+    148c:	30a10020 	addik	r5, r1, 32
+    1490:	b810ffb4 	brid	-76		// 1444
+    1494:	f861002c 	swi	r3, r1, 44
+    1498:	b810ff98 	brid	-104		// 1430
+    149c:	f0610030 	sbi	r3, r1, 48
+    14a0:	ea61003c 	lwi	r19, r1, 60
+    14a4:	eac10040 	lwi	r22, r1, 64
+    14a8:	b60f0008 	rtsd	r15, 8
+    14ac:	30210044 	addik	r1, r1, 68
+    14b0:	b9f402e0 	brlid	r15, 736	// 1790 <outbyte>
+    14b4:	30a00025 	addik	r5, r0, 37
+    14b8:	b810fefc 	brid	-260		// 13b4
+    14bc:	e8a10020 	lwi	r5, r1, 32
+    14c0:	30600001 	addik	r3, r0, 1
+    14c4:	b810ff3c 	brid	-196		// 1400
+    14c8:	f8610038 	swi	r3, r1, 56
+    14cc:	b810ff34 	brid	-204		// 1400
+    14d0:	32c00001 	addik	r22, r0, 1
+    14d4:	aa460068 	xori	r18, r6, 104
+    14d8:	bc120190 	beqi	r18, 400		// 1668
+    14dc:	32400068 	addik	r18, r0, 104
+    14e0:	16469001 	cmp	r18, r6, r18
+    14e4:	bc520194 	blti	r18, 404		// 1678
+    14e8:	aa460061 	xori	r18, r6, 97
+    14ec:	bc1201c4 	beqi	r18, 452		// 16b0
+    14f0:	b9f402a0 	brlid	r15, 672	// 1790 <outbyte>
+    14f4:	10a60000 	addk	r5, r6, r0
+    14f8:	e8a10020 	lwi	r5, r1, 32
+    14fc:	b0008539 	imm	-31431
+    1500:	e8e00040 	lwi	r7, r0, 64
+    1504:	30a50001 	addik	r5, r5, 1
+    1508:	b810fef8 	brid	-264		// 1400
+    150c:	f8a10020 	swi	r5, r1, 32
+    1510:	e861001c 	lwi	r3, r1, 28
+    1514:	e0a30003 	lbui	r5, r3, 3
+    1518:	30630004 	addik	r3, r3, 4
+    151c:	b9f40274 	brlid	r15, 628	// 1790 <outbyte>
+    1520:	f861001c 	swi	r3, r1, 28
+    1524:	b810fe90 	brid	-368		// 13b4
+    1528:	e8a10020 	lwi	r5, r1, 32
+    152c:	e861001c 	lwi	r3, r1, 28
+    1530:	30c0000a 	addik	r6, r0, 10
+    1534:	e8a30000 	lwi	r5, r3, 0
+    1538:	30e10024 	addik	r7, r1, 36
+    153c:	30630004 	addik	r3, r3, 4
+    1540:	b9f4fc68 	brlid	r15, -920	// 11a8 <outnum>
+    1544:	f861001c 	swi	r3, r1, 28
+    1548:	b810fe6c 	brid	-404		// 13b4
+    154c:	e8a10020 	lwi	r5, r1, 32
+    1550:	b810feb0 	brid	-336		// 1400
+    1554:	32600001 	addik	r19, r0, 1
+    1558:	e861001c 	lwi	r3, r1, 28
+    155c:	32c10024 	addik	r22, r1, 36
+    1560:	ea630000 	lwi	r19, r3, 0
+    1564:	30630004 	addik	r3, r3, 4
+    1568:	f861001c 	swi	r3, r1, 28
+    156c:	b9f40308 	brlid	r15, 776	// 1874 <strlen>
+    1570:	10b30000 	addk	r5, r19, r0
+    1574:	e8810038 	lwi	r4, r1, 56
+    1578:	10d60000 	addk	r6, r22, r0
+    157c:	14a40000 	rsubk	r5, r4, r0
+    1580:	80a52000 	or	r5, r5, r4
+    1584:	a8a5ffff 	xori	r5, r5, -1
+    1588:	90a50041 	srl	r5, r5
+    158c:	90a50041 	srl	r5, r5
+    1590:	90a50041 	srl	r5, r5
+    1594:	90a50041 	srl	r5, r5
+    1598:	90a50041 	srl	r5, r5
+    159c:	90a50041 	srl	r5, r5
+    15a0:	90a50041 	srl	r5, r5
+    15a4:	90a50041 	srl	r5, r5
+    15a8:	90a50041 	srl	r5, r5
+    15ac:	90a50041 	srl	r5, r5
+    15b0:	90a50041 	srl	r5, r5
+    15b4:	90a50041 	srl	r5, r5
+    15b8:	90a50041 	srl	r5, r5
+    15bc:	90a50041 	srl	r5, r5
+    15c0:	90a50041 	srl	r5, r5
+    15c4:	90a50041 	srl	r5, r5
+    15c8:	90a50041 	srl	r5, r5
+    15cc:	90a50041 	srl	r5, r5
+    15d0:	90a50041 	srl	r5, r5
+    15d4:	90a50041 	srl	r5, r5
+    15d8:	90a50041 	srl	r5, r5
+    15dc:	90a50041 	srl	r5, r5
+    15e0:	90a50041 	srl	r5, r5
+    15e4:	90a50041 	srl	r5, r5
+    15e8:	90a50041 	srl	r5, r5
+    15ec:	90a50041 	srl	r5, r5
+    15f0:	90a50041 	srl	r5, r5
+    15f4:	90a50041 	srl	r5, r5
+    15f8:	90a50041 	srl	r5, r5
+    15fc:	90a50041 	srl	r5, r5
+    1600:	90a50041 	srl	r5, r5
+    1604:	b9f4fb38 	brlid	r15, -1224	// 113c <padding>
+    1608:	f8610024 	swi	r3, r1, 36
+    160c:	e0730000 	lbui	r3, r19, 0
+    1610:	be230028 	bneid	r3, 40		// 1638
+    1614:	e861002c 	lwi	r3, r1, 44
+    1618:	b8100034 	brid	52		// 164c
+    161c:	e8a10038 	lwi	r5, r1, 56
+    1620:	e0b30000 	lbui	r5, r19, 0
+    1624:	b9f4016c 	brlid	r15, 364	// 1790 <outbyte>
+    1628:	32730001 	addik	r19, r19, 1
+    162c:	e0730000 	lbui	r3, r19, 0
+    1630:	be030018 	beqid	r3, 24		// 1648
+    1634:	e861002c 	lwi	r3, r1, 44
+    1638:	3063ffff 	addik	r3, r3, -1
+    163c:	aa43ffff 	xori	r18, r3, -1
+    1640:	be32ffe0 	bneid	r18, -32		// 1620
+    1644:	f861002c 	swi	r3, r1, 44
+    1648:	e8a10038 	lwi	r5, r1, 56
+    164c:	b9f4faf0 	brlid	r15, -1296	// 113c <padding>
+    1650:	10d60000 	addk	r6, r22, r0
+    1654:	b810fd60 	brid	-672		// 13b4
+    1658:	e8a10020 	lwi	r5, r1, 32
+    165c:	e861001c 	lwi	r3, r1, 28
+    1660:	b810fed4 	brid	-300		// 1534
+    1664:	30c00010 	addik	r6, r0, 16	// 10 <_vector_interrupt>
+    1668:	b9f40128 	brlid	r15, 296	// 1790 <outbyte>
+    166c:	30a00008 	addik	r5, r0, 8	// 8 <_vector_sw_exception>
+    1670:	b810fe8c 	brid	-372		// 14fc
+    1674:	e8a10020 	lwi	r5, r1, 32
+    1678:	aa46006e 	xori	r18, r6, 110
+    167c:	bc12001c 	beqi	r18, 28		// 1698
+    1680:	aa460072 	xori	r18, r6, 114
+    1684:	bc32fe6c 	bnei	r18, -404		// 14f0
+    1688:	b9f40108 	brlid	r15, 264	// 1790 <outbyte>
+    168c:	30a0000d 	addik	r5, r0, 13
+    1690:	b810fe6c 	brid	-404		// 14fc
+    1694:	e8a10020 	lwi	r5, r1, 32
+    1698:	b9f400f8 	brlid	r15, 248	// 1790 <outbyte>
+    169c:	30a0000d 	addik	r5, r0, 13
+    16a0:	b9f400f0 	brlid	r15, 240	// 1790 <outbyte>
+    16a4:	30a0000a 	addik	r5, r0, 10
+    16a8:	b810fe54 	brid	-428		// 14fc
+    16ac:	e8a10020 	lwi	r5, r1, 32
+    16b0:	b9f400e0 	brlid	r15, 224	// 1790 <outbyte>
+    16b4:	30a00007 	addik	r5, r0, 7
+    16b8:	b810fe44 	brid	-444		// 14fc
+    16bc:	e8a10020 	lwi	r5, r1, 32
+
+000016c0 <_exception_handler>:
+    16c0:	b6110000 	rtsd	r17, 0
+    16c4:	80000000 	or	r0, r0, r0
+
+000016c8 <_program_clean>:
+    16c8:	b60f0008 	rtsd	r15, 8
+    16cc:	80000000 	or	r0, r0, r0
+
+000016d0 <_program_init>:
+    16d0:	b60f0008 	rtsd	r15, 8
+    16d4:	80000000 	or	r0, r0, r0
+
+000016d8 <_hw_exception_handler>:
+    16d8:	b8000000 	bri	0	// 16d8 <_hw_exception_handler>
+
+000016dc <__interrupt_handler>:
+    16dc:	3021ffb0 	addik	r1, r1, -80
+    16e0:	f9e10000 	swi	r15, r1, 0
+    16e4:	f8610020 	swi	r3, r1, 32
+    16e8:	f8810024 	swi	r4, r1, 36
+    16ec:	f8a10028 	swi	r5, r1, 40
+    16f0:	f8c1002c 	swi	r6, r1, 44
+    16f4:	f8e10030 	swi	r7, r1, 48
+    16f8:	f9010034 	swi	r8, r1, 52
+    16fc:	f9210038 	swi	r9, r1, 56
+    1700:	f941003c 	swi	r10, r1, 60
+    1704:	f9610040 	swi	r11, r1, 64
+    1708:	f9810044 	swi	r12, r1, 68
+    170c:	fa210048 	swi	r17, r1, 72
+    1710:	95608001 	mfs	r11, rmsr
+    1714:	b0008539 	imm	-31431
+    1718:	e8a00038 	lwi	r5, r0, 56
+    171c:	b0008539 	imm	-31431
+    1720:	e8600034 	lwi	r3, r0, 52
+    1724:	fa41004c 	swi	r18, r1, 76
+    1728:	f961001c 	swi	r11, r1, 28
+    172c:	99fc1800 	brald	r15, r3
+    1730:	80000000 	or	r0, r0, r0
+    1734:	e9e10000 	lwi	r15, r1, 0
+    1738:	e961001c 	lwi	r11, r1, 28
+    173c:	e8610020 	lwi	r3, r1, 32
+    1740:	e8810024 	lwi	r4, r1, 36
+    1744:	940bc001 	mts	rmsr, r11
+    1748:	e8a10028 	lwi	r5, r1, 40
+    174c:	e8c1002c 	lwi	r6, r1, 44
+    1750:	e8e10030 	lwi	r7, r1, 48
+    1754:	e9010034 	lwi	r8, r1, 52
+    1758:	e9210038 	lwi	r9, r1, 56
+    175c:	e941003c 	lwi	r10, r1, 60
+    1760:	e9610040 	lwi	r11, r1, 64
+    1764:	e9810044 	lwi	r12, r1, 68
+    1768:	ea210048 	lwi	r17, r1, 72
+    176c:	ea41004c 	lwi	r18, r1, 76
+    1770:	b62e0000 	rtid	r14, 0
+    1774:	30210050 	addik	r1, r1, 80
+
+00001778 <microblaze_register_handler>:
+    1778:	b0008539 	imm	-31431
+    177c:	f8a00034 	swi	r5, r0, 52
+    1780:	b0008539 	imm	-31431
+    1784:	f8c00038 	swi	r6, r0, 56
+    1788:	b60f0008 	rtsd	r15, 8
+    178c:	80000000 	or	r0, r0, r0
+
+00001790 <outbyte>:
+    1790:	90c50060 	sext8	r6, r5
+    1794:	b0008440 	imm	-31680
+    1798:	30a00000 	addik	r5, r0, 0
+    179c:	3021ffe4 	addik	r1, r1, -28
+    17a0:	f9e10000 	swi	r15, r1, 0
+    17a4:	b9f40014 	brlid	r15, 20	// 17b8 <XUartLite_SendByte>
+    17a8:	80000000 	or	r0, r0, r0
+    17ac:	e9e10000 	lwi	r15, r1, 0
+    17b0:	b60f0008 	rtsd	r15, 8
+    17b4:	3021001c 	addik	r1, r1, 28
+
+000017b8 <XUartLite_SendByte>:
+    17b8:	a4c600ff 	andi	r6, r6, 255
+    17bc:	30850008 	addik	r4, r5, 8
+    17c0:	e8640000 	lwi	r3, r4, 0
+    17c4:	a4630008 	andi	r3, r3, 8
+    17c8:	bc23fff8 	bnei	r3, -8		// 17c0
+    17cc:	f8c50004 	swi	r6, r5, 4
+    17d0:	b60f0008 	rtsd	r15, 8
+    17d4:	80000000 	or	r0, r0, r0
+
+000017d8 <XUartLite_RecvByte>:
+    17d8:	30850008 	addik	r4, r5, 8
+    17dc:	e8640000 	lwi	r3, r4, 0
+    17e0:	a4630001 	andi	r3, r3, 1
+    17e4:	bc03fff8 	beqi	r3, -8		// 17dc
+    17e8:	e8650000 	lwi	r3, r5, 0
+    17ec:	b60f0008 	rtsd	r15, 8
+    17f0:	a46300ff 	andi	r3, r3, 255
+
+000017f4 <XAssert>:
+    17f4:	b000853a 	imm	-31430
+    17f8:	e8602d78 	lwi	r3, r0, 11640
+    17fc:	3021ffe4 	addik	r1, r1, -28
+    1800:	be030010 	beqid	r3, 16		// 1810
+    1804:	f9e10000 	swi	r15, r1, 0
+    1808:	99fc1800 	brald	r15, r3
+    180c:	80000000 	or	r0, r0, r0
+    1810:	b0008539 	imm	-31431
+    1814:	e860003c 	lwi	r3, r0, 60
+    1818:	be230000 	bneid	r3, 0		// 1818
+    181c:	e9e10000 	lwi	r15, r1, 0
+    1820:	b60f0008 	rtsd	r15, 8
+    1824:	3021001c 	addik	r1, r1, 28
+
+00001828 <XAssertSetCallback>:
+    1828:	b000853a 	imm	-31430
+    182c:	f8a02d78 	swi	r5, r0, 11640
+    1830:	b60f0008 	rtsd	r15, 8
+    1834:	80000000 	or	r0, r0, r0
+
+00001838 <XNullHandler>:
+    1838:	b60f0008 	rtsd	r15, 8
+    183c:	80000000 	or	r0, r0, r0
+
+00001840 <exit>:
+    1840:	3021ffe0 	addik	r1, r1, -32
+    1844:	10c00000 	addk	r6, r0, r0
+    1848:	fa61001c 	swi	r19, r1, 28
+    184c:	f9e10000 	swi	r15, r1, 0
+    1850:	b9f40084 	brlid	r15, 132	// 18d4 <__call_exitprocs>
+    1854:	12650000 	addk	r19, r5, r0
+    1858:	e8a0211c 	lwi	r5, r0, 8476	// 211c <_global_impure_ptr>
+    185c:	e8650028 	lwi	r3, r5, 40
+    1860:	bc03000c 	beqi	r3, 12		// 186c
+    1864:	99fc1800 	brald	r15, r3
+    1868:	80000000 	or	r0, r0, r0
+    186c:	b9f4e800 	brlid	r15, -6144	// 6c <_exit>
+    1870:	10b30000 	addk	r5, r19, r0
+
+00001874 <strlen>:
+    1874:	a4650003 	andi	r3, r5, 3
+    1878:	be230044 	bneid	r3, 68		// 18bc
+    187c:	10c50000 	addk	r6, r5, r0
+    1880:	b810000c 	brid	12		// 188c
+    1884:	e8650000 	lwi	r3, r5, 0
+    1888:	e8650000 	lwi	r3, r5, 0
+    188c:	b000fefe 	imm	-258
+    1890:	3083feff 	addik	r4, r3, -257
+    1894:	b0008080 	imm	-32640
+    1898:	a4848080 	andi	r4, r4, -32640
+    189c:	a863ffff 	xori	r3, r3, -1
+    18a0:	84632000 	and	r3, r3, r4
+    18a4:	be03ffe4 	beqid	r3, -28		// 1888
+    18a8:	30a50004 	addik	r5, r5, 4
+    18ac:	30a5fffc 	addik	r5, r5, -4
+    18b0:	e0650000 	lbui	r3, r5, 0
+    18b4:	bc030018 	beqi	r3, 24		// 18cc
+    18b8:	30a50001 	addik	r5, r5, 1
+    18bc:	e0650000 	lbui	r3, r5, 0
+    18c0:	be23fffc 	bneid	r3, -4		// 18bc
+    18c4:	30a50001 	addik	r5, r5, 1
+    18c8:	30a5ffff 	addik	r5, r5, -1
+    18cc:	b60f0008 	rtsd	r15, 8
+    18d0:	14662800 	rsubk	r3, r6, r5
+
+000018d4 <__call_exitprocs>:
+    18d4:	e860211c 	lwi	r3, r0, 8476	// 211c <_global_impure_ptr>
+    18d8:	3021ffd0 	addik	r1, r1, -48
+    18dc:	fb010028 	swi	r24, r1, 40
+    18e0:	fb21002c 	swi	r25, r1, 44
+    18e4:	f9e10000 	swi	r15, r1, 0
+    18e8:	fa61001c 	swi	r19, r1, 28
+    18ec:	fac10020 	swi	r22, r1, 32
+    18f0:	fae10024 	swi	r23, r1, 36
+    18f4:	eac30048 	lwi	r22, r3, 72
+    18f8:	13250000 	addk	r25, r5, r0
+    18fc:	be160044 	beqid	r22, 68		// 1940
+    1900:	13060000 	addk	r24, r6, r0
+    1904:	e8760004 	lwi	r3, r22, 4
+    1908:	3263ffff 	addik	r19, r3, -1
+    190c:	be530034 	bltid	r19, 52		// 1940
+    1910:	eaf60088 	lwi	r23, r22, 136
+    1914:	bc060064 	beqi	r6, 100		// 1978
+    1918:	bc1700e4 	beqi	r23, 228		// 19fc
+    191c:	60b30004 	muli	r5, r19, 4
+    1920:	1065b800 	addk	r3, r5, r23
+    1924:	e8830080 	lwi	r4, r3, 128
+    1928:	1644c000 	rsubk	r18, r4, r24
+    192c:	be120118 	beqid	r18, 280		// 1a44
+    1930:	1065b000 	addk	r3, r5, r22
+    1934:	3273ffff 	addik	r19, r19, -1
+    1938:	aa53ffff 	xori	r18, r19, -1
+    193c:	bc32ffe0 	bnei	r18, -32		// 191c
+    1940:	e9e10000 	lwi	r15, r1, 0
+    1944:	ea61001c 	lwi	r19, r1, 28
+    1948:	eac10020 	lwi	r22, r1, 32
+    194c:	eae10024 	lwi	r23, r1, 36
+    1950:	eb010028 	lwi	r24, r1, 40
+    1954:	eb21002c 	lwi	r25, r1, 44
+    1958:	b60f0008 	rtsd	r15, 8
+    195c:	30210030 	addik	r1, r1, 48
+    1960:	99fc3800 	brald	r15, r7
+    1964:	c8b72800 	lw	r5, r23, r5
+    1968:	3273ffff 	addik	r19, r19, -1
+    196c:	aa53ffff 	xori	r18, r19, -1
+    1970:	be12ffd4 	beqid	r18, -44		// 1944
+    1974:	e9e10000 	lwi	r15, r1, 0
+    1978:	e8960004 	lwi	r4, r22, 4
+    197c:	60b30004 	muli	r5, r19, 4
+    1980:	1065b000 	addk	r3, r5, r22
+    1984:	3084ffff 	addik	r4, r4, -1
+    1988:	16449800 	rsubk	r18, r4, r19
+    198c:	be1200b0 	beqid	r18, 176		// 1a3c
+    1990:	e8e30008 	lwi	r7, r3, 8
+    1994:	1065b000 	addk	r3, r5, r22
+    1998:	f8030008 	swi	r0, r3, 8
+    199c:	bc07ffcc 	beqi	r7, -52		// 1968
+    19a0:	be170080 	beqid	r23, 128		// 1a20
+    19a4:	30800001 	addik	r4, r0, 1
+    19a8:	e8770100 	lwi	r3, r23, 256
+    19ac:	a653001f 	andi	r18, r19, 31
+    19b0:	be120014 	beqid	r18, 20		// 19c4
+    19b4:	10840000 	addk	r4, r4, r0
+    19b8:	3252ffff 	addik	r18, r18, -1
+    19bc:	be32fffc 	bneid	r18, -4		// 19b8
+    19c0:	10842000 	addk	r4, r4, r4
+    19c4:	84641800 	and	r3, r4, r3
+    19c8:	bc030058 	beqi	r3, 88		// 1a20
+    19cc:	e8770104 	lwi	r3, r23, 260
+    19d0:	84641800 	and	r3, r4, r3
+    19d4:	bc23ff8c 	bnei	r3, -116		// 1960
+    19d8:	c8d72800 	lw	r6, r23, r5
+    19dc:	10b90000 	addk	r5, r25, r0
+    19e0:	99fc3800 	brald	r15, r7
+    19e4:	3273ffff 	addik	r19, r19, -1
+    19e8:	aa53ffff 	xori	r18, r19, -1
+    19ec:	be32ff8c 	bneid	r18, -116		// 1978
+    19f0:	e9e10000 	lwi	r15, r1, 0
+    19f4:	b810ff54 	brid	-172		// 1948
+    19f8:	ea61001c 	lwi	r19, r1, 28
+    19fc:	3273ffff 	addik	r19, r19, -1
+    1a00:	aa53ffff 	xori	r18, r19, -1
+    1a04:	be12ff3c 	beqid	r18, -196		// 1940
+    1a08:	3273ffff 	addik	r19, r19, -1
+    1a0c:	aa53ffff 	xori	r18, r19, -1
+    1a10:	be32fff0 	bneid	r18, -16		// 1a00
+    1a14:	3273ffff 	addik	r19, r19, -1
+    1a18:	b810ff2c 	brid	-212		// 1944
+    1a1c:	e9e10000 	lwi	r15, r1, 0
+    1a20:	99fc3800 	brald	r15, r7
+    1a24:	3273ffff 	addik	r19, r19, -1
+    1a28:	aa53ffff 	xori	r18, r19, -1
+    1a2c:	be32ff4c 	bneid	r18, -180		// 1978
+    1a30:	e9e10000 	lwi	r15, r1, 0
+    1a34:	b810ff14 	brid	-236		// 1948
+    1a38:	ea61001c 	lwi	r19, r1, 28
+    1a3c:	b810ff60 	brid	-160		// 199c
+    1a40:	fa760004 	swi	r19, r22, 4
+    1a44:	e8960004 	lwi	r4, r22, 4
+    1a48:	3084ffff 	addik	r4, r4, -1
+    1a4c:	16449800 	rsubk	r18, r4, r19
+    1a50:	be12006c 	beqid	r18, 108		// 1abc
+    1a54:	e8e30008 	lwi	r7, r3, 8
+    1a58:	1065b000 	addk	r3, r5, r22
+    1a5c:	f8030008 	swi	r0, r3, 8
+    1a60:	bc07fed4 	beqi	r7, -300		// 1934
+    1a64:	be17004c 	beqid	r23, 76		// 1ab0
+    1a68:	30800001 	addik	r4, r0, 1
+    1a6c:	e8770100 	lwi	r3, r23, 256
+    1a70:	a653001f 	andi	r18, r19, 31
+    1a74:	be120014 	beqid	r18, 20		// 1a88
+    1a78:	10840000 	addk	r4, r4, r0
+    1a7c:	3252ffff 	addik	r18, r18, -1
+    1a80:	be32fffc 	bneid	r18, -4		// 1a7c
+    1a84:	10842000 	addk	r4, r4, r4
+    1a88:	84641800 	and	r3, r4, r3
+    1a8c:	bc030024 	beqi	r3, 36		// 1ab0
+    1a90:	e8770104 	lwi	r3, r23, 260
+    1a94:	84641800 	and	r3, r4, r3
+    1a98:	bc23002c 	bnei	r3, 44		// 1ac4
+    1a9c:	c8d72800 	lw	r6, r23, r5
+    1aa0:	99fc3800 	brald	r15, r7
+    1aa4:	10b90000 	addk	r5, r25, r0
+    1aa8:	b810fe90 	brid	-368		// 1938
+    1aac:	3273ffff 	addik	r19, r19, -1
+    1ab0:	99fc3800 	brald	r15, r7
+    1ab4:	3273ffff 	addik	r19, r19, -1
+    1ab8:	b800fe80 	bri	-384		// 1938
+    1abc:	b810ffa4 	brid	-92		// 1a60
+    1ac0:	fa760004 	swi	r19, r22, 4
+    1ac4:	99fc3800 	brald	r15, r7
+    1ac8:	c8b72800 	lw	r5, r23, r5
+    1acc:	b810fe6c 	brid	-404		// 1938
+    1ad0:	3273ffff 	addik	r19, r19, -1
+
+00001ad4 <__umodsi3>:
+    1ad4:	3021fff4 	addik	r1, r1, -12
+    1ad8:	fba10000 	swi	r29, r1, 0
+    1adc:	fbc10004 	swi	r30, r1, 4
+    1ae0:	fbe10008 	swi	r31, r1, 8
+    1ae4:	bc060094 	beqi	r6, 148		// 1b78
+    1ae8:	be050090 	beqid	r5, 144		// 1b78
+    1aec:	30600000 	addik	r3, r0, 0
+    1af0:	33c00000 	addik	r30, r0, 0
+    1af4:	33a00020 	addik	r29, r0, 32	// 20 <_vector_hw_exception>
+    1af8:	06453000 	rsub	r18, r5, r6
+    1afc:	bc120080 	beqi	r18, 128		// 1b7c
+    1b00:	8a453000 	xor	r18, r5, r6
+    1b04:	beb20010 	bgeid	r18, 16		// 1b14
+    1b08:	30650000 	addik	r3, r5, 0
+    1b0c:	bc460070 	blti	r6, 112		// 1b7c
+    1b10:	b800000c 	bri	12		// 1b1c
+    1b14:	06453000 	rsub	r18, r5, r6
+    1b18:	bc920064 	bgti	r18, 100		// 1b7c
+    1b1c:	be860020 	bgtid	r6, 32		// 1b3c
+    1b20:	30600000 	addik	r3, r0, 0
+    1b24:	b0007fff 	imm	32767
+    1b28:	3240ffff 	addik	r18, r0, -1
+    1b2c:	84a59000 	and	r5, r5, r18
+    1b30:	84c69000 	and	r6, r6, r18
+    1b34:	b8100048 	brid	72		// 1b7c
+    1b38:	04662800 	rsub	r3, r6, r5
+    1b3c:	bc450010 	blti	r5, 16		// 1b4c
+    1b40:	00a52800 	add	r5, r5, r5
+    1b44:	bea5fffc 	bgeid	r5, -4		// 1b40
+    1b48:	33bdffff 	addik	r29, r29, -1
+    1b4c:	00a52800 	add	r5, r5, r5
+    1b50:	08631800 	addc	r3, r3, r3
+    1b54:	07e61800 	rsub	r31, r6, r3
+    1b58:	bc5f000c 	blti	r31, 12		// 1b64
+    1b5c:	8060f800 	or	r3, r0, r31
+    1b60:	33de0001 	addik	r30, r30, 1
+    1b64:	33bdffff 	addik	r29, r29, -1
+    1b68:	bc1d000c 	beqi	r29, 12		// 1b74
+    1b6c:	03def000 	add	r30, r30, r30
+    1b70:	b800ffdc 	bri	-36		// 1b4c
+    1b74:	b8000008 	bri	8		// 1b7c
+    1b78:	80600000 	or	r3, r0, r0
+    1b7c:	eba10000 	lwi	r29, r1, 0
+    1b80:	ebc10004 	lwi	r30, r1, 4
+    1b84:	ebe10008 	lwi	r31, r1, 8
+    1b88:	b60f0008 	rtsd	r15, 8
+    1b8c:	3021000c 	addik	r1, r1, 12
+
+00001b90 <__udivsi3>:
+    1b90:	3021fff4 	addik	r1, r1, -12
+    1b94:	fba10000 	swi	r29, r1, 0
+    1b98:	fbc10004 	swi	r30, r1, 4
+    1b9c:	fbe10008 	swi	r31, r1, 8
+    1ba0:	bc060080 	beqi	r6, 128		// 1c20
+    1ba4:	be05007c 	beqid	r5, 124		// 1c20
+    1ba8:	33c00000 	addik	r30, r0, 0
+    1bac:	33a00020 	addik	r29, r0, 32	// 20 <_vector_hw_exception>
+    1bb0:	06453000 	rsub	r18, r5, r6
+    1bb4:	be120070 	beqid	r18, 112		// 1c24
+    1bb8:	30600001 	addik	r3, r0, 1
+    1bbc:	8a453000 	xor	r18, r5, r6
+    1bc0:	beb20010 	bgeid	r18, 16		// 1bd0
+    1bc4:	00600000 	add	r3, r0, r0
+    1bc8:	bc46005c 	blti	r6, 92		// 1c24
+    1bcc:	b800000c 	bri	12		// 1bd8
+    1bd0:	06462800 	rsub	r18, r6, r5
+    1bd4:	bc520050 	blti	r18, 80		// 1c24
+    1bd8:	bc86000c 	bgti	r6, 12		// 1be4
+    1bdc:	b8100048 	brid	72		// 1c24
+    1be0:	30600001 	addik	r3, r0, 1
+    1be4:	bc450010 	blti	r5, 16		// 1bf4
+    1be8:	00a52800 	add	r5, r5, r5
+    1bec:	be85fffc 	bgtid	r5, -4		// 1be8
+    1bf0:	33bdffff 	addik	r29, r29, -1
+    1bf4:	00a52800 	add	r5, r5, r5
+    1bf8:	0bdef000 	addc	r30, r30, r30
+    1bfc:	07e6f000 	rsub	r31, r6, r30
+    1c00:	bc5f000c 	blti	r31, 12		// 1c0c
+    1c04:	83c0f800 	or	r30, r0, r31
+    1c08:	30630001 	addik	r3, r3, 1
+    1c0c:	33bdffff 	addik	r29, r29, -1
+    1c10:	bc1d000c 	beqi	r29, 12		// 1c1c
+    1c14:	00631800 	add	r3, r3, r3
+    1c18:	b800ffdc 	bri	-36		// 1bf4
+    1c1c:	b8000008 	bri	8		// 1c24
+    1c20:	80600000 	or	r3, r0, r0
+    1c24:	eba10000 	lwi	r29, r1, 0
+    1c28:	ebc10004 	lwi	r30, r1, 4
+    1c2c:	ebe10008 	lwi	r31, r1, 8
+    1c30:	b60f0008 	rtsd	r15, 8
+    1c34:	3021000c 	addik	r1, r1, 12
+
+00001c38 <__do_global_ctors_aux>:
+    1c38:	b0008539 	imm	-31431
+    1c3c:	e860013c 	lwi	r3, r0, 316
+    1c40:	3021ffe0 	addik	r1, r1, -32
+    1c44:	fa61001c 	swi	r19, r1, 28
+    1c48:	b0008539 	imm	-31431
+    1c4c:	3260013c 	addik	r19, r0, 316
+    1c50:	aa43ffff 	xori	r18, r3, -1
+    1c54:	be12001c 	beqid	r18, 28		// 1c70
+    1c58:	f9e10000 	swi	r15, r1, 0
+    1c5c:	99fc1800 	brald	r15, r3
+    1c60:	3273fffc 	addik	r19, r19, -4
+    1c64:	e8730000 	lwi	r3, r19, 0
+    1c68:	aa43ffff 	xori	r18, r3, -1
+    1c6c:	bc32fff0 	bnei	r18, -16		// 1c5c
+    1c70:	e9e10000 	lwi	r15, r1, 0
+    1c74:	ea61001c 	lwi	r19, r1, 28
+    1c78:	b60f0008 	rtsd	r15, 8
+    1c7c:	30210020 	addik	r1, r1, 32
+Disassembly of section .init:
+
+00001c80 <__init>:
+    1c80:	3021fff8 	addik	r1, r1, -8
+    1c84:	d9e00800 	sw	r15, r0, r1
+    1c88:	b9f4e45c 	brlid	r15, -7076	// e4 <frame_dummy>
+    1c8c:	80000000 	or	r0, r0, r0
+    1c90:	b9f4ffa8 	brlid	r15, -88	// 1c38 <__do_global_ctors_aux>
+    1c94:	80000000 	or	r0, r0, r0
+    1c98:	c9e00800 	lw	r15, r0, r1
+    1c9c:	b60f0008 	rtsd	r15, 8
+    1ca0:	30210008 	addik	r1, r1, 8
+Disassembly of section .fini:
+
+00001ca4 <__fini>:
+    1ca4:	3021fff8 	addik	r1, r1, -8
+    1ca8:	d9e00800 	sw	r15, r0, r1
+    1cac:	b9f4e3c4 	brlid	r15, -7228	// 70 <__do_global_dtors_aux>
+    1cb0:	80000000 	or	r0, r0, r0
+    1cb4:	c9e00800 	lw	r15, r0, r1
+    1cb8:	b60f0008 	rtsd	r15, 8
+    1cbc:	30210008 	addik	r1, r1, 8

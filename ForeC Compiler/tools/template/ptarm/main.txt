@@ -1,0 +1,72 @@
+{
+
+/*==============================================================
+| PTARM startup:
+| Platform dependent code.  Core executes its corresponding
+| start up code.
+*=============================================================*/
+%{multicore}
+// forec:scheduler:boot:end
+
+/*==============================================================
+| Core specific instructions:
+| Contains par, abort and synchronisation handlers.
+*=============================================================*/
+
+	// forec:thread:main:start
+	/*--------------------------------------------------------------
+	| Master core: core%{masterCoreId}
+	| ForeC program's main() function:
+	| Original main() function code with ForeC constructs
+	| translated into C code.
+	*-------------------------------------------------------------*/
+
+	// Master hardware thread's reaction timer.
+	volatile Timer64Bit reactionTimeStart;
+	volatile Timer64Bit reactionTimeEnd;
+	volatile Timer64Bit reactionTime;
+	
+	// Thread local declarations -----------------------------------
+%{declarations}
+mainParCore%{masterCoreId}: {
+	// forec:scheduler:counter:start
+	PTARM_TIME_GET(reactionTimeStart);
+	// forec:scheduler:counter:end
+	
+%{masterCoreBody}
+	// forec:scheduler:threadRemove:main:start
+
+	// forec:scheduler:counter:start
+	PTARM_TIME_GET(reactionTimeEnd);
+	PTARM_MINUS(reactionTime, reactionTimeEnd, reactionTimeStart);
+	printf(utoa(globalReactions)); printf(" "); printf("Reaction time: "); if (reactionTime.msb > 0) {printf(utoa(reactionTime.msb));}; printf(utoa(reactionTime.lsb)); printf(" ns\r\n");
+	printf("Program termination\r\n");
+	// forec:scheduler:counter:end
+	
+	return 0;
+	// forec:scheduler:threadRemove:main:end
+} // mainParCore%{masterCoreId}
+	// forec:thread:main:end
+
+%{parHandler}
+
+	// Nested par(...) handlers ------------------------------------
+%{masterCoreParHandlers}
+
+	// Reaction start handlers ---------------------------------------
+%{masterReactionStarts}
+
+	// Reaction end handlers ---------------------------------------
+%{masterReactionEnds}
+
+	// Abort check handlers ----------------------------------------
+%{masterAbortChecks}
+
+%{slaveCoreBodies}
+
+/*==============================================================
+| ForeC threads:
+| Threads code translated into C code.
+*=============================================================*/
+%{threads}
+} // End of the main() function.

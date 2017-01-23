@@ -1,0 +1,16 @@
+architecture:
+x86
+
+0:
+main
+
+ekgSensing
+basic
+modeSwitch
+patternVpAs
+
+motionSensing
+rateAdapter
+
+logging
+communication

@@ -1,0 +1,9 @@
+	// forec:scheduler:reactionStart:%{threadScope}:%{masterOrSlave}:%{coreId}:start
+	//-- %{threadScope}:
+%{handlerStartName}: {
+	// Go to the next thread.
+	goto *%{handlerStartName}.nextThread -> programCounter;
+}
+	// forec:scheduler:reactionStart:%{threadScope}:%{masterOrSlave}:%{coreId}:end
+ 
+

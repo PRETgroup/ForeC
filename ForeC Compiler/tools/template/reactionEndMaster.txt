@@ -1,0 +1,37 @@
+	// forec:scheduler:reactionEnd:%{threadScope}:master:%{coreId}:start
+	//-- %{threadScope}:
+%{handlerEndName}: {
+	// Determine if the core can still react or not.
+	if (%{threadScope}ParCore%{coreId}.activeThreads) {
+		%{threadScope}ParCore%{coreId}.status = FOREC_CORE_REACTED;
+	} else {
+		%{threadScope}ParCore%{coreId}.status = FOREC_CORE_TERMINATED;
+	}
+	
+	// Wait for other cores to complete their reaction.
+%{reactingCondition}
+%{resetMutex}%{combineShared}
+	// Return back to the parent thread if all the cores have terminated.
+	if (1%{terminatedCondition}) {%{resetLocalMutex}
+		%{threadScope}ParParent.parStatus = FOREC_PAR_OFF;
+		%{threadScope}ParParent.parId = -1;
+		
+		// Set slave cores' status to reacting
+%{setParCoresAsReactingIndented}
+		// Increment the reaction counter for synchronization.
+		%{threadScope}ParReactionCounter++;%{nestedSwap}
+
+		goto *%{threadScope}ParParent.programCounter;
+	}
+
+	// Set slave cores' status to reacting
+%{setParCoresAsReacting}%{reactionCounter}
+	// Increment the reaction counter for synchronization.
+	%{threadScope}ParReactionCounter++;
+
+	// Go to the next thread.
+	goto *%{handlerEndName}.nextThread -> programCounter;
+}
+	// forec:scheduler:reactionEnd:%{threadScope}:master:%{coreId}:end
+ 
+

@@ -1,0 +1,2887 @@
+
+executable:     file format elf32-microblaze
+
+SYMBOL TABLE:
+00000000 l    d  .vectors.reset	00000000 .vectors.reset
+00000008 l    d  .vectors.sw_exception	00000000 .vectors.sw_exception
+00000010 l    d  .vectors.interrupt	00000000 .vectors.interrupt
+00000020 l    d  .vectors.hw_exception	00000000 .vectors.hw_exception
+00000050 l    d  .text	00000000 .text
+00002238 l    d  .init	00000000 .init
+0000225c l    d  .fini	00000000 .fini
+00002278 l    d  .rodata	00000000 .rodata
+00002696 l    d  .sbss2	00000000 .sbss2
+85390000 l    d  .data	00000000 .data
+85390454 l    d  .ctors	00000000 .ctors
+8539045c l    d  .dtors	00000000 .dtors
+85390464 l    d  .eh_frame	00000000 .eh_frame
+85390468 l    d  .jcr	00000000 .jcr
+8539046c l    d  .sbss	00000000 .sbss
+85390470 l    d  .tdata	00000000 .tdata
+85390470 l    d  .tbss	00000000 .tbss
+85390470 l    d  .bss	00000000 .bss
+00002696 l    d  .heap	00000000 .heap
+00002e98 l    d  .stack	00000000 .stack
+00000000 l    d  .debug_line	00000000 .debug_line
+00000000 l    d  .debug_info	00000000 .debug_info
+00000000 l    d  .debug_abbrev	00000000 .debug_abbrev
+00000000 l    d  .debug_aranges	00000000 .debug_aranges
+00000000 l    d  .debug_frame	00000000 .debug_frame
+00000000 l    d  .debug_loc	00000000 .debug_loc
+00000000 l    d  .debug_pubnames	00000000 .debug_pubnames
+00000000 l    d  .debug_str	00000000 .debug_str
+00000000 l    d  .debug_ranges	00000000 .debug_ranges
+00000000 l    d  *ABS*	00000000 .shstrtab
+00000000 l    d  *ABS*	00000000 .symtab
+00000000 l    d  *ABS*	00000000 .strtab
+00000000 l    df *ABS*	00000000 /proj/fv1/gnu/mb_gnu/src/gcc/libgloss/microblaze/crt0.S
+00000008 l       .vectors.sw_exception	00000000 _vector_sw_exception
+00000010 l       .vectors.interrupt	00000000 _vector_interrupt
+00000020 l       .vectors.hw_exception	00000000 _vector_hw_exception
+85390000 l     O .data	00000000 force_to_data
+85390454 l     O .ctors	00000000 __CTOR_LIST__
+8539045c l     O .dtors	00000000 __DTOR_LIST__
+85390464 l     O .eh_frame	00000000 __EH_FRAME_BEGIN__
+85390468 l     O .jcr	00000000 __JCR_LIST__
+85390470 l     O .bss	00000001 completed.2209
+85390008 l     O .data	00000000 p.2207
+00000070 l       .text	00000000 __do_global_dtors_aux
+85390474 l     O .bss	00000018 object.2262
+000000e4 l       .text	00000000 frame_dummy
+00000000 l    df *ABS*	00000000 /proj/fv1/gnu/mb_gnu/src/gcc/libgloss/microblaze/crtinit.S
+00001690 l     F .text	00000064 getnum
+000016f4 l     F .text	00000070 padding
+00001760 l     F .text	000001d8 outnum
+00000000 l    df *ABS*	00000000 /gnu/mb_gnu/src/gcc/libgloss/microblaze/_exception_handler.S
+00000000 l    df *ABS*	00000000 /gnu/mb_gnu/src/gcc/libgloss/microblaze/_program_clean.S
+00000000 l    df *ABS*	00000000 /gnu/mb_gnu/src/gcc/libgloss/microblaze/_program_init.S
+00000000 l    df *ABS*	00000000 hw_exception_handler.S
+85390490 l     O .bss	00000004 XAssertCallbackRoutine
+00002510 l     O .rodata	00000180 _ctype_b
+85390360 l     O .data	000000f0 impure_data
+00000000 l    df *ABS*	00000000 /proj/fv1/gnu/mb_gnu/src/gcc/gcc/config/microblaze/umodsi3.asm
+00000000 l    df *ABS*	00000000 /proj/fv1/gnu/mb_gnu/src/gcc/gcc/config/microblaze/udivsi3.asm
+85390450 l     O .data	00000000 force_to_data
+85390458 l     O .ctors	00000000 __CTOR_END__
+85390460 l     O .dtors	00000000 __DTOR_END__
+85390464 l     O .eh_frame	00000000 __FRAME_END__
+85390468 l     O .jcr	00000000 __JCR_END__
+000021f0 l       .text	00000000 __do_global_ctors_aux
+00001084 g     F .text	00000038 decode
+85390494 g     O .bss	00000010 lookAhead_buf
+00000934 g     F .text	00000040 createDescriptor
+85390454 g       .ctors	00000000 ___CTORS_LIST___
+00000bc0 g     F .text	000003fc writeToArchive
+00001118 g     F .text	00000024 Fifo_destroy
+853904a4 g     O .bss	00000014 fileInfo
+000012e4 g     F .text	000000b4 Fifo_pop_front
+8539034c g     O .data	00000008 MB_InterruptVectorTable
+000015e0 g     F .text	000000b0 mwrite
+000014d0 g     F .text	0000007c Fifo_print
+00001444 g     F .text	0000008c Fifo_at
+00000824 g     F .text	00000090 openFile
+8539046c g       .sbss	00000000 __sbss_start
+853904b8 g     O .bss	00000014 lookAhead
+85390464 g       .dtors	00000000 __DTOR_END__
+00001224 g     F .text	000000c0 Fifo_push_back
+00002696 g       .rodata	00000000 __rodata_end
+00002148 g     F .text	000000a8 __udivsi3
+00002696 g       .sbss2	00000000 __sbss2_end
+85390968 g     O .bss	00000004 XAssertStatus
+00000fbc g     F .text	0000003c printResult
+85390004 g     O .data	00000000 .hidden __dso_handle
+00001054 g     F .text	00000030 decompressFile
+00000148 g     F .text	00000000 _crtinit
+00002e98 g       .heap	00000000 _heap_end
+00002690 g     O .rodata	00000004 _global_impure_ptr
+853904cc g     O .bss	00000330 archive
+8539096c g       .bss	00000000 __bss_end
+85390470 g       .tbss	00000000 __tbss_start
+85390358 g     O .data	00000004 __ctype_ptr
+00002238 g       .init	00000000 __init
+00002698 g       .heap	00000000 _heap_start
+85390470 g       .sbss	00000000 __sbss_end
+00001df0 g     F .text	00000008 XNullHandler
+00001d30 g     F .text	00000018 microblaze_register_handler
+00001914 g     F .text	00000394 xil_printf
+0000208c g     F .text	000000bc __umodsi3
+00000000  w      *UND*	00000000 __sf_fake_stderr
+00000000  w      *UND*	00000000 __deregister_frame_info
+00000ff8 g     F .text	00000034 unpackArchive
+85390018 g     O .data	00000004 LKLENGTH
+85390454 g       .ctors	00000000 __CTOR_LIST__
+00002696 g       .sbss2	00000000 __sbss2_start
+00000974 g     F .text	00000044 obtainFileInfo
+00001e8c g     F .text	00000204 __call_exitprocs
+00000000 g     F .vectors.reset	00000000 _start
+00002278 g       .rodata	00000000 __rodata_start
+00001d90 g     F .text	0000001c XUartLite_RecvByte
+00000002 g       *ABS*	00000000 _SDA_BASE_
+85390454 g       .data	00000000 __data_end
+00001c78 g       .text	00000000 _exception_handler
+85390014 g     O .data	00000004 WINLENGTH
+853907fc g     O .bss	00000020 counter
+00001d48 g     F .text	0000002c outbyte
+00001398 g     F .text	000000ac Fifo_pop_back
+0000113c g     F .text	000000e8 Fifo_push_front
+000009b8 g     F .text	00000054 storeFileInfo
+00000000  w      *UND*	00000000 __sf_fake_stdin
+85390470 g       .bss	00000000 __bss_start
+00000800 g       *ABS*	00000000 _STACK_SIZE
+85390470 g       .tdata	00000000 __tdata_start
+85390470 g       .tdata	00000000 __tdata_end
+8539081c g     O .bss	00000010 matches_thread
+00000214 g     F .text	00000620 main
+00000800 g       *ABS*	00000000 _HEAP_SIZE
+0000102c g     F .text	00000028 processDescriptor
+8539082c g     O .bss	00000010 offset_thread
+00000050 g     F .text	00000000 _start1
+00002e98 g       .stack	00000000 _stack_end
+85390464 g       .dtors	00000000 ___DTORS_END___
+8539045c g       .ctors	00000000 __CTOR_END__
+8539045c g       .dtors	00000000 ___DTORS_LIST___
+85390354 g     O .data	00000004 XWaitInAssert
+8539045c g       .dtors	00000000 __DTOR_LIST__
+8539000c g     O .data	00000004 FILE_SIZE
+0000225c g       .fini	00000000 __fini
+8539035c g     O .data	00000004 _impure_ptr
+8539083c g     O .bss	00000014 archiveInfo
+0000154c g     F .text	00000048 mgetc
+000010bc g     F .text	0000005c Fifo_init
+000008b4 g     F .text	00000028 getFileSize
+00001c94 g       .text	00000000 _interrupt_handler
+85390850 g     O .bss	00000004 offset
+00001d70 g     F .text	00000020 XUartLite_SendByte
+00001594 g     F .text	0000004c mputc
+8539045c g       .ctors	00000000 ___CTORS_END___
+00003698 g       .stack	00000000 __stack
+85390854 g     O .bss	00000100 window_buf
+000001e4 g     F .text	00000030 first
+00000a0c g     F .text	000001b4 longestMatch
+8539048c g     O .bss	00000004 matches
+00002698 g       .heap	00000000 _heap
+00001df8 g     F .text	00000040 exit
+00001c90 g       .text	00000000 _hw_exception_handler
+85390470 g       .tbss	00000000 __tbss_end
+00000000  w      *UND*	00000000 __sf_fake_stdout
+8539001c g     O .data	00000330 embedded
+0000240c g     O .rodata	00000101 _ctype_
+85390954 g     O .bss	00000014 window
+00001c88 g       .text	00000000 _program_init
+0000006c g     F .text	00000000 _exit
+000008dc g     F .text	00000058 getBytesProcessed
+00001e2c g     F .text	00000060 strlen
+00003698 g       .stack	00000000 _stack
+00001dac g     F .text	00000034 XAssert
+85390000 g       .data	00000000 __data_start
+00000000  w      *UND*	00000000 _Jv_RegisterClasses
+00001c80 g       .text	00000000 _program_clean
+85390010 g     O .data	00000004 NUM_THREADS
+00001de0 g     F .text	00000010 XAssertSetCallback
+00000000 g       *ABS*	00000000 _SDA2_BASE_
+00000000  w      *UND*	00000000 __register_frame_info
+00001c94 g       .text	0000009c __interrupt_handler
+
+
+Disassembly of section .vectors.reset:
+
+00000000 <_start>:
+   0:	b8080050 	brai	80	// 50 <_start1>
+Disassembly of section .vectors.sw_exception:
+
+00000008 <_vector_sw_exception>:
+   8:	b8081c78 	brai	7288	// 1c78 <_exception_handler>
+Disassembly of section .vectors.interrupt:
+
+00000010 <_vector_interrupt>:
+  10:	b8081c94 	brai	7316	// 1c94 <__interrupt_handler>
+Disassembly of section .vectors.hw_exception:
+
+00000020 <_vector_hw_exception>:
+  20:	b8081c90 	brai	7312	// 1c90 <_hw_exception_handler>
+Disassembly of section .text:
+
+00000050 <_start1>:
+      50:	31a00002 	addik	r13, r0, 2	// 2 <_SDA_BASE_>
+      54:	30400000 	addik	r2, r0, 0
+      58:	30203688 	addik	r1, r0, 13960
+      5c:	b9f400ec 	brlid	r15, 236	// 148 <_crtinit>
+      60:	80000000 	or	r0, r0, r0
+      64:	b9f41d94 	brlid	r15, 7572	// 1df8 <exit>
+      68:	30a30000 	addik	r5, r3, 0
+
+0000006c <_exit>:
+      6c:	b8000000 	bri	0	// 6c <_exit>
+
+00000070 <__do_global_dtors_aux>:
+      70:	b0008539 	imm	-31431
+      74:	e0600470 	lbui	r3, r0, 1136
+      78:	3021ffe4 	addik	r1, r1, -28
+      7c:	be030020 	beqid	r3, 32		// 9c
+      80:	f9e10000 	swi	r15, r1, 0
+      84:	b8100058 	brid	88		// dc
+      88:	e9e10000 	lwi	r15, r1, 0
+      8c:	b0008539 	imm	-31431
+      90:	f8600008 	swi	r3, r0, 8
+      94:	99fc2000 	brald	r15, r4
+      98:	80000000 	or	r0, r0, r0
+      9c:	b0008539 	imm	-31431
+      a0:	e8600008 	lwi	r3, r0, 8
+      a4:	e8830000 	lwi	r4, r3, 0
+      a8:	be24ffe4 	bneid	r4, -28		// 8c
+      ac:	30630004 	addik	r3, r3, 4
+      b0:	b0000000 	imm	0
+      b4:	30600000 	addik	r3, r0, 0
+      b8:	bc030014 	beqi	r3, 20		// cc
+      bc:	b0008539 	imm	-31431
+      c0:	30a00464 	addik	r5, r0, 1124
+      c4:	99fc1800 	brald	r15, r3
+      c8:	80000000 	or	r0, r0, r0
+      cc:	30600001 	addik	r3, r0, 1
+      d0:	b0008539 	imm	-31431
+      d4:	f0600470 	sbi	r3, r0, 1136
+      d8:	e9e10000 	lwi	r15, r1, 0
+      dc:	b60f0008 	rtsd	r15, 8
+      e0:	3021001c 	addik	r1, r1, 28
+
+000000e4 <frame_dummy>:
+      e4:	b0000000 	imm	0
+      e8:	30600000 	addik	r3, r0, 0
+      ec:	3021ffe4 	addik	r1, r1, -28
+      f0:	b0008539 	imm	-31431
+      f4:	30a00464 	addik	r5, r0, 1124
+      f8:	b0008539 	imm	-31431
+      fc:	30c00474 	addik	r6, r0, 1140
+     100:	be030010 	beqid	r3, 16		// 110
+     104:	f9e10000 	swi	r15, r1, 0
+     108:	99fc1800 	brald	r15, r3
+     10c:	80000000 	or	r0, r0, r0
+     110:	b0008539 	imm	-31431
+     114:	e8600468 	lwi	r3, r0, 1128
+     118:	b0000000 	imm	0
+     11c:	30800000 	addik	r4, r0, 0
+     120:	be030020 	beqid	r3, 32		// 140
+     124:	e9e10000 	lwi	r15, r1, 0
+     128:	b0008539 	imm	-31431
+     12c:	30a00468 	addik	r5, r0, 1128
+     130:	bc040010 	beqi	r4, 16		// 140
+     134:	99fc2000 	brald	r15, r4
+     138:	80000000 	or	r0, r0, r0
+     13c:	e9e10000 	lwi	r15, r1, 0
+     140:	b60f0008 	rtsd	r15, 8
+     144:	3021001c 	addik	r1, r1, 28
+
+00000148 <_crtinit>:
+     148:	2021ffec 	addi	r1, r1, -20
+     14c:	f9e10000 	swi	r15, r1, 0
+     150:	b0008539 	imm	-31431
+     154:	20c0046c 	addi	r6, r0, 1132
+     158:	b0008539 	imm	-31431
+     15c:	20e00470 	addi	r7, r0, 1136
+     160:	06463800 	rsub	r18, r6, r7
+     164:	bc720014 	blei	r18, 20		// 178
+     168:	f8060000 	swi	r0, r6, 0
+     16c:	20c60004 	addi	r6, r6, 4
+     170:	06463800 	rsub	r18, r6, r7
+     174:	bc92fff4 	bgti	r18, -12		// 168
+     178:	b0008539 	imm	-31431
+     17c:	20c00470 	addi	r6, r0, 1136
+     180:	b0008539 	imm	-31431
+     184:	20e0096c 	addi	r7, r0, 2412
+     188:	06463800 	rsub	r18, r6, r7
+     18c:	bc720014 	blei	r18, 20		// 1a0
+     190:	f8060000 	swi	r0, r6, 0
+     194:	20c60004 	addi	r6, r6, 4
+     198:	06463800 	rsub	r18, r6, r7
+     19c:	bc92fff4 	bgti	r18, -12		// 190
+     1a0:	b9f41ae8 	brlid	r15, 6888	// 1c88 <_program_init>
+     1a4:	80000000 	or	r0, r0, r0
+     1a8:	b9f42090 	brlid	r15, 8336	// 2238 <__init>
+     1ac:	80000000 	or	r0, r0, r0
+     1b0:	20c00000 	addi	r6, r0, 0
+     1b4:	20e00000 	addi	r7, r0, 0
+     1b8:	b9f4005c 	brlid	r15, 92	// 214 <main>
+     1bc:	20a00000 	addi	r5, r0, 0
+     1c0:	32630000 	addik	r19, r3, 0
+     1c4:	b9f42098 	brlid	r15, 8344	// 225c <__fini>
+     1c8:	80000000 	or	r0, r0, r0
+     1cc:	b9f41ab4 	brlid	r15, 6836	// 1c80 <_program_clean>
+     1d0:	80000000 	or	r0, r0, r0
+     1d4:	c9e10000 	lw	r15, r1, r0
+     1d8:	30730000 	addik	r3, r19, 0
+     1dc:	b60f0008 	rtsd	r15, 8
+     1e0:	20210014 	addi	r1, r1, 20
+
+000001e4 <first>:
+
+int offset;
+int matches = 0;
+
+int *first(int **copy1, int **copy2) {
+     1e4:	3021fff8 	addik	r1, r1, -8
+     1e8:	fa610004 	swi	r19, r1, 4
+     1ec:	12610000 	addk	r19, r1, r0
+     1f0:	f8b3000c 	swi	r5, r19, 12
+     1f4:	f8d30010 	swi	r6, r19, 16
+	return *copy1;
+     1f8:	e873000c 	lwi	r3, r19, 12
+     1fc:	e8630000 	lwi	r3, r3, 0
+}
+     200:	10330000 	addk	r1, r19, r0
+     204:	ea610004 	lwi	r19, r1, 4
+     208:	30210008 	addik	r1, r1, 8
+     20c:	b60f0008 	rtsd	r15, 8
+     210:	80000000 	or	r0, r0, r0
+
+00000214 <main>:
+
+int offset_thread[4];
+int matches_thread[4];
+
+struct fileStats {
+    char *p_file;
+    char *fileaddr;
+    int filesize;
+    int totalSize;
+    int bytesProcessed;
+} fileInfo, archiveInfo;
+
+char window_buf[256];
+char lookAhead_buf[16];
+
+Fifo window;
+Fifo lookAhead;
+
+//*************************************
+//* Functions required for archiving. *
+//*************************************
+int getFileSize(void);
+int getBytesProcessed(void);
+void openFile(void);
+void createDescriptor(struct fileStats*, struct fileStats*);
+void storeFileInfo(struct fileStats*, struct fileStats*);
+void longestMatch(const Fifo, const Fifo, int, int *, int *);
+void writeToArchive(const Fifo *, int*, int*, struct fileStats*, int *, int *, Fifo *, Fifo *);
+void printResult(struct fileStats*, struct fileStats*);
+
+//*************************************
+//* Functions required for unpacking. *
+//*************************************
+void unpackArchive(char *filename, int *, int *, struct fileStats*, struct fileStats*);
+void processDescriptor(struct fileStats*, struct fileStats*);
+void decompressFile(int*, int*, struct fileStats*, struct fileStats*);
+void decode(Fifo*, int*, int*, int*, struct fileStats*, struct fileStats*);
+
+//********************************************************
+//* Functions required both for archiving and unpacking. *
+//********************************************************
+void obtainFileInfo(struct fileStats *);
+
+//******************************
+//* Start of the lzss program. *
+//******************************
+int main(int argc, char **argv) {
+     214:	3021ffb8 	addik	r1, r1, -72
+     218:	f9e10000 	swi	r15, r1, 0
+     21c:	fa610040 	swi	r19, r1, 64
+     220:	fac10044 	swi	r22, r1, 68
+     224:	12610000 	addk	r19, r1, r0
+     228:	f8b3004c 	swi	r5, r19, 76
+     22c:	f8d30050 	swi	r6, r19, 80
+	// Initialise and start counting the elapsed cycles for each reaction.
+	counterInitialise(counter);
+     230:	b0008539 	imm	-31431
+     234:	f80007fc 	swi	r0, r0, 2044
+     238:	b0008539 	imm	-31431
+     23c:	f8000800 	swi	r0, r0, 2048
+     240:	b0008539 	imm	-31431
+     244:	f8000804 	swi	r0, r0, 2052
+     248:	b0007fff 	imm	32767
+     24c:	3060ffff 	addik	r3, r0, -1
+     250:	b0008539 	imm	-31431
+     254:	f8600808 	swi	r3, r0, 2056
+     258:	b0008539 	imm	-31431
+     25c:	f800080c 	swi	r0, r0, 2060
+     260:	b0008539 	imm	-31431
+     264:	f8000810 	swi	r0, r0, 2064
+     268:	b0008539 	imm	-31431
+     26c:	f8000814 	swi	r0, r0, 2068
+     270:	b0008539 	imm	-31431
+     274:	f8000818 	swi	r0, r0, 2072
+	counterStart(counter, FSL_COUNTER_ID);
+     278:	b0008539 	imm	-31431
+     27c:	e86007fc 	lwi	r3, r0, 2044
+     280:	b0008539 	imm	-31431
+     284:	f8600800 	swi	r3, r0, 2048
+     288:	b0008539 	imm	-31431
+     28c:	e86007fc 	lwi	r3, r0, 2044
+     290:	6c038002 	put	r3, rfsl2
+	
+	openFile();
+     294:	b9f40590 	brlid	r15, 1424	// 824 <openFile>
+     298:	80000000 	or	r0, r0, r0
+
+	Fifo_init(&window, WINLENGTH, window_buf);
+     29c:	b0008539 	imm	-31431
+     2a0:	e8600014 	lwi	r3, r0, 20
+     2a4:	b0008539 	imm	-31431
+     2a8:	30a00954 	addik	r5, r0, 2388
+     2ac:	10c30000 	addk	r6, r3, r0
+     2b0:	b0008539 	imm	-31431
+     2b4:	30e00854 	addik	r7, r0, 2132
+     2b8:	b9f40e04 	brlid	r15, 3588	// 10bc <Fifo_init>
+     2bc:	80000000 	or	r0, r0, r0
+	Fifo_push_back(&window, mgetc(&fileInfo.p_file)); // No point to search the window when there's nothing.
+     2c0:	b0008539 	imm	-31431
+     2c4:	30a004a4 	addik	r5, r0, 1188
+     2c8:	b9f41284 	brlid	r15, 4740	// 154c <mgetc>
+     2cc:	80000000 	or	r0, r0, r0
+     2d0:	90630060 	sext8	r3, r3
+     2d4:	b0008539 	imm	-31431
+     2d8:	30a00954 	addik	r5, r0, 2388
+     2dc:	10c30000 	addk	r6, r3, r0
+     2e0:	b9f40f44 	brlid	r15, 3908	// 1224 <Fifo_push_back>
+     2e4:	80000000 	or	r0, r0, r0
+	writeToArchive(&window, &offset, &matches, &archiveInfo, offset_thread, matches_thread, &window, &lookAhead);  // Same reason here, the first character should always get copied to the archive.
+     2e8:	b0008539 	imm	-31431
+     2ec:	30600954 	addik	r3, r0, 2388
+     2f0:	f861001c 	swi	r3, r1, 28
+     2f4:	b0008539 	imm	-31431
+     2f8:	306004b8 	addik	r3, r0, 1208
+     2fc:	f8610020 	swi	r3, r1, 32
+     300:	b0008539 	imm	-31431
+     304:	30a00954 	addik	r5, r0, 2388
+     308:	b0008539 	imm	-31431
+     30c:	30c00850 	addik	r6, r0, 2128
+     310:	b0008539 	imm	-31431
+     314:	30e0048c 	addik	r7, r0, 1164
+     318:	b0008539 	imm	-31431
+     31c:	3100083c 	addik	r8, r0, 2108
+     320:	b0008539 	imm	-31431
+     324:	3120082c 	addik	r9, r0, 2092
+     328:	b0008539 	imm	-31431
+     32c:	3140081c 	addik	r10, r0, 2076
+     330:	b9f40890 	brlid	r15, 2192	// bc0 <writeToArchive>
+     334:	80000000 	or	r0, r0, r0
+	fileInfo.p_file = fileInfo.fileaddr;
+     338:	b0008539 	imm	-31431
+     33c:	e86004a8 	lwi	r3, r0, 1192
+     340:	b0008539 	imm	-31431
+     344:	f86004a4 	swi	r3, r0, 1188
+	Fifo_pop_back(&window);
+     348:	b0008539 	imm	-31431
+     34c:	30a00954 	addik	r5, r0, 2388
+     350:	b9f41048 	brlid	r15, 4168	// 1398 <Fifo_pop_back>
+     354:	80000000 	or	r0, r0, r0
+	Fifo_init(&lookAhead, LKLENGTH, lookAhead_buf);
+     358:	b0008539 	imm	-31431
+     35c:	e8600018 	lwi	r3, r0, 24
+     360:	b0008539 	imm	-31431
+     364:	30a004b8 	addik	r5, r0, 1208
+     368:	10c30000 	addk	r6, r3, r0
+     36c:	b0008539 	imm	-31431
+     370:	30e00494 	addik	r7, r0, 1172
+     374:	b9f40d48 	brlid	r15, 3400	// 10bc <Fifo_init>
+     378:	80000000 	or	r0, r0, r0
+	
+	// Fill the look ahead buffer up.
+	while (lookAhead.written_size < LKLENGTH) {
+     37c:	b800002c 	bri	44		// 3a8
+		Fifo_push_back(&lookAhead, mgetc(&fileInfo.p_file));
+     380:	b0008539 	imm	-31431
+     384:	30a004a4 	addik	r5, r0, 1188
+     388:	b9f411c4 	brlid	r15, 4548	// 154c <mgetc>
+     38c:	80000000 	or	r0, r0, r0
+     390:	90630060 	sext8	r3, r3
+     394:	b0008539 	imm	-31431
+     398:	30a004b8 	addik	r5, r0, 1208
+     39c:	10c30000 	addk	r6, r3, r0
+     3a0:	b9f40e84 	brlid	r15, 3716	// 1224 <Fifo_push_back>
+     3a4:	80000000 	or	r0, r0, r0
+     3a8:	b0008539 	imm	-31431
+     3ac:	e86004c0 	lwi	r3, r0, 1216
+     3b0:	b0008539 	imm	-31431
+     3b4:	e8800018 	lwi	r4, r0, 24
+     3b8:	16441803 	cmpu	r18, r4, r3
+     3bc:	bc52ffc4 	blti	r18, -60		// 380
+	}
+				
+	while (getFileSize() != getBytesProcessed()) {
+     3c0:	b8000320 	bri	800		// 6e0
+		int count = 1;
+     3c4:	30600001 	addik	r3, r0, 1
+     3c8:	f8730038 	swi	r3, r19, 56
+		do {
+			// This loop will transfer the first node from look ahead buffer to window for 'matches' times.
+			// The node from look ahead buffer will be transfered to window at least once.
+			if (window.written_size >= WINLENGTH) {
+     3cc:	b0008539 	imm	-31431
+     3d0:	e860095c 	lwi	r3, r0, 2396
+     3d4:	b0008539 	imm	-31431
+     3d8:	e8800014 	lwi	r4, r0, 20
+     3dc:	16441803 	cmpu	r18, r4, r3
+     3e0:	bc520014 	blti	r18, 20		// 3f4
+				Fifo_pop_front(&window);
+     3e4:	b0008539 	imm	-31431
+     3e8:	30a00954 	addik	r5, r0, 2388
+     3ec:	b9f40ef8 	brlid	r15, 3832	// 12e4 <Fifo_pop_front>
+     3f0:	80000000 	or	r0, r0, r0
+			}
+			
+			// Transfer the first character from look ahead buffer to end of window.
+			Fifo_push_back(&window, Fifo_pop_front(&lookAhead));
+     3f4:	b0008539 	imm	-31431
+     3f8:	30a004b8 	addik	r5, r0, 1208
+     3fc:	b9f40ee8 	brlid	r15, 3816	// 12e4 <Fifo_pop_front>
+     400:	80000000 	or	r0, r0, r0
+     404:	b0008539 	imm	-31431
+     408:	30a00954 	addik	r5, r0, 2388
+     40c:	10c30000 	addk	r6, r3, r0
+     410:	b9f40e14 	brlid	r15, 3604	// 1224 <Fifo_push_back>
+     414:	80000000 	or	r0, r0, r0
+			
+			// Fill back up the look ahead buffer.
+			Fifo_push_back(&lookAhead, mgetc(&fileInfo.p_file));
+     418:	b0008539 	imm	-31431
+     41c:	30a004a4 	addik	r5, r0, 1188
+     420:	b9f4112c 	brlid	r15, 4396	// 154c <mgetc>
+     424:	80000000 	or	r0, r0, r0
+     428:	90630060 	sext8	r3, r3
+     42c:	b0008539 	imm	-31431
+     430:	30a004b8 	addik	r5, r0, 1208
+     434:	10c30000 	addk	r6, r3, r0
+     438:	b9f40dec 	brlid	r15, 3564	// 1224 <Fifo_push_back>
+     43c:	80000000 	or	r0, r0, r0
+		} while (count++ < matches);
+     440:	b0008539 	imm	-31431
+     444:	e880048c 	lwi	r4, r0, 1164
+     448:	30600001 	addik	r3, r0, 1
+     44c:	f073003c 	sbi	r3, r19, 60
+     450:	e8730038 	lwi	r3, r19, 56
+     454:	16441801 	cmp	r18, r4, r3
+     458:	bc520008 	blti	r18, 8		// 460
+     45c:	f013003c 	sbi	r0, r19, 60
+     460:	e073003c 	lbui	r3, r19, 60
+     464:	e8930038 	lwi	r4, r19, 56
+     468:	30840001 	addik	r4, r4, 1
+     46c:	f8930038 	swi	r4, r19, 56
+     470:	bc23ff5c 	bnei	r3, -164		// 3cc
+
+		longestMatch(window, lookAhead, 0, offset_thread, matches_thread);
+     474:	f801002c 	swi	r0, r1, 44
+     478:	b0008539 	imm	-31431
+     47c:	3060082c 	addik	r3, r0, 2092
+     480:	f8610030 	swi	r3, r1, 48
+     484:	b0008539 	imm	-31431
+     488:	3060081c 	addik	r3, r0, 2076
+     48c:	f8610034 	swi	r3, r1, 52
+     490:	b0008539 	imm	-31431
+     494:	e86004bc 	lwi	r3, r0, 1212
+     498:	b0008539 	imm	-31431
+     49c:	e88004c0 	lwi	r4, r0, 1216
+     4a0:	b0008539 	imm	-31431
+     4a4:	e8a004c4 	lwi	r5, r0, 1220
+     4a8:	b0008539 	imm	-31431
+     4ac:	e8c004c8 	lwi	r6, r0, 1224
+     4b0:	f861001c 	swi	r3, r1, 28
+     4b4:	f8810020 	swi	r4, r1, 32
+     4b8:	f8a10024 	swi	r5, r1, 36
+     4bc:	f8c10028 	swi	r6, r1, 40
+     4c0:	b0008539 	imm	-31431
+     4c4:	e94004b8 	lwi	r10, r0, 1208
+     4c8:	b0008539 	imm	-31431
+     4cc:	e8a00954 	lwi	r5, r0, 2388
+     4d0:	b0008539 	imm	-31431
+     4d4:	e8c00958 	lwi	r6, r0, 2392
+     4d8:	b0008539 	imm	-31431
+     4dc:	e8e0095c 	lwi	r7, r0, 2396
+     4e0:	b0008539 	imm	-31431
+     4e4:	e9000960 	lwi	r8, r0, 2400
+     4e8:	b0008539 	imm	-31431
+     4ec:	e9200964 	lwi	r9, r0, 2404
+     4f0:	b9f4051c 	brlid	r15, 1308	// a0c <longestMatch>
+     4f4:	80000000 	or	r0, r0, r0
+		longestMatch(window, lookAhead, 1, offset_thread, matches_thread);
+     4f8:	30600001 	addik	r3, r0, 1
+     4fc:	f861002c 	swi	r3, r1, 44
+     500:	b0008539 	imm	-31431
+     504:	3060082c 	addik	r3, r0, 2092
+     508:	f8610030 	swi	r3, r1, 48
+     50c:	b0008539 	imm	-31431
+     510:	3060081c 	addik	r3, r0, 2076
+     514:	f8610034 	swi	r3, r1, 52
+     518:	b0008539 	imm	-31431
+     51c:	e86004bc 	lwi	r3, r0, 1212
+     520:	b0008539 	imm	-31431
+     524:	e88004c0 	lwi	r4, r0, 1216
+     528:	b0008539 	imm	-31431
+     52c:	e8a004c4 	lwi	r5, r0, 1220
+     530:	b0008539 	imm	-31431
+     534:	e8c004c8 	lwi	r6, r0, 1224
+     538:	f861001c 	swi	r3, r1, 28
+     53c:	f8810020 	swi	r4, r1, 32
+     540:	f8a10024 	swi	r5, r1, 36
+     544:	f8c10028 	swi	r6, r1, 40
+     548:	b0008539 	imm	-31431
+     54c:	e94004b8 	lwi	r10, r0, 1208
+     550:	b0008539 	imm	-31431
+     554:	e8a00954 	lwi	r5, r0, 2388
+     558:	b0008539 	imm	-31431
+     55c:	e8c00958 	lwi	r6, r0, 2392
+     560:	b0008539 	imm	-31431
+     564:	e8e0095c 	lwi	r7, r0, 2396
+     568:	b0008539 	imm	-31431
+     56c:	e9000960 	lwi	r8, r0, 2400
+     570:	b0008539 	imm	-31431
+     574:	e9200964 	lwi	r9, r0, 2404
+     578:	b9f40494 	brlid	r15, 1172	// a0c <longestMatch>
+     57c:	80000000 	or	r0, r0, r0
+		longestMatch(window, lookAhead, 2, offset_thread, matches_thread);
+     580:	30600002 	addik	r3, r0, 2	// 2 <_SDA_BASE_>
+     584:	f861002c 	swi	r3, r1, 44
+     588:	b0008539 	imm	-31431
+     58c:	3060082c 	addik	r3, r0, 2092
+     590:	f8610030 	swi	r3, r1, 48
+     594:	b0008539 	imm	-31431
+     598:	3060081c 	addik	r3, r0, 2076
+     59c:	f8610034 	swi	r3, r1, 52
+     5a0:	b0008539 	imm	-31431
+     5a4:	e86004bc 	lwi	r3, r0, 1212
+     5a8:	b0008539 	imm	-31431
+     5ac:	e88004c0 	lwi	r4, r0, 1216
+     5b0:	b0008539 	imm	-31431
+     5b4:	e8a004c4 	lwi	r5, r0, 1220
+     5b8:	b0008539 	imm	-31431
+     5bc:	e8c004c8 	lwi	r6, r0, 1224
+     5c0:	f861001c 	swi	r3, r1, 28
+     5c4:	f8810020 	swi	r4, r1, 32
+     5c8:	f8a10024 	swi	r5, r1, 36
+     5cc:	f8c10028 	swi	r6, r1, 40
+     5d0:	b0008539 	imm	-31431
+     5d4:	e94004b8 	lwi	r10, r0, 1208
+     5d8:	b0008539 	imm	-31431
+     5dc:	e8a00954 	lwi	r5, r0, 2388
+     5e0:	b0008539 	imm	-31431
+     5e4:	e8c00958 	lwi	r6, r0, 2392
+     5e8:	b0008539 	imm	-31431
+     5ec:	e8e0095c 	lwi	r7, r0, 2396
+     5f0:	b0008539 	imm	-31431
+     5f4:	e9000960 	lwi	r8, r0, 2400
+     5f8:	b0008539 	imm	-31431
+     5fc:	e9200964 	lwi	r9, r0, 2404
+     600:	b9f4040c 	brlid	r15, 1036	// a0c <longestMatch>
+     604:	80000000 	or	r0, r0, r0
+		longestMatch(window, lookAhead, 3, offset_thread, matches_thread);
+     608:	30600003 	addik	r3, r0, 3
+     60c:	f861002c 	swi	r3, r1, 44
+     610:	b0008539 	imm	-31431
+     614:	3060082c 	addik	r3, r0, 2092
+     618:	f8610030 	swi	r3, r1, 48
+     61c:	b0008539 	imm	-31431
+     620:	3060081c 	addik	r3, r0, 2076
+     624:	f8610034 	swi	r3, r1, 52
+     628:	b0008539 	imm	-31431
+     62c:	e86004bc 	lwi	r3, r0, 1212
+     630:	b0008539 	imm	-31431
+     634:	e88004c0 	lwi	r4, r0, 1216
+     638:	b0008539 	imm	-31431
+     63c:	e8a004c4 	lwi	r5, r0, 1220
+     640:	b0008539 	imm	-31431
+     644:	e8c004c8 	lwi	r6, r0, 1224
+     648:	f861001c 	swi	r3, r1, 28
+     64c:	f8810020 	swi	r4, r1, 32
+     650:	f8a10024 	swi	r5, r1, 36
+     654:	f8c10028 	swi	r6, r1, 40
+     658:	b0008539 	imm	-31431
+     65c:	e94004b8 	lwi	r10, r0, 1208
+     660:	b0008539 	imm	-31431
+     664:	e8a00954 	lwi	r5, r0, 2388
+     668:	b0008539 	imm	-31431
+     66c:	e8c00958 	lwi	r6, r0, 2392
+     670:	b0008539 	imm	-31431
+     674:	e8e0095c 	lwi	r7, r0, 2396
+     678:	b0008539 	imm	-31431
+     67c:	e9000960 	lwi	r8, r0, 2400
+     680:	b0008539 	imm	-31431
+     684:	e9200964 	lwi	r9, r0, 2404
+     688:	b9f40384 	brlid	r15, 900	// a0c <longestMatch>
+     68c:	80000000 	or	r0, r0, r0
+
+		writeToArchive(&lookAhead, &offset, &matches, &archiveInfo, offset_thread, matches_thread, &window, &lookAhead);
+     690:	b0008539 	imm	-31431
+     694:	30600954 	addik	r3, r0, 2388
+     698:	f861001c 	swi	r3, r1, 28
+     69c:	b0008539 	imm	-31431
+     6a0:	306004b8 	addik	r3, r0, 1208
+     6a4:	f8610020 	swi	r3, r1, 32
+     6a8:	b0008539 	imm	-31431
+     6ac:	30a004b8 	addik	r5, r0, 1208
+     6b0:	b0008539 	imm	-31431
+     6b4:	30c00850 	addik	r6, r0, 2128
+     6b8:	b0008539 	imm	-31431
+     6bc:	30e0048c 	addik	r7, r0, 1164
+     6c0:	b0008539 	imm	-31431
+     6c4:	3100083c 	addik	r8, r0, 2108
+     6c8:	b0008539 	imm	-31431
+     6cc:	3120082c 	addik	r9, r0, 2092
+     6d0:	b0008539 	imm	-31431
+     6d4:	3140081c 	addik	r10, r0, 2076
+     6d8:	b9f404e8 	brlid	r15, 1256	// bc0 <writeToArchive>
+     6dc:	80000000 	or	r0, r0, r0
+     6e0:	b9f401d4 	brlid	r15, 468	// 8b4 <getFileSize>
+     6e4:	80000000 	or	r0, r0, r0
+     6e8:	12c30000 	addk	r22, r3, r0
+     6ec:	b9f401f0 	brlid	r15, 496	// 8dc <getBytesProcessed>
+     6f0:	80000000 	or	r0, r0, r0
+     6f4:	1643b000 	rsubk	r18, r3, r22
+     6f8:	bc32fccc 	bnei	r18, -820		// 3c4
+	}
+	
+	// Stop counting the elapsed cycles for the current reaction.
+	counterStop(FSL_COUNTER_ID);
+     6fc:	10600000 	addk	r3, r0, r0
+     700:	6c038002 	put	r3, rfsl2
+	counterRead(counter, FSL_COUNTER_ID);
+     704:	6c600002 	get	r3, rfsl2
+     708:	b0008539 	imm	-31431
+     70c:	f86007fc 	swi	r3, r0, 2044
+     710:	b0008539 	imm	-31431
+     714:	e86007fc 	lwi	r3, r0, 2044
+     718:	3063fffd 	addik	r3, r3, -3
+     71c:	b0008539 	imm	-31431
+     720:	f86007fc 	swi	r3, r0, 2044
+	counterDifference(counter);
+     724:	b0008539 	imm	-31431
+     728:	e88007fc 	lwi	r4, r0, 2044
+     72c:	b0008539 	imm	-31431
+     730:	e8600800 	lwi	r3, r0, 2048
+     734:	14632000 	rsubk	r3, r3, r4
+     738:	b0008539 	imm	-31431
+     73c:	f8600804 	swi	r3, r0, 2052
+	counterMaximum(counter);
+     740:	b0008539 	imm	-31431
+     744:	e8800810 	lwi	r4, r0, 2064
+     748:	b0008539 	imm	-31431
+     74c:	e8600804 	lwi	r3, r0, 2052
+     750:	16432001 	cmp	r18, r3, r4
+     754:	bcb20014 	bgei	r18, 20		// 768
+     758:	b0008539 	imm	-31431
+     75c:	e8600804 	lwi	r3, r0, 2052
+     760:	b0008539 	imm	-31431
+     764:	f8600810 	swi	r3, r0, 2064
+	counterMinimum(counter);
+     768:	b0008539 	imm	-31431
+     76c:	e8800808 	lwi	r4, r0, 2056
+     770:	b0008539 	imm	-31431
+     774:	e8600804 	lwi	r3, r0, 2052
+     778:	16441801 	cmp	r18, r4, r3
+     77c:	bcb20014 	bgei	r18, 20		// 790
+     780:	b0008539 	imm	-31431
+     784:	e8600804 	lwi	r3, r0, 2052
+     788:	b0008539 	imm	-31431
+     78c:	f8600808 	swi	r3, r0, 2056
+	counterAccumulate(counter);
+     790:	b0008539 	imm	-31431
+     794:	e8800814 	lwi	r4, r0, 2068
+     798:	b0008539 	imm	-31431
+     79c:	e8600804 	lwi	r3, r0, 2052
+     7a0:	10641800 	addk	r3, r4, r3
+     7a4:	b0008539 	imm	-31431
+     7a8:	f8600814 	swi	r3, r0, 2068
+     7ac:	b0008539 	imm	-31431
+     7b0:	e8600818 	lwi	r3, r0, 2072
+     7b4:	30630001 	addik	r3, r3, 1
+     7b8:	b0008539 	imm	-31431
+     7bc:	f8600818 	swi	r3, r0, 2072
+	counterAverage(counter);
+     7c0:	b0008539 	imm	-31431
+     7c4:	e8800814 	lwi	r4, r0, 2068
+     7c8:	b0008539 	imm	-31431
+     7cc:	e8600818 	lwi	r3, r0, 2072
+     7d0:	48632000 	idiv	r3, r3, r4
+     7d4:	b0008539 	imm	-31431
+     7d8:	f860080c 	swi	r3, r0, 2060
+	xil_printf("Total time: %d cycles\r\n", counter.total);
+     7dc:	b0008539 	imm	-31431
+     7e0:	e8600814 	lwi	r3, r0, 2068
+     7e4:	30a02278 	addik	r5, r0, 8824	// 2278 <__rodata_start>
+     7e8:	10c30000 	addk	r6, r3, r0
+     7ec:	b9f41128 	brlid	r15, 4392	// 1914 <xil_printf>
+     7f0:	80000000 	or	r0, r0, r0
+	xil_printf("Program termination\r\n");
+     7f4:	30a02290 	addik	r5, r0, 8848
+     7f8:	b9f4111c 	brlid	r15, 4380	// 1914 <xil_printf>
+     7fc:	80000000 	or	r0, r0, r0
+	
+	asm volatile (".long 0x80000001\r\n");
+     800:	80000001 		r0, r0, r0
+	return 0;
+     804:	10600000 	addk	r3, r0, r0
+}
+     808:	e9e10000 	lwi	r15, r1, 0
+     80c:	10330000 	addk	r1, r19, r0
+     810:	ea610040 	lwi	r19, r1, 64
+     814:	eac10044 	lwi	r22, r1, 68
+     818:	30210048 	addik	r1, r1, 72
+     81c:	b60f0008 	rtsd	r15, 8
+     820:	80000000 	or	r0, r0, r0
+
+00000824 <openFile>:
+
+void openFile(void) {
+     824:	3021ffe0 	addik	r1, r1, -32
+     828:	f9e10000 	swi	r15, r1, 0
+     82c:	fa61001c 	swi	r19, r1, 28
+     830:	12610000 	addk	r19, r1, r0
+    archiveInfo.fileaddr = archive;
+     834:	b0008539 	imm	-31431
+     838:	306004cc 	addik	r3, r0, 1228
+     83c:	b0008539 	imm	-31431
+     840:	f8600840 	swi	r3, r0, 2112
+    fileInfo.totalSize = 0;
+     844:	b0008539 	imm	-31431
+     848:	f80004b0 	swi	r0, r0, 1200
+    fileInfo.bytesProcessed = 0;
+     84c:	b0008539 	imm	-31431
+     850:	f80004b4 	swi	r0, r0, 1204
+    fileInfo.fileaddr = embedded;
+     854:	b0008539 	imm	-31431
+     858:	3060001c 	addik	r3, r0, 28
+     85c:	b0008539 	imm	-31431
+     860:	f86004a8 	swi	r3, r0, 1192
+    fileInfo.p_file = embedded;
+     864:	b0008539 	imm	-31431
+     868:	3060001c 	addik	r3, r0, 28
+     86c:	b0008539 	imm	-31431
+     870:	f86004a4 	swi	r3, r0, 1188
+    obtainFileInfo(&fileInfo);
+     874:	b0008539 	imm	-31431
+     878:	30a004a4 	addik	r5, r0, 1188
+     87c:	b9f400f8 	brlid	r15, 248	// 974 <obtainFileInfo>
+     880:	80000000 	or	r0, r0, r0
+    createDescriptor(&fileInfo, &archiveInfo);
+     884:	b0008539 	imm	-31431
+     888:	30a004a4 	addik	r5, r0, 1188
+     88c:	b0008539 	imm	-31431
+     890:	30c0083c 	addik	r6, r0, 2108
+     894:	b9f400a0 	brlid	r15, 160	// 934 <createDescriptor>
+     898:	80000000 	or	r0, r0, r0
+}
+     89c:	e9e10000 	lwi	r15, r1, 0
+     8a0:	10330000 	addk	r1, r19, r0
+     8a4:	ea61001c 	lwi	r19, r1, 28
+     8a8:	30210020 	addik	r1, r1, 32
+     8ac:	b60f0008 	rtsd	r15, 8
+     8b0:	80000000 	or	r0, r0, r0
+
+000008b4 <getFileSize>:
+
+int getFileSize(void) {
+     8b4:	3021fff8 	addik	r1, r1, -8
+     8b8:	fa610004 	swi	r19, r1, 4
+     8bc:	12610000 	addk	r19, r1, r0
+    return fileInfo.totalSize;
+     8c0:	b0008539 	imm	-31431
+     8c4:	e86004b0 	lwi	r3, r0, 1200
+}
+     8c8:	10330000 	addk	r1, r19, r0
+     8cc:	ea610004 	lwi	r19, r1, 4
+     8d0:	30210008 	addik	r1, r1, 8
+     8d4:	b60f0008 	rtsd	r15, 8
+     8d8:	80000000 	or	r0, r0, r0
+
+000008dc <getBytesProcessed>:
+
+int getBytesProcessed(void) {
+     8dc:	3021fff4 	addik	r1, r1, -12
+     8e0:	fa610008 	swi	r19, r1, 8
+     8e4:	12610000 	addk	r19, r1, r0
+    if (fileInfo.bytesProcessed < fileInfo.totalSize) {
+     8e8:	b0008539 	imm	-31431
+     8ec:	e88004b4 	lwi	r4, r0, 1204
+     8f0:	b0008539 	imm	-31431
+     8f4:	e86004b0 	lwi	r3, r0, 1200
+     8f8:	16432001 	cmp	r18, r3, r4
+     8fc:	bcb20014 	bgei	r18, 20		// 910
+        return fileInfo.bytesProcessed;
+     900:	b0008539 	imm	-31431
+     904:	e86004b4 	lwi	r3, r0, 1204
+     908:	f8730004 	swi	r3, r19, 4
+     90c:	b8000010 	bri	16		// 91c
+    } else {
+        return fileInfo.totalSize;
+     910:	b0008539 	imm	-31431
+     914:	e86004b0 	lwi	r3, r0, 1200
+     918:	f8730004 	swi	r3, r19, 4
+     91c:	e8730004 	lwi	r3, r19, 4
+    }
+}
+     920:	10330000 	addk	r1, r19, r0
+     924:	ea610008 	lwi	r19, r1, 8
+     928:	3021000c 	addik	r1, r1, 12
+     92c:	b60f0008 	rtsd	r15, 8
+     930:	80000000 	or	r0, r0, r0
+
+00000934 <createDescriptor>:
+
+//********************************************************
+//* Start of function definitions for compressing files. *
+//********************************************************
+
+void createDescriptor(struct fileStats *fileInfo, struct fileStats *archiveInfo) {
+     934:	3021ffe0 	addik	r1, r1, -32
+     938:	f9e10000 	swi	r15, r1, 0
+     93c:	fa61001c 	swi	r19, r1, 28
+     940:	12610000 	addk	r19, r1, r0
+     944:	f8b30024 	swi	r5, r19, 36
+     948:	f8d30028 	swi	r6, r19, 40
+    // obtainFileInfo() has been moved into createArchive() since obtainFileInfo() now obtains useful information
+    // about the file requested, it is useful to provide extra information to createArchive() such as whether the
+    // file is a directory.
+    storeFileInfo(fileInfo, archiveInfo);
+     94c:	e8b30024 	lwi	r5, r19, 36
+     950:	e8d30028 	lwi	r6, r19, 40
+     954:	b9f40064 	brlid	r15, 100	// 9b8 <storeFileInfo>
+     958:	80000000 	or	r0, r0, r0
+}
+     95c:	e9e10000 	lwi	r15, r1, 0
+     960:	10330000 	addk	r1, r19, r0
+     964:	ea61001c 	lwi	r19, r1, 28
+     968:	30210020 	addik	r1, r1, 32
+     96c:	b60f0008 	rtsd	r15, 8
+     970:	80000000 	or	r0, r0, r0
+
+00000974 <obtainFileInfo>:
+
+void obtainFileInfo(struct fileStats *fileInfo) {
+     974:	3021fff8 	addik	r1, r1, -8
+     978:	fa610004 	swi	r19, r1, 4
+     97c:	12610000 	addk	r19, r1, r0
+     980:	f8b3000c 	swi	r5, r19, 12
+    fileInfo->filesize = FILE_SIZE;
+     984:	b0008539 	imm	-31431
+     988:	e880000c 	lwi	r4, r0, 12
+     98c:	e873000c 	lwi	r3, r19, 12
+     990:	f8830008 	swi	r4, r3, 8
+    fileInfo->totalSize = fileInfo->filesize;
+     994:	e873000c 	lwi	r3, r19, 12
+     998:	e8830008 	lwi	r4, r3, 8
+     99c:	e873000c 	lwi	r3, r19, 12
+     9a0:	f883000c 	swi	r4, r3, 12
+}
+     9a4:	10330000 	addk	r1, r19, r0
+     9a8:	ea610004 	lwi	r19, r1, 4
+     9ac:	30210008 	addik	r1, r1, 8
+     9b0:	b60f0008 	rtsd	r15, 8
+     9b4:	80000000 	or	r0, r0, r0
+
+000009b8 <storeFileInfo>:
+
+void storeFileInfo(struct fileStats *fileInfo, struct fileStats *archiveInfo) {
+     9b8:	3021ffe0 	addik	r1, r1, -32
+     9bc:	f9e10000 	swi	r15, r1, 0
+     9c0:	fa61001c 	swi	r19, r1, 28
+     9c4:	12610000 	addk	r19, r1, r0
+     9c8:	f8b30024 	swi	r5, r19, 36
+     9cc:	f8d30028 	swi	r6, r19, 40
+    // Length of string plus 1 to take account of the null character.
+    mwrite(&(fileInfo->filesize), 4, 1, &archiveInfo->p_file);
+     9d0:	e8730024 	lwi	r3, r19, 36
+     9d4:	30630008 	addik	r3, r3, 8
+     9d8:	e8930028 	lwi	r4, r19, 40
+     9dc:	10a30000 	addk	r5, r3, r0
+     9e0:	30c00004 	addik	r6, r0, 4
+     9e4:	30e00001 	addik	r7, r0, 1
+     9e8:	11040000 	addk	r8, r4, r0
+     9ec:	b9f40bf4 	brlid	r15, 3060	// 15e0 <mwrite>
+     9f0:	80000000 	or	r0, r0, r0
+}
+     9f4:	e9e10000 	lwi	r15, r1, 0
+     9f8:	10330000 	addk	r1, r19, r0
+     9fc:	ea61001c 	lwi	r19, r1, 28
+     a00:	30210020 	addik	r1, r1, 32
+     a04:	b60f0008 	rtsd	r15, 8
+     a08:	80000000 	or	r0, r0, r0
+
+00000a0c <longestMatch>:
+
+void longestMatch(const Fifo win, const Fifo lk, int begin, int *offset_thread, int *matches_thread) {
+     a0c:	3021ffc4 	addik	r1, r1, -60
+     a10:	f9e10000 	swi	r15, r1, 0
+     a14:	fa610034 	swi	r19, r1, 52
+     a18:	fac10038 	swi	r22, r1, 56
+     a1c:	12610000 	addk	r19, r1, r0
+     a20:	f8b30040 	swi	r5, r19, 64
+     a24:	f8d30044 	swi	r6, r19, 68
+     a28:	f8f30048 	swi	r7, r19, 72
+     a2c:	f913004c 	swi	r8, r19, 76
+     a30:	f9330050 	swi	r9, r19, 80
+     a34:	f9530054 	swi	r10, r19, 84
+	int NUM_THREADS = 4;
+     a38:	30600004 	addik	r3, r0, 4
+     a3c:	f8730030 	swi	r3, r19, 48
+
+    int _matches = 0;
+     a40:	f813002c 	swi	r0, r19, 44
+    matches_thread[begin] = 0;
+     a44:	e8730068 	lwi	r3, r19, 104
+     a48:	60630004 	muli	r3, r3, 4
+     a4c:	10830000 	addk	r4, r3, r0
+     a50:	e8730070 	lwi	r3, r19, 112
+     a54:	10641800 	addk	r3, r4, r3
+     a58:	f8030000 	swi	r0, r3, 0
+    int i, j, k, _offset;
+    for (i = begin; i < win.written_size && Fifo_at(&win, i); ) {
+     a5c:	e8730068 	lwi	r3, r19, 104
+     a60:	f8730028 	swi	r3, r19, 40
+     a64:	b8000114 	bri	276		// b78
+        j = 0;
+     a68:	f8130024 	swi	r0, r19, 36
+
+        _offset = i;
+     a6c:	e8730028 	lwi	r3, r19, 40
+     a70:	f873001c 	swi	r3, r19, 28
+        for (k = i; j < LKLENGTH && Fifo_at(&win, k) == Fifo_at(&lk, j); ) {
+     a74:	e8730028 	lwi	r3, r19, 40
+     a78:	f8730020 	swi	r3, r19, 32
+     a7c:	b800003c 	bri	60		// ab8
+            _matches++;
+     a80:	e873002c 	lwi	r3, r19, 44
+     a84:	30630001 	addik	r3, r3, 1
+     a88:	f873002c 	swi	r3, r19, 44
+            j++;
+     a8c:	e8730024 	lwi	r3, r19, 36
+     a90:	30630001 	addik	r3, r3, 1
+     a94:	f8730024 	swi	r3, r19, 36
+            k++;
+     a98:	e8730020 	lwi	r3, r19, 32
+     a9c:	30630001 	addik	r3, r3, 1
+     aa0:	f8730020 	swi	r3, r19, 32
+            
+            if (k == win.written_size) {
+     aa4:	e8930020 	lwi	r4, r19, 32
+     aa8:	e8730048 	lwi	r3, r19, 72
+     aac:	16432000 	rsubk	r18, r3, r4
+     ab0:	bc320008 	bnei	r18, 8		// ab8
+            	k = 0;
+     ab4:	f8130020 	swi	r0, r19, 32
+     ab8:	b0008539 	imm	-31431
+     abc:	e8800018 	lwi	r4, r0, 24
+     ac0:	e8730024 	lwi	r3, r19, 36
+     ac4:	16441801 	cmp	r18, r4, r3
+     ac8:	bcb20040 	bgei	r18, 64		// b08
+     acc:	e8930020 	lwi	r4, r19, 32
+     ad0:	30730040 	addik	r3, r19, 64
+     ad4:	10a30000 	addk	r5, r3, r0
+     ad8:	10c40000 	addk	r6, r4, r0
+     adc:	b9f40968 	brlid	r15, 2408	// 1444 <Fifo_at>
+     ae0:	80000000 	or	r0, r0, r0
+     ae4:	12c30000 	addk	r22, r3, r0
+     ae8:	e8930024 	lwi	r4, r19, 36
+     aec:	30730054 	addik	r3, r19, 84
+     af0:	10a30000 	addk	r5, r3, r0
+     af4:	10c40000 	addk	r6, r4, r0
+     af8:	b9f4094c 	brlid	r15, 2380	// 1444 <Fifo_at>
+     afc:	80000000 	or	r0, r0, r0
+     b00:	1643b000 	rsubk	r18, r3, r22
+     b04:	bc12ff7c 	beqi	r18, -132		// a80
+            }
+        }
+
+        if (_matches > matches_thread[begin]) {
+     b08:	e8730068 	lwi	r3, r19, 104
+     b0c:	60630004 	muli	r3, r3, 4
+     b10:	10830000 	addk	r4, r3, r0
+     b14:	e8730070 	lwi	r3, r19, 112
+     b18:	10641800 	addk	r3, r4, r3
+     b1c:	e8830000 	lwi	r4, r3, 0
+     b20:	e873002c 	lwi	r3, r19, 44
+     b24:	16432001 	cmp	r18, r3, r4
+     b28:	bcb2003c 	bgei	r18, 60		// b64
+            matches_thread[begin] = _matches;
+     b2c:	e8730068 	lwi	r3, r19, 104
+     b30:	60630004 	muli	r3, r3, 4
+     b34:	10830000 	addk	r4, r3, r0
+     b38:	e8730070 	lwi	r3, r19, 112
+     b3c:	10841800 	addk	r4, r4, r3
+     b40:	e873002c 	lwi	r3, r19, 44
+     b44:	f8640000 	swi	r3, r4, 0
+            offset_thread[begin] = _offset;
+     b48:	e8730068 	lwi	r3, r19, 104
+     b4c:	60630004 	muli	r3, r3, 4
+     b50:	10830000 	addk	r4, r3, r0
+     b54:	e873006c 	lwi	r3, r19, 108
+     b58:	10841800 	addk	r4, r4, r3
+     b5c:	e873001c 	lwi	r3, r19, 28
+     b60:	f8640000 	swi	r3, r4, 0
+        }
+
+        i += NUM_THREADS;
+     b64:	e8730028 	lwi	r3, r19, 40
+     b68:	e8930030 	lwi	r4, r19, 48
+     b6c:	10632000 	addk	r3, r3, r4
+     b70:	f8730028 	swi	r3, r19, 40
+        _matches = 0;
+     b74:	f813002c 	swi	r0, r19, 44
+     b78:	e8930028 	lwi	r4, r19, 40
+     b7c:	e8730048 	lwi	r3, r19, 72
+     b80:	16432003 	cmpu	r18, r3, r4
+     b84:	bcb20020 	bgei	r18, 32		// ba4
+     b88:	e8930028 	lwi	r4, r19, 40
+     b8c:	30730040 	addik	r3, r19, 64
+     b90:	10a30000 	addk	r5, r3, r0
+     b94:	10c40000 	addk	r6, r4, r0
+     b98:	b9f408ac 	brlid	r15, 2220	// 1444 <Fifo_at>
+     b9c:	80000000 	or	r0, r0, r0
+     ba0:	bc23fec8 	bnei	r3, -312		// a68
+    }
+}
+     ba4:	e9e10000 	lwi	r15, r1, 0
+     ba8:	10330000 	addk	r1, r19, r0
+     bac:	ea610034 	lwi	r19, r1, 52
+     bb0:	eac10038 	lwi	r22, r1, 56
+     bb4:	3021003c 	addik	r1, r1, 60
+     bb8:	b60f0008 	rtsd	r15, 8
+     bbc:	80000000 	or	r0, r0, r0
+
+00000bc0 <writeToArchive>:
+
+void writeToArchive(const Fifo *fifo, int *offset, int *matches, struct fileStats *archiveInfo, int *offset_thread, int *matches_thread, Fifo *window, Fifo *lookAhead) {
+     bc0:	3021ffc8 	addik	r1, r1, -56
+     bc4:	f9e10000 	swi	r15, r1, 0
+     bc8:	fa610034 	swi	r19, r1, 52
+     bcc:	12610000 	addk	r19, r1, r0
+     bd0:	f8b3003c 	swi	r5, r19, 60
+     bd4:	f8d30040 	swi	r6, r19, 64
+     bd8:	f8f30044 	swi	r7, r19, 68
+     bdc:	f9130048 	swi	r8, r19, 72
+     be0:	f933004c 	swi	r9, r19, 76
+     be4:	f9530050 	swi	r10, r19, 80
+	int NUM_THREADS = 4;
+     be8:	30600004 	addik	r3, r0, 4
+     bec:	f873002c 	swi	r3, r19, 44
+	#undef EOF
+	int EOF = -1;
+     bf0:	3060ffff 	addik	r3, r0, -1
+     bf4:	f8730028 	swi	r3, r19, 40
+	
+	*matches = 0;
+     bf8:	e8730044 	lwi	r3, r19, 68
+     bfc:	f8030000 	swi	r0, r3, 0
+	int i;
+	for (i = 0; i < NUM_THREADS; i++) {
+     c00:	f8130024 	swi	r0, r19, 36
+     c04:	b8000078 	bri	120		// c7c
+		if (matches_thread[i] > *matches) {
+     c08:	e8730024 	lwi	r3, r19, 36
+     c0c:	60630004 	muli	r3, r3, 4
+     c10:	10830000 	addk	r4, r3, r0
+     c14:	e8730050 	lwi	r3, r19, 80
+     c18:	10641800 	addk	r3, r4, r3
+     c1c:	e8830000 	lwi	r4, r3, 0
+     c20:	e8730044 	lwi	r3, r19, 68
+     c24:	e8630000 	lwi	r3, r3, 0
+     c28:	16441801 	cmp	r18, r4, r3
+     c2c:	bcb20044 	bgei	r18, 68		// c70
+			*matches = matches_thread[i];
+     c30:	e8730024 	lwi	r3, r19, 36
+     c34:	60630004 	muli	r3, r3, 4
+     c38:	10830000 	addk	r4, r3, r0
+     c3c:	e8730050 	lwi	r3, r19, 80
+     c40:	10641800 	addk	r3, r4, r3
+     c44:	e8830000 	lwi	r4, r3, 0
+     c48:	e8730044 	lwi	r3, r19, 68
+     c4c:	f8830000 	swi	r4, r3, 0
+			*offset = offset_thread[i];
+     c50:	e8730024 	lwi	r3, r19, 36
+     c54:	60630004 	muli	r3, r3, 4
+     c58:	10830000 	addk	r4, r3, r0
+     c5c:	e873004c 	lwi	r3, r19, 76
+     c60:	10641800 	addk	r3, r4, r3
+     c64:	e8830000 	lwi	r4, r3, 0
+     c68:	e8730040 	lwi	r3, r19, 64
+     c6c:	f8830000 	swi	r4, r3, 0
+     c70:	e8730024 	lwi	r3, r19, 36
+     c74:	30630001 	addik	r3, r3, 1
+     c78:	f8730024 	swi	r3, r19, 36
+     c7c:	e8930024 	lwi	r4, r19, 36
+     c80:	e873002c 	lwi	r3, r19, 44
+     c84:	16432001 	cmp	r18, r3, r4
+     c88:	bc52ff80 	blti	r18, -128		// c08
+		}
+	}
+
+    int encode=0x800000;
+     c8c:	b0000080 	imm	128
+     c90:	30600000 	addik	r3, r0, 0
+     c94:	f8730020 	swi	r3, r19, 32
+    encode += (*offset << 5) + (*matches - 1); // 0 matches will actually mean 1 match, matches range from 0~15, 4 bits.
+     c98:	e8730040 	lwi	r3, r19, 64
+     c9c:	e8630000 	lwi	r3, r3, 0
+     ca0:	60830020 	muli	r4, r3, 32
+     ca4:	e8730044 	lwi	r3, r19, 68
+     ca8:	e8630000 	lwi	r3, r3, 0
+     cac:	10841800 	addk	r4, r4, r3
+     cb0:	e8730020 	lwi	r3, r19, 32
+     cb4:	10641800 	addk	r3, r4, r3
+     cb8:	3063ffff 	addik	r3, r3, -1
+     cbc:	f8730020 	swi	r3, r19, 32
+
+    if (*matches > 2) {
+     cc0:	e8730044 	lwi	r3, r19, 68
+     cc4:	e8630000 	lwi	r3, r3, 0
+     cc8:	32400002 	addik	r18, r0, 2	// 2 <_SDA_BASE_>
+     ccc:	16439001 	cmp	r18, r3, r18
+     cd0:	bcb200d8 	bgei	r18, 216		// da8
+    	fileInfo.bytesProcessed += *matches;
+     cd4:	b0008539 	imm	-31431
+     cd8:	e88004b4 	lwi	r4, r0, 1204
+     cdc:	e8730044 	lwi	r3, r19, 68
+     ce0:	e8630000 	lwi	r3, r3, 0
+     ce4:	10641800 	addk	r3, r4, r3
+     ce8:	b0008539 	imm	-31431
+     cec:	f86004b4 	swi	r3, r0, 1204
+        mputc(encode >> 16, &archiveInfo->p_file); // Write the MSByte first so the MSbit can be read easily
+     cf0:	e8730020 	lwi	r3, r19, 32
+     cf4:	90630001 	sra	r3, r3
+     cf8:	90630001 	sra	r3, r3
+     cfc:	90630001 	sra	r3, r3
+     d00:	90630001 	sra	r3, r3
+     d04:	90630001 	sra	r3, r3
+     d08:	90630001 	sra	r3, r3
+     d0c:	90630001 	sra	r3, r3
+     d10:	90630001 	sra	r3, r3
+     d14:	90630001 	sra	r3, r3
+     d18:	90630001 	sra	r3, r3
+     d1c:	90630001 	sra	r3, r3
+     d20:	90630001 	sra	r3, r3
+     d24:	90630001 	sra	r3, r3
+     d28:	90630001 	sra	r3, r3
+     d2c:	90630001 	sra	r3, r3
+     d30:	90630001 	sra	r3, r3
+     d34:	90630060 	sext8	r3, r3
+     d38:	e8930048 	lwi	r4, r19, 72
+     d3c:	10a30000 	addk	r5, r3, r0
+     d40:	10c40000 	addk	r6, r4, r0
+     d44:	b9f40850 	brlid	r15, 2128	// 1594 <mputc>
+     d48:	80000000 	or	r0, r0, r0
+        mputc(encode >> 8, &archiveInfo->p_file);
+     d4c:	e8730020 	lwi	r3, r19, 32
+     d50:	90630001 	sra	r3, r3
+     d54:	90630001 	sra	r3, r3
+     d58:	90630001 	sra	r3, r3
+     d5c:	90630001 	sra	r3, r3
+     d60:	90630001 	sra	r3, r3
+     d64:	90630001 	sra	r3, r3
+     d68:	90630001 	sra	r3, r3
+     d6c:	90630001 	sra	r3, r3
+     d70:	90630060 	sext8	r3, r3
+     d74:	e8930048 	lwi	r4, r19, 72
+     d78:	10a30000 	addk	r5, r3, r0
+     d7c:	10c40000 	addk	r6, r4, r0
+     d80:	b9f40814 	brlid	r15, 2068	// 1594 <mputc>
+     d84:	80000000 	or	r0, r0, r0
+        mputc(encode, &archiveInfo->p_file);
+     d88:	e8730020 	lwi	r3, r19, 32
+     d8c:	90630060 	sext8	r3, r3
+     d90:	e8930048 	lwi	r4, r19, 72
+     d94:	10a30000 	addk	r5, r3, r0
+     d98:	10c40000 	addk	r6, r4, r0
+     d9c:	b9f407f8 	brlid	r15, 2040	// 1594 <mputc>
+     da0:	80000000 	or	r0, r0, r0
+     da4:	b80000c4 	bri	196		// e68
+    } else if (Fifo_at(fifo, 0) != EOF) {
+     da8:	e8b3003c 	lwi	r5, r19, 60
+     dac:	10c00000 	addk	r6, r0, r0
+     db0:	b9f40694 	brlid	r15, 1684	// 1444 <Fifo_at>
+     db4:	80000000 	or	r0, r0, r0
+     db8:	10830000 	addk	r4, r3, r0
+     dbc:	e8730028 	lwi	r3, r19, 40
+     dc0:	16432000 	rsubk	r18, r3, r4
+     dc4:	bc1200a4 	beqi	r18, 164		// e68
+    	fileInfo.bytesProcessed++;
+     dc8:	b0008539 	imm	-31431
+     dcc:	e86004b4 	lwi	r3, r0, 1204
+     dd0:	30630001 	addik	r3, r3, 1
+     dd4:	b0008539 	imm	-31431
+     dd8:	f86004b4 	swi	r3, r0, 1204
+        mputc(Fifo_at(fifo, 0), &archiveInfo->p_file);
+     ddc:	e8b3003c 	lwi	r5, r19, 60
+     de0:	10c00000 	addk	r6, r0, r0
+     de4:	b9f40660 	brlid	r15, 1632	// 1444 <Fifo_at>
+     de8:	80000000 	or	r0, r0, r0
+     dec:	e8930048 	lwi	r4, r19, 72
+     df0:	10a30000 	addk	r5, r3, r0
+     df4:	10c40000 	addk	r6, r4, r0
+     df8:	b9f4079c 	brlid	r15, 1948	// 1594 <mputc>
+     dfc:	80000000 	or	r0, r0, r0
+        if (*matches == 2 && Fifo_at(fifo, 1) != EOF) {
+     e00:	e8730044 	lwi	r3, r19, 68
+     e04:	e8630000 	lwi	r3, r3, 0
+     e08:	aa430002 	xori	r18, r3, 2
+     e0c:	bc32005c 	bnei	r18, 92		// e68
+     e10:	e8b3003c 	lwi	r5, r19, 60
+     e14:	30c00001 	addik	r6, r0, 1
+     e18:	b9f4062c 	brlid	r15, 1580	// 1444 <Fifo_at>
+     e1c:	80000000 	or	r0, r0, r0
+     e20:	10830000 	addk	r4, r3, r0
+     e24:	e8730028 	lwi	r3, r19, 40
+     e28:	16432000 	rsubk	r18, r3, r4
+     e2c:	bc12003c 	beqi	r18, 60		// e68
+        	fileInfo.bytesProcessed++;
+     e30:	b0008539 	imm	-31431
+     e34:	e86004b4 	lwi	r3, r0, 1204
+     e38:	30630001 	addik	r3, r3, 1
+     e3c:	b0008539 	imm	-31431
+     e40:	f86004b4 	swi	r3, r0, 1204
+            mputc(Fifo_at(fifo, 1), &archiveInfo->p_file);
+     e44:	e8b3003c 	lwi	r5, r19, 60
+     e48:	30c00001 	addik	r6, r0, 1
+     e4c:	b9f405f8 	brlid	r15, 1528	// 1444 <Fifo_at>
+     e50:	80000000 	or	r0, r0, r0
+     e54:	e8930048 	lwi	r4, r19, 72
+     e58:	10a30000 	addk	r5, r3, r0
+     e5c:	10c40000 	addk	r6, r4, r0
+     e60:	b9f40734 	brlid	r15, 1844	// 1594 <mputc>
+     e64:	80000000 	or	r0, r0, r0
+        }
+    }
+    
+    if (fileInfo.bytesProcessed >= fileInfo.totalSize) {
+     e68:	b0008539 	imm	-31431
+     e6c:	e88004b4 	lwi	r4, r0, 1204
+     e70:	b0008539 	imm	-31431
+     e74:	e86004b0 	lwi	r3, r0, 1200
+     e78:	16432001 	cmp	r18, r3, r4
+     e7c:	bc520128 	blti	r18, 296		// fa4
+		int count = 1;
+     e80:	30600001 	addik	r3, r0, 1
+     e84:	f873001c 	swi	r3, r19, 28
+		do {
+			// This loop will transfer the first node from look ahead buffer to window for 'matches' times.
+			// The node from look ahead buffer will be transfered to window at least once.
+			if (window->written_size >= WINLENGTH) {
+     e88:	e8730054 	lwi	r3, r19, 84
+     e8c:	e8830008 	lwi	r4, r3, 8
+     e90:	b0008539 	imm	-31431
+     e94:	e8600014 	lwi	r3, r0, 20
+     e98:	16432003 	cmpu	r18, r3, r4
+     e9c:	bc520010 	blti	r18, 16		// eac
+				Fifo_pop_front(window);
+     ea0:	e8b30054 	lwi	r5, r19, 84
+     ea4:	b9f40440 	brlid	r15, 1088	// 12e4 <Fifo_pop_front>
+     ea8:	80000000 	or	r0, r0, r0
+			}
+			
+			// Transfer the first character from look ahead buffer to end of window.
+			Fifo_push_back(window, Fifo_pop_front(lookAhead));
+     eac:	e8b30058 	lwi	r5, r19, 88
+     eb0:	b9f40434 	brlid	r15, 1076	// 12e4 <Fifo_pop_front>
+     eb4:	80000000 	or	r0, r0, r0
+     eb8:	e8b30054 	lwi	r5, r19, 84
+     ebc:	10c30000 	addk	r6, r3, r0
+     ec0:	b9f40364 	brlid	r15, 868	// 1224 <Fifo_push_back>
+     ec4:	80000000 	or	r0, r0, r0
+			
+			// Fill back up the look ahead buffer.
+			Fifo_push_back(lookAhead, mgetc(&fileInfo.p_file));
+     ec8:	b0008539 	imm	-31431
+     ecc:	30a004a4 	addik	r5, r0, 1188
+     ed0:	b9f4067c 	brlid	r15, 1660	// 154c <mgetc>
+     ed4:	80000000 	or	r0, r0, r0
+     ed8:	90630060 	sext8	r3, r3
+     edc:	e8b30058 	lwi	r5, r19, 88
+     ee0:	10c30000 	addk	r6, r3, r0
+     ee4:	b9f40340 	brlid	r15, 832	// 1224 <Fifo_push_back>
+     ee8:	80000000 	or	r0, r0, r0
+		} while (count++ < *matches);
+     eec:	e8730044 	lwi	r3, r19, 68
+     ef0:	e8830000 	lwi	r4, r3, 0
+     ef4:	30600001 	addik	r3, r0, 1
+     ef8:	f0730030 	sbi	r3, r19, 48
+     efc:	e873001c 	lwi	r3, r19, 28
+     f00:	16441801 	cmp	r18, r4, r3
+     f04:	bc520008 	blti	r18, 8		// f0c
+     f08:	f0130030 	sbi	r0, r19, 48
+     f0c:	e0730030 	lbui	r3, r19, 48
+     f10:	e893001c 	lwi	r4, r19, 28
+     f14:	30840001 	addik	r4, r4, 1
+     f18:	f893001c 	swi	r4, r19, 28
+     f1c:	bc23ff6c 	bnei	r3, -148		// e88
+
+        *matches = 0;
+     f20:	e8730044 	lwi	r3, r19, 68
+     f24:	f8030000 	swi	r0, r3, 0
+        for (count = 0; count < LKLENGTH - 1 && Fifo_at(lookAhead, 0) != EOF; count++) {
+     f28:	f813001c 	swi	r0, r19, 28
+     f2c:	b8000040 	bri	64		// f6c
+            mputc(Fifo_at(lookAhead, 0), &archiveInfo->p_file);
+     f30:	e8b30058 	lwi	r5, r19, 88
+     f34:	10c00000 	addk	r6, r0, r0
+     f38:	b9f4050c 	brlid	r15, 1292	// 1444 <Fifo_at>
+     f3c:	80000000 	or	r0, r0, r0
+     f40:	e8930048 	lwi	r4, r19, 72
+     f44:	10a30000 	addk	r5, r3, r0
+     f48:	10c40000 	addk	r6, r4, r0
+     f4c:	b9f40648 	brlid	r15, 1608	// 1594 <mputc>
+     f50:	80000000 	or	r0, r0, r0
+            Fifo_pop_front(lookAhead);
+     f54:	e8b30058 	lwi	r5, r19, 88
+     f58:	b9f4038c 	brlid	r15, 908	// 12e4 <Fifo_pop_front>
+     f5c:	80000000 	or	r0, r0, r0
+     f60:	e873001c 	lwi	r3, r19, 28
+     f64:	30630001 	addik	r3, r3, 1
+     f68:	f873001c 	swi	r3, r19, 28
+     f6c:	b0008539 	imm	-31431
+     f70:	e8600018 	lwi	r3, r0, 24
+     f74:	3083ffff 	addik	r4, r3, -1
+     f78:	e873001c 	lwi	r3, r19, 28
+     f7c:	16441801 	cmp	r18, r4, r3
+     f80:	bcb20024 	bgei	r18, 36		// fa4
+     f84:	e8b30058 	lwi	r5, r19, 88
+     f88:	10c00000 	addk	r6, r0, r0
+     f8c:	b9f404b8 	brlid	r15, 1208	// 1444 <Fifo_at>
+     f90:	80000000 	or	r0, r0, r0
+     f94:	10830000 	addk	r4, r3, r0
+     f98:	e8730028 	lwi	r3, r19, 40
+     f9c:	16432000 	rsubk	r18, r3, r4
+     fa0:	bc32ff90 	bnei	r18, -112		// f30
+        }
+    }
+}
+     fa4:	e9e10000 	lwi	r15, r1, 0
+     fa8:	10330000 	addk	r1, r19, r0
+     fac:	ea610034 	lwi	r19, r1, 52
+     fb0:	30210038 	addik	r1, r1, 56
+     fb4:	b60f0008 	rtsd	r15, 8
+     fb8:	80000000 	or	r0, r0, r0
+
+00000fbc <printResult>:
+
+void printResult(struct fileStats *fileInfo, struct fileStats *archiveInfo) {
+     fbc:	3021ffe0 	addik	r1, r1, -32
+     fc0:	f9e10000 	swi	r15, r1, 0
+     fc4:	fa61001c 	swi	r19, r1, 28
+     fc8:	12610000 	addk	r19, r1, r0
+     fcc:	f8b30024 	swi	r5, r19, 36
+     fd0:	f8d30028 	swi	r6, r19, 40
+    obtainFileInfo(archiveInfo);
+     fd4:	e8b30028 	lwi	r5, r19, 40
+     fd8:	b9f4f99c 	brlid	r15, -1636	// 974 <obtainFileInfo>
+     fdc:	80000000 	or	r0, r0, r0
+}
+     fe0:	e9e10000 	lwi	r15, r1, 0
+     fe4:	10330000 	addk	r1, r19, r0
+     fe8:	ea61001c 	lwi	r19, r1, 28
+     fec:	30210020 	addik	r1, r1, 32
+     ff0:	b60f0008 	rtsd	r15, 8
+     ff4:	80000000 	or	r0, r0, r0
+
+00000ff8 <unpackArchive>:
+
+
+//*******************************************************
+//* Start of function definitions for unpacking files.  *
+//*******************************************************
+void unpackArchive(char *filename, int *offset, int *matches, struct fileStats *fileInfo, struct fileStats *archiveInfo) {
+     ff8:	3021fff8 	addik	r1, r1, -8
+     ffc:	fa610004 	swi	r19, r1, 4
+    1000:	12610000 	addk	r19, r1, r0
+    1004:	f8b3000c 	swi	r5, r19, 12
+    1008:	f8d30010 	swi	r6, r19, 16
+    100c:	f8f30014 	swi	r7, r19, 20
+    1010:	f9130018 	swi	r8, r19, 24
+    1014:	f933001c 	swi	r9, r19, 28
+
+}
+    1018:	10330000 	addk	r1, r19, r0
+    101c:	ea610004 	lwi	r19, r1, 4
+    1020:	30210008 	addik	r1, r1, 8
+    1024:	b60f0008 	rtsd	r15, 8
+    1028:	80000000 	or	r0, r0, r0
+
+0000102c <processDescriptor>:
+
+void processDescriptor(struct fileStats *fileInfo, struct fileStats *archiveInfo) {
+    102c:	3021fff8 	addik	r1, r1, -8
+    1030:	fa610004 	swi	r19, r1, 4
+    1034:	12610000 	addk	r19, r1, r0
+    1038:	f8b3000c 	swi	r5, r19, 12
+    103c:	f8d30010 	swi	r6, r19, 16
+
+}
+    1040:	10330000 	addk	r1, r19, r0
+    1044:	ea610004 	lwi	r19, r1, 4
+    1048:	30210008 	addik	r1, r1, 8
+    104c:	b60f0008 	rtsd	r15, 8
+    1050:	80000000 	or	r0, r0, r0
+
+00001054 <decompressFile>:
+
+
+//****************************************************
+//* Start of function definitions for decompression. *
+//****************************************************
+void decompressFile(int *offset, int *matches, struct fileStats *fileInfo, struct fileStats *archiveInfo) {
+    1054:	3021fff8 	addik	r1, r1, -8
+    1058:	fa610004 	swi	r19, r1, 4
+    105c:	12610000 	addk	r19, r1, r0
+    1060:	f8b3000c 	swi	r5, r19, 12
+    1064:	f8d30010 	swi	r6, r19, 16
+    1068:	f8f30014 	swi	r7, r19, 20
+    106c:	f9130018 	swi	r8, r19, 24
+}
+    1070:	10330000 	addk	r1, r19, r0
+    1074:	ea610004 	lwi	r19, r1, 4
+    1078:	30210008 	addik	r1, r1, 8
+    107c:	b60f0008 	rtsd	r15, 8
+    1080:	80000000 	or	r0, r0, r0
+
+00001084 <decode>:
+
+void decode(Fifo *win, int *sizeCount, int *offset, int *matches, struct fileStats *fileInfo, struct fileStats *archiveInfo) {
+    1084:	3021fff8 	addik	r1, r1, -8
+    1088:	fa610004 	swi	r19, r1, 4
+    108c:	12610000 	addk	r19, r1, r0
+    1090:	f8b3000c 	swi	r5, r19, 12
+    1094:	f8d30010 	swi	r6, r19, 16
+    1098:	f8f30014 	swi	r7, r19, 20
+    109c:	f9130018 	swi	r8, r19, 24
+    10a0:	f933001c 	swi	r9, r19, 28
+    10a4:	f9530020 	swi	r10, r19, 32
+
+}
+    10a8:	10330000 	addk	r1, r19, r0
+    10ac:	ea610004 	lwi	r19, r1, 4
+    10b0:	30210008 	addik	r1, r1, 8
+    10b4:	b60f0008 	rtsd	r15, 8
+    10b8:	80000000 	or	r0, r0, r0
+
+000010bc <Fifo_init>:
+
+//**********************************
+
+
+void Fifo_init(Fifo *fifo, unsigned size, char *buf) {
+    10bc:	3021fff8 	addik	r1, r1, -8
+    10c0:	fa610004 	swi	r19, r1, 4
+    10c4:	12610000 	addk	r19, r1, r0
+    10c8:	f8b3000c 	swi	r5, r19, 12
+    10cc:	f8d30010 	swi	r6, r19, 16
+    10d0:	f8f30014 	swi	r7, r19, 20
+    fifo->begin = 0;
+    10d4:	e873000c 	lwi	r3, r19, 12
+    10d8:	f803000c 	swi	r0, r3, 12
+    fifo->end = 0;
+    10dc:	e873000c 	lwi	r3, r19, 12
+    10e0:	f8030010 	swi	r0, r3, 16
+    fifo->size = size;
+    10e4:	e893000c 	lwi	r4, r19, 12
+    10e8:	e8730010 	lwi	r3, r19, 16
+    10ec:	f8640004 	swi	r3, r4, 4
+    fifo->written_size = 0;
+    10f0:	e873000c 	lwi	r3, r19, 12
+    10f4:	f8030008 	swi	r0, r3, 8
+    fifo->data = buf;
+    10f8:	e893000c 	lwi	r4, r19, 12
+    10fc:	e8730014 	lwi	r3, r19, 20
+    1100:	f8640000 	swi	r3, r4, 0
+}
+    1104:	10330000 	addk	r1, r19, r0
+    1108:	ea610004 	lwi	r19, r1, 4
+    110c:	30210008 	addik	r1, r1, 8
+    1110:	b60f0008 	rtsd	r15, 8
+    1114:	80000000 	or	r0, r0, r0
+
+00001118 <Fifo_destroy>:
+
+void Fifo_destroy(Fifo *fifo) {
+    1118:	3021fff8 	addik	r1, r1, -8
+    111c:	fa610004 	swi	r19, r1, 4
+    1120:	12610000 	addk	r19, r1, r0
+    1124:	f8b3000c 	swi	r5, r19, 12
+
+}
+    1128:	10330000 	addk	r1, r19, r0
+    112c:	ea610004 	lwi	r19, r1, 4
+    1130:	30210008 	addik	r1, r1, 8
+    1134:	b60f0008 	rtsd	r15, 8
+    1138:	80000000 	or	r0, r0, r0
+
+0000113c <Fifo_push_front>:
+
+int Fifo_push_front(Fifo *fifo, char c) {
+    113c:	3021ffdc 	addik	r1, r1, -36
+    1140:	f9e10000 	swi	r15, r1, 0
+    1144:	fa610020 	swi	r19, r1, 32
+    1148:	12610000 	addk	r19, r1, r0
+    114c:	f8b30028 	swi	r5, r19, 40
+    1150:	f0d3002c 	sbi	r6, r19, 44
+    if (fifo->written_size == 0) {
+    1154:	e8730028 	lwi	r3, r19, 40
+    1158:	e8630008 	lwi	r3, r3, 8
+    115c:	bc230018 	bnei	r3, 24		// 1174
+        Fifo_push_back(fifo, c);
+    1160:	e8b30028 	lwi	r5, r19, 40
+    1164:	e0d3002c 	lbui	r6, r19, 44
+    1168:	b9f400bc 	brlid	r15, 188	// 1224 <Fifo_push_back>
+    116c:	80000000 	or	r0, r0, r0
+    1170:	b8000028 	bri	40		// 1198
+    } else if (fifo->written_size >= fifo->size) {
+    1174:	e8730028 	lwi	r3, r19, 40
+    1178:	e8830008 	lwi	r4, r3, 8
+    117c:	e8730028 	lwi	r3, r19, 40
+    1180:	e8630004 	lwi	r3, r3, 4
+    1184:	16432003 	cmpu	r18, r3, r4
+    1188:	bc520010 	blti	r18, 16		// 1198
+        return -1;
+    118c:	3060ffff 	addik	r3, r0, -1
+    1190:	f873001c 	swi	r3, r19, 28
+    1194:	b8000074 	bri	116		// 1208
+    }
+	
+    fifo->begin--;
+    1198:	e8730028 	lwi	r3, r19, 40
+    119c:	e863000c 	lwi	r3, r3, 12
+    11a0:	3083ffff 	addik	r4, r3, -1
+    11a4:	e8730028 	lwi	r3, r19, 40
+    11a8:	f883000c 	swi	r4, r3, 12
+    if (fifo->begin < 0) {
+    11ac:	e8730028 	lwi	r3, r19, 40
+    11b0:	e863000c 	lwi	r3, r3, 12
+    11b4:	bca3001c 	bgei	r3, 28		// 11d0
+        fifo->begin = fifo->size - 1;
+    11b8:	e8730028 	lwi	r3, r19, 40
+    11bc:	e8630004 	lwi	r3, r3, 4
+    11c0:	3063ffff 	addik	r3, r3, -1
+    11c4:	10830000 	addk	r4, r3, r0
+    11c8:	e8730028 	lwi	r3, r19, 40
+    11cc:	f883000c 	swi	r4, r3, 12
+    }
+    fifo->data[fifo->begin] = c;
+    11d0:	e8730028 	lwi	r3, r19, 40
+    11d4:	e8830000 	lwi	r4, r3, 0
+    11d8:	e8730028 	lwi	r3, r19, 40
+    11dc:	e863000c 	lwi	r3, r3, 12
+    11e0:	10841800 	addk	r4, r4, r3
+    11e4:	e073002c 	lbui	r3, r19, 44
+    11e8:	f0640000 	sbi	r3, r4, 0
+    fifo->written_size++;
+    11ec:	e8730028 	lwi	r3, r19, 40
+    11f0:	e8630008 	lwi	r3, r3, 8
+    11f4:	30830001 	addik	r4, r3, 1
+    11f8:	e8730028 	lwi	r3, r19, 40
+    11fc:	f8830008 	swi	r4, r3, 8
+	
+	return 0;
+    1200:	10600000 	addk	r3, r0, r0
+    1204:	f873001c 	swi	r3, r19, 28
+    1208:	e873001c 	lwi	r3, r19, 28
+}
+    120c:	e9e10000 	lwi	r15, r1, 0
+    1210:	10330000 	addk	r1, r19, r0
+    1214:	ea610020 	lwi	r19, r1, 32
+    1218:	30210024 	addik	r1, r1, 36
+    121c:	b60f0008 	rtsd	r15, 8
+    1220:	80000000 	or	r0, r0, r0
+
+00001224 <Fifo_push_back>:
+
+int Fifo_push_back(Fifo *fifo, char c) {
+    1224:	3021fff4 	addik	r1, r1, -12
+    1228:	fa610008 	swi	r19, r1, 8
+    122c:	12610000 	addk	r19, r1, r0
+    1230:	f8b30010 	swi	r5, r19, 16
+    1234:	f0d30014 	sbi	r6, r19, 20
+    if (fifo->written_size >= fifo->size) {
+    1238:	e8730010 	lwi	r3, r19, 16
+    123c:	e8830008 	lwi	r4, r3, 8
+    1240:	e8730010 	lwi	r3, r19, 16
+    1244:	e8630004 	lwi	r3, r3, 4
+    1248:	16432003 	cmpu	r18, r3, r4
+    124c:	bc520010 	blti	r18, 16		// 125c
+        return -1;
+    1250:	3060ffff 	addik	r3, r0, -1
+    1254:	f8730004 	swi	r3, r19, 4
+    1258:	b8000074 	bri	116		// 12cc
+    }
+	
+    fifo->written_size++;
+    125c:	e8730010 	lwi	r3, r19, 16
+    1260:	e8630008 	lwi	r3, r3, 8
+    1264:	30830001 	addik	r4, r3, 1
+    1268:	e8730010 	lwi	r3, r19, 16
+    126c:	f8830008 	swi	r4, r3, 8
+    fifo->data[fifo->end] = c;
+    1270:	e8730010 	lwi	r3, r19, 16
+    1274:	e8830000 	lwi	r4, r3, 0
+    1278:	e8730010 	lwi	r3, r19, 16
+    127c:	e8630010 	lwi	r3, r3, 16
+    1280:	10841800 	addk	r4, r4, r3
+    1284:	e0730014 	lbui	r3, r19, 20
+    1288:	f0640000 	sbi	r3, r4, 0
+    fifo->end++;
+    128c:	e8730010 	lwi	r3, r19, 16
+    1290:	e8630010 	lwi	r3, r3, 16
+    1294:	30830001 	addik	r4, r3, 1
+    1298:	e8730010 	lwi	r3, r19, 16
+    129c:	f8830010 	swi	r4, r3, 16
+    if (fifo->end == fifo->size) {
+    12a0:	e8730010 	lwi	r3, r19, 16
+    12a4:	e8630010 	lwi	r3, r3, 16
+    12a8:	10830000 	addk	r4, r3, r0
+    12ac:	e8730010 	lwi	r3, r19, 16
+    12b0:	e8630004 	lwi	r3, r3, 4
+    12b4:	16432000 	rsubk	r18, r3, r4
+    12b8:	bc32000c 	bnei	r18, 12		// 12c4
+        fifo->end = 0;
+    12bc:	e8730010 	lwi	r3, r19, 16
+    12c0:	f8030010 	swi	r0, r3, 16
+	}
+	
+	return 0;
+    12c4:	10600000 	addk	r3, r0, r0
+    12c8:	f8730004 	swi	r3, r19, 4
+    12cc:	e8730004 	lwi	r3, r19, 4
+}
+    12d0:	10330000 	addk	r1, r19, r0
+    12d4:	ea610008 	lwi	r19, r1, 8
+    12d8:	3021000c 	addik	r1, r1, 12
+    12dc:	b60f0008 	rtsd	r15, 8
+    12e0:	80000000 	or	r0, r0, r0
+
+000012e4 <Fifo_pop_front>:
+
+char Fifo_pop_front(Fifo *fifo) {
+    12e4:	3021fff0 	addik	r1, r1, -16
+    12e8:	fa61000c 	swi	r19, r1, 12
+    12ec:	12610000 	addk	r19, r1, r0
+    12f0:	f8b30014 	swi	r5, r19, 20
+    if (fifo->written_size == 0) {
+    12f4:	e8730014 	lwi	r3, r19, 20
+    12f8:	e8630008 	lwi	r3, r3, 8
+    12fc:	bc230010 	bnei	r3, 16		// 130c
+        return -1;
+    1300:	3060ffff 	addik	r3, r0, -1
+    1304:	f8730008 	swi	r3, r19, 8
+    1308:	b8000078 	bri	120		// 1380
+    }
+	
+    char c = fifo->data[fifo->begin];
+    130c:	e8730014 	lwi	r3, r19, 20
+    1310:	e8830000 	lwi	r4, r3, 0
+    1314:	e8730014 	lwi	r3, r19, 20
+    1318:	e863000c 	lwi	r3, r3, 12
+    131c:	10641800 	addk	r3, r4, r3
+    1320:	e0630000 	lbui	r3, r3, 0
+    1324:	f0730004 	sbi	r3, r19, 4
+    fifo->written_size--;
+    1328:	e8730014 	lwi	r3, r19, 20
+    132c:	e8630008 	lwi	r3, r3, 8
+    1330:	3083ffff 	addik	r4, r3, -1
+    1334:	e8730014 	lwi	r3, r19, 20
+    1338:	f8830008 	swi	r4, r3, 8
+    fifo->begin++;
+    133c:	e8730014 	lwi	r3, r19, 20
+    1340:	e863000c 	lwi	r3, r3, 12
+    1344:	30830001 	addik	r4, r3, 1
+    1348:	e8730014 	lwi	r3, r19, 20
+    134c:	f883000c 	swi	r4, r3, 12
+    if (fifo->begin == fifo->size) {
+    1350:	e8730014 	lwi	r3, r19, 20
+    1354:	e863000c 	lwi	r3, r3, 12
+    1358:	10830000 	addk	r4, r3, r0
+    135c:	e8730014 	lwi	r3, r19, 20
+    1360:	e8630004 	lwi	r3, r3, 4
+    1364:	16432000 	rsubk	r18, r3, r4
+    1368:	bc32000c 	bnei	r18, 12		// 1374
+        fifo->begin = 0;
+    136c:	e8730014 	lwi	r3, r19, 20
+    1370:	f803000c 	swi	r0, r3, 12
+    }
+    
+    return c;
+    1374:	e0730004 	lbui	r3, r19, 4
+    1378:	90630060 	sext8	r3, r3
+    137c:	f8730008 	swi	r3, r19, 8
+    1380:	e8730008 	lwi	r3, r19, 8
+}
+    1384:	10330000 	addk	r1, r19, r0
+    1388:	ea61000c 	lwi	r19, r1, 12
+    138c:	30210010 	addik	r1, r1, 16
+    1390:	b60f0008 	rtsd	r15, 8
+    1394:	80000000 	or	r0, r0, r0
+
+00001398 <Fifo_pop_back>:
+
+char Fifo_pop_back(Fifo *fifo) {
+    1398:	3021fff4 	addik	r1, r1, -12
+    139c:	fa610008 	swi	r19, r1, 8
+    13a0:	12610000 	addk	r19, r1, r0
+    13a4:	f8b30010 	swi	r5, r19, 16
+    if (fifo->written_size == 0) {
+    13a8:	e8730010 	lwi	r3, r19, 16
+    13ac:	e8630008 	lwi	r3, r3, 8
+    13b0:	bc230010 	bnei	r3, 16		// 13c0
+        return -1;
+    13b4:	3060ffff 	addik	r3, r0, -1
+    13b8:	f8730004 	swi	r3, r19, 4
+    13bc:	b8000070 	bri	112		// 142c
+    }
+	
+    fifo->written_size--;
+    13c0:	e8730010 	lwi	r3, r19, 16
+    13c4:	e8630008 	lwi	r3, r3, 8
+    13c8:	3083ffff 	addik	r4, r3, -1
+    13cc:	e8730010 	lwi	r3, r19, 16
+    13d0:	f8830008 	swi	r4, r3, 8
+    fifo->end--;
+    13d4:	e8730010 	lwi	r3, r19, 16
+    13d8:	e8630010 	lwi	r3, r3, 16
+    13dc:	3083ffff 	addik	r4, r3, -1
+    13e0:	e8730010 	lwi	r3, r19, 16
+    13e4:	f8830010 	swi	r4, r3, 16
+    if (fifo->end < 0) {
+    13e8:	e8730010 	lwi	r3, r19, 16
+    13ec:	e8630010 	lwi	r3, r3, 16
+    13f0:	bca3001c 	bgei	r3, 28		// 140c
+        fifo->end = fifo->size - 1;
+    13f4:	e8730010 	lwi	r3, r19, 16
+    13f8:	e8630004 	lwi	r3, r3, 4
+    13fc:	3063ffff 	addik	r3, r3, -1
+    1400:	10830000 	addk	r4, r3, r0
+    1404:	e8730010 	lwi	r3, r19, 16
+    1408:	f8830010 	swi	r4, r3, 16
+    }
+    return fifo->data[fifo->end];
+    140c:	e8730010 	lwi	r3, r19, 16
+    1410:	e8830000 	lwi	r4, r3, 0
+    1414:	e8730010 	lwi	r3, r19, 16
+    1418:	e8630010 	lwi	r3, r3, 16
+    141c:	10641800 	addk	r3, r4, r3
+    1420:	e0630000 	lbui	r3, r3, 0
+    1424:	90630060 	sext8	r3, r3
+    1428:	f8730004 	swi	r3, r19, 4
+    142c:	e8730004 	lwi	r3, r19, 4
+}
+    1430:	10330000 	addk	r1, r19, r0
+    1434:	ea610008 	lwi	r19, r1, 8
+    1438:	3021000c 	addik	r1, r1, 12
+    143c:	b60f0008 	rtsd	r15, 8
+    1440:	80000000 	or	r0, r0, r0
+
+00001444 <Fifo_at>:
+
+char Fifo_at(const Fifo *fifo, unsigned i) {
+    1444:	3021fff4 	addik	r1, r1, -12
+    1448:	fa610008 	swi	r19, r1, 8
+    144c:	12610000 	addk	r19, r1, r0
+    1450:	f8b30010 	swi	r5, r19, 16
+    1454:	f8d30014 	swi	r6, r19, 20
+    if (i < fifo->written_size) {
+    1458:	e8730010 	lwi	r3, r19, 16
+    145c:	e8830008 	lwi	r4, r3, 8
+    1460:	e8730014 	lwi	r3, r19, 20
+    1464:	16441803 	cmpu	r18, r4, r3
+    1468:	bcb20048 	bgei	r18, 72		// 14b0
+        return fifo->data[(fifo->begin + i) % fifo->size];
+    146c:	e8730010 	lwi	r3, r19, 16
+    1470:	e8c30000 	lwi	r6, r3, 0
+    1474:	e8730010 	lwi	r3, r19, 16
+    1478:	e863000c 	lwi	r3, r3, 12
+    147c:	10830000 	addk	r4, r3, r0
+    1480:	e8730014 	lwi	r3, r19, 20
+    1484:	10a41800 	addk	r5, r4, r3
+    1488:	e8730010 	lwi	r3, r19, 16
+    148c:	e8830004 	lwi	r4, r3, 4
+    1490:	48642802 	idivu	r3, r4, r5
+    1494:	40632000 	mul	r3, r3, r4
+    1498:	14632800 	rsubk	r3, r3, r5
+    149c:	10661800 	addk	r3, r6, r3
+    14a0:	e0630000 	lbui	r3, r3, 0
+    14a4:	90630060 	sext8	r3, r3
+    14a8:	f8730004 	swi	r3, r19, 4
+    14ac:	b800000c 	bri	12		// 14b8
+    } else {
+        return -1;
+    14b0:	3060ffff 	addik	r3, r0, -1
+    14b4:	f8730004 	swi	r3, r19, 4
+    14b8:	e8730004 	lwi	r3, r19, 4
+    }
+}
+    14bc:	10330000 	addk	r1, r19, r0
+    14c0:	ea610008 	lwi	r19, r1, 8
+    14c4:	3021000c 	addik	r1, r1, 12
+    14c8:	b60f0008 	rtsd	r15, 8
+    14cc:	80000000 	or	r0, r0, r0
+
+000014d0 <Fifo_print>:
+
+void Fifo_print(const Fifo *fifo) {
+    14d0:	3021fff0 	addik	r1, r1, -16
+    14d4:	fa61000c 	swi	r19, r1, 12
+    14d8:	12610000 	addk	r19, r1, r0
+    14dc:	f8b30014 	swi	r5, r19, 20
+    int i, j;
+    for (i = fifo->begin, j = 0; j < fifo->written_size; i++, j++) {
+    14e0:	e8730014 	lwi	r3, r19, 20
+    14e4:	e863000c 	lwi	r3, r3, 12
+    14e8:	f8730008 	swi	r3, r19, 8
+    14ec:	f8130004 	swi	r0, r19, 4
+    14f0:	b8000034 	bri	52		// 1524
+        if (i == fifo->size) {
+    14f4:	e8730008 	lwi	r3, r19, 8
+    14f8:	e8930014 	lwi	r4, r19, 20
+    14fc:	e8840004 	lwi	r4, r4, 4
+    1500:	16441800 	rsubk	r18, r4, r3
+    1504:	bc320008 	bnei	r18, 8		// 150c
+            i = 0;
+    1508:	f8130008 	swi	r0, r19, 8
+    150c:	e8730008 	lwi	r3, r19, 8
+    1510:	30630001 	addik	r3, r3, 1
+    1514:	f8730008 	swi	r3, r19, 8
+    1518:	e8730004 	lwi	r3, r19, 4
+    151c:	30630001 	addik	r3, r3, 1
+    1520:	f8730004 	swi	r3, r19, 4
+    1524:	e8730004 	lwi	r3, r19, 4
+    1528:	e8930014 	lwi	r4, r19, 20
+    152c:	e8840008 	lwi	r4, r4, 8
+    1530:	16441803 	cmpu	r18, r4, r3
+    1534:	bc52ffc0 	blti	r18, -64		// 14f4
+        }
+    }
+}
+    1538:	10330000 	addk	r1, r19, r0
+    153c:	ea61000c 	lwi	r19, r1, 12
+    1540:	30210010 	addik	r1, r1, 16
+    1544:	b60f0008 	rtsd	r15, 8
+    1548:	80000000 	or	r0, r0, r0
+
+0000154c <mgetc>:
+
+//**********************************
+
+int mgetc(char **stream)
+{
+    154c:	3021fff4 	addik	r1, r1, -12
+    1550:	fa610008 	swi	r19, r1, 8
+    1554:	12610000 	addk	r19, r1, r0
+    1558:	f8b30010 	swi	r5, r19, 16
+    char *c = *stream++;
+    155c:	e8730010 	lwi	r3, r19, 16
+    1560:	e8630000 	lwi	r3, r3, 0
+    1564:	f8730004 	swi	r3, r19, 4
+    1568:	e8730010 	lwi	r3, r19, 16
+    156c:	30630004 	addik	r3, r3, 4
+    1570:	f8730010 	swi	r3, r19, 16
+    return *c;
+    1574:	e8730004 	lwi	r3, r19, 4
+    1578:	e0630000 	lbui	r3, r3, 0
+    157c:	90630060 	sext8	r3, r3
+}
+    1580:	10330000 	addk	r1, r19, r0
+    1584:	ea610008 	lwi	r19, r1, 8
+    1588:	3021000c 	addik	r1, r1, 12
+    158c:	b60f0008 	rtsd	r15, 8
+    1590:	80000000 	or	r0, r0, r0
+
+00001594 <mputc>:
+
+int mputc(char c, char **stream)
+{
+    1594:	3021fff8 	addik	r1, r1, -8
+    1598:	fa610004 	swi	r19, r1, 4
+    159c:	12610000 	addk	r19, r1, r0
+    15a0:	f0b3000c 	sbi	r5, r19, 12
+    15a4:	f8d30010 	swi	r6, r19, 16
+    **stream = c;
+    15a8:	e8730010 	lwi	r3, r19, 16
+    15ac:	e8830000 	lwi	r4, r3, 0
+    15b0:	e073000c 	lbui	r3, r19, 12
+    15b4:	f0640000 	sbi	r3, r4, 0
+    stream++;
+    15b8:	e8730010 	lwi	r3, r19, 16
+    15bc:	30630004 	addik	r3, r3, 4
+    15c0:	f8730010 	swi	r3, r19, 16
+    return c;
+    15c4:	e073000c 	lbui	r3, r19, 12
+    15c8:	90630060 	sext8	r3, r3
+}
+    15cc:	10330000 	addk	r1, r19, r0
+    15d0:	ea610004 	lwi	r19, r1, 4
+    15d4:	30210008 	addik	r1, r1, 8
+    15d8:	b60f0008 	rtsd	r15, 8
+    15dc:	80000000 	or	r0, r0, r0
+
+000015e0 <mwrite>:
+
+int mwrite(const void *ptr, int size, int nmemb, char **stream)
+{
+    15e0:	3021ffec 	addik	r1, r1, -20
+    15e4:	fa610010 	swi	r19, r1, 16
+    15e8:	12610000 	addk	r19, r1, r0
+    15ec:	f8b30018 	swi	r5, r19, 24
+    15f0:	f8d3001c 	swi	r6, r19, 28
+    15f4:	f8f30020 	swi	r7, r19, 32
+    15f8:	f9130024 	swi	r8, r19, 36
+    int n, s, ret = 0;
+    15fc:	f8130004 	swi	r0, r19, 4
+
+    for (n = 0; n < nmemb; n++) {
+    1600:	f813000c 	swi	r0, r19, 12
+    1604:	b8000064 	bri	100		// 1668
+        for (s = 0; s < size; s++) {
+    1608:	f8130008 	swi	r0, r19, 8
+    160c:	b8000040 	bri	64		// 164c
+            **stream = *((char*) ptr);
+    1610:	e8730024 	lwi	r3, r19, 36
+    1614:	e8830000 	lwi	r4, r3, 0
+    1618:	e8730018 	lwi	r3, r19, 24
+    161c:	e0630000 	lbui	r3, r3, 0
+    1620:	90630060 	sext8	r3, r3
+    1624:	f0640000 	sbi	r3, r4, 0
+            stream++;
+    1628:	e8730024 	lwi	r3, r19, 36
+    162c:	30630004 	addik	r3, r3, 4
+    1630:	f8730024 	swi	r3, r19, 36
+            ret++;
+    1634:	e8730004 	lwi	r3, r19, 4
+    1638:	30630001 	addik	r3, r3, 1
+    163c:	f8730004 	swi	r3, r19, 4
+    1640:	e8730008 	lwi	r3, r19, 8
+    1644:	30630001 	addik	r3, r3, 1
+    1648:	f8730008 	swi	r3, r19, 8
+    164c:	e8930008 	lwi	r4, r19, 8
+    1650:	e873001c 	lwi	r3, r19, 28
+    1654:	16432001 	cmp	r18, r3, r4
+    1658:	bc52ffb8 	blti	r18, -72		// 1610
+    165c:	e873000c 	lwi	r3, r19, 12
+    1660:	30630001 	addik	r3, r3, 1
+    1664:	f873000c 	swi	r3, r19, 12
+    1668:	e893000c 	lwi	r4, r19, 12
+    166c:	e8730020 	lwi	r3, r19, 32
+    1670:	16432001 	cmp	r18, r3, r4
+    1674:	bc52ff94 	blti	r18, -108		// 1608
+        }
+    }
+
+    return ret;
+    1678:	e8730004 	lwi	r3, r19, 4
+}
+    167c:	10330000 	addk	r1, r19, r0
+    1680:	ea610010 	lwi	r19, r1, 16
+    1684:	30210014 	addik	r1, r1, 20
+    1688:	b60f0008 	rtsd	r15, 8
+    168c:	80000000 	or	r0, r0, r0
+
+00001690 <getnum>:
+    1690:	e9050000 	lwi	r8, r5, 0
+    1694:	b0008539 	imm	-31431
+    1698:	e9200358 	lwi	r9, r0, 856
+    169c:	11450000 	addk	r10, r5, r0
+    16a0:	e0880000 	lbui	r4, r8, 0
+    16a4:	90e40060 	sext8	r7, r4
+    16a8:	c0693800 	lbu	r3, r9, r7
+    16ac:	a4630004 	andi	r3, r3, 4
+    16b0:	be030038 	beqid	r3, 56		// 16e8
+    16b4:	10c30000 	addk	r6, r3, r0
+    16b8:	10c00000 	addk	r6, r0, r0
+    16bc:	31080001 	addik	r8, r8, 1
+    16c0:	60660004 	muli	r3, r6, 4
+    16c4:	e0a80000 	lbui	r5, r8, 0
+    16c8:	10633000 	addk	r3, r3, r6
+    16cc:	10631800 	addk	r3, r3, r3
+    16d0:	10633800 	addk	r3, r3, r7
+    16d4:	90e50060 	sext8	r7, r5
+    16d8:	c0893800 	lbu	r4, r9, r7
+    16dc:	a4840004 	andi	r4, r4, 4
+    16e0:	be24ffdc 	bneid	r4, -36		// 16bc
+    16e4:	30c3ffd0 	addik	r6, r3, -48
+    16e8:	10660000 	addk	r3, r6, r0
+    16ec:	b60f0008 	rtsd	r15, 8
+    16f0:	f90a0000 	swi	r8, r10, 0
+
+000016f4 <padding>:
+    16f4:	3021ffdc 	addik	r1, r1, -36
+    16f8:	fac10020 	swi	r22, r1, 32
+    16fc:	f9e10000 	swi	r15, r1, 0
+    1700:	fa61001c 	swi	r19, r1, 28
+    1704:	e8660010 	lwi	r3, r6, 16
+    1708:	be03000c 	beqid	r3, 12		// 1714
+    170c:	12c60000 	addk	r22, r6, r0
+    1710:	bc250018 	bnei	r5, 24		// 1728
+    1714:	e9e10000 	lwi	r15, r1, 0
+    1718:	ea61001c 	lwi	r19, r1, 28
+    171c:	eac10020 	lwi	r22, r1, 32
+    1720:	b60f0008 	rtsd	r15, 8
+    1724:	30210024 	addik	r1, r1, 36
+    1728:	ea660000 	lwi	r19, r6, 0
+    172c:	e8660004 	lwi	r3, r6, 4
+    1730:	16439801 	cmp	r18, r3, r19
+    1734:	beb2ffe4 	bgeid	r18, -28		// 1718
+    1738:	e9e10000 	lwi	r15, r1, 0
+    173c:	e0b6000c 	lbui	r5, r22, 12
+    1740:	b9f40608 	brlid	r15, 1544	// 1d48 <outbyte>
+    1744:	32730001 	addik	r19, r19, 1
+    1748:	e8760004 	lwi	r3, r22, 4
+    174c:	16439801 	cmp	r18, r3, r19
+    1750:	be52ffec 	bltid	r18, -20		// 173c
+    1754:	e9e10000 	lwi	r15, r1, 0
+    1758:	b810ffc4 	brid	-60		// 171c
+    175c:	ea61001c 	lwi	r19, r1, 28
+
+00001760 <outnum>:
+    1760:	e88022ac 	lwi	r4, r0, 8876
+    1764:	3021ff98 	addik	r1, r1, -104
+    1768:	e86022a8 	lwi	r3, r0, 8872
+    176c:	f8810020 	swi	r4, r1, 32
+    1770:	e88022b4 	lwi	r4, r0, 8884
+    1774:	f861001c 	swi	r3, r1, 28
+    1778:	e86022b0 	lwi	r3, r0, 8880
+    177c:	f8810028 	swi	r4, r1, 40
+    1780:	e08022b8 	lbui	r4, r0, 8888
+    1784:	fae10058 	swi	r23, r1, 88
+    1788:	fb210060 	swi	r25, r1, 96
+    178c:	f8610024 	swi	r3, r1, 36
+    1790:	f9e10000 	swi	r15, r1, 0
+    1794:	fa610050 	swi	r19, r1, 80
+    1798:	fac10054 	swi	r22, r1, 84
+    179c:	fb01005c 	swi	r24, r1, 92
+    17a0:	fb410064 	swi	r26, r1, 100
+    17a4:	12e60000 	addk	r23, r6, r0
+    17a8:	10650000 	addk	r3, r5, r0
+    17ac:	13270000 	addk	r25, r7, r0
+    17b0:	aa46000a 	xori	r18, r6, 10
+    17b4:	be120150 	beqid	r18, 336		// 1904
+    17b8:	f081002c 	sbi	r4, r1, 44
+    17bc:	12630000 	addk	r19, r3, r0
+    17c0:	13400000 	addk	r26, r0, r0
+    17c4:	33010030 	addik	r24, r1, 48
+    17c8:	12d80000 	addk	r22, r24, r0
+    17cc:	10b30000 	addk	r5, r19, r0
+    17d0:	b9f408bc 	brlid	r15, 2236	// 208c <__umodsi3>
+    17d4:	10d70000 	addk	r6, r23, r0
+    17d8:	10611800 	addk	r3, r1, r3
+    17dc:	e063001c 	lbui	r3, r3, 28
+    17e0:	10b30000 	addk	r5, r19, r0
+    17e4:	10d70000 	addk	r6, r23, r0
+    17e8:	f0760000 	sbi	r3, r22, 0
+    17ec:	b9f4095c 	brlid	r15, 2396	// 2148 <__udivsi3>
+    17f0:	32d60001 	addik	r22, r22, 1
+    17f4:	be23ffd8 	bneid	r3, -40		// 17cc
+    17f8:	12630000 	addk	r19, r3, r0
+    17fc:	be1a0014 	beqid	r26, 20		// 1810
+    1800:	10b80000 	addk	r5, r24, r0
+    1804:	3060002d 	addik	r3, r0, 45
+    1808:	f0760000 	sbi	r3, r22, 0
+    180c:	32d60001 	addik	r22, r22, 1
+    1810:	f2760000 	sbi	r19, r22, 0
+    1814:	b9f40618 	brlid	r15, 1560	// 1e2c <strlen>
+    1818:	3276ffff 	addik	r19, r22, -1
+    181c:	e8990014 	lwi	r4, r25, 20
+    1820:	10d90000 	addk	r6, r25, r0
+    1824:	14a40000 	rsubk	r5, r4, r0
+    1828:	80a52000 	or	r5, r5, r4
+    182c:	a8a5ffff 	xori	r5, r5, -1
+    1830:	90a50041 	srl	r5, r5
+    1834:	90a50041 	srl	r5, r5
+    1838:	90a50041 	srl	r5, r5
+    183c:	90a50041 	srl	r5, r5
+    1840:	90a50041 	srl	r5, r5
+    1844:	90a50041 	srl	r5, r5
+    1848:	90a50041 	srl	r5, r5
+    184c:	90a50041 	srl	r5, r5
+    1850:	90a50041 	srl	r5, r5
+    1854:	90a50041 	srl	r5, r5
+    1858:	90a50041 	srl	r5, r5
+    185c:	90a50041 	srl	r5, r5
+    1860:	90a50041 	srl	r5, r5
+    1864:	90a50041 	srl	r5, r5
+    1868:	90a50041 	srl	r5, r5
+    186c:	90a50041 	srl	r5, r5
+    1870:	90a50041 	srl	r5, r5
+    1874:	90a50041 	srl	r5, r5
+    1878:	90a50041 	srl	r5, r5
+    187c:	90a50041 	srl	r5, r5
+    1880:	90a50041 	srl	r5, r5
+    1884:	90a50041 	srl	r5, r5
+    1888:	90a50041 	srl	r5, r5
+    188c:	90a50041 	srl	r5, r5
+    1890:	90a50041 	srl	r5, r5
+    1894:	90a50041 	srl	r5, r5
+    1898:	90a50041 	srl	r5, r5
+    189c:	90a50041 	srl	r5, r5
+    18a0:	90a50041 	srl	r5, r5
+    18a4:	90a50041 	srl	r5, r5
+    18a8:	90a50041 	srl	r5, r5
+    18ac:	b9f4fe48 	brlid	r15, -440	// 16f4 <padding>
+    18b0:	f8790000 	swi	r3, r25, 0
+    18b4:	16589803 	cmpu	r18, r24, r19
+    18b8:	be520020 	bltid	r18, 32		// 18d8
+    18bc:	10d90000 	addk	r6, r25, r0
+    18c0:	e0b30000 	lbui	r5, r19, 0
+    18c4:	b9f40484 	brlid	r15, 1156	// 1d48 <outbyte>
+    18c8:	3273ffff 	addik	r19, r19, -1
+    18cc:	16589803 	cmpu	r18, r24, r19
+    18d0:	beb2fff0 	bgeid	r18, -16		// 18c0
+    18d4:	10d90000 	addk	r6, r25, r0
+    18d8:	b9f4fe1c 	brlid	r15, -484	// 16f4 <padding>
+    18dc:	e8b90014 	lwi	r5, r25, 20
+    18e0:	e9e10000 	lwi	r15, r1, 0
+    18e4:	ea610050 	lwi	r19, r1, 80
+    18e8:	eac10054 	lwi	r22, r1, 84
+    18ec:	eae10058 	lwi	r23, r1, 88
+    18f0:	eb01005c 	lwi	r24, r1, 92
+    18f4:	eb210060 	lwi	r25, r1, 96
+    18f8:	eb410064 	lwi	r26, r1, 100
+    18fc:	b60f0008 	rtsd	r15, 8
+    1900:	30210068 	addik	r1, r1, 104
+    1904:	bea5feb8 	bgeid	r5, -328		// 17bc
+    1908:	33400001 	addik	r26, r0, 1
+    190c:	b810feb8 	brid	-328		// 17c4
+    1910:	16650000 	rsubk	r19, r5, r0
+
+00001914 <xil_printf>:
+    1914:	f8a10004 	swi	r5, r1, 4
+    1918:	f8c10008 	swi	r6, r1, 8
+    191c:	f8e1000c 	swi	r7, r1, 12
+    1920:	f9010010 	swi	r8, r1, 16
+    1924:	f9210014 	swi	r9, r1, 20
+    1928:	f9410018 	swi	r10, r1, 24
+    192c:	3021ffbc 	addik	r1, r1, -68
+    1930:	3061004c 	addik	r3, r1, 76
+    1934:	f9e10000 	swi	r15, r1, 0
+    1938:	fa61003c 	swi	r19, r1, 60
+    193c:	fac10040 	swi	r22, r1, 64
+    1940:	f861001c 	swi	r3, r1, 28
+    1944:	f8a10020 	swi	r5, r1, 32
+    1948:	e0650000 	lbui	r3, r5, 0
+    194c:	90630060 	sext8	r3, r3
+    1950:	be230034 	bneid	r3, 52		// 1984
+    1954:	e9e10000 	lwi	r15, r1, 0
+    1958:	b8100104 	brid	260		// 1a5c
+    195c:	ea61003c 	lwi	r19, r1, 60
+    1960:	b9f403e8 	brlid	r15, 1000	// 1d48 <outbyte>
+    1964:	10a30000 	addk	r5, r3, r0
+    1968:	e8a10020 	lwi	r5, r1, 32
+    196c:	30650001 	addik	r3, r5, 1
+    1970:	f8610020 	swi	r3, r1, 32
+    1974:	e0850001 	lbui	r4, r5, 1
+    1978:	90640060 	sext8	r3, r4
+    197c:	be0300dc 	beqid	r3, 220		// 1a58
+    1980:	e9e10000 	lwi	r15, r1, 0
+    1984:	aa430025 	xori	r18, r3, 37
+    1988:	be32ffd8 	bneid	r18, -40		// 1960
+    198c:	12600000 	addk	r19, r0, r0
+    1990:	30607fff 	addik	r3, r0, 32767
+    1994:	12d30000 	addk	r22, r19, r0
+    1998:	e8a10020 	lwi	r5, r1, 32
+    199c:	b0008539 	imm	-31431
+    19a0:	e8e00358 	lwi	r7, r0, 856
+    19a4:	f861002c 	swi	r3, r1, 44
+    19a8:	30600020 	addik	r3, r0, 32	// 20 <_vector_hw_exception>
+    19ac:	fa610034 	swi	r19, r1, 52
+    19b0:	fa610038 	swi	r19, r1, 56
+    19b4:	f0610030 	sbi	r3, r1, 48
+    19b8:	10650000 	addk	r3, r5, r0
+    19bc:	30a50001 	addik	r5, r5, 1
+    19c0:	f8a10020 	swi	r5, r1, 32
+    19c4:	e0830001 	lbui	r4, r3, 1
+    19c8:	90c40060 	sext8	r6, r4
+    19cc:	c0873000 	lbu	r4, r7, r6
+    19d0:	a4640004 	andi	r3, r4, 4
+    19d4:	bc030040 	beqi	r3, 64		// 1a14
+    19d8:	bc360068 	bnei	r22, 104		// 1a40
+    19dc:	aa460030 	xori	r18, r6, 48
+    19e0:	be120070 	beqid	r18, 112		// 1a50
+    19e4:	30600030 	addik	r3, r0, 48
+    19e8:	b9f4fca8 	brlid	r15, -856	// 1690 <getnum>
+    19ec:	30a10020 	addik	r5, r1, 32
+    19f0:	f8610028 	swi	r3, r1, 40
+    19f4:	30600001 	addik	r3, r0, 1
+    19f8:	f8610034 	swi	r3, r1, 52
+    19fc:	e8a10020 	lwi	r5, r1, 32
+    1a00:	b0008539 	imm	-31431
+    1a04:	e8e00358 	lwi	r7, r0, 856
+    1a08:	30a5ffff 	addik	r5, r5, -1
+    1a0c:	b810ffac 	brid	-84		// 19b8
+    1a10:	f8a10020 	swi	r5, r1, 32
+    1a14:	a4640001 	andi	r3, r4, 1
+    1a18:	be03000c 	beqid	r3, 12		// 1a24
+    1a1c:	10860000 	addk	r4, r6, r0
+    1a20:	30860020 	addik	r4, r6, 32
+    1a24:	3064ffdb 	addik	r3, r4, -37
+    1a28:	22400053 	addi	r18, r0, 83
+    1a2c:	16439003 	cmpu	r18, r3, r18
+    1a30:	be52ff3c 	bltid	r18, -196		// 196c
+    1a34:	60630004 	muli	r3, r3, 4
+    1a38:	e88322bc 	lwi	r4, r3, 8892
+    1a3c:	98082000 	bra	r4
+    1a40:	b9f4fc50 	brlid	r15, -944	// 1690 <getnum>
+    1a44:	30a10020 	addik	r5, r1, 32
+    1a48:	b810ffb4 	brid	-76		// 19fc
+    1a4c:	f861002c 	swi	r3, r1, 44
+    1a50:	b810ff98 	brid	-104		// 19e8
+    1a54:	f0610030 	sbi	r3, r1, 48
+    1a58:	ea61003c 	lwi	r19, r1, 60
+    1a5c:	eac10040 	lwi	r22, r1, 64
+    1a60:	b60f0008 	rtsd	r15, 8
+    1a64:	30210044 	addik	r1, r1, 68
+    1a68:	b9f402e0 	brlid	r15, 736	// 1d48 <outbyte>
+    1a6c:	30a00025 	addik	r5, r0, 37
+    1a70:	b810fefc 	brid	-260		// 196c
+    1a74:	e8a10020 	lwi	r5, r1, 32
+    1a78:	30600001 	addik	r3, r0, 1
+    1a7c:	b810ff3c 	brid	-196		// 19b8
+    1a80:	f8610038 	swi	r3, r1, 56
+    1a84:	b810ff34 	brid	-204		// 19b8
+    1a88:	32c00001 	addik	r22, r0, 1
+    1a8c:	aa460068 	xori	r18, r6, 104
+    1a90:	bc120190 	beqi	r18, 400		// 1c20
+    1a94:	32400068 	addik	r18, r0, 104
+    1a98:	16469001 	cmp	r18, r6, r18
+    1a9c:	bc520194 	blti	r18, 404		// 1c30
+    1aa0:	aa460061 	xori	r18, r6, 97
+    1aa4:	bc1201c4 	beqi	r18, 452		// 1c68
+    1aa8:	b9f402a0 	brlid	r15, 672	// 1d48 <outbyte>
+    1aac:	10a60000 	addk	r5, r6, r0
+    1ab0:	e8a10020 	lwi	r5, r1, 32
+    1ab4:	b0008539 	imm	-31431
+    1ab8:	e8e00358 	lwi	r7, r0, 856
+    1abc:	30a50001 	addik	r5, r5, 1
+    1ac0:	b810fef8 	brid	-264		// 19b8
+    1ac4:	f8a10020 	swi	r5, r1, 32
+    1ac8:	e861001c 	lwi	r3, r1, 28
+    1acc:	e0a30003 	lbui	r5, r3, 3
+    1ad0:	30630004 	addik	r3, r3, 4
+    1ad4:	b9f40274 	brlid	r15, 628	// 1d48 <outbyte>
+    1ad8:	f861001c 	swi	r3, r1, 28
+    1adc:	b810fe90 	brid	-368		// 196c
+    1ae0:	e8a10020 	lwi	r5, r1, 32
+    1ae4:	e861001c 	lwi	r3, r1, 28
+    1ae8:	30c0000a 	addik	r6, r0, 10
+    1aec:	e8a30000 	lwi	r5, r3, 0
+    1af0:	30e10024 	addik	r7, r1, 36
+    1af4:	30630004 	addik	r3, r3, 4
+    1af8:	b9f4fc68 	brlid	r15, -920	// 1760 <outnum>
+    1afc:	f861001c 	swi	r3, r1, 28
+    1b00:	b810fe6c 	brid	-404		// 196c
+    1b04:	e8a10020 	lwi	r5, r1, 32
+    1b08:	b810feb0 	brid	-336		// 19b8
+    1b0c:	32600001 	addik	r19, r0, 1
+    1b10:	e861001c 	lwi	r3, r1, 28
+    1b14:	32c10024 	addik	r22, r1, 36
+    1b18:	ea630000 	lwi	r19, r3, 0
+    1b1c:	30630004 	addik	r3, r3, 4
+    1b20:	f861001c 	swi	r3, r1, 28
+    1b24:	b9f40308 	brlid	r15, 776	// 1e2c <strlen>
+    1b28:	10b30000 	addk	r5, r19, r0
+    1b2c:	e8810038 	lwi	r4, r1, 56
+    1b30:	10d60000 	addk	r6, r22, r0
+    1b34:	14a40000 	rsubk	r5, r4, r0
+    1b38:	80a52000 	or	r5, r5, r4
+    1b3c:	a8a5ffff 	xori	r5, r5, -1
+    1b40:	90a50041 	srl	r5, r5
+    1b44:	90a50041 	srl	r5, r5
+    1b48:	90a50041 	srl	r5, r5
+    1b4c:	90a50041 	srl	r5, r5
+    1b50:	90a50041 	srl	r5, r5
+    1b54:	90a50041 	srl	r5, r5
+    1b58:	90a50041 	srl	r5, r5
+    1b5c:	90a50041 	srl	r5, r5
+    1b60:	90a50041 	srl	r5, r5
+    1b64:	90a50041 	srl	r5, r5
+    1b68:	90a50041 	srl	r5, r5
+    1b6c:	90a50041 	srl	r5, r5
+    1b70:	90a50041 	srl	r5, r5
+    1b74:	90a50041 	srl	r5, r5
+    1b78:	90a50041 	srl	r5, r5
+    1b7c:	90a50041 	srl	r5, r5
+    1b80:	90a50041 	srl	r5, r5
+    1b84:	90a50041 	srl	r5, r5
+    1b88:	90a50041 	srl	r5, r5
+    1b8c:	90a50041 	srl	r5, r5
+    1b90:	90a50041 	srl	r5, r5
+    1b94:	90a50041 	srl	r5, r5
+    1b98:	90a50041 	srl	r5, r5
+    1b9c:	90a50041 	srl	r5, r5
+    1ba0:	90a50041 	srl	r5, r5
+    1ba4:	90a50041 	srl	r5, r5
+    1ba8:	90a50041 	srl	r5, r5
+    1bac:	90a50041 	srl	r5, r5
+    1bb0:	90a50041 	srl	r5, r5
+    1bb4:	90a50041 	srl	r5, r5
+    1bb8:	90a50041 	srl	r5, r5
+    1bbc:	b9f4fb38 	brlid	r15, -1224	// 16f4 <padding>
+    1bc0:	f8610024 	swi	r3, r1, 36
+    1bc4:	e0730000 	lbui	r3, r19, 0
+    1bc8:	be230028 	bneid	r3, 40		// 1bf0
+    1bcc:	e861002c 	lwi	r3, r1, 44
+    1bd0:	b8100034 	brid	52		// 1c04
+    1bd4:	e8a10038 	lwi	r5, r1, 56
+    1bd8:	e0b30000 	lbui	r5, r19, 0
+    1bdc:	b9f4016c 	brlid	r15, 364	// 1d48 <outbyte>
+    1be0:	32730001 	addik	r19, r19, 1
+    1be4:	e0730000 	lbui	r3, r19, 0
+    1be8:	be030018 	beqid	r3, 24		// 1c00
+    1bec:	e861002c 	lwi	r3, r1, 44
+    1bf0:	3063ffff 	addik	r3, r3, -1
+    1bf4:	aa43ffff 	xori	r18, r3, -1
+    1bf8:	be32ffe0 	bneid	r18, -32		// 1bd8
+    1bfc:	f861002c 	swi	r3, r1, 44
+    1c00:	e8a10038 	lwi	r5, r1, 56
+    1c04:	b9f4faf0 	brlid	r15, -1296	// 16f4 <padding>
+    1c08:	10d60000 	addk	r6, r22, r0
+    1c0c:	b810fd60 	brid	-672		// 196c
+    1c10:	e8a10020 	lwi	r5, r1, 32
+    1c14:	e861001c 	lwi	r3, r1, 28
+    1c18:	b810fed4 	brid	-300		// 1aec
+    1c1c:	30c00010 	addik	r6, r0, 16	// 10 <_vector_interrupt>
+    1c20:	b9f40128 	brlid	r15, 296	// 1d48 <outbyte>
+    1c24:	30a00008 	addik	r5, r0, 8	// 8 <_vector_sw_exception>
+    1c28:	b810fe8c 	brid	-372		// 1ab4
+    1c2c:	e8a10020 	lwi	r5, r1, 32
+    1c30:	aa46006e 	xori	r18, r6, 110
+    1c34:	bc12001c 	beqi	r18, 28		// 1c50
+    1c38:	aa460072 	xori	r18, r6, 114
+    1c3c:	bc32fe6c 	bnei	r18, -404		// 1aa8
+    1c40:	b9f40108 	brlid	r15, 264	// 1d48 <outbyte>
+    1c44:	30a0000d 	addik	r5, r0, 13
+    1c48:	b810fe6c 	brid	-404		// 1ab4
+    1c4c:	e8a10020 	lwi	r5, r1, 32
+    1c50:	b9f400f8 	brlid	r15, 248	// 1d48 <outbyte>
+    1c54:	30a0000d 	addik	r5, r0, 13
+    1c58:	b9f400f0 	brlid	r15, 240	// 1d48 <outbyte>
+    1c5c:	30a0000a 	addik	r5, r0, 10
+    1c60:	b810fe54 	brid	-428		// 1ab4
+    1c64:	e8a10020 	lwi	r5, r1, 32
+    1c68:	b9f400e0 	brlid	r15, 224	// 1d48 <outbyte>
+    1c6c:	30a00007 	addik	r5, r0, 7
+    1c70:	b810fe44 	brid	-444		// 1ab4
+    1c74:	e8a10020 	lwi	r5, r1, 32
+
+00001c78 <_exception_handler>:
+    1c78:	b6110000 	rtsd	r17, 0
+    1c7c:	80000000 	or	r0, r0, r0
+
+00001c80 <_program_clean>:
+    1c80:	b60f0008 	rtsd	r15, 8
+    1c84:	80000000 	or	r0, r0, r0
+
+00001c88 <_program_init>:
+    1c88:	b60f0008 	rtsd	r15, 8
+    1c8c:	80000000 	or	r0, r0, r0
+
+00001c90 <_hw_exception_handler>:
+    1c90:	b8000000 	bri	0	// 1c90 <_hw_exception_handler>
+
+00001c94 <__interrupt_handler>:
+    1c94:	3021ffb0 	addik	r1, r1, -80
+    1c98:	f9e10000 	swi	r15, r1, 0
+    1c9c:	f8610020 	swi	r3, r1, 32
+    1ca0:	f8810024 	swi	r4, r1, 36
+    1ca4:	f8a10028 	swi	r5, r1, 40
+    1ca8:	f8c1002c 	swi	r6, r1, 44
+    1cac:	f8e10030 	swi	r7, r1, 48
+    1cb0:	f9010034 	swi	r8, r1, 52
+    1cb4:	f9210038 	swi	r9, r1, 56
+    1cb8:	f941003c 	swi	r10, r1, 60
+    1cbc:	f9610040 	swi	r11, r1, 64
+    1cc0:	f9810044 	swi	r12, r1, 68
+    1cc4:	fa210048 	swi	r17, r1, 72
+    1cc8:	95608001 	mfs	r11, rmsr
+    1ccc:	b0008539 	imm	-31431
+    1cd0:	e8a00350 	lwi	r5, r0, 848
+    1cd4:	b0008539 	imm	-31431
+    1cd8:	e860034c 	lwi	r3, r0, 844
+    1cdc:	fa41004c 	swi	r18, r1, 76
+    1ce0:	f961001c 	swi	r11, r1, 28
+    1ce4:	99fc1800 	brald	r15, r3
+    1ce8:	80000000 	or	r0, r0, r0
+    1cec:	e9e10000 	lwi	r15, r1, 0
+    1cf0:	e961001c 	lwi	r11, r1, 28
+    1cf4:	e8610020 	lwi	r3, r1, 32
+    1cf8:	e8810024 	lwi	r4, r1, 36
+    1cfc:	940bc001 	mts	rmsr, r11
+    1d00:	e8a10028 	lwi	r5, r1, 40
+    1d04:	e8c1002c 	lwi	r6, r1, 44
+    1d08:	e8e10030 	lwi	r7, r1, 48
+    1d0c:	e9010034 	lwi	r8, r1, 52
+    1d10:	e9210038 	lwi	r9, r1, 56
+    1d14:	e941003c 	lwi	r10, r1, 60
+    1d18:	e9610040 	lwi	r11, r1, 64
+    1d1c:	e9810044 	lwi	r12, r1, 68
+    1d20:	ea210048 	lwi	r17, r1, 72
+    1d24:	ea41004c 	lwi	r18, r1, 76
+    1d28:	b62e0000 	rtid	r14, 0
+    1d2c:	30210050 	addik	r1, r1, 80
+
+00001d30 <microblaze_register_handler>:
+    1d30:	b0008539 	imm	-31431
+    1d34:	f8a0034c 	swi	r5, r0, 844
+    1d38:	b0008539 	imm	-31431
+    1d3c:	f8c00350 	swi	r6, r0, 848
+    1d40:	b60f0008 	rtsd	r15, 8
+    1d44:	80000000 	or	r0, r0, r0
+
+00001d48 <outbyte>:
+    1d48:	90c50060 	sext8	r6, r5
+    1d4c:	b0008440 	imm	-31680
+    1d50:	30a00000 	addik	r5, r0, 0
+    1d54:	3021ffe4 	addik	r1, r1, -28
+    1d58:	f9e10000 	swi	r15, r1, 0
+    1d5c:	b9f40014 	brlid	r15, 20	// 1d70 <XUartLite_SendByte>
+    1d60:	80000000 	or	r0, r0, r0
+    1d64:	e9e10000 	lwi	r15, r1, 0
+    1d68:	b60f0008 	rtsd	r15, 8
+    1d6c:	3021001c 	addik	r1, r1, 28
+
+00001d70 <XUartLite_SendByte>:
+    1d70:	a4c600ff 	andi	r6, r6, 255
+    1d74:	30850008 	addik	r4, r5, 8
+    1d78:	e8640000 	lwi	r3, r4, 0
+    1d7c:	a4630008 	andi	r3, r3, 8
+    1d80:	bc23fff8 	bnei	r3, -8		// 1d78
+    1d84:	f8c50004 	swi	r6, r5, 4
+    1d88:	b60f0008 	rtsd	r15, 8
+    1d8c:	80000000 	or	r0, r0, r0
+
+00001d90 <XUartLite_RecvByte>:
+    1d90:	30850008 	addik	r4, r5, 8
+    1d94:	e8640000 	lwi	r3, r4, 0
+    1d98:	a4630001 	andi	r3, r3, 1
+    1d9c:	bc03fff8 	beqi	r3, -8		// 1d94
+    1da0:	e8650000 	lwi	r3, r5, 0
+    1da4:	b60f0008 	rtsd	r15, 8
+    1da8:	a46300ff 	andi	r3, r3, 255
+
+00001dac <XAssert>:
+    1dac:	b0008539 	imm	-31431
+    1db0:	e8600490 	lwi	r3, r0, 1168
+    1db4:	3021ffe4 	addik	r1, r1, -28
+    1db8:	be030010 	beqid	r3, 16		// 1dc8
+    1dbc:	f9e10000 	swi	r15, r1, 0
+    1dc0:	99fc1800 	brald	r15, r3
+    1dc4:	80000000 	or	r0, r0, r0
+    1dc8:	b0008539 	imm	-31431
+    1dcc:	e8600354 	lwi	r3, r0, 852
+    1dd0:	be230000 	bneid	r3, 0		// 1dd0
+    1dd4:	e9e10000 	lwi	r15, r1, 0
+    1dd8:	b60f0008 	rtsd	r15, 8
+    1ddc:	3021001c 	addik	r1, r1, 28
+
+00001de0 <XAssertSetCallback>:
+    1de0:	b0008539 	imm	-31431
+    1de4:	f8a00490 	swi	r5, r0, 1168
+    1de8:	b60f0008 	rtsd	r15, 8
+    1dec:	80000000 	or	r0, r0, r0
+
+00001df0 <XNullHandler>:
+    1df0:	b60f0008 	rtsd	r15, 8
+    1df4:	80000000 	or	r0, r0, r0
+
+00001df8 <exit>:
+    1df8:	3021ffe0 	addik	r1, r1, -32
+    1dfc:	10c00000 	addk	r6, r0, r0
+    1e00:	fa61001c 	swi	r19, r1, 28
+    1e04:	f9e10000 	swi	r15, r1, 0
+    1e08:	b9f40084 	brlid	r15, 132	// 1e8c <__call_exitprocs>
+    1e0c:	12650000 	addk	r19, r5, r0
+    1e10:	e8a02690 	lwi	r5, r0, 9872	// 2690 <_global_impure_ptr>
+    1e14:	e8650028 	lwi	r3, r5, 40
+    1e18:	bc03000c 	beqi	r3, 12		// 1e24
+    1e1c:	99fc1800 	brald	r15, r3
+    1e20:	80000000 	or	r0, r0, r0
+    1e24:	b9f4e248 	brlid	r15, -7608	// 6c <_exit>
+    1e28:	10b30000 	addk	r5, r19, r0
+
+00001e2c <strlen>:
+    1e2c:	a4650003 	andi	r3, r5, 3
+    1e30:	be230044 	bneid	r3, 68		// 1e74
+    1e34:	10c50000 	addk	r6, r5, r0
+    1e38:	b810000c 	brid	12		// 1e44
+    1e3c:	e8650000 	lwi	r3, r5, 0
+    1e40:	e8650000 	lwi	r3, r5, 0
+    1e44:	b000fefe 	imm	-258
+    1e48:	3083feff 	addik	r4, r3, -257
+    1e4c:	b0008080 	imm	-32640
+    1e50:	a4848080 	andi	r4, r4, -32640
+    1e54:	a863ffff 	xori	r3, r3, -1
+    1e58:	84632000 	and	r3, r3, r4
+    1e5c:	be03ffe4 	beqid	r3, -28		// 1e40
+    1e60:	30a50004 	addik	r5, r5, 4
+    1e64:	30a5fffc 	addik	r5, r5, -4
+    1e68:	e0650000 	lbui	r3, r5, 0
+    1e6c:	bc030018 	beqi	r3, 24		// 1e84
+    1e70:	30a50001 	addik	r5, r5, 1
+    1e74:	e0650000 	lbui	r3, r5, 0
+    1e78:	be23fffc 	bneid	r3, -4		// 1e74
+    1e7c:	30a50001 	addik	r5, r5, 1
+    1e80:	30a5ffff 	addik	r5, r5, -1
+    1e84:	b60f0008 	rtsd	r15, 8
+    1e88:	14662800 	rsubk	r3, r6, r5
+
+00001e8c <__call_exitprocs>:
+    1e8c:	e8602690 	lwi	r3, r0, 9872	// 2690 <_global_impure_ptr>
+    1e90:	3021ffd0 	addik	r1, r1, -48
+    1e94:	fb010028 	swi	r24, r1, 40
+    1e98:	fb21002c 	swi	r25, r1, 44
+    1e9c:	f9e10000 	swi	r15, r1, 0
+    1ea0:	fa61001c 	swi	r19, r1, 28
+    1ea4:	fac10020 	swi	r22, r1, 32
+    1ea8:	fae10024 	swi	r23, r1, 36
+    1eac:	eac30048 	lwi	r22, r3, 72
+    1eb0:	13250000 	addk	r25, r5, r0
+    1eb4:	be160044 	beqid	r22, 68		// 1ef8
+    1eb8:	13060000 	addk	r24, r6, r0
+    1ebc:	e8760004 	lwi	r3, r22, 4
+    1ec0:	3263ffff 	addik	r19, r3, -1
+    1ec4:	be530034 	bltid	r19, 52		// 1ef8
+    1ec8:	eaf60088 	lwi	r23, r22, 136
+    1ecc:	bc060064 	beqi	r6, 100		// 1f30
+    1ed0:	bc1700e4 	beqi	r23, 228		// 1fb4
+    1ed4:	60b30004 	muli	r5, r19, 4
+    1ed8:	1065b800 	addk	r3, r5, r23
+    1edc:	e8830080 	lwi	r4, r3, 128
+    1ee0:	1644c000 	rsubk	r18, r4, r24
+    1ee4:	be120118 	beqid	r18, 280		// 1ffc
+    1ee8:	1065b000 	addk	r3, r5, r22
+    1eec:	3273ffff 	addik	r19, r19, -1
+    1ef0:	aa53ffff 	xori	r18, r19, -1
+    1ef4:	bc32ffe0 	bnei	r18, -32		// 1ed4
+    1ef8:	e9e10000 	lwi	r15, r1, 0
+    1efc:	ea61001c 	lwi	r19, r1, 28
+    1f00:	eac10020 	lwi	r22, r1, 32
+    1f04:	eae10024 	lwi	r23, r1, 36
+    1f08:	eb010028 	lwi	r24, r1, 40
+    1f0c:	eb21002c 	lwi	r25, r1, 44
+    1f10:	b60f0008 	rtsd	r15, 8
+    1f14:	30210030 	addik	r1, r1, 48
+    1f18:	99fc3800 	brald	r15, r7
+    1f1c:	c8b72800 	lw	r5, r23, r5
+    1f20:	3273ffff 	addik	r19, r19, -1
+    1f24:	aa53ffff 	xori	r18, r19, -1
+    1f28:	be12ffd4 	beqid	r18, -44		// 1efc
+    1f2c:	e9e10000 	lwi	r15, r1, 0
+    1f30:	e8960004 	lwi	r4, r22, 4
+    1f34:	60b30004 	muli	r5, r19, 4
+    1f38:	1065b000 	addk	r3, r5, r22
+    1f3c:	3084ffff 	addik	r4, r4, -1
+    1f40:	16449800 	rsubk	r18, r4, r19
+    1f44:	be1200b0 	beqid	r18, 176		// 1ff4
+    1f48:	e8e30008 	lwi	r7, r3, 8
+    1f4c:	1065b000 	addk	r3, r5, r22
+    1f50:	f8030008 	swi	r0, r3, 8
+    1f54:	bc07ffcc 	beqi	r7, -52		// 1f20
+    1f58:	be170080 	beqid	r23, 128		// 1fd8
+    1f5c:	30800001 	addik	r4, r0, 1
+    1f60:	e8770100 	lwi	r3, r23, 256
+    1f64:	a653001f 	andi	r18, r19, 31
+    1f68:	be120014 	beqid	r18, 20		// 1f7c
+    1f6c:	10840000 	addk	r4, r4, r0
+    1f70:	3252ffff 	addik	r18, r18, -1
+    1f74:	be32fffc 	bneid	r18, -4		// 1f70
+    1f78:	10842000 	addk	r4, r4, r4
+    1f7c:	84641800 	and	r3, r4, r3
+    1f80:	bc030058 	beqi	r3, 88		// 1fd8
+    1f84:	e8770104 	lwi	r3, r23, 260
+    1f88:	84641800 	and	r3, r4, r3
+    1f8c:	bc23ff8c 	bnei	r3, -116		// 1f18
+    1f90:	c8d72800 	lw	r6, r23, r5
+    1f94:	10b90000 	addk	r5, r25, r0
+    1f98:	99fc3800 	brald	r15, r7
+    1f9c:	3273ffff 	addik	r19, r19, -1
+    1fa0:	aa53ffff 	xori	r18, r19, -1
+    1fa4:	be32ff8c 	bneid	r18, -116		// 1f30
+    1fa8:	e9e10000 	lwi	r15, r1, 0
+    1fac:	b810ff54 	brid	-172		// 1f00
+    1fb0:	ea61001c 	lwi	r19, r1, 28
+    1fb4:	3273ffff 	addik	r19, r19, -1
+    1fb8:	aa53ffff 	xori	r18, r19, -1
+    1fbc:	be12ff3c 	beqid	r18, -196		// 1ef8
+    1fc0:	3273ffff 	addik	r19, r19, -1
+    1fc4:	aa53ffff 	xori	r18, r19, -1
+    1fc8:	be32fff0 	bneid	r18, -16		// 1fb8
+    1fcc:	3273ffff 	addik	r19, r19, -1
+    1fd0:	b810ff2c 	brid	-212		// 1efc
+    1fd4:	e9e10000 	lwi	r15, r1, 0
+    1fd8:	99fc3800 	brald	r15, r7
+    1fdc:	3273ffff 	addik	r19, r19, -1
+    1fe0:	aa53ffff 	xori	r18, r19, -1
+    1fe4:	be32ff4c 	bneid	r18, -180		// 1f30
+    1fe8:	e9e10000 	lwi	r15, r1, 0
+    1fec:	b810ff14 	brid	-236		// 1f00
+    1ff0:	ea61001c 	lwi	r19, r1, 28
+    1ff4:	b810ff60 	brid	-160		// 1f54
+    1ff8:	fa760004 	swi	r19, r22, 4
+    1ffc:	e8960004 	lwi	r4, r22, 4
+    2000:	3084ffff 	addik	r4, r4, -1
+    2004:	16449800 	rsubk	r18, r4, r19
+    2008:	be12006c 	beqid	r18, 108		// 2074
+    200c:	e8e30008 	lwi	r7, r3, 8
+    2010:	1065b000 	addk	r3, r5, r22
+    2014:	f8030008 	swi	r0, r3, 8
+    2018:	bc07fed4 	beqi	r7, -300		// 1eec
+    201c:	be17004c 	beqid	r23, 76		// 2068
+    2020:	30800001 	addik	r4, r0, 1
+    2024:	e8770100 	lwi	r3, r23, 256
+    2028:	a653001f 	andi	r18, r19, 31
+    202c:	be120014 	beqid	r18, 20		// 2040
+    2030:	10840000 	addk	r4, r4, r0
+    2034:	3252ffff 	addik	r18, r18, -1
+    2038:	be32fffc 	bneid	r18, -4		// 2034
+    203c:	10842000 	addk	r4, r4, r4
+    2040:	84641800 	and	r3, r4, r3
+    2044:	bc030024 	beqi	r3, 36		// 2068
+    2048:	e8770104 	lwi	r3, r23, 260
+    204c:	84641800 	and	r3, r4, r3
+    2050:	bc23002c 	bnei	r3, 44		// 207c
+    2054:	c8d72800 	lw	r6, r23, r5
+    2058:	99fc3800 	brald	r15, r7
+    205c:	10b90000 	addk	r5, r25, r0
+    2060:	b810fe90 	brid	-368		// 1ef0
+    2064:	3273ffff 	addik	r19, r19, -1
+    2068:	99fc3800 	brald	r15, r7
+    206c:	3273ffff 	addik	r19, r19, -1
+    2070:	b800fe80 	bri	-384		// 1ef0
+    2074:	b810ffa4 	brid	-92		// 2018
+    2078:	fa760004 	swi	r19, r22, 4
+    207c:	99fc3800 	brald	r15, r7
+    2080:	c8b72800 	lw	r5, r23, r5
+    2084:	b810fe6c 	brid	-404		// 1ef0
+    2088:	3273ffff 	addik	r19, r19, -1
+
+0000208c <__umodsi3>:
+    208c:	3021fff4 	addik	r1, r1, -12
+    2090:	fba10000 	swi	r29, r1, 0
+    2094:	fbc10004 	swi	r30, r1, 4
+    2098:	fbe10008 	swi	r31, r1, 8
+    209c:	bc060094 	beqi	r6, 148		// 2130
+    20a0:	be050090 	beqid	r5, 144		// 2130
+    20a4:	30600000 	addik	r3, r0, 0
+    20a8:	33c00000 	addik	r30, r0, 0
+    20ac:	33a00020 	addik	r29, r0, 32	// 20 <_vector_hw_exception>
+    20b0:	06453000 	rsub	r18, r5, r6
+    20b4:	bc120080 	beqi	r18, 128		// 2134
+    20b8:	8a453000 	xor	r18, r5, r6
+    20bc:	beb20010 	bgeid	r18, 16		// 20cc
+    20c0:	30650000 	addik	r3, r5, 0
+    20c4:	bc460070 	blti	r6, 112		// 2134
+    20c8:	b800000c 	bri	12		// 20d4
+    20cc:	06453000 	rsub	r18, r5, r6
+    20d0:	bc920064 	bgti	r18, 100		// 2134
+    20d4:	be860020 	bgtid	r6, 32		// 20f4
+    20d8:	30600000 	addik	r3, r0, 0
+    20dc:	b0007fff 	imm	32767
+    20e0:	3240ffff 	addik	r18, r0, -1
+    20e4:	84a59000 	and	r5, r5, r18
+    20e8:	84c69000 	and	r6, r6, r18
+    20ec:	b8100048 	brid	72		// 2134
+    20f0:	04662800 	rsub	r3, r6, r5
+    20f4:	bc450010 	blti	r5, 16		// 2104
+    20f8:	00a52800 	add	r5, r5, r5
+    20fc:	bea5fffc 	bgeid	r5, -4		// 20f8
+    2100:	33bdffff 	addik	r29, r29, -1
+    2104:	00a52800 	add	r5, r5, r5
+    2108:	08631800 	addc	r3, r3, r3
+    210c:	07e61800 	rsub	r31, r6, r3
+    2110:	bc5f000c 	blti	r31, 12		// 211c
+    2114:	8060f800 	or	r3, r0, r31
+    2118:	33de0001 	addik	r30, r30, 1
+    211c:	33bdffff 	addik	r29, r29, -1
+    2120:	bc1d000c 	beqi	r29, 12		// 212c
+    2124:	03def000 	add	r30, r30, r30
+    2128:	b800ffdc 	bri	-36		// 2104
+    212c:	b8000008 	bri	8		// 2134
+    2130:	80600000 	or	r3, r0, r0
+    2134:	eba10000 	lwi	r29, r1, 0
+    2138:	ebc10004 	lwi	r30, r1, 4
+    213c:	ebe10008 	lwi	r31, r1, 8
+    2140:	b60f0008 	rtsd	r15, 8
+    2144:	3021000c 	addik	r1, r1, 12
+
+00002148 <__udivsi3>:
+    2148:	3021fff4 	addik	r1, r1, -12
+    214c:	fba10000 	swi	r29, r1, 0
+    2150:	fbc10004 	swi	r30, r1, 4
+    2154:	fbe10008 	swi	r31, r1, 8
+    2158:	bc060080 	beqi	r6, 128		// 21d8
+    215c:	be05007c 	beqid	r5, 124		// 21d8
+    2160:	33c00000 	addik	r30, r0, 0
+    2164:	33a00020 	addik	r29, r0, 32	// 20 <_vector_hw_exception>
+    2168:	06453000 	rsub	r18, r5, r6
+    216c:	be120070 	beqid	r18, 112		// 21dc
+    2170:	30600001 	addik	r3, r0, 1
+    2174:	8a453000 	xor	r18, r5, r6
+    2178:	beb20010 	bgeid	r18, 16		// 2188
+    217c:	00600000 	add	r3, r0, r0
+    2180:	bc46005c 	blti	r6, 92		// 21dc
+    2184:	b800000c 	bri	12		// 2190
+    2188:	06462800 	rsub	r18, r6, r5
+    218c:	bc520050 	blti	r18, 80		// 21dc
+    2190:	bc86000c 	bgti	r6, 12		// 219c
+    2194:	b8100048 	brid	72		// 21dc
+    2198:	30600001 	addik	r3, r0, 1
+    219c:	bc450010 	blti	r5, 16		// 21ac
+    21a0:	00a52800 	add	r5, r5, r5
+    21a4:	be85fffc 	bgtid	r5, -4		// 21a0
+    21a8:	33bdffff 	addik	r29, r29, -1
+    21ac:	00a52800 	add	r5, r5, r5
+    21b0:	0bdef000 	addc	r30, r30, r30
+    21b4:	07e6f000 	rsub	r31, r6, r30
+    21b8:	bc5f000c 	blti	r31, 12		// 21c4
+    21bc:	83c0f800 	or	r30, r0, r31
+    21c0:	30630001 	addik	r3, r3, 1
+    21c4:	33bdffff 	addik	r29, r29, -1
+    21c8:	bc1d000c 	beqi	r29, 12		// 21d4
+    21cc:	00631800 	add	r3, r3, r3
+    21d0:	b800ffdc 	bri	-36		// 21ac
+    21d4:	b8000008 	bri	8		// 21dc
+    21d8:	80600000 	or	r3, r0, r0
+    21dc:	eba10000 	lwi	r29, r1, 0
+    21e0:	ebc10004 	lwi	r30, r1, 4
+    21e4:	ebe10008 	lwi	r31, r1, 8
+    21e8:	b60f0008 	rtsd	r15, 8
+    21ec:	3021000c 	addik	r1, r1, 12
+
+000021f0 <__do_global_ctors_aux>:
+    21f0:	b0008539 	imm	-31431
+    21f4:	e8600454 	lwi	r3, r0, 1108
+    21f8:	3021ffe0 	addik	r1, r1, -32
+    21fc:	fa61001c 	swi	r19, r1, 28
+    2200:	b0008539 	imm	-31431
+    2204:	32600454 	addik	r19, r0, 1108
+    2208:	aa43ffff 	xori	r18, r3, -1
+    220c:	be12001c 	beqid	r18, 28		// 2228
+    2210:	f9e10000 	swi	r15, r1, 0
+    2214:	99fc1800 	brald	r15, r3
+    2218:	3273fffc 	addik	r19, r19, -4
+    221c:	e8730000 	lwi	r3, r19, 0
+    2220:	aa43ffff 	xori	r18, r3, -1
+    2224:	bc32fff0 	bnei	r18, -16		// 2214
+    2228:	e9e10000 	lwi	r15, r1, 0
+    222c:	ea61001c 	lwi	r19, r1, 28
+    2230:	b60f0008 	rtsd	r15, 8
+    2234:	30210020 	addik	r1, r1, 32
+Disassembly of section .init:
+
+00002238 <__init>:
+    2238:	3021fff8 	addik	r1, r1, -8
+    223c:	d9e00800 	sw	r15, r0, r1
+    2240:	b9f4dea4 	brlid	r15, -8540	// e4 <frame_dummy>
+    2244:	80000000 	or	r0, r0, r0
+    2248:	b9f4ffa8 	brlid	r15, -88	// 21f0 <__do_global_ctors_aux>
+    224c:	80000000 	or	r0, r0, r0
+    2250:	c9e00800 	lw	r15, r0, r1
+    2254:	b60f0008 	rtsd	r15, 8
+    2258:	30210008 	addik	r1, r1, 8
+Disassembly of section .fini:
+
+0000225c <__fini>:
+    225c:	3021fff8 	addik	r1, r1, -8
+    2260:	d9e00800 	sw	r15, r0, r1
+    2264:	b9f4de0c 	brlid	r15, -8692	// 70 <__do_global_dtors_aux>
+    2268:	80000000 	or	r0, r0, r0
+    226c:	c9e00800 	lw	r15, r0, r1
+    2270:	b60f0008 	rtsd	r15, 8
+    2274:	30210008 	addik	r1, r1, 8

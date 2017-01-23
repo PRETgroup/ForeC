@@ -1,0 +1,13 @@
+slotSize					5
+
+loadLatencyDdrSdram 		28
+storeLatencyDdrSdram		11
+
+//loadLatencySharedOnChip	8
+//storeLatencySharedOnChip	6
+
+loadLatencySharedOnChip		5
+storeLatencySharedOnChip	5
+
+loadLatencySram				18
+storeLatencySram			8

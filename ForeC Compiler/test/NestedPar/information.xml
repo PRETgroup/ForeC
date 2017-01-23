@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!-- Supplementary information generated for static analysis (Main.cpp::output). -->
+<information>
+	<!-- Header filename (Multicore.cpp::toXml). -->
+	<filename elf="NestedPar" />
+	<architecture model="x86" />
+	<!-- Allocation of threads for each core (Multicore.cpp::toXml). -->
+	<allocations>
+		<core id="0">
+			<thread id="main" />
+		</core>
+		<core id="1">
+			<thread id="t0" />
+		</core>
+		<core id="2">
+			<thread id="t1" />
+		</core>
+		<core id="3">
+			<thread id="t2" />
+		</core>
+		<core id="4">
+			<thread id="t3" />
+		</core>
+		<core id="5">
+			<thread id="t4" />
+		</core>
+		<core id="6">
+			<thread id="t5" />
+		</core>
+	</allocations>
+	<!-- Aborts around each par(...) (Abort.cpp::outputXml). -->
+	<aborts>
+	</aborts>
+	<!-- Nested thread structure (Tarot.cpp::outputXml). -->
+	<tarot>
+		<thread id="main">
+			<par id="0">
+				<thread id="t0">
+					<par id="1">
+						<thread id="t1">
+							<par id="2">
+								<thread id="t2">
+									<par id="3">
+										<thread id="t3">
+											<par id="4">
+												<thread id="t4">
+													<par id="5">
+														<thread id="t5"></thread>
+													</par>
+												</thread>
+											</par>
+										</thread>
+									</par>
+								</thread>
+							</par>
+						</thread>
+					</par>
+				</thread>
+			</par>
+		</thread>
+	</tarot>
+	<!-- Index of each par(...) in the par handlers of each core (Tarot.cpp::outputXml). -->
+	<parIndexes>
+		<core id="0">
+			<threadScope id="main">
+				<par id="0" handlers="2" />
+			</threadScope>
+		</core>
+		<core id="1">
+			<threadScope id="main">
+				<par id="0" handlers="4" />
+			</threadScope>
+			<threadScope id="t0">
+				<par id="1" handlers="2" />
+			</threadScope>
+		</core>
+		<core id="2">
+			<threadScope id="main">
+				<par id="0" handlers="3" />
+			</threadScope>
+			<threadScope id="t0">
+				<par id="1" handlers="4" />
+			</threadScope>
+			<threadScope id="t1">
+				<par id="2" handlers="2" />
+			</threadScope>
+		</core>
+		<core id="3">
+			<threadScope id="main">
+				<par id="0" handlers="3" />
+			</threadScope>
+			<threadScope id="t0">
+				<par id="1" handlers="3" />
+			</threadScope>
+			<threadScope id="t1">
+				<par id="2" handlers="4" />
+			</threadScope>
+			<threadScope id="t2">
+				<par id="3" handlers="2" />
+			</threadScope>
+		</core>
+		<core id="4">
+			<threadScope id="main">
+				<par id="0" handlers="3" />
+			</threadScope>
+			<threadScope id="t0">
+				<par id="1" handlers="3" />
+			</threadScope>
+			<threadScope id="t1">
+				<par id="2" handlers="3" />
+			</threadScope>
+			<threadScope id="t2">
+				<par id="3" handlers="4" />
+			</threadScope>
+			<threadScope id="t3">
+				<par id="4" handlers="2" />
+			</threadScope>
+		</core>
+		<core id="5">
+			<threadScope id="main">
+				<par id="0" handlers="3" />
+			</threadScope>
+			<threadScope id="t0">
+				<par id="1" handlers="3" />
+			</threadScope>
+			<threadScope id="t1">
+				<par id="2" handlers="3" />
+			</threadScope>
+			<threadScope id="t2">
+				<par id="3" handlers="3" />
+			</threadScope>
+			<threadScope id="t3">
+				<par id="4" handlers="4" />
+			</threadScope>
+			<threadScope id="t4">
+				<par id="5" handlers="2" />
+			</threadScope>
+		</core>
+		<core id="6">
+			<threadScope id="main">
+				<par id="0" handlers="3" />
+			</threadScope>
+			<threadScope id="t0">
+				<par id="1" handlers="3" />
+			</threadScope>
+			<threadScope id="t1">
+				<par id="2" handlers="3" />
+			</threadScope>
+			<threadScope id="t2">
+				<par id="3" handlers="3" />
+			</threadScope>
+			<threadScope id="t3">
+				<par id="4" handlers="3" />
+			</threadScope>
+			<threadScope id="t4">
+				<par id="5" handlers="3" />
+			</threadScope>
+		</core>
+	</parIndexes>
+	<!-- Cores involved in executing each par(...) (Tarot.cpp::outputXml). -->
+	<allocatedParCores>
+		<par id="0">
+			<core id="0" />
+			<core id="1" />
+			<core id="2" />
+			<core id="3" />
+			<core id="4" />
+			<core id="5" />
+			<core id="6" />
+		</par>
+		<par id="1">
+			<core id="1" />
+			<core id="2" />
+			<core id="3" />
+			<core id="4" />
+			<core id="5" />
+			<core id="6" />
+		</par>
+		<par id="2">
+			<core id="2" />
+			<core id="3" />
+			<core id="4" />
+			<core id="5" />
+			<core id="6" />
+		</par>
+		<par id="3">
+			<core id="3" />
+			<core id="4" />
+			<core id="5" />
+			<core id="6" />
+		</par>
+		<par id="4">
+			<core id="4" />
+			<core id="5" />
+			<core id="6" />
+		</par>
+		<par id="5">
+			<core id="5" />
+			<core id="6" />
+		</par>
+	</allocatedParCores>
+	<!-- Cores involved in executing all the par(...)s in each thread (Tarot.cpp::outputXml). -->
+	<activeParCores>
+		<thread id="main">
+			<core id="0" />
+			<core id="1" />
+			<core id="2" />
+			<core id="3" />
+			<core id="4" />
+			<core id="5" />
+			<core id="6" />
+		</thread>
+		<thread id="t0">
+			<core id="1" />
+			<core id="2" />
+			<core id="3" />
+			<core id="4" />
+			<core id="5" />
+			<core id="6" />
+		</thread>
+		<thread id="t1">
+			<core id="2" />
+			<core id="3" />
+			<core id="4" />
+			<core id="5" />
+			<core id="6" />
+		</thread>
+		<thread id="t2">
+			<core id="3" />
+			<core id="4" />
+			<core id="5" />
+			<core id="6" />
+		</thread>
+		<thread id="t3">
+			<core id="4" />
+			<core id="5" />
+			<core id="6" />
+		</thread>
+		<thread id="t4">
+			<core id="5" />
+			<core id="6" />
+		</thread>
+	</activeParCores>
+	<!-- Shared variables (SymbolTable.cpp::outputXml). -->
+	<shared>
+	</shared>
+</information>

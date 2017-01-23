@@ -1,0 +1,18 @@
+if (parId == %{parNumber}) {
+		asm ("# %{parId} begin");
+		// Link the threads and handlers together.
+%{linkedList}
+		// Swap the nested par handler with the linked list.
+		%{handlerName}.prevThread -> nextThread = &%{linkedListFirstThread};
+		%{linkedListFirstThread}.prevThread = %{handlerName}.prevThread;
+		%{linkedListLastThread}.nextThread = %{handlerName}.nextThread;
+		%{handlerName}.nextThread -> prevThread = &%{linkedListLastThread};
+		
+		// Set the core information.
+		%{threadScope}ParCore%{coreId}.activeThreads = %{activeThreadsCount};
+		%{threadScope}ParCore%{coreId}.reactionCounter = %{threadScope}ParReactionCounter;
+		
+		// Go to the first thread.
+		goto %{beginThread};
+		asm ("# %{parId} end");
+	} else 

@@ -1,0 +1,42 @@
+module lzss_archiver:
+input fileName : string;
+output done, error;
+function openFile (string) : boolean;
+function getFileSize () : integer;
+function getBytesProcessed () : integer;
+procedure slideWindow () ();
+procedure searchWindow1 () ();
+procedure searchWindow2 () ();
+procedure writeToArchive () ();
+
+trap Done, Error in
+  await immediate fileName;
+  if openFile(?fileName) else
+    exit Error
+  end if;
+  var fileSize := getFileSize() : integer in
+    loop
+      call slideWindow () ();
+      [
+        call searchWindow1 () ()
+        ||
+        call searchWindow2 () ()
+        ||
+        call searchWindow3 () ()
+        ||
+        call searchWindow4 () ()
+      ];
+      call writeToArchive () ();
+      if getBytesProcessed() = fileSize then
+        exit Done
+      end if;
+      pause;
+    end loop
+  end var
+handle Done do
+  emit done
+handle Error do
+  emit error
+end trap
+
+end module

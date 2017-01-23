@@ -1,0 +1,77 @@
+
+State Machine - |ptarm|arm_iu_datapath:iu|sMEtoWB_o.ctrlWb.wb_sel
+Name sMEtoWB_o.ctrlWb.wb_sel.WbSPSR sMEtoWB_o.ctrlWb.wb_sel.WbCPSR sMEtoWB_o.ctrlWb.wb_sel.WbPC4 sMEtoWB_o.ctrlWb.wb_sel.WbExceptionPC sMEtoWB_o.ctrlWb.wb_sel.WbDiv sMEtoWB_o.ctrlWb.wb_sel.WbMul sMEtoWB_o.ctrlWb.wb_sel.WbTimer sMEtoWB_o.ctrlWb.wb_sel.WbThreadID sMEtoWB_o.ctrlWb.wb_sel.WbMemData sMEtoWB_o.ctrlWb.wb_sel.WbALUresult 
+sMEtoWB_o.ctrlWb.wb_sel.WbALUresult 0 0 0 0 0 0 0 0 0 0 
+sMEtoWB_o.ctrlWb.wb_sel.WbMemData 0 0 0 0 0 0 0 0 1 1 
+sMEtoWB_o.ctrlWb.wb_sel.WbThreadID 0 0 0 0 0 0 0 1 0 1 
+sMEtoWB_o.ctrlWb.wb_sel.WbTimer 0 0 0 0 0 0 1 0 0 1 
+sMEtoWB_o.ctrlWb.wb_sel.WbMul 0 0 0 0 0 1 0 0 0 1 
+sMEtoWB_o.ctrlWb.wb_sel.WbDiv 0 0 0 0 1 0 0 0 0 1 
+sMEtoWB_o.ctrlWb.wb_sel.WbExceptionPC 0 0 0 1 0 0 0 0 0 1 
+sMEtoWB_o.ctrlWb.wb_sel.WbPC4 0 0 1 0 0 0 0 0 0 1 
+sMEtoWB_o.ctrlWb.wb_sel.WbCPSR 0 1 0 0 0 0 0 0 0 1 
+sMEtoWB_o.ctrlWb.wb_sel.WbSPSR 1 0 0 0 0 0 0 0 0 1 
+
+State Machine - |ptarm|arm_iu_datapath:iu|sEXtoME_o.ctrlWb.wb_sel
+Name sEXtoME_o.ctrlWb.wb_sel.WbSPSR sEXtoME_o.ctrlWb.wb_sel.WbCPSR sEXtoME_o.ctrlWb.wb_sel.WbPC4 sEXtoME_o.ctrlWb.wb_sel.WbExceptionPC sEXtoME_o.ctrlWb.wb_sel.WbDiv sEXtoME_o.ctrlWb.wb_sel.WbMul sEXtoME_o.ctrlWb.wb_sel.WbTimer sEXtoME_o.ctrlWb.wb_sel.WbThreadID sEXtoME_o.ctrlWb.wb_sel.WbMemData sEXtoME_o.ctrlWb.wb_sel.WbALUresult 
+sEXtoME_o.ctrlWb.wb_sel.WbALUresult 0 0 0 0 0 0 0 0 0 0 
+sEXtoME_o.ctrlWb.wb_sel.WbMemData 0 0 0 0 0 0 0 0 1 1 
+sEXtoME_o.ctrlWb.wb_sel.WbThreadID 0 0 0 0 0 0 0 1 0 1 
+sEXtoME_o.ctrlWb.wb_sel.WbTimer 0 0 0 0 0 0 1 0 0 1 
+sEXtoME_o.ctrlWb.wb_sel.WbMul 0 0 0 0 0 1 0 0 0 1 
+sEXtoME_o.ctrlWb.wb_sel.WbDiv 0 0 0 0 1 0 0 0 0 1 
+sEXtoME_o.ctrlWb.wb_sel.WbExceptionPC 0 0 0 1 0 0 0 0 0 1 
+sEXtoME_o.ctrlWb.wb_sel.WbPC4 0 0 1 0 0 0 0 0 0 1 
+sEXtoME_o.ctrlWb.wb_sel.WbCPSR 0 1 0 0 0 0 0 0 0 1 
+sEXtoME_o.ctrlWb.wb_sel.WbSPSR 1 0 0 0 0 0 0 0 0 1 
+
+State Machine - |ptarm|arm_iu_datapath:iu|sEXtoME_o.ctrlMe.wb_pc_sel
+Name sEXtoME_o.ctrlMe.wb_pc_sel.MePC4 sEXtoME_o.ctrlMe.wb_pc_sel.MeRdVal sEXtoME_o.ctrlMe.wb_pc_sel.MeALUresult 
+sEXtoME_o.ctrlMe.wb_pc_sel.MeALUresult 0 0 0 
+sEXtoME_o.ctrlMe.wb_pc_sel.MeRdVal 0 1 1 
+sEXtoME_o.ctrlMe.wb_pc_sel.MePC4 1 0 1 
+
+State Machine - |ptarm|arm_iu_datapath:iu|sDEtoEX_o.ctrlWb.wb_sel
+Name sDEtoEX_o.ctrlWb.wb_sel.WbSPSR sDEtoEX_o.ctrlWb.wb_sel.WbCPSR sDEtoEX_o.ctrlWb.wb_sel.WbPC4 sDEtoEX_o.ctrlWb.wb_sel.WbExceptionPC sDEtoEX_o.ctrlWb.wb_sel.WbDiv sDEtoEX_o.ctrlWb.wb_sel.WbMul sDEtoEX_o.ctrlWb.wb_sel.WbTimer sDEtoEX_o.ctrlWb.wb_sel.WbThreadID sDEtoEX_o.ctrlWb.wb_sel.WbMemData sDEtoEX_o.ctrlWb.wb_sel.WbALUresult 
+sDEtoEX_o.ctrlWb.wb_sel.WbALUresult 0 0 0 0 0 0 0 0 0 0 
+sDEtoEX_o.ctrlWb.wb_sel.WbMemData 0 0 0 0 0 0 0 0 1 1 
+sDEtoEX_o.ctrlWb.wb_sel.WbThreadID 0 0 0 0 0 0 0 1 0 1 
+sDEtoEX_o.ctrlWb.wb_sel.WbTimer 0 0 0 0 0 0 1 0 0 1 
+sDEtoEX_o.ctrlWb.wb_sel.WbMul 0 0 0 0 0 1 0 0 0 1 
+sDEtoEX_o.ctrlWb.wb_sel.WbDiv 0 0 0 0 1 0 0 0 0 1 
+sDEtoEX_o.ctrlWb.wb_sel.WbExceptionPC 0 0 0 1 0 0 0 0 0 1 
+sDEtoEX_o.ctrlWb.wb_sel.WbPC4 0 0 1 0 0 0 0 0 0 1 
+sDEtoEX_o.ctrlWb.wb_sel.WbCPSR 0 1 0 0 0 0 0 0 0 1 
+sDEtoEX_o.ctrlWb.wb_sel.WbSPSR 1 0 0 0 0 0 0 0 0 1 
+
+State Machine - |ptarm|arm_iu_datapath:iu|sDEtoEX_o.ctrlMe.wb_pc_sel
+Name sDEtoEX_o.ctrlMe.wb_pc_sel.MePC4 sDEtoEX_o.ctrlMe.wb_pc_sel.MeRdVal sDEtoEX_o.ctrlMe.wb_pc_sel.MeALUresult 
+sDEtoEX_o.ctrlMe.wb_pc_sel.MeALUresult 0 0 0 
+sDEtoEX_o.ctrlMe.wb_pc_sel.MeRdVal 0 1 1 
+sDEtoEX_o.ctrlMe.wb_pc_sel.MePC4 1 0 1 
+
+State Machine - |ptarm|arm_iu_datapath:iu|sDEtoEX_o.ctrlEx.op2_sel
+Name sDEtoEX_o.ctrlEx.op2_sel.ExOp2VAL4 sDEtoEX_o.ctrlEx.op2_sel.ExOp2InstCount sDEtoEX_o.ctrlEx.op2_sel.ExOp2TIMER sDEtoEX_o.ctrlEx.op2_sel.ExOP2PC sDEtoEX_o.ctrlEx.op2_sel.ExOp2IMM12 sDEtoEX_o.ctrlEx.op2_sel.ExOp2SIMM24 sDEtoEX_o.ctrlEx.op2_sel.ExOp2Shifter 
+sDEtoEX_o.ctrlEx.op2_sel.ExOp2Shifter 0 0 0 0 0 0 0 
+sDEtoEX_o.ctrlEx.op2_sel.ExOp2SIMM24 0 0 0 0 0 1 1 
+sDEtoEX_o.ctrlEx.op2_sel.ExOp2IMM12 0 0 0 0 1 0 1 
+sDEtoEX_o.ctrlEx.op2_sel.ExOP2PC 0 0 0 1 0 0 1 
+sDEtoEX_o.ctrlEx.op2_sel.ExOp2TIMER 0 0 1 0 0 0 1 
+sDEtoEX_o.ctrlEx.op2_sel.ExOp2InstCount 0 1 0 0 0 0 1 
+sDEtoEX_o.ctrlEx.op2_sel.ExOp2VAL4 1 0 0 0 0 0 1 
+
+State Machine - |ptarm|arm_iu_datapath:iu|sDEtoEX_o.ctrlEx.sh_type
+Name sDEtoEX_o.ctrlEx.sh_type.styp_sreg sDEtoEX_o.ctrlEx.sh_type.styp_simm sDEtoEX_o.ctrlEx.sh_type.styp_immrot sDEtoEX_o.ctrlEx.sh_type.styp_none 
+sDEtoEX_o.ctrlEx.sh_type.styp_none 0 0 0 0 
+sDEtoEX_o.ctrlEx.sh_type.styp_immrot 0 0 1 1 
+sDEtoEX_o.ctrlEx.sh_type.styp_simm 0 1 0 1 
+sDEtoEX_o.ctrlEx.sh_type.styp_sreg 1 0 0 1 
+
+State Machine - |ptarm|arm_iu_datapath:iu|sDEtoEX_o.ctrlEx.sh_op
+Name sDEtoEX_o.ctrlEx.sh_op.sOp_srrx sDEtoEX_o.ctrlEx.sh_op.sOp_sror sDEtoEX_o.ctrlEx.sh_op.sOp_sasr sDEtoEX_o.ctrlEx.sh_op.sOp_slsr sDEtoEX_o.ctrlEx.sh_op.sOp_slsl sDEtoEX_o.ctrlEx.sh_op.sOp_snone 
+sDEtoEX_o.ctrlEx.sh_op.sOp_snone 0 0 0 0 0 0 
+sDEtoEX_o.ctrlEx.sh_op.sOp_slsl 0 0 0 0 1 1 
+sDEtoEX_o.ctrlEx.sh_op.sOp_slsr 0 0 0 1 0 1 
+sDEtoEX_o.ctrlEx.sh_op.sOp_sasr 0 0 1 0 0 1 
+sDEtoEX_o.ctrlEx.sh_op.sOp_sror 0 1 0 0 0 1 
+sDEtoEX_o.ctrlEx.sh_op.sOp_srrx 1 0 0 0 0 1 

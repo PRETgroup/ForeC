@@ -1,0 +1,488 @@
+////////////////////////////////////////////
+// ForeC Life
+// Based on:
+//   Copyright 2002, David Joiner and
+//   The Shodor Education Foundation, Inc.
+////////////////////////////////////////////
+
+int rand_seed = 0;
+int whiteColor;
+
+int *leftInt(int **lhs, int **rhs) {
+	return *lhs;
+}
+
+int life_data_color[(10+2)*(12+2)];
+int *life_data_color_ptr1 = life_data_color;
+int *life_data_color_ptr2 = life_data_color;
+int *life_data_color_ptr3 = life_data_color;
+int *life_data_color_ptr4 = life_data_color;
+int life_data_x1[(10+2)*(12+2)];
+int *life_data_x1_ptr1 = life_data_x1;
+int *life_data_x1_ptr2 = life_data_x1;
+int *life_data_x1_ptr3 = life_data_x1;
+int *life_data_x1_ptr4 = life_data_x1;
+int life_data_y1[(10+2)*(12+2)];
+int *life_data_y1_ptr1 = life_data_y1;
+int *life_data_y1_ptr2 = life_data_y1;
+int *life_data_y1_ptr3 = life_data_y1;
+int *life_data_y1_ptr4 = life_data_y1;
+
+int grid[(10+2)*(12+2)];
+int *grid_ptr1 = grid;
+int *grid_ptr2 = grid;
+int *grid_ptr3 = grid;
+int *grid_ptr4 = grid;
+int *grid_ptr5 = grid;
+
+int next_grid[(10+2)*(12+2)];
+int *next_grid_ptr2 = next_grid;
+int *next_grid_ptr3 = next_grid;
+int *next_grid_ptr4 = next_grid;
+int *next_grid_ptr5 = next_grid;
+
+float rand_float(void);
+
+thread do_draw(void);
+thread do_step(void);
+
+thread do_step_0(void);
+thread do_step_1(void);
+thread do_step_2(void);
+thread do_step_3(void);
+
+thread do_draw_0(void);
+thread do_draw_1(void);
+thread do_draw_2(void);
+thread do_draw_3(void);
+
+input int freeze;
+int done = 0;
+
+int main(int argc, char **argv) {
+	int MAX_GENERATIONS = 10000;
+	int ncols = 10;
+	int nrows = 3*4;
+	
+	rand_seed = (rand_seed + 0) % 3;
+	int i;
+    for (i = 1; i <= ncols; i++) #10#10 {
+		int j;
+		for (j = 1; j <= nrows; j++) #12#12 {
+			int index = i*ncols + j;
+			int value = rand_float() < 0.25;
+        	grid[1] = value;
+        }
+    }
+    
+	freeze = 0;
+    int generation = 0;
+    abort {
+		while (1) {
+		    par(do_step, do_draw);
+
+			// apply next generation
+			int i;
+		    for (i = 0; i < ncols+2; i++) #12#12 {
+				int j;
+		        for (j = 0; j < nrows+2; j++) #14#14 {
+		        	int index = i*ncols + j;
+		        	int datum = next_grid[1];
+		            grid[1] = datum;
+		        }
+		    }
+		    
+		    if (generation++ > MAX_GENERATIONS) {
+				done = 1;
+			}
+			
+			if (freeze) {
+				done = 1;
+			}
+			
+		    pause;
+		}
+	} when (done);
+}
+
+thread do_step(void) {
+	int ncols = 10;
+	int nrows = 3*4;
+	
+    // top and bottom we get from current cell.
+    // left right and corners we get from neighboring grids.
+
+	// copy left and right
+	int i;
+	for (i = 0; i <= nrows + 1; i++) #13#13 {
+		int index1 = ncols + i;
+		int datum = grid_ptr1[1];
+		grid_ptr1[1] = datum;
+		int index2 = (ncols+1)*i;
+		int index3 = ncols*i;
+		datum = grid_ptr1[1];
+		grid_ptr1[1] = datum;
+	}
+	
+	//copy top and bottom
+	for (i = 1; i <= ncols; i++) #11#11 {
+		int index1 = ncols*i;
+		int index2 = ncols*i + nrows;
+		int datum = grid_ptr1[1];
+		grid_ptr1[1] = datum;
+		int index3 = ncols*i + nrows+1;
+		int index4 = ncols*i + 1;
+		datum = grid_ptr1[1];
+		grid_ptr1[1] = datum;
+	}
+	
+    // copy corners
+    int datum = grid_ptr1[1];
+	grid_ptr1[1] = datum;
+	int index1 = nrows+1;
+	datum = grid_ptr1[1];
+	grid_ptr1[1] = datum;
+	int index2 = ncols*(ncols+1);
+	int index3 = ncols*(ncols+1) + nrows;
+	datum = grid_ptr1[1];
+	grid_ptr1[1] = datum;
+	int index4 = ncols*(ncols+1) + nrows+1;
+	int index5 = ncols*(ncols+1) + 1;
+	datum = grid_ptr1[1];
+	grid_ptr1[1] = datum;
+	
+	pause;
+	
+	//update
+	par(do_step_0, do_step_1, do_step_2, do_step_3);
+}
+
+thread do_step_0(void) {
+	int RANGE = 3;
+	int ncols = 10;
+	
+	if (!freeze) {
+		int threadNumber = 0;
+		int startIndex = 1 + RANGE * threadNumber;
+		int endIndex = RANGE * (threadNumber+1);
+	
+		int i;
+		for (i = 1; i <= ncols; i++) #10#10 {
+			int j;
+			for (j = startIndex; j <= endIndex; j++) #3#3 {
+				int neighbors = 0;
+
+				// 3x3 neighbours
+				int k;
+				for (k = i-1; k <= i+1; k++) #3#3  {
+					int l;
+					for (l = j-1; l <= j+1; l++) #3#3 {
+					//	if (!(k == i && l==j) && (*grid_ptr)[k][l] > 0) {
+							neighbors++;
+					//	}
+					}/*
+					if (neighbors > 3) {
+						continue;
+					}*/
+				}
+				
+				int index = ncols*i + j;
+				next_grid_ptr2[1] = 0;/*
+				if (neighbors < 2 || neighbors > 3) {
+					(*next_grid_ptr)[i][j] = 0;
+				} else if ((*grid_ptr)[i][j] > 0 || neighbors == 3) {
+					(*next_grid_ptr)[i][j] = (*grid_ptr)[i][j]+1;
+				}*/
+			}
+		}
+	}
+}
+
+thread do_step_1(void) {
+	int RANGE = 3;
+	int ncols = 10;
+	
+	if (!freeze) {
+		int threadNumber = 1;
+		int startIndex = 1 + RANGE * threadNumber;
+		int endIndex = RANGE * (threadNumber+1);
+	
+		int i;
+		for (i = 1; i <= ncols; i++) #10#10 {
+			int j;
+			for (j = startIndex; j <= endIndex; j++) #3#3 {
+				int neighbors = 0;
+
+				// 3x3 neighbours
+				int k;
+				for (k = i-1; k <= i+1; k++) #3#3  {
+					int l;
+					for (l = j-1; l <= j+1; l++) #3#3 {
+					//	if (!(k == i && l==j) && (*grid_ptr)[k][l] > 0) {
+							neighbors++;
+					//	}
+					}/*
+					if (neighbors > 3) {
+						continue;
+					}*/
+				}
+			
+				int index = ncols*i + j;
+				next_grid_ptr3[1] = 0;/*
+				if (neighbors < 2 || neighbors > 3) {
+					(*next_grid_ptr)[i][j] = 0;
+				} else if ((*grid_ptr)[i][j] > 0 || neighbors == 3) {
+					(*next_grid_ptr)[i][j] = (*grid_ptr)[i][j]+1;
+				}*/
+			}
+		}
+	}
+}
+
+thread do_step_2(void) {
+	int RANGE = 3;
+	int ncols = 10;
+	
+	if (!freeze) {
+		int threadNumber = 2;
+		int startIndex = 1 + RANGE * threadNumber;
+		int endIndex = RANGE * (threadNumber+1);
+	
+		int i;
+		for (i = 1; i <= ncols; i++) #10#10 {
+			int j;
+			for (j = startIndex; j <= endIndex; j++) #3#3 {
+				int neighbors = 0;
+
+				// 3x3 neighbours
+				int k;
+				for (k = i-1; k <= i+1; k++) #3#3  {
+					int l;
+					for (l = j-1; l <= j+1; l++) #3#3 {
+					//	if (!(k == i && l==j) && (*grid_ptr)[k][l] > 0) {
+							neighbors++;
+					//	}
+					}/*
+					if (neighbors > 3) {
+						continue;
+					}*/
+				}
+			
+				int index = ncols*i + j;
+				next_grid_ptr4[1] = 0;/*
+				if (neighbors < 2 || neighbors > 3) {
+					(*next_grid_ptr)[i][j] = 0;
+				} else if ((*grid_ptr)[i][j] > 0 || neighbors == 3) {
+					(*next_grid_ptr)[i][j] = (*grid_ptr)[i][j]+1;
+				}*/
+			}
+		}
+	}
+}
+
+thread do_step_3(void) {
+	int RANGE = 3;
+	int ncols = 10;
+	
+	if (!freeze) {
+		int threadNumber = 3;
+		int startIndex = 1 + RANGE * threadNumber;
+		int endIndex = RANGE * (threadNumber+1);
+	
+		int i;
+		for (i = 1; i <= ncols; i++) #10#10 {
+			int j;
+			for (j = startIndex; j <= endIndex; j++) #3#3 {
+				int neighbors = 0;
+
+				// 3x3 neighbours
+				int k;
+				for (k = i-1; k <= i+1; k++) #3#3  {
+					int l;
+					for (l = j-1; l <= j+1; l++) #3#3 {
+					//	if (!(k == i && l==j) && (*grid_ptr)[k][l] > 0) {
+							neighbors++;
+					//	}
+					}/*
+					if (neighbors > 3) {
+						continue;
+					}*/
+				}
+			
+				int index = ncols*i + j;
+				next_grid_ptr5[1] = 0;/*
+				if (neighbors < 2 || neighbors > 3) {
+					(*next_grid_ptr)[i][j] = 0;
+				} else if ((*grid_ptr)[i][j] > 0 || neighbors == 3) {
+					(*next_grid_ptr)[i][j] = (*grid_ptr)[i][j]+1;
+				}*/
+			}
+		}
+	}
+}
+
+thread do_draw(void) {
+	pause;
+	par(do_draw_0, do_draw_1, do_draw_2, do_draw_3);
+}
+
+thread do_draw_0(void) {
+	int blackColor;
+	int numXGrayscale = 10;
+	int PIXEL_SIZE = 5 - 1;
+	int ncols = 10;
+	int RANGE = 3;
+	
+	if (!freeze) {
+		int threadNumber = 0;
+		int y1StartIndex = 1 + RANGE * threadNumber;
+		int y1EndIndex = RANGE * (threadNumber+1);
+
+		int i;
+		for (i = 1; i <= ncols; i++) #10#10 {
+			int x1 = (PIXEL_SIZE + 1) * (i - 1);
+
+			int j;
+			for (j = y1StartIndex; j <= y1EndIndex; j++) #3#3 {
+				int index = ncols*i + j;
+				int index1 = ncols*(i-1) + j-1;
+				
+				int y1 = (PIXEL_SIZE + 1) * (j - 1);
+				
+				life_data_color_ptr1[1] = blackColor;
+			//	if ((*grid_ptr)[i][j] > 0) {
+					int life = grid_ptr2[1];
+					life = numXGrayscale - 1;
+					life_data_color_ptr1[1] = life;
+			//	} else {
+					life_data_color_ptr1[1] = blackColor;
+			//	}
+
+				life_data_x1_ptr1[1] = x1;
+				life_data_y1_ptr1[1] = y1;
+			}
+		}
+	}
+}
+
+thread do_draw_1(void) {
+	int blackColor;
+	int numXGrayscale = 10;
+	int PIXEL_SIZE = 5 - 1;
+	int ncols = 10;
+	int RANGE = 3;
+	
+	if (!freeze) {
+		int threadNumber = 1;
+		int y1StartIndex = 1 + RANGE * threadNumber;
+		int y1EndIndex = RANGE * (threadNumber+1);
+
+		int i;
+		for (i = 1; i <= ncols; i++) #10#10 {
+			int x1 = (PIXEL_SIZE + 1) * (i - 1);
+
+			int j;
+			for (j = y1StartIndex; j <= y1EndIndex; j++) #3#3 {
+				int index = ncols*i + j;
+				int index1 = ncols*(i-1) + j-1;
+				
+				int y1 = (PIXEL_SIZE + 1) * (j - 1);
+				
+				life_data_color_ptr2[1] = blackColor;
+			//	if ((*grid_ptr)[i][j] > 0) {
+					int life = grid_ptr3[1];
+					life = numXGrayscale - 1;
+					life_data_color_ptr2[1] = life;
+			//	} else {
+					life_data_color_ptr2[1] = blackColor;
+			//	}
+
+				life_data_x1_ptr2[1] = x1;
+				life_data_y1_ptr2[1] = y1;
+			}
+		}
+	}
+}
+
+thread do_draw_2(void) {
+	int blackColor;
+	int numXGrayscale = 10;
+	int PIXEL_SIZE = 5 - 1;
+	int ncols = 10;
+	int RANGE = 3;
+	
+	if (!freeze) {
+		int threadNumber = 2;
+		int y1StartIndex = 1 + RANGE * threadNumber;
+		int y1EndIndex = RANGE * (threadNumber+1);
+
+		int i;
+		for (i = 1; i <= ncols; i++) #10#10 {
+			int x1 = (PIXEL_SIZE + 1) * (i - 1);
+
+			int j;
+			for (j = y1StartIndex; j <= y1EndIndex; j++) #3#3 {
+				int index = ncols*i + j;
+				int index1 = ncols*(i-1) + j-1;
+				
+				int y1 = (PIXEL_SIZE + 1) * (j - 1);
+				
+				life_data_color_ptr3[1] = blackColor;
+			//	if ((*grid_ptr)[i][j] > 0) {
+					int life = grid_ptr4[1];
+					life = numXGrayscale - 1;
+					life_data_color_ptr3[1] = life;
+			//	} else {
+					life_data_color_ptr3[1] = blackColor;
+			//	}
+
+				life_data_x1_ptr3[1] = x1;
+				life_data_y1_ptr3[1] = y1;
+			}
+		}
+	}
+}
+
+thread do_draw_3(void) {
+	int blackColor;
+	int numXGrayscale = 10;
+	int PIXEL_SIZE = 5 - 1;
+	int ncols = 10;
+	int RANGE = 3;
+	
+	if (!freeze) {
+		int threadNumber = 3;
+		int y1StartIndex = 1 + RANGE * threadNumber;
+		int y1EndIndex = RANGE * (threadNumber+1);
+
+		int i;
+		for (i = 1; i <= ncols; i++) #10#10 {
+			int x1 = (PIXEL_SIZE + 1) * (i - 1);
+
+			int j;
+			for (j = y1StartIndex; j <= y1EndIndex; j++) #3#3 {
+				int index = ncols*i + j;
+				int index1 = ncols*(i-1) + j-1;
+				
+				int y1 = (PIXEL_SIZE + 1) * (j - 1);
+				
+				life_data_color_ptr4[1] = blackColor;
+			//	if ((*grid_ptr)[i][j] > 0) {
+					int life = grid_ptr5[1];
+					life = numXGrayscale - 1;
+					life_data_color_ptr4[1] = life;
+			//	} else {
+					life_data_color_ptr4[1] = blackColor;
+			//	}
+
+				life_data_x1_ptr4[1] = x1;
+				life_data_y1_ptr4[1] = y1;
+			}
+		}
+	}
+}
+
+float rand_float(void) {
+    return (float)1/(float)rand_seed;
+}
+

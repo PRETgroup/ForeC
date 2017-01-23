@@ -1,0 +1,16 @@
+Fitter Status : Successful - Fri Jun 24 16:56:38 2016
+Quartus Prime Version : 15.1.0 Build 185 10/21/2015 SJ Lite Edition
+Revision Name : PTARM
+Top-level Entity Name : ptarm
+Family : Cyclone IV E
+Device : EP4CE115F29C7
+Timing Models : Final
+Total logic elements : 4,879 / 114,480 ( 4 % )
+    Total combinational functions : 4,143 / 114,480 ( 4 % )
+    Dedicated logic registers : 2,400 / 114,480 ( 2 % )
+Total registers : 2400
+Total pins : 120 / 529 ( 23 % )
+Total virtual pins : 0
+Total memory bits : 2,168,872 / 3,981,312 ( 54 % )
+Embedded Multiplier 9-bit elements : 6 / 532 ( 1 % )
+Total PLLs : 0 / 4 ( 0 % )

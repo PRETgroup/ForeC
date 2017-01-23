@@ -1,0 +1,266 @@
+add		1
+addc	1
+addk	1
+addkc	1
+addi	1
+addic	1
+addik	1
+addikc	1
+
+and		1
+andi	1
+andn	1
+andni	1
+
+beq		3
+beqd	3
+beqi	3
+beqid	3
+bge		3
+bged	3
+bgei	3
+bgeid	3
+bgt		3
+bgtd	3
+bgti	3
+bgtid	3
+ble		3
+bled	3
+blei	3
+bleid	3
+blt		3
+bltd	3
+blti	3
+bltid	3
+bne		3
+bned	3
+bnei	3
+bneid	3
+
+br		3
+bra		3
+brd		3
+brad	3
+brld	3
+brald	3
+bri		3
+brai	3
+brid	3
+braid	3
+brlid	3
+bralid	3
+
+brk		3
+brki	3
+
+bsrl	2
+bsra	2
+bsll	2
+bsi		2
+bsrai	2
+bslli	2
+
+cmp		1
+cmpu	1
+
+fadd	6
+frsub	6
+fmul	6
+fdiv	30
+fcmp.un	3
+fcmp.lt	3
+fcmp.eq	3
+fcmp.le	3
+fcmp.gt	3
+fcmp.ne	3
+fcmp.ge	3
+flt		6
+fint	7
+fsqrt	29
+
+get		2
+tget	2
+nget	2
+eget	2
+aget	2
+tnget	2
+teget	2
+taget	2
+neget	2
+naget	2
+eaget	2
+tneget	2
+tnaget	2
+teaget	2
+neaget	2
+tneaget	2
+
+cget	2
+tcget	2
+ncget	2
+ecget	2
+caget	2
+tncget	2
+tecget	2
+tcaget	2
+necget	2
+ncaget	2
+ecaget	2
+tnecget	2
+tncaget	2
+tecaget	2
+necaget	2
+tnecaget 2
+
+getd	2
+tgetd	2
+ngetd	2
+egetd	2
+agetd	2
+tngetd	2
+tegetd	2
+tagetd	2
+negetd	2
+nagetd	2
+eagetd	2
+tnegetd	2
+tnagetd	2
+teagetd	2
+neagetd	2
+tneagetd 2
+
+cgetd	2
+tcgetd	2
+ncgetd	2
+ecgetd	2
+cagetd	2
+tncgetd	2
+tecgetd	2
+tcagetd	2
+necgetd	2
+ncagetd	2
+ecagetd	2
+tnecgetd 2
+tncagetd 2
+tecagetd 2
+necagetd 2
+tnecagetd 2
+
+idiv	34
+idivu	34
+
+imm		1
+
+lbu		1
+lbur	1
+lbui	1
+lhu		1
+lhur	1
+lhui	1
+
+lw		1
+lwr		1
+lwi		1
+lwx		1
+
+mfs		1
+msrclr	1
+msrset	1
+mts		1
+
+mul		3
+mulh	3
+mulhu	3
+mulhsu	3
+muli	3
+
+or		1
+ori		1
+
+pcmpbf	1
+pcmpeq	1
+pcmpne	1
+
+put		2
+nput	2
+aput	2
+naput	2
+
+tput	2
+tnput	2
+taput	2
+tnaput	2
+
+cput	2
+ncput	2
+caput	2
+ncaput	2
+
+tcput	2
+tncput	2
+tcaput	2
+tncaput	2
+
+putd	2
+nputd	2
+aputd	2
+naputd	2
+
+tputd	2
+tnputd	2
+taputd	2
+tnaputd	2
+
+cputd	2
+ncputd	2
+caputd	2
+ncaputd	2
+
+tcputd	2
+tncputd	2
+tcaputd	2
+tncaputd 2
+
+rsub	1
+rsubc	1
+rsubk	1
+rsubkc	1
+
+rsubi	1
+rsubic	1
+rsubik	1
+rsubikc	1
+
+rtbd	3
+rtid	3
+rted	3
+rtsd	3
+
+sb		1
+sbr		1
+sbi		1
+
+sext16	1
+sext8	1
+
+sh		1
+shr		1
+shi		1
+
+sra		1
+src		1
+srl		1
+
+sw		1
+swr		1
+swi		1
+swx		1
+
+wdc		2
+wdc.flush 100
+wdc.clear 2
+
+wic		2
+
+xor		1
+xori	1

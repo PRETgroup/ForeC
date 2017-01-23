@@ -1,0 +1,7 @@
+architecture:
+x86
+
+0:
+main
+computeNewValues
+applyNewValues

@@ -1,0 +1,38 @@
+	// forec:scheduler:reactionEnd:%{threadScope}:slave:%{coreId}:start
+	//-- %{threadScope}:
+%{handlerEndName}: {
+	// Determine if the core can still react or not.
+	if (%{threadScope}ParCore%{coreId}.activeThreads) {
+		%{threadScope}ParCore%{coreId}.status = FOREC_CORE_REACTED;
+		
+		// Wait for the next tick.
+		while (%{threadScope}ParCore%{coreId}.reactionCounter == %{threadScope}ParReactionCounter);
+		%{threadScope}ParCore%{coreId}.reactionCounter++;
+		
+		// Continue reacting.
+		goto *%{handlerEndName}.nextThread -> programCounter;
+	} else {
+		int parId = %{threadScope}ParParent.parId;
+
+		%{handlerEndName}.programCounter = &&terminated_%{handlerEndName};
+		terminated_%{handlerEndName}:;
+		
+		%{threadScope}ParCore%{coreId}.status = FOREC_CORE_TERMINATED;
+		
+		// Wait for the next reaction.
+		while (%{threadScope}ParCore%{coreId}.reactionCounter == %{threadScope}ParReactionCounter);
+		%{threadScope}ParCore%{coreId}.reactionCounter++;
+		
+		// Wait for the par(...) to terminate.
+		if (%{threadScope}ParParent.parStatus == FOREC_PAR_ON && %{threadScope}ParParent.parId == parId) {
+			goto *%{handlerEndName}.nextThread -> programCounter;
+		}
+%{nestedSwap}
+	}
+	%{armNop}
+	// Control shouldn't reach here.
+	goto %{handlerEndName};
+}
+	// forec:scheduler:reactionEnd:%{threadScope}:slave:%{coreId}:end
+ 
+

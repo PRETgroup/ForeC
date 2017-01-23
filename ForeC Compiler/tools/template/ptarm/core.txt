@@ -1,0 +1,17 @@
+	// Initialise ForeC specific values ----------------------------
+%{initialise}
+	// ForeC mutex -------------------------------------------------
+%{resetMutexValues}
+	// Variables for par()s ----------------------------------------
+%{par}
+	// Synchronise execution of cores ------------------------------
+	// Hardware thread number.
+	unsigned int hwThreadId;
+	PTARM_THREAD_GET_ID(hwThreadId);
+
+	switch (hwThreadId) {
+%{cases}		default:
+			// "Lock-up" unused cores.
+			while(1);
+	}
+

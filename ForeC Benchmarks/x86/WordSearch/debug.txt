@@ -1,0 +1,479 @@
+ForeC Compiler (multicore distribution)
+Version: 0.99 (5 October 2014)
+Debug output
+---------------------------------------
+
+Source file name: WordSearch.forec
+Header file name: WordSearch.1.foreh
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	x86
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	0		main__thread
+	0		search1__thread
+	0		search2__thread
+
+
+==============================
+tools::SymbolTable::toString()
+==============================
+Symbol tables:
+--------------
+	Scope name: fgetw
+		Scope level: 0
+			Instance: 0
+				(variable) file__fgetw_0_0
+				(variable) wordFound__fgetw_0_0
+				(variable) length__fgetw_0_0
+				(variable) c__fgetw_0_0
+
+	Scope name: fgetws
+		Scope level: 0
+			Instance: 0
+				(variable) file__fgetws_0_0
+				(variable) word__fgetws_0_0
+				(variable) wordsLeft__fgetws_0_0
+				(variable) found__fgetws_0_0
+				(variable) wordFound__fgetws_0_0
+
+	Scope name: global
+		Scope level: 0
+			Instance: 0
+				(thread) search2__thread
+				(typedef) FILE__global_0_0
+				(variable) NULL__global_0_0
+				(input) newWord__global_0_0
+				(variable) oldWord__global_0_0
+				(shared) oldWord_ptr__global_0_0
+				(shared) file1__global_0_0
+				(shared) file2__global_0_0
+				(typedef) Accum__global_0_0
+				(shared) found__global_0_0
+				(function) fgetw
+				(function) fgetws
+				(function) plus
+				(thread) search1__thread
+
+	Scope name: main
+		Scope level: 0
+			Instance: 0
+				(variable) argc__main_0_0
+				(variable) argv__main_0_0
+				(variable) startTime__main_0_0
+				(variable) endTime__main_0_0
+				(variable) seconds__main_0_0
+				(variable) microseconds__main_0_0
+
+	Scope name: plus
+		Scope level: 0
+			Instance: 0
+				(variable) lhs__plus_0_0
+				(variable) rhs__plus_0_0
+
+	Scope name: search1
+		Scope level: 0
+			Instance: 0
+				(variable) numToSearch__search1_0_0
+
+	Scope name: search2
+		Scope level: 0
+			Instance: 0
+				(variable) numToSearch__search2_0_0
+
+
+Declared shared symbols:
+------------------------
+	Scope name: global
+		(Shared_oldWord_ptr__global_0_0) oldWord_ptr__global_0_0
+		(Shared_file1__global_0_0) file1__global_0_0
+		(Shared_file2__global_0_0) file2__global_0_0
+		(Shared_found__global_0_0) found__global_0_0
+
+
+Use/Def of symbols:
+-------------------
+	Scope name: fgetw
+		def:
+			(variable) wordFound__fgetw_0_0
+			(variable) length__fgetw_0_0
+			(typedef) FILE__global_0_0
+			(variable) c__fgetw_0_0
+
+		use:
+			(variable) file__fgetw_0_0
+			(variable) length__fgetw_0_0
+			(variable) c__fgetw_0_0
+
+	Scope name: fgetws
+		def:
+			(typedef) FILE__global_0_0
+			(variable) wordsLeft__fgetws_0_0
+			(variable) found__fgetws_0_0
+
+		use:
+			(function) fgetw
+			(variable) file__fgetws_0_0
+			(variable) word__fgetws_0_0
+			(variable) wordsLeft__fgetws_0_0
+			(variable) found__fgetws_0_0
+			(variable) wordFound__fgetws_0_0
+
+	Scope name: main
+		def:
+			(shared) file1__global_0_0
+			(shared) file2__global_0_0
+			(shared) found__global_0_0
+			(variable) microseconds__main_0_0
+
+		use:
+			(thread) search2__thread
+			(variable) argc__main_0_0
+			(variable) argv__main_0_0
+			(variable) startTime__main_0_0
+			(variable) endTime__main_0_0
+			(variable) NULL__global_0_0
+			(input) newWord__global_0_0
+			(variable) oldWord__global_0_0
+			(shared) oldWord_ptr__global_0_0
+			(shared) file1__global_0_0
+			(shared) file2__global_0_0
+			(shared) found__global_0_0
+			(thread) search1__thread
+			(variable) seconds__main_0_0
+			(variable) microseconds__main_0_0
+
+	Scope name: plus
+		def:
+			(typedef) Accum__global_0_0
+			(variable) lhs__plus_0_0
+
+		use:
+			(variable) lhs__plus_0_0
+			(variable) rhs__plus_0_0
+
+	Scope name: search1
+		def:
+			(shared) found__global_0_0
+			(variable) numToSearch__search1_0_0
+
+		use:
+			(shared) oldWord_ptr__global_0_0
+			(shared) file1__global_0_0
+			(shared) found__global_0_0
+			(function) fgetws
+			(variable) numToSearch__search1_0_0
+
+	Scope name: search2
+		def:
+			(shared) found__global_0_0
+			(variable) numToSearch__search2_0_0
+
+		use:
+			(shared) oldWord_ptr__global_0_0
+			(shared) file2__global_0_0
+			(shared) found__global_0_0
+			(function) fgetws
+			(variable) numToSearch__search2_0_0
+
+
+Indirect use/def of symbols by parId:
+-------------------------------------
+	par0:
+		oldWord_ptr__global_0_0
+			use (root): search1 search2 
+
+		file1__global_0_0
+			use (root): search1 
+
+		file2__global_0_0
+			use (root): search2 
+
+		found__global_0_0
+			def (root): search1 search2 
+			use (root): search1 search2 
+
+		numToSearch__search1_0_0
+			def (skip): search1 
+			use (skip): search1 
+
+		numToSearch__search2_0_0
+			def (skip): search2 
+			use (skip): search2 
+
+
+Indirect use/def of symbols by threadId:
+----------------------------------------
+	main:
+		oldWord_ptr__global_0_0
+			use (root): main 
+
+		file1__global_0_0
+			use (root): main 
+
+		file2__global_0_0
+			use (root): main 
+
+		found__global_0_0
+			def (root): main 
+			use (root): main 
+
+		numToSearch__search1_0_0
+			def (skip): main 
+			use (skip): main 
+
+		numToSearch__search2_0_0
+			def (skip): main 
+			use (skip): main 
+
+	search1:
+		oldWord_ptr__global_0_0
+			use (intermediate): search1 
+
+		file1__global_0_0
+			use (intermediate): search1 
+
+		found__global_0_0
+			def (intermediate): search1 
+			use (intermediate): search1 
+
+		numToSearch__search1_0_0
+			def (skip): search1 
+			use (skip): search1 
+
+	search2:
+		oldWord_ptr__global_0_0
+			use (intermediate): search2 
+
+		file2__global_0_0
+			use (intermediate): search2 
+
+		found__global_0_0
+			def (intermediate): search2 
+			use (intermediate): search2 
+
+		numToSearch__search2_0_0
+			def (skip): search2 
+			use (skip): search2 
+
+
+Functions used for combining shared variables:
+----------------------------------------------
+	plus
+
+============================
+tools::Threading::toString()
+============================
+Threads declared:
+-----------------
+	* main__thread
+	* search1__thread
+	* search2__thread
+
+Threads unused:
+---------------
+
+par(...) statements:
+--------------------
+	Thread scope: main
+		par0:
+		* search1__thread
+		* search2__thread
+
+========================
+tools::Abort::toString()
+========================
+Abort statements:
+-----------------
+	Thread scope: main__thread
+		par0:
+		* abortStrong0 strong
+
+
+============================
+tools::Condition::toString()
+============================
+Iterations statements:
+----------------------
+	Thread scope: main__thread
+		par0:
+		* while_1
+
+
+========================
+tarot::Tarot::toString()
+========================
+Full tarot:
+-----------
+	core0: main__thread
+	.	core0: while_1
+	.	.	core0: abortStrong0
+	.	.	:	core0: par0
+	.	.	:	|	core0: search1__thread
+	.	.	:	|	.	core0: doWhile_2
+	.	.	:	|	.	.	pause3
+	.	.	:	|	core0: search2__thread
+	.	.	:	|	.	core0: doWhile_3
+	.	.	:	|	.	.	pause4
+	.	.	:	core0: while_0
+	.	.	:	.	pause0
+	.	.	:	.	pause1
+	.	.	:	.	pause2
+
+
+Tarot by coreId:
+----------------
+	core0:
+	-------
+		core0: main__thread
+		.	core0: while_1
+		.	.	core0: abortStrong0
+		.	.	:	core0: par0
+		.	.	:	|	core0: search1__thread
+		.	.	:	|	.	core0: doWhile_2
+		.	.	:	|	.	.	pause3
+		.	.	:	|	core0: search2__thread
+		.	.	:	|	.	core0: doWhile_3
+		.	.	:	|	.	.	pause4
+		.	.	:	core0: while_0
+		.	.	:	.	pause0
+		.	.	:	.	pause1
+		.	.	:	.	pause2
+
+
+par(...) statements with core allocation:
+-----------------------------------------
+	Thread main__thread:
+		all:
+		* core0
+
+		par0:
+		* core0
+
+
+par(...) statements with active cores:
+--------------------------------------
+	Thread main__thread:
+		all:
+		* core0
+
+		par0:
+		* core0
+
+
+Reaction starts:
+----------------
+	core0:
+		main: Master
+
+
+Reaction ends:
+--------------
+	core0:
+		par0:
+			coreIds:
+			* 0
+
+			isMaster:
+			* true
+
+			threadScope:
+			* main
+
+
+Par(...) handlers:
+------------------
+	par0:
+	* search1__thread
+	* search2__thread
+	* mainReactionStartMaster0
+	* mainReactionEndMaster0
+	* abortStrong0Check0
+
+
+Abort checks:
+-------------
+	core0:
+		main:
+			strong:
+			* abortStrong0(strcmp(oldWord__global_0_0, newWord__global_0_0) != 0 && strcmp("", newWord__global_0_0) != 0)
+
+
+Linked lists:
+-------------
+	core0:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartMaster0
+			* (abortStrong) abortStrong0Check0
+			* (thread) search1__thread
+			* (thread) search2__thread
+			* (parEnd) mainReactionEndMaster0
+
+
+par(...) handlers in thread scopes:
+-----------------------------------
+	par0	main__thread
+
+Last par(...)s in each abort:
+-------------------------------
+	core0:
+		Thread scope: main
+		* abortStrong0->par0
+
+
+Scoped aborts:
+--------------
+	abortStrong0:
+		coreIds:
+		* 0
+
+		parIds:
+		* par0
+
+
+Scoped iterations:
+------------------
+	while_1:
+		coreIds:
+		* 0
+
+		parIds:
+		* par0
+
+
+Aborts around par(...):
+-----------------------
+	par0:
+	* abortStrong0 (par0)
+
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	x86
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	0		main__thread
+	0		search1__thread
+	0		search2__thread
+
+
+========================
+tools::Mutex::toString()
+========================
+Mutex information:
+------------------
+

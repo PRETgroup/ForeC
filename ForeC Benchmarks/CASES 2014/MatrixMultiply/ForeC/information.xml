@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!-- Supplementary information generated for static analysis (Main.cpp::output). -->
+<information>
+	<!-- Header filename (Multicore.cpp::toXml). -->
+	<filename elf="MatrixMultiply.1" />
+	<architecture model="microblaze" />
+	<!-- Allocation of threads for each core (Multicore.cpp::toXml). -->
+	<allocations>
+		<core id="0">
+			<thread id="fillMatrixA0" />
+			<thread id="fillMatrixA1" />
+			<thread id="fillMatrixA2" />
+			<thread id="fillMatrixA3" />
+			<thread id="fillMatrixB0" />
+			<thread id="fillMatrixB1" />
+			<thread id="fillMatrixB2" />
+			<thread id="fillMatrixB3" />
+			<thread id="main" />
+			<thread id="multiply0" />
+			<thread id="multiply1" />
+			<thread id="multiply2" />
+			<thread id="multiply3" />
+			<thread id="multiply4" />
+			<thread id="multiply5" />
+			<thread id="multiply6" />
+			<thread id="multiply7" />
+		</core>
+	</allocations>
+	<!-- Aborts around each par(...) (Abort.cpp::outputXml). -->
+	<aborts>
+	</aborts>
+	<!-- Nested thread structure (Tarot.cpp::outputXml). -->
+	<tarot>
+		<thread id="main">
+			<par id="0">
+				<thread id="fillMatrixA0"></thread>
+				<thread id="fillMatrixA1"></thread>
+				<thread id="fillMatrixA2"></thread>
+				<thread id="fillMatrixA3"></thread>
+				<thread id="fillMatrixB0"></thread>
+				<thread id="fillMatrixB1"></thread>
+				<thread id="fillMatrixB2"></thread>
+				<thread id="fillMatrixB3"></thread>
+			</par>
+		
+			<par id="1">
+				<thread id="multiply0"></thread>
+				<thread id="multiply1"></thread>
+				<thread id="multiply2"></thread>
+				<thread id="multiply3"></thread>
+				<thread id="multiply4"></thread>
+				<thread id="multiply5"></thread>
+				<thread id="multiply6"></thread>
+				<thread id="multiply7"></thread>
+			</par>
+		</thread>
+	</tarot>
+	<!-- Index of each par(...) in the par handlers of each core (Tarot.cpp::outputXml). -->
+	<parIndexes>
+		<core id="0">
+			<threadScope id="main">
+				<par id="0" handlers="10" />
+				<par id="1" handlers="10" />
+			</threadScope>
+		</core>
+	</parIndexes>
+	<!-- Cores involved in executing each par(...) (Tarot.cpp::outputXml). -->
+	<allocatedParCores>
+		<par id="0">
+			<core id="0" />
+		</par>
+		<par id="1">
+			<core id="0" />
+		</par>
+	</allocatedParCores>
+	<!-- Cores involved in executing all the par(...)s in each thread (Tarot.cpp::outputXml). -->
+	<activeParCores>
+		<thread id="main">
+			<core id="0" />
+		</thread>
+	</activeParCores>
+	<!-- Shared variables (SymbolTable.cpp::outputXml). -->
+	<shared>
+	</shared>
+</information>

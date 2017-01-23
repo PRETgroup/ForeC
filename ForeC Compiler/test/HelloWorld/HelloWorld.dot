@@ -1,0 +1,42 @@
+digraph "HelloWorld" {
+	ordering = out
+
+	labeljust = l
+	node [shape = box, fixedsize = true, height = 0.7, width = 1.1]
+
+	start [shape = plaintext, height = 0.4]
+
+		start -> par0_0Start [label = main, /*headport = n, tailport = s*/]
+	subgraph cluster_abortStrong0_0 {
+		color = black
+		style = dotted
+
+		subgraph cluster_par0_0 {
+			style = filled
+			color = lightgrey
+
+			par0_0Start [label = 0, shape = triangle]
+			par0_0End [label = 0, shape = invtriangle]
+
+			par0_0Start -> while_0_0 [label = hello, fontcolor = blue, sametail = 0, /*headport = n, tailport = s*/]
+			while_0_0 [label = 0, shape = diamond]
+			while_0_0 -> pause0_0 [label = true, /*headport = n, tailport = s,*/ weight = 2]
+			pause0_0 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+			pause0_0 -> pause1_1 /*[headport = n, tailport = s]*/
+			pause1_1 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+			pause1_1 -> while_0_0 /*[headport = w, tailport = s]*/
+			while_0_0 -> par0_0End [label = false/*, headport = n, tailport = e*/]
+
+			par0_0Start -> pause2_4 [label = world, fontcolor = blue, sametail = 0, /*headport = n, tailport = s*/]
+			pause2_4 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+			pause2_4 -> par0_0End /*[headport = n, tailport = s]*/
+		}
+		label = "abortStrong0\nwhen (state__global_0_0.value == 1)"
+	}
+	par0_0End -> end /*[headport = n, tailport = s]*/
+
+	end [shape = plaintext, height = 0.4]
+	label = "HelloWorld.forec"
+	labelloc = t
+	labeljust = c
+}

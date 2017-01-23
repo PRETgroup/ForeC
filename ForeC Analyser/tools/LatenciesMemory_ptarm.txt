@@ -1,0 +1,4 @@
+slot	0
+local	0
+globalLoad	1
+globalStore	1

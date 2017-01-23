@@ -1,0 +1,542 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		47377B221336B5C400FAEE4F /* core.txt */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = core.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		47377B231336B5C400FAEE4F /* global.txt */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = global.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		47377B241336B5C400FAEE4F /* main.txt */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = main.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		47377B2D1336BA1800FAEE4F /* core.txt */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = core.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		47377B2E1336BA1800FAEE4F /* global.txt */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = global.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		47377B2F1336BA1800FAEE4F /* main.txt */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = main.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		4740B86C17518DD100EB7834 /* nestedHandler.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = nestedHandler.txt; path = tools/template/nestedHandler.txt; sourceTree = SOURCE_ROOT; };
+		475CC783135F9E87007011FC /* Readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = Readme.txt; sourceTree = "<group>"; };
+		476824E4139903A100A461DF /* File.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 2; path = File.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED84C132D6DCB006D1815 /* Main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 2; path = Main.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED84D132D6DCB006D1815 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; lineEnding = 2; path = Makefile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.sh; };
+		476ED84E132D6DCB006D1815 /* parser.y */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.yacc; lineEnding = 2; path = parser.y; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED850132D6DCB006D1815 /* Scanner.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 2; path = Scanner.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED851132D6DCB006D1815 /* scanner.l */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.lex; lineEnding = 2; path = scanner.l; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED852132D6DDC006D1815 /* Abort.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = Abort.cpp; path = tools/Abort.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED853132D6DDC006D1815 /* Abort.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = Abort.hpp; path = tools/Abort.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED854132D6DDC006D1815 /* Multicore.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Multicore.cpp; path = tools/Multicore.cpp; sourceTree = "<group>"; };
+		476ED855132D6DDC006D1815 /* Multicore.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Multicore.hpp; path = tools/Multicore.hpp; sourceTree = "<group>"; };
+		476ED856132D6DDC006D1815 /* Mutex.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Mutex.cpp; path = tools/Mutex.cpp; sourceTree = "<group>"; };
+		476ED857132D6DDC006D1815 /* Mutex.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Mutex.hpp; path = tools/Mutex.hpp; sourceTree = "<group>"; };
+		476ED858132D6DDC006D1815 /* Query.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = Query.cpp; path = tools/Query.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED859132D6DDC006D1815 /* Query.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = Query.hpp; path = tools/Query.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED85C132D6DDC006D1815 /* SymbolTable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = SymbolTable.cpp; path = tools/SymbolTable.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED85D132D6DDC006D1815 /* SymbolTable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = SymbolTable.hpp; path = tools/SymbolTable.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED85E132D6DDC006D1815 /* Tab.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Tab.cpp; path = tools/Tab.cpp; sourceTree = "<group>"; };
+		476ED85F132D6DDC006D1815 /* Tab.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Tab.hpp; path = tools/Tab.hpp; sourceTree = "<group>"; };
+		476ED861132D6DDC006D1815 /* abort.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = abort.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		476ED865132D6DDC006D1815 /* masterPar.txt */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = masterPar.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		476ED867132D6DDC006D1815 /* nestedHandlers.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = nestedHandlers.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		476ED869132D6DDC006D1815 /* reactionEndMaster.txt */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = reactionEndMaster.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		476ED86A132D6DDC006D1815 /* reactionEndSlave.txt */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = reactionEndSlave.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		476ED86B132D6DDC006D1815 /* slave.txt */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = slave.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		476ED86C132D6DDC006D1815 /* slavePar.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = slavePar.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		476ED86D132D6DDC006D1815 /* thread.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = thread.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		476ED86E132D6DDC006D1815 /* Template.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = Template.cpp; path = tools/Template.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED86F132D6DDC006D1815 /* Template.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = Template.hpp; path = tools/Template.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED870132D6DDC006D1815 /* Threading.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = Threading.cpp; path = tools/Threading.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED871132D6DDC006D1815 /* Threading.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = Threading.hpp; path = tools/Threading.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED872132D6E49006D1815 /* AbortStatement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = AbortStatement.cpp; path = ast/AbortStatement.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED873132D6E49006D1815 /* AbortStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = AbortStatement.hpp; path = ast/AbortStatement.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED874132D6E49006D1815 /* AbstractDeclarator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = AbstractDeclarator.cpp; path = ast/AbstractDeclarator.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED875132D6E49006D1815 /* AbstractDeclarator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = AbstractDeclarator.hpp; path = ast/AbstractDeclarator.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED876132D6E49006D1815 /* ArgumentExpressionList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = ArgumentExpressionList.cpp; path = ast/ArgumentExpressionList.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED877132D6E49006D1815 /* ArgumentExpressionList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = ArgumentExpressionList.hpp; path = ast/ArgumentExpressionList.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED878132D6E49006D1815 /* AssignmentExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = AssignmentExpression.cpp; path = ast/AssignmentExpression.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED879132D6E49006D1815 /* AssignmentExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = AssignmentExpression.hpp; path = ast/AssignmentExpression.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED87A132D6E49006D1815 /* AssignmentOperator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = AssignmentOperator.cpp; path = ast/AssignmentOperator.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED87B132D6E49006D1815 /* AssignmentOperator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = AssignmentOperator.hpp; path = ast/AssignmentOperator.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED87C132D6E49006D1815 /* BinaryExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = BinaryExpression.cpp; path = ast/BinaryExpression.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED87D132D6E49006D1815 /* BinaryExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = BinaryExpression.hpp; path = ast/BinaryExpression.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED87E132D6E49006D1815 /* BlockItemList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = BlockItemList.cpp; path = ast/BlockItemList.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED87F132D6E49006D1815 /* BlockItemList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = BlockItemList.hpp; path = ast/BlockItemList.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED880132D6E49006D1815 /* CastExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = CastExpression.cpp; path = ast/CastExpression.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED881132D6E49006D1815 /* CastExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = CastExpression.hpp; path = ast/CastExpression.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED882132D6E49006D1815 /* CompoundStatement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = CompoundStatement.cpp; path = ast/CompoundStatement.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED883132D6E49006D1815 /* CompoundStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = CompoundStatement.hpp; path = ast/CompoundStatement.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED884132D6E49006D1815 /* Declaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = Declaration.cpp; path = ast/Declaration.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED885132D6E49006D1815 /* Declaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = Declaration.hpp; path = ast/Declaration.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED886132D6E49006D1815 /* DeclarationList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = DeclarationList.cpp; path = ast/DeclarationList.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED887132D6E49006D1815 /* DeclarationList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = DeclarationList.hpp; path = ast/DeclarationList.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED888132D6E49006D1815 /* DeclarationSpecifiers.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = DeclarationSpecifiers.cpp; path = ast/DeclarationSpecifiers.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED889132D6E49006D1815 /* DeclarationSpecifiers.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = DeclarationSpecifiers.hpp; path = ast/DeclarationSpecifiers.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED88A132D6E49006D1815 /* Declarator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = Declarator.cpp; path = ast/Declarator.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED88B132D6E49006D1815 /* Declarator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = Declarator.hpp; path = ast/Declarator.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED88C132D6E49006D1815 /* Designation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = Designation.cpp; path = ast/Designation.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED88D132D6E49006D1815 /* Designation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = Designation.hpp; path = ast/Designation.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED88E132D6E49006D1815 /* Designator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = Designator.cpp; path = ast/Designator.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED88F132D6E49006D1815 /* Designator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = Designator.hpp; path = ast/Designator.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED890132D6E49006D1815 /* DesignatorList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = DesignatorList.cpp; path = ast/DesignatorList.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED891132D6E49006D1815 /* DesignatorList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = DesignatorList.hpp; path = ast/DesignatorList.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED892132D6E49006D1815 /* DirectAbstractDeclarator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = DirectAbstractDeclarator.cpp; path = ast/DirectAbstractDeclarator.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED893132D6E49006D1815 /* DirectAbstractDeclarator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = DirectAbstractDeclarator.hpp; path = ast/DirectAbstractDeclarator.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED894132D6E49006D1815 /* DirectDeclarator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = DirectDeclarator.cpp; path = ast/DirectDeclarator.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED895132D6E49006D1815 /* DirectDeclarator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = DirectDeclarator.hpp; path = ast/DirectDeclarator.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED896132D6E49006D1815 /* Enumerator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = Enumerator.cpp; path = ast/Enumerator.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED897132D6E49006D1815 /* Enumerator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = Enumerator.hpp; path = ast/Enumerator.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED898132D6E49006D1815 /* EnumeratorList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = EnumeratorList.cpp; path = ast/EnumeratorList.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED899132D6E49006D1815 /* EnumeratorList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = EnumeratorList.hpp; path = ast/EnumeratorList.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED89A132D6E49006D1815 /* EnumSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = EnumSpecifier.cpp; path = ast/EnumSpecifier.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED89B132D6E49006D1815 /* EnumSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = EnumSpecifier.hpp; path = ast/EnumSpecifier.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED89C132D6E49006D1815 /* Expression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = Expression.cpp; path = ast/Expression.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED89D132D6E49006D1815 /* Expression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = Expression.hpp; path = ast/Expression.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED89E132D6E49006D1815 /* ExpressionStatement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = ExpressionStatement.cpp; path = ast/ExpressionStatement.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED89F132D6E49006D1815 /* ExpressionStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = ExpressionStatement.hpp; path = ast/ExpressionStatement.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8A0132D6E49006D1815 /* FunctionDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = FunctionDefinition.cpp; path = ast/FunctionDefinition.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8A1132D6E49006D1815 /* FunctionDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = FunctionDefinition.hpp; path = ast/FunctionDefinition.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8A2132D6E49006D1815 /* FunctionSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = FunctionSpecifier.cpp; path = ast/FunctionSpecifier.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8A3132D6E49006D1815 /* FunctionSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = FunctionSpecifier.hpp; path = ast/FunctionSpecifier.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8A4132D6E49006D1815 /* IdentifierList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = IdentifierList.cpp; path = ast/IdentifierList.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8A5132D6E49006D1815 /* IdentifierList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = IdentifierList.hpp; path = ast/IdentifierList.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8A6132D6E49006D1815 /* InitDeclaratorList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = InitDeclaratorList.cpp; path = ast/InitDeclaratorList.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8A7132D6E49006D1815 /* InitDeclaratorList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = InitDeclaratorList.hpp; path = ast/InitDeclaratorList.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8A8132D6E49006D1815 /* Initializer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = Initializer.cpp; path = ast/Initializer.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8A9132D6E49006D1815 /* Initializer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = Initializer.hpp; path = ast/Initializer.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8AA132D6E49006D1815 /* InitializerList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = InitializerList.cpp; path = ast/InitializerList.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8AB132D6E49006D1815 /* InitializerList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = InitializerList.hpp; path = ast/InitializerList.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8AC132D6E49006D1815 /* IterationStatement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = IterationStatement.cpp; path = ast/IterationStatement.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8AD132D6E49006D1815 /* IterationStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = IterationStatement.hpp; path = ast/IterationStatement.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8AE132D6E49006D1815 /* JumpStatement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = JumpStatement.cpp; path = ast/JumpStatement.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8AF132D6E49006D1815 /* JumpStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = JumpStatement.hpp; path = ast/JumpStatement.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8B0132D6E49006D1815 /* LabeledStatement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = LabeledStatement.cpp; path = ast/LabeledStatement.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8B1132D6E49006D1815 /* LabeledStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = LabeledStatement.hpp; path = ast/LabeledStatement.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8B2132D6E49006D1815 /* Node.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = Node.cpp; path = ast/Node.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8B3132D6E49006D1815 /* Node.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = Node.hpp; path = ast/Node.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8B4132D6E49006D1815 /* NodeList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = NodeList.cpp; path = ast/NodeList.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8B5132D6E49006D1815 /* NodeList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = NodeList.hpp; path = ast/NodeList.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8B6132D6E49006D1815 /* ParameterDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = ParameterDeclaration.cpp; path = ast/ParameterDeclaration.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8B7132D6E49006D1815 /* ParameterDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = ParameterDeclaration.hpp; path = ast/ParameterDeclaration.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8B8132D6E49006D1815 /* ParameterList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = ParameterList.cpp; path = ast/ParameterList.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8B9132D6E49006D1815 /* ParameterList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = ParameterList.hpp; path = ast/ParameterList.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8BA132D6E49006D1815 /* ParameterTypeList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = ParameterTypeList.cpp; path = ast/ParameterTypeList.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8BB132D6E49006D1815 /* ParameterTypeList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = ParameterTypeList.hpp; path = ast/ParameterTypeList.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8BC132D6E49006D1815 /* ParStatement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = ParStatement.cpp; path = ast/ParStatement.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8BD132D6E49006D1815 /* ParStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = ParStatement.hpp; path = ast/ParStatement.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8BE132D6E49006D1815 /* PauseStatement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = PauseStatement.cpp; path = ast/PauseStatement.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8BF132D6E49006D1815 /* PauseStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = PauseStatement.hpp; path = ast/PauseStatement.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8C0132D6E49006D1815 /* Pointer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = Pointer.cpp; path = ast/Pointer.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8C1132D6E49006D1815 /* Pointer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = Pointer.hpp; path = ast/Pointer.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8C2132D6E49006D1815 /* PostfixExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = PostfixExpression.cpp; path = ast/PostfixExpression.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8C3132D6E49006D1815 /* PostfixExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = PostfixExpression.hpp; path = ast/PostfixExpression.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8C4132D6E49006D1815 /* PreProcessorDirective.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = PreProcessorDirective.cpp; path = ast/PreProcessorDirective.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8C5132D6E49006D1815 /* PreProcessorDirective.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = PreProcessorDirective.hpp; path = ast/PreProcessorDirective.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8C6132D6E49006D1815 /* PrimaryExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = PrimaryExpression.cpp; path = ast/PrimaryExpression.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8C7132D6E49006D1815 /* PrimaryExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = PrimaryExpression.hpp; path = ast/PrimaryExpression.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8C8132D6E49006D1815 /* Root.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = Root.cpp; path = ast/Root.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8C9132D6E49006D1815 /* Root.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = Root.hpp; path = ast/Root.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8CA132D6E49006D1815 /* SelectionStatement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = SelectionStatement.cpp; path = ast/SelectionStatement.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8CB132D6E49006D1815 /* SelectionStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = SelectionStatement.hpp; path = ast/SelectionStatement.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8CC132D6E49006D1815 /* SpecifierQualifierList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = SpecifierQualifierList.cpp; path = ast/SpecifierQualifierList.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8CD132D6E49006D1815 /* SpecifierQualifierList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = SpecifierQualifierList.hpp; path = ast/SpecifierQualifierList.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8CE132D6E49006D1815 /* StorageClassSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = StorageClassSpecifier.cpp; path = ast/StorageClassSpecifier.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8CF132D6E49006D1815 /* StorageClassSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = StorageClassSpecifier.hpp; path = ast/StorageClassSpecifier.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8D0132D6E49006D1815 /* StructDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = StructDeclaration.cpp; path = ast/StructDeclaration.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8D1132D6E49006D1815 /* StructDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = StructDeclaration.hpp; path = ast/StructDeclaration.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8D2132D6E49006D1815 /* StructDeclarationList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = StructDeclarationList.cpp; path = ast/StructDeclarationList.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8D3132D6E49006D1815 /* StructDeclarationList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = StructDeclarationList.hpp; path = ast/StructDeclarationList.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8D4132D6E49006D1815 /* StructDeclarator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = StructDeclarator.cpp; path = ast/StructDeclarator.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8D5132D6E49006D1815 /* StructDeclarator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = StructDeclarator.hpp; path = ast/StructDeclarator.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8D6132D6E49006D1815 /* StructDeclaratorList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = StructDeclaratorList.cpp; path = ast/StructDeclaratorList.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8D7132D6E49006D1815 /* StructDeclaratorList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = StructDeclaratorList.hpp; path = ast/StructDeclaratorList.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8D8132D6E49006D1815 /* StructUnionSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = StructUnionSpecifier.cpp; path = ast/StructUnionSpecifier.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8D9132D6E49006D1815 /* StructUnionSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = StructUnionSpecifier.hpp; path = ast/StructUnionSpecifier.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8DA132D6E49006D1815 /* TernaryExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = TernaryExpression.cpp; path = ast/TernaryExpression.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8DB132D6E49006D1815 /* TernaryExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = TernaryExpression.hpp; path = ast/TernaryExpression.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8DC132D6E49006D1815 /* ThreadDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = ThreadDefinition.cpp; path = ast/ThreadDefinition.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8DD132D6E49006D1815 /* ThreadDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = ThreadDefinition.hpp; path = ast/ThreadDefinition.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8DE132D6E49006D1815 /* TypeName.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = TypeName.cpp; path = ast/TypeName.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8DF132D6E49006D1815 /* TypeName.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = TypeName.hpp; path = ast/TypeName.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8E0132D6E49006D1815 /* TypeQualifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = TypeQualifier.cpp; path = ast/TypeQualifier.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8E1132D6E49006D1815 /* TypeQualifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = TypeQualifier.hpp; path = ast/TypeQualifier.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8E2132D6E49006D1815 /* TypeQualifierList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = TypeQualifierList.cpp; path = ast/TypeQualifierList.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8E3132D6E49006D1815 /* TypeQualifierList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = TypeQualifierList.hpp; path = ast/TypeQualifierList.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8E4132D6E49006D1815 /* TypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = TypeSpecifier.cpp; path = ast/TypeSpecifier.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8E5132D6E49006D1815 /* TypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = TypeSpecifier.hpp; path = ast/TypeSpecifier.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8E6132D6E49006D1815 /* UnaryExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = UnaryExpression.cpp; path = ast/UnaryExpression.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		476ED8E7132D6E49006D1815 /* UnaryExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = UnaryExpression.hpp; path = ast/UnaryExpression.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		4776C0921753399A00A29724 /* CombineSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CombineSpecifier.hpp; path = ast/CombineSpecifier.hpp; sourceTree = "<group>"; };
+		4776C09417533A8E00A29724 /* CombineSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CombineSpecifier.cpp; path = ast/CombineSpecifier.cpp; sourceTree = "<group>"; };
+		477B56C2136AD8B2004CCAD2 /* reactionStart.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = reactionStart.txt; path = tools/template/reactionStart.txt; sourceTree = SOURCE_ROOT; };
+		47984A2F1399A41C004C4028 /* Tarot.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Tarot.cpp; sourceTree = "<group>"; };
+		47984A301399A41C004C4028 /* Tarot.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Tarot.hpp; sourceTree = "<group>"; };
+		47A25D7216C8C5F50071FF6D /* core.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = core.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		47A25D7316C8C5F50071FF6D /* global.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = global.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		47A25D7416C8C5F50071FF6D /* main.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		47B88CA4134EF24B00AE4874 /* Condition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = Condition.cpp; path = tools/Condition.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		47B88CA5134EF24B00AE4874 /* Condition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = Condition.hpp; path = tools/Condition.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		47CF567D1399A329008286BC /* Abort.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Abort.cpp; sourceTree = "<group>"; };
+		47CF567E1399A329008286BC /* Abort.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Abort.hpp; sourceTree = "<group>"; };
+		47CF56831399A329008286BC /* Iteration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Iteration.cpp; sourceTree = "<group>"; };
+		47CF56841399A329008286BC /* Iteration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Iteration.hpp; sourceTree = "<group>"; };
+		47CF56861399A329008286BC /* Node.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
+		47CF56871399A329008286BC /* Node.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Node.hpp; sourceTree = "<group>"; };
+		47CF56891399A329008286BC /* Par.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Par.cpp; sourceTree = "<group>"; };
+		47CF568A1399A329008286BC /* Par.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Par.hpp; sourceTree = "<group>"; };
+		47CF568C1399A329008286BC /* Pause.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Pause.cpp; sourceTree = "<group>"; };
+		47CF568D1399A329008286BC /* Pause.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Pause.hpp; sourceTree = "<group>"; };
+		47CF568F1399A329008286BC /* Selection.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Selection.cpp; sourceTree = "<group>"; };
+		47CF56901399A329008286BC /* Selection.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Selection.hpp; sourceTree = "<group>"; };
+		47CF56921399A329008286BC /* Tab.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Tab.cpp; sourceTree = "<group>"; };
+		47CF56931399A329008286BC /* Tab.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Tab.hpp; sourceTree = "<group>"; };
+		47CF56951399A329008286BC /* Thread.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Thread.cpp; sourceTree = "<group>"; };
+		47CF56961399A329008286BC /* Thread.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Thread.hpp; sourceTree = "<group>"; };
+		47EBB79516E35070008ADDDE /* Function.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Function.cpp; path = tools/Function.cpp; sourceTree = "<group>"; };
+		47EBB79616E35070008ADDDE /* Function.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Function.hpp; path = tools/Function.hpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		47377B211336B5C400FAEE4F /* microblaze */ = {
+			isa = PBXGroup;
+			children = (
+				47377B221336B5C400FAEE4F /* core.txt */,
+				47377B231336B5C400FAEE4F /* global.txt */,
+				47377B241336B5C400FAEE4F /* main.txt */,
+			);
+			name = microblaze;
+			path = tools/template/microblaze;
+			sourceTree = SOURCE_ROOT;
+		};
+		47377B2C1336BA1800FAEE4F /* x86 */ = {
+			isa = PBXGroup;
+			children = (
+				47377B2D1336BA1800FAEE4F /* core.txt */,
+				47377B2E1336BA1800FAEE4F /* global.txt */,
+				47377B2F1336BA1800FAEE4F /* main.txt */,
+			);
+			name = x86;
+			path = tools/template/x86;
+			sourceTree = SOURCE_ROOT;
+		};
+		476ED834132D6AC8006D1815 = {
+			isa = PBXGroup;
+			children = (
+				475CC783135F9E87007011FC /* Readme.txt */,
+				476ED84D132D6DCB006D1815 /* Makefile */,
+				476ED84C132D6DCB006D1815 /* Main.cpp */,
+				476824E4139903A100A461DF /* File.hpp */,
+				476ED850132D6DCB006D1815 /* Scanner.hpp */,
+				476ED84E132D6DCB006D1815 /* parser.y */,
+				476ED851132D6DCB006D1815 /* scanner.l */,
+				476ED849132D6D72006D1815 /* ast */,
+				47CF567C1399A329008286BC /* tarot */,
+				476ED84B132D6D80006D1815 /* tools */,
+			);
+			sourceTree = "<group>";
+		};
+		476ED849132D6D72006D1815 /* ast */ = {
+			isa = PBXGroup;
+			children = (
+				476ED872132D6E49006D1815 /* AbortStatement.cpp */,
+				476ED873132D6E49006D1815 /* AbortStatement.hpp */,
+				476ED874132D6E49006D1815 /* AbstractDeclarator.cpp */,
+				476ED875132D6E49006D1815 /* AbstractDeclarator.hpp */,
+				476ED876132D6E49006D1815 /* ArgumentExpressionList.cpp */,
+				476ED877132D6E49006D1815 /* ArgumentExpressionList.hpp */,
+				476ED878132D6E49006D1815 /* AssignmentExpression.cpp */,
+				476ED879132D6E49006D1815 /* AssignmentExpression.hpp */,
+				476ED87A132D6E49006D1815 /* AssignmentOperator.cpp */,
+				476ED87B132D6E49006D1815 /* AssignmentOperator.hpp */,
+				476ED87C132D6E49006D1815 /* BinaryExpression.cpp */,
+				476ED87D132D6E49006D1815 /* BinaryExpression.hpp */,
+				476ED87E132D6E49006D1815 /* BlockItemList.cpp */,
+				476ED87F132D6E49006D1815 /* BlockItemList.hpp */,
+				476ED880132D6E49006D1815 /* CastExpression.cpp */,
+				476ED881132D6E49006D1815 /* CastExpression.hpp */,
+				4776C09417533A8E00A29724 /* CombineSpecifier.cpp */,
+				4776C0921753399A00A29724 /* CombineSpecifier.hpp */,
+				476ED882132D6E49006D1815 /* CompoundStatement.cpp */,
+				476ED883132D6E49006D1815 /* CompoundStatement.hpp */,
+				476ED884132D6E49006D1815 /* Declaration.cpp */,
+				476ED885132D6E49006D1815 /* Declaration.hpp */,
+				476ED886132D6E49006D1815 /* DeclarationList.cpp */,
+				476ED887132D6E49006D1815 /* DeclarationList.hpp */,
+				476ED888132D6E49006D1815 /* DeclarationSpecifiers.cpp */,
+				476ED889132D6E49006D1815 /* DeclarationSpecifiers.hpp */,
+				476ED88A132D6E49006D1815 /* Declarator.cpp */,
+				476ED88B132D6E49006D1815 /* Declarator.hpp */,
+				476ED88C132D6E49006D1815 /* Designation.cpp */,
+				476ED88D132D6E49006D1815 /* Designation.hpp */,
+				476ED88E132D6E49006D1815 /* Designator.cpp */,
+				476ED88F132D6E49006D1815 /* Designator.hpp */,
+				476ED890132D6E49006D1815 /* DesignatorList.cpp */,
+				476ED891132D6E49006D1815 /* DesignatorList.hpp */,
+				476ED892132D6E49006D1815 /* DirectAbstractDeclarator.cpp */,
+				476ED893132D6E49006D1815 /* DirectAbstractDeclarator.hpp */,
+				476ED894132D6E49006D1815 /* DirectDeclarator.cpp */,
+				476ED895132D6E49006D1815 /* DirectDeclarator.hpp */,
+				476ED896132D6E49006D1815 /* Enumerator.cpp */,
+				476ED897132D6E49006D1815 /* Enumerator.hpp */,
+				476ED898132D6E49006D1815 /* EnumeratorList.cpp */,
+				476ED899132D6E49006D1815 /* EnumeratorList.hpp */,
+				476ED89A132D6E49006D1815 /* EnumSpecifier.cpp */,
+				476ED89B132D6E49006D1815 /* EnumSpecifier.hpp */,
+				476ED89C132D6E49006D1815 /* Expression.cpp */,
+				476ED89D132D6E49006D1815 /* Expression.hpp */,
+				476ED89E132D6E49006D1815 /* ExpressionStatement.cpp */,
+				476ED89F132D6E49006D1815 /* ExpressionStatement.hpp */,
+				476ED8A0132D6E49006D1815 /* FunctionDefinition.cpp */,
+				476ED8A1132D6E49006D1815 /* FunctionDefinition.hpp */,
+				476ED8A2132D6E49006D1815 /* FunctionSpecifier.cpp */,
+				476ED8A3132D6E49006D1815 /* FunctionSpecifier.hpp */,
+				476ED8A4132D6E49006D1815 /* IdentifierList.cpp */,
+				476ED8A5132D6E49006D1815 /* IdentifierList.hpp */,
+				476ED8A6132D6E49006D1815 /* InitDeclaratorList.cpp */,
+				476ED8A7132D6E49006D1815 /* InitDeclaratorList.hpp */,
+				476ED8A8132D6E49006D1815 /* Initializer.cpp */,
+				476ED8A9132D6E49006D1815 /* Initializer.hpp */,
+				476ED8AA132D6E49006D1815 /* InitializerList.cpp */,
+				476ED8AB132D6E49006D1815 /* InitializerList.hpp */,
+				476ED8AC132D6E49006D1815 /* IterationStatement.cpp */,
+				476ED8AD132D6E49006D1815 /* IterationStatement.hpp */,
+				476ED8AE132D6E49006D1815 /* JumpStatement.cpp */,
+				476ED8AF132D6E49006D1815 /* JumpStatement.hpp */,
+				476ED8B0132D6E49006D1815 /* LabeledStatement.cpp */,
+				476ED8B1132D6E49006D1815 /* LabeledStatement.hpp */,
+				476ED8B2132D6E49006D1815 /* Node.cpp */,
+				476ED8B3132D6E49006D1815 /* Node.hpp */,
+				476ED8B4132D6E49006D1815 /* NodeList.cpp */,
+				476ED8B5132D6E49006D1815 /* NodeList.hpp */,
+				476ED8B6132D6E49006D1815 /* ParameterDeclaration.cpp */,
+				476ED8B7132D6E49006D1815 /* ParameterDeclaration.hpp */,
+				476ED8B8132D6E49006D1815 /* ParameterList.cpp */,
+				476ED8B9132D6E49006D1815 /* ParameterList.hpp */,
+				476ED8BA132D6E49006D1815 /* ParameterTypeList.cpp */,
+				476ED8BB132D6E49006D1815 /* ParameterTypeList.hpp */,
+				476ED8BC132D6E49006D1815 /* ParStatement.cpp */,
+				476ED8BD132D6E49006D1815 /* ParStatement.hpp */,
+				476ED8BE132D6E49006D1815 /* PauseStatement.cpp */,
+				476ED8BF132D6E49006D1815 /* PauseStatement.hpp */,
+				476ED8C0132D6E49006D1815 /* Pointer.cpp */,
+				476ED8C1132D6E49006D1815 /* Pointer.hpp */,
+				476ED8C2132D6E49006D1815 /* PostfixExpression.cpp */,
+				476ED8C3132D6E49006D1815 /* PostfixExpression.hpp */,
+				476ED8C4132D6E49006D1815 /* PreProcessorDirective.cpp */,
+				476ED8C5132D6E49006D1815 /* PreProcessorDirective.hpp */,
+				476ED8C6132D6E49006D1815 /* PrimaryExpression.cpp */,
+				476ED8C7132D6E49006D1815 /* PrimaryExpression.hpp */,
+				476ED8C8132D6E49006D1815 /* Root.cpp */,
+				476ED8C9132D6E49006D1815 /* Root.hpp */,
+				476ED8CA132D6E49006D1815 /* SelectionStatement.cpp */,
+				476ED8CB132D6E49006D1815 /* SelectionStatement.hpp */,
+				476ED8CC132D6E49006D1815 /* SpecifierQualifierList.cpp */,
+				476ED8CD132D6E49006D1815 /* SpecifierQualifierList.hpp */,
+				476ED8CE132D6E49006D1815 /* StorageClassSpecifier.cpp */,
+				476ED8CF132D6E49006D1815 /* StorageClassSpecifier.hpp */,
+				476ED8D0132D6E49006D1815 /* StructDeclaration.cpp */,
+				476ED8D1132D6E49006D1815 /* StructDeclaration.hpp */,
+				476ED8D2132D6E49006D1815 /* StructDeclarationList.cpp */,
+				476ED8D3132D6E49006D1815 /* StructDeclarationList.hpp */,
+				476ED8D4132D6E49006D1815 /* StructDeclarator.cpp */,
+				476ED8D5132D6E49006D1815 /* StructDeclarator.hpp */,
+				476ED8D6132D6E49006D1815 /* StructDeclaratorList.cpp */,
+				476ED8D7132D6E49006D1815 /* StructDeclaratorList.hpp */,
+				476ED8D8132D6E49006D1815 /* StructUnionSpecifier.cpp */,
+				476ED8D9132D6E49006D1815 /* StructUnionSpecifier.hpp */,
+				476ED8DA132D6E49006D1815 /* TernaryExpression.cpp */,
+				476ED8DB132D6E49006D1815 /* TernaryExpression.hpp */,
+				476ED8DC132D6E49006D1815 /* ThreadDefinition.cpp */,
+				476ED8DD132D6E49006D1815 /* ThreadDefinition.hpp */,
+				476ED8DE132D6E49006D1815 /* TypeName.cpp */,
+				476ED8DF132D6E49006D1815 /* TypeName.hpp */,
+				476ED8E0132D6E49006D1815 /* TypeQualifier.cpp */,
+				476ED8E1132D6E49006D1815 /* TypeQualifier.hpp */,
+				476ED8E2132D6E49006D1815 /* TypeQualifierList.cpp */,
+				476ED8E3132D6E49006D1815 /* TypeQualifierList.hpp */,
+				476ED8E4132D6E49006D1815 /* TypeSpecifier.cpp */,
+				476ED8E5132D6E49006D1815 /* TypeSpecifier.hpp */,
+				476ED8E6132D6E49006D1815 /* UnaryExpression.cpp */,
+				476ED8E7132D6E49006D1815 /* UnaryExpression.hpp */,
+			);
+			name = ast;
+			sourceTree = "<group>";
+		};
+		476ED84B132D6D80006D1815 /* tools */ = {
+			isa = PBXGroup;
+			children = (
+				476ED860132D6DDC006D1815 /* template */,
+				476ED852132D6DDC006D1815 /* Abort.cpp */,
+				476ED853132D6DDC006D1815 /* Abort.hpp */,
+				47B88CA4134EF24B00AE4874 /* Condition.cpp */,
+				47B88CA5134EF24B00AE4874 /* Condition.hpp */,
+				47EBB79516E35070008ADDDE /* Function.cpp */,
+				47EBB79616E35070008ADDDE /* Function.hpp */,
+				476ED854132D6DDC006D1815 /* Multicore.cpp */,
+				476ED855132D6DDC006D1815 /* Multicore.hpp */,
+				476ED856132D6DDC006D1815 /* Mutex.cpp */,
+				476ED857132D6DDC006D1815 /* Mutex.hpp */,
+				476ED858132D6DDC006D1815 /* Query.cpp */,
+				476ED859132D6DDC006D1815 /* Query.hpp */,
+				476ED85C132D6DDC006D1815 /* SymbolTable.cpp */,
+				476ED85D132D6DDC006D1815 /* SymbolTable.hpp */,
+				476ED85E132D6DDC006D1815 /* Tab.cpp */,
+				476ED85F132D6DDC006D1815 /* Tab.hpp */,
+				476ED86E132D6DDC006D1815 /* Template.cpp */,
+				476ED86F132D6DDC006D1815 /* Template.hpp */,
+				476ED870132D6DDC006D1815 /* Threading.cpp */,
+				476ED871132D6DDC006D1815 /* Threading.hpp */,
+			);
+			name = tools;
+			sourceTree = "<group>";
+		};
+		476ED860132D6DDC006D1815 /* template */ = {
+			isa = PBXGroup;
+			children = (
+				47377B211336B5C400FAEE4F /* microblaze */,
+				47A25D7116C8C5F50071FF6D /* ptarm */,
+				47377B2C1336BA1800FAEE4F /* x86 */,
+				476ED861132D6DDC006D1815 /* abort.txt */,
+				476ED865132D6DDC006D1815 /* masterPar.txt */,
+				4740B86C17518DD100EB7834 /* nestedHandler.txt */,
+				476ED867132D6DDC006D1815 /* nestedHandlers.txt */,
+				476ED869132D6DDC006D1815 /* reactionEndMaster.txt */,
+				476ED86A132D6DDC006D1815 /* reactionEndSlave.txt */,
+				477B56C2136AD8B2004CCAD2 /* reactionStart.txt */,
+				476ED86B132D6DDC006D1815 /* slave.txt */,
+				476ED86C132D6DDC006D1815 /* slavePar.txt */,
+				476ED86D132D6DDC006D1815 /* thread.txt */,
+			);
+			name = template;
+			path = tools/Template;
+			sourceTree = "<group>";
+		};
+		47A25D7116C8C5F50071FF6D /* ptarm */ = {
+			isa = PBXGroup;
+			children = (
+				47A25D7216C8C5F50071FF6D /* core.txt */,
+				47A25D7316C8C5F50071FF6D /* global.txt */,
+				47A25D7416C8C5F50071FF6D /* main.txt */,
+			);
+			name = ptarm;
+			path = tools/template/ptarm;
+			sourceTree = SOURCE_ROOT;
+		};
+		47CF567C1399A329008286BC /* tarot */ = {
+			isa = PBXGroup;
+			children = (
+				47CF567D1399A329008286BC /* Abort.cpp */,
+				47CF567E1399A329008286BC /* Abort.hpp */,
+				47CF56831399A329008286BC /* Iteration.cpp */,
+				47CF56841399A329008286BC /* Iteration.hpp */,
+				47CF56861399A329008286BC /* Node.cpp */,
+				47CF56871399A329008286BC /* Node.hpp */,
+				47CF56891399A329008286BC /* Par.cpp */,
+				47CF568A1399A329008286BC /* Par.hpp */,
+				47CF568C1399A329008286BC /* Pause.cpp */,
+				47CF568D1399A329008286BC /* Pause.hpp */,
+				47CF568F1399A329008286BC /* Selection.cpp */,
+				47CF56901399A329008286BC /* Selection.hpp */,
+				47CF56921399A329008286BC /* Tab.cpp */,
+				47CF56931399A329008286BC /* Tab.hpp */,
+				47984A2F1399A41C004C4028 /* Tarot.cpp */,
+				47984A301399A41C004C4028 /* Tarot.hpp */,
+				47CF56951399A329008286BC /* Thread.cpp */,
+				47CF56961399A329008286BC /* Thread.hpp */,
+			);
+			path = tarot;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		4716CCA519E3C2F400968A1A /* forecc */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = 4716CCA619E3C2F400968A1A /* Build configuration list for PBXLegacyTarget "forecc" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			dependencies = (
+			);
+			name = forecc;
+			passBuildSettingsInEnvironment = 1;
+			productName = forecc;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		476ED836132D6AC8006D1815 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "Potential Publishers";
+			};
+			buildConfigurationList = 476ED839132D6AC8006D1815 /* Build configuration list for PBXProject "ForeC Compiler" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 476ED834132D6AC8006D1815;
+			productRefGroup = 476ED834132D6AC8006D1815;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4716CCA519E3C2F400968A1A /* forecc */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		4716CCA719E3C2F400968A1A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		4716CCA819E3C2F400968A1A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		476ED83B132D6AC8006D1815 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+			};
+			name = Debug;
+		};
+		476ED83C132D6AC8006D1815 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4716CCA619E3C2F400968A1A /* Build configuration list for PBXLegacyTarget "forecc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4716CCA719E3C2F400968A1A /* Debug */,
+				4716CCA819E3C2F400968A1A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		476ED839132D6AC8006D1815 /* Build configuration list for PBXProject "ForeC Compiler" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				476ED83B132D6AC8006D1815 /* Debug */,
+				476ED83C132D6AC8006D1815 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 476ED836132D6AC8006D1815 /* Project object */;
+}

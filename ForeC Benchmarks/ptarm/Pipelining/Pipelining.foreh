@@ -1,0 +1,9 @@
+architecture:
+ptarm
+
+0:
+main
+stage1
+stage2
+stage3
+

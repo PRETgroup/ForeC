@@ -1,0 +1,106 @@
+The program has four synchronous tasks (named one--, two, three, four) 
+that execute for a bit more than 1 second. The execution of entire
+program is split into discrete base periods that last for 3 seconds.
+In each base period, tasks are give 1 second of execution time after
+which they are preempted and a new task is executed. Currently, tasks 
+one-- and two are allocated to one hardware thread and tasks three 
+and four are allocated to another hardware thread. 
+
+Tasks one--, three, and four have constant release frequencies of 
+3 base periods, while task two has a constant release frequencies of 
+5 base periods. An example of the outputs produced by the program are 
+shown below.
+
+==================================================
+$ ptarm.bat execute
+
+Used memory: 5.8/60.0 kilobytes (9.6%)
+
+Static scheduling example
+Static scheduling example
+Static scheduling example
+Static scheduling example
+Execution begins.
+
+  Released two  .
+  Released three.
+  Released four .
+  Released one--.
+  Preempted two  .
+  Preempted three.
+  Preempted four .
+  Preempted one--.
+Base period 0 ended.
+  -one paused.
+  -three paused.
+  -four paused.
+  Preempted two  .
+Base period 1 ended.
+  -two paused.
+Base period 2 ended.
+  Released one--.			// Task two is not released because it must wait for 5 base periods.
+  Released three.
+  Released four .
+  Preempted one--.
+  Preempted three.
+  Preempted four .
+Base period 3 ended.
+  -one paused.
+  -three paused.
+  -four paused.
+Base period 4 ended.
+  Released two  .
+  Preempted two  .
+Base period 5 ended.
+  Released one--.
+  Released three.
+  Released four .
+  Preempted two  .
+  Preempted one--.
+  Preempted three.
+  Preempted four .
+Base period 6 ended.
+  -two paused.
+  -one paused.
+  -three paused.
+  -four paused.
+Base period 7 ended.
+Base period 8 ended.
+  Released one--.
+  Released three.
+  Released four .
+  Preempted one--.
+  Preempted three.
+  Preempted four .
+Base period 9 ended.
+  Released two  .
+  -one paused.
+  -three paused.
+  -four paused.
+  Preempted two  .
+Base period 10 ended.
+  Preempted two  .
+Base period 11 ended.
+  Released one--.
+  Released three.
+  Released four .
+  -two paused.
+  Preempted one--.
+  Preempted three.
+  Preempted four .
+Base period 12 ended.
+  -one paused.
+  -three paused.
+  -four paused.
+Base period 13 ended.
+Base period 14 ended.		// 15th base period = the LCM of the release frequencies)
+  Released one--.
+  Released two  .
+  Released three.
+  Released four .
+  Preempted one--.
+  Preempted two  .
+  Preempted three.
+  Preempted four .
+Base period 15 ended.		// Output repeats
+

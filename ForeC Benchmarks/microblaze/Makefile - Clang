@@ -1,0 +1,10 @@
+INC	= -I../microblaze_0/include/ -I/opt/Xilinx/12.4/ISE_DS/EDK/gnu/microblaze/lin/microblaze-xilinx-elf/include
+LIB	= -L../microblaze_0/lib/
+BIN	= test
+
+all:	$(BIN).c
+		clang -S -emit-llvm $(BIN).c -o $(BIN).ll  $(INC)
+		opt-3.2 -O3 $(BIN).ll -o $(BIN).bi
+		llc-3.2 -march=mblaze $(BIN).bi -o $(BIN).s
+		mb-gcc $(BIN).s -o test $(LIB)
+

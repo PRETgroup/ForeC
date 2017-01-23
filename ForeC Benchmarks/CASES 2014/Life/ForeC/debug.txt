@@ -1,0 +1,889 @@
+ForeC Compiler (multicore distribution)
+Version: 0.99 (5 October 2014)
+Debug output
+---------------------------------------
+
+Source file name: Life.forec
+Header file name: Life.04.foreh
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	microblaze
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	0		do_step_0__thread
+	1		do_step_1__thread
+	2		do_step_2__thread
+	3		do_step_3__thread
+	0		main__thread
+
+
+==============================
+tools::SymbolTable::toString()
+==============================
+Symbol tables:
+--------------
+	Scope name: do_step
+		Scope level: 0
+			Instance: 0
+				(variable) threadNumber__do_step_0_0
+				(variable) grid_ptr__do_step_0_0
+				(variable) next_grid_ptr__do_step_0_0
+				(variable) RANGE__do_step_0_0
+				(variable) ncols__do_step_0_0
+				(variable) startIndex__do_step_0_0
+				(variable) endIndex__do_step_0_0
+				(variable) i__do_step_0_0
+		Scope level: 1
+			Instance: 0
+				(variable) j__do_step_1_0
+			Instance: 1
+				(variable) j__do_step_1_1
+		Scope level: 2
+			Instance: 0
+				(variable) neighbors__do_step_2_0
+				(variable) k__do_step_2_0
+		Scope level: 3
+			Instance: 0
+				(variable) l__do_step_3_0
+
+	Scope name: do_step_0
+		Scope level: 0
+			Instance: 0
+				(variable) RANGE__do_step_0_0_0
+				(variable) ncols__do_step_0_0_0
+				(variable) nrows__do_step_0_0_0
+				(variable) threadNumber__do_step_0_0_0
+				(variable) startIndex__do_step_0_0_0
+				(variable) endIndex__do_step_0_0_0
+				(variable) MAX_GENERATIONS__do_step_0_0_0
+				(variable) generation__do_step_0_0_0
+		Scope level: 1
+			Instance: 0
+				(variable) i__do_step_0_1_0
+
+	Scope name: do_step_1
+		Scope level: 0
+			Instance: 0
+				(variable) RANGE__do_step_1_0_0
+				(variable) ncols__do_step_1_0_0
+				(variable) nrows__do_step_1_0_0
+				(variable) threadNumber__do_step_1_0_0
+				(variable) startIndex__do_step_1_0_0
+				(variable) endIndex__do_step_1_0_0
+				(variable) MAX_GENERATIONS__do_step_1_0_0
+				(variable) generation__do_step_1_0_0
+		Scope level: 1
+			Instance: 0
+				(variable) i__do_step_1_1_0
+
+	Scope name: do_step_2
+		Scope level: 0
+			Instance: 0
+				(variable) RANGE__do_step_2_0_0
+				(variable) ncols__do_step_2_0_0
+				(variable) nrows__do_step_2_0_0
+				(variable) threadNumber__do_step_2_0_0
+				(variable) startIndex__do_step_2_0_0
+				(variable) endIndex__do_step_2_0_0
+				(variable) MAX_GENERATIONS__do_step_2_0_0
+				(variable) generation__do_step_2_0_0
+
+	Scope name: do_step_3
+		Scope level: 0
+			Instance: 0
+				(variable) RANGE__do_step_3_0_0
+				(variable) ncols__do_step_3_0_0
+				(variable) threadNumber__do_step_3_0_0
+				(variable) startIndex__do_step_3_0_0
+				(variable) endIndex__do_step_3_0_0
+				(variable) MAX_GENERATIONS__do_step_3_0_0
+				(variable) generation__do_step_3_0_0
+
+	Scope name: global
+		Scope level: 0
+			Instance: 0
+				(variable) RAND_MAX__global_0_0
+				(shared) blackColor__global_0_0
+				(storage) life_datum__global_0_0
+				(variable) life_data__global_0_0
+				(shared) life_data_ptr__global_0_0
+				(variable) grid__global_0_0
+				(shared) grid_ptr__global_0_0
+				(variable) next_grid__global_0_0
+				(shared) next_grid_ptr__global_0_0
+				(function) do_step
+				(function) initialise
+				(function) randomize_grid
+				(function) rand_float
+				(function) random_initByTime
+				(thread) do_step_0__thread
+				(thread) do_step_1__thread
+				(thread) do_step_2__thread
+				(thread) do_step_3__thread
+
+	Scope name: initialise
+		Scope level: 0
+			Instance: 0
+				(variable) ncols__initialise_0_0
+				(variable) startIndex__initialise_0_0
+				(variable) endIndex__initialise_0_0
+				(variable) grid_ptr__initialise_0_0
+
+	Scope name: main
+		Scope level: 0
+			Instance: 0
+				(variable) argc__main_0_0
+				(variable) argv__main_0_0
+
+	Scope name: randomize_grid
+		Scope level: 0
+			Instance: 0
+				(variable) ncols__randomize_grid_0_0
+				(variable) startIndex__randomize_grid_0_0
+				(variable) endIndex__randomize_grid_0_0
+				(variable) grid_ptr__randomize_grid_0_0
+				(variable) prob__randomize_grid_0_0
+				(variable) i__randomize_grid_0_0
+		Scope level: 1
+			Instance: 0
+				(variable) j__randomize_grid_1_0
+
+
+Declared shared symbols:
+------------------------
+	Scope name: global
+		(Shared_blackColor__global_0_0) blackColor__global_0_0
+		(Shared_life_data_ptr__global_0_0) life_data_ptr__global_0_0
+		(Shared_grid_ptr__global_0_0) grid_ptr__global_0_0
+		(Shared_next_grid_ptr__global_0_0) next_grid_ptr__global_0_0
+
+
+Use/Def of symbols:
+-------------------
+	Scope name: do_step
+		def:
+			(variable) i__do_step_0_0
+			(variable) j__do_step_1_0
+			(variable) k__do_step_2_0
+			(variable) l__do_step_3_0
+			(variable) j__do_step_1_1
+
+		use:
+			(variable) threadNumber__do_step_0_0
+			(variable) grid_ptr__do_step_0_0
+			(variable) next_grid_ptr__do_step_0_0
+			(variable) RANGE__do_step_0_0
+			(variable) ncols__do_step_0_0
+			(variable) startIndex__do_step_0_0
+			(variable) endIndex__do_step_0_0
+			(variable) i__do_step_0_0
+			(variable) j__do_step_1_0
+			(variable) neighbors__do_step_2_0
+			(variable) k__do_step_2_0
+			(variable) l__do_step_3_0
+			(variable) j__do_step_1_1
+
+	Scope name: do_step_0
+		def:
+			(variable) i__do_step_0_1_0
+
+		use:
+			(shared) grid_ptr__global_0_0
+			(shared) next_grid_ptr__global_0_0
+			(function) do_step
+			(function) initialise
+			(variable) RANGE__do_step_0_0_0
+			(variable) ncols__do_step_0_0_0
+			(variable) nrows__do_step_0_0_0
+			(variable) threadNumber__do_step_0_0_0
+			(variable) startIndex__do_step_0_0_0
+			(variable) endIndex__do_step_0_0_0
+			(variable) MAX_GENERATIONS__do_step_0_0_0
+			(variable) generation__do_step_0_0_0
+			(variable) i__do_step_0_1_0
+
+	Scope name: do_step_1
+		def:
+			(variable) i__do_step_1_1_0
+
+		use:
+			(shared) grid_ptr__global_0_0
+			(shared) next_grid_ptr__global_0_0
+			(function) do_step
+			(function) initialise
+			(variable) RANGE__do_step_1_0_0
+			(variable) ncols__do_step_1_0_0
+			(variable) nrows__do_step_1_0_0
+			(variable) threadNumber__do_step_1_0_0
+			(variable) startIndex__do_step_1_0_0
+			(variable) endIndex__do_step_1_0_0
+			(variable) MAX_GENERATIONS__do_step_1_0_0
+			(variable) generation__do_step_1_0_0
+			(variable) i__do_step_1_1_0
+
+	Scope name: do_step_2
+		use:
+			(shared) grid_ptr__global_0_0
+			(shared) next_grid_ptr__global_0_0
+			(function) do_step
+			(function) initialise
+			(variable) RANGE__do_step_2_0_0
+			(variable) ncols__do_step_2_0_0
+			(variable) nrows__do_step_2_0_0
+			(variable) threadNumber__do_step_2_0_0
+			(variable) startIndex__do_step_2_0_0
+			(variable) endIndex__do_step_2_0_0
+			(variable) MAX_GENERATIONS__do_step_2_0_0
+			(variable) generation__do_step_2_0_0
+
+	Scope name: do_step_3
+		use:
+			(shared) grid_ptr__global_0_0
+			(shared) next_grid_ptr__global_0_0
+			(function) do_step
+			(function) initialise
+			(variable) RANGE__do_step_3_0_0
+			(variable) ncols__do_step_3_0_0
+			(variable) threadNumber__do_step_3_0_0
+			(variable) startIndex__do_step_3_0_0
+			(variable) endIndex__do_step_3_0_0
+			(variable) MAX_GENERATIONS__do_step_3_0_0
+			(variable) generation__do_step_3_0_0
+
+	Scope name: initialise
+		use:
+			(function) randomize_grid
+			(variable) ncols__initialise_0_0
+			(variable) startIndex__initialise_0_0
+			(variable) endIndex__initialise_0_0
+			(variable) grid_ptr__initialise_0_0
+
+	Scope name: main
+		use:
+			(thread) do_step_0__thread
+			(thread) do_step_1__thread
+			(thread) do_step_2__thread
+			(thread) do_step_3__thread
+
+	Scope name: rand_float
+		use:
+			(variable) RAND_MAX__global_0_0
+
+	Scope name: randomize_grid
+		def:
+			(variable) i__randomize_grid_0_0
+			(variable) j__randomize_grid_1_0
+
+		use:
+			(function) rand_float
+			(variable) ncols__randomize_grid_0_0
+			(variable) startIndex__randomize_grid_0_0
+			(variable) endIndex__randomize_grid_0_0
+			(variable) grid_ptr__randomize_grid_0_0
+			(variable) prob__randomize_grid_0_0
+			(variable) i__randomize_grid_0_0
+			(variable) j__randomize_grid_1_0
+
+
+Indirect use/def of symbols by parId:
+-------------------------------------
+	par0:
+		grid_ptr__global_0_0
+			use (skip): do_step_0 do_step_1 do_step_2 do_step_3 
+
+		next_grid_ptr__global_0_0
+			use (skip): do_step_0 do_step_1 do_step_2 do_step_3 
+
+		RANGE__do_step_0_0_0
+			use (skip): do_step_0 
+
+		ncols__do_step_0_0_0
+			use (skip): do_step_0 
+
+		nrows__do_step_0_0_0
+			use (skip): do_step_0 
+
+		threadNumber__do_step_0_0_0
+			use (skip): do_step_0 
+
+		startIndex__do_step_0_0_0
+			use (skip): do_step_0 
+
+		endIndex__do_step_0_0_0
+			use (skip): do_step_0 
+
+		MAX_GENERATIONS__do_step_0_0_0
+			use (skip): do_step_0 
+
+		generation__do_step_0_0_0
+			use (skip): do_step_0 
+
+		i__do_step_0_1_0
+			def (skip): do_step_0 
+			use (skip): do_step_0 
+
+		RANGE__do_step_1_0_0
+			use (skip): do_step_1 
+
+		ncols__do_step_1_0_0
+			use (skip): do_step_1 
+
+		nrows__do_step_1_0_0
+			use (skip): do_step_1 
+
+		threadNumber__do_step_1_0_0
+			use (skip): do_step_1 
+
+		startIndex__do_step_1_0_0
+			use (skip): do_step_1 
+
+		endIndex__do_step_1_0_0
+			use (skip): do_step_1 
+
+		MAX_GENERATIONS__do_step_1_0_0
+			use (skip): do_step_1 
+
+		generation__do_step_1_0_0
+			use (skip): do_step_1 
+
+		i__do_step_1_1_0
+			def (skip): do_step_1 
+			use (skip): do_step_1 
+
+		RANGE__do_step_2_0_0
+			use (skip): do_step_2 
+
+		ncols__do_step_2_0_0
+			use (skip): do_step_2 
+
+		nrows__do_step_2_0_0
+			use (skip): do_step_2 
+
+		threadNumber__do_step_2_0_0
+			use (skip): do_step_2 
+
+		startIndex__do_step_2_0_0
+			use (skip): do_step_2 
+
+		endIndex__do_step_2_0_0
+			use (skip): do_step_2 
+
+		MAX_GENERATIONS__do_step_2_0_0
+			use (skip): do_step_2 
+
+		generation__do_step_2_0_0
+			use (skip): do_step_2 
+
+		RANGE__do_step_3_0_0
+			use (skip): do_step_3 
+
+		ncols__do_step_3_0_0
+			use (skip): do_step_3 
+
+		threadNumber__do_step_3_0_0
+			use (skip): do_step_3 
+
+		startIndex__do_step_3_0_0
+			use (skip): do_step_3 
+
+		endIndex__do_step_3_0_0
+			use (skip): do_step_3 
+
+		MAX_GENERATIONS__do_step_3_0_0
+			use (skip): do_step_3 
+
+		generation__do_step_3_0_0
+			use (skip): do_step_3 
+
+
+Indirect use/def of symbols by threadId:
+----------------------------------------
+	do_step_0:
+		grid_ptr__global_0_0
+			use (root): do_step_0 
+
+		next_grid_ptr__global_0_0
+			use (root): do_step_0 
+
+		RANGE__do_step_0_0_0
+			use (skip): do_step_0 
+
+		ncols__do_step_0_0_0
+			use (skip): do_step_0 
+
+		nrows__do_step_0_0_0
+			use (skip): do_step_0 
+
+		threadNumber__do_step_0_0_0
+			use (skip): do_step_0 
+
+		startIndex__do_step_0_0_0
+			use (skip): do_step_0 
+
+		endIndex__do_step_0_0_0
+			use (skip): do_step_0 
+
+		MAX_GENERATIONS__do_step_0_0_0
+			use (skip): do_step_0 
+
+		generation__do_step_0_0_0
+			use (skip): do_step_0 
+
+		i__do_step_0_1_0
+			def (skip): do_step_0 
+			use (skip): do_step_0 
+
+	do_step_1:
+		grid_ptr__global_0_0
+			use (root): do_step_1 
+
+		next_grid_ptr__global_0_0
+			use (root): do_step_1 
+
+		RANGE__do_step_1_0_0
+			use (skip): do_step_1 
+
+		ncols__do_step_1_0_0
+			use (skip): do_step_1 
+
+		nrows__do_step_1_0_0
+			use (skip): do_step_1 
+
+		threadNumber__do_step_1_0_0
+			use (skip): do_step_1 
+
+		startIndex__do_step_1_0_0
+			use (skip): do_step_1 
+
+		endIndex__do_step_1_0_0
+			use (skip): do_step_1 
+
+		MAX_GENERATIONS__do_step_1_0_0
+			use (skip): do_step_1 
+
+		generation__do_step_1_0_0
+			use (skip): do_step_1 
+
+		i__do_step_1_1_0
+			def (skip): do_step_1 
+			use (skip): do_step_1 
+
+	do_step_2:
+		grid_ptr__global_0_0
+			use (root): do_step_2 
+
+		next_grid_ptr__global_0_0
+			use (root): do_step_2 
+
+		RANGE__do_step_2_0_0
+			use (skip): do_step_2 
+
+		ncols__do_step_2_0_0
+			use (skip): do_step_2 
+
+		nrows__do_step_2_0_0
+			use (skip): do_step_2 
+
+		threadNumber__do_step_2_0_0
+			use (skip): do_step_2 
+
+		startIndex__do_step_2_0_0
+			use (skip): do_step_2 
+
+		endIndex__do_step_2_0_0
+			use (skip): do_step_2 
+
+		MAX_GENERATIONS__do_step_2_0_0
+			use (skip): do_step_2 
+
+		generation__do_step_2_0_0
+			use (skip): do_step_2 
+
+	do_step_3:
+		grid_ptr__global_0_0
+			use (root): do_step_3 
+
+		next_grid_ptr__global_0_0
+			use (root): do_step_3 
+
+		RANGE__do_step_3_0_0
+			use (skip): do_step_3 
+
+		ncols__do_step_3_0_0
+			use (skip): do_step_3 
+
+		threadNumber__do_step_3_0_0
+			use (skip): do_step_3 
+
+		startIndex__do_step_3_0_0
+			use (skip): do_step_3 
+
+		endIndex__do_step_3_0_0
+			use (skip): do_step_3 
+
+		MAX_GENERATIONS__do_step_3_0_0
+			use (skip): do_step_3 
+
+		generation__do_step_3_0_0
+			use (skip): do_step_3 
+
+	main:
+		grid_ptr__global_0_0
+			use (skip): main 
+
+		next_grid_ptr__global_0_0
+			use (skip): main 
+
+		RANGE__do_step_0_0_0
+			use (skip): main 
+
+		ncols__do_step_0_0_0
+			use (skip): main 
+
+		nrows__do_step_0_0_0
+			use (skip): main 
+
+		threadNumber__do_step_0_0_0
+			use (skip): main 
+
+		startIndex__do_step_0_0_0
+			use (skip): main 
+
+		endIndex__do_step_0_0_0
+			use (skip): main 
+
+		MAX_GENERATIONS__do_step_0_0_0
+			use (skip): main 
+
+		generation__do_step_0_0_0
+			use (skip): main 
+
+		i__do_step_0_1_0
+			def (skip): main 
+			use (skip): main 
+
+		RANGE__do_step_1_0_0
+			use (skip): main 
+
+		ncols__do_step_1_0_0
+			use (skip): main 
+
+		nrows__do_step_1_0_0
+			use (skip): main 
+
+		threadNumber__do_step_1_0_0
+			use (skip): main 
+
+		startIndex__do_step_1_0_0
+			use (skip): main 
+
+		endIndex__do_step_1_0_0
+			use (skip): main 
+
+		MAX_GENERATIONS__do_step_1_0_0
+			use (skip): main 
+
+		generation__do_step_1_0_0
+			use (skip): main 
+
+		i__do_step_1_1_0
+			def (skip): main 
+			use (skip): main 
+
+		RANGE__do_step_2_0_0
+			use (skip): main 
+
+		ncols__do_step_2_0_0
+			use (skip): main 
+
+		nrows__do_step_2_0_0
+			use (skip): main 
+
+		threadNumber__do_step_2_0_0
+			use (skip): main 
+
+		startIndex__do_step_2_0_0
+			use (skip): main 
+
+		endIndex__do_step_2_0_0
+			use (skip): main 
+
+		MAX_GENERATIONS__do_step_2_0_0
+			use (skip): main 
+
+		generation__do_step_2_0_0
+			use (skip): main 
+
+		RANGE__do_step_3_0_0
+			use (skip): main 
+
+		ncols__do_step_3_0_0
+			use (skip): main 
+
+		threadNumber__do_step_3_0_0
+			use (skip): main 
+
+		startIndex__do_step_3_0_0
+			use (skip): main 
+
+		endIndex__do_step_3_0_0
+			use (skip): main 
+
+		MAX_GENERATIONS__do_step_3_0_0
+			use (skip): main 
+
+		generation__do_step_3_0_0
+			use (skip): main 
+
+
+Functions used for combining shared variables:
+----------------------------------------------
+
+============================
+tools::Threading::toString()
+============================
+Threads declared:
+-----------------
+	* do_step_0__thread
+	* do_step_1__thread
+	* do_step_2__thread
+	* do_step_3__thread
+	* main__thread
+
+Threads unused:
+---------------
+
+par(...) statements:
+--------------------
+	Thread scope: main
+		par0:
+		* do_step_0__thread
+		* do_step_1__thread
+		* do_step_2__thread
+		* do_step_3__thread
+
+========================
+tools::Abort::toString()
+========================
+============================
+tools::Condition::toString()
+============================
+
+========================
+tarot::Tarot::toString()
+========================
+Full tarot:
+-----------
+	core0: main__thread
+	.	core0: par0
+	.	|	core0: do_step_0__thread
+	.	|	.	core0: while_1
+	.	|	.	.	pause0
+	.	|	core1: do_step_1__thread
+	.	|	.	core1: while_3
+	.	|	.	.	pause1
+	.	|	core2: do_step_2__thread
+	.	|	.	core2: while_4
+	.	|	.	.	pause2
+	.	|	core3: do_step_3__thread
+	.	|	.	core3: while_5
+	.	|	.	.	pause3
+
+
+Tarot by coreId:
+----------------
+	core0:
+	-------
+		core0: main__thread
+		.	core0: par0
+		.	|	core0: do_step_0__thread
+		.	|	.	core0: while_1
+		.	|	.	.	pause0
+
+	core1:
+	-------
+		core0: main__thread
+		.	core0: par0
+		.	|	core1: do_step_1__thread
+		.	|	.	core1: while_3
+		.	|	.	.	pause1
+
+	core2:
+	-------
+		core0: main__thread
+		.	core0: par0
+		.	|	core2: do_step_2__thread
+		.	|	.	core2: while_4
+		.	|	.	.	pause2
+
+	core3:
+	-------
+		core0: main__thread
+		.	core0: par0
+		.	|	core3: do_step_3__thread
+		.	|	.	core3: while_5
+		.	|	.	.	pause3
+
+
+par(...) statements with core allocation:
+-----------------------------------------
+	Thread main__thread:
+		all:
+		* core0
+		* core1
+		* core2
+		* core3
+
+		par0:
+		* core0
+		* core1
+		* core2
+		* core3
+
+
+par(...) statements with active cores:
+--------------------------------------
+	Thread main__thread:
+		all:
+		* core0
+		* core1
+		* core2
+		* core3
+
+		par0:
+		* core0
+		* core1
+		* core2
+		* core3
+
+
+Reaction starts:
+----------------
+	core0:
+		main: Master
+
+	core1:
+		main: Slave
+
+	core2:
+		main: Slave
+
+	core3:
+		main: Slave
+
+
+Reaction ends:
+--------------
+	core0:
+		par0:
+			coreIds:
+			* 0
+			* 1
+			* 2
+			* 3
+
+			isMaster:
+			* true
+
+			threadScope:
+			* main
+
+	core1:
+		par0:
+			threadScope:
+			* main
+
+	core2:
+		par0:
+			threadScope:
+			* main
+
+	core3:
+		par0:
+			threadScope:
+			* main
+
+
+Par(...) handlers:
+------------------
+	par0:
+	* do_step_0__thread
+	* do_step_1__thread
+	* do_step_2__thread
+	* do_step_3__thread
+	* mainReactionStartMaster0
+	* mainReactionStartSlave1
+	* mainReactionStartSlave2
+	* mainReactionStartSlave3
+	* mainReactionEndMaster0
+	* mainReactionEndSlave1
+	* mainReactionEndSlave2
+	* mainReactionEndSlave3
+
+
+Linked lists:
+-------------
+	core0:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartMaster0
+			* (thread) do_step_0__thread
+			* (parEnd) mainReactionEndMaster0
+
+	core1:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave1
+			* (thread) do_step_1__thread
+			* (parEnd) mainReactionEndSlave1
+
+	core2:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave2
+			* (thread) do_step_2__thread
+			* (parEnd) mainReactionEndSlave2
+
+	core3:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave3
+			* (thread) do_step_3__thread
+			* (parEnd) mainReactionEndSlave3
+
+
+par(...) handlers in thread scopes:
+-----------------------------------
+	par0	main__thread
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	microblaze
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	0		do_step_0__thread
+	1		do_step_1__thread
+	2		do_step_2__thread
+	3		do_step_3__thread
+	0		main__thread
+
+
+========================
+tools::Mutex::toString()
+========================
+Mutex information:
+------------------
+

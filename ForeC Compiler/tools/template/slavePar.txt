@@ -1,0 +1,16 @@
+if (parId == %{parNumber}) {
+		asm("# %{parId} start");
+		// Link the threads and handlers together.
+%{linkedList}
+		// Link the last and first threads/handlers together.
+		%{lastThread}.nextThread = &%{firstThread};
+		%{firstThread}.prevThread = &%{lastThread};
+
+		// Set the core information.
+		mainParCore%{coreId}.activeThreads = %{activeThreadsCount};
+		mainParCore%{coreId}.reactionCounter = mainParReactionCounter;
+
+		// Go to the first thread.
+		goto %{beginThread};
+		asm("# %{parId} end");
+	} else 

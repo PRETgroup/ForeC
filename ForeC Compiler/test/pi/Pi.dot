@@ -1,0 +1,49 @@
+digraph "Pi" {
+	ordering = out
+
+	labeljust = l
+	node [shape = box, fixedsize = true, height = 0.7, width = 1.1]
+
+	start [shape = plaintext, height = 0.4]
+
+	start -> for1_0_0 [label = main, headport = n, tailport = s, weight = 2]
+	subgraph cluster_for1_0_0 {
+		style = invis
+		for1_0_0 [label = 0, shape = diamond]
+		for1_0_0 -> par0_0Start [label = true, headport = n, tailport = s, weight = 2]
+		subgraph cluster_par0_0 {
+			style = filled
+			color = lightgrey
+
+			par0_0Start [label = 0, shape = triangle]
+			par0_0End [label = 0, shape = invtriangle]
+
+			par0_0Start -> par0_0End [label = t0, fontcolor = blue, sametail = 0, samehead = 0, headport = n, tailport = s]
+
+			par0_0Start -> par0_0End [label = t1, fontcolor = blue, sametail = 0, samehead = 0, headport = n, tailport = s]
+
+			par0_0Start -> par0_0End [label = t2, fontcolor = blue, sametail = 0, samehead = 0, headport = n, tailport = s]
+
+			par0_0Start -> par0_0End [label = t3, fontcolor = blue, sametail = 0, samehead = 0, headport = n, tailport = s]
+
+			par0_0Start -> par0_0End [label = t4, fontcolor = blue, sametail = 0, samehead = 0, headport = n, tailport = s]
+
+			par0_0Start -> par0_0End [label = t5, fontcolor = blue, sametail = 0, samehead = 0, headport = n, tailport = s]
+		}
+		{
+			edge[style = invis]
+		}
+		par0_0End -> for1_0_0 [/*headport = w,*/ constraint = false, tailport = s]
+	}
+	for1_0_0 -> end [label = false, headport = n/*, tailport = e*/]
+
+	end [shape = plaintext, height = 0.4]
+	{
+		edge[style = invis]
+		start -> for1_0_0
+		par0_0End -> end
+	}
+	label = "Pi.forec"
+	labelloc = t
+	labeljust = c
+}

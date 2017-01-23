@@ -1,0 +1,16 @@
+architecture:
+microblaze
+
+0:
+main
+region0
+region1
+region2
+region3
+
+1:
+region4
+region5
+region6
+region7
+

@@ -1,0 +1,93 @@
+digraph "Life" {
+	ordering = out
+
+	labeljust = l
+	node [shape = box, fixedsize = true, height = 0.7, width = 1.1]
+
+	start [shape = plaintext, height = 0.4]
+
+		start -> while_4_0 [label = main, headport = n, tailport = s, weight = 2]
+	subgraph cluster_abortStrong0_0 {
+		color = black
+		style = dotted
+
+		subgraph cluster_while_4_0 {
+			style = invis
+			while_4_0 [label = 4, shape = diamond]
+			while_4_0 -> par0_0Start [label = true, headport = n, tailport = s, weight = 2]
+			subgraph cluster_par0_0 {
+				style = filled
+				color = lightgrey
+
+				par0_0Start [label = 0, shape = triangle]
+				par0_0End [label = 0, shape = invtriangle]
+
+				par0_0Start -> pause1_0 [label = do_step, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+				pause1_0 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+				pause1_0 -> par1_1Start [headport = n, tailport = s]
+				subgraph cluster_par1_1 {
+					style = filled
+					color = white
+
+					par1_1Start [label = 1, shape = triangle]
+					par1_1End [label = 1, shape = invtriangle]
+
+					par1_1Start -> par1_1End [label = do_step_0, fontcolor = blue, sametail = 0, samehead = 0, headport = n, tailport = s]
+
+					par1_1Start -> par1_1End [label = do_step_1, fontcolor = blue, sametail = 0, samehead = 0, headport = n, tailport = s]
+
+					par1_1Start -> par1_1End [label = do_step_2, fontcolor = blue, sametail = 0, samehead = 0, headport = n, tailport = s]
+
+					par1_1Start -> par1_1End [label = do_step_3, fontcolor = blue, sametail = 0, samehead = 0, headport = n, tailport = s]
+				}
+				{
+					edge[style = invis]
+				}
+				par1_1End -> par0_0End [headport = n, tailport = s]
+
+				par0_0Start -> pause2_3 [label = do_draw, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+				pause2_3 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+				pause2_3 -> par2_4Start [headport = n, tailport = s]
+				subgraph cluster_par2_4 {
+					style = filled
+					color = white
+
+					par2_4Start [label = 2, shape = triangle]
+					par2_4End [label = 2, shape = invtriangle]
+
+					par2_4Start -> par2_4End [label = do_draw_0, fontcolor = blue, sametail = 0, samehead = 0, headport = n, tailport = s]
+
+					par2_4Start -> par2_4End [label = do_draw_1, fontcolor = blue, sametail = 0, samehead = 0, headport = n, tailport = s]
+
+					par2_4Start -> par2_4End [label = do_draw_2, fontcolor = blue, sametail = 0, samehead = 0, headport = n, tailport = s]
+
+					par2_4Start -> par2_4End [label = do_draw_3, fontcolor = blue, sametail = 0, samehead = 0, headport = n, tailport = s]
+				}
+				{
+					edge[style = invis]
+				}
+				par2_4End -> par0_0End [headport = n, tailport = s]
+			}
+			{
+				edge[style = invis]
+				par0_0Start -> {pause1_0 pause2_3}
+				{par1_1End par2_4End} -> par0_0End
+			}
+			par0_0End -> pause0_7 [headport = n, tailport = s]
+			pause0_7 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+			pause0_7 -> while_4_0 [/*headport = w,*/ constraint = false, tailport = s]
+		}
+		label = "abortStrong0\nwhen (done__global_0_0)"
+	}
+	while_4_0 -> end [label = false, headport = n/*, tailport = e*/]
+
+	end [shape = plaintext, height = 0.4]
+	{
+		edge[style = invis]
+		start -> while_4_0
+		pause0_7 -> end
+	}
+	label = "Life.forec"
+	labelloc = t
+	labeljust = c
+}

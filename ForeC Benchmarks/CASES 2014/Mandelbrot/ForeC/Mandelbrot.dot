@@ -1,0 +1,65 @@
+digraph "Mandelbrot" {
+	ordering = out
+
+	labeljust = l
+	node [shape = box, fixedsize = true, height = 0.7, width = 1.1]
+
+	start [shape = plaintext, height = 0.4]
+
+	start -> par0_0Start [label = main, headport = n, tailport = s, weight = 2]
+	subgraph cluster_par0_0 {
+		style = filled
+		color = lightgrey
+
+		par0_0Start [label = 0, shape = triangle]
+		par0_0End [label = 0, shape = invtriangle]
+
+		par0_0Start -> pause0_0 [label = region0, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+		pause0_0 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause0_0 -> par0_0End [headport = n, tailport = s]
+
+		par0_0Start -> pause1_2 [label = region1, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+		pause1_2 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause1_2 -> par0_0End [headport = n, tailport = s]
+
+		par0_0Start -> pause2_4 [label = region2, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+		pause2_4 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause2_4 -> par0_0End [headport = n, tailport = s]
+
+		par0_0Start -> pause3_6 [label = region3, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+		pause3_6 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause3_6 -> par0_0End [headport = n, tailport = s]
+
+		par0_0Start -> pause4_8 [label = region4, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+		pause4_8 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause4_8 -> par0_0End [headport = n, tailport = s]
+
+		par0_0Start -> pause5_10 [label = region5, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+		pause5_10 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause5_10 -> par0_0End [headport = n, tailport = s]
+
+		par0_0Start -> pause6_12 [label = region6, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+		pause6_12 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause6_12 -> par0_0End [headport = n, tailport = s]
+
+		par0_0Start -> pause7_14 [label = region7, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+		pause7_14 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause7_14 -> par0_0End [headport = n, tailport = s]
+	}
+	{
+		edge[style = invis]
+		par0_0Start -> {pause0_0 pause1_2 pause2_4 pause3_6 pause4_8 pause5_10 pause6_12 pause7_14}
+		{pause0_0 pause1_2 pause2_4 pause3_6 pause4_8 pause5_10 pause6_12 pause7_14} -> par0_0End
+	}
+	par0_0End -> end [headport = n, tailport = s]
+
+	end [shape = plaintext, height = 0.4]
+	{
+		edge[style = invis]
+		start -> par0_0Start
+		par0_0End -> end
+	}
+	label = "Mandelbrot.forec"
+	labelloc = t
+	labeljust = c
+}

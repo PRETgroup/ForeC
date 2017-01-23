@@ -1,0 +1,220 @@
+module mandelbrot:
+input problemSize : integer;
+procedure init()(integer);
+procedure nextColormapPos(boolean, integer)();
+procedure initColormap()(integer);
+procedure nextPixel(boolean, integer, integer)();
+procedure calculate()(integer, integer);
+
+await immediate problemSize;
+call init()(?problemSize);
+var hasNext : boolean,
+    pos := 0 : integer,
+    x : integer,
+    y : integer in
+signal pos1Sig : integer,
+       pos2Sig : integer,
+       pos3Sig : integer,
+       pos4Sig : integer,
+       pos5Sig : integer,
+       pos6Sig : integer,
+       pos7Sig : integer,
+       pos8Sig : integer,
+       x1Sig : integer,
+       x2Sig : integer,
+       x3Sig : integer,
+       x4Sig : integer,
+       x5Sig : integer,
+       x6Sig : integer,
+       x7Sig : integer,
+       x8Sig : integer,
+       y1Sig : integer,
+       y2Sig : integer,
+       y3Sig : integer,
+       y4Sig : integer,
+       y5Sig : integer,
+       y6Sig : integer,
+       y7Sig : integer,
+       y8Sig : integer in
+    trap colormapInitialized in
+        loop
+            pause;
+            call nextColormapPos(hasNext, pos)();
+            if hasNext then
+                emit pos1Sig(pos)
+            else
+                exit colormapInitialized;
+            end if;
+            call nextColormapPos(hasNext, pos)();
+            if hasNext then
+                emit pos2Sig(pos)
+            else
+                exit colormapInitialized;
+            end if;
+            call nextColormapPos(hasNext, pos)();
+            if hasNext then
+                emit pos3Sig(pos)
+            else
+                exit colormapInitialized;
+            end if;
+            call nextColormapPos(hasNext, pos)();
+            if hasNext then
+                emit pos4Sig(pos)
+            else
+                exit colormapInitialized;
+            end if;
+            call nextColormapPos(hasNext, pos)();
+            if hasNext then
+                emit pos5Sig(pos)
+            else
+                exit colormapInitialized;
+            end if;
+            call nextColormapPos(hasNext, pos)();
+            if hasNext then
+                emit pos6Sig(pos)
+            else
+                exit colormapInitialized;
+            end if;
+            call nextColormapPos(hasNext, pos)();
+            if hasNext then
+                emit pos7Sig(pos)
+            else
+                exit colormapInitialized;
+            end if;
+            call nextColormapPos(hasNext, pos)();
+            if hasNext then
+                emit pos8Sig(pos)
+            else
+                exit colormapInitialized;
+            end if;
+        end loop
+        ||
+        every pos1Sig do
+            call initColormap()(?pos1Sig);
+        end every
+        ||
+        every pos2Sig do
+            call initColormap()(?pos2Sig);
+        end every
+        ||
+        every pos3Sig do
+            call initColormap()(?pos3Sig);
+        end every
+        ||
+        every pos4Sig do
+            call initColormap()(?pos4Sig);
+        end every
+        ||
+        every pos5Sig do
+            call initColormap()(?pos5Sig);
+        end every
+        ||
+        every pos6Sig do
+            call initColormap()(?pos6Sig);
+        end every
+        ||
+        every pos7Sig do
+            call initColormap()(?pos7Sig);
+        end every
+        ||
+        every pos8Sig do
+            call initColormap()(?pos8Sig);
+        end every
+    end trap;
+    trap done in
+        loop
+            pause;
+            call nextPixel(hasNext, x, y)();
+            if hasNext then
+                emit x1Sig(x);
+                emit y1Sig(y);
+            else
+                exit done;
+            end if;
+            call nextPixel(hasNext, x, y)();
+            if hasNext then
+                emit x2Sig(x);
+                emit y2Sig(y);
+            else
+                exit done;
+            end if;
+            call nextPixel(hasNext, x, y)();
+            if hasNext then
+                emit x3Sig(x);
+                emit y3Sig(y);
+            else
+                exit done;
+            end if;
+            call nextPixel(hasNext, x, y)();
+            if hasNext then
+                emit x4Sig(x);
+                emit y4Sig(y);
+            else
+                exit done;
+            end if;
+            call nextPixel(hasNext, x, y)();
+            if hasNext then
+                emit x5Sig(x);
+                emit y5Sig(y);
+            else
+                exit done;
+            end if;
+            call nextPixel(hasNext, x, y)();
+            if hasNext then
+                emit x6Sig(x);
+                emit y6Sig(y);
+            else
+                exit done;
+            end if;
+            call nextPixel(hasNext, x, y)();
+            if hasNext then
+                emit x7Sig(x);
+                emit y7Sig(y);
+            else
+                exit done;
+            end if;
+            call nextPixel(hasNext, x, y)();
+            if hasNext then
+                emit x8Sig(x);
+                emit y8Sig(y);
+            else
+                exit done;
+            end if;
+        end loop
+        ||
+        every x1Sig do
+            call calculate()(?x1Sig, ?y1Sig);
+        end every
+        ||
+        every x2Sig do
+            call calculate()(?x2Sig, ?y2Sig);
+        end every
+        ||
+        every x3Sig do
+            call calculate()(?x3Sig, ?y3Sig);
+        end every
+        ||
+        every x4Sig do
+            call calculate()(?x4Sig, ?y4Sig);
+        end every
+        ||
+        every x5Sig do
+            call calculate()(?x5Sig, ?y5Sig);
+        end every
+        ||
+        every x6Sig do
+            call calculate()(?x6Sig, ?y6Sig);
+        end every
+        ||
+        every x7Sig do
+            call calculate()(?x7Sig, ?y7Sig);
+        end every
+        ||
+        every x8Sig do
+            call calculate()(?x8Sig, ?y8Sig);
+        end every
+    end trap
+end signal
+end var
+
+end module

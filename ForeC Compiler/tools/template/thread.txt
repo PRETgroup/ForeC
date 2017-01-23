@@ -1,0 +1,21 @@
+	// forec:thread:%{threadId}:start
+	/*--------------------------------------------------------------
+	| Thread %{threadId}
+	*-------------------------------------------------------------*/
+
+	// Thread local declarations -----------------------------------
+%{declarations}
+	// Thread body -------------------------------------------------
+	%{threadId}__thread: {
+%{body}
+
+		// forec:scheduler:threadRemove:%{threadId}:start
+%{deleteParHandler}
+		// Delete thread from the linked list and core.
+		%{parCore}.activeThreads--;
+		%{threadId}__thread.nextThread -> prevThread = %{threadId}__thread.prevThread;
+		%{threadId}__thread.prevThread -> nextThread = %{threadId}__thread.nextThread;
+		goto *%{threadId}__thread.nextThread -> programCounter;
+		// forec:scheduler:threadRemove:%{threadId}:end
+	} // %{threadId}__thread
+	// forec:thread:%{threadId}:end

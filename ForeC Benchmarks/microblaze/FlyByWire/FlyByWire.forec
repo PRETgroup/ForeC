@@ -1,0 +1,208 @@
+input char radioInput = 0;
+input char spiInput = 0;
+output int servoOutput0;
+output int servoOutput1;
+output int servoOutput2;
+output int servoOutput3;
+
+shared int terminate = 0;
+shared int isSafe = 1;
+
+int getMode(const int communicationInput);
+int autopilot(const int mode, const int communicationInput);
+void computation(void);
+
+thread flight(void);
+thread servo(void);
+thread servo0(void);
+thread servo1(void);
+thread servo2(void);
+thread servo3(void);
+thread timer(void);
+thread failsafe(void);
+
+int main(int argc, char **argv) {
+	while (!terminate) {
+		weak abort {
+			par(servo, timer, flight, failsafe);
+		} when (!isSafe);
+
+		pause;
+	}
+}
+
+thread flight(void) {
+	int INVALID = 0;
+	int mode;
+	int decision;
+	
+	abort {
+		while (1) {
+			if (getMode(radioInput) == INVALID) {
+				mode = getMode(radioInput);
+			}
+			
+			decision = autopilot(mode, radioInput);
+			
+			pause;
+		}
+	} when (terminate);
+}
+
+thread servo(void) {
+	abort {
+		while (1) {
+			par(servo0, servo1, servo2, servo3);
+			computation();
+			
+			pause;
+		}
+	} when (terminate);
+}
+
+thread servo0(void) {
+	computation();
+	computation();
+	computation();
+	computation();
+	computation();
+	servoOutput0 = 0;
+}
+
+thread servo1(void) {
+	computation();
+	computation();
+	computation();
+	computation();
+	computation();
+	servoOutput1 = 1;
+}
+
+thread servo2(void) {
+	computation();
+	computation();
+	computation();
+	computation();
+	computation();
+	servoOutput2 = 2;
+}
+
+thread servo3(void) {
+	computation();
+	computation();
+	computation();
+	computation();
+	computation();
+	servoOutput3 = 3;
+}
+
+thread timer(void) {
+	int _1Hz = 61;
+	int _20Hz = 4;
+	
+	abort {
+		while (1) {
+			if (_1Hz == 61) {
+				computation();
+				_1Hz = 60;
+			}
+
+			if (_20Hz == 4) {
+				computation();
+				_20Hz = 4;
+			}
+			
+			_1Hz++;
+			_20Hz++;
+			
+			char newLine = '\n';
+			while (newLine == '\n') {
+				newLine = '-';
+				
+				pause;
+			}
+			
+			if (radioInput == -1 || spiInput == -1) {
+				terminate = 1;
+			}
+			
+			pause;
+		}
+	} when (terminate);
+}
+
+thread failsafe(void) {
+	int INVALID = 0;
+	int MAX_DOWN_TIME = 100;
+	int radioDownTime = 0;
+	int spiDownTime = 0;
+
+	abort {
+		while (1) {
+			computation();
+			computation();
+			computation();
+			computation();
+			
+			if (radioInput == INVALID) {
+				radioDownTime++;
+			} else {
+				radioDownTime = 0;
+			}
+			
+			computation();
+			computation();
+			computation();
+			computation();
+			
+			if (spiInput == INVALID) {
+				spiDownTime++;
+			} else {
+				spiDownTime = 0;
+			}
+			
+			isSafe = (radioDownTime < MAX_DOWN_TIME) || (spiDownTime < MAX_DOWN_TIME);
+			
+			pause;
+		}
+	} when (terminate);
+}
+
+int getMode(const int communicationInput) {
+	int INVALID = 0;
+	int MANUAL = 0;
+	int AUTOMATIC = 1;
+	
+	int mask = (communicationInput & 0x0f) > 0;
+	computation();
+	computation();
+	
+	switch (mask) {
+		case (0):	return MANUAL;
+		
+		case (1):	return AUTOMATIC;
+		
+		default:	break;
+	}
+	
+	return INVALID;
+}
+
+int autopilot(const int mode, const int communicationInput) {
+	computation();
+	computation();
+	computation();
+	computation();
+	computation();
+	computation();
+
+	return communicationInput * mode;
+}
+
+void computation(void) {
+	long result = 1;
+	
+	int i = 1;
+	result += (long)((int)result % i) * (result / result);
+}
+

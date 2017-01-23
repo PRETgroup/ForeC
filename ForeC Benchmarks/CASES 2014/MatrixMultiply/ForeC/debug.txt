@@ -1,0 +1,776 @@
+ForeC Compiler (multicore distribution)
+Version: 0.99 (5 October 2014)
+Debug output
+---------------------------------------
+
+Source file name: MatrixMultiply.forec
+Header file name: MatrixMultiply.1.foreh
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	microblaze
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	0		fillMatrixA0__thread
+	0		fillMatrixA1__thread
+	0		fillMatrixA2__thread
+	0		fillMatrixA3__thread
+	0		fillMatrixB0__thread
+	0		fillMatrixB1__thread
+	0		fillMatrixB2__thread
+	0		fillMatrixB3__thread
+	0		main__thread
+	0		multiply0__thread
+	0		multiply1__thread
+	0		multiply2__thread
+	0		multiply3__thread
+	0		multiply4__thread
+	0		multiply5__thread
+	0		multiply6__thread
+	0		multiply7__thread
+
+
+==============================
+tools::SymbolTable::toString()
+==============================
+Symbol tables:
+--------------
+	Scope name: fillMatrix
+		Scope level: 0
+			Instance: 0
+				(variable) A__fillMatrix_0_0
+				(variable) threadId__fillMatrix_0_0
+				(variable) SIZE__fillMatrix_0_0
+				(variable) startRow__fillMatrix_0_0
+				(variable) range__fillMatrix_0_0
+				(variable) i__fillMatrix_0_0
+		Scope level: 1
+			Instance: 0
+				(variable) j__fillMatrix_1_0
+
+	Scope name: global
+		Scope level: 0
+			Instance: 0
+				(shared) SIZE__global_0_0
+				(variable) NumberOfFillThreads__global_0_0
+				(variable) NumberOfMultiplyThreads__global_0_0
+				(variable) A__global_0_0
+				(variable) B__global_0_0
+				(variable) C__global_0_0
+				(shared) A_ptr__global_0_0
+				(shared) B_ptr__global_0_0
+				(shared) C_ptr__global_0_0
+				(function) fillMatrix
+				(function) multiply
+				(function) printOut
+				(thread) fillMatrixA0__thread
+				(thread) fillMatrixA1__thread
+				(thread) fillMatrixA2__thread
+				(thread) fillMatrixA3__thread
+				(thread) fillMatrixB0__thread
+				(thread) fillMatrixB1__thread
+				(thread) fillMatrixB2__thread
+				(thread) fillMatrixB3__thread
+				(thread) multiply0__thread
+				(thread) multiply1__thread
+				(thread) multiply2__thread
+				(thread) multiply3__thread
+				(thread) multiply4__thread
+				(thread) multiply5__thread
+				(thread) multiply6__thread
+				(thread) multiply7__thread
+
+	Scope name: main
+		Scope level: 0
+			Instance: 0
+				(variable) argc__main_0_0
+				(variable) argv__main_0_0
+
+	Scope name: multiply
+		Scope level: 0
+			Instance: 0
+				(variable) A__multiply_0_0
+				(variable) B__multiply_0_0
+				(variable) C__multiply_0_0
+				(variable) threadId__multiply_0_0
+				(variable) SIZE__multiply_0_0
+				(variable) startRow__multiply_0_0
+				(variable) range__multiply_0_0
+				(variable) i__multiply_0_0
+		Scope level: 1
+			Instance: 0
+				(variable) j__multiply_1_0
+		Scope level: 2
+			Instance: 0
+				(variable) k__multiply_2_0
+
+	Scope name: printOut
+		Scope level: 0
+			Instance: 0
+				(variable) A__printOut_0_0
+				(variable) SIZE__printOut_0_0
+				(variable) i__printOut_0_0
+		Scope level: 1
+			Instance: 0
+				(variable) j__printOut_1_0
+
+
+Declared shared symbols:
+------------------------
+	Scope name: global
+		(Shared_SIZE__global_0_0) SIZE__global_0_0
+		(Shared_A_ptr__global_0_0) A_ptr__global_0_0
+		(Shared_B_ptr__global_0_0) B_ptr__global_0_0
+		(Shared_C_ptr__global_0_0) C_ptr__global_0_0
+
+
+Use/Def of symbols:
+-------------------
+	Scope name: fillMatrix
+		def:
+			(variable) j__fillMatrix_1_0
+			(variable) i__fillMatrix_0_0
+
+		use:
+			(variable) NumberOfFillThreads__global_0_0
+			(variable) j__fillMatrix_1_0
+			(variable) A__fillMatrix_0_0
+			(variable) threadId__fillMatrix_0_0
+			(variable) SIZE__fillMatrix_0_0
+			(variable) startRow__fillMatrix_0_0
+			(variable) range__fillMatrix_0_0
+			(variable) i__fillMatrix_0_0
+
+	Scope name: fillMatrixA0
+		use:
+			(shared) SIZE__global_0_0
+			(shared) A_ptr__global_0_0
+			(function) fillMatrix
+
+	Scope name: fillMatrixA1
+		use:
+			(shared) SIZE__global_0_0
+			(shared) A_ptr__global_0_0
+			(function) fillMatrix
+
+	Scope name: fillMatrixA2
+		use:
+			(shared) SIZE__global_0_0
+			(shared) A_ptr__global_0_0
+			(function) fillMatrix
+
+	Scope name: fillMatrixA3
+		use:
+			(shared) SIZE__global_0_0
+			(shared) A_ptr__global_0_0
+			(function) fillMatrix
+
+	Scope name: fillMatrixB0
+		use:
+			(shared) SIZE__global_0_0
+			(shared) B_ptr__global_0_0
+			(function) fillMatrix
+
+	Scope name: fillMatrixB1
+		use:
+			(shared) SIZE__global_0_0
+			(shared) B_ptr__global_0_0
+			(function) fillMatrix
+
+	Scope name: fillMatrixB2
+		use:
+			(shared) SIZE__global_0_0
+			(shared) B_ptr__global_0_0
+			(function) fillMatrix
+
+	Scope name: fillMatrixB3
+		use:
+			(shared) SIZE__global_0_0
+			(shared) B_ptr__global_0_0
+			(function) fillMatrix
+
+	Scope name: main
+		use:
+			(thread) fillMatrixA0__thread
+			(thread) fillMatrixA1__thread
+			(thread) fillMatrixA2__thread
+			(thread) fillMatrixA3__thread
+			(thread) fillMatrixB0__thread
+			(thread) fillMatrixB1__thread
+			(thread) fillMatrixB2__thread
+			(thread) fillMatrixB3__thread
+			(thread) multiply0__thread
+			(thread) multiply1__thread
+			(thread) multiply2__thread
+			(thread) multiply3__thread
+			(thread) multiply4__thread
+			(thread) multiply5__thread
+			(thread) multiply6__thread
+			(thread) multiply7__thread
+
+	Scope name: multiply
+		def:
+			(variable) i__multiply_0_0
+			(variable) j__multiply_1_0
+			(variable) k__multiply_2_0
+
+		use:
+			(variable) NumberOfMultiplyThreads__global_0_0
+			(variable) A__multiply_0_0
+			(variable) B__multiply_0_0
+			(variable) C__multiply_0_0
+			(variable) threadId__multiply_0_0
+			(variable) SIZE__multiply_0_0
+			(variable) startRow__multiply_0_0
+			(variable) range__multiply_0_0
+			(variable) i__multiply_0_0
+			(variable) j__multiply_1_0
+			(variable) k__multiply_2_0
+
+	Scope name: multiply0
+		use:
+			(shared) SIZE__global_0_0
+			(shared) A_ptr__global_0_0
+			(shared) B_ptr__global_0_0
+			(shared) C_ptr__global_0_0
+			(function) multiply
+
+	Scope name: multiply1
+		use:
+			(shared) SIZE__global_0_0
+			(shared) A_ptr__global_0_0
+			(shared) B_ptr__global_0_0
+			(shared) C_ptr__global_0_0
+			(function) multiply
+
+	Scope name: multiply2
+		use:
+			(shared) SIZE__global_0_0
+			(shared) A_ptr__global_0_0
+			(shared) B_ptr__global_0_0
+			(shared) C_ptr__global_0_0
+			(function) multiply
+
+	Scope name: multiply3
+		use:
+			(shared) SIZE__global_0_0
+			(shared) A_ptr__global_0_0
+			(shared) B_ptr__global_0_0
+			(shared) C_ptr__global_0_0
+			(function) multiply
+
+	Scope name: multiply4
+		use:
+			(shared) SIZE__global_0_0
+			(shared) A_ptr__global_0_0
+			(shared) B_ptr__global_0_0
+			(shared) C_ptr__global_0_0
+			(function) multiply
+
+	Scope name: multiply5
+		use:
+			(shared) SIZE__global_0_0
+			(shared) A_ptr__global_0_0
+			(shared) B_ptr__global_0_0
+			(shared) C_ptr__global_0_0
+			(function) multiply
+
+	Scope name: multiply6
+		use:
+			(shared) SIZE__global_0_0
+			(shared) A_ptr__global_0_0
+			(shared) B_ptr__global_0_0
+			(shared) C_ptr__global_0_0
+			(function) multiply
+
+	Scope name: multiply7
+		use:
+			(shared) SIZE__global_0_0
+			(shared) A_ptr__global_0_0
+			(shared) B_ptr__global_0_0
+			(shared) C_ptr__global_0_0
+			(function) multiply
+
+	Scope name: printOut
+		def:
+			(variable) i__printOut_0_0
+			(variable) j__printOut_1_0
+
+		use:
+			(variable) A__printOut_0_0
+			(variable) SIZE__printOut_0_0
+			(variable) i__printOut_0_0
+			(variable) j__printOut_1_0
+
+
+Indirect use/def of symbols by parId:
+-------------------------------------
+	par0:
+		SIZE__global_0_0
+			use (skip): fillMatrixA0 fillMatrixA1 fillMatrixA2 fillMatrixA3 fillMatrixB0 fillMatrixB1 fillMatrixB2 fillMatrixB3 
+
+		A_ptr__global_0_0
+			use (skip): fillMatrixA0 fillMatrixA1 fillMatrixA2 fillMatrixA3 
+
+		B_ptr__global_0_0
+			use (skip): fillMatrixB0 fillMatrixB1 fillMatrixB2 fillMatrixB3 
+
+	par1:
+		SIZE__global_0_0
+			use (skip): multiply0 multiply1 multiply2 multiply3 multiply4 multiply5 multiply6 multiply7 
+
+		A_ptr__global_0_0
+			use (skip): multiply0 multiply1 multiply2 multiply3 multiply4 multiply5 multiply6 multiply7 
+
+		B_ptr__global_0_0
+			use (skip): multiply0 multiply1 multiply2 multiply3 multiply4 multiply5 multiply6 multiply7 
+
+		C_ptr__global_0_0
+			use (skip): multiply0 multiply1 multiply2 multiply3 multiply4 multiply5 multiply6 multiply7 
+
+
+Indirect use/def of symbols by threadId:
+----------------------------------------
+	fillMatrixA0:
+		SIZE__global_0_0
+			use (root): fillMatrixA0 
+
+		A_ptr__global_0_0
+			use (root): fillMatrixA0 
+
+	fillMatrixA1:
+		SIZE__global_0_0
+			use (root): fillMatrixA1 
+
+		A_ptr__global_0_0
+			use (root): fillMatrixA1 
+
+	fillMatrixA2:
+		SIZE__global_0_0
+			use (root): fillMatrixA2 
+
+		A_ptr__global_0_0
+			use (root): fillMatrixA2 
+
+	fillMatrixA3:
+		SIZE__global_0_0
+			use (root): fillMatrixA3 
+
+		A_ptr__global_0_0
+			use (root): fillMatrixA3 
+
+	fillMatrixB0:
+		SIZE__global_0_0
+			use (root): fillMatrixB0 
+
+		B_ptr__global_0_0
+			use (root): fillMatrixB0 
+
+	fillMatrixB1:
+		SIZE__global_0_0
+			use (root): fillMatrixB1 
+
+		B_ptr__global_0_0
+			use (root): fillMatrixB1 
+
+	fillMatrixB2:
+		SIZE__global_0_0
+			use (root): fillMatrixB2 
+
+		B_ptr__global_0_0
+			use (root): fillMatrixB2 
+
+	fillMatrixB3:
+		SIZE__global_0_0
+			use (root): fillMatrixB3 
+
+		B_ptr__global_0_0
+			use (root): fillMatrixB3 
+
+	main:
+		SIZE__global_0_0
+			use (skip): main 
+
+		A_ptr__global_0_0
+			use (skip): main 
+
+		B_ptr__global_0_0
+			use (skip): main 
+
+		C_ptr__global_0_0
+			use (skip): main 
+
+	multiply0:
+		SIZE__global_0_0
+			use (root): multiply0 
+
+		A_ptr__global_0_0
+			use (root): multiply0 
+
+		B_ptr__global_0_0
+			use (root): multiply0 
+
+		C_ptr__global_0_0
+			use (root): multiply0 
+
+	multiply1:
+		SIZE__global_0_0
+			use (root): multiply1 
+
+		A_ptr__global_0_0
+			use (root): multiply1 
+
+		B_ptr__global_0_0
+			use (root): multiply1 
+
+		C_ptr__global_0_0
+			use (root): multiply1 
+
+	multiply2:
+		SIZE__global_0_0
+			use (root): multiply2 
+
+		A_ptr__global_0_0
+			use (root): multiply2 
+
+		B_ptr__global_0_0
+			use (root): multiply2 
+
+		C_ptr__global_0_0
+			use (root): multiply2 
+
+	multiply3:
+		SIZE__global_0_0
+			use (root): multiply3 
+
+		A_ptr__global_0_0
+			use (root): multiply3 
+
+		B_ptr__global_0_0
+			use (root): multiply3 
+
+		C_ptr__global_0_0
+			use (root): multiply3 
+
+	multiply4:
+		SIZE__global_0_0
+			use (root): multiply4 
+
+		A_ptr__global_0_0
+			use (root): multiply4 
+
+		B_ptr__global_0_0
+			use (root): multiply4 
+
+		C_ptr__global_0_0
+			use (root): multiply4 
+
+	multiply5:
+		SIZE__global_0_0
+			use (root): multiply5 
+
+		A_ptr__global_0_0
+			use (root): multiply5 
+
+		B_ptr__global_0_0
+			use (root): multiply5 
+
+		C_ptr__global_0_0
+			use (root): multiply5 
+
+	multiply6:
+		SIZE__global_0_0
+			use (root): multiply6 
+
+		A_ptr__global_0_0
+			use (root): multiply6 
+
+		B_ptr__global_0_0
+			use (root): multiply6 
+
+		C_ptr__global_0_0
+			use (root): multiply6 
+
+	multiply7:
+		SIZE__global_0_0
+			use (root): multiply7 
+
+		A_ptr__global_0_0
+			use (root): multiply7 
+
+		B_ptr__global_0_0
+			use (root): multiply7 
+
+		C_ptr__global_0_0
+			use (root): multiply7 
+
+
+Functions used for combining shared variables:
+----------------------------------------------
+
+============================
+tools::Threading::toString()
+============================
+Threads declared:
+-----------------
+	* fillMatrixA0__thread
+	* fillMatrixA1__thread
+	* fillMatrixA2__thread
+	* fillMatrixA3__thread
+	* fillMatrixB0__thread
+	* fillMatrixB1__thread
+	* fillMatrixB2__thread
+	* fillMatrixB3__thread
+	* main__thread
+	* multiply0__thread
+	* multiply1__thread
+	* multiply2__thread
+	* multiply3__thread
+	* multiply4__thread
+	* multiply5__thread
+	* multiply6__thread
+	* multiply7__thread
+
+Threads unused:
+---------------
+
+par(...) statements:
+--------------------
+	Thread scope: main
+		par0:
+		* fillMatrixA0__thread
+		* fillMatrixA1__thread
+		* fillMatrixA2__thread
+		* fillMatrixA3__thread
+		* fillMatrixB0__thread
+		* fillMatrixB1__thread
+		* fillMatrixB2__thread
+		* fillMatrixB3__thread
+
+		par1:
+		* multiply0__thread
+		* multiply1__thread
+		* multiply2__thread
+		* multiply3__thread
+		* multiply4__thread
+		* multiply5__thread
+		* multiply6__thread
+		* multiply7__thread
+
+========================
+tools::Abort::toString()
+========================
+============================
+tools::Condition::toString()
+============================
+
+========================
+tarot::Tarot::toString()
+========================
+Full tarot:
+-----------
+	core0: main__thread
+	.	core0: par0
+	.	|	core0: fillMatrixA0__thread
+	.	|	core0: fillMatrixA1__thread
+	.	|	core0: fillMatrixA2__thread
+	.	|	core0: fillMatrixA3__thread
+	.	|	core0: fillMatrixB0__thread
+	.	|	core0: fillMatrixB1__thread
+	.	|	core0: fillMatrixB2__thread
+	.	|	core0: fillMatrixB3__thread
+	.	core0: par1
+	.	|	core0: multiply0__thread
+	.	|	core0: multiply1__thread
+	.	|	core0: multiply2__thread
+	.	|	core0: multiply3__thread
+	.	|	core0: multiply4__thread
+	.	|	core0: multiply5__thread
+	.	|	core0: multiply6__thread
+	.	|	core0: multiply7__thread
+
+
+Tarot by coreId:
+----------------
+	core0:
+	-------
+		core0: main__thread
+		.	core0: par0
+		.	|	core0: fillMatrixA0__thread
+		.	|	core0: fillMatrixA1__thread
+		.	|	core0: fillMatrixA2__thread
+		.	|	core0: fillMatrixA3__thread
+		.	|	core0: fillMatrixB0__thread
+		.	|	core0: fillMatrixB1__thread
+		.	|	core0: fillMatrixB2__thread
+		.	|	core0: fillMatrixB3__thread
+		.	core0: par1
+		.	|	core0: multiply0__thread
+		.	|	core0: multiply1__thread
+		.	|	core0: multiply2__thread
+		.	|	core0: multiply3__thread
+		.	|	core0: multiply4__thread
+		.	|	core0: multiply5__thread
+		.	|	core0: multiply6__thread
+		.	|	core0: multiply7__thread
+
+
+par(...) statements with core allocation:
+-----------------------------------------
+	Thread main__thread:
+		all:
+		* core0
+
+		par0:
+		* core0
+
+		par1:
+		* core0
+
+
+par(...) statements with active cores:
+--------------------------------------
+	Thread main__thread:
+		all:
+		* core0
+
+		par0:
+		* core0
+
+		par1:
+		* core0
+
+
+Reaction starts:
+----------------
+	core0:
+		main: Master
+
+
+Reaction ends:
+--------------
+	core0:
+		par0:
+			coreIds:
+			* 0
+
+			isMaster:
+			* true
+
+			threadScope:
+			* main
+
+		par1:
+			coreIds:
+			* 0
+
+			isMaster:
+			* true
+
+			threadScope:
+			* main
+
+
+Par(...) handlers:
+------------------
+	par0:
+	* fillMatrixA0__thread
+	* fillMatrixA1__thread
+	* fillMatrixA2__thread
+	* fillMatrixA3__thread
+	* fillMatrixB0__thread
+	* fillMatrixB1__thread
+	* fillMatrixB2__thread
+	* fillMatrixB3__thread
+	* mainReactionStartMaster0
+	* mainReactionEndMaster0
+
+	par1:
+	* multiply0__thread
+	* multiply1__thread
+	* multiply2__thread
+	* multiply3__thread
+	* multiply4__thread
+	* multiply5__thread
+	* multiply6__thread
+	* multiply7__thread
+	* mainReactionStartMaster0
+	* mainReactionEndMaster0
+
+
+Linked lists:
+-------------
+	core0:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartMaster0
+			* (thread) fillMatrixA0__thread
+			* (thread) fillMatrixA1__thread
+			* (thread) fillMatrixA2__thread
+			* (thread) fillMatrixA3__thread
+			* (thread) fillMatrixB0__thread
+			* (thread) fillMatrixB1__thread
+			* (thread) fillMatrixB2__thread
+			* (thread) fillMatrixB3__thread
+			* (parEnd) mainReactionEndMaster0
+
+			par1:
+			* (parStart) mainReactionStartMaster0
+			* (thread) multiply0__thread
+			* (thread) multiply1__thread
+			* (thread) multiply2__thread
+			* (thread) multiply3__thread
+			* (thread) multiply4__thread
+			* (thread) multiply5__thread
+			* (thread) multiply6__thread
+			* (thread) multiply7__thread
+			* (parEnd) mainReactionEndMaster0
+
+
+par(...) handlers in thread scopes:
+-----------------------------------
+	par0	main__thread
+	par1	main__thread
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	microblaze
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	0		fillMatrixA0__thread
+	0		fillMatrixA1__thread
+	0		fillMatrixA2__thread
+	0		fillMatrixA3__thread
+	0		fillMatrixB0__thread
+	0		fillMatrixB1__thread
+	0		fillMatrixB2__thread
+	0		fillMatrixB3__thread
+	0		main__thread
+	0		multiply0__thread
+	0		multiply1__thread
+	0		multiply2__thread
+	0		multiply3__thread
+	0		multiply4__thread
+	0		multiply5__thread
+	0		multiply6__thread
+	0		multiply7__thread
+
+
+========================
+tools::Mutex::toString()
+========================
+Mutex information:
+------------------
+

@@ -1,0 +1,23 @@
+// %{parStatement}
+%{tab}// forec:statement:par:%{parId}:start
+%{tab}// Set the par(...) information.
+%{tab}mainParParent.parId = %{parNumber};
+%{tab}mainParParent.parStatus = FOREC_PAR_ON;
+
+%{tab}// Link the threads and handlers together.
+%{linkedList}
+%{tab}// Link the last and first threads/handlers together.
+%{tab}%{lastThread}.nextThread = &%{firstThread};
+%{tab}%{firstThread}.prevThread = &%{lastThread};
+
+%{tab}// Set the join address.
+%{tab}mainParParent.programCounter = &&%{parId}JoinAddress_mainParCore%{coreId};
+
+%{tab}// Set the core information.
+%{tab}mainParCore%{coreId}.activeThreads = %{activeThreadsCount};
+%{tab}mainParCore%{coreId}.reactionCounter = mainParReactionCounter;
+
+%{tab}// Go to the first thread.
+%{tab}goto %{beginThread};
+%{tab}%{parId}JoinAddress_mainParCore%{coreId}:;
+%{tab}// forec:statement:par:%{parId}:end

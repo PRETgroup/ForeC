@@ -1,0 +1,16 @@
+	// forec:scheduler:abortHandler:%{abortId}:%{coreId}:start
+	// %{abortId} (%{condition})
+%{abortId}Check%{coreId}: {
+	// Check the abort condition.
+	if (%{condition}) {
+		// Force the reaction end handler to terminate the par(...).
+		%{threadScope}ParCore%{coreId}.activeThreads = 0;%{newParParentAddress}
+		
+		goto %{reactionEndName};
+	}
+	
+	// Continue to the next thread.
+	goto *%{abortId}Check%{coreId}.nextThread -> programCounter;
+}
+	// forec:scheduler:abortHandler:%{abortId}:%{coreId}:end
+

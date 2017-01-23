@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!-- Supplementary information generated for static analysis (Main.cpp::output). -->
+<information>
+	<!-- Header filename (Multicore.cpp::toXml). -->
+	<filename elf="Life.08" />
+	<architecture model="microblaze" />
+	<!-- Allocation of threads for each core (Multicore.cpp::toXml). -->
+	<allocations>
+		<core id="0">
+			<thread id="do_step" />
+			<thread id="do_step_0" />
+			<thread id="main" />
+		</core>
+		<core id="1">
+			<thread id="do_step_1" />
+		</core>
+		<core id="2">
+			<thread id="do_step_2" />
+		</core>
+		<core id="3">
+			<thread id="do_step_3" />
+		</core>
+		<core id="4">
+			<thread id="do_draw" />
+			<thread id="do_draw_0" />
+		</core>
+		<core id="5">
+			<thread id="do_draw_1" />
+		</core>
+		<core id="6">
+			<thread id="do_draw_2" />
+		</core>
+		<core id="7">
+			<thread id="do_draw_3" />
+		</core>
+	</allocations>
+	<!-- Aborts around each par(...) (Abort.cpp::outputXml). -->
+	<aborts>
+		<par id="0">
+			<abort id="abortStrong0" variant="strong" />
+		</par>
+	</aborts>
+	<!-- Nested thread structure (Tarot.cpp::outputXml). -->
+	<tarot>
+		<thread id="main">
+			<par id="0">
+				<thread id="do_step">
+					<par id="1">
+						<thread id="do_step_0"></thread>
+						<thread id="do_step_1"></thread>
+						<thread id="do_step_2"></thread>
+						<thread id="do_step_3"></thread>
+					</par>
+				</thread>
+				<thread id="do_draw">
+					<par id="2">
+						<thread id="do_draw_0"></thread>
+						<thread id="do_draw_1"></thread>
+						<thread id="do_draw_2"></thread>
+						<thread id="do_draw_3"></thread>
+					</par>
+				</thread>
+			</par>
+		</thread>
+	</tarot>
+	<!-- Index of each par(...) in the par handlers of each core (Tarot.cpp::outputXml). -->
+	<parIndexes>
+		<core id="0">
+			<threadScope id="do_step">
+				<par id="1" handlers="3" />
+			</threadScope>
+			<threadScope id="main">
+				<par id="0" handlers="5" />
+			</threadScope>
+		</core>
+		<core id="1">
+			<threadScope id="do_step">
+				<par id="1" handlers="3" />
+			</threadScope>
+			<threadScope id="main">
+				<par id="0" handlers="4" />
+			</threadScope>
+		</core>
+		<core id="2">
+			<threadScope id="do_step">
+				<par id="1" handlers="3" />
+			</threadScope>
+			<threadScope id="main">
+				<par id="0" handlers="4" />
+			</threadScope>
+		</core>
+		<core id="3">
+			<threadScope id="do_step">
+				<par id="1" handlers="3" />
+			</threadScope>
+			<threadScope id="main">
+				<par id="0" handlers="4" />
+			</threadScope>
+		</core>
+		<core id="4">
+			<threadScope id="do_draw">
+				<par id="2" handlers="3" />
+			</threadScope>
+			<threadScope id="main">
+				<par id="0" handlers="5" />
+			</threadScope>
+		</core>
+		<core id="5">
+			<threadScope id="do_draw">
+				<par id="2" handlers="3" />
+			</threadScope>
+			<threadScope id="main">
+				<par id="0" handlers="4" />
+			</threadScope>
+		</core>
+		<core id="6">
+			<threadScope id="do_draw">
+				<par id="2" handlers="3" />
+			</threadScope>
+			<threadScope id="main">
+				<par id="0" handlers="4" />
+			</threadScope>
+		</core>
+		<core id="7">
+			<threadScope id="do_draw">
+				<par id="2" handlers="3" />
+			</threadScope>
+			<threadScope id="main">
+				<par id="0" handlers="4" />
+			</threadScope>
+		</core>
+	</parIndexes>
+	<!-- Cores involved in executing each par(...) (Tarot.cpp::outputXml). -->
+	<allocatedParCores>
+		<par id="2">
+			<core id="4" />
+			<core id="5" />
+			<core id="6" />
+			<core id="7" />
+		</par>
+		<par id="1">
+			<core id="0" />
+			<core id="1" />
+			<core id="2" />
+			<core id="3" />
+		</par>
+		<par id="0">
+			<core id="0" />
+			<core id="1" />
+			<core id="2" />
+			<core id="3" />
+			<core id="4" />
+			<core id="5" />
+			<core id="6" />
+			<core id="7" />
+		</par>
+	</allocatedParCores>
+	<!-- Cores involved in executing all the par(...)s in each thread (Tarot.cpp::outputXml). -->
+	<activeParCores>
+		<thread id="do_draw">
+			<core id="4" />
+			<core id="5" />
+			<core id="6" />
+			<core id="7" />
+		</thread>
+		<thread id="do_step">
+			<core id="0" />
+			<core id="1" />
+			<core id="2" />
+			<core id="3" />
+		</thread>
+		<thread id="main">
+			<core id="0" />
+			<core id="1" />
+			<core id="2" />
+			<core id="3" />
+			<core id="4" />
+			<core id="5" />
+			<core id="6" />
+			<core id="7" />
+		</thread>
+	</activeParCores>
+	<!-- Shared variables (SymbolTable.cpp::outputXml). -->
+	<shared>
+	</shared>
+</information>

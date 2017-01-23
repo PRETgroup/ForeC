@@ -1,0 +1,35 @@
+digraph "Combine" {
+	ordering = out
+
+	labeljust = l
+	node [shape = box, fixedsize = true, height = 0.7, width = 1.1]
+
+	start [shape = plaintext, height = 0.4]
+
+	start -> par0_0Start [label = main, headport = n, tailport = s, weight = 2]
+	subgraph cluster_par0_0 {
+		style = filled
+		color = lightgrey
+
+		par0_0Start [label = 0, shape = triangle]
+		par0_0End [label = 0, shape = invtriangle]
+
+		par0_0Start -> par0_0End [label = t1, fontcolor = blue, sametail = 0, samehead = 0, headport = n, tailport = s]
+
+		par0_0Start -> par0_0End [label = t2, fontcolor = blue, sametail = 0, samehead = 0, headport = n, tailport = s]
+	}
+	{
+		edge[style = invis]
+	}
+	par0_0End -> end [headport = n, tailport = s]
+
+	end [shape = plaintext, height = 0.4]
+	{
+		edge[style = invis]
+		start -> par0_0Start
+		par0_0End -> end
+	}
+	label = "Combine.forec"
+	labelloc = t
+	labeljust = c
+}

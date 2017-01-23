@@ -1,0 +1,1102 @@
+
+acotescc_sync_fft_che_top_tb.c,34363
+typedef unsigned int size_t;1,0
+typedef unsigned char __u_char;2,29
+typedef unsigned short int __u_short;3,61
+typedef unsigned int __u_int;4,99
+typedef unsigned long int __u_long;5,129
+typedef signed char __int8_t;6,165
+typedef unsigned char __uint8_t;7,195
+typedef signed short int __int16_t;8,228
+typedef unsigned short int __uint16_t;9,264
+typedef signed int __int32_t;10,303
+typedef unsigned int __uint32_t;11,333
+typedef signed long long int __int64_t;13,380
+typedef unsigned long long int __uint64_t;15,434
+typedef long long int __quad_t;17,491
+typedef unsigned long long int __u_quad_t;19,537
+typedef __u_quad_t __dev_t;21,594
+typedef unsigned int __uid_t;23,636
+typedef unsigned int __gid_t;25,680
+typedef unsigned long int __ino_t;27,724
+typedef __u_quad_t __ino64_t;29,773
+typedef unsigned int __mode_t;31,817
+typedef unsigned int __nlink_t;33,862
+typedef long int __off_t;35,908
+typedef __quad_t __off64_t;37,948
+typedef int __pid_t;39,990
+} __fsid_t;44,1065
+typedef long int __clock_t;46,1091
+typedef unsigned long int __rlim_t;48,1133
+typedef __u_quad_t __rlim64_t;50,1183
+typedef unsigned int __id_t;52,1228
+typedef long int __time_t;54,1271
+typedef unsigned int __useconds_t;56,1312
+typedef long int __suseconds_t;58,1361
+typedef int __daddr_t;60,1407
+typedef long int __swblk_t;62,1444
+typedef int __key_t;64,1486
+typedef int __clockid_t;66,1521
+typedef void * __timer_t;68,1560
+typedef long int __blksize_t;70,1600
+typedef long int __blkcnt_t;72,1644
+typedef __quad_t __blkcnt64_t;74,1687
+typedef unsigned long int __fsblkcnt_t;76,1732
+typedef __u_quad_t __fsblkcnt64_t;78,1786
+typedef unsigned long int __fsfilcnt_t;80,1835
+typedef __u_quad_t __fsfilcnt64_t;82,1889
+typedef int __ssize_t;84,1938
+typedef __off64_t __loff_t;85,1961
+typedef __quad_t * __qaddr_t;86,1989
+typedef char * __caddr_t;87,2019
+typedef int __intptr_t;89,2059
+typedef unsigned int __socklen_t;91,2097
+struct timespec92,2131
+struct sched_param97,2203
+extern int clone(101,2257
+extern int unshare(102,2386
+extern int sched_getcpu(103,2448
+struct __sched_param104,2508
+typedef unsigned long int __cpu_mask;108,2564
+} cpu_set_t;112,2680
+extern int __sched_cpucount(113,2693
+extern int sched_setparam(114,2789
+extern int sched_getparam(115,2898
+extern int sched_setscheduler(116,2999
+extern int sched_getscheduler(117,3126
+extern int sched_yield(118,3201
+extern int sched_get_priority_max(119,3260
+extern int sched_get_priority_min(120,3341
+extern int sched_rr_get_interval(121,3422
+typedef __clock_t clock_t;122,3523
+typedef __time_t time_t;123,3550
+typedef __clockid_t clockid_t;124,3575
+typedef __timer_t timer_t;125,3606
+struct tm126,3633
+struct itimerspec140,3895
+typedef __pid_t pid_t;146,4006
+extern clock_t clock(147,4029
+extern time_t time(148,4086
+extern double difftime(149,4153
+extern time_t mktime(150,4265
+extern size_t strftime(151,4334
+extern struct tm * gmtime(152,4498
+extern struct tm * localtime(153,4580
+extern struct tm * gmtime_r(154,4665
+extern struct tm * localtime_r(155,4787
+extern char * asctime(156,4912
+extern char * ctime(157,4990
+extern char * asctime_r(158,5066
+extern char * ctime_r(159,5180
+extern void tzset(164,5395
+extern int stime(167,5496
+extern time_t timegm(168,5568
+extern time_t timelocal(169,5637
+extern int dysize(170,5709
+extern int clock_getres(172,5893
+extern int clock_gettime(173,5994
+extern int clock_settime(174,6095
+extern int clock_getcpuclockid(176,6325
+extern int timer_create(177,6423
+extern int timer_delete(178,6565
+extern int timer_settime(179,6638
+extern int timer_gettime(180,6812
+extern int timer_getoverrun(181,6915
+typedef int __sig_atomic_t;182,6992
+} __sigset_t;186,7113
+typedef __sigset_t sigset_t;187,7127
+typedef unsigned long int pthread_t;188,7156
+} pthread_attr_t;193,7261
+typedef struct __pthread_internal_slist194,7279
+} __pthread_slist_t;197,7371
+        struct __pthread_mutex_s200,7409
+} pthread_mutex_t;216,7860
+} pthread_mutexattr_t;221,7946
+} pthread_cond_t;241,8540
+} pthread_condattr_t;246,8625
+typedef unsigned int pthread_key_t;247,8647
+typedef int pthread_once_t;248,8683
+} pthread_rwlock_t;264,9155
+} pthread_rwlockattr_t;269,9242
+typedef volatile int pthread_spinlock_t;270,9266
+} pthread_barrier_t;275,9375
+} pthread_barrierattr_t;280,9458
+typedef int __jmp_buf[__jmp_buf281,9483
+    PTHREAD_CREATE_JOINABLE,284,9517
+    PTHREAD_CREATE_DETACHED285,9547
+    PTHREAD_MUTEX_TIMED_NP,289,9586
+    PTHREAD_MUTEX_RECURSIVE_NP,290,9615
+    PTHREAD_MUTEX_ERRORCHECK_NP,291,9648
+    PTHREAD_MUTEX_ADAPTIVE_NP292,9682
+    PTHREAD_RWLOCK_PREFER_READER_NP,296,9723
+    PTHREAD_RWLOCK_PREFER_WRITER_NP,297,9761
+    PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP,298,9799
+    PTHREAD_RWLOCK_DEFAULT_NP 299,9850
+    PTHREAD_RWLOCK_DEFAULT_NP = PTHREAD_RWLOCK_PREFER_READER_NP299,9850
+    PTHREAD_INHERIT_SCHED,303,9925
+    PTHREAD_EXPLICIT_SCHED304,9953
+    PTHREAD_SCOPE_SYSTEM,308,9991
+    PTHREAD_SCOPE_PROCESS309,10018
+    PTHREAD_PROCESS_PRIVATE,313,10055
+    PTHREAD_PROCESS_SHARED314,10085
+struct _pthread_cleanup_buffer316,10115
+    PTHREAD_CANCEL_ENABLE,325,10292
+    PTHREAD_CANCEL_DISABLE326,10320
+    PTHREAD_CANCEL_DEFERRED,330,10358
+    PTHREAD_CANCEL_ASYNCHRONOUS331,10388
+extern int pthread_create(333,10423
+extern void pthread_exit(334,10652
+extern int pthread_detach(336,10792
+extern pthread_t pthread_self(337,10864
+extern int pthread_equal(338,10957
+extern int pthread_attr_init(339,11054
+extern int pthread_attr_destroy(340,11170
+extern int pthread_attr_getdetachstate(341,11289
+extern int pthread_attr_setdetachstate(342,11447
+extern int pthread_attr_getguardsize(343,11592
+extern int pthread_attr_setguardsize(344,11749
+extern int pthread_attr_getschedparam(345,11893
+extern int pthread_attr_setschedparam(346,12079
+extern int pthread_attr_getschedpolicy(347,12265
+extern int pthread_attr_setschedpolicy(348,12438
+extern int pthread_attr_getinheritsched(349,12578
+extern int pthread_attr_setinheritsched(350,12753
+extern int pthread_attr_getscope(351,12895
+extern int pthread_attr_setscope(352,13061
+extern int pthread_attr_getstackaddr(353,13194
+extern int pthread_attr_setstackaddr(354,13403
+extern int pthread_attr_getstacksize(355,13579
+extern int pthread_attr_setstacksize(356,13756
+extern int pthread_attr_getstack(357,13900
+extern int pthread_attr_setstack(358,14108
+extern int pthread_setschedparam(359,14268
+extern int pthread_getschedparam(360,14442
+extern int pthread_setschedprio(361,14633
+extern int pthread_once(362,14734
+} __pthread_unwind_buf_t 375,15250
+struct __pthread_cleanup_frame376,15305
+extern void __pthread_register_cancel(383,15461
+extern void __pthread_unregister_cancel(384,15564
+extern void __pthread_unwind_next(385,15669
+extern int __sigsetjmp(387,15846
+extern int pthread_mutex_init(388,15945
+extern int pthread_mutex_destroy(389,16107
+extern int pthread_mutex_trylock(390,16229
+extern int pthread_mutex_lock(391,16351
+extern int pthread_mutex_timedlock(392,16470
+extern int pthread_mutex_unlock(393,16654
+extern int pthread_mutexattr_init(394,16775
+extern int pthread_mutexattr_destroy(395,16901
+extern int pthread_mutexattr_getpshared(396,17030
+extern int pthread_mutexattr_setpshared(397,17210
+extern int pthread_rwlock_init(398,17357
+extern int pthread_rwlock_destroy(399,17538
+extern int pthread_rwlock_rdlock(400,17663
+extern int pthread_rwlock_tryrdlock(401,17787
+extern int pthread_rwlock_timedrdlock(402,17914
+extern int pthread_rwlock_wrlock(403,18103
+extern int pthread_rwlock_trywrlock(404,18227
+extern int pthread_rwlock_timedwrlock(405,18354
+extern int pthread_rwlock_unlock(406,18543
+extern int pthread_rwlockattr_init(407,18667
+extern int pthread_rwlockattr_destroy(408,18795
+extern int pthread_rwlockattr_getpshared(409,18926
+extern int pthread_rwlockattr_setpshared(410,19108
+extern int pthread_rwlockattr_getkind_np(411,19257
+extern int pthread_rwlockattr_setkind_np(412,19436
+extern int pthread_cond_init(413,19582
+extern int pthread_cond_destroy(414,19760
+extern int pthread_cond_signal(415,19879
+extern int pthread_cond_broadcast(416,19997
+extern int pthread_cond_wait(417,20118
+extern int pthread_cond_timedwait(418,20255
+extern int pthread_condattr_init(419,20447
+extern int pthread_condattr_destroy(420,20571
+extern int pthread_condattr_getpshared(421,20698
+extern int pthread_condattr_setpshared(422,20876
+extern int pthread_condattr_getclock(423,21021
+extern int pthread_condattr_setclock(424,21206
+extern int pthread_spin_init(425,21358
+extern int pthread_spin_destroy(426,21493
+extern int pthread_spin_lock(427,21616
+extern int pthread_spin_trylock(428,21736
+extern int pthread_spin_unlock(429,21859
+extern int pthread_barrier_init(430,21981
+extern int pthread_barrier_destroy(431,22188
+extern int pthread_barrier_wait(432,22316
+extern int pthread_barrierattr_init(433,22441
+extern int pthread_barrierattr_destroy(434,22571
+extern int pthread_barrierattr_getpshared(435,22704
+extern int pthread_barrierattr_setpshared(436,22888
+extern int pthread_key_create(437,23039
+extern int pthread_key_delete(438,23189
+extern void * pthread_getspecific(439,23270
+extern int pthread_setspecific(440,23355
+extern int pthread_getcpuclockid(441,23463
+extern int pthread_atfork(442,23607
+typedef signed char int8_t;443,23738
+typedef short int int16_t;444,23766
+typedef int int32_t;445,23793
+typedef long long int int64_t;447,23828
+typedef unsigned char uint8_t;448,23859
+typedef unsigned short int uint16_t;449,23890
+typedef unsigned int uint32_t;450,23927
+typedef unsigned long long int uint64_t;452,23972
+typedef signed char int_least8_t;453,24013
+typedef short int int_least16_t;454,24047
+typedef int int_least32_t;455,24080
+typedef long long int int_least64_t;457,24121
+typedef unsigned char uint_least8_t;458,24158
+typedef unsigned short int uint_least16_t;459,24195
+typedef unsigned int uint_least32_t;460,24238
+typedef unsigned long long int uint_least64_t;462,24289
+typedef signed char int_fast8_t;463,24336
+typedef int int_fast16_t;464,24369
+typedef int int_fast32_t;465,24395
+typedef long long int int_fast64_t;467,24435
+typedef unsigned char uint_fast8_t;468,24471
+typedef unsigned int uint_fast16_t;469,24507
+typedef unsigned int uint_fast32_t;470,24543
+typedef unsigned long long int uint_fast64_t;472,24593
+typedef int intptr_t;473,24639
+typedef unsigned int uintptr_t;474,24661
+typedef long long int intmax_t;476,24707
+typedef unsigned long long int uintmax_t;478,24753
+typedef struct mintaka_thread_info mintaka_thread_info;479,24795
+typedef intptr_t channel_t;506,26178
+extern void __assert_fail(523,27161
+extern void __assert_perror_fail(524,27346
+extern void __assert(525,27524
+typedef struct _IO_FILE FILE;527,27681
+typedef struct _IO_FILE __FILE;528,27711
+typedef int wchar_t;529,27743
+typedef unsigned int wint_t;530,27764
+} __mbstate_t;539,27938
+} _G_fpos_t;544,28023
+} _G_fpos64_t;549,28108
+    __GCONV_OK 552,28131
+    __GCONV_NOCONV,553,28152
+    __GCONV_NODB,554,28173
+    __GCONV_NOMEM,555,28192
+    __GCONV_EMPTY_INPUT,556,28212
+    __GCONV_FULL_OUTPUT,557,28238
+    __GCONV_ILLEGAL_INPUT,558,28264
+    __GCONV_INCOMPLETE_INPUT,559,28292
+    __GCONV_ILLEGAL_DESCRIPTOR,560,28323
+    __GCONV_INTERNAL_ERROR561,28356
+    __GCONV_IS_LAST 565,28394
+    __GCONV_IS_LAST = 0x0001,x0001565,28394
+    __GCONV_IGNORE_ERRORS 566,28425
+    __GCONV_IGNORE_ERRORS = 0x0002x0002566,28425
+typedef int (* __gconv_fct)572,28567
+typedef wint_t (* __gconv_btowc_fct)573,28736
+typedef int (* __gconv_init_fct)574,28812
+typedef void (* __gconv_end_fct)575,28869
+typedef int (* __gconv_trans_fct)576,28926
+typedef int (* __gconv_trans_context_fct)577,29124
+typedef int (* __gconv_trans_query_fct)578,29259
+typedef int (* __gconv_trans_init_fct)579,29344
+typedef void (* __gconv_trans_end_fct)580,29407
+struct __gconv_trans_data581,29455
+struct __gconv_step589,29694
+struct __gconv_step_data607,30190
+typedef struct __gconv_info618,30480
+} * __gconv_t;624,30639
+} _G_iconv_t;633,30844
+typedef int _G_int16_t 634,30858
+typedef int _G_int32_t 635,30916
+typedef unsigned int _G_uint16_t 636,30974
+typedef unsigned int _G_uint32_t 637,31042
+typedef __builtin_va_list __gnuc_va_list;638,31110
+typedef void _IO_lock_t;641,31188
+struct _IO_marker642,31213
+enum __codecvt_result648,31322
+    __codecvt_ok,650,31346
+    __codecvt_partial,651,31365
+    __codecvt_error,652,31389
+    __codecvt_noconv653,31411
+struct _IO_FILE655,31435
+typedef struct _IO_FILE _IO_FILE;687,32313
+typedef __ssize_t __io_read_fn(692,32503
+typedef __ssize_t __io_write_fn(693,32583
+typedef int __io_seek_fn(694,32667
+typedef int __io_close_fn(695,32738
+extern int _IO_feof(704,33098
+extern int _IO_ferror(705,33165
+extern void _IO_flockfile(707,33280
+extern void _IO_funlockfile(708,33348
+extern int _IO_ftrylockfile(709,33418
+extern void _IO_free_backup_area(716,33907
+typedef _G_fpos_t fpos_t;717,33982
+extern int remove(721,34106
+extern int rename(722,34181
+extern char * tmpnam(724,34302
+extern char * tmpnam_r(725,34365
+extern char * tempnam(726,34430
+extern FILE * fdopen(732,34884
+extern void setbuf(733,34969
+extern int setvbuf(734,35069
+extern void setbuffer(735,35194
+extern void setlinebuf(736,35312
+extern int sprintf(739,35528
+extern int vsprintf(742,35816
+extern int snprintf(743,35945
+extern int vsnprintf(744,36120
+extern int sscanf(747,36457
+extern void clearerr(778,38204
+extern int feof(779,38272
+extern int ferror(780,38335
+extern void clearerr_unlocked(781,38400
+extern int feof_unlocked(782,38477
+extern int ferror_unlocked(783,38549
+extern int fileno(787,38728
+extern int fileno_unlocked(788,38793
+extern char * ctermid(791,38974
+extern void flockfile(792,39038
+extern int ftrylockfile(793,39107
+extern void funlockfile(794,39178
+struct timeval795,39249
+typedef __suseconds_t suseconds_t;800,39325
+typedef long int __fd_mask;801,39360
+} fd_set;805,39468
+typedef __fd_mask fd_mask;806,39478
+struct timezone809,39877
+typedef struct timezone *__restrict __timezone_ptr_t;814,39950
+extern int gettimeofday(815,40004
+extern int settimeofday(816,40146
+extern int adjtime(817,40295
+enum __itimer_which818,40407
+    ITIMER_REAL 820,40429
+    ITIMER_VIRTUAL 821,40451
+    ITIMER_PROF 822,40476
+struct itimerval824,40499
+typedef int __itimer_which_t;829,40590
+extern int getitimer(830,40620
+extern int setitimer(831,40725
+extern int utimes(832,40882
+extern int lutimes(833,41018
+extern int futimes(834,41155
+enum mintaka_state835,41247
+    MINTAKA_STATE_STOP 837,41268
+    MINTAKA_STATE_RUN 838,41298
+    MINTAKA_STATE_SCHEDULE 839,41326
+    MINTAKA_STATE_IDLE 840,41359
+    MINTAKA_STATE_BLOCK 841,41388
+    MINTAKA_STATE_SYNCH 842,41418
+    MINTAKA_STATE_WAIT_SEND 843,41448
+    MINTAKA_STATE_SEND 844,41482
+    MINTAKA_STATE_WAIT_RECEIVE 845,41512
+    MINTAKA_STATE_RECEIVE 846,41549
+    MINTAKA_STATE_COUNT 847,41582
+struct mintaka_record849,41614
+struct mintaka_thread_info858,41791
+static inline uint64_t mintaka_get_ts(870,42085
+static inline void mintaka_record3_at(878,42346
+static inline void mintaka_record3(898,43023
+static inline void mintaka_record1(903,43193
+static inline void mintaka_record1_at(907,43277
+static inline void mintaka_record2(911,43384
+static inline void mintaka_record2_at(917,43572
+static inline void mintaka_ensure_buffer(923,43783
+static inline void mintaka_set_enable(932,44260
+static inline int mintaka_get_enable(936,44344
+static inline void mintaka_set_state(940,44419
+static inline void mintaka_set_state_at(946,44712
+static inline int mintaka_get_state(952,45028
+static inline void mintaka_state_run(956,45119
+static inline void mintaka_state_schedule(960,45208
+static inline void mintaka_state_block(964,45307
+static inline void mintaka_state_synch(968,45400
+static inline void mintaka_state_idle(972,45493
+static inline void mintaka_event(976,45584
+static inline void mintaka_event_at(981,45878
+static inline void mintaka_wait_send(986,46195
+static inline void mintaka_send(998,46818
+static inline void mintaka_send_at(1002,46939
+static inline void mintaka_wait_receive(1006,47083
+static inline void mintaka_receive(1018,47715
+static inline void mintaka_receive_at(1022,47842
+static inline void mintaka_state_and_event(1026,47992
+static inline void mintaka_send_and_state(1036,48457
+static inline void mintaka_receive_and_state(1045,48728
+static inline int mintaka_index_allocate(1054,49005
+static inline int mintaka_index_allocate2(1058,49181
+static inline void mintaka_clock_synchronize(1062,49375
+typedef struct task * task_t;1069,49685
+extern void * memcpy(1108,51330
+extern void * memmove(1109,51485
+extern void * memccpy(1110,51621
+extern void * memset(1111,51786
+extern int memcmp(1112,51902
+extern void * memchr(1113,52065
+extern char * strcpy(1114,52215
+extern char * strncpy(1115,52358
+extern char * strcat(1116,52514
+extern char * strncat(1117,52657
+extern int strcmp(1118,52813
+extern int strncmp(1119,52964
+extern int strcoll(1120,53128
+extern size_t strxfrm(1121,53280
+extern char * strdup(1122,53433
+extern char * strchr(1123,53564
+extern char * strrchr(1124,53702
+extern size_t strcspn(1125,53841
+extern size_t strspn(1126,53999
+extern char * strpbrk(1127,54156
+extern char * strstr(1128,54314
+extern char * strtok(1129,54478
+extern char * __strtok_r(1130,54617
+extern char * strtok_r(1131,54794
+extern size_t strlen(1132,54969
+extern char * strerror(1133,55098
+extern int strerror_r(1134,55165
+extern void __bzero(1135,55321
+extern void bcopy(1136,55427
+extern void bzero(1137,55559
+extern int bcmp(1138,55663
+extern char * index(1139,55824
+extern char * rindex(1140,55961
+extern int ffs(1141,56099
+extern int strcasecmp(1142,56180
+extern int strncasecmp(1143,56335
+extern char * strsep(1144,56503
+} div_t;1149,56706
+} ldiv_t;1154,56778
+extern size_t __ctype_get_mb_cur_max(1155,56788
+extern double atof(1156,56861
+extern int atoi(1157,56991
+extern long int atol(1158,57118
+extern long long int atoll(1160,57264
+extern double strtod(1161,57402
+extern long int strtol(1162,57547
+extern unsigned long int strtoul(1163,57706
+extern long long int strtoq(1165,57889
+extern unsigned long long int strtouq(1167,58067
+extern long long int strtoll(1169,58255
+extern unsigned long long int strtoull(1171,58434
+extern double __strtod_internal(1172,58609
+extern float __strtof_internal(1173,58778
+extern long double __strtold_internal(1174,58946
+extern long int __strtol_internal(1175,59121
+extern unsigned long int __strtoul_internal(1176,59304
+extern long long int __strtoll_internal(1178,59511
+extern unsigned long long int __strtoull_internal(1180,59714
+extern char * l64a(1181,59913
+extern long int a64l(1182,59976
+typedef __u_char u_char;1183,60105
+typedef __u_short u_short;1184,60130
+typedef __u_int u_int;1185,60157
+typedef __u_long u_long;1186,60180
+typedef __quad_t quad_t;1187,60205
+typedef __u_quad_t u_quad_t;1188,60230
+typedef __fsid_t fsid_t;1189,60259
+typedef __loff_t loff_t;1190,60284
+typedef __ino_t ino_t;1191,60309
+typedef __dev_t dev_t;1192,60332
+typedef __gid_t gid_t;1193,60355
+typedef __mode_t mode_t;1194,60378
+typedef __nlink_t nlink_t;1195,60403
+typedef __uid_t uid_t;1196,60430
+typedef __off_t off_t;1197,60453
+typedef __id_t id_t;1198,60476
+typedef __ssize_t ssize_t;1199,60497
+typedef __daddr_t daddr_t;1200,60524
+typedef __caddr_t caddr_t;1201,60551
+typedef __key_t key_t;1202,60578
+typedef unsigned long int ulong;1203,60601
+typedef unsigned short int ushort;1204,60634
+typedef unsigned int uint;1205,60669
+typedef unsigned int u_int8_t 1206,60696
+typedef unsigned int u_int16_t 1207,60761
+typedef unsigned int u_int32_t 1208,60827
+typedef unsigned int u_int64_t 1209,60893
+typedef int register_t 1210,60959
+extern __inline unsigned int gnu_dev_major(1212,61033
+extern __inline unsigned int gnu_dev_minor(1214,61150
+extern __inline unsigned long long int gnu_dev_makedev(1216,61267
+extern __inline unsigned int __attribute__((__nothrow__)) gnu_dev_major(1218,61410
+extern __inline unsigned int __attribute__((__nothrow__)) gnu_dev_minor(1223,61607
+extern __inline unsigned long long int __attribute__((__nothrow__)) gnu_dev_makedev(1228,61795
+typedef __blkcnt_t blkcnt_t;1232,62096
+typedef __fsblkcnt_t fsblkcnt_t;1233,62125
+typedef __fsfilcnt_t fsfilcnt_t;1234,62158
+extern long int random(1235,62191
+extern void srandom(1236,62250
+extern char * initstate(1237,62321
+extern char * setstate(1238,62466
+struct random_data1239,62570
+extern int random_r(1249,62761
+extern int srandom_r(1250,62914
+extern int initstate_r(1251,63046
+extern int setstate_r(1252,63241
+extern int rand(1253,63395
+extern void srand(1254,63447
+extern int rand_r(1255,63516
+extern double drand48(1256,63587
+extern double erand48(1257,63645
+extern long int lrand48(1258,63760
+extern long int nrand48(1259,63820
+extern long int mrand48(1260,63937
+extern long int jrand48(1261,63997
+extern void srand48(1262,64114
+extern unsigned short int * seed48(1263,64184
+extern void lcong48(1264,64314
+struct drand48_data1265,64427
+extern int drand48_r(1273,64629
+extern int erand48_r(1274,64786
+extern int lrand48_r(1275,64974
+extern int nrand48_r(1276,65133
+extern int mrand48_r(1277,65323
+extern int jrand48_r(1278,65482
+extern int srand48_r(1279,65672
+extern int seed48_r(1280,65807
+extern int lcong48_r(1281,65957
+extern void * malloc(1282,66106
+extern void * calloc(1283,66200
+extern void * realloc(1284,66310
+extern void free(1285,66459
+extern void cfree(1286,66520
+extern void * alloca(1287,66582
+extern void * valloc(1288,66648
+extern int posix_memalign(1289,66742
+extern void abort(1290,66884
+extern int atexit(1291,66968
+extern int on_exit(1292,67071
+extern void exit(1293,67211
+extern char * getenv(1294,67302
+extern char * __secure_getenv(1295,67408
+extern int putenv(1296,67523
+extern int setenv(1297,67620
+extern int unsetenv(1298,67762
+extern int clearenv(1299,67835
+extern char * mktemp(1300,67891
+extern int mkstemp(1301,67993
+extern char * mkdtemp(1302,68064
+extern char * realpath(1304,68212
+typedef int (* __compar_fn_t)1305,68327
+extern void * bsearch(1306,68390
+extern void qsort(1307,68551
+extern int abs(1308,68675
+extern long int labs(1309,68756
+extern div_t div(1310,68848
+extern ldiv_t ldiv(1311,68948
+extern char * ecvt(1312,69060
+extern char * fcvt(1313,69223
+extern char * gcvt(1314,69386
+extern char * qecvt(1315,69511
+extern char * qfcvt(1316,69680
+extern char * qgcvt(1317,69849
+extern int ecvt_r(1318,69980
+extern int fcvt_r(1319,70183
+extern int qecvt_r(1320,70386
+extern int qfcvt_r(1321,70595
+extern int mblen(1322,70804
+extern int mbtowc(1323,70883
+extern int wctomb(1324,71000
+extern size_t mbstowcs(1325,71077
+extern size_t wcstombs(1326,71200
+extern int rpmatch(1327,71323
+extern int getloadavg(1329,71469
+extern double acos(1330,71586
+extern double __acos(1331,71647
+extern double asin(1332,71710
+extern double __asin(1333,71771
+extern double atan(1334,71834
+extern double __atan(1335,71895
+extern double atan2(1336,71958
+extern double __atan2(1337,72032
+extern double cos(1338,72108
+extern double __cos(1339,72168
+extern double sin(1340,72230
+extern double __sin(1341,72290
+extern double tan(1342,72352
+extern double __tan(1343,72412
+extern double cosh(1344,72474
+extern double __cosh(1345,72535
+extern double sinh(1346,72598
+extern double __sinh(1347,72659
+extern double tanh(1348,72722
+extern double __tanh(1349,72783
+extern double acosh(1350,72846
+extern double __acosh(1351,72908
+extern double asinh(1352,72972
+extern double __asinh(1353,73034
+extern double atanh(1354,73098
+extern double __atanh(1355,73160
+extern double exp(1356,73224
+extern double __exp(1357,73284
+extern double frexp(1358,73346
+extern double __frexp(1359,73426
+extern double ldexp(1360,73508
+extern double __ldexp(1361,73586
+extern double log(1362,73666
+extern double __log(1363,73726
+extern double log10(1364,73788
+extern double __log10(1365,73850
+extern double modf(1366,73914
+extern double __modf(1367,73992
+extern double expm1(1368,74072
+extern double __expm1(1369,74134
+extern double log1p(1370,74198
+extern double __log1p(1371,74260
+extern double logb(1372,74324
+extern double __logb(1373,74385
+extern double pow(1374,74448
+extern double __pow(1375,74520
+extern double sqrt(1376,74594
+extern double __sqrt(1377,74655
+extern double hypot(1378,74718
+extern double __hypot(1379,74792
+extern double cbrt(1380,74868
+extern double __cbrt(1381,74929
+extern double ceil(1382,74992
+extern double __ceil(1383,75080
+extern double fabs(1384,75170
+extern double __fabs(1385,75258
+extern double floor(1386,75348
+extern double __floor(1387,75437
+extern double fmod(1388,75528
+extern double __fmod(1389,75601
+extern int __isinf(1390,75676
+extern int __finite(1391,75768
+extern int isinf(1392,75861
+extern int finite(1393,75951
+extern double drem(1394,76042
+extern double __drem(1395,76115
+extern double significand(1396,76190
+extern double __significand(1397,76258
+extern double copysign(1398,76328
+extern double __copysign(1399,76432
+extern int __isnan(1400,76538
+extern int isnan(1401,76630
+extern double j0(1402,76720
+extern double __j0(1403,76775
+extern double j1(1404,76832
+extern double __j1(1405,76887
+extern double jn(1406,76944
+extern double __jn(1407,77004
+extern double y0(1408,77066
+extern double __y0(1409,77121
+extern double y1(1410,77178
+extern double __y1(1411,77233
+extern double yn(1412,77290
+extern double __yn(1413,77350
+extern double erf(1414,77412
+extern double __erf(1415,77468
+extern double erfc(1416,77526
+extern double __erfc(1417,77583
+extern double lgamma(1418,77642
+extern double __lgamma(1419,77701
+extern double gamma(1420,77762
+extern double __gamma(1421,77820
+extern double lgamma_r(1422,77880
+extern double __lgamma_r(1423,77959
+extern double rint(1424,78040
+extern double __rint(1425,78101
+extern double nextafter(1426,78164
+extern double __nextafter(1427,78269
+extern double remainder(1428,78376
+extern double __remainder(1429,78454
+extern double scalbn(1430,78534
+extern double __scalbn(1431,78606
+extern int ilogb(1432,78680
+extern int __ilogb(1433,78739
+extern double scalb(1434,78800
+extern double __scalb(1435,78874
+extern float acosf(1436,78950
+extern float __acosf(1437,79010
+extern float asinf(1438,79072
+extern float __asinf(1439,79132
+extern float atanf(1440,79194
+extern float __atanf(1441,79254
+extern float atan2f(1442,79316
+extern float __atan2f(1443,79388
+extern float cosf(1444,79462
+extern float __cosf(1445,79521
+extern float sinf(1446,79582
+extern float __sinf(1447,79641
+extern float tanf(1448,79702
+extern float __tanf(1449,79761
+extern float coshf(1450,79822
+extern float __coshf(1451,79882
+extern float sinhf(1452,79944
+extern float __sinhf(1453,80004
+extern float tanhf(1454,80066
+extern float __tanhf(1455,80126
+extern float acoshf(1456,80188
+extern float __acoshf(1457,80249
+extern float asinhf(1458,80312
+extern float __asinhf(1459,80373
+extern float atanhf(1460,80436
+extern float __atanhf(1461,80497
+extern float expf(1462,80560
+extern float __expf(1463,80619
+extern float frexpf(1464,80680
+extern float __frexpf(1465,80759
+extern float ldexpf(1466,80840
+extern float __ldexpf(1467,80917
+extern float logf(1468,80996
+extern float __logf(1469,81055
+extern float log10f(1470,81116
+extern float __log10f(1471,81177
+extern float modff(1472,81240
+extern float __modff(1473,81316
+extern float expm1f(1474,81394
+extern float __expm1f(1475,81455
+extern float log1pf(1476,81518
+extern float __log1pf(1477,81579
+extern float logbf(1478,81642
+extern float __logbf(1479,81702
+extern float powf(1480,81764
+extern float __powf(1481,81834
+extern float sqrtf(1482,81906
+extern float __sqrtf(1483,81966
+extern float hypotf(1484,82028
+extern float __hypotf(1485,82100
+extern float cbrtf(1486,82174
+extern float __cbrtf(1487,82234
+extern float ceilf(1488,82296
+extern float __ceilf(1489,82383
+extern float fabsf(1490,82472
+extern float __fabsf(1491,82559
+extern float floorf(1492,82648
+extern float __floorf(1493,82736
+extern float fmodf(1494,82826
+extern float __fmodf(1495,82897
+extern int __isinff(1496,82970
+extern int __finitef(1497,83062
+extern int isinff(1498,83155
+extern int finitef(1499,83245
+extern float dremf(1500,83336
+extern float __dremf(1501,83407
+extern float significandf(1502,83480
+extern float __significandf(1503,83547
+extern float copysignf(1504,83616
+extern float __copysignf(1505,83718
+extern int __isnanf(1506,83822
+extern int isnanf(1507,83914
+extern float j0f(1508,84004
+extern float __j0f(1509,84058
+extern float j1f(1510,84114
+extern float __j1f(1511,84168
+extern float jnf(1512,84224
+extern float __jnf(1513,84283
+extern float y0f(1514,84344
+extern float __y0f(1515,84398
+extern float y1f(1516,84454
+extern float __y1f(1517,84508
+extern float ynf(1518,84564
+extern float __ynf(1519,84623
+extern float erff(1520,84684
+extern float __erff(1521,84739
+extern float erfcf(1522,84796
+extern float __erfcf(1523,84852
+extern float lgammaf(1524,84910
+extern float __lgammaf(1525,84968
+extern float gammaf(1526,85028
+extern float __gammaf(1527,85085
+extern float lgammaf_r(1528,85144
+extern float __lgammaf_r(1529,85222
+extern float rintf(1530,85302
+extern float __rintf(1531,85362
+extern float nextafterf(1532,85424
+extern float __nextafterf(1533,85527
+extern float remainderf(1534,85632
+extern float __remainderf(1535,85708
+extern float scalbnf(1536,85786
+extern float __scalbnf(1537,85857
+extern int ilogbf(1538,85930
+extern int __ilogbf(1539,85989
+extern float scalbf(1540,86050
+extern float __scalbf(1541,86122
+extern long double acosl(1542,86196
+extern long double __acosl(1543,86268
+extern long double asinl(1544,86342
+extern long double __asinl(1545,86414
+extern long double atanl(1546,86488
+extern long double __atanl(1547,86560
+extern long double atan2l(1548,86634
+extern long double __atan2l(1549,86724
+extern long double cosl(1550,86816
+extern long double __cosl(1551,86887
+extern long double sinl(1552,86960
+extern long double __sinl(1553,87031
+extern long double tanl(1554,87104
+extern long double __tanl(1555,87175
+extern long double coshl(1556,87248
+extern long double __coshl(1557,87320
+extern long double sinhl(1558,87394
+extern long double __sinhl(1559,87466
+extern long double tanhl(1560,87540
+extern long double __tanhl(1561,87612
+extern long double acoshl(1562,87686
+extern long double __acoshl(1563,87759
+extern long double asinhl(1564,87834
+extern long double __asinhl(1565,87907
+extern long double atanhl(1566,87982
+extern long double __atanhl(1567,88055
+extern long double expl(1568,88130
+extern long double __expl(1569,88201
+extern long double frexpl(1570,88274
+extern long double __frexpl(1571,88365
+extern long double ldexpl(1572,88458
+extern long double __ldexpl(1573,88547
+extern long double logl(1574,88638
+extern long double __logl(1575,88709
+extern long double log10l(1576,88782
+extern long double __log10l(1577,88855
+extern long double modfl(1578,88930
+extern long double __modfl(1579,89024
+extern long double expm1l(1580,89120
+extern long double __expm1l(1581,89193
+extern long double log1pl(1582,89268
+extern long double __log1pl(1583,89341
+extern long double logbl(1584,89416
+extern long double __logbl(1585,89488
+extern long double powl(1586,89562
+extern long double __powl(1587,89650
+extern long double sqrtl(1588,89740
+extern long double __sqrtl(1589,89812
+extern long double hypotl(1590,89886
+extern long double __hypotl(1591,89976
+extern long double cbrtl(1592,90068
+extern long double __cbrtl(1593,90140
+extern long double ceill(1594,90214
+extern long double __ceill(1595,90313
+extern long double fabsl(1596,90414
+extern long double __fabsl(1597,90513
+extern long double floorl(1598,90614
+extern long double __floorl(1599,90714
+extern long double fmodl(1600,90816
+extern long double __fmodl(1601,90905
+extern int __isinfl(1602,90996
+extern int __finitel(1603,91094
+extern int isinfl(1604,91193
+extern int finitel(1605,91289
+extern long double dreml(1606,91386
+extern long double __dreml(1607,91475
+extern long double significandl(1608,91566
+extern long double __significandl(1609,91645
+extern long double copysignl(1610,91726
+extern long double __copysignl(1611,91846
+extern int __isnanl(1612,91968
+extern int isnanl(1613,92066
+extern long double j0l(1614,92162
+extern long double __j0l(1615,92228
+extern long double j1l(1616,92296
+extern long double __j1l(1617,92362
+extern long double jnl(1618,92430
+extern long double __jnl(1619,92501
+extern long double y0l(1620,92574
+extern long double __y0l(1621,92640
+extern long double y1l(1622,92708
+extern long double __y1l(1623,92774
+extern long double ynl(1624,92842
+extern long double __ynl(1625,92913
+extern long double erfl(1626,92986
+extern long double __erfl(1627,93053
+extern long double erfcl(1628,93122
+extern long double __erfcl(1629,93190
+extern long double lgammal(1630,93260
+extern long double __lgammal(1631,93330
+extern long double gammal(1632,93402
+extern long double __gammal(1633,93471
+extern long double lgammal_r(1634,93542
+extern long double __lgammal_r(1635,93632
+extern long double rintl(1636,93724
+extern long double __rintl(1637,93796
+extern long double nextafterl(1638,93870
+extern long double __nextafterl(1639,93991
+extern long double remainderl(1640,94114
+extern long double __remainderl(1641,94208
+extern long double scalbnl(1642,94304
+extern long double __scalbnl(1643,94387
+extern int ilogbl(1644,94472
+extern int __ilogbl(1645,94537
+extern long double scalbl(1646,94604
+extern long double __scalbl(1647,94694
+    _IEEE_ 1651,94822
+    _SVID_,1652,94840
+    _XOPEN_,1653,94853
+    _POSIX_,1654,94867
+    _ISOC_1655,94881
+} _LIB_VERSION_TYPE;1656,94892
+struct exception1658,94952
+void task1_outline(1689,97984
+void task2_outline(1779,101307
+void task3_outline(1901,105802
+void task4_outline(1978,108451
+void task5_outline(2068,111606
+void task6_outline(2171,115208
+void task8_outline(2280,119443
+void task7_outline(2444,126105
+int acotescc__main(2539,129477
+int main(2890,146518
+
+arctan.c,341
+static const long arctanTable[arctanTable6,153
+void arctan(40,2568
+#define Latency_on 43,2696
+#define cordic_steps_c 44,2718
+#define inter_reg_steps_c 45,2744
+#define coriq0_in_width_c 46,2772
+#define coriq0_out_width_c 47,2801
+#define coriq0_alpha_width_c 48,2830
+#define max_iq_width_c 49,2863
+#define max_angle_width_c 50,2896
+
+arctan.h,34
+#define oversampling_factor 5,58
+
+bf2_fifo_stage0.c,27
+void bf2_fifo_stage0(3,30
+
+bf2_fifo_stage1.c,27
+void bf2_fifo_stage1(3,30
+
+bf2_fifo_stage2.c,27
+void bf2_fifo_stage2(3,30
+
+bf2_fifo_stage3.c,27
+void bf2_fifo_stage3(3,30
+
+bf2_fifo_stage4.c,27
+void bf2_fifo_stage4(3,30
+
+bf2_fifo_stage5.c,27
+void bf2_fifo_stage5(4,31
+
+bf2i.c,16
+void bf2i(3,19
+
+bf2ii.c,17
+void bf2ii(3,20
+
+CHC.c,32
+void channel_correction(10,169
+
+CHE.c,32
+void channel_estimation(11,370
+
+cordic_turn.c,23
+void cordic_turn(5,60
+
+fft64.c,18
+void fft64(6,126
+
+fine_time_sync.c,803
+#define Searchwin_length 8,129
+#define time_corr_long_thresh 9,164
+static int data_store_real[data_store_real11,200
+static int data_store_imag[data_store_imag12,242
+static int data_store_index;13,284
+static int data_quant_real[data_quant_real14,313
+static int data_quant_imag[data_quant_imag15,345
+static int data_quant_index;16,377
+static int data_quant_trs_real[data_quant_trs_real17,406
+static int data_quant_trs_imag[data_quant_trs_imag18,442
+static int fine_time_est_int;19,478
+static int fine_time_est_new;20,508
+static int FTS_count;21,538
+static int difference_in_fine_time_est;22,560
+static int maximum;23,600
+static int maximum_new;24,620
+static int maximum_found;25,644
+static int downsampling_flag;26,670
+void fine_time_sync_init(28,701
+void fine_time_sync(78,1817
+
+fine_time_sync.h,27
+#define buffer_depth 6,73
+
+freq_sync_correl_2STS.c,34
+void freq_sync_correl_2STS(5,157
+
+freq_sync_correl_2STS.h,33
+#define oversampling_factor 1,0
+
+frequency_sync_slidsum.c,545
+#define burst_threshold 8,260
+#define FreqEstStartSlSum 10,341
+#define FreqEstStopSlSum 12,404
+static int freq2_i 15,443
+static int freq2_q 16,467
+static int freq1_i 17,491
+static int freq1_q 18,515
+static int correlation_1ST_store_real[correlation_1ST_store_real20,597
+static int correlation_1ST_store_imag[correlation_1ST_store_imag21,653
+static int correlation_1ST_store_index;22,709
+static int burst_found_pulse_64d[burst_found_pulse_64d23,749
+static int burst_found_pulse_64d_index;24,831
+void frequency_sync_slidsum(27,873
+
+frequency_sync_slidsum.h,28
+#define correl_sum_len 1,0
+
+mark_GI_data.c,24
+void mark_GI_data(3,27
+
+mstream_demux.c,25
+void mstream_demux(3,28
+
+mstream_demux.h,24
+#define buffer_len 1,0
+
+scale_reorder_removeGB.c,34
+void scale_reorder_removeGB(3,37
+
+scale_reorder_removeGB.h,24
+#define buffer_len 1,0
+
+sync_fft_che_top_tb.c,144
+#define buffer_len 22,537
+typedef struct icomplex25,561
+} icomplex;29,607
+typedef struct fcomplex31,620
+} fcomplex;35,670
+int main(37,683
+
+timeshift.c,21
+void timeshift(3,24
+
+twiddle_mult21.c,117
+const float twiddle21_re[twiddle21_re3,29
+const float twiddle21_im[twiddle21_im8,286
+void twiddle_mult21(13,547
+
+twiddle_mult21.h,28
+#define twiddle21_size 1,0
+
+twiddle_mult43.c,119
+const float twiddle43_re[twiddle43_re3,29
+const float twiddle43_im[twiddle43_im12,916
+void twiddle_mult43(21,1825
+
+twiddle_mult43.h,28
+#define twiddle43_size 1,0
+
+timeshift.h,0
+
+mark_GI_data.h,0
+
+fft64.h,0
+
+cordic_turn.h,0
+
+CHE.h,0
+
+bf2ii.h,0
+
+bf2i.h,0
+
+bf2_fifo_stage5.h,0
+
+bf2_fifo_stage4.h,0
+
+bf2_fifo_stage3.h,0
+
+bf2_fifo_stage2.h,0
+
+bf2_fifo_stage1.h,0
+
+bf2_fifo_stage0.h,0

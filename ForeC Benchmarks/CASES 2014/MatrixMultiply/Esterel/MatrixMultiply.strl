@@ -1,0 +1,51 @@
+module MatrixMultiply:
+type Matrix;
+input size : integer;
+
+procedure fillMatrix(Matrix)(integer, integer);
+procedure multiply(Matrix, Matrix, Matrix)(integer, integer);
+
+var v_size : integer,
+    v_matrix_A : Matrix,
+    v_matrix_B : Matrix,
+    v_matrix_C : Matrix in
+        await size do
+            v_size := ?size
+        end;
+        [
+            call fillMatrix(v_matrix_A)(0, v_size)
+            ||
+            call fillMatrix(v_matrix_A)(1, v_size)
+            ||
+            call fillMatrix(v_matrix_A)(2, v_size)
+            ||
+            call fillMatrix(v_matrix_A)(3, v_size)
+            ||
+            call fillMatrix(v_matrix_B)(0, v_size)
+            ||
+            call fillMatrix(v_matrix_B)(1, v_size)
+            ||
+            call fillMatrix(v_matrix_B)(2, v_size)
+            ||
+            call fillMatrix(v_matrix_B)(3, v_size)
+        ];
+        [
+            call multiply(v_matrix_A, v_matrix_B, v_matrix_C)(0, v_size)
+            ||
+            call multiply(v_matrix_A, v_matrix_B, v_matrix_C)(1, v_size)
+            ||
+            call multiply(v_matrix_A, v_matrix_B, v_matrix_C)(2, v_size)
+            ||
+            call multiply(v_matrix_A, v_matrix_B, v_matrix_C)(3, v_size)
+            ||
+            call multiply(v_matrix_A, v_matrix_B, v_matrix_C)(4, v_size)
+            ||
+            call multiply(v_matrix_A, v_matrix_B, v_matrix_C)(5, v_size)
+            ||
+            call multiply(v_matrix_A, v_matrix_B, v_matrix_C)(6, v_size)
+            ||
+            call multiply(v_matrix_A, v_matrix_B, v_matrix_C)(7, v_size)
+        ]
+end var
+
+end module

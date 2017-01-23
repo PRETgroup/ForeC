@@ -1,0 +1,11 @@
+architecture:
+microblaze
+
+0:
+main
+do_step_0
+do_step_1
+
+1:
+do_step_2
+do_step_3

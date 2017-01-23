@@ -1,0 +1,16 @@
+architecture:
+x86
+
+0:
+main
+display_double0
+
+1:
+display_double1
+
+2:
+display_double2
+
+3:
+display_double3
+

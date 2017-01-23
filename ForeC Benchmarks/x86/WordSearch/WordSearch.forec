@@ -1,0 +1,155 @@
+#include <sys/time.h>
+#include <stdio.h>
+#include <string.h>
+
+typedef int FILE;
+#define FILE__global_0_0 FILE
+
+int NULL;
+#define NULL__global_0_0 NULL
+
+input char newWord[20] = "";
+char oldWord[20] = "";
+shared char (*oldWord_ptr)[20] = &oldWord;
+shared FILE *file1;
+shared FILE *file2;
+
+typedef struct {
+	int last;
+	int current;
+} Accum;
+
+shared Accum found = {.last = 0, .current = 0} combine with plus;
+
+int fgetw(FILE *file, char wordFound[20]);
+int fgetws(FILE *file, char word[20], int *wordsLeft);
+const Accum plus(Accum *lhs, const Accum *rhs);
+
+thread search1(void);
+thread search2(void);
+
+int main(int argc, char **argv) {
+	struct timeval startTime, endTime;
+	gettimeofday(&startTime, 0);
+	//- - - -
+	if (argc != 4) {
+		printf("Usage: ./WordSearch <word> <file1> <file2>\n");
+		return 0;
+	}
+	strcpy(newWord, argv[1]);
+	
+	file1 = fopen(argv[2], "r");
+	if (file1 == NULL) {
+		printf("Could not open \"%s\".\n", argv[2]);
+	}
+	file2 = fopen(argv[3], "r");
+	if (file2 == NULL) {
+		printf("Could not open \"%s\".\n", argv[3]);
+	}
+	
+	while (1) {
+		found.current = 0;
+		found.last = 0;
+		strcpy(oldWord, newWord);
+
+		abort {
+			par(search1, search2);
+			printf("\"%s\" appears %d times in %s and %s.\n", *oldWord_ptr, found.current, argv[2], argv[3]);
+
+			while (1) {
+				strcpy(newWord, "");	// Mimic new input.
+				pause;
+				strcpy(newWord, "");	// Mimic new input.
+				pause;
+				strcpy(newWord, "if");	// Mimic new input.
+				pause;
+			}
+		} when (strcmp(oldWord, newWord) != 0 && strcmp("", newWord) != 0);
+	}
+	
+	fclose(file1);
+	fclose(file2);
+	
+	printf("Number of times \"%s\" appears in %s and %s is %d.\n", *oldWord_ptr, argv[2], argv[3], found.current);
+	
+	//- - - -
+	gettimeofday(&endTime,0);
+	long seconds = endTime.tv_sec - startTime.tv_sec;
+	int microseconds = endTime.tv_usec - startTime.tv_usec;
+	if (microseconds < 0) {
+		microseconds += 1000000;
+		seconds--;
+	}
+	
+	printf("Runtime: %ld.%.6d\r\n", seconds, microseconds);
+	return 0;
+}
+
+thread search1(void) {
+	int numToSearch;
+	rewind(file1);
+
+	do {
+		numToSearch = 100;
+		found.current = found.current + fgetws(file1, *oldWord_ptr, &numToSearch);
+		pause;
+	} while (numToSearch == 0);
+}
+
+thread search2(void) {
+	int numToSearch;
+	rewind(file2);
+	
+	do {
+		numToSearch = 100;
+		found.current = found.current + fgetws(file2, *oldWord_ptr, &numToSearch);
+		pause;
+	} while (numToSearch == 0);
+}
+
+int fgetws(FILE *file, char word[20], int *wordsLeft) {
+	int found = 0;
+	char wordFound[20];
+	while((fgetw(file, wordFound) != 0) && (*wordsLeft > 0)) {
+		if (strcmp(word, wordFound) == 0) {
+			found = found + 1;
+		}
+		*wordsLeft = *wordsLeft - 1;
+	}
+	
+	return found;
+}
+
+int fgetw(FILE *file, char wordFound[20]) {
+	int length = 0;
+	
+	// Get a continuous sequence of letters.
+	char c = fgetc(file);
+	while ((0x40 < c && c < 0x5B) || (0x60 < c && c < 0x7B)) {
+		// Add the character if it is A-Z or a-z.
+		// Otherwise, the word has ended.
+		if (length < 20) {
+			wordFound[length] = c;
+		}
+		length = length + 1;
+		
+		// Get the next character.
+		c = fgetc(file);
+	}
+	wordFound[length] = '\0';
+	
+	// Skip to the start of the next word.
+	while ((-1 < c && c < 0x41) || (0x5A < c && c < 0x61) || 0x7A < c) {
+		// Get the next character.
+		c = fgetc(file);
+	}
+	ungetc(c, file);
+	
+	return length;
+}
+
+const Accum plus(Accum *lhs, const Accum *rhs) {
+	lhs->current = lhs->current + rhs->current - rhs->last;
+	lhs->last = lhs->current;
+	return *lhs;
+}

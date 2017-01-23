@@ -1,0 +1,191 @@
+The program has four synchronous tasks (named one, two, three, four) 
+that execute for around 1 second. The execution of entire program is 
+split into discrete base periods that are 1.5 seconds long. In each 
+base period, tasks are statically given 0.5 seconds of execution time, 
+after which they are preempted and the next statically scheduled task 
+is executed. After all statically scheduled tasks have executed, the 
+hardware thread chooses an unfinished task and resumes that task's 
+execution until the base period expires. Tasks one and two are allocated 
+to hardware thread 0 and tasks three and four are allocated to hardware 
+thread 1. 
+
+Tasks one, three, and four have constant release period of 3 base periods, 
+while task two has a constant release period of 5 base periods. A formatted
+example of the outputs produced by the program are shown below.
+
+==================================================
+$ ptarm.bat execute
+
+Used memory: 8.0/60.0 kilobytes (13.4%)
+
+Execution begins.
+
+//_Base_period_0________________________________________________________________________________
+0:Releasing one.        1:Releasing three.		2:Dynamic phase.       3:Dynamic phase.
+0:Executing one.        1:Executing three.
+0:Preempted one.        1:Preempted three.
+0:Queuing one.          1:Queuing three.
+                                                 2:Picking one.         3:Picking three.
+0:Releasing two.        1:Releasing four.
+0:Executing two.        1:Executing four.
+0:Preempted two.        1:Preempted four.
+0:Queuing two.          1:Queuing four.
+
+0:Dynamic phase.        1:Dynamic phase.
+0:Picking two.          1:Picking four.
+0:Preempted two.        1:Preempted four.       2:Preempted one.        3:Preempted three.
+
+//_Base_period_1________________________________________________________________________________
+0:Executing one.        1:Executing three.      2:Dynamic phase.        3:Dynamic phase.
+0:one pausing.          1:three pausing.
+
+0:Executing two.        1:Executing four.
+0:Preempted two.        1:Preempted four.
+0:Queuing two.          1:Queuing four.
+                                                2:Picking two.          3:Picking four.
+0:Dynamic phase.        1:Dynamic phase.        2:two pausing.          3:four pausing.
+0:Preempted scheduler0. 1:Preempted scheduler1. 2:Preempted scheduler2. 3:Preempted scheduler3.
+
+//_Base_period_2________________________________________________________________________________
+0:Dynamic phase.        1:Dynamic phase.        2:Dynamic phase.        3:Dynamic phase.
+0:Preempted scheduler0. 1:Preempted scheduler1. 2:Preempted scheduler2. 3:Preempted scheduler3.
+
+// Base period 3________________________________________________________________________________
+0:Releasing one.        1:Releasing three.      2:Dynamic phase.        3:Dynamic phase.
+0:Executing one.        1:Executing three.
+0:Preempted one.        1:Preempted three.
+0:Queuing one.          1:Queuing three.
+                                                2:Picking one.          3:Picking three.
+0:Dynamic phase.        1:Releasing four.
+                        1:Executing four.
+                        1:Preempted four.
+                        1:Queuing four.
+0:Picking four
+                        1:Dynamic phase.
+0:Preempted four.       1:Preempted scheduler1. 2:Preempted one.        3:Preempted three.
+
+//_Base_period_4________________________________________________________________________________
+0:Executing one.        1:Executing three.      2:Dynamic phase.        3:Dynamic phase.
+0:one pausing.          1:three pausing.
+
+0:Dynamic phase.        1:Executing four.
+                        1:Preempted four.
+                        1:Queuing four.
+                                                2:Picking four.
+                        1:Dynamic phase.        2:four pausing.					
+0:Preempted scheduler0. 1:Preempted scheduler1. 2:Preempted scheduler2. 3:Preempted scheduler3.
+
+//_Base_period_5________________________________________________________________________________
+0:Releasing two.        1:Dynamic phase.        2:Dynamic phase.        3:Dynamic phase.
+0:Executing two.		
+0:Preempted two.
+0:Queuing two.
+                        1:Picking two.
+0:Dynamic phase.
+0:Preempted scheduler0. 1:Preempted two.        2:Preempted scheduler2. 3:Preempted scheduler3.
+
+//_Base_period_6________________________________________________________________________________
+0:Releasing one.        1:Releasing three.      2:Dynamic phase.        3:Dynamic phase.
+0:Executing one.        1:Executing three.
+0:Preempted one.        1:Preempted three.
+0:Queuing one.          1:Queuing three.
+                                                2:Picking one.          3:Picking three.
+0:Executing two.        1:Releasing four.
+0:two pausing.          1:Executing four.			
+                        1:Preempted four.
+0:Dynamic phase.        1:Queuing four.
+0:Picking four.
+                        1:Dynamic phase.
+0:Preempted four.       1:Preempted scheduler1. 2:Preempted one.        3:Preempted three.
+
+//_Base_period_7________________________________________________________________________________
+0:Executing one.        1:Executing three.      2:Dynamic phase.        3:Dynamic phase.
+0:one pausing.          1:three pausing.
+
+0:Dynamic phase.        1:Executing four.
+                        1:Preempted four.
+                        1:Queuing four.
+                                                2:Picking four.
+                        1:Dynamic phase.        2:four pausing.
+0:Preempted scheduler0. 1:Preempted scheduler1. 2:Preempted scheduler2. 3:Preempted scheduler3.
+
+//_Base_period_8________________________________________________________________________________
+0:Dynamic phase.        1:Dynamic phase.        2:Dynamic phase.        3:Dynamic phase.
+0:Preempted scheduler0. 1:Preempted scheduler1. 2:Preempted scheduler2. 3:Preempted scheduler3.
+
+//_Base_period_9________________________________________________________________________________
+0:Releasing one.        1:Releasing three.      2:Dynamic phase.        3:Dynamic phase.
+0:Executing one.        1:Executing three.
+0:Preempted one.        1:Preempted three.
+0:Queuing one.          1:Queuing three.
+                                                2:Picking one.          3:Picking three.
+0:Dynamic phase.        1:Releasing four.
+                        1:Executing four.
+                        1:Preempted four.
+                        1:Queuing four.
+0:Picking four.
+                        1:Dynamic phase.
+0:Preempted four.       1:Preempted scheduler1. 2:Preempted one.        3:Preempted three.
+
+//_Base_period_10_______________________________________________________________________________
+0:Executing one.        1:Executing three.      2:Dynamic phase.        3:Dynamic phase.
+0:one pausing.          1:three pausing.
+
+0:Releasing two.        1:Executing four.
+0:Executing two.        1:Preempted four.
+0:Preempted two.        1:Queuing four.
+0:Queuing two.                                                          3:Picking four.
+                        1:Dynamic phase.        2:Picking two.          3:four pausing.
+0:Dynamic phase.
+0:Preempted scheduler0. 1:Preempted scheduler1. 2:Preempted two.        3:Preempted scheduler3.
+
+//_Base_period_11_______________________________________________________________________________
+0:Executing two.        1:Dynamic phase.        2:Dynamic phase.        3:Dynamic phase.
+0:two pausing.
+
+0:Dynamic phase.
+0:Preempted scheduler0. 1:Preempted scheduler1. 2:Preempted scheduler2. 3:Preempted scheduler3.
+
+//_Base_period_12_______________________________________________________________________________
+0:Releasing one.        1:Releasing three.      2:Dynamic phase.        3:Dynamic phase.
+0:Executing one.        1:Executing three.
+0:Preempted one.        1:Preempted three.
+0:Queuing one.          1:Queuing three.
+                                                2:Picking one.          3:Picking three.
+0:Dynamic phase.        1:Releasing four.
+                        1:Executing four.
+                        1:Preempted four.
+                        1:Queuing four.
+0:Picking four.
+                        1:Dynamic phase.
+0:Preempted four.       1:Preempted scheduler1. 2:Preempted one.        3:Preempted three.
+
+//_Base_period_13_______________________________________________________________________________
+0:Executing one.        1:Executing three.      2:Dynamic phase.        3:Dynamic phase.
+0:one pausing.          1:three pausing.
+					
+0:Dynamic phase.        1:Executing four.
+                        1:Preempted four.
+                        1:Queuing four.
+                                                2:Picking four.
+                        1:Dynamic phase.        2:four pausing.
+0:Preempted scheduler0. 1:Preempted scheduler1. 2:Preempted scheduler2. 3:Preempted scheduler3.
+
+//_Base_period_14_______________________________________________________________________________
+0:Dynamic phase.        1:Dynamic phase.        2:Dynamic phase.        3:Dynamic phase.
+0:Preempted scheduler0. 1:Preempted scheduler1. 2:Preempted scheduler2. 3:Preempted scheduler3.
+
+//_Base_period_15_(LCM_of_all_tasks)____________________________________________________________
+0:Releasing one.       1:Releasing three.       2:Dynamic phase.        3:Dynamic phase.
+0:Executing one.       1:Executing three.
+0:Preempted one.       1:Preempted three.
+0:Queuing one.         1:Queuing three.
+                                                2:Picking one.          3:Picking three.
+0:Releasing two.       1:Releasing four.
+0:Executing two.       1:Executing four.
+0:Preempted two.       1:Preempted four.
+0:Queuing two.         1:Queuing four.
+
+0:Dynamic phase.       1:Dynamic phase.
+0:Picking two.         1:Picking four.
+0:Preempted two.       1:Preempted four.        2:Preempted one.        3:Preempted three.

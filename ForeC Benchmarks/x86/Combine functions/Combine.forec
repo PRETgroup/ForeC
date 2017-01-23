@@ -1,0 +1,97 @@
+#include <stdio.h>
+
+shared int x_min = 0 combine with min;
+shared int x_max = 0 combine with max;
+shared int x_add = 0 combine with add;
+shared int x_mul = 0 combine with mul;
+
+int min(int *th1, int *th2) {
+	if (*th1 < *th2) {
+		return *th1;
+	} else {
+		return *th2;
+	}
+}
+
+int max(int *th1, int *th2) {
+	if (*th1 > *th2) {
+		return *th1;
+	} else {
+		return *th2;
+	}
+}
+
+int add(int *th1, int *th2) {
+	return (*th1 + *th2);
+}
+
+int mul(int *th1, int *th2) {
+	return (*th1 * *th2);
+}
+
+shared int x_band = 0 combine with band;
+shared int x_bor  = 0 combine with bor;
+shared int x_land = 0 combine with land;
+shared int x_lor  = 0 combine with lor;
+
+int band(int *th1, int *th2) {
+	return (*th1 & *th2);
+}
+
+int bor(int *th1, int *th2) {
+	return (*th1 | *th2);
+} 
+
+int land(int *th1, int *th2) {
+	return (*th1 && *th2);
+}
+
+int lor(int *th1, int *th2) {
+	return (*th1 || *th2);
+} 
+
+typedef struct {
+	int value;
+	int min;
+	int max;
+} MinMax;
+
+shared MinMax x_minmax = {.value = 0, .min = 0, .max = 0} combine with minmax;
+
+MinMax minmax(MinMax *th1, MinMax *th2) {
+	th1->min = min(&th1->value, &th2->value);
+	th1->max = max(&th1->value, &th2->value);
+	return *th1;
+}
+
+thread t1(void);
+thread t2(void);
+
+void main(int argc, char **argv) {
+	par(t1, t2);
+
+	printf("min(2,5) = %d\n", x_min);			// 2
+	printf("max(2,5) = %d\n", x_max);			// 5
+	printf("add(2,5) = %d\n", x_add);			// 7
+	printf("mul(2,5) = %d\n", x_mul);			// 10
+	printf("\n");
+	printf("band(0x2,0x5) = 0x%x\n", x_band);	// 0x0
+	printf("bor(0x2,0x5)  = 0x%x\n", x_bor);	// 0x7
+	printf("land(0x2,0x5) = 0x%x\n", x_land);	// 0x1
+	printf("lor(0x2,0x5)  = 0x%x\n", x_lor);	// 0x1
+	printf("\n");
+	printf("minmax(2,5) = {%d,%d}\n", x_minmax.min, x_minmax.max);	// {2,5}
+}
+
+thread t1(void) {
+	x_min = x_max = x_add = x_mul = 2;
+	x_band = x_bor = x_land = x_lor = 0x2;
+	x_minmax.value = 2;
+}
+
+thread t2(void) {
+	x_min = x_max = x_add = x_mul = 5;
+	x_band = x_bor = x_land = x_lor = 0x5;
+	x_minmax.value = 5;
+}
+

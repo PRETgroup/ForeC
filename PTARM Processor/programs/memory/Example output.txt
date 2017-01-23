@@ -1,0 +1,21 @@
+This program writes numbers (4 bytes wide) that increment by 
+one into each available memory location. The numbers are read
+from memory and checked with the expected number. An example 
+of the outputs produced by the program is shown below.
+
+============================================================
+$ ptarm.bat execute
+
+Used memory: 3.4/60.0 kilobytes (5.7%)
+
+Memory test
+-----------
+Memory range: 0x0x00000db3 to 0x0x0000efdc (14475 4 byte memory locations).
+* Writing phase ... 14475 4 byte memory locations.
+* Reading phase ... 14475 4 byte memory locations.
+Completed. 
+---------------------------------------------
+Instruction count:            661330
+Thread cycle count:           661833
+Execution time at 50Mhz:      52.94664 ms
+Cycles per instruction (CPI): 1.000760588511031

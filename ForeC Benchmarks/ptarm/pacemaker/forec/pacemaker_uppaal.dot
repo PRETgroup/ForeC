@@ -1,0 +1,107 @@
+digraph "pacemaker_uppaal" {
+	ordering = out
+
+	labeljust = l
+	node [shape = box, fixedsize = true, height = 0.7, width = 1.1]
+
+	start [shape = plaintext, height = 0.4]
+
+	start -> par0_0Start [label = main, /*headport = n, tailport = s*/]
+	subgraph cluster_par0_0 {
+		style = filled
+		color = lightgrey
+
+		par0_0Start [label = 0, shape = triangle]
+		par0_0End [label = 0, shape = invtriangle]
+
+		par0_0Start -> while_0_0 [label = ekgSensing, fontcolor = blue, sametail = 0, /*headport = n, tailport = s*/]
+		while_0_0 [label = 0, shape = diamond]
+		while_0_0 -> pause0_0 [label = true, /*headport = n, tailport = s,*/ weight = 2]
+		pause0_0 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause0_0 -> while_0_0 /*[headport = w, tailport = s]*/
+		while_0_0 -> par0_0End [label = false/*, headport = n, tailport = e*/]
+
+		par0_0Start -> while_1_3 [label = lri_ms, fontcolor = blue, sametail = 0, /*headport = n, tailport = s*/]
+		while_1_3 [label = 1, shape = diamond]
+		while_1_3 -> pause1_3 [label = true, /*headport = n, tailport = s,*/ weight = 2]
+		pause1_3 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause1_3 -> while_1_3 /*[headport = w, tailport = s]*/
+		while_1_3 -> par0_0End [label = false/*, headport = n, tailport = e*/]
+
+		par0_0Start -> while_2_6 [label = avi_ms, fontcolor = blue, sametail = 0, /*headport = n, tailport = s*/]
+		while_2_6 [label = 2, shape = diamond]
+		while_2_6 -> pause2_6 [label = true, /*headport = n, tailport = s,*/ weight = 2]
+		pause2_6 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause2_6 -> while_2_6 /*[headport = w, tailport = s]*/
+		while_2_6 -> par0_0End [label = false/*, headport = n, tailport = e*/]
+
+		par0_0Start -> while_3_9 [label = uri, fontcolor = blue, sametail = 0, /*headport = n, tailport = s*/]
+		while_3_9 [label = 3, shape = diamond]
+		while_3_9 -> pause3_9 [label = true, /*headport = n, tailport = s,*/ weight = 2]
+		pause3_9 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause3_9 -> while_3_9 /*[headport = w, tailport = s]*/
+		while_3_9 -> par0_0End [label = false/*, headport = n, tailport = e*/]
+
+		par0_0Start -> while_4_12 [label = pvarp_elt, fontcolor = blue, sametail = 0, /*headport = n, tailport = s*/]
+		while_4_12 [label = 4, shape = diamond]
+		while_4_12 -> pause4_12 [label = true, /*headport = n, tailport = s,*/ weight = 2]
+		pause4_12 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause4_12 -> while_4_12 /*[headport = w, tailport = s]*/
+		while_4_12 -> par0_0End [label = false/*, headport = n, tailport = e*/]
+
+		par0_0Start -> while_5_15 [label = vrp, fontcolor = blue, sametail = 0, /*headport = n, tailport = s*/]
+		while_5_15 [label = 5, shape = diamond]
+		while_5_15 -> pause5_15 [label = true, /*headport = n, tailport = s,*/ weight = 2]
+		pause5_15 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause5_15 -> while_5_15 /*[headport = w, tailport = s]*/
+		while_5_15 -> par0_0End [label = false/*, headport = n, tailport = e*/]
+
+		par0_0Start -> while_6_18 [label = interval_ms, fontcolor = blue, sametail = 0, /*headport = n, tailport = s*/]
+		while_6_18 [label = 6, shape = diamond]
+		while_6_18 -> pause6_18 [label = true, /*headport = n, tailport = s,*/ weight = 2]
+		pause6_18 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause6_18 -> while_6_18 /*[headport = w, tailport = s]*/
+		while_6_18 -> par0_0End [label = false/*, headport = n, tailport = e*/]
+
+		par0_0Start -> while_7_21 [label = counter_ms, fontcolor = blue, sametail = 0, /*headport = n, tailport = s*/]
+		while_7_21 [label = 7, shape = diamond]
+		while_7_21 -> pause7_21 [label = true, /*headport = n, tailport = s,*/ weight = 2]
+		pause7_21 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause7_21 -> while_7_21 /*[headport = w, tailport = s]*/
+		while_7_21 -> par0_0End [label = false/*, headport = n, tailport = e*/]
+
+		par0_0Start -> while_8_24 [label = duration_ms, fontcolor = blue, sametail = 0, /*headport = n, tailport = s*/]
+		while_8_24 [label = 8, shape = diamond]
+		while_8_24 -> pause8_24 [label = true, /*headport = n, tailport = s,*/ weight = 2]
+		pause8_24 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause8_24 -> while_8_24 /*[headport = w, tailport = s]*/
+		while_8_24 -> par0_0End [label = false/*, headport = n, tailport = e*/]
+
+		par0_0Start -> while_9_27 [label = pattern_vpAs, fontcolor = blue, sametail = 0, /*headport = n, tailport = s*/]
+		while_9_27 [label = 9, shape = diamond]
+		while_9_27 -> pause9_27 [label = true, /*headport = n, tailport = s,*/ weight = 2]
+		pause9_27 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause9_27 -> while_9_27 /*[headport = w, tailport = s]*/
+		while_9_27 -> par0_0End [label = false/*, headport = n, tailport = e*/]
+
+		par0_0Start -> while_10_30 [label = counter_vpAs, fontcolor = blue, sametail = 0, /*headport = n, tailport = s*/]
+		while_10_30 [label = 10, shape = diamond]
+		while_10_30 -> pause10_30 [label = true, /*headport = n, tailport = s,*/ weight = 2]
+		pause10_30 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause10_30 -> while_10_30 /*[headport = w, tailport = s]*/
+		while_10_30 -> par0_0End [label = false/*, headport = n, tailport = e*/]
+
+		par0_0Start -> while_11_33 [label = logging, fontcolor = blue, sametail = 0, /*headport = n, tailport = s*/]
+		while_11_33 [label = 11, shape = diamond]
+		while_11_33 -> pause11_33 [label = true, /*headport = n, tailport = s,*/ weight = 2]
+		pause11_33 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause11_33 -> while_11_33 /*[headport = w, tailport = s]*/
+		while_11_33 -> par0_0End [label = false/*, headport = n, tailport = e*/]
+	}
+	par0_0End -> end /*[headport = n, tailport = s]*/
+
+	end [shape = plaintext, height = 0.4]
+	label = "pacemaker_uppaal.forec"
+	labelloc = t
+	labeljust = c
+}

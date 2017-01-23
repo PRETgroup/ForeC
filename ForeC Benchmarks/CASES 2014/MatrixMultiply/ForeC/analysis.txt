@@ -1,0 +1,362 @@
+ForeC Analyser
+Version: 0.8 (5 October 2014)
+Analysis output
+-------------------------------
+
+Analysis approach: -reachability
+Trace level: 0
+Merge: Yes
+Merge branches: No
+Merge global memory accesses: No
+MaxPlus with thread interleaving: No
+
+Architecture: microblaze
+
+============================
+tools::Multicore::toString()
+============================
+Cores with thread allocation:
+-----------------------------
+	coreId0:
+	* fillMatrixA0__thread
+	* fillMatrixA1__thread
+	* fillMatrixA2__thread
+	* fillMatrixA3__thread
+	* fillMatrixB0__thread
+	* fillMatrixB1__thread
+	* fillMatrixB2__thread
+	* fillMatrixB3__thread
+	* main__thread
+	* multiply0__thread
+	* multiply1__thread
+	* multiply2__thread
+	* multiply3__thread
+	* multiply4__thread
+	* multiply5__thread
+	* multiply6__thread
+	* multiply7__thread
+
+
+Threads with core allocation:
+-----------------------------
+	fillMatrixA0__thread: core0
+	fillMatrixA1__thread: core0
+	fillMatrixA2__thread: core0
+	fillMatrixA3__thread: core0
+	fillMatrixB0__thread: core0
+	fillMatrixB1__thread: core0
+	fillMatrixB2__thread: core0
+	fillMatrixB3__thread: core0
+	main__thread: core0
+	multiply0__thread: core0
+	multiply1__thread: core0
+	multiply2__thread: core0
+	multiply3__thread: core0
+	multiply4__thread: core0
+	multiply5__thread: core0
+	multiply6__thread: core0
+	multiply7__thread: core0
+
+Threads with active cores:
+--------------------------
+	main__thread:
+	* core0
+
+
+============================
+tools::Threading::toString()
+============================
+Cores with par(...) indexes for each parent thread:
+---------------------------------------------------
+	coreId0:
+	* main__thread:
+	 0 par0 (10)
+	 1 par1 (10)
+
+
+Threads in each par(...):
+-------------------------
+	par0:
+	 *fillMatrixA0__thread
+	 *fillMatrixA1__thread
+	 *fillMatrixA2__thread
+	 *fillMatrixA3__thread
+	 *fillMatrixB0__thread
+	 *fillMatrixB1__thread
+	 *fillMatrixB2__thread
+	 *fillMatrixB3__thread
+
+	par1:
+	 *multiply0__thread
+	 *multiply1__thread
+	 *multiply2__thread
+	 *multiply3__thread
+	 *multiply4__thread
+	 *multiply5__thread
+	 *multiply6__thread
+	 *multiply7__thread
+
+Allocation of threads for each core:
+------------------------------------
+	par0:
+	 *core0
+	  *fillMatrixA0__thread (0)
+	  *fillMatrixA1__thread (0)
+	  *fillMatrixA2__thread (0)
+	  *fillMatrixA3__thread (0)
+	  *fillMatrixB0__thread (0)
+	  *fillMatrixB1__thread (0)
+	  *fillMatrixB2__thread (0)
+	  *fillMatrixB3__thread (0)
+
+	par1:
+	 *core0
+	  *multiply0__thread (0)
+	  *multiply1__thread (0)
+	  *multiply2__thread (0)
+	  *multiply3__thread (0)
+	  *multiply4__thread (0)
+	  *multiply5__thread (0)
+	  *multiply6__thread (0)
+	  *multiply7__thread (0)
+
+par(...)s in each thread:
+-------------------------
+	main__thread:
+	 *par0
+	 *par1
+
+Thread enclosing each par(...):
+-------------------------------
+	par0: main__thread
+	par1: main__thread
+
+par(...) enclosing each thread:
+-------------------------------
+	fillMatrixA0__thread: par0
+	fillMatrixA1__thread: par0
+	fillMatrixA2__thread: par0
+	fillMatrixA3__thread: par0
+	fillMatrixB0__thread: par0
+	fillMatrixB1__thread: par0
+	fillMatrixB2__thread: par0
+	fillMatrixB3__thread: par0
+	multiply0__thread: par1
+	multiply1__thread: par1
+	multiply2__thread: par1
+	multiply3__thread: par1
+	multiply4__thread: par1
+	multiply5__thread: par1
+	multiply6__thread: par1
+	multiply7__thread: par1
+
+=========================
+tools::Shared::toString()
+=========================
+====================================
+tools::Costing::toString()
+====================================
+Memory access costs:
+--------------------
+* globalLoad: 5
+* globalStore: 5
+* local: 1
+* slot: 5
+
+ForeC generated file: MatrixMultiply.c
+ForeC generated file after macro expansion: MatrixMultiply_expanded.c
+Compiled ELF: MatrixMultiply.1.elf
+Generated dump file: MatrixMultiply.dump
+Parsed object dump: MatrixMultiply.dump
+
+===========================
+tools::Function::toString()
+===========================
+Function starting node:
+-----------------------
+	XAssert: 0x17f4
+	XAssertSetCallback: 0x1828
+	XNullHandler: 0x1838
+	XUartLite_RecvByte: 0x17d8
+	XUartLite_SendByte: 0x17b8
+	__call_exitprocs: 0x18d4
+	__do_global_ctors_aux: 0x1c38
+	__do_global_dtors_aux: 0x70
+	__fini: 0x1ca4
+	__init: 0x1c80
+	__interrupt_handler: 0x16dc
+	__udivsi3: 0x1b90
+	__umodsi3: 0x1ad4
+	_crtinit: 0x148
+	_exception_handler: 0x16c0
+	_exit: 0x6c
+	_hw_exception_handler: 0x16d8
+	_program_clean: 0x16c8
+	_program_init: 0x16d0
+	_start: 0x0
+	_start1: 0x50
+	_vector_hw_exception: 0x20
+	_vector_interrupt: 0x10
+	_vector_sw_exception: 0x8
+	exit: 0x1840
+	fillMatrix: 0xda4
+	frame_dummy: 0xe4
+	getnum: 0x10d8
+	main
+	microblaze_register_handler: 0x1778
+	multiply: 0xe80
+	outbyte: 0x1790
+	outnum: 0x11a8
+	padding: 0x113c
+	printOut: 0x1010
+	strlen: 0x1874
+	xil_printf: 0x135c
+
+=======================
+tools::Link::toString()
+=======================
+
+==========
+mergeNodes
+==========
+	fillMatrixA0: 8
+	fillMatrixA1: 8
+	fillMatrixA2: 8
+	fillMatrixA3: 8
+	fillMatrixB0: 8
+	fillMatrixB1: 8
+	fillMatrixB2: 8
+	fillMatrixB3: 8
+	main: 0
+	multiply0: 10
+	multiply1: 10
+	multiply2: 10
+	multiply3: 10
+	multiply4: 10
+	multiply5: 10
+	multiply6: 10
+	multiply7: 10
+
+Preparing to perform -reachability
+Number of cores: 1
+Analysis time required: 0.573133 seconds
+Reactions evolved: 1
+Reactions seen: 1
+
+Maximum reaction found:
+-----------------------
+Reaction 1.1: 24c_
+	History level: -18
+	* Thread: main (terminated)
+	  ProgramCounters:Start scheduler(0x504)
+	History level: -17
+	* Thread: fillMatrixA0 (terminated)
+	  ProgramCounters:Start scheduler(0x72c)
+	History level: -16
+	* Thread: fillMatrixA1 (terminated)
+	  ProgramCounters:Start scheduler(0x78c)
+	History level: -15
+	* Thread: fillMatrixA2 (terminated)
+	  ProgramCounters:Start scheduler(0x7ec)
+	History level: -14
+	* Thread: fillMatrixA3 (terminated)
+	  ProgramCounters:Start scheduler(0x84c)
+	History level: -13
+	* Thread: fillMatrixB0 (terminated)
+	  ProgramCounters:Start scheduler(0x8ac)
+	History level: -12
+	* Thread: fillMatrixB1 (terminated)
+	  ProgramCounters:Start scheduler(0x90c)
+	History level: -11
+	* Thread: fillMatrixB2 (terminated)
+	  ProgramCounters:Start scheduler(0x96c)
+	History level: -10
+	* Thread: fillMatrixB3 (terminated)
+	  ProgramCounters:Start scheduler(0x9cc)
+	History level: -9
+	* Thread: main (terminated)
+	  ProgramCounters:Start scheduler(0x504)
+	History level: -8
+	* Thread: multiply0 (terminated)
+	  ProgramCounters:Start scheduler(0xa3c)
+	History level: -7
+	* Thread: multiply1 (terminated)
+	  ProgramCounters:Start scheduler(0xaac)
+	History level: -6
+	* Thread: multiply2 (terminated)
+	  ProgramCounters:Start scheduler(0xb1c)
+	History level: -5
+	* Thread: multiply3 (terminated)
+	  ProgramCounters:Start scheduler(0xb8c)
+	History level: -4
+	* Thread: multiply4 (terminated)
+	  ProgramCounters:Start scheduler(0xbfc)
+	History level: -3
+	* Thread: multiply5 (terminated)
+	  ProgramCounters:Start scheduler(0xc6c)
+	History level: -2
+	* Thread: multiply6 (terminated)
+	  ProgramCounters:Start scheduler(0xcdc)
+	History level: -1
+	* Thread: multiply7 (terminated)
+	  ProgramCounters:Start scheduler(0xd4c)
+	History level: 0
+	* Thread: main (terminated)
+	  ProgramCounters:Start scheduler(0x504)
+
+	Core ID: 0
+	* Elapsed time: 84941232
+	* State: executing
+
+Core ID: 0
+*      0 Reaction Start
+*      0 main
+*      0 send(main, fork, 0) start
+*    139 send(main, fork, 0) end
+*    139 Context switch
+*    139 fillMatrixA0
+*  52130 fillMatrixA0 Terminated
+*  52130 fillMatrixA1
+* 104121 fillMatrixA1 Terminated
+* 104121 fillMatrixA2
+* 156112 fillMatrixA2 Terminated
+* 156112 fillMatrixA3
+* 208103 fillMatrixA3 Terminated
+* 208103 fillMatrixB0
+* 260094 fillMatrixB0 Terminated
+* 260094 fillMatrixB1
+* 312085 fillMatrixB1 Terminated
+* 312085 fillMatrixB2
+* 364076 fillMatrixB2 Terminated
+* 364076 fillMatrixB3
+* 416067 fillMatrixB3 Terminated
+* 416067 get(main, join) start
+* 416144 get(main, join) end
+* 416144 Context switch
+* 416144 main
+* 416144 send(main, fork, 1) start
+* 416283 send(main, fork, 1) end
+* 416283 Context switch
+* 416283 multiply0
+* 10981892 multiply0 Terminated
+* 10981892 multiply1
+* 21547501 multiply1 Terminated
+* 21547501 multiply2
+* 32113110 multiply2 Terminated
+* 32113110 multiply3
+* 42678719 multiply3 Terminated
+* 42678719 multiply4
+* 53244328 multiply4 Terminated
+* 53244328 multiply5
+* 63809937 multiply5 Terminated
+* 63809937 multiply6
+* 74375546 multiply6 Terminated
+* 74375546 multiply7
+* 84941155 multiply7 Terminated
+* 84941155 get(main, join) start
+* 84941232 get(main, join) end
+* 84941232 Context switch
+* 84941232 main
+* 84941232 main Terminated
+
+

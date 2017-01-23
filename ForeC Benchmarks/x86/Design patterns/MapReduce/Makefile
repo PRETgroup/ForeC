@@ -1,0 +1,18 @@
+ifeq ($(shell uname), Linux)
+	CC			= clang
+	CFLAGS		= -pthread
+else ifeq ($(shell uname), Darwin)
+	CC			= clang
+	CFLAGS		= -pthread
+else
+	CC			= gcc
+endif
+
+forec:
+	forecc MapReduce.forec MapReduce.foreh
+	
+c:
+	$(CC) $(CFLAGS) -Wall MapReduce.c -o MapReduce -pthread
+	
+clean:
+	rm -f MapReduce *.exe *.dot *.c *.txt *.pdf *.xml

@@ -1,0 +1,7 @@
+architecture:
+microblaze
+
+0:
+main
+computeNewValues
+applyNewValues

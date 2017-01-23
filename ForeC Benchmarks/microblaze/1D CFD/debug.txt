@@ -1,0 +1,1169 @@
+ForeC Compiler (multicore distribution)
+Version: 0.985 (28 September 2013)
+Debug output
+---------------------------------------
+
+Source file name: 1D_CFD.forec
+Header file name: 1D_CFD.foreh
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	microblaze
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	0		applyNewValues__thread
+	0		computeNewValues__thread
+	0		main__thread
+
+
+==============================
+tools::SymbolTable::toString()
+==============================
+Symbol tables:
+--------------
+	Scope name: absFloat
+		Scope level: 0
+			Instance: 0
+				(variable) number__absFloat_0_0
+				(variable) result__absFloat_0_0
+
+	Scope name: applyComputationElementNonPipeT
+		Scope level: 0
+			Instance: 0
+				(variable) id__applyComputationElementNonPipeT_0_0
+
+	Scope name: applyComputationElementPipeT
+		Scope level: 0
+			Instance: 0
+				(variable) id__applyComputationElementPipeT_0_0
+
+	Scope name: applyMechanicalCalculations
+		Scope level: 0
+			Instance: 0
+				(variable) id__applyMechanicalCalculations_0_0
+
+	Scope name: applyNewValues
+		Scope level: 0
+			Instance: 0
+				(variable) i__applyNewValues_0_0
+
+	Scope name: computeCap
+		Scope level: 0
+			Instance: 0
+				(variable) id__computeCap_0_0
+				(variable) p__computeCap_0_0
+				(variable) ap__computeCap_0_0
+				(variable) theta__computeCap_0_0
+				(variable) A__computeCap_0_0
+				(variable) E__computeCap_0_0
+				(variable) B__computeCap_0_0
+				(variable) A2__computeCap_0_0
+				(variable) A3__computeCap_0_0
+				(variable) pressureLeft__computeCap_0_0
+				(variable) flowRateLeft__computeCap_0_0
+				(variable) leftId__computeCap_0_0
+				(variable) pressure__computeCap_0_0
+				(variable) flowRate__computeCap_0_0
+				(variable) Cp__computeCap_0_0
+				(variable) newFlowRate__computeCap_0_0
+
+	Scope name: computeImposedFlowRate
+		Scope level: 0
+			Instance: 0
+				(variable) id__computeImposedFlowRate_0_0
+				(variable) p__computeImposedFlowRate_0_0
+				(variable) ap__computeImposedFlowRate_0_0
+				(variable) theta__computeImposedFlowRate_0_0
+				(variable) A__computeImposedFlowRate_0_0
+				(variable) E__computeImposedFlowRate_0_0
+				(variable) B__computeImposedFlowRate_0_0
+				(variable) A2__computeImposedFlowRate_0_0
+				(variable) A3__computeImposedFlowRate_0_0
+				(variable) pressureRight__computeImposedFlowRate_0_0
+				(variable) flowRateRight__computeImposedFlowRate_0_0
+				(variable) rightId__computeImposedFlowRate_0_0
+				(variable) pressure__computeImposedFlowRate_0_0
+				(variable) flowRate__computeImposedFlowRate_0_0
+				(variable) Cm__computeImposedFlowRate_0_0
+				(variable) newFlowRate__computeImposedFlowRate_0_0
+
+	Scope name: computeImposedPressure
+		Scope level: 0
+			Instance: 0
+				(variable) id__computeImposedPressure_0_0
+				(variable) p__computeImposedPressure_0_0
+				(variable) ap__computeImposedPressure_0_0
+				(variable) theta__computeImposedPressure_0_0
+				(variable) A__computeImposedPressure_0_0
+				(variable) E__computeImposedPressure_0_0
+				(variable) B__computeImposedPressure_0_0
+				(variable) A2__computeImposedPressure_0_0
+				(variable) A3__computeImposedPressure_0_0
+				(variable) pressureRight__computeImposedPressure_0_0
+				(variable) flowRateRight__computeImposedPressure_0_0
+				(variable) rightId__computeImposedPressure_0_0
+				(variable) pressure__computeImposedPressure_0_0
+				(variable) flowRate__computeImposedPressure_0_0
+				(variable) Cm__computeImposedPressure_0_0
+				(variable) newPressure__computeImposedPressure_0_0
+
+	Scope name: computeMechanicalPressureSensorCalculations
+		Scope level: 0
+			Instance: 0
+				(variable) id__computeMechanicalPressureSensorCalculations_0_0
+
+	Scope name: computeMechanicalPumpCalculations
+		Scope level: 0
+			Instance: 0
+				(variable) id__computeMechanicalPumpCalculations_0_0
+
+	Scope name: computeMechanicalValveCalculations
+		Scope level: 0
+			Instance: 0
+				(variable) id__computeMechanicalValveCalculations_0_0
+				(variable) numberOfValvePositions__computeMechanicalValveCalculations_0_0
+				(variable) valvePositions__computeMechanicalValveCalculations_0_0
+
+	Scope name: computeNewValues
+		Scope level: 0
+			Instance: 0
+				(variable) p__computeNewValues_0_0
+				(variable) ap__computeNewValues_0_0
+				(variable) i__computeNewValues_0_0
+
+	Scope name: computePipeSegment
+		Scope level: 0
+			Instance: 0
+				(variable) id__computePipeSegment_0_0
+				(variable) p__computePipeSegment_0_0
+				(variable) ap__computePipeSegment_0_0
+				(variable) theta__computePipeSegment_0_0
+				(variable) A__computePipeSegment_0_0
+				(variable) E__computePipeSegment_0_0
+				(variable) B__computePipeSegment_0_0
+				(variable) A2__computePipeSegment_0_0
+				(variable) A3__computePipeSegment_0_0
+				(variable) pressureLeft__computePipeSegment_0_0
+				(variable) flowRateLeft__computePipeSegment_0_0
+				(variable) leftId__computePipeSegment_0_0
+				(variable) pressureRight__computePipeSegment_0_0
+				(variable) flowRateRight__computePipeSegment_0_0
+				(variable) rightId__computePipeSegment_0_0
+				(variable) pressure__computePipeSegment_0_0
+				(variable) flowRate__computePipeSegment_0_0
+				(variable) Cp__computePipeSegment_0_0
+				(variable) Cm__computePipeSegment_0_0
+				(variable) newPressure__computePipeSegment_0_0
+
+	Scope name: computePipeT
+		Scope level: 0
+			Instance: 0
+				(variable) id__computePipeT_0_0
+				(variable) p__computePipeT_0_0
+				(variable) ap__computePipeT_0_0
+				(variable) theta__computePipeT_0_0
+				(variable) A__computePipeT_0_0
+				(variable) E__computePipeT_0_0
+				(variable) B__computePipeT_0_0
+				(variable) A2__computePipeT_0_0
+				(variable) A3__computePipeT_0_0
+				(variable) pressureLeft__computePipeT_0_0
+				(variable) flowRateLeft__computePipeT_0_0
+				(variable) leftId__computePipeT_0_0
+				(variable) pressureRight__computePipeT_0_0
+				(variable) flowRateRight__computePipeT_0_0
+				(variable) rightId__computePipeT_0_0
+				(variable) pressureTop__computePipeT_0_0
+				(variable) flowRateTop__computePipeT_0_0
+				(variable) topId__computePipeT_0_0
+				(variable) pressure__computePipeT_0_0
+				(variable) flowRate__computePipeT_0_0
+				(variable) B2__computePipeT_0_0
+				(variable) B3__computePipeT_0_0
+				(variable) Cp1__computePipeT_0_0
+				(variable) Cm2__computePipeT_0_0
+				(variable) Cm3__computePipeT_0_0
+				(variable) newPressure__computePipeT_0_0
+
+	Scope name: computeValve
+		Scope level: 0
+			Instance: 0
+				(variable) id__computeValve_0_0
+				(variable) p__computeValve_0_0
+				(variable) ap__computeValve_0_0
+				(variable) theta__computeValve_0_0
+				(variable) A__computeValve_0_0
+				(variable) E__computeValve_0_0
+				(variable) B__computeValve_0_0
+				(variable) A2__computeValve_0_0
+				(variable) A3__computeValve_0_0
+				(variable) pressureLeft__computeValve_0_0
+				(variable) flowRateLeft__computeValve_0_0
+				(variable) leftId__computeValve_0_0
+				(variable) pressure__computeValve_0_0
+				(variable) flowRate__computeValve_0_0
+				(variable) Cp__computeValve_0_0
+				(variable) tau__computeValve_0_0
+				(variable) Cvp__computeValve_0_0
+				(variable) Cv__computeValve_0_0
+				(variable) newFlowRate__computeValve_0_0
+
+	Scope name: global
+		Scope level: 0
+			Instance: 0
+				(input) pressureSensor__global_0_0
+				(input) pumpSensor__global_0_0
+				(output) fuelInjector__global_0_0
+				(enumeration) PipeSegment
+				(enumeration) Cap
+				(enumeration) ImposedPressure
+				(enumeration) ImposedFlowRate
+				(enumeration) PipeT
+				(enumeration) Valve
+				(typedef) ElementType__global_0_0
+				(storage) _ComputationElement__global_0_0
+				(typedef) ComputationElement__global_0_0
+				(variable) numberOfComputationElements__global_0_0
+				(variable) pipeNetwork__global_0_0
+				(shared) numberOfPipeSegments__global_0_0
+				(variable) pipeSegmentIds_array__global_0_0
+				(shared) pipeSegmentIds__global_0_0
+				(shared) numberOfCaps__global_0_0
+				(variable) capIds_array__global_0_0
+				(shared) capIds__global_0_0
+				(shared) numberOfImposedPressures__global_0_0
+				(variable) imposedPressureIds_array__global_0_0
+				(shared) imposedPressureIds__global_0_0
+				(shared) numberOfImposedFlowRates__global_0_0
+				(variable) imposedFlowRateIds_array__global_0_0
+				(shared) imposedFlowRateIds__global_0_0
+				(shared) numberOfPipeTs__global_0_0
+				(variable) pipeTIds_array__global_0_0
+				(shared) pipeTIds__global_0_0
+				(shared) numberOfValves__global_0_0
+				(variable) valveIds_array__global_0_0
+				(shared) valveIds__global_0_0
+				(storage) _FluidProperties__global_0_0
+				(typedef) FluidProperties__global_0_0
+				(variable) fluidProperties__global_0_0
+				(enumeration) PressureSensor
+				(enumeration) Pump
+				(enumeration) ValveM
+				(typedef) MechanicalType__global_0_0
+				(storage) _MechanicalCalculation__global_0_0
+				(typedef) MechanicalCalculation__global_0_0
+				(shared) numberOfMechanicalCalculations__global_0_0
+				(variable) mechanicalCalculations__global_0_0
+				(shared) numberOfMechanicalPressureSensors__global_0_0
+				(variable) mechanicalPressureSensorIds_array__global_0_0
+				(shared) mechanicalPressureSensorIds__global_0_0
+				(shared) numberOfMechanicalPumps__global_0_0
+				(variable) mechanicalPumpIds_array__global_0_0
+				(shared) mechanicalPumpIds__global_0_0
+				(shared) numberOfMechanicalValves__global_0_0
+				(variable) mechanicalValveIds_array__global_0_0
+				(shared) mechanicalValveIds__global_0_0
+				(variable) valveIndex__global_0_0
+				(function) computePipeSegment
+				(function) computeCap
+				(function) computeImposedPressure
+				(function) computeImposedFlowRate
+				(function) computePipeT
+				(function) computeValve
+				(function) computeMechanicalPressureSensorCalculations
+				(function) computeMechanicalPumpCalculations
+				(function) computeMechanicalValveCalculations
+				(function) computeGlobalCalculations
+				(function) interpolate
+				(function) absFloat
+				(function) applyComputationElementNonPipeT
+				(function) applyComputationElementPipeT
+				(function) applyMechanicalCalculations
+				(function) applyGlobalCalculations
+				(thread) computeNewValues__thread
+				(thread) applyNewValues__thread
+
+	Scope name: interpolate
+		Scope level: 0
+			Instance: 0
+				(variable) center__interpolate_0_0
+				(variable) edge__interpolate_0_0
+				(variable) slope__interpolate_0_0
+
+	Scope name: main
+		Scope level: 0
+			Instance: 0
+				(variable) argc__main_0_0
+				(variable) argv__main_0_0
+
+
+Declared shared symbols:
+------------------------
+	Scope name: global
+		(Shared_numberOfPipeSegments__global_0_0) numberOfPipeSegments__global_0_0
+		(Shared_pipeSegmentIds__global_0_0) pipeSegmentIds__global_0_0
+		(Shared_numberOfCaps__global_0_0) numberOfCaps__global_0_0
+		(Shared_capIds__global_0_0) capIds__global_0_0
+		(Shared_numberOfImposedPressures__global_0_0) numberOfImposedPressures__global_0_0
+		(Shared_imposedPressureIds__global_0_0) imposedPressureIds__global_0_0
+		(Shared_numberOfImposedFlowRates__global_0_0) numberOfImposedFlowRates__global_0_0
+		(Shared_imposedFlowRateIds__global_0_0) imposedFlowRateIds__global_0_0
+		(Shared_numberOfPipeTs__global_0_0) numberOfPipeTs__global_0_0
+		(Shared_pipeTIds__global_0_0) pipeTIds__global_0_0
+		(Shared_numberOfValves__global_0_0) numberOfValves__global_0_0
+		(Shared_valveIds__global_0_0) valveIds__global_0_0
+		(Shared_numberOfMechanicalCalculations__global_0_0) numberOfMechanicalCalculations__global_0_0
+		(Shared_numberOfMechanicalPressureSensors__global_0_0) numberOfMechanicalPressureSensors__global_0_0
+		(Shared_mechanicalPressureSensorIds__global_0_0) mechanicalPressureSensorIds__global_0_0
+		(Shared_numberOfMechanicalPumps__global_0_0) numberOfMechanicalPumps__global_0_0
+		(Shared_mechanicalPumpIds__global_0_0) mechanicalPumpIds__global_0_0
+		(Shared_numberOfMechanicalValves__global_0_0) numberOfMechanicalValves__global_0_0
+		(Shared_mechanicalValveIds__global_0_0) mechanicalValveIds__global_0_0
+
+
+Use/Def of symbols:
+-------------------
+	Scope name: absFloat
+		def:
+			(variable) result__absFloat_0_0
+
+		use:
+			(variable) number__absFloat_0_0
+			(variable) result__absFloat_0_0
+
+	Scope name: applyComputationElementNonPipeT
+		def:
+			(variable) pipeNetwork__global_0_0
+
+		use:
+			(variable) pipeNetwork__global_0_0
+			(variable) id__applyComputationElementNonPipeT_0_0
+
+	Scope name: applyComputationElementPipeT
+		def:
+			(variable) pipeNetwork__global_0_0
+
+		use:
+			(variable) pipeNetwork__global_0_0
+			(variable) id__applyComputationElementPipeT_0_0
+
+	Scope name: applyGlobalCalculations
+		def:
+			(variable) fluidProperties__global_0_0
+
+		use:
+			(variable) fluidProperties__global_0_0
+
+	Scope name: applyMechanicalCalculations
+		def:
+			(variable) mechanicalCalculations__global_0_0
+
+		use:
+			(variable) mechanicalCalculations__global_0_0
+			(variable) id__applyMechanicalCalculations_0_0
+
+	Scope name: applyNewValues
+		def:
+			(variable) i__applyNewValues_0_0
+
+		use:
+			(shared) numberOfPipeSegments__global_0_0
+			(shared) pipeSegmentIds__global_0_0
+			(shared) numberOfCaps__global_0_0
+			(shared) capIds__global_0_0
+			(shared) numberOfImposedPressures__global_0_0
+			(shared) imposedPressureIds__global_0_0
+			(shared) numberOfImposedFlowRates__global_0_0
+			(shared) imposedFlowRateIds__global_0_0
+			(shared) numberOfPipeTs__global_0_0
+			(shared) pipeTIds__global_0_0
+			(shared) numberOfValves__global_0_0
+			(shared) valveIds__global_0_0
+			(shared) numberOfMechanicalPressureSensors__global_0_0
+			(shared) numberOfMechanicalPumps__global_0_0
+			(shared) mechanicalPumpIds__global_0_0
+			(shared) numberOfMechanicalValves__global_0_0
+			(shared) mechanicalValveIds__global_0_0
+			(function) applyComputationElementNonPipeT
+			(function) applyComputationElementPipeT
+			(function) applyMechanicalCalculations
+			(function) applyGlobalCalculations
+			(variable) i__applyNewValues_0_0
+
+	Scope name: computeCap
+		def:
+			(variable) pipeNetwork__global_0_0
+			(variable) pressureLeft__computeCap_0_0
+			(variable) flowRateLeft__computeCap_0_0
+
+		use:
+			(variable) pipeNetwork__global_0_0
+			(function) interpolate
+			(function) absFloat
+			(variable) id__computeCap_0_0
+			(variable) p__computeCap_0_0
+			(variable) ap__computeCap_0_0
+			(variable) theta__computeCap_0_0
+			(variable) A__computeCap_0_0
+			(variable) E__computeCap_0_0
+			(variable) B__computeCap_0_0
+			(variable) pressureLeft__computeCap_0_0
+			(variable) flowRateLeft__computeCap_0_0
+			(variable) leftId__computeCap_0_0
+			(variable) pressure__computeCap_0_0
+			(variable) flowRate__computeCap_0_0
+			(variable) Cp__computeCap_0_0
+			(variable) newFlowRate__computeCap_0_0
+
+	Scope name: computeGlobalCalculations
+		def:
+			(variable) fluidProperties__global_0_0
+
+	Scope name: computeImposedFlowRate
+		def:
+			(variable) pipeNetwork__global_0_0
+			(variable) pressureRight__computeImposedFlowRate_0_0
+			(variable) flowRateRight__computeImposedFlowRate_0_0
+
+		use:
+			(variable) pipeNetwork__global_0_0
+			(variable) mechanicalCalculations__global_0_0
+			(function) interpolate
+			(function) absFloat
+			(variable) id__computeImposedFlowRate_0_0
+			(variable) p__computeImposedFlowRate_0_0
+			(variable) ap__computeImposedFlowRate_0_0
+			(variable) theta__computeImposedFlowRate_0_0
+			(variable) A__computeImposedFlowRate_0_0
+			(variable) E__computeImposedFlowRate_0_0
+			(variable) B__computeImposedFlowRate_0_0
+			(variable) pressureRight__computeImposedFlowRate_0_0
+			(variable) flowRateRight__computeImposedFlowRate_0_0
+			(variable) rightId__computeImposedFlowRate_0_0
+			(variable) pressure__computeImposedFlowRate_0_0
+			(variable) flowRate__computeImposedFlowRate_0_0
+			(variable) Cm__computeImposedFlowRate_0_0
+			(variable) newFlowRate__computeImposedFlowRate_0_0
+
+	Scope name: computeImposedPressure
+		def:
+			(variable) pipeNetwork__global_0_0
+			(variable) pressureRight__computeImposedPressure_0_0
+			(variable) flowRateRight__computeImposedPressure_0_0
+
+		use:
+			(variable) pipeNetwork__global_0_0
+			(variable) mechanicalCalculations__global_0_0
+			(function) interpolate
+			(function) absFloat
+			(variable) id__computeImposedPressure_0_0
+			(variable) p__computeImposedPressure_0_0
+			(variable) ap__computeImposedPressure_0_0
+			(variable) theta__computeImposedPressure_0_0
+			(variable) A__computeImposedPressure_0_0
+			(variable) E__computeImposedPressure_0_0
+			(variable) B__computeImposedPressure_0_0
+			(variable) pressureRight__computeImposedPressure_0_0
+			(variable) flowRateRight__computeImposedPressure_0_0
+			(variable) rightId__computeImposedPressure_0_0
+			(variable) pressure__computeImposedPressure_0_0
+			(variable) flowRate__computeImposedPressure_0_0
+			(variable) Cm__computeImposedPressure_0_0
+			(variable) newPressure__computeImposedPressure_0_0
+
+	Scope name: computeMechanicalPressureSensorCalculations
+		def:
+			(variable) mechanicalCalculations__global_0_0
+
+		use:
+			(variable) id__computeMechanicalPressureSensorCalculations_0_0
+
+	Scope name: computeMechanicalPumpCalculations
+		def:
+			(variable) mechanicalCalculations__global_0_0
+
+		use:
+			(variable) id__computeMechanicalPumpCalculations_0_0
+
+	Scope name: computeMechanicalValveCalculations
+		def:
+			(variable) mechanicalCalculations__global_0_0
+
+		use:
+			(variable) valveIndex__global_0_0
+			(variable) id__computeMechanicalValveCalculations_0_0
+			(variable) numberOfValvePositions__computeMechanicalValveCalculations_0_0
+			(variable) valvePositions__computeMechanicalValveCalculations_0_0
+
+	Scope name: computeNewValues
+		def:
+			(variable) i__computeNewValues_0_0
+
+		use:
+			(shared) numberOfPipeSegments__global_0_0
+			(shared) pipeSegmentIds__global_0_0
+			(shared) numberOfCaps__global_0_0
+			(shared) capIds__global_0_0
+			(shared) numberOfImposedPressures__global_0_0
+			(shared) imposedPressureIds__global_0_0
+			(shared) numberOfImposedFlowRates__global_0_0
+			(shared) imposedFlowRateIds__global_0_0
+			(shared) numberOfPipeTs__global_0_0
+			(shared) pipeTIds__global_0_0
+			(shared) numberOfValves__global_0_0
+			(shared) valveIds__global_0_0
+			(variable) fluidProperties__global_0_0
+			(shared) numberOfMechanicalPressureSensors__global_0_0
+			(shared) numberOfMechanicalPumps__global_0_0
+			(shared) mechanicalPumpIds__global_0_0
+			(shared) numberOfMechanicalValves__global_0_0
+			(shared) mechanicalValveIds__global_0_0
+			(variable) valveIndex__global_0_0
+			(function) computePipeSegment
+			(function) computeCap
+			(function) computeImposedPressure
+			(function) computeImposedFlowRate
+			(function) computePipeT
+			(function) computeValve
+			(function) computeMechanicalPressureSensorCalculations
+			(function) computeMechanicalPumpCalculations
+			(function) computeMechanicalValveCalculations
+			(function) computeGlobalCalculations
+			(variable) p__computeNewValues_0_0
+			(variable) ap__computeNewValues_0_0
+			(variable) i__computeNewValues_0_0
+
+	Scope name: computePipeSegment
+		def:
+			(variable) pipeNetwork__global_0_0
+			(variable) pressureLeft__computePipeSegment_0_0
+			(variable) flowRateLeft__computePipeSegment_0_0
+			(variable) pressureRight__computePipeSegment_0_0
+			(variable) flowRateRight__computePipeSegment_0_0
+
+		use:
+			(variable) pipeNetwork__global_0_0
+			(function) interpolate
+			(function) absFloat
+			(variable) id__computePipeSegment_0_0
+			(variable) p__computePipeSegment_0_0
+			(variable) ap__computePipeSegment_0_0
+			(variable) theta__computePipeSegment_0_0
+			(variable) A__computePipeSegment_0_0
+			(variable) E__computePipeSegment_0_0
+			(variable) B__computePipeSegment_0_0
+			(variable) pressureLeft__computePipeSegment_0_0
+			(variable) flowRateLeft__computePipeSegment_0_0
+			(variable) leftId__computePipeSegment_0_0
+			(variable) pressureRight__computePipeSegment_0_0
+			(variable) flowRateRight__computePipeSegment_0_0
+			(variable) rightId__computePipeSegment_0_0
+			(variable) pressure__computePipeSegment_0_0
+			(variable) flowRate__computePipeSegment_0_0
+			(variable) Cp__computePipeSegment_0_0
+			(variable) Cm__computePipeSegment_0_0
+			(variable) newPressure__computePipeSegment_0_0
+
+	Scope name: computePipeT
+		def:
+			(variable) pipeNetwork__global_0_0
+			(variable) pressureLeft__computePipeT_0_0
+			(variable) flowRateLeft__computePipeT_0_0
+			(variable) pressureRight__computePipeT_0_0
+			(variable) flowRateRight__computePipeT_0_0
+			(variable) pressureTop__computePipeT_0_0
+			(variable) flowRateTop__computePipeT_0_0
+
+		use:
+			(variable) pipeNetwork__global_0_0
+			(function) interpolate
+			(function) absFloat
+			(variable) id__computePipeT_0_0
+			(variable) p__computePipeT_0_0
+			(variable) ap__computePipeT_0_0
+			(variable) theta__computePipeT_0_0
+			(variable) A__computePipeT_0_0
+			(variable) E__computePipeT_0_0
+			(variable) B__computePipeT_0_0
+			(variable) A2__computePipeT_0_0
+			(variable) A3__computePipeT_0_0
+			(variable) pressureLeft__computePipeT_0_0
+			(variable) flowRateLeft__computePipeT_0_0
+			(variable) leftId__computePipeT_0_0
+			(variable) pressureRight__computePipeT_0_0
+			(variable) flowRateRight__computePipeT_0_0
+			(variable) rightId__computePipeT_0_0
+			(variable) pressureTop__computePipeT_0_0
+			(variable) flowRateTop__computePipeT_0_0
+			(variable) topId__computePipeT_0_0
+			(variable) pressure__computePipeT_0_0
+			(variable) flowRate__computePipeT_0_0
+			(variable) B2__computePipeT_0_0
+			(variable) B3__computePipeT_0_0
+			(variable) Cp1__computePipeT_0_0
+			(variable) Cm2__computePipeT_0_0
+			(variable) Cm3__computePipeT_0_0
+			(variable) newPressure__computePipeT_0_0
+
+	Scope name: computeValve
+		def:
+			(variable) pipeNetwork__global_0_0
+			(variable) pressureLeft__computeValve_0_0
+			(variable) flowRateLeft__computeValve_0_0
+
+		use:
+			(variable) pipeNetwork__global_0_0
+			(variable) mechanicalCalculations__global_0_0
+			(function) interpolate
+			(function) absFloat
+			(variable) id__computeValve_0_0
+			(variable) p__computeValve_0_0
+			(variable) ap__computeValve_0_0
+			(variable) theta__computeValve_0_0
+			(variable) A__computeValve_0_0
+			(variable) E__computeValve_0_0
+			(variable) B__computeValve_0_0
+			(variable) pressureLeft__computeValve_0_0
+			(variable) flowRateLeft__computeValve_0_0
+			(variable) leftId__computeValve_0_0
+			(variable) pressure__computeValve_0_0
+			(variable) flowRate__computeValve_0_0
+			(variable) Cp__computeValve_0_0
+			(variable) tau__computeValve_0_0
+			(variable) Cvp__computeValve_0_0
+			(variable) Cv__computeValve_0_0
+			(variable) newFlowRate__computeValve_0_0
+
+	Scope name: interpolate
+		use:
+			(variable) center__interpolate_0_0
+			(variable) edge__interpolate_0_0
+			(variable) slope__interpolate_0_0
+
+	Scope name: main
+		use:
+			(thread) computeNewValues__thread
+			(thread) applyNewValues__thread
+
+
+Indirect use/def of symbols by parId:
+-------------------------------------
+	par0:
+		numberOfPipeSegments__global_0_0
+			use (skip): computeNewValues 
+
+		pipeSegmentIds__global_0_0
+			use (skip): computeNewValues 
+
+		numberOfCaps__global_0_0
+			use (skip): computeNewValues 
+
+		capIds__global_0_0
+			use (skip): computeNewValues 
+
+		numberOfImposedPressures__global_0_0
+			use (skip): computeNewValues 
+
+		imposedPressureIds__global_0_0
+			use (skip): computeNewValues 
+
+		numberOfImposedFlowRates__global_0_0
+			use (skip): computeNewValues 
+
+		imposedFlowRateIds__global_0_0
+			use (skip): computeNewValues 
+
+		numberOfPipeTs__global_0_0
+			use (skip): computeNewValues 
+
+		pipeTIds__global_0_0
+			use (skip): computeNewValues 
+
+		numberOfValves__global_0_0
+			use (skip): computeNewValues 
+
+		valveIds__global_0_0
+			use (skip): computeNewValues 
+
+		fluidProperties__global_0_0
+			use (skip): computeNewValues 
+
+		numberOfMechanicalPressureSensors__global_0_0
+			use (skip): computeNewValues 
+
+		numberOfMechanicalPumps__global_0_0
+			use (skip): computeNewValues 
+
+		mechanicalPumpIds__global_0_0
+			use (skip): computeNewValues 
+
+		numberOfMechanicalValves__global_0_0
+			use (skip): computeNewValues 
+
+		mechanicalValveIds__global_0_0
+			use (skip): computeNewValues 
+
+		valveIndex__global_0_0
+			use (skip): computeNewValues 
+
+		p__computeNewValues_0_0
+			use (skip): computeNewValues 
+
+		ap__computeNewValues_0_0
+			use (skip): computeNewValues 
+
+		i__computeNewValues_0_0
+			def (skip): computeNewValues 
+			use (skip): computeNewValues 
+
+	par1:
+		numberOfPipeSegments__global_0_0
+			use (skip): applyNewValues 
+
+		pipeSegmentIds__global_0_0
+			use (skip): applyNewValues 
+
+		numberOfCaps__global_0_0
+			use (skip): applyNewValues 
+
+		capIds__global_0_0
+			use (skip): applyNewValues 
+
+		numberOfImposedPressures__global_0_0
+			use (skip): applyNewValues 
+
+		imposedPressureIds__global_0_0
+			use (skip): applyNewValues 
+
+		numberOfImposedFlowRates__global_0_0
+			use (skip): applyNewValues 
+
+		imposedFlowRateIds__global_0_0
+			use (skip): applyNewValues 
+
+		numberOfPipeTs__global_0_0
+			use (skip): applyNewValues 
+
+		pipeTIds__global_0_0
+			use (skip): applyNewValues 
+
+		numberOfValves__global_0_0
+			use (skip): applyNewValues 
+
+		valveIds__global_0_0
+			use (skip): applyNewValues 
+
+		numberOfMechanicalPressureSensors__global_0_0
+			use (skip): applyNewValues 
+
+		numberOfMechanicalPumps__global_0_0
+			use (skip): applyNewValues 
+
+		mechanicalPumpIds__global_0_0
+			use (skip): applyNewValues 
+
+		numberOfMechanicalValves__global_0_0
+			use (skip): applyNewValues 
+
+		mechanicalValveIds__global_0_0
+			use (skip): applyNewValues 
+
+		i__applyNewValues_0_0
+			def (skip): applyNewValues 
+			use (skip): applyNewValues 
+
+
+Indirect use/def of symbols by threadId:
+----------------------------------------
+	applyNewValues:
+		numberOfPipeSegments__global_0_0
+			use (root): applyNewValues 
+
+		pipeSegmentIds__global_0_0
+			use (root): applyNewValues 
+
+		numberOfCaps__global_0_0
+			use (root): applyNewValues 
+
+		capIds__global_0_0
+			use (root): applyNewValues 
+
+		numberOfImposedPressures__global_0_0
+			use (root): applyNewValues 
+
+		imposedPressureIds__global_0_0
+			use (root): applyNewValues 
+
+		numberOfImposedFlowRates__global_0_0
+			use (root): applyNewValues 
+
+		imposedFlowRateIds__global_0_0
+			use (root): applyNewValues 
+
+		numberOfPipeTs__global_0_0
+			use (root): applyNewValues 
+
+		pipeTIds__global_0_0
+			use (root): applyNewValues 
+
+		numberOfValves__global_0_0
+			use (root): applyNewValues 
+
+		valveIds__global_0_0
+			use (root): applyNewValues 
+
+		numberOfMechanicalPressureSensors__global_0_0
+			use (root): applyNewValues 
+
+		numberOfMechanicalPumps__global_0_0
+			use (root): applyNewValues 
+
+		mechanicalPumpIds__global_0_0
+			use (root): applyNewValues 
+
+		numberOfMechanicalValves__global_0_0
+			use (root): applyNewValues 
+
+		mechanicalValveIds__global_0_0
+			use (root): applyNewValues 
+
+		i__applyNewValues_0_0
+			def (skip): applyNewValues 
+			use (skip): applyNewValues 
+
+	computeNewValues:
+		numberOfPipeSegments__global_0_0
+			use (root): computeNewValues 
+
+		pipeSegmentIds__global_0_0
+			use (root): computeNewValues 
+
+		numberOfCaps__global_0_0
+			use (root): computeNewValues 
+
+		capIds__global_0_0
+			use (root): computeNewValues 
+
+		numberOfImposedPressures__global_0_0
+			use (root): computeNewValues 
+
+		imposedPressureIds__global_0_0
+			use (root): computeNewValues 
+
+		numberOfImposedFlowRates__global_0_0
+			use (root): computeNewValues 
+
+		imposedFlowRateIds__global_0_0
+			use (root): computeNewValues 
+
+		numberOfPipeTs__global_0_0
+			use (root): computeNewValues 
+
+		pipeTIds__global_0_0
+			use (root): computeNewValues 
+
+		numberOfValves__global_0_0
+			use (root): computeNewValues 
+
+		valveIds__global_0_0
+			use (root): computeNewValues 
+
+		fluidProperties__global_0_0
+			use (skip): computeNewValues 
+
+		numberOfMechanicalPressureSensors__global_0_0
+			use (root): computeNewValues 
+
+		numberOfMechanicalPumps__global_0_0
+			use (root): computeNewValues 
+
+		mechanicalPumpIds__global_0_0
+			use (root): computeNewValues 
+
+		numberOfMechanicalValves__global_0_0
+			use (root): computeNewValues 
+
+		mechanicalValveIds__global_0_0
+			use (root): computeNewValues 
+
+		valveIndex__global_0_0
+			use (skip): computeNewValues 
+
+		p__computeNewValues_0_0
+			use (skip): computeNewValues 
+
+		ap__computeNewValues_0_0
+			use (skip): computeNewValues 
+
+		i__computeNewValues_0_0
+			def (skip): computeNewValues 
+			use (skip): computeNewValues 
+
+	main:
+		numberOfPipeSegments__global_0_0
+			use (skip): main 
+
+		pipeSegmentIds__global_0_0
+			use (skip): main 
+
+		numberOfCaps__global_0_0
+			use (skip): main 
+
+		capIds__global_0_0
+			use (skip): main 
+
+		numberOfImposedPressures__global_0_0
+			use (skip): main 
+
+		imposedPressureIds__global_0_0
+			use (skip): main 
+
+		numberOfImposedFlowRates__global_0_0
+			use (skip): main 
+
+		imposedFlowRateIds__global_0_0
+			use (skip): main 
+
+		numberOfPipeTs__global_0_0
+			use (skip): main 
+
+		pipeTIds__global_0_0
+			use (skip): main 
+
+		numberOfValves__global_0_0
+			use (skip): main 
+
+		valveIds__global_0_0
+			use (skip): main 
+
+		fluidProperties__global_0_0
+			use (skip): main 
+
+		numberOfMechanicalPressureSensors__global_0_0
+			use (skip): main 
+
+		numberOfMechanicalPumps__global_0_0
+			use (skip): main 
+
+		mechanicalPumpIds__global_0_0
+			use (skip): main 
+
+		numberOfMechanicalValves__global_0_0
+			use (skip): main 
+
+		mechanicalValveIds__global_0_0
+			use (skip): main 
+
+		valveIndex__global_0_0
+			use (skip): main 
+
+		p__computeNewValues_0_0
+			use (skip): main 
+
+		ap__computeNewValues_0_0
+			use (skip): main 
+
+		i__computeNewValues_0_0
+			def (skip): main 
+			use (skip): main 
+
+		i__applyNewValues_0_0
+			def (skip): main 
+			use (skip): main 
+
+
+Functions used for combining shared variables:
+----------------------------------------------
+
+============================
+tools::Threading::toString()
+============================
+Threads declared:
+-----------------
+	* applyNewValues__thread
+	* computeNewValues__thread
+	* main__thread
+
+Threads unused:
+---------------
+
+par(...) statements:
+--------------------
+	Thread scope: main
+		par0:
+		* computeNewValues__thread
+
+		par1:
+		* applyNewValues__thread
+
+========================
+tools::Abort::toString()
+========================
+============================
+tools::Condition::toString()
+============================
+Iterations statements:
+----------------------
+	Thread scope: main__thread
+		par0:
+		* while_0
+
+		par1:
+		* while_0
+
+
+========================
+tarot::Tarot::toString()
+========================
+Full tarot:
+-----------
+	core0: main__thread
+	.	core0: while_0
+	.	.	core0: par0
+	.	.	|	core0: computeNewValues__thread
+	.	.	core0: par1
+	.	.	|	core0: applyNewValues__thread
+	.	.	pause0
+
+
+Tarot by coreId:
+----------------
+	core0:
+	-------
+		core0: main__thread
+		.	core0: while_0
+		.	.	core0: par0
+		.	.	|	core0: computeNewValues__thread
+		.	.	core0: par1
+		.	.	|	core0: applyNewValues__thread
+		.	.	pause0
+
+
+par(...) statements with core allocation:
+-----------------------------------------
+	Thread main__thread:
+		all:
+		* core0
+
+		par0:
+		* core0
+
+		par1:
+		* core0
+
+
+par(...) statements with active cores:
+--------------------------------------
+	Thread main__thread:
+		all:
+		* core0
+
+		par0:
+		* core0
+
+		par1:
+		* core0
+
+
+Reaction starts:
+----------------
+	core0:
+		main: Master
+
+
+Reaction ends:
+--------------
+	core0:
+		par0:
+			coreIds:
+			* 0
+
+			isMaster:
+			* true
+
+			threadScope:
+			* main
+
+		par1:
+			coreIds:
+			* 0
+
+			isMaster:
+			* true
+
+			threadScope:
+			* main
+
+
+Par(...) handlers:
+------------------
+	par0:
+	* computeNewValues__thread
+	* mainReactionStartMaster0
+	* mainReactionEndMaster0
+
+	par1:
+	* applyNewValues__thread
+	* mainReactionStartMaster0
+	* mainReactionEndMaster0
+
+
+Linked lists:
+-------------
+	core0:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartMaster0
+			* (thread) computeNewValues__thread
+			* (parEnd) mainReactionEndMaster0
+
+			par1:
+			* (parStart) mainReactionStartMaster0
+			* (thread) applyNewValues__thread
+			* (parEnd) mainReactionEndMaster0
+
+
+par(...) handlers in thread scopes:
+-----------------------------------
+	par0	main__thread
+	par1	main__thread
+
+Scoped iterations:
+------------------
+	while_0:
+		coreIds:
+		* 0
+
+		parIds:
+		* par0
+		* par1
+
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	microblaze
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	0		applyNewValues__thread
+	0		computeNewValues__thread
+	0		main__thread
+
+
+========================
+tools::Mutex::toString()
+========================
+Mutex information:
+------------------
+

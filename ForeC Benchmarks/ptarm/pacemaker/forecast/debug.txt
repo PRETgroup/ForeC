@@ -1,0 +1,2435 @@
+ForeC Compiler (multicore distribution)
+Version: 0.985 (28 September 2013)
+Debug output
+---------------------------------------
+
+Source file name: pacemaker.forec
+Header file name: pacemaker.foreh
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	x86
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	0		basic__thread
+	0		communication__thread
+	0		ekgSensing__thread
+	0		logging__thread
+	0		main__thread
+	0		modeSwitch__thread
+	0		motionSensing__thread
+	0		patternVpAs__thread
+	0		rateAdapter__thread
+
+
+==============================
+tools::SymbolTable::toString()
+==============================
+Symbol tables:
+--------------
+	Scope name: basic
+		Scope level: 0
+			Instance: 0
+				(enumeration) Init_avi_ms
+				(enumeration) AVI
+				(enumeration) Wait_URI
+				(enumeration) VDI_Idle
+				(enumeration) VDI_AVI
+				(variable) state_avi_ms__basic_0_0
+				(enumeration) Init_lri_ms
+				(enumeration) Sensed
+				(enumeration) VDI_LRI
+				(variable) state_lri_ms__basic_0_0
+				(enumeration) Init_pvarp_elt
+				(enumeration) PVAB
+				(enumeration) PVARP
+				(variable) state_pvarp_elt__basic_0_0
+				(enumeration) Init_vrp
+				(enumeration) VRP
+				(variable) state_vrp__basic_0_0
+				(variable) timer_uri__basic_0_0
+				(variable) timer_avi_ms__basic_0_0
+				(variable) timer_lri_ms__basic_0_0
+				(variable) timer_pvarp_elt__basic_0_0
+				(variable) timer_vrp__basic_0_0
+				(variable) A_Block__basic_0_0
+				(variable) V_Block__basic_0_0
+				(variable) VP_new__basic_0_0
+
+	Scope name: communication
+		Scope level: 0
+			Instance: 0
+				(enumeration) Nothing
+				(enumeration) Acknowledge
+				(enumeration) Complete
+				(enumeration) Receive
+				(enumeration) Send
+				(storage) Code__communication_0_0
+				(variable) state_rf__communication_0_0
+				(variable) subState__communication_0_0
+				(variable) data__communication_0_0
+				(variable) logCopy__communication_0_0
+				(variable) i__communication_0_0
+		Scope level: 1
+			Instance: 0
+				(variable) state_rf__communication_1_0
+				(variable) subState__communication_1_0
+				(variable) data__communication_1_0
+
+	Scope name: ekgSensing
+		Scope level: 0
+			Instance: 0
+				(enumeration) Init_conduction
+				(enumeration) Ante
+				(enumeration) Retro
+				(variable) state_conduction__ekgSensing_0_0
+				(variable) timer_rhm_a__ekgSensing_0_0
+				(variable) timer_rhm_v__ekgSensing_0_0
+				(variable) timer_conduction__ekgSensing_0_0
+
+	Scope name: global
+		Scope level: 0
+			Instance: 0
+				(typedef) Buffer__global_0_0
+				(typedef) Param__global_0_0
+				(enumeration) absent
+				(enumeration) present
+				(typedef) Signal__global_0_0
+				(typedef) Event__global_0_0
+				(typedef) Log__global_0_0
+				(variable) Base_Period__global_0_0
+				(shared) TURI__global_0_0
+				(shared) TLRI__global_0_0
+				(variable) TAVI__global_0_0
+				(variable) TVRP__global_0_0
+				(variable) TPVAB__global_0_0
+				(variable) Threshold__global_0_0
+				(shared) TPVARP__global_0_0
+				(variable) TPVARP_100__global_0_0
+				(variable) TPVARP_500__global_0_0
+				(variable) T_150__global_0_0
+				(variable) T_200__global_0_0
+				(variable) T_500__global_0_0
+				(variable) Aminwait__global_0_0
+				(variable) Vminwait__global_0_0
+				(variable) Tantemin__global_0_0
+				(variable) Tretromin__global_0_0
+				(shared) A_Get__global_0_0
+				(shared) A_Act__global_0_0
+				(shared) V_Get__global_0_0
+				(shared) V_Act__global_0_0
+				(input) motionSensor__global_0_0
+				(input) rfIn__global_0_0
+				(shared) AP__global_0_0
+				(shared) VP__global_0_0
+				(output) rfOut__global_0_0
+				(shared) AS__global_0_0
+				(shared) AR__global_0_0
+				(shared) VS__global_0_0
+				(shared) DDD__global_0_0
+				(shared) VDI__global_0_0
+				(shared) motionSensing2rateAdapter__global_0_0
+				(shared) rate__global_0_0
+				(shared) parameters__global_0_0
+				(shared) log__global_0_0
+				(thread) ekgSensing__thread
+				(thread) basic__thread
+				(thread) modeSwitch__thread
+				(thread) patternVpAs__thread
+				(thread) motionSensing__thread
+				(thread) rateAdapter__thread
+				(thread) logging__thread
+				(thread) communication__thread
+				(function) sin
+				(function) icrc
+
+	Scope name: icrc
+		Scope level: 0
+			Instance: 0
+				(variable) crc__icrc_0_0
+				(variable) len__icrc_0_0
+				(variable) jinit__icrc_0_0
+				(variable) jrev__icrc_0_0
+				(variable) lin__icrc_0_0
+				(variable) icrctb__icrc_0_0
+				(variable) rchr__icrc_0_0
+				(variable) tmp1__icrc_0_0
+				(variable) tmp2__icrc_0_0
+				(variable) j__icrc_0_0
+				(variable) cword__icrc_0_0
+				(variable) it__icrc_0_0
+		Scope level: 1
+			Instance: 0
+				(variable) onech__icrc_1_0
+				(variable) ans__icrc_1_0
+				(variable) i__icrc_1_0
+
+	Scope name: logging
+		Scope level: 0
+			Instance: 0
+				(enumeration) Init_lrl
+				(enumeration) Wait_lrl
+				(variable) state_lrl__logging_0_0
+				(enumeration) Init_url
+				(enumeration) Wait_url
+				(variable) state_url__logging_0_0
+				(enumeration) Init_pmt
+				(enumeration) Wait_pmt
+				(enumeration) Error_pmt
+				(variable) state_pmt__logging_0_0
+				(enumeration) Init_vurl
+				(enumeration) V_vurl
+				(enumeration) Error_vurl
+				(variable) state_vurl__logging_0_0
+				(enumeration) Init_elt
+				(enumeration) AS_elt
+				(enumeration) VP_elt
+				(enumeration) Error_elt
+				(variable) state_elt__logging_0_0
+				(variable) timer_lrl__logging_0_0
+				(variable) timer_url__logging_0_0
+				(variable) timer_pmt__logging_0_0
+				(variable) timer_vurl__logging_0_0
+				(variable) violated__logging_0_0
+				(variable) event__logging_0_0
+
+	Scope name: main
+		Scope level: 0
+			Instance: 0
+				(variable) argc__main_0_0
+				(variable) argv__main_0_0
+
+	Scope name: max
+		Scope level: 0
+			Instance: 0
+				(variable) copy1__max_0_0
+				(variable) copy2__max_0_0
+
+	Scope name: modeSwitch
+		Scope level: 0
+			Instance: 0
+				(enumeration) Init_interval_ms
+				(enumeration) Wait
+				(variable) state_interval_ms__modeSwitch_0_0
+				(enumeration) Init_counter_ms
+				(enumeration) Fast1
+				(enumeration) Fast2
+				(enumeration) Fast3
+				(enumeration) Fast4
+				(enumeration) Fast5
+				(enumeration) Fast6
+				(enumeration) Fast7
+				(enumeration) Fast8
+				(storage) State__modeSwitch_0_0
+				(variable) state_counter_ms__modeSwitch_0_0
+				(enumeration) Init_duration_ms
+				(enumeration) V1
+				(enumeration) V2
+				(enumeration) V3
+				(enumeration) V4
+				(enumeration) V5
+				(enumeration) V6
+				(enumeration) V7
+				(enumeration) V8
+				(enumeration) V9
+				(variable) state_duration_ms__modeSwitch_0_0
+				(variable) timer_interval_ms__modeSwitch_0_0
+				(variable) Fast__modeSwitch_0_0
+				(variable) Slow__modeSwitch_0_0
+				(variable) D_Beg__modeSwitch_0_0
+				(variable) D_Beg_new__modeSwitch_0_0
+				(variable) D_End__modeSwitch_0_0
+
+	Scope name: motionSensing
+		Scope level: 0
+			Instance: 0
+				(variable) PI__motionSensing_0_0
+				(variable) PI_half__motionSensing_0_0
+				(variable) PI_twice__motionSensing_0_0
+				(variable) ar__motionSensing_0_0
+				(variable) ai__motionSensing_0_0
+				(variable) n__motionSensing_0_0
+				(variable) o__motionSensing_0_0
+				(variable) i__motionSensing_0_0
+				(variable) j__motionSensing_0_0
+				(variable) k__motionSensing_0_0
+				(variable) it__motionSensing_0_0
+				(variable) xp__motionSensing_0_0
+				(variable) xp2__motionSensing_0_0
+				(variable) j1__motionSensing_0_0
+				(variable) j2__motionSensing_0_0
+				(variable) w__motionSensing_0_0
+				(variable) wr__motionSensing_0_0
+				(variable) wi__motionSensing_0_0
+				(variable) dr1__motionSensing_0_0
+				(variable) dr2__motionSensing_0_0
+				(variable) di1__motionSensing_0_0
+				(variable) di2__motionSensing_0_0
+				(variable) tr__motionSensing_0_0
+				(variable) ti__motionSensing_0_0
+				(variable) arg__motionSensing_0_0
+
+	Scope name: patternVpAs
+		Scope level: 0
+			Instance: 0
+				(enumeration) Init_pattern_vpAs
+				(enumeration) VP1
+				(variable) state_pattern_vpAs__patternVpAs_0_0
+				(enumeration) Init_counter_vpAs
+				(enumeration) E1
+				(enumeration) E2
+				(enumeration) E3
+				(enumeration) E4
+				(enumeration) E5
+				(enumeration) E6
+				(enumeration) E7
+				(enumeration) E8
+				(variable) state_counter_vpAs__patternVpAs_0_0
+				(variable) timer_pattern_vpAs__patternVpAs_0_0
+				(variable) VP_AS__patternVpAs_0_0
+				(variable) Reset__patternVpAs_0_0
+
+	Scope name: rateAdapter
+		Scope level: 0
+			Instance: 0
+				(variable) MAX__rateAdapter_0_0
+				(variable) i__rateAdapter_0_0
+				(variable) Seed__rateAdapter_0_0
+				(variable) ArrayA__rateAdapter_0_0
+				(variable) ArrayB__rateAdapter_0_0
+				(variable) MeanA__rateAdapter_0_0
+				(variable) MeanB__rateAdapter_0_0
+				(variable) VarA__rateAdapter_0_0
+				(variable) VarB__rateAdapter_0_0
+				(variable) StddevA__rateAdapter_0_0
+				(variable) StddevB__rateAdapter_0_0
+				(variable) SumA__rateAdapter_0_0
+				(variable) SumB__rateAdapter_0_0
+				(variable) numerator__rateAdapter_0_0
+				(variable) diffsA__rateAdapter_0_0
+				(variable) diffsB__rateAdapter_0_0
+				(variable) Aterm__rateAdapter_0_0
+				(variable) Bterm__rateAdapter_0_0
+				(variable) Aterm_sqrt__rateAdapter_0_0
+				(variable) Bterm_sqrt__rateAdapter_0_0
+				(variable) Coef__rateAdapter_0_0
+
+	Scope name: sin
+		Scope level: 0
+			Instance: 0
+				(variable) rad__sin_0_0
+				(variable) PI_twice__sin_0_0
+				(variable) app__sin_0_0
+				(variable) diff__sin_0_0
+				(variable) inc__sin_0_0
+
+
+Declared shared symbols:
+------------------------
+	Scope name: global
+		(Shared_TURI__global_0_0) TURI__global_0_0
+		(Shared_TLRI__global_0_0) TLRI__global_0_0
+		(Shared_TPVARP__global_0_0) TPVARP__global_0_0
+		(Shared_A_Get__global_0_0) A_Get__global_0_0
+		(Shared_A_Act__global_0_0) A_Act__global_0_0
+		(Shared_V_Get__global_0_0) V_Get__global_0_0
+		(Shared_V_Act__global_0_0) V_Act__global_0_0
+		(Shared_AP__global_0_0) AP__global_0_0
+		(Shared_VP__global_0_0) VP__global_0_0
+		(Shared_AS__global_0_0) AS__global_0_0
+		(Shared_AR__global_0_0) AR__global_0_0
+		(Shared_VS__global_0_0) VS__global_0_0
+		(Shared_DDD__global_0_0) DDD__global_0_0
+		(Shared_VDI__global_0_0) VDI__global_0_0
+		(Shared_motionSensing2rateAdapter__global_0_0) motionSensing2rateAdapter__global_0_0
+		(Shared_rate__global_0_0) rate__global_0_0
+		(Shared_parameters__global_0_0) parameters__global_0_0
+		(Shared_log__global_0_0) log__global_0_0
+
+
+Use/Def of symbols:
+-------------------
+	Scope name: basic
+		def:
+			() Signal__global_0_0
+			(shared) TPVARP__global_0_0
+			(shared) AP__global_0_0
+			(shared) VP__global_0_0
+			(shared) AS__global_0_0
+			(shared) AR__global_0_0
+			(shared) VS__global_0_0
+			(variable) state_avi_ms__basic_0_0
+			(variable) state_lri_ms__basic_0_0
+			(variable) state_pvarp_elt__basic_0_0
+			(variable) state_vrp__basic_0_0
+			(variable) timer_uri__basic_0_0
+			(variable) timer_avi_ms__basic_0_0
+			(variable) timer_lri_ms__basic_0_0
+			(variable) timer_pvarp_elt__basic_0_0
+			(variable) timer_vrp__basic_0_0
+			(variable) A_Block__basic_0_0
+			(variable) V_Block__basic_0_0
+			(variable) VP_new__basic_0_0
+
+		use:
+			(enumeration) absent
+			(enumeration) present
+			(shared) TURI__global_0_0
+			(shared) TLRI__global_0_0
+			(variable) TAVI__global_0_0
+			(variable) TVRP__global_0_0
+			(variable) TPVAB__global_0_0
+			(shared) TPVARP__global_0_0
+			(variable) TPVARP_100__global_0_0
+			(shared) A_Get__global_0_0
+			(shared) A_Act__global_0_0
+			(shared) V_Get__global_0_0
+			(shared) V_Act__global_0_0
+			(shared) AP__global_0_0
+			(shared) VP__global_0_0
+			(shared) AS__global_0_0
+			(shared) VS__global_0_0
+			(shared) DDD__global_0_0
+			(shared) VDI__global_0_0
+			(enumeration) Init_avi_ms
+			(enumeration) AVI
+			(enumeration) Wait_URI
+			(enumeration) VDI_Idle
+			(enumeration) VDI_AVI
+			(variable) state_avi_ms__basic_0_0
+			(enumeration) Init_lri_ms
+			(enumeration) Sensed
+			(enumeration) VDI_LRI
+			(variable) state_lri_ms__basic_0_0
+			(enumeration) Init_pvarp_elt
+			(enumeration) PVAB
+			(enumeration) PVARP
+			(variable) state_pvarp_elt__basic_0_0
+			(enumeration) Init_vrp
+			(enumeration) VRP
+			(variable) state_vrp__basic_0_0
+			(variable) timer_uri__basic_0_0
+			(variable) timer_avi_ms__basic_0_0
+			(variable) timer_lri_ms__basic_0_0
+			(variable) timer_pvarp_elt__basic_0_0
+			(variable) timer_vrp__basic_0_0
+			(variable) VP_new__basic_0_0
+
+	Scope name: communication
+		def:
+			() Log__global_0_0
+			(output) rfOut__global_0_0
+			(shared) parameters__global_0_0
+			(variable) logCopy__communication_0_0
+			(variable) i__communication_0_0
+
+		use:
+			(input) rfIn__global_0_0
+			(shared) log__global_0_0
+			(function) icrc
+			(enumeration) Acknowledge
+			(enumeration) Complete
+			(enumeration) Receive
+			(enumeration) Send
+			(variable) logCopy__communication_0_0
+			(variable) i__communication_0_0
+			(variable) state_rf__communication_1_0
+			(variable) subState__communication_1_0
+			(variable) data__communication_1_0
+
+	Scope name: ekgSensing
+		def:
+			(shared) A_Get__global_0_0
+			(shared) A_Act__global_0_0
+			(shared) V_Get__global_0_0
+			(shared) V_Act__global_0_0
+			(variable) state_conduction__ekgSensing_0_0
+			(variable) timer_rhm_a__ekgSensing_0_0
+			(variable) timer_rhm_v__ekgSensing_0_0
+			(variable) timer_conduction__ekgSensing_0_0
+
+		use:
+			(enumeration) present
+			(variable) Aminwait__global_0_0
+			(variable) Vminwait__global_0_0
+			(variable) Tantemin__global_0_0
+			(variable) Tretromin__global_0_0
+			(shared) A_Get__global_0_0
+			(shared) A_Act__global_0_0
+			(shared) V_Get__global_0_0
+			(shared) V_Act__global_0_0
+			(shared) AP__global_0_0
+			(shared) VP__global_0_0
+			(enumeration) Init_conduction
+			(enumeration) Ante
+			(enumeration) Retro
+			(variable) state_conduction__ekgSensing_0_0
+			(variable) timer_rhm_a__ekgSensing_0_0
+			(variable) timer_rhm_v__ekgSensing_0_0
+			(variable) timer_conduction__ekgSensing_0_0
+
+	Scope name: icrc
+		def:
+			(variable) icrctb__icrc_0_0
+			(variable) rchr__icrc_0_0
+			(variable) tmp1__icrc_0_0
+			(variable) tmp2__icrc_0_0
+			(variable) j__icrc_0_0
+			(variable) cword__icrc_0_0
+			(variable) ans__icrc_1_0
+			(variable) i__icrc_1_0
+
+		use:
+			(variable) crc__icrc_0_0
+			(variable) len__icrc_0_0
+			(variable) jinit__icrc_0_0
+			(variable) jrev__icrc_0_0
+			(variable) lin__icrc_0_0
+			(variable) icrctb__icrc_0_0
+			(variable) rchr__icrc_0_0
+			(variable) tmp1__icrc_0_0
+			(variable) j__icrc_0_0
+			(variable) cword__icrc_0_0
+			(variable) it__icrc_0_0
+			(variable) onech__icrc_1_0
+			(variable) ans__icrc_1_0
+			(variable) i__icrc_1_0
+
+	Scope name: logging
+		def:
+			() Signal__global_0_0
+			() Event__global_0_0
+			(shared) log__global_0_0
+			(variable) state_lrl__logging_0_0
+			(variable) state_url__logging_0_0
+			(variable) state_pmt__logging_0_0
+			(variable) state_vurl__logging_0_0
+			(variable) state_elt__logging_0_0
+			(variable) timer_lrl__logging_0_0
+			(variable) timer_url__logging_0_0
+			(variable) timer_pmt__logging_0_0
+			(variable) timer_vurl__logging_0_0
+			(variable) violated__logging_0_0
+			(variable) event__logging_0_0
+
+		use:
+			(enumeration) absent
+			(enumeration) present
+			(shared) TURI__global_0_0
+			(shared) TLRI__global_0_0
+			(shared) AP__global_0_0
+			(shared) VP__global_0_0
+			(shared) AS__global_0_0
+			(shared) AR__global_0_0
+			(shared) VS__global_0_0
+			(shared) DDD__global_0_0
+			(shared) VDI__global_0_0
+			(shared) log__global_0_0
+			(enumeration) Init_lrl
+			(enumeration) Wait_lrl
+			(variable) state_lrl__logging_0_0
+			(enumeration) Init_url
+			(enumeration) Wait_url
+			(variable) state_url__logging_0_0
+			(enumeration) Init_pmt
+			(enumeration) Wait_pmt
+			(variable) state_pmt__logging_0_0
+			(enumeration) Init_vurl
+			(enumeration) V_vurl
+			(enumeration) Error_vurl
+			(variable) state_vurl__logging_0_0
+			(enumeration) Init_elt
+			(enumeration) AS_elt
+			(enumeration) VP_elt
+			(enumeration) Error_elt
+			(variable) state_elt__logging_0_0
+			(variable) timer_lrl__logging_0_0
+			(variable) timer_url__logging_0_0
+			(variable) timer_pmt__logging_0_0
+			(variable) timer_vurl__logging_0_0
+			(variable) violated__logging_0_0
+			(variable) event__logging_0_0
+
+	Scope name: main
+		use:
+			(thread) ekgSensing__thread
+			(thread) basic__thread
+			(thread) modeSwitch__thread
+			(thread) patternVpAs__thread
+			(thread) motionSensing__thread
+			(thread) rateAdapter__thread
+			(thread) logging__thread
+			(thread) communication__thread
+
+	Scope name: max
+		use:
+			(variable) copy1__max_0_0
+			(variable) copy2__max_0_0
+
+	Scope name: modeSwitch
+		def:
+			() Signal__global_0_0
+			(shared) DDD__global_0_0
+			(shared) VDI__global_0_0
+			(variable) state_interval_ms__modeSwitch_0_0
+			(variable) state_counter_ms__modeSwitch_0_0
+			(variable) state_duration_ms__modeSwitch_0_0
+			(variable) timer_interval_ms__modeSwitch_0_0
+			(variable) Fast__modeSwitch_0_0
+			(variable) Slow__modeSwitch_0_0
+			(variable) D_Beg__modeSwitch_0_0
+			(variable) D_Beg_new__modeSwitch_0_0
+			(variable) D_End__modeSwitch_0_0
+
+		use:
+			(enumeration) absent
+			(enumeration) present
+			(variable) Threshold__global_0_0
+			(shared) AP__global_0_0
+			(shared) VP__global_0_0
+			(shared) AS__global_0_0
+			(shared) AR__global_0_0
+			(shared) VS__global_0_0
+			(enumeration) Init_interval_ms
+			(enumeration) Wait
+			(variable) state_interval_ms__modeSwitch_0_0
+			(enumeration) Init_counter_ms
+			(enumeration) Fast1
+			(enumeration) Fast2
+			(enumeration) Fast7
+			(enumeration) Fast8
+			(variable) state_counter_ms__modeSwitch_0_0
+			(enumeration) Init_duration_ms
+			(enumeration) V1
+			(enumeration) V9
+			(variable) state_duration_ms__modeSwitch_0_0
+			(variable) timer_interval_ms__modeSwitch_0_0
+			(variable) Fast__modeSwitch_0_0
+			(variable) Slow__modeSwitch_0_0
+			(variable) D_Beg__modeSwitch_0_0
+			(variable) D_Beg_new__modeSwitch_0_0
+			(variable) D_End__modeSwitch_0_0
+
+	Scope name: motionSensing
+		def:
+			(shared) motionSensing2rateAdapter__global_0_0
+			(variable) ar__motionSensing_0_0
+			(variable) ai__motionSensing_0_0
+			(variable) o__motionSensing_0_0
+			(variable) i__motionSensing_0_0
+			(variable) j__motionSensing_0_0
+			(variable) k__motionSensing_0_0
+			(variable) it__motionSensing_0_0
+			(variable) xp__motionSensing_0_0
+			(variable) xp2__motionSensing_0_0
+			(variable) j1__motionSensing_0_0
+			(variable) j2__motionSensing_0_0
+			(variable) w__motionSensing_0_0
+			(variable) wr__motionSensing_0_0
+			(variable) wi__motionSensing_0_0
+			(variable) dr1__motionSensing_0_0
+			(variable) dr2__motionSensing_0_0
+			(variable) di1__motionSensing_0_0
+			(variable) di2__motionSensing_0_0
+			(variable) tr__motionSensing_0_0
+			(variable) ti__motionSensing_0_0
+			(variable) arg__motionSensing_0_0
+
+		use:
+			(shared) motionSensing2rateAdapter__global_0_0
+			(function) sin
+			(variable) PI__motionSensing_0_0
+			(variable) PI_half__motionSensing_0_0
+			(variable) ar__motionSensing_0_0
+			(variable) ai__motionSensing_0_0
+			(variable) n__motionSensing_0_0
+			(variable) o__motionSensing_0_0
+			(variable) i__motionSensing_0_0
+			(variable) j__motionSensing_0_0
+			(variable) k__motionSensing_0_0
+			(variable) it__motionSensing_0_0
+			(variable) xp__motionSensing_0_0
+			(variable) xp2__motionSensing_0_0
+			(variable) j1__motionSensing_0_0
+			(variable) j2__motionSensing_0_0
+			(variable) w__motionSensing_0_0
+			(variable) wr__motionSensing_0_0
+			(variable) wi__motionSensing_0_0
+			(variable) dr1__motionSensing_0_0
+			(variable) dr2__motionSensing_0_0
+			(variable) di1__motionSensing_0_0
+			(variable) di2__motionSensing_0_0
+			(variable) tr__motionSensing_0_0
+			(variable) ti__motionSensing_0_0
+			(variable) arg__motionSensing_0_0
+
+	Scope name: patternVpAs
+		def:
+			() Signal__global_0_0
+			(shared) TPVARP__global_0_0
+			(variable) state_pattern_vpAs__patternVpAs_0_0
+			(variable) state_counter_vpAs__patternVpAs_0_0
+			(variable) timer_pattern_vpAs__patternVpAs_0_0
+			(variable) VP_AS__patternVpAs_0_0
+			(variable) Reset__patternVpAs_0_0
+
+		use:
+			(enumeration) absent
+			(enumeration) present
+			(variable) T_150__global_0_0
+			(variable) T_200__global_0_0
+			(variable) T_500__global_0_0
+			(shared) AP__global_0_0
+			(shared) VP__global_0_0
+			(shared) AS__global_0_0
+			(shared) AR__global_0_0
+			(shared) VS__global_0_0
+			(enumeration) Init_pattern_vpAs
+			(enumeration) VP1
+			(variable) state_pattern_vpAs__patternVpAs_0_0
+			(enumeration) Init_counter_vpAs
+			(enumeration) E1
+			(enumeration) E8
+			(variable) state_counter_vpAs__patternVpAs_0_0
+			(variable) timer_pattern_vpAs__patternVpAs_0_0
+			(variable) VP_AS__patternVpAs_0_0
+			(variable) Reset__patternVpAs_0_0
+
+	Scope name: rateAdapter
+		def:
+			(variable) i__rateAdapter_0_0
+			(variable) ArrayA__rateAdapter_0_0
+			(variable) ArrayB__rateAdapter_0_0
+			(variable) MeanA__rateAdapter_0_0
+			(variable) MeanB__rateAdapter_0_0
+			(variable) VarA__rateAdapter_0_0
+			(variable) VarB__rateAdapter_0_0
+			(variable) StddevA__rateAdapter_0_0
+			(variable) StddevB__rateAdapter_0_0
+			(variable) SumA__rateAdapter_0_0
+			(variable) SumB__rateAdapter_0_0
+			(variable) numerator__rateAdapter_0_0
+			(variable) diffsA__rateAdapter_0_0
+			(variable) diffsB__rateAdapter_0_0
+			(variable) Aterm__rateAdapter_0_0
+			(variable) Bterm__rateAdapter_0_0
+			(variable) Aterm_sqrt__rateAdapter_0_0
+			(variable) Bterm_sqrt__rateAdapter_0_0
+			(variable) Coef__rateAdapter_0_0
+
+		use:
+			(variable) MAX__rateAdapter_0_0
+			(variable) i__rateAdapter_0_0
+			(variable) Seed__rateAdapter_0_0
+			(variable) ArrayA__rateAdapter_0_0
+			(variable) ArrayB__rateAdapter_0_0
+			(variable) MeanA__rateAdapter_0_0
+			(variable) MeanB__rateAdapter_0_0
+			(variable) VarA__rateAdapter_0_0
+			(variable) VarB__rateAdapter_0_0
+			(variable) StddevA__rateAdapter_0_0
+			(variable) StddevB__rateAdapter_0_0
+			(variable) SumA__rateAdapter_0_0
+			(variable) SumB__rateAdapter_0_0
+			(variable) numerator__rateAdapter_0_0
+			(variable) diffsA__rateAdapter_0_0
+			(variable) diffsB__rateAdapter_0_0
+			(variable) Aterm__rateAdapter_0_0
+			(variable) Bterm__rateAdapter_0_0
+			(variable) Aterm_sqrt__rateAdapter_0_0
+			(variable) Bterm_sqrt__rateAdapter_0_0
+
+	Scope name: sin
+		def:
+			(variable) rad__sin_0_0
+			(variable) app__sin_0_0
+			(variable) diff__sin_0_0
+			(variable) inc__sin_0_0
+
+		use:
+			(variable) rad__sin_0_0
+			(variable) PI_twice__sin_0_0
+			(variable) app__sin_0_0
+			(variable) diff__sin_0_0
+			(variable) inc__sin_0_0
+
+
+Indirect use/def of symbols by parId:
+-------------------------------------
+	par0:
+		TURI__global_0_0
+			use (skip): basic logging 
+
+		TLRI__global_0_0
+			use (skip): basic logging 
+
+		TAVI__global_0_0
+			use (skip): basic 
+
+		TVRP__global_0_0
+			use (skip): basic 
+
+		TPVAB__global_0_0
+			use (skip): basic 
+
+		Threshold__global_0_0
+			use (skip): modeSwitch 
+
+		TPVARP__global_0_0
+			def (root): basic patternVpAs 
+			use (root): basic 
+
+		TPVARP_100__global_0_0
+			use (skip): basic 
+
+		T_150__global_0_0
+			use (skip): patternVpAs 
+
+		T_200__global_0_0
+			use (skip): patternVpAs 
+
+		T_500__global_0_0
+			use (skip): patternVpAs 
+
+		Aminwait__global_0_0
+			use (skip): ekgSensing 
+
+		Vminwait__global_0_0
+			use (skip): ekgSensing 
+
+		Tantemin__global_0_0
+			use (skip): ekgSensing 
+
+		Tretromin__global_0_0
+			use (skip): ekgSensing 
+
+		A_Get__global_0_0
+			def (root): ekgSensing 
+			use (root): basic ekgSensing 
+
+		A_Act__global_0_0
+			def (root): ekgSensing 
+			use (root): basic ekgSensing 
+
+		V_Get__global_0_0
+			def (root): ekgSensing 
+			use (root): basic ekgSensing 
+
+		V_Act__global_0_0
+			def (root): ekgSensing 
+			use (root): basic ekgSensing 
+
+		AP__global_0_0
+			def (root): basic 
+			use (root): basic ekgSensing logging modeSwitch patternVpAs 
+
+		VP__global_0_0
+			def (root): basic 
+			use (root): basic ekgSensing logging modeSwitch patternVpAs 
+
+		AS__global_0_0
+			def (root): basic 
+			use (root): basic logging modeSwitch patternVpAs 
+
+		AR__global_0_0
+			def (root): basic 
+			use (root): logging modeSwitch patternVpAs 
+
+		VS__global_0_0
+			def (root): basic 
+			use (root): basic logging modeSwitch patternVpAs 
+
+		DDD__global_0_0
+			def (root): modeSwitch 
+			use (root): basic logging 
+
+		VDI__global_0_0
+			def (root): modeSwitch 
+			use (root): basic logging 
+
+		motionSensing2rateAdapter__global_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		parameters__global_0_0
+			def (skip): communication 
+
+		log__global_0_0
+			def (root): logging 
+			use (root): communication logging 
+
+		state_conduction__ekgSensing_0_0
+			def (skip): ekgSensing 
+			use (skip): ekgSensing 
+
+		timer_rhm_a__ekgSensing_0_0
+			def (skip): ekgSensing 
+			use (skip): ekgSensing 
+
+		timer_rhm_v__ekgSensing_0_0
+			def (skip): ekgSensing 
+			use (skip): ekgSensing 
+
+		timer_conduction__ekgSensing_0_0
+			def (skip): ekgSensing 
+			use (skip): ekgSensing 
+
+		state_avi_ms__basic_0_0
+			def (skip): basic 
+			use (skip): basic 
+
+		state_lri_ms__basic_0_0
+			def (skip): basic 
+			use (skip): basic 
+
+		state_pvarp_elt__basic_0_0
+			def (skip): basic 
+			use (skip): basic 
+
+		state_vrp__basic_0_0
+			def (skip): basic 
+			use (skip): basic 
+
+		timer_uri__basic_0_0
+			def (skip): basic 
+			use (skip): basic 
+
+		timer_avi_ms__basic_0_0
+			def (skip): basic 
+			use (skip): basic 
+
+		timer_lri_ms__basic_0_0
+			def (skip): basic 
+			use (skip): basic 
+
+		timer_pvarp_elt__basic_0_0
+			def (skip): basic 
+			use (skip): basic 
+
+		timer_vrp__basic_0_0
+			def (skip): basic 
+			use (skip): basic 
+
+		A_Block__basic_0_0
+			def (skip): basic 
+
+		V_Block__basic_0_0
+			def (skip): basic 
+
+		VP_new__basic_0_0
+			def (skip): basic 
+			use (skip): basic 
+
+		state_interval_ms__modeSwitch_0_0
+			def (skip): modeSwitch 
+			use (skip): modeSwitch 
+
+		state_counter_ms__modeSwitch_0_0
+			def (skip): modeSwitch 
+			use (skip): modeSwitch 
+
+		state_duration_ms__modeSwitch_0_0
+			def (skip): modeSwitch 
+			use (skip): modeSwitch 
+
+		timer_interval_ms__modeSwitch_0_0
+			def (skip): modeSwitch 
+			use (skip): modeSwitch 
+
+		Fast__modeSwitch_0_0
+			def (skip): modeSwitch 
+			use (skip): modeSwitch 
+
+		Slow__modeSwitch_0_0
+			def (skip): modeSwitch 
+			use (skip): modeSwitch 
+
+		D_Beg__modeSwitch_0_0
+			def (skip): modeSwitch 
+			use (skip): modeSwitch 
+
+		D_Beg_new__modeSwitch_0_0
+			def (skip): modeSwitch 
+			use (skip): modeSwitch 
+
+		D_End__modeSwitch_0_0
+			def (skip): modeSwitch 
+			use (skip): modeSwitch 
+
+		state_pattern_vpAs__patternVpAs_0_0
+			def (skip): patternVpAs 
+			use (skip): patternVpAs 
+
+		state_counter_vpAs__patternVpAs_0_0
+			def (skip): patternVpAs 
+			use (skip): patternVpAs 
+
+		timer_pattern_vpAs__patternVpAs_0_0
+			def (skip): patternVpAs 
+			use (skip): patternVpAs 
+
+		VP_AS__patternVpAs_0_0
+			def (skip): patternVpAs 
+			use (skip): patternVpAs 
+
+		Reset__patternVpAs_0_0
+			def (skip): patternVpAs 
+			use (skip): patternVpAs 
+
+		PI__motionSensing_0_0
+			use (skip): motionSensing 
+
+		PI_half__motionSensing_0_0
+			use (skip): motionSensing 
+
+		ar__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		ai__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		n__motionSensing_0_0
+			use (skip): motionSensing 
+
+		o__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		i__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		j__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		k__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		it__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		xp__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		xp2__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		j1__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		j2__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		w__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		wr__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		wi__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		dr1__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		dr2__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		di1__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		di2__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		tr__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		ti__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		arg__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		MAX__rateAdapter_0_0
+			use (skip): rateAdapter 
+
+		i__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		Seed__rateAdapter_0_0
+			use (skip): rateAdapter 
+
+		ArrayA__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		ArrayB__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		MeanA__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		MeanB__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		VarA__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		VarB__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		StddevA__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		StddevB__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		SumA__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		SumB__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		numerator__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		diffsA__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		diffsB__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		Aterm__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		Bterm__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		Aterm_sqrt__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		Bterm_sqrt__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		Coef__rateAdapter_0_0
+			def (skip): rateAdapter 
+
+		state_lrl__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		state_url__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		state_pmt__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		state_vurl__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		state_elt__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		timer_lrl__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		timer_url__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		timer_pmt__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		timer_vurl__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		violated__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		event__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		logCopy__communication_0_0
+			def (skip): communication 
+			use (skip): communication 
+
+		i__communication_0_0
+			def (skip): communication 
+			use (skip): communication 
+
+		state_rf__communication_1_0
+			use (skip): communication 
+
+		subState__communication_1_0
+			use (skip): communication 
+
+		data__communication_1_0
+			use (skip): communication 
+
+
+Indirect use/def of symbols by threadId:
+----------------------------------------
+	basic:
+		TURI__global_0_0
+			use (root): basic 
+
+		TLRI__global_0_0
+			use (root): basic 
+
+		TAVI__global_0_0
+			use (skip): basic 
+
+		TVRP__global_0_0
+			use (skip): basic 
+
+		TPVAB__global_0_0
+			use (skip): basic 
+
+		TPVARP__global_0_0
+			def (intermediate): basic 
+			use (intermediate): basic 
+
+		TPVARP_100__global_0_0
+			use (skip): basic 
+
+		A_Get__global_0_0
+			use (intermediate): basic 
+
+		A_Act__global_0_0
+			use (intermediate): basic 
+
+		V_Get__global_0_0
+			use (intermediate): basic 
+
+		V_Act__global_0_0
+			use (intermediate): basic 
+
+		AP__global_0_0
+			def (intermediate): basic 
+			use (intermediate): basic 
+
+		VP__global_0_0
+			def (intermediate): basic 
+			use (intermediate): basic 
+
+		AS__global_0_0
+			def (intermediate): basic 
+			use (intermediate): basic 
+
+		AR__global_0_0
+			def (intermediate): basic 
+
+		VS__global_0_0
+			def (intermediate): basic 
+			use (intermediate): basic 
+
+		DDD__global_0_0
+			use (intermediate): basic 
+
+		VDI__global_0_0
+			use (intermediate): basic 
+
+		state_avi_ms__basic_0_0
+			def (skip): basic 
+			use (skip): basic 
+
+		state_lri_ms__basic_0_0
+			def (skip): basic 
+			use (skip): basic 
+
+		state_pvarp_elt__basic_0_0
+			def (skip): basic 
+			use (skip): basic 
+
+		state_vrp__basic_0_0
+			def (skip): basic 
+			use (skip): basic 
+
+		timer_uri__basic_0_0
+			def (skip): basic 
+			use (skip): basic 
+
+		timer_avi_ms__basic_0_0
+			def (skip): basic 
+			use (skip): basic 
+
+		timer_lri_ms__basic_0_0
+			def (skip): basic 
+			use (skip): basic 
+
+		timer_pvarp_elt__basic_0_0
+			def (skip): basic 
+			use (skip): basic 
+
+		timer_vrp__basic_0_0
+			def (skip): basic 
+			use (skip): basic 
+
+		A_Block__basic_0_0
+			def (skip): basic 
+
+		V_Block__basic_0_0
+			def (skip): basic 
+
+		VP_new__basic_0_0
+			def (skip): basic 
+			use (skip): basic 
+
+	communication:
+		parameters__global_0_0
+			def (root): communication 
+
+		log__global_0_0
+			use (intermediate): communication 
+
+		logCopy__communication_0_0
+			def (skip): communication 
+			use (skip): communication 
+
+		i__communication_0_0
+			def (skip): communication 
+			use (skip): communication 
+
+		state_rf__communication_1_0
+			use (skip): communication 
+
+		subState__communication_1_0
+			use (skip): communication 
+
+		data__communication_1_0
+			use (skip): communication 
+
+	ekgSensing:
+		Aminwait__global_0_0
+			use (skip): ekgSensing 
+
+		Vminwait__global_0_0
+			use (skip): ekgSensing 
+
+		Tantemin__global_0_0
+			use (skip): ekgSensing 
+
+		Tretromin__global_0_0
+			use (skip): ekgSensing 
+
+		A_Get__global_0_0
+			def (intermediate): ekgSensing 
+			use (intermediate): ekgSensing 
+
+		A_Act__global_0_0
+			def (intermediate): ekgSensing 
+			use (intermediate): ekgSensing 
+
+		V_Get__global_0_0
+			def (intermediate): ekgSensing 
+			use (intermediate): ekgSensing 
+
+		V_Act__global_0_0
+			def (intermediate): ekgSensing 
+			use (intermediate): ekgSensing 
+
+		AP__global_0_0
+			use (intermediate): ekgSensing 
+
+		VP__global_0_0
+			use (intermediate): ekgSensing 
+
+		state_conduction__ekgSensing_0_0
+			def (skip): ekgSensing 
+			use (skip): ekgSensing 
+
+		timer_rhm_a__ekgSensing_0_0
+			def (skip): ekgSensing 
+			use (skip): ekgSensing 
+
+		timer_rhm_v__ekgSensing_0_0
+			def (skip): ekgSensing 
+			use (skip): ekgSensing 
+
+		timer_conduction__ekgSensing_0_0
+			def (skip): ekgSensing 
+			use (skip): ekgSensing 
+
+	logging:
+		TURI__global_0_0
+			use (root): logging 
+
+		TLRI__global_0_0
+			use (root): logging 
+
+		AP__global_0_0
+			use (intermediate): logging 
+
+		VP__global_0_0
+			use (intermediate): logging 
+
+		AS__global_0_0
+			use (intermediate): logging 
+
+		AR__global_0_0
+			use (intermediate): logging 
+
+		VS__global_0_0
+			use (intermediate): logging 
+
+		DDD__global_0_0
+			use (intermediate): logging 
+
+		VDI__global_0_0
+			use (intermediate): logging 
+
+		log__global_0_0
+			def (intermediate): logging 
+			use (intermediate): logging 
+
+		state_lrl__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		state_url__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		state_pmt__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		state_vurl__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		state_elt__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		timer_lrl__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		timer_url__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		timer_pmt__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		timer_vurl__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		violated__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+		event__logging_0_0
+			def (skip): logging 
+			use (skip): logging 
+
+	main:
+		TURI__global_0_0
+			use (skip): main 
+
+		TLRI__global_0_0
+			use (skip): main 
+
+		TAVI__global_0_0
+			use (skip): main 
+
+		TVRP__global_0_0
+			use (skip): main 
+
+		TPVAB__global_0_0
+			use (skip): main 
+
+		Threshold__global_0_0
+			use (skip): main 
+
+		TPVARP__global_0_0
+			def (root): main 
+			use (root): main 
+
+		TPVARP_100__global_0_0
+			use (skip): main 
+
+		T_150__global_0_0
+			use (skip): main 
+
+		T_200__global_0_0
+			use (skip): main 
+
+		T_500__global_0_0
+			use (skip): main 
+
+		Aminwait__global_0_0
+			use (skip): main 
+
+		Vminwait__global_0_0
+			use (skip): main 
+
+		Tantemin__global_0_0
+			use (skip): main 
+
+		Tretromin__global_0_0
+			use (skip): main 
+
+		A_Get__global_0_0
+			def (root): main 
+			use (root): main 
+
+		A_Act__global_0_0
+			def (root): main 
+			use (root): main 
+
+		V_Get__global_0_0
+			def (root): main 
+			use (root): main 
+
+		V_Act__global_0_0
+			def (root): main 
+			use (root): main 
+
+		AP__global_0_0
+			def (root): main 
+			use (root): main 
+
+		VP__global_0_0
+			def (root): main 
+			use (root): main 
+
+		AS__global_0_0
+			def (root): main 
+			use (root): main 
+
+		AR__global_0_0
+			def (root): main 
+			use (root): main 
+
+		VS__global_0_0
+			def (root): main 
+			use (root): main 
+
+		DDD__global_0_0
+			def (root): main 
+			use (root): main 
+
+		VDI__global_0_0
+			def (root): main 
+			use (root): main 
+
+		motionSensing2rateAdapter__global_0_0
+			def (skip): main 
+			use (skip): main 
+
+		parameters__global_0_0
+			def (skip): main 
+
+		log__global_0_0
+			def (root): main 
+			use (root): main 
+
+		state_conduction__ekgSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_rhm_a__ekgSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_rhm_v__ekgSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_conduction__ekgSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_avi_ms__basic_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_lri_ms__basic_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_pvarp_elt__basic_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_vrp__basic_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_uri__basic_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_avi_ms__basic_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_lri_ms__basic_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_pvarp_elt__basic_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_vrp__basic_0_0
+			def (skip): main 
+			use (skip): main 
+
+		A_Block__basic_0_0
+			def (skip): main 
+
+		V_Block__basic_0_0
+			def (skip): main 
+
+		VP_new__basic_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_interval_ms__modeSwitch_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_counter_ms__modeSwitch_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_duration_ms__modeSwitch_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_interval_ms__modeSwitch_0_0
+			def (skip): main 
+			use (skip): main 
+
+		Fast__modeSwitch_0_0
+			def (skip): main 
+			use (skip): main 
+
+		Slow__modeSwitch_0_0
+			def (skip): main 
+			use (skip): main 
+
+		D_Beg__modeSwitch_0_0
+			def (skip): main 
+			use (skip): main 
+
+		D_Beg_new__modeSwitch_0_0
+			def (skip): main 
+			use (skip): main 
+
+		D_End__modeSwitch_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_pattern_vpAs__patternVpAs_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_counter_vpAs__patternVpAs_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_pattern_vpAs__patternVpAs_0_0
+			def (skip): main 
+			use (skip): main 
+
+		VP_AS__patternVpAs_0_0
+			def (skip): main 
+			use (skip): main 
+
+		Reset__patternVpAs_0_0
+			def (skip): main 
+			use (skip): main 
+
+		PI__motionSensing_0_0
+			use (skip): main 
+
+		PI_half__motionSensing_0_0
+			use (skip): main 
+
+		ar__motionSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		ai__motionSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		n__motionSensing_0_0
+			use (skip): main 
+
+		o__motionSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		i__motionSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		j__motionSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		k__motionSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		it__motionSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		xp__motionSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		xp2__motionSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		j1__motionSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		j2__motionSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		w__motionSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		wr__motionSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		wi__motionSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		dr1__motionSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		dr2__motionSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		di1__motionSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		di2__motionSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		tr__motionSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		ti__motionSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		arg__motionSensing_0_0
+			def (skip): main 
+			use (skip): main 
+
+		MAX__rateAdapter_0_0
+			use (skip): main 
+
+		i__rateAdapter_0_0
+			def (skip): main 
+			use (skip): main 
+
+		Seed__rateAdapter_0_0
+			use (skip): main 
+
+		ArrayA__rateAdapter_0_0
+			def (skip): main 
+			use (skip): main 
+
+		ArrayB__rateAdapter_0_0
+			def (skip): main 
+			use (skip): main 
+
+		MeanA__rateAdapter_0_0
+			def (skip): main 
+			use (skip): main 
+
+		MeanB__rateAdapter_0_0
+			def (skip): main 
+			use (skip): main 
+
+		VarA__rateAdapter_0_0
+			def (skip): main 
+			use (skip): main 
+
+		VarB__rateAdapter_0_0
+			def (skip): main 
+			use (skip): main 
+
+		StddevA__rateAdapter_0_0
+			def (skip): main 
+			use (skip): main 
+
+		StddevB__rateAdapter_0_0
+			def (skip): main 
+			use (skip): main 
+
+		SumA__rateAdapter_0_0
+			def (skip): main 
+			use (skip): main 
+
+		SumB__rateAdapter_0_0
+			def (skip): main 
+			use (skip): main 
+
+		numerator__rateAdapter_0_0
+			def (skip): main 
+			use (skip): main 
+
+		diffsA__rateAdapter_0_0
+			def (skip): main 
+			use (skip): main 
+
+		diffsB__rateAdapter_0_0
+			def (skip): main 
+			use (skip): main 
+
+		Aterm__rateAdapter_0_0
+			def (skip): main 
+			use (skip): main 
+
+		Bterm__rateAdapter_0_0
+			def (skip): main 
+			use (skip): main 
+
+		Aterm_sqrt__rateAdapter_0_0
+			def (skip): main 
+			use (skip): main 
+
+		Bterm_sqrt__rateAdapter_0_0
+			def (skip): main 
+			use (skip): main 
+
+		Coef__rateAdapter_0_0
+			def (skip): main 
+
+		state_lrl__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_url__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_pmt__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_vurl__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_elt__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_lrl__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_url__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_pmt__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+		timer_vurl__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+		violated__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+		event__logging_0_0
+			def (skip): main 
+			use (skip): main 
+
+		logCopy__communication_0_0
+			def (skip): main 
+			use (skip): main 
+
+		i__communication_0_0
+			def (skip): main 
+			use (skip): main 
+
+		state_rf__communication_1_0
+			use (skip): main 
+
+		subState__communication_1_0
+			use (skip): main 
+
+		data__communication_1_0
+			use (skip): main 
+
+	modeSwitch:
+		Threshold__global_0_0
+			use (skip): modeSwitch 
+
+		AP__global_0_0
+			use (intermediate): modeSwitch 
+
+		VP__global_0_0
+			use (intermediate): modeSwitch 
+
+		AS__global_0_0
+			use (intermediate): modeSwitch 
+
+		AR__global_0_0
+			use (intermediate): modeSwitch 
+
+		VS__global_0_0
+			use (intermediate): modeSwitch 
+
+		DDD__global_0_0
+			def (intermediate): modeSwitch 
+
+		VDI__global_0_0
+			def (intermediate): modeSwitch 
+
+		state_interval_ms__modeSwitch_0_0
+			def (skip): modeSwitch 
+			use (skip): modeSwitch 
+
+		state_counter_ms__modeSwitch_0_0
+			def (skip): modeSwitch 
+			use (skip): modeSwitch 
+
+		state_duration_ms__modeSwitch_0_0
+			def (skip): modeSwitch 
+			use (skip): modeSwitch 
+
+		timer_interval_ms__modeSwitch_0_0
+			def (skip): modeSwitch 
+			use (skip): modeSwitch 
+
+		Fast__modeSwitch_0_0
+			def (skip): modeSwitch 
+			use (skip): modeSwitch 
+
+		Slow__modeSwitch_0_0
+			def (skip): modeSwitch 
+			use (skip): modeSwitch 
+
+		D_Beg__modeSwitch_0_0
+			def (skip): modeSwitch 
+			use (skip): modeSwitch 
+
+		D_Beg_new__modeSwitch_0_0
+			def (skip): modeSwitch 
+			use (skip): modeSwitch 
+
+		D_End__modeSwitch_0_0
+			def (skip): modeSwitch 
+			use (skip): modeSwitch 
+
+	motionSensing:
+		motionSensing2rateAdapter__global_0_0
+			def (root): motionSensing 
+			use (root): motionSensing 
+
+		PI__motionSensing_0_0
+			use (skip): motionSensing 
+
+		PI_half__motionSensing_0_0
+			use (skip): motionSensing 
+
+		ar__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		ai__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		n__motionSensing_0_0
+			use (skip): motionSensing 
+
+		o__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		i__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		j__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		k__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		it__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		xp__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		xp2__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		j1__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		j2__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		w__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		wr__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		wi__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		dr1__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		dr2__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		di1__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		di2__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		tr__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		ti__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+		arg__motionSensing_0_0
+			def (skip): motionSensing 
+			use (skip): motionSensing 
+
+	patternVpAs:
+		TPVARP__global_0_0
+			def (intermediate): patternVpAs 
+
+		T_150__global_0_0
+			use (skip): patternVpAs 
+
+		T_200__global_0_0
+			use (skip): patternVpAs 
+
+		T_500__global_0_0
+			use (skip): patternVpAs 
+
+		AP__global_0_0
+			use (intermediate): patternVpAs 
+
+		VP__global_0_0
+			use (intermediate): patternVpAs 
+
+		AS__global_0_0
+			use (intermediate): patternVpAs 
+
+		AR__global_0_0
+			use (intermediate): patternVpAs 
+
+		VS__global_0_0
+			use (intermediate): patternVpAs 
+
+		state_pattern_vpAs__patternVpAs_0_0
+			def (skip): patternVpAs 
+			use (skip): patternVpAs 
+
+		state_counter_vpAs__patternVpAs_0_0
+			def (skip): patternVpAs 
+			use (skip): patternVpAs 
+
+		timer_pattern_vpAs__patternVpAs_0_0
+			def (skip): patternVpAs 
+			use (skip): patternVpAs 
+
+		VP_AS__patternVpAs_0_0
+			def (skip): patternVpAs 
+			use (skip): patternVpAs 
+
+		Reset__patternVpAs_0_0
+			def (skip): patternVpAs 
+			use (skip): patternVpAs 
+
+	rateAdapter:
+		MAX__rateAdapter_0_0
+			use (skip): rateAdapter 
+
+		i__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		Seed__rateAdapter_0_0
+			use (skip): rateAdapter 
+
+		ArrayA__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		ArrayB__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		MeanA__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		MeanB__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		VarA__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		VarB__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		StddevA__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		StddevB__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		SumA__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		SumB__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		numerator__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		diffsA__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		diffsB__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		Aterm__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		Bterm__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		Aterm_sqrt__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		Bterm_sqrt__rateAdapter_0_0
+			def (skip): rateAdapter 
+			use (skip): rateAdapter 
+
+		Coef__rateAdapter_0_0
+			def (skip): rateAdapter 
+
+
+Functions used for combining shared variables:
+----------------------------------------------
+	max
+
+============================
+tools::Threading::toString()
+============================
+Threads declared:
+-----------------
+	* basic__thread
+	* communication__thread
+	* ekgSensing__thread
+	* logging__thread
+	* main__thread
+	* modeSwitch__thread
+	* motionSensing__thread
+	* patternVpAs__thread
+	* rateAdapter__thread
+
+Threads unused:
+---------------
+
+par(...) statements:
+--------------------
+	Thread scope: main
+		par0:
+		* ekgSensing__thread
+		* basic__thread
+		* modeSwitch__thread
+		* patternVpAs__thread
+		* motionSensing__thread
+		* rateAdapter__thread
+		* logging__thread
+		* communication__thread
+
+========================
+tools::Abort::toString()
+========================
+============================
+tools::Condition::toString()
+============================
+
+========================
+tarot::Tarot::toString()
+========================
+Full tarot:
+-----------
+	core0: main__thread
+	.	core0: par0
+	.	|	core0: ekgSensing__thread
+	.	|	.	core0: while_0
+	.	|	.	.	pause0
+	.	|	core0: basic__thread
+	.	|	.	core0: while_1
+	.	|	.	.	pause1
+	.	|	core0: modeSwitch__thread
+	.	|	.	core0: while_2
+	.	|	.	.	pause2
+	.	|	core0: patternVpAs__thread
+	.	|	.	core0: while_3
+	.	|	.	.	pause3
+	.	|	core0: motionSensing__thread
+	.	|	.	core0: while_9
+	.	|	.	.	pause4
+	.	|	core0: rateAdapter__thread
+	.	|	.	core0: while_19
+	.	|	.	.	pause5
+	.	|	core0: logging__thread
+	.	|	.	core0: while_20
+	.	|	.	.	pause6
+	.	|	core0: communication__thread
+	.	|	.	core0: while_21
+	.	|	.	.	pause7
+
+
+Tarot by coreId:
+----------------
+	core0:
+	-------
+		core0: main__thread
+		.	core0: par0
+		.	|	core0: ekgSensing__thread
+		.	|	.	core0: while_0
+		.	|	.	.	pause0
+		.	|	core0: basic__thread
+		.	|	.	core0: while_1
+		.	|	.	.	pause1
+		.	|	core0: modeSwitch__thread
+		.	|	.	core0: while_2
+		.	|	.	.	pause2
+		.	|	core0: patternVpAs__thread
+		.	|	.	core0: while_3
+		.	|	.	.	pause3
+		.	|	core0: motionSensing__thread
+		.	|	.	core0: while_9
+		.	|	.	.	pause4
+		.	|	core0: rateAdapter__thread
+		.	|	.	core0: while_19
+		.	|	.	.	pause5
+		.	|	core0: logging__thread
+		.	|	.	core0: while_20
+		.	|	.	.	pause6
+		.	|	core0: communication__thread
+		.	|	.	core0: while_21
+		.	|	.	.	pause7
+
+
+par(...) statements with core allocation:
+-----------------------------------------
+	Thread main__thread:
+		all:
+		* core0
+
+		par0:
+		* core0
+
+
+par(...) statements with active cores:
+--------------------------------------
+	Thread main__thread:
+		all:
+		* core0
+
+		par0:
+		* core0
+
+
+Reaction starts:
+----------------
+	core0:
+		main: Master
+
+
+Reaction ends:
+--------------
+	core0:
+		par0:
+			coreIds:
+			* 0
+
+			isMaster:
+			* true
+
+			threadScope:
+			* main
+
+
+Par(...) handlers:
+------------------
+	par0:
+	* basic__thread
+	* communication__thread
+	* ekgSensing__thread
+	* logging__thread
+	* modeSwitch__thread
+	* motionSensing__thread
+	* patternVpAs__thread
+	* rateAdapter__thread
+	* mainReactionStartMaster0
+	* mainReactionEndMaster0
+
+
+Linked lists:
+-------------
+	core0:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartMaster0
+			* (thread) ekgSensing__thread
+			* (thread) basic__thread
+			* (thread) modeSwitch__thread
+			* (thread) patternVpAs__thread
+			* (thread) motionSensing__thread
+			* (thread) rateAdapter__thread
+			* (thread) logging__thread
+			* (thread) communication__thread
+			* (parEnd) mainReactionEndMaster0
+
+
+par(...) handlers in thread scopes:
+-----------------------------------
+	par0	main__thread
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	x86
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	0		basic__thread
+	0		communication__thread
+	0		ekgSensing__thread
+	0		logging__thread
+	0		main__thread
+	0		modeSwitch__thread
+	0		motionSensing__thread
+	0		patternVpAs__thread
+	0		rateAdapter__thread
+
+
+========================
+tools::Mutex::toString()
+========================
+Mutex information:
+------------------
+

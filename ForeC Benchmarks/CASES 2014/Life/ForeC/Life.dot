@@ -1,0 +1,73 @@
+digraph "Life" {
+	ordering = out
+
+	labeljust = l
+	node [shape = box, fixedsize = true, height = 0.7, width = 1.1]
+
+	start [shape = plaintext, height = 0.4]
+
+	start -> par0_0Start [label = main, headport = n, tailport = s, weight = 2]
+	subgraph cluster_par0_0 {
+		style = filled
+		color = lightgrey
+
+		par0_0Start [label = 0, shape = triangle]
+		par0_0End [label = 0, shape = invtriangle]
+
+		par0_0Start -> while_1_0 [label = do_step_0, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+		subgraph cluster_while_1_0 {
+			style = invis
+			while_1_0 [label = 1, shape = diamond]
+			while_1_0 -> pause0_0 [label = true, headport = n, tailport = s, weight = 2]
+			pause0_0 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+			pause0_0 -> while_1_0 [/*headport = w,*/ constraint = false, tailport = s]
+		}
+		while_1_0 -> par0_0End [label = false, headport = n/*, tailport = e*/]
+
+		par0_0Start -> while_3_3 [label = do_step_1, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+		subgraph cluster_while_3_3 {
+			style = invis
+			while_3_3 [label = 3, shape = diamond]
+			while_3_3 -> pause1_3 [label = true, headport = n, tailport = s, weight = 2]
+			pause1_3 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+			pause1_3 -> while_3_3 [/*headport = w,*/ constraint = false, tailport = s]
+		}
+		while_3_3 -> par0_0End [label = false, headport = n/*, tailport = e*/]
+
+		par0_0Start -> while_4_6 [label = do_step_2, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+		subgraph cluster_while_4_6 {
+			style = invis
+			while_4_6 [label = 4, shape = diamond]
+			while_4_6 -> pause2_6 [label = true, headport = n, tailport = s, weight = 2]
+			pause2_6 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+			pause2_6 -> while_4_6 [/*headport = w,*/ constraint = false, tailport = s]
+		}
+		while_4_6 -> par0_0End [label = false, headport = n/*, tailport = e*/]
+
+		par0_0Start -> while_5_9 [label = do_step_3, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+		subgraph cluster_while_5_9 {
+			style = invis
+			while_5_9 [label = 5, shape = diamond]
+			while_5_9 -> pause3_9 [label = true, headport = n, tailport = s, weight = 2]
+			pause3_9 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+			pause3_9 -> while_5_9 [/*headport = w,*/ constraint = false, tailport = s]
+		}
+		while_5_9 -> par0_0End [label = false, headport = n/*, tailport = e*/]
+	}
+	{
+		edge[style = invis]
+		par0_0Start -> {while_1_0 while_3_3 while_4_6 while_5_9}
+		{pause0_0 pause1_3 pause2_6 pause3_9} -> par0_0End
+	}
+	par0_0End -> end [headport = n, tailport = s]
+
+	end [shape = plaintext, height = 0.4]
+	{
+		edge[style = invis]
+		start -> par0_0Start
+		par0_0End -> end
+	}
+	label = "Life.forec"
+	labelloc = t
+	labeljust = c
+}

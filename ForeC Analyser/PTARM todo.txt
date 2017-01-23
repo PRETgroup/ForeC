@@ -1,0 +1,8 @@
+PTARM todo:
+-----------
+1. Determine when an access to memory is local or global.
+   hasGlobalMemoryAccess, isGlobalMemoryAccess, matchGlobalMemoryAccess
+
+2. Determine the execution time of all instructions. Addressing modes 
+   accept a range of memory addresses.
+

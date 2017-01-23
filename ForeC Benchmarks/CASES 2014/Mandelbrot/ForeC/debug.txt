@@ -1,0 +1,712 @@
+ForeC Compiler (multicore distribution)
+Version: 0.985 (28 September 2013)
+Debug output
+---------------------------------------
+
+Source file name: Mandelbrot.forec
+Header file name: Mandelbrot.4.foreh
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	microblaze
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	0		main__thread
+	0		region0__thread
+	0		region1__thread
+	1		region2__thread
+	1		region3__thread
+	2		region4__thread
+	2		region5__thread
+	3		region6__thread
+	3		region7__thread
+
+
+==============================
+tools::SymbolTable::toString()
+==============================
+Symbol tables:
+--------------
+	Scope name: calculate
+		Scope level: 0
+			Instance: 0
+				(variable) x__calculate_0_0
+				(variable) y__calculate_0_0
+				(variable) halfWidth__calculate_0_0
+				(variable) halfHeight__calculate_0_0
+				(variable) pass__calculate_0_0
+				(variable) MaxIterations__calculate_0_0
+				(variable) Limit__calculate_0_0
+				(variable) mod_x__calculate_0_0
+				(variable) mod_y__calculate_0_0
+				(variable) ay__calculate_0_0
+				(variable) ax__calculate_0_0
+				(variable) a1__calculate_0_0
+				(variable) b1__calculate_0_0
+				(variable) numIterations__calculate_0_0
+		Scope level: 1
+			Instance: 0
+				(variable) a2__calculate_1_0
+				(variable) b2__calculate_1_0
+
+	Scope name: compute
+		Scope level: 0
+			Instance: 0
+				(variable) threadId__compute_0_0
+				(variable) NUMBER_OF_THREADS__compute_0_0
+				(variable) y_RANGE__compute_0_0
+				(variable) y__compute_0_0
+		Scope level: 1
+			Instance: 0
+				(variable) x__compute_1_0
+
+	Scope name: fs_exp
+		Scope level: 0
+			Instance: 0
+				(variable) x__fs_exp_0_0
+				(variable) n__fs_exp_0_0
+				(variable) square__fs_exp_0_0
+				(variable) b__fs_exp_0_0
+				(variable) e__fs_exp_0_0
+				(variable) x_max__fs_exp_0_0
+				(variable) x_min__fs_exp_0_0
+				(variable) epsilon__fs_exp_0_0
+				(variable) initialized__fs_exp_0_0
+
+	Scope name: fs_fmod
+		Scope level: 0
+			Instance: 0
+				(variable) x__fs_fmod_0_0
+				(variable) y__fs_fmod_0_0
+				(variable) a__fs_fmod_0_0
+				(variable) b__fs_fmod_0_0
+				(variable) c__fs_fmod_0_0
+
+	Scope name: fs_log
+		Scope level: 0
+			Instance: 0
+				(variable) x__fs_log_0_0
+				(variable) n__fs_log_0_0
+				(variable) a__fs_log_0_0
+				(variable) b__fs_log_0_0
+				(variable) c__fs_log_0_0
+				(variable) epsilon__fs_log_0_0
+				(variable) A__fs_log_0_0
+				(variable) B__fs_log_0_0
+				(variable) C__fs_log_0_0
+				(variable) initialized__fs_log_0_0
+
+	Scope name: fs_pow
+		Scope level: 0
+			Instance: 0
+				(variable) x__fs_pow_0_0
+				(variable) y__fs_pow_0_0
+				(variable) p__fs_pow_0_0
+
+	Scope name: fs_sqrt
+		Scope level: 0
+			Instance: 0
+				(variable) x__fs_sqrt_0_0
+				(variable) n__fs_sqrt_0_0
+				(variable) a__fs_sqrt_0_0
+				(variable) b__fs_sqrt_0_0
+
+	Scope name: global
+		Scope level: 0
+			Instance: 0
+				(variable) FLT_MAX__global_0_0
+				(variable) FLT_MIN__global_0_0
+				(variable) FLT_EPSILON__global_0_0
+				(variable) ColormapSize__global_0_0
+				(variable) problemSize__global_0_0
+				(variable) centerX__global_0_0
+				(variable) centerY__global_0_0
+				(variable) pixmapScale__global_0_0
+				(variable) resultWidth__global_0_0
+				(variable) resultHeight__global_0_0
+				(typedef) Pixel__global_0_0
+				(variable) colormap__global_0_0
+				(variable) image__global_0_0
+				(function) compute
+				(function) init
+				(function) calculate
+				(function) rgbFromWaveLength
+				(function) uintToRgb
+				(function) fs_pow
+				(function) fs_fmod
+				(function) fs_exp
+				(function) fs_log
+				(function) fs_sqrt
+				(thread) region0__thread
+				(thread) region1__thread
+				(thread) region2__thread
+				(thread) region3__thread
+				(thread) region4__thread
+				(thread) region5__thread
+				(thread) region6__thread
+				(thread) region7__thread
+
+	Scope name: init
+		Scope level: 0
+			Instance: 0
+				(variable) threadId__init_0_0
+				(variable) NUMBER_OF_THREADS__init_0_0
+				(variable) i_RANGE__init_0_0
+				(variable) i__init_0_0
+
+	Scope name: main
+		Scope level: 0
+			Instance: 0
+				(variable) argc__main_0_0
+				(variable) argv__main_0_0
+
+	Scope name: rgbFromWaveLength
+		Scope level: 0
+			Instance: 0
+				(variable) wave__rgbFromWaveLength_0_0
+				(variable) rr__rgbFromWaveLength_0_0
+				(variable) gg__rgbFromWaveLength_0_0
+				(variable) bb__rgbFromWaveLength_0_0
+				(variable) r__rgbFromWaveLength_0_0
+				(variable) g__rgbFromWaveLength_0_0
+				(variable) b__rgbFromWaveLength_0_0
+				(variable) s__rgbFromWaveLength_0_0
+
+	Scope name: uintToRgb
+		Scope level: 0
+			Instance: 0
+				(variable) rgb__uintToRgb_0_0
+				(variable) p__uintToRgb_0_0
+
+
+Declared shared symbols:
+------------------------
+
+Use/Def of symbols:
+-------------------
+	Scope name: calculate
+		def:
+			(variable) image__global_0_0
+			(variable) a1__calculate_0_0
+			(variable) b1__calculate_0_0
+
+		use:
+			(variable) ColormapSize__global_0_0
+			(variable) problemSize__global_0_0
+			(variable) centerX__global_0_0
+			(variable) centerY__global_0_0
+			(variable) pixmapScale__global_0_0
+			(variable) resultWidth__global_0_0
+			(variable) resultHeight__global_0_0
+			(variable) colormap__global_0_0
+			(function) uintToRgb
+			(variable) x__calculate_0_0
+			(variable) y__calculate_0_0
+			(variable) halfWidth__calculate_0_0
+			(variable) halfHeight__calculate_0_0
+			(variable) pass__calculate_0_0
+			(variable) MaxIterations__calculate_0_0
+			(variable) Limit__calculate_0_0
+			(variable) mod_x__calculate_0_0
+			(variable) mod_y__calculate_0_0
+			(variable) ay__calculate_0_0
+			(variable) ax__calculate_0_0
+			(variable) a1__calculate_0_0
+			(variable) b1__calculate_0_0
+			(variable) numIterations__calculate_0_0
+			(variable) a2__calculate_1_0
+			(variable) b2__calculate_1_0
+
+	Scope name: compute
+		def:
+			(variable) y__compute_0_0
+			(variable) x__compute_1_0
+
+		use:
+			(variable) resultWidth__global_0_0
+			(variable) resultHeight__global_0_0
+			(function) calculate
+			(variable) threadId__compute_0_0
+			(variable) NUMBER_OF_THREADS__compute_0_0
+			(variable) y_RANGE__compute_0_0
+			(variable) y__compute_0_0
+			(variable) x__compute_1_0
+
+	Scope name: fs_exp
+		def:
+			(variable) x__fs_exp_0_0
+			(variable) n__fs_exp_0_0
+			(variable) square__fs_exp_0_0
+			(variable) b__fs_exp_0_0
+			(variable) e__fs_exp_0_0
+			(variable) x_max__fs_exp_0_0
+			(variable) x_min__fs_exp_0_0
+			(variable) epsilon__fs_exp_0_0
+			(variable) initialized__fs_exp_0_0
+
+		use:
+			(variable) FLT_MAX__global_0_0
+			(variable) FLT_MIN__global_0_0
+			(variable) FLT_EPSILON__global_0_0
+			(function) fs_log
+			(variable) x__fs_exp_0_0
+			(variable) n__fs_exp_0_0
+			(variable) square__fs_exp_0_0
+			(variable) b__fs_exp_0_0
+			(variable) e__fs_exp_0_0
+			(variable) x_max__fs_exp_0_0
+			(variable) x_min__fs_exp_0_0
+			(variable) epsilon__fs_exp_0_0
+			(variable) initialized__fs_exp_0_0
+
+	Scope name: fs_fmod
+		def:
+			(variable) x__fs_fmod_0_0
+			(variable) y__fs_fmod_0_0
+			(variable) a__fs_fmod_0_0
+			(variable) b__fs_fmod_0_0
+
+		use:
+			(variable) FLT_MAX__global_0_0
+			(variable) x__fs_fmod_0_0
+			(variable) y__fs_fmod_0_0
+			(variable) a__fs_fmod_0_0
+			(variable) b__fs_fmod_0_0
+			(variable) c__fs_fmod_0_0
+
+	Scope name: fs_log
+		def:
+			(variable) x__fs_log_0_0
+			(variable) n__fs_log_0_0
+			(variable) a__fs_log_0_0
+			(variable) b__fs_log_0_0
+			(variable) c__fs_log_0_0
+			(variable) epsilon__fs_log_0_0
+			(variable) A__fs_log_0_0
+			(variable) B__fs_log_0_0
+			(variable) C__fs_log_0_0
+			(variable) initialized__fs_log_0_0
+
+		use:
+			(variable) FLT_MAX__global_0_0
+			(variable) FLT_EPSILON__global_0_0
+			(function) fs_log
+			(function) fs_sqrt
+			(variable) x__fs_log_0_0
+			(variable) n__fs_log_0_0
+			(variable) a__fs_log_0_0
+			(variable) b__fs_log_0_0
+			(variable) c__fs_log_0_0
+			(variable) epsilon__fs_log_0_0
+			(variable) A__fs_log_0_0
+			(variable) B__fs_log_0_0
+			(variable) C__fs_log_0_0
+			(variable) initialized__fs_log_0_0
+
+	Scope name: fs_pow
+		def:
+			(variable) p__fs_pow_0_0
+
+		use:
+			(function) fs_fmod
+			(function) fs_exp
+			(function) fs_log
+			(variable) x__fs_pow_0_0
+			(variable) y__fs_pow_0_0
+			(variable) p__fs_pow_0_0
+
+	Scope name: fs_sqrt
+		def:
+			(variable) x__fs_sqrt_0_0
+			(variable) n__fs_sqrt_0_0
+			(variable) a__fs_sqrt_0_0
+			(variable) b__fs_sqrt_0_0
+
+		use:
+			(variable) FLT_MAX__global_0_0
+			(variable) x__fs_sqrt_0_0
+			(variable) n__fs_sqrt_0_0
+			(variable) a__fs_sqrt_0_0
+			(variable) b__fs_sqrt_0_0
+
+	Scope name: init
+		def:
+			(variable) colormap__global_0_0
+			(variable) i__init_0_0
+
+		use:
+			(variable) ColormapSize__global_0_0
+			(function) rgbFromWaveLength
+			(variable) threadId__init_0_0
+			(variable) NUMBER_OF_THREADS__init_0_0
+			(variable) i_RANGE__init_0_0
+			(variable) i__init_0_0
+
+	Scope name: main
+		use:
+			(thread) region0__thread
+			(thread) region1__thread
+			(thread) region2__thread
+			(thread) region3__thread
+			(thread) region4__thread
+			(thread) region5__thread
+			(thread) region6__thread
+			(thread) region7__thread
+
+	Scope name: region0
+		use:
+			(function) compute
+			(function) init
+
+	Scope name: region1
+		use:
+			(function) compute
+			(function) init
+
+	Scope name: region2
+		use:
+			(function) compute
+			(function) init
+
+	Scope name: region3
+		use:
+			(function) compute
+			(function) init
+
+	Scope name: region4
+		use:
+			(function) compute
+			(function) init
+
+	Scope name: region5
+		use:
+			(function) compute
+			(function) init
+
+	Scope name: region6
+		use:
+			(function) compute
+			(function) init
+
+	Scope name: region7
+		use:
+			(function) compute
+			(function) init
+
+	Scope name: rgbFromWaveLength
+		def:
+			(variable) rr__rgbFromWaveLength_0_0
+			(variable) gg__rgbFromWaveLength_0_0
+			(variable) bb__rgbFromWaveLength_0_0
+			(variable) r__rgbFromWaveLength_0_0
+			(variable) g__rgbFromWaveLength_0_0
+			(variable) b__rgbFromWaveLength_0_0
+			(variable) s__rgbFromWaveLength_0_0
+
+		use:
+			(function) fs_pow
+			(variable) wave__rgbFromWaveLength_0_0
+			(variable) rr__rgbFromWaveLength_0_0
+			(variable) gg__rgbFromWaveLength_0_0
+			(variable) bb__rgbFromWaveLength_0_0
+			(variable) r__rgbFromWaveLength_0_0
+			(variable) g__rgbFromWaveLength_0_0
+			(variable) b__rgbFromWaveLength_0_0
+			(variable) s__rgbFromWaveLength_0_0
+
+	Scope name: uintToRgb
+		def:
+			() Pixel__global_0_0
+			(variable) p__uintToRgb_0_0
+
+		use:
+			(variable) rgb__uintToRgb_0_0
+			(variable) p__uintToRgb_0_0
+
+
+Indirect use/def of symbols by parId:
+-------------------------------------
+	par0:
+
+Indirect use/def of symbols by threadId:
+----------------------------------------
+	main:
+
+Functions used for combining shared variables:
+----------------------------------------------
+
+============================
+tools::Threading::toString()
+============================
+Threads declared:
+-----------------
+	* main__thread
+	* region0__thread
+	* region1__thread
+	* region2__thread
+	* region3__thread
+	* region4__thread
+	* region5__thread
+	* region6__thread
+	* region7__thread
+
+Threads unused:
+---------------
+
+par(...) statements:
+--------------------
+	Thread scope: main
+		par0:
+		* region0__thread
+		* region1__thread
+		* region2__thread
+		* region3__thread
+		* region4__thread
+		* region5__thread
+		* region6__thread
+		* region7__thread
+
+========================
+tools::Abort::toString()
+========================
+============================
+tools::Condition::toString()
+============================
+
+========================
+tarot::Tarot::toString()
+========================
+Full tarot:
+-----------
+	core0: main__thread
+	.	core0: par0
+	.	|	core0: region0__thread
+	.	|	.	pause0
+	.	|	core0: region1__thread
+	.	|	.	pause1
+	.	|	core1: region2__thread
+	.	|	.	pause2
+	.	|	core1: region3__thread
+	.	|	.	pause3
+	.	|	core2: region4__thread
+	.	|	.	pause4
+	.	|	core2: region5__thread
+	.	|	.	pause5
+	.	|	core3: region6__thread
+	.	|	.	pause6
+	.	|	core3: region7__thread
+	.	|	.	pause7
+
+
+Tarot by coreId:
+----------------
+	core0:
+	-------
+		core0: main__thread
+		.	core0: par0
+		.	|	core0: region0__thread
+		.	|	.	pause0
+		.	|	core0: region1__thread
+		.	|	.	pause1
+
+	core1:
+	-------
+		core0: main__thread
+		.	core0: par0
+		.	|	core1: region2__thread
+		.	|	.	pause2
+		.	|	core1: region3__thread
+		.	|	.	pause3
+
+	core2:
+	-------
+		core0: main__thread
+		.	core0: par0
+		.	|	core2: region4__thread
+		.	|	.	pause4
+		.	|	core2: region5__thread
+		.	|	.	pause5
+
+	core3:
+	-------
+		core0: main__thread
+		.	core0: par0
+		.	|	core3: region6__thread
+		.	|	.	pause6
+		.	|	core3: region7__thread
+		.	|	.	pause7
+
+
+par(...) statements with core allocation:
+-----------------------------------------
+	Thread main__thread:
+		all:
+		* core0
+		* core1
+		* core2
+		* core3
+
+		par0:
+		* core0
+		* core1
+		* core2
+		* core3
+
+
+par(...) statements with active cores:
+--------------------------------------
+	Thread main__thread:
+		all:
+		* core0
+		* core1
+		* core2
+		* core3
+
+		par0:
+		* core0
+		* core1
+		* core2
+		* core3
+
+
+Reaction starts:
+----------------
+	core0:
+		main: Master
+
+	core1:
+		main: Slave
+
+	core2:
+		main: Slave
+
+	core3:
+		main: Slave
+
+
+Reaction ends:
+--------------
+	core0:
+		par0:
+			coreIds:
+			* 0
+			* 1
+			* 2
+			* 3
+
+			isMaster:
+			* true
+
+			threadScope:
+			* main
+
+	core1:
+		par0:
+			threadScope:
+			* main
+
+	core2:
+		par0:
+			threadScope:
+			* main
+
+	core3:
+		par0:
+			threadScope:
+			* main
+
+
+Par(...) handlers:
+------------------
+	par0:
+	* region0__thread
+	* region1__thread
+	* region2__thread
+	* region3__thread
+	* region4__thread
+	* region5__thread
+	* region6__thread
+	* region7__thread
+	* mainReactionStartMaster0
+	* mainReactionStartSlave1
+	* mainReactionStartSlave2
+	* mainReactionStartSlave3
+	* mainReactionEndMaster0
+	* mainReactionEndSlave1
+	* mainReactionEndSlave2
+	* mainReactionEndSlave3
+
+
+Linked lists:
+-------------
+	core0:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartMaster0
+			* (thread) region0__thread
+			* (thread) region1__thread
+			* (parEnd) mainReactionEndMaster0
+
+	core1:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave1
+			* (thread) region2__thread
+			* (thread) region3__thread
+			* (parEnd) mainReactionEndSlave1
+
+	core2:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave2
+			* (thread) region4__thread
+			* (thread) region5__thread
+			* (parEnd) mainReactionEndSlave2
+
+	core3:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave3
+			* (thread) region6__thread
+			* (thread) region7__thread
+			* (parEnd) mainReactionEndSlave3
+
+
+par(...) handlers in thread scopes:
+-----------------------------------
+	par0	main__thread
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	microblaze
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	0		main__thread
+	0		region0__thread
+	0		region1__thread
+	1		region2__thread
+	1		region3__thread
+	2		region4__thread
+	2		region5__thread
+	3		region6__thread
+	3		region7__thread
+
+
+========================
+tools::Mutex::toString()
+========================
+Mutex information:
+------------------
+

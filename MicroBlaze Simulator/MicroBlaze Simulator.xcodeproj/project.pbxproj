@@ -1,0 +1,163 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		471096581554959A005553B9 /* MicroBlaze_autogen.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; lineEnding = 0; path = MicroBlaze_autogen.py; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
+		4741EBB31553E68B00FE49BC /* Counter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Counter.cpp; sourceTree = "<group>"; };
+		4741EBB41553E68B00FE49BC /* Main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Main.cpp; sourceTree = "<group>"; };
+		4741EBB51553E68B00FE49BC /* MicroBlaze_autogen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = MicroBlaze_autogen.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		4741EBB61553E68B00FE49BC /* MicroBlaze.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = MicroBlaze.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		4741EBB71553E68B00FE49BC /* MicroBlazeElf.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MicroBlazeElf.cpp; sourceTree = "<group>"; };
+		4741EBB91553E68B00FE49BC /* PrivateMemoryBus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PrivateMemoryBus.cpp; sourceTree = "<group>"; };
+		4741EBBA1553E68B00FE49BC /* SharedMemoryBus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SharedMemoryBus.cpp; sourceTree = "<group>"; };
+		4741EBBB1553E68B00FE49BC /* System.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = System.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		4741EBBC1553E68B00FE49BC /* Uart.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Uart.cpp; sourceTree = "<group>"; };
+		4741EBBD1553E68B00FE49BC /* Counter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Counter.hpp; sourceTree = "<group>"; };
+		4741EBBE1553E68B00FE49BC /* MicroBlaze.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MicroBlaze.hpp; sourceTree = "<group>"; };
+		4741EBBF1553E68B00FE49BC /* MicroBlazeElf.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MicroBlazeElf.hpp; sourceTree = "<group>"; };
+		4741EBC11553E68B00FE49BC /* PrivateMemoryBus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PrivateMemoryBus.hpp; sourceTree = "<group>"; };
+		4741EBC21553E68B00FE49BC /* SharedMemoryBus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SharedMemoryBus.hpp; sourceTree = "<group>"; };
+		4741EBC31553E68B00FE49BC /* System.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = System.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		4741EBC41553E68B00FE49BC /* Uart.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Uart.hpp; sourceTree = "<group>"; };
+		4767FDCE154D02BD00067AA6 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		4767FDD0154D02D400067AA6 /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		4767FDD1154D02D400067AA6 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		47B0EF9F15C748BB008F548F /* MutexEsterel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MutexEsterel.hpp; sourceTree = "<group>"; };
+		47B0EFA015C748BB008F548F /* MutexForeC.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MutexForeC.hpp; sourceTree = "<group>"; };
+		47B0EFA115C748BB008F548F /* ThreadQueue.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ThreadQueue.hpp; sourceTree = "<group>"; };
+		47B0EFA215C748BB008F548F /* MutexEsterel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MutexEsterel.cpp; sourceTree = "<group>"; };
+		47B0EFA315C748BB008F548F /* MutexForeC.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MutexForeC.cpp; sourceTree = "<group>"; };
+		47B0EFA415C748BB008F548F /* ThreadQueue.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadQueue.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		4767FDBD154D01C500067AA6 = {
+			isa = PBXGroup;
+			children = (
+				4767FDCE154D02BD00067AA6 /* LICENSE.txt */,
+				4767FDD0154D02D400067AA6 /* README.txt */,
+				4767FDD1154D02D400067AA6 /* Makefile */,
+				4741EBBD1553E68B00FE49BC /* Counter.hpp */,
+				4741EBB31553E68B00FE49BC /* Counter.cpp */,
+				4741EBB41553E68B00FE49BC /* Main.cpp */,
+				4741EBB51553E68B00FE49BC /* MicroBlaze_autogen.cpp */,
+				4741EBBE1553E68B00FE49BC /* MicroBlaze.hpp */,
+				4741EBB61553E68B00FE49BC /* MicroBlaze.cpp */,
+				4741EBBF1553E68B00FE49BC /* MicroBlazeElf.hpp */,
+				4741EBB71553E68B00FE49BC /* MicroBlazeElf.cpp */,
+				47B0EF9F15C748BB008F548F /* MutexEsterel.hpp */,
+				47B0EFA215C748BB008F548F /* MutexEsterel.cpp */,
+				47B0EFA015C748BB008F548F /* MutexForeC.hpp */,
+				47B0EFA315C748BB008F548F /* MutexForeC.cpp */,
+				4741EBC11553E68B00FE49BC /* PrivateMemoryBus.hpp */,
+				4741EBB91553E68B00FE49BC /* PrivateMemoryBus.cpp */,
+				4741EBC21553E68B00FE49BC /* SharedMemoryBus.hpp */,
+				4741EBBA1553E68B00FE49BC /* SharedMemoryBus.cpp */,
+				4741EBC31553E68B00FE49BC /* System.hpp */,
+				4741EBBB1553E68B00FE49BC /* System.cpp */,
+				4741EBC41553E68B00FE49BC /* Uart.hpp */,
+				4741EBBC1553E68B00FE49BC /* Uart.cpp */,
+				47B0EFA115C748BB008F548F /* ThreadQueue.hpp */,
+				47B0EFA415C748BB008F548F /* ThreadQueue.cpp */,
+				471096581554959A005553B9 /* MicroBlaze_autogen.py */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		475E5AA519E3D55E002C1ACE /* mb-sim */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = 475E5AA819E3D55E002C1ACE /* Build configuration list for PBXLegacyTarget "mb-sim" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			dependencies = (
+			);
+			name = "mb-sim";
+			passBuildSettingsInEnvironment = 1;
+			productName = "mb-sim";
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		4767FDBF154D01C500067AA6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "Potential Publishers";
+			};
+			buildConfigurationList = 4767FDC2154D01C500067AA6 /* Build configuration list for PBXProject "MicroBlaze Simulator" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 4767FDBD154D01C500067AA6;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				475E5AA519E3D55E002C1ACE /* mb-sim */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		475E5AA619E3D55E002C1ACE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		475E5AA719E3D55E002C1ACE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		4767FDC4154D01C700067AA6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				ONLY_ACTIVE_ARCH = YES;
+			};
+			name = Debug;
+		};
+		4767FDC5154D01C700067AA6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		475E5AA819E3D55E002C1ACE /* Build configuration list for PBXLegacyTarget "mb-sim" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				475E5AA619E3D55E002C1ACE /* Debug */,
+				475E5AA719E3D55E002C1ACE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4767FDC2154D01C500067AA6 /* Build configuration list for PBXProject "MicroBlaze Simulator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4767FDC4154D01C700067AA6 /* Debug */,
+				4767FDC5154D01C700067AA6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4767FDBF154D01C500067AA6 /* Project object */;
+}

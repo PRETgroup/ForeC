@@ -1,0 +1,2249 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+// Module       : sync_fft_che_top_tb.c
+//
+////////////////////////////////////////////////////////////////////////////////
+
+#include <sys/stat.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/time.h>
+
+// C standard function prototypes
+int printf ( const char * format, ... );
+int atoi ( const char * str );
+double atof ( const char * str );
+int stat(const char *path, struct stat *buf);
+
+// FILE handling function prototypes
+typedef int FILE;
+#define FILE__global_0_0 FILE
+FILE * fopen ( const char * filename, const char * mode );
+int fclose ( FILE * stream );
+int fprintf ( FILE * stream, const char * format, ... );
+int feof ( FILE * stream );
+char * fgets ( char * str, int num, FILE * stream );
+
+// FILE handling variables
+FILE *file_re_in, *file_im_in;
+shared FILE *freq_sync_correl_2STS_out_I;
+shared FILE *freq_sync_correl_2STS_out_Q;
+shared FILE *FS_single_correl_I;
+shared FILE *FS_single_correl_Q;
+shared FILE *fft_re_reversed;
+shared FILE *fft_im_reversed;
+shared FILE *freq_est_phase_out_I;
+shared FILE *freq_est_phase_out_Q;
+shared FILE *CHE_out_I;
+shared FILE *CHE_out_Q; 
+shared FILE *CHC_out_I;
+shared FILE *CHC_out_Q; 
+shared FILE *fft_re_out;
+shared FILE *fft_im_out;
+
+shared int debug = 1;
+shared int numberOfPipelineStages = 7;
+
+// Constant definitions  
+static const int oversampling_factor = 2;         // Data oversampling factor 
+static const int buffer_len = 64;
+//static const int Latency_on = 0; // switch on Latency as it is in vhdl-model 1=On 0=Off
+static const int cordic_steps_c = 11;
+static const int inter_reg_steps_c = 3;
+//static const int coriq0_in_width_c = 18;
+//static const int coriq0_out_width_c = 2;
+//static const int coriq0_alpha_width_c = 11;
+//static const int max_iq_width_c = 20;
+//static const int max_angle_width_c = 12;
+static const int INTMAX = 2147483647;
+static const unsigned int UINTMAX = 4294967295u;
+
+static const long arctanTable[32] = {
+	0             ,
+	1267733622    , /*(long) (atan2(1.0 ,         2.0) * PI_factor),   1 */
+	669835629     , /*(long) (atan2(1.0 ,         4.0) * PI_factor),   2 */
+	340019024     , /*(long) (atan2(1.0 ,         8.0) * PI_factor),   3 */
+	170669324     , /*(long) (atan2(1.0 ,        16.0) * PI_factor),   4 */
+	85417861      , /*(long) (atan2(1.0 ,        32.0) * PI_factor),   5 */
+	42719353      , /*(long) (atan2(1.0 ,        64.0) * PI_factor),   6 */
+	21360980      , /*(long) (atan2(1.0 ,       128.0) * PI_factor),   7 */
+	10680653      , /*(long) (atan2(1.0 ,       256.0) * PI_factor),   8 */
+	5340347       , /*(long) (atan2(1.0 ,       512.0) * PI_factor),   9 */
+	2670176       , /*(long) (atan2(1.0 ,      1024.0) * PI_factor),  10 */
+	1335088       , /*(long) (atan2(1.0 ,      2048.0) * PI_factor),  11 */
+	667544        , /*(long) (atan2(1.0 ,      4096.0) * PI_factor),  12 */
+	333772        , /*(long) (atan2(1.0 ,      8192.0) * PI_factor),  13 */
+	166886        , /*(long) (atan2(1.0 ,     16384.0) * PI_factor),  14 */
+	83443         , /*(long) (atan2(1.0 ,     32768.0) * PI_factor),  15 */
+	41722         , /*(long) (atan2(1.0 ,     65536.0) * PI_factor),  16 */
+	20861         , /*(long) (atan2(1.0 ,    131072.0) * PI_factor),  17 */
+	10430         , /*(long) (atan2(1.0 ,    262144.0) * PI_factor),  18 */
+	5215          , /*(long) (atan2(1.0 ,    524288.0) * PI_factor),  19 */
+	2608          , /*(long) (atan2(1.0 ,   1048576.0) * PI_factor),  20 */
+	1304          , /*(long) (atan2(1.0 ,   2097152.0) * PI_factor),  21 */
+	652           , /*(long) (atan2(1.0 ,   4194304.0) * PI_factor),  22 */
+	326           , /*(long) (atan2(1.0 ,   8388608.0) * PI_factor),  23 */
+	163           , /*(long) (atan2(1.0 ,  16777216.0) * PI_factor),  24 */
+	81            , /*(long) (atan2(1.0 ,  33554432.0) * PI_factor),  25 */
+	41            , /*(long) (atan2(1.0 ,  67108864.0) * PI_factor),  26 */
+	20            , /*(long) (atan2(1.0 , 134217728.0) * PI_factor),  27 */
+	10            , /*(long) (atan2(1.0 , 268435456.0) * PI_factor),  28 */
+	5             , /*(long) (atan2(1.0 , 536870912.0) * PI_factor),  29 */
+	3             , /*(long) (atan2(1.0 ,1073741824.0) * PI_factor),  30 */
+	1               /*(long) (atan2(1.0 ,2147483648.0) * PI_factor)   31 */
+};
+
+static const int arctan_divisor_y0[10] = {
+	2,		// 1
+	8,		// 3
+	16,		// 4
+	64,		// 6
+	128,	// 7
+	512,	// 9
+	1024,	// 10
+	4096,	// 12
+	8192,	// 13
+	32768	// 15
+};
+
+static const int arctan_divisor_y1[10] = {
+	1,		// 0
+	4,		// 2
+	8,		// 3
+	32,		// 5
+	64,		// 6
+	256,	// 8
+	512,	// 9
+	2048,	// 11
+	4096,	// 12
+	16384	// 14
+};
+
+static const int arctan_divisor_x0[10] = {
+	2,	// 1
+	2,	// 1
+	4,	// 2
+	4,	// 2
+	8,	// 3
+	8,	// 3
+	16,	// 4
+	16,	// 4
+	32,	// 5
+	32	// 5
+};
+
+static const int arctan_divisor_x1[10] = {
+	1,	// 0
+	1,	// 0
+	2,	// 1
+	2,	// 1
+	4,	// 2
+	4,	// 2
+	8,	// 3
+	8,	// 3
+	16,	// 4
+	16	// 4
+};
+
+static const int correl_sum_len = 256;          // 2*8*16 = 256 Length of sliding summation over the correlations
+static const int burst_threshold = 300; // Threshold value for burst detection criteria
+static const int FreqEstStartSlSum = 16;  // Number of samples which will be used for
+static const int FreqEstStopSlSum = 240; // the error estimation. 
+
+//static const int InLen_frac_bits = 0; // number of fractional bits in InLen
+static const int Latency_on = 0; // switch on Latency as it is in vhdl-model 1=On 0=Off
+//static const int OutLen = 12; // precision of result
+static const int Stages = 12; // number of cordic stages
+//static const int InLen = 10; // width of input signals
+static const int FS_on = 1; // FS_on for output MUX
+//static const int AngLen = 11; // width of input angle
+//static const int IntAngLen = 16; // internal width of angle
+//static const int IntXYLen = 12; // internal width of x,y
+static const int IntRegStages = 3; // number of cordic stages between two register stages
+static const int fs_out_scale = 6;
+
+static const int cordic_turn_divisor0[12] = {
+	1,
+	2,
+	4,
+	8,
+	16,
+	32,
+	64,
+	128,
+	256,
+	512,
+	1024,
+	2048
+};
+
+static const long arc_tan_array_c[31] = {
+	1267733622,
+	669835629,
+	340019024,
+	170669324,
+	85417861,
+	42719353,
+	21360980,
+	10680653,
+	5340347,
+	2670176,
+	1335088,
+	667544,
+	333772,
+	166886,
+	83443,
+	41722,
+	20861,
+	10430,
+	5215,
+	2608,
+	1304,
+	652,
+	326,
+	163,
+	81,
+	41,
+	20,
+	10,
+	5,
+	3,
+	1
+};
+
+static const int Searchwin_length = 120;
+static const int time_corr_long_thresh = 2000;
+static const int buffer_depth = 37;
+
+static const int data_quant_trs_real[64] = {
+   -7.000000,
+    1.000000,
+    4.000000,
+   -4.000000,
+   -1.000000,
+    4.000000,
+   -6.000000,
+   -5.000000,
+   -2.000000,
+   -3.000000,
+   -3.000000,
+    3.000000,
+    4.000000,
+   -6.000000,
+   -3.000000,
+    2.000000,
+    3.000000,
+    5.000000,
+   -1.000000,
+    3.000000,
+    1.000000,
+   -6.000000,
+    1.000000,
+    3.000000,
+    4.000000,
+   -2.000000,
+   -5.000000,
+    3.000000,
+    1.000000,
+    4.000000,
+    2.000000,
+   -1.000000,
+    7.000000,
+   -1.000000,
+    2.000000,
+    4.000000,
+    1.000000,
+    3.000000,
+   -5.000000,
+   -2.000000,
+    4.000000,
+    3.000000,
+    1.000000,
+   -6.000000,
+    1.000000,
+    3.000000,
+   -1.000000,
+    5.000000,
+    3.000000,
+    2.000000,
+   -3.000000,
+   -6.000000,
+    4.000000,
+    3.000000,
+   -3.000000,
+   -3.000000,
+   -2.000000,
+   -5.000000,
+   -6.000000,
+    4.000000,
+   -1.000000,
+   -4.000000,
+    4.000000,
+    1.000000
+};
+static const int data_quant_trs_imag[64] = {
+    0.000000,
+   -4.000000,
+   -5.000000,
+   -5.000000,
+   -3.000000,
+    3.000000,
+    1.000000,
+    1.000000,
+    7.000000,
+    1.000000,
+   -4.000000,
+   -1.000000,
+   -4.000000,
+   -3.000000,
+   -2.000000,
+   -4.000000,
+    3.000000,
+    1.000000,
+   -7.000000,
+    1.000000,
+    3.000000,
+    2.000000,
+    5.000000,
+   -1.000000,
+    2.000000,
+    5.000000,
+    3.000000,
+    4.000000,
+   -2.000000,
+   -4.000000,
+    5.000000,
+    5.000000,
+    0.000000,
+   -5.000000,
+   -5.000000,
+    4.000000,
+    2.000000,
+   -4.000000,
+   -3.000000,
+   -5.000000,
+   -2.000000,
+    1.000000,
+   -5.000000,
+   -2.000000,
+   -3.000000,
+   -1.000000,
+    7.000000,
+   -1.000000,
+   -3.000000,
+    4.000000,
+    2.000000,
+    3.000000,
+    4.000000,
+    1.000000,
+    4.000000,
+   -1.000000,
+   -7.000000,
+   -1.000000,
+   -1.000000,
+   -3.000000,
+    3.000000,
+    5.000000,
+    5.000000,
+    4.000000
+};
+
+// Known transmitted LTS sequence
+int long_pattern_array[52] = {1, 1,-1,-1, 1, 1,-1, 1,-1, 1, 1, 1, 1, 1, 1,-1,-1, 1, 1,-1, 1,-1, 1, 1, 1, 1, 1,-1,-1, 1, 1,-1, 1,-1, 1,-1,-1,-1,-1,-1, 1, 1,-1,-1, 1,-1, 1,-1, 1, 1, 1, 1};
+shared int *long_pattern = long_pattern_array;
+
+static const int twiddle21_size = 12;
+static const float twiddle21_re[12 /*twiddle21_size*/] = {
+	 1.00000000e+00, 
+	 7.07106769e-01, 
+	-4.37113883e-08, 
+	-7.07106769e-01,
+	 1.00000000e+00, 
+	 9.23879504e-01, 
+	 7.07106769e-01, 
+	 3.82683426e-01, 
+	 1.00000000e+00, 
+	 3.82683426e-01, 
+	-7.07106769e-01, 
+	-9.23879504e-01
+};
+
+static const float twiddle21_im[12 /*twiddle21_size*/] = {
+	 0.00000000e+00, 
+	-7.07106769e-01, 
+	-1.00000000e+00, 
+	-7.07106769e-01,
+	 0.00000000e+00, 
+	-3.82683456e-01, 
+	-7.07106769e-01, 
+	-9.23879504e-01, 
+	 0.00000000e+00, 
+	-9.23879504e-01, 
+	-7.07106769e-01, 
+	 3.82683426e-01
+};
+
+static const int twiddle43_size = 48;
+static const float twiddle43_re[48 /*twiddle43_size*/] = {
+	 1.00000000e+00,
+	 9.80785251e-01, 
+	 9.23879504e-01, 
+	 8.31469595e-01, 
+	 7.07106769e-01, 
+	 5.55570185e-01, 
+	 3.82683426e-01, 
+	 1.95090234e-01,
+	-4.37113883e-08, 
+	-1.95090324e-01, 
+	-3.82683516e-01, 
+	-5.55570364e-01, 
+	-7.07106769e-01, 
+	-8.31469655e-01, 
+	-9.23879623e-01, 
+	-9.80785310e-01,
+	 1.00000000e+00, 
+	 9.95184720e-01, 
+	 9.80785251e-01, 
+	 9.56940353e-01, 
+	 9.23879504e-01, 
+	 8.81921232e-01, 
+	 8.31469595e-01, 
+	 7.73010433e-01,
+	 7.07106769e-01, 
+	 6.34393275e-01, 
+	 5.55570185e-01, 
+	 4.71396655e-01, 
+	 3.82683426e-01, 
+	 2.90284634e-01, 
+	 1.95090234e-01,
+	 9.80171338e-02,
+	 1.00000000e+00, 
+	 9.56940353e-01, 
+	 8.31469595e-01, 
+	 6.34393275e-01, 
+	 3.82683426e-01, 
+	 9.80171338e-02, 
+	-1.95090324e-01, 
+	-4.71396834e-01,
+	-7.07106769e-01, 
+	-8.81921351e-01, 
+	-9.80785310e-01, 
+	-9.95184720e-01, 
+	-9.23879504e-01, 
+	-7.73010373e-01, 
+	-5.55570006e-01, 
+	-2.90284544e-01
+};
+
+static const float twiddle43_im[48 /*twiddle43_size*/] = {
+	 0.00000000e+00, 
+	-1.95090324e-01, 
+	-3.82683456e-01, 
+	-5.55570245e-01, 
+	-7.07106769e-01, 
+	-8.31469655e-01, 
+	-9.23879504e-01, 
+	-9.80785310e-01,
+	-1.00000000e+00, 
+	-9.80785251e-01, 
+	-9.23879504e-01, 
+	-8.31469536e-01, 
+	-7.07106769e-01, 
+	-5.55570185e-01, 
+	-3.82683277e-01, 
+	-1.95090309e-01,
+	 0.00000000e+00, 
+	-9.80171412e-02, 
+	-1.95090324e-01, 
+	-2.90284663e-01, 
+	-3.82683456e-01, 
+	-4.71396744e-01, 
+	-5.55570245e-01, 
+	-6.34393334e-01,
+	-7.07106769e-01, 
+	-7.73010433e-01, 
+	-8.31469655e-01, 
+	-8.81921291e-01, 
+	-9.23879504e-01, 
+	-9.56940353e-01, 
+	-9.80785310e-01, 
+	-9.95184720e-01,
+	 0.00000000e+00, 
+	-2.90284663e-01, 
+	-5.55570245e-01, 
+	-7.73010433e-01, 
+	-9.23879504e-01, 
+	-9.95184720e-01, 
+	-9.80785251e-01, 
+	-8.81921232e-01,
+	-7.07106769e-01, 
+	-4.71396625e-01, 
+	-1.95090309e-01, 
+	 9.80172679e-02, 
+	 3.82683426e-01, 
+	 6.34393394e-01, 
+	 8.31469774e-01, 
+	 9.56940353e-01
+};
+
+typedef struct {
+	int re;
+	int im;
+} icomplex;
+
+typedef struct {
+	float re;
+	float im;
+} fcomplex;
+
+shared int input_size;
+shared icomplex *inputData;
+
+// freq_sync_correl_2STS
+// Autocorrelation of two STS for burst detection
+void computeStage0(const int bufferToggle, const icomplex freq_sync_correl_2STS_input, int data_store_real_0[], int data_store_imag_0[]);
+icomplex freq_sync_correl_2STS_output[/*numberOfPipelineStages*/ 7];
+icomplex correlation_1ST[/*numberOfPipelineStages*/ 7];
+
+// frequency_sync_slidsum
+void computeStage1(const int bufferToggle, const int bufferToggle_pre, int *correlation_1ST_store_index, int *freq1_i, int *freq1_q, int *freq2_i, int *freq2_q, int correlation_1ST_store_real[], int correlation_1ST_store_imag[],
+				   int *burst_found_pulse_64d_index, int burst_found_pulse_64d[]);
+int burst_found_out[/*numberOfPipelineStages*/ 7];
+int burst_found_pulse_out[/*numberOfPipelineStages*/ 7];
+icomplex freq_est_phase_out[/*numberOfPipelineStages*/ 7]; 
+int freq_est_norm_out[/*numberOfPipelineStages*/ 7]; 
+int freq_est_norm_max_out[/*numberOfPipelineStages*/ 7];
+
+// arctan
+// Phase calculation via arctan + Conversion from alpha into angle in radians:
+void computeStage2(const int bufferToggle, int *act_angle);
+int angle[/*numberOfPipelineStages*/ 7];
+
+// cordic_turn
+// Frequency Offset correction via cordic algorithm
+void computeStage3(const int bufferToggle);
+icomplex cordic_out[/*numberOfPipelineStages*/ 7];
+
+// fine_time_sync
+void computeStage4(const int bufferToggle, const int bufferToggle_pre, int *downsampling_flag, int *maximum_found, int data_store_real[], int data_store_imag[], int *data_store_index, 
+				   int data_quant_real[], int data_quant_imag[], int *data_quant_index, int *FTS_count, int *maximum, int *maximum_new, int *fine_time_est_int, int *fine_time_est_new, int *difference_in_fine_time_est,
+				   int *maximum_found_main);
+icomplex data_out_FT[/*numberOfPipelineStages*/ 7];
+int maximum_found_main_array[/*numberOfPipelineStages*/ 7];
+shared int *maximum_found_main = maximum_found_main_array;
+
+// frequency_sync_slidsum
+int burst_found_pulse_for_FT[/*numberOfPipelineStages*/ 7]; 
+
+// fft64
+void fft64Stage5(const int bufferToggle, const int s, const int fifo_len_div2_5, const float fifo_stage5_i_reg, const float fifo_stage5_q_reg, float *bf2_n_stage5_i, float *bf2_n_stage5_q, int *nsample_5, 
+				float *fifo_i_tmp_5, float *fifo_q_tmp_5, float *bf2_fifo_stage5_i, float *bf2_fifo_stage5_q, float fifo_i_array_5[], float fifo_q_array_5[]);
+void fft64Stage4(const int s4, const int s5, const int fifo_len_div2_4, const float bf2_n_stage5_i, const float bf2_n_stage5_q, const float fifo_stage4_i_reg, const float fifo_stage4_q_reg, float *bf2_n_stage4_i, float *bf2_n_stage4_q,
+				 float *fifo_i_tmp_4, float *fifo_q_tmp_4, float *bf2_fifo_stage4_i, float *bf2_fifo_stage4_q, int *nsample_4, float fifo_i_array_4[], float fifo_q_array_4[]);
+void fft64Stage3(const int s3, const int fifo_len_div2_3, const float fifo_stage3_i_reg, const float fifo_stage3_q_reg, const float mult_stage43_i, const float mult_stage43_q, float *bf2_n_stage3_i, float *bf2_n_stage3_q,
+				 float *fifo_i_tmp_3, float *fifo_q_tmp_3, float *bf2_fifo_stage3_i, float *bf2_fifo_stage3_q, int *nsample_3, float fifo_i_array_3[], float fifo_q_array_3[]);
+void fft64Stage2(const int s2, const int s3, const int fifo_len_div2_2, const float bf2_n_stage3_i, const float bf2_n_stage3_q, const float fifo_stage2_i_reg, const float fifo_stage2_q_reg,
+				 float *bf2_n_stage2_i, float *bf2_n_stage2_q, int *nsample_2, float *bf2_fifo_stage2_i, float *bf2_fifo_stage2_q, float fifo_i_array_2[], float fifo_q_array_2[]);
+void fft64Stage1(const int s1, const int fifo_len_div2_1, const float fifo_stage1_i_reg, const float fifo_stage1_q_reg, const float mult_stage21_i, const float mult_stage21_q,
+				 float *bf2_n_stage1_i, float *bf2_n_stage1_q, int *nsample_1, float *bf2_fifo_stage1_i, float *bf2_fifo_stage1_q, float fifo_i_array_1[], float fifo_q_array_1[]);
+void fft64Stage0(const int s0, const int s1, const float bf2_n_stage1_i, const float bf2_n_stage1_q, const float fifo_stage0_i_reg, const float fifo_stage0_q_reg,
+				 float *bf2_n_stage0_i, float *bf2_n_stage0_q, float *bf2_fifo_stage0_i, float *bf2_fifo_stage0_q);
+float re_out_array[/*numberOfPipelineStages*/ 7];
+float im_out_array[/*numberOfPipelineStages*/ 7];
+shared float *re_out = re_out_array;
+shared float *im_out = im_out_array;
+
+float array_re_array[64 /*buffer_len*/];
+float array_im_array[64 /*buffer_len*/];
+shared float *array_re = array_re_array;
+shared float *array_im = array_im_array;
+
+float *floatFirst(float **lhs, float **rhs) {
+	return *lhs;
+}
+
+float real_out_demux_array[64 /*buffer_len*/];
+float imag_out_demux_array[64 /*buffer_len*/];
+shared float *real_out_demux = real_out_demux_array combine with floatFirst;
+shared float *imag_out_demux = imag_out_demux_array combine with floatFirst;
+
+int *intFirst(int **lhs, int **rhs) {
+	return *lhs;
+}
+
+int input_CHE_real_array[104];
+int input_CHE_imag_array[104];
+shared int *input_CHE_real = input_CHE_real_array combine with intFirst;
+shared int *input_CHE_imag = input_CHE_imag_array combine with intFirst;
+
+int data_remove_GI_reorder_real_array[52];
+int data_remove_GI_reorder_imag_array[52];
+shared int *data_remove_GI_reorder_real = data_remove_GI_reorder_real_array combine with intFirst;
+shared int *data_remove_GI_reorder_imag = data_remove_GI_reorder_imag_array combine with intFirst;
+
+int output_CHE_real_array[52];
+int output_CHE_imag_array[52];
+shared int *output_CHE_real = output_CHE_real_array combine with intFirst;
+shared int *output_CHE_imag = output_CHE_imag_array combine with intFirst;
+
+int output_CHC_real_array[52];
+int output_CHC_imag_array[52];
+shared int *output_CHC_real = output_CHC_real_array combine with intFirst;
+shared int *output_CHC_imag = output_CHC_imag_array combine with intFirst;
+
+shared int counter = 0;
+shared int CHE_flag = 0;
+shared int condition3;
+
+thread stage0(void);
+thread stage1(void);
+thread stage2(void);
+thread stage3(void);
+thread stage4(void);
+thread stage5(void);
+thread stage6(void);
+
+thread demux0(void);
+thread demux1(void);
+thread demux2(void);
+thread demux3(void);
+
+thread removeReorder0(void);
+thread removeReorder1(void);
+
+thread inputChe0(void);
+thread inputChe1(void);
+thread inputChe2(void);
+thread inputChe3(void);
+
+thread outputChe0(void);
+thread outputChe1(void);
+thread outputChe2(void);
+thread outputChe3(void);
+
+thread outputChc0(void);
+thread outputChc1(void);
+thread outputChc2(void);
+thread outputChc3(void);
+
+int main(int argc, char **argv) {
+	struct timeval startTime, endTime;
+	gettimeofday(&startTime, 0);
+	//- - - -
+
+	// Open to read
+	file_re_in = fopen("./CCSS_ref_data/rx_real_data.am","r");
+	file_im_in = fopen("./CCSS_ref_data/rx_imag_data.am","r");
+
+	// open to write
+	freq_sync_correl_2STS_out_I = fopen("./plainC_SimOutput/freq_sync_correl_2STS_out_I.am","w");
+	freq_sync_correl_2STS_out_Q = fopen("./plainC_SimOutput/freq_sync_correl_2STS_out_Q.am","w");
+	
+	FS_single_correl_I = fopen("./plainC_SimOutput/FS_single_correl_I.am","w");
+	FS_single_correl_Q = fopen("./plainC_SimOutput/FS_single_correl_Q.am","w");
+	
+	fft_re_reversed = fopen("./plainC_SimOutput/fft_reversed_re_out.am","w");
+	fft_im_reversed = fopen("./plainC_SimOutput/fft_reversed_im_out.am","w");
+
+	freq_est_phase_out_I = fopen("./plainC_SimOutput/freq_est_phase_out_I.am","w");
+	freq_est_phase_out_Q = fopen("./plainC_SimOutput/freq_est_phase_out_Q.am","w");
+
+	CHE_out_I = fopen("./plainC_SimOutput/CHE_out_I.am","w"); 
+	CHE_out_Q = fopen("./plainC_SimOutput/CHE_out_Q.am","w"); 
+
+	CHC_out_I = fopen("./plainC_SimOutput/CHC_out_I.am","w"); 
+	CHC_out_Q = fopen("./plainC_SimOutput/CHC_out_Q.am","w");
+
+	fft_re_out = fopen("./plainC_SimOutput/fft_re_out.am","w");
+	fft_im_out = fopen("./plainC_SimOutput/fft_im_out.am","w");
+
+	{
+		struct stat st;
+		stat ("./CCSS_ref_data/rx_real_data.am", &st);
+		input_size = st.st_size / 10;
+		inputData = (icomplex *) malloc (input_size * sizeof (icomplex));
+
+		input_size = 0;
+		while(!feof(file_re_in) && !feof(file_im_in)) {
+			char re_in[20];
+			char im_in[20];
+
+			fgets (re_in, 20, file_re_in);
+			fgets (im_in, 20, file_im_in);
+
+			inputData[input_size].re = (int) atof(re_in);
+			inputData[input_size].im = (int) atof(im_in);
+
+			input_size++;
+		}
+	}
+
+	// Signal processing part:
+	par(stage0, stage1, stage2, stage3, stage4, stage5, stage6);
+
+	// closing files
+	fclose(file_re_in);
+	fclose(file_im_in);
+
+	fclose(freq_sync_correl_2STS_out_I);
+	fclose(freq_sync_correl_2STS_out_Q);
+	fclose(FS_single_correl_I);
+	fclose(FS_single_correl_Q);
+	fclose(fft_re_reversed);
+	fclose(fft_im_reversed);
+	fclose(fft_re_out);
+	fclose(fft_im_out);
+	fclose(freq_est_phase_out_I);
+	fclose(freq_est_phase_out_Q);
+	fclose(CHC_out_I);
+	fclose(CHC_out_Q);
+
+	fclose(CHE_out_I);
+	fclose(CHE_out_Q);
+
+	//- - - -
+	gettimeofday(&endTime,0);
+	long seconds = endTime.tv_sec - startTime.tv_sec;
+	int microseconds = endTime.tv_usec - startTime.tv_usec;
+	if (microseconds < 0) {
+		microseconds += 1000000;
+		seconds--;
+	}
+	
+	printf("Runtime: %ld.%.6d\r\n", seconds, microseconds);
+
+	return 0;
+}
+
+thread stage0(void) {
+	// "static" variable declaration
+	int data_store_real_0[32*2/*oversampling_factor*/];
+	int data_store_imag_0[32*2/*oversampling_factor*/];
+	int i;
+	for (i = 0; i < 32*oversampling_factor; i++) #64#64 {
+		data_store_real_0[i] = 0;
+		data_store_imag_0[i] = 0;
+	}
+
+	int bufferToggle = 0;
+	int k;
+	for (k = 0; k < input_size; ++k) #7#7 {
+		// READ in input data for synchronization:
+		icomplex freq_sync_correl_2STS_input;
+		freq_sync_correl_2STS_input.re = inputData[k].re;
+		freq_sync_correl_2STS_input.im = inputData[k].im;
+
+		computeStage0(bufferToggle, freq_sync_correl_2STS_input, data_store_real_0, data_store_imag_0);
+
+		if (debug) {
+			// Print some data to file:
+			fprintf(freq_sync_correl_2STS_out_I,"%d\n", freq_sync_correl_2STS_output[bufferToggle].re);
+			fprintf(freq_sync_correl_2STS_out_Q,"%d\n", freq_sync_correl_2STS_output[bufferToggle].im);
+			fprintf(FS_single_correl_I,"%d\n", correlation_1ST[bufferToggle].re);
+			fprintf(FS_single_correl_Q,"%d\n", correlation_1ST[bufferToggle].im);
+		}
+
+		pause;
+		
+		bufferToggle = (bufferToggle + 1) % /*numberOfPipelineStages*/ 7;
+	}
+}
+
+// freq_sync_correl_2STS
+void computeStage0(const int bufferToggle, const icomplex freq_sync_correl_2STS_input, int data_store_real_0[], int data_store_imag_0[]) {
+	int data_in_i1 = freq_sync_correl_2STS_input.re / 4; // Divide input data by 4.
+	int data_in_q1 = freq_sync_correl_2STS_input.im / 4;
+
+	int data_in_idel1 = data_store_real_0[32*oversampling_factor-1] / 4;
+	int data_in_qdel1 = data_store_imag_0[32*oversampling_factor-1] / 4;
+
+	int correlation_1ST_i_1 = data_in_i1 * data_in_idel1;
+	int correlation_1ST_i_2 = data_in_q1 * data_in_qdel1;
+	correlation_1ST[bufferToggle].re = correlation_1ST_i_1 + correlation_1ST_i_2;
+
+	int correlation_1ST_q_1 = data_in_q1 * data_in_idel1;
+	int correlation_1ST_q_2 = data_in_i1 * data_in_qdel1;
+	correlation_1ST[bufferToggle].im = correlation_1ST_q_1 - correlation_1ST_q_2;
+
+	// output data = input data delayed by 20 samples to compensate delay of frequency_sync    
+	freq_sync_correl_2STS_output[bufferToggle].re = data_store_real_0[19];
+	freq_sync_correl_2STS_output[bufferToggle].im = data_store_imag_0[19];
+
+	// Shift register for sliding summation:
+	int i;
+	for (i = (32*oversampling_factor-1); i > 0; i--) #63#63 {
+		data_store_real_0[i] = data_store_real_0[i-1];
+		data_store_imag_0[i] = data_store_imag_0[i-1];
+	}
+
+	data_store_real_0[0] = freq_sync_correl_2STS_input.re;
+	data_store_imag_0[0] = freq_sync_correl_2STS_input.im; 
+}
+
+thread stage1(void) {
+	// "static" variable declaration
+	int freq2_i = 0;
+	int freq2_q = 0;
+	int freq1_i = 0;
+	int freq1_q = 0;
+	
+	int correlation_1ST_store_real[256 /*correl_sum_len*/]; 
+	int correlation_1ST_store_imag[256 /*correl_sum_len*/]; 
+	int correlation_1ST_store_index;
+	int burst_found_pulse_64d[64]; // For 32-cycle delay (2 times oversampled)
+	int burst_found_pulse_64d_index;
+
+	int bufferToggle = 0;
+	int bufferToggle_pre = /*numberOfPipelineStages*/ 7 - 1;
+	
+	pause;
+	
+	// Initialisation
+	int i;
+	for (i = 0; i < (correl_sum_len); i++) #256#256 {
+		correlation_1ST_store_real[i] = 0;
+		correlation_1ST_store_imag[i] = 0;
+	}
+	correlation_1ST_store_index = 0;
+	
+	freq2_i = 0;
+	freq2_q = 0;
+	freq1_i = 0;
+	freq1_q = 0;
+			
+	for (i = 0; i < /*numberOfPipelineStages*/ 7; i++) #7#7 {
+		burst_found_out[i] = 0;
+		freq_est_norm_out[i] = 0;
+		freq_est_norm_max_out[i] = 0;
+
+		freq_est_phase_out[i].re = 0;
+		freq_est_phase_out[i].im = 0;
+		burst_found_pulse_out[i] = 0;
+	}
+
+	for(i = 0; i < 64; i++) #64#64 {
+		burst_found_pulse_64d[i] = 0;
+	}
+	burst_found_pulse_64d_index = 0;
+	burst_found_pulse_for_FT[bufferToggle] = burst_found_pulse_64d[burst_found_pulse_64d_index];
+	pause;
+	bufferToggle_pre = bufferToggle;
+	bufferToggle = (bufferToggle + 1) % /*numberOfPipelineStages*/ 7;
+	
+	int k;
+	for (k = 0; k < input_size - 1; ++k) #7#7 {
+		computeStage1(bufferToggle, bufferToggle_pre, &correlation_1ST_store_index, &freq1_i, &freq1_q, &freq2_i, &freq2_q, correlation_1ST_store_real, correlation_1ST_store_imag, &burst_found_pulse_64d_index, burst_found_pulse_64d);
+
+		if (debug) {
+			// Print some data to file:
+			fprintf(freq_est_phase_out_I,"%d\n", freq_est_phase_out[bufferToggle].re);
+			fprintf(freq_est_phase_out_Q,"%d\n", freq_est_phase_out[bufferToggle].im);
+		}
+
+		pause;
+		
+		bufferToggle_pre = bufferToggle;
+		bufferToggle = (bufferToggle + 1) % /*numberOfPipelineStages*/ 7;
+	}
+}
+
+// frequency_sync_slidsum
+// Sliding Window autocorrelation for burst detection
+// Sliding summation is done over remaining 8 short training symbols (1st two short training symbols are used for delay of auto-correlation
+void computeStage1(const int bufferToggle, const int bufferToggle_pre, int *correlation_1ST_store_index, int *freq1_i, int *freq1_q, int *freq2_i, int *freq2_q, int correlation_1ST_store_real[], int correlation_1ST_store_imag[],
+				   int *burst_found_pulse_64d_index, int burst_found_pulse_64d[]) {
+	// Calculate auto-correlation sum for burst detection sliding summation of the single correlation values from last 256 samples
+	// 8 STS-sub-sequences * (16 data bins per STS-sub-sequence) * 2 (oversampling-factor) = 256 = correl_sum_len 
+	int temp1_i = correlation_1ST[bufferToggle].re - correlation_1ST_store_real[*correlation_1ST_store_index];
+	*freq1_i += temp1_i;
+	int temp1_q = correlation_1ST[bufferToggle].im - correlation_1ST_store_imag[*correlation_1ST_store_index];
+	*freq1_q += temp1_q; 
+
+	// Calculate auto-correlation sum for freq. offset estimation sliding summation of the single correlation values from last 256 samples
+	int temp2_i = correlation_1ST_store_real[(*correlation_1ST_store_index - FreqEstStartSlSum - 1) & 255] - correlation_1ST_store_real[(*correlation_1ST_store_index - FreqEstStopSlSum - 1) & 255];
+	*freq2_i += temp2_i;
+	int temp2_q = correlation_1ST_store_imag[(*correlation_1ST_store_index - FreqEstStartSlSum - 1) & 255] - correlation_1ST_store_imag[(*correlation_1ST_store_index - FreqEstStopSlSum - 1) & 255];
+	*freq2_q += temp2_q;  
+
+	// Shift register for sliding summation:
+	correlation_1ST_store_real[*correlation_1ST_store_index] = correlation_1ST[bufferToggle].re;
+	correlation_1ST_store_imag[*correlation_1ST_store_index] = correlation_1ST[bufferToggle].im;
+	*correlation_1ST_store_index = ((*correlation_1ST_store_index + 1) & 255);
+
+	// Norm of auto-correlation of burst detection
+	int freq1_i_tmp = *freq1_i / 8192;
+	int freq1_q_tmp = *freq1_q / 8192;
+	freq_est_norm_out[bufferToggle] = (freq1_i_tmp*freq1_i_tmp) + (freq1_q_tmp*freq1_q_tmp);
+
+	// Find start point, when looking for max. in auto-correlation (magn)
+	burst_found_out[bufferToggle] = burst_found_out[bufferToggle_pre];
+	freq_est_norm_max_out[bufferToggle] = freq_est_norm_max_out[bufferToggle_pre];
+	int condition0 = freq_est_norm_out[bufferToggle] - burst_threshold;
+	condition0 = condition0 > 0;
+	int condition1 = burst_found_out[bufferToggle] == 0;
+	burst_found_out[bufferToggle] = 1*((condition0 + condition1) == 2) + burst_found_out[bufferToggle]*((condition0 + condition1) != 2);
+	freq_est_norm_max_out[bufferToggle] = freq_est_norm_out[bufferToggle]*((condition0 + condition1) == 2) + freq_est_norm_max_out[bufferToggle]*((condition0 + condition1) != 2);
+	
+	freq_est_phase_out[bufferToggle].re = freq_est_phase_out[bufferToggle_pre].re;
+	freq_est_phase_out[bufferToggle].im = freq_est_phase_out[bufferToggle_pre].im;
+	burst_found_pulse_out[bufferToggle] = burst_found_pulse_out[bufferToggle_pre];
+
+	// Start now looking for new max in freq_est_norm
+	int condition3 = (burst_found_out[bufferToggle] == 1);
+	int condition2 = freq_est_norm_out[bufferToggle] - freq_est_norm_max_out[bufferToggle];
+	condition2 = condition2 > 0;
+	condition2 = condition2 * condition3;
+	freq_est_norm_max_out[bufferToggle] = (freq_est_norm_out[bufferToggle]*condition2 + freq_est_norm_max_out[bufferToggle]*!condition2) + freq_est_norm_max_out[bufferToggle]*!condition3;
+	freq_est_phase_out[bufferToggle].re = ((*freq2_i / 32)*condition2 + freq_est_phase_out[bufferToggle].re*!condition2) + freq_est_phase_out[bufferToggle].re*!condition3;
+	freq_est_phase_out[bufferToggle].im = ((*freq2_q / 32)*condition2 + freq_est_phase_out[bufferToggle].im*!condition2) + freq_est_phase_out[bufferToggle].im*!condition3;
+	burst_found_pulse_out[bufferToggle] = (0 + burst_found_pulse_out[bufferToggle]*!condition2) + burst_found_pulse_out[bufferToggle]*!condition3;
+	burst_found_pulse_out[bufferToggle] = (burst_found_pulse_out[bufferToggle]*condition2 + 1*!condition2) + burst_found_pulse_out[bufferToggle]*!condition3;
+	burst_found_pulse_out[bufferToggle] = 0 + burst_found_pulse_out[bufferToggle]*condition3;
+
+	// shift register for delay chain
+	burst_found_pulse_64d[*burst_found_pulse_64d_index] = burst_found_pulse_out[bufferToggle];
+	*burst_found_pulse_64d_index = (*burst_found_pulse_64d_index + 1) & 63;
+
+	burst_found_pulse_for_FT[bufferToggle] = burst_found_pulse_64d[*burst_found_pulse_64d_index];
+}
+
+thread stage2(void) {
+	// "static" variable declaration
+	int act_angle;
+
+	int bufferToggle = 0;
+		
+	pause;
+	pause;
+	
+	// Initialisation
+	act_angle = 0;
+	int a;
+	for (a = 0; a < /*numberOfPipelineStages*/ 7; a++) #7#7 {
+		angle[a] = 0;
+	}
+	pause;
+	bufferToggle = (bufferToggle + 1) % /*numberOfPipelineStages*/ 7;
+		
+	int k;
+	for (k = 0; k < input_size - 1; ++k) #7#7 {
+		computeStage2(bufferToggle, &act_angle);
+
+		pause;
+
+		bufferToggle = (bufferToggle + 1) % /*numberOfPipelineStages*/ 7;
+	}
+}
+
+// arctan
+// Angle calculation of I/Q-Datapairs using the arctan and
+// calculates radians per sample from radians per Long Training Symbol.
+void computeStage2(const int bufferToggle, int *act_angle) { 
+	// Init:
+	unsigned int ExactAngle    = UINTMAX - 1048575;	// UINTMAX - (unsigned int) (pow(2.0, 32 - max_angle_width_c) - 1);
+	unsigned int ExactInternal = 4294963200u; // ((unsigned int) pow(2.0, max_iq_width_c) - 1) * 2^(32-max_iq_width_c);
+
+	unsigned int LSB_Ang    = 1048576; // 2^(32 - max_angle_width_c);
+	unsigned int LSB_Int    = 4096; // 2^(32 - max_iq_width_c);
+	unsigned int LSB_OutAng = 2097152; // 2^(32 - coriq0_alpha_width_c);
+
+	/* INPUT PATTERN */
+	long xin = freq_est_phase_out[bufferToggle].re;
+	long yin = freq_est_phase_out[bufferToggle].im;
+
+	/* CALCULATION */
+	xin += (xin == -131072);	// (xin == -pow(2, coriq0_in_width_c-1));
+	yin += (yin == -131072);	//(yin == -pow(2, coriq0_in_width_c-1));
+
+	long x_i_temp0 = xin * 4096; // (xin * 2^(30 - coriq0_in_width_c));
+	long x_i_temp1 = yin * 4096; // (yin * 2^(30 - coriq0_in_width_c));
+	int isNegative;
+	isNegative =  x_i_temp0 < 0;
+	x_i_temp0 = x_i_temp0 * (1 - isNegative * 2);
+	isNegative = x_i_temp1 < 0;
+	x_i_temp1 = x_i_temp1 * (1 - isNegative * 2);
+	signed int x_i = x_i_temp0 + x_i_temp1;	// abs(xin * 2^(30 - coriq0_in_width_c)) + abs(yin * 2^(30 - coriq0_in_width_c));
+
+	long y_i_temp0 = yin * 4096; // (yin * 2^(30 - coriq0_in_width_c));
+	long y_i_temp1 = xin * 4096; // (xin * 2^(30 - coriq0_in_width_c));
+	isNegative = y_i_temp0 < 0;
+	y_i_temp0 = y_i_temp0 * (1 - isNegative * 2);
+	isNegative = y_i_temp1 < 0;
+	y_i_temp1 = y_i_temp1 * (1 - isNegative * 2);
+	signed int y_i = y_i_temp0 - y_i_temp1;	// abs(yin * 2^(30 - coriq0_in_width_c)) - abs(xin * 2^(30 - coriq0_in_width_c));
+
+	signed int z_i = 536870912;// ((int) pow(2.0, max_angle_width_c-3)) * 2^(32 - max_angle_width_c);
+
+	/* ***** Computation of Cordic iterations.*/
+	signed int i;
+	signed int x_i_1, y_i_1, z_i_1;
+	for (i = 1; i < cordic_steps_c; i++) #10#10 {
+		long temp;
+		int condition = (y_i > 0);
+		temp = y_i / arctan_divisor_y0[i-1];
+		x_i_1 = x_i + (temp & ExactInternal) * (2 * condition - 1);
+		temp = y_i / arctan_divisor_y1[i-1];
+		x_i_1 += (temp & LSB_Int);
+		
+		temp = x_i / arctan_divisor_x0[i-1];
+		y_i_1 = y_i - (temp & ExactInternal) * (2 * condition - 1);
+		temp = x_i / arctan_divisor_x1[i-1];
+		y_i_1 += (temp & LSB_Int);
+		   
+		z_i_1 = z_i + (((arctanTable[i] / 4) & ExactAngle) + ((arctanTable[i] / 2) & LSB_Ang)) * (2 * condition - 1);
+
+		x_i = x_i_1 & ExactInternal;
+		y_i = y_i_1 & ExactInternal;
+		z_i = z_i_1 & ExactAngle;
+
+		int condition1 = i % 2;
+		y_i = y_i * (1 + condition1);
+	}
+
+	long angle_temp = (z_i + ((z_i * 2) & LSB_OutAng)) / 2097152; // (32 - coriq0_alpha_width_c);
+
+	int temp = INTMAX / 2097152; // (32 - coriq0_alpha_width_c))
+	
+	int condition9 = xin + 1;
+	condition9 = condition9 > 0;
+	int condition10 = (yin < 0);
+	int condition11 = (condition9 + condition10) == 2;
+	angle_temp = (-(angle_temp)*condition11) + angle_temp*!condition11;
+
+	int condition6 = (xin < 0);
+	int condition7 = yin + 1;
+	condition7 = condition7 > 0;
+	int condition8 = (condition6 + condition7) == 2;
+	condition8 = condition8 * !condition11;
+	angle_temp = ((temp + 1 - angle_temp)*condition8 + angle_temp*!condition8) + angle_temp*condition11;
+
+	int condition3 = (xin < 0);
+	int condition4 = (yin < 0);
+	int condition5 = (condition3 + condition4) == 2;
+	condition5 = condition5 * condition8;
+	angle_temp = (((angle_temp - temp - 1)*condition5 + angle_temp*!condition5) + angle_temp*!condition8) + angle_temp*condition11;
+	
+	int condition0 = (xin == 0);
+	int condition1 = (yin == 0);
+	int condition2 = (condition0 + condition1) == 2;
+	condition2 = condition2 * condition5;
+	angle_temp = (((-1)*condition2 + angle_temp*!condition2) + angle_temp*!condition8) + angle_temp*condition11;
+	
+	isNegative = (angle_temp == 1024);	// pow(2, coriq0_alpha_width_c-1)
+	angle_temp = angle_temp * (1 - isNegative * 2);
+
+	/* OUTPUT PATTER */
+	int alpha_out_latency[5];	// alpha_out_latency[(cordic_steps_c/inter_reg_steps_c)+2];
+	int alpha_out = (int)(angle_temp) * (Latency_on == 0) + (int)(alpha_out_latency[0]) * (Latency_on != 0);
+
+	int rad_tmp = -alpha_out;
+	*act_angle = *act_angle * (burst_found_pulse_out[bufferToggle] != 0);
+	*act_angle += rad_tmp;
+
+	int condition12 = *act_angle + 65536;
+	condition12 = condition12 < 0;
+	*act_angle = (131072 + *act_angle)*condition12 + *act_angle*!condition12;
+	
+	int condition13 = *act_angle - 65535;
+	condition13 = condition13 > 0;
+	condition13 = condition13 * !condition12;
+	*act_angle = (-131072 + *act_angle)*condition13 + *act_angle*!condition13;
+
+	angle[bufferToggle] = *act_angle / 64;
+
+	for (i = 1; i < (cordic_steps_c/inter_reg_steps_c) + 2; i++) #5#5 {
+		alpha_out_latency[i-1] = alpha_out_latency[i];
+	}
+
+	int condition14 = cordic_steps_c % inter_reg_steps_c;
+	condition14 = condition14 != 0;
+	alpha_out_latency[3 + condition14] = angle[bufferToggle];	// alpha_out_latency[(cordic_steps_c/inter_reg_steps_c)]
+}
+
+thread stage3(void) {
+	int bufferToggle = 0;
+
+	pause;
+	pause;
+	pause;
+	
+	// Initialisation 
+	pause; 
+	bufferToggle = (bufferToggle + 1) % /*numberOfPipelineStages*/ 7;
+	
+	int k;
+	for (k = 0; k < input_size - 1; ++k) #7#7 {
+		computeStage3(bufferToggle);
+		
+		pause;
+
+		bufferToggle = (bufferToggle + 1) % /*numberOfPipelineStages*/ 7;
+	}
+}
+
+// cordic_turn
+// Cordic (derotation) algorithm
+void computeStage3(const int bufferToggle) {
+	// INPUT PATTERN 
+	long x_in_reg = (long)(freq_sync_correl_2STS_output[bufferToggle].re * 1);	// (long)(xin * pow(2.0, (double) InLen_frac_bits));
+	long y_in_reg = (long)(freq_sync_correl_2STS_output[bufferToggle].im * 1);	// (long)(yin * pow(2.0, (double) InLen_frac_bits));
+	long angle_in_reg = (long)(angle[bufferToggle]);
+
+	// CALCULATION
+	int msb_reg = (int)(angle_in_reg / 256 /*(AngLen - 3)*/);
+	msb_reg &= 7;
+
+	long z_reg;
+	int condition0 = (int)(angle_in_reg / 256 /*(AngLen - 3)*/);
+	z_reg = -((condition0 & 1) == 1);
+
+	z_reg = z_reg * 512 /*(AngLen - 2)*/ | (angle_in_reg & ((long) (512 /*pow(2.0, (double) (AngLen - 2) )*/) - 1));
+	z_reg = z_reg * 32; // (IntAngLen - AngLen);
+
+	long x_temp = x_in_reg * 4; // (IntXYLen - InLen);
+	long y_temp = y_in_reg * 4; // (IntXYLen - InLen);
+
+	// --------------------------------------------------------------------- 
+	// -- Evaluate first three MSB's of input angle and do a pre-rotation)   
+	// --------------------------------------------------------------------- 
+	long x_reg, y_reg;
+
+	// angle in [-1/4 Pi; 1/4 Pi]
+	int condition1 = msb_reg == 0 | msb_reg == 7;
+	x_reg = x_temp*condition1;
+	y_reg = y_temp*condition1;
+	
+	// angle in [-3/4 Pi;-1/4 Pi] 
+	int condition2 = msb_reg == 5 | msb_reg == 6;
+	condition2 = condition2 * !condition1;
+	x_reg = y_temp*condition2 + x_reg*!condition2;
+	y_reg = -x_temp*condition2 + y_reg*!condition2;
+		
+	// angle in [ 3/4 Pi; PI],[-Pi;-3/4 Pi]
+	int condition3 = msb_reg == 3 | msb_reg == 4;
+	condition3 = condition3 * !condition2 * !condition1;
+	x_reg = -x_temp*condition3 + x_reg*!condition3;
+	y_reg = -y_temp*condition3 + y_reg*!condition3;
+	
+	// angle in [ 1/4 Pi; 3/4 Pi]
+	int condition4 = !condition1 * !condition3 * !condition2;
+	x_reg = -y_temp*condition4 + x_reg*!condition4;
+	y_reg = x_temp*condition4 + y_reg*!condition4;
+
+	// -------------------------------------------------------------------
+	// --  Cordic - Algorithm                                             
+	// -------------------------------------------------------------------
+	int i;
+	for(i = 1; i < Stages; i++) #11#11 {
+		long temp;
+		int condition0 = (z_reg < 0);
+		temp = y_reg / cordic_turn_divisor0[i];
+		x_temp = x_reg + temp * (2 * condition0 - 1);
+		temp = y_reg / cordic_turn_divisor0[i-1];
+		x_temp = x_temp + (temp & 1) * (2 * condition0 - 1);
+		
+		temp = x_reg / cordic_turn_divisor0[i];
+		y_temp = y_reg - temp * (2 * condition0 - 1);
+		temp = x_reg / cordic_turn_divisor0[i-1];
+		y_temp = y_temp - (temp & 1) * (2 * condition0 - 1);
+		
+		z_reg  = z_reg + (arc_tan_array_c[i-1] / 262144 /*(34 - IntAngLen)*/) * (2 * condition0 - 1) + ((arc_tan_array_c[i-1] / 131072 /*(33 - IntAngLen)*/) & 1) * (2 * condition0 - 1);
+
+		x_reg = x_temp;
+		y_reg = y_temp;
+	}
+
+	// OUTPUT PATTER
+	long res_x_latency[6];	// res_x_latency[(Stages/IntRegStages)+2];
+	long res_y_latency[6];	// res_y_latency[(Stages/IntRegStages)+2];
+	float res_x;
+	float res_y;
+	long temp;
+	int condition5 = (Latency_on == 0);
+	temp = (x_reg*condition5 + res_x_latency[0]*!condition5) / 4; // (IntXYLen - OutLen + 2)
+	res_x = (float) (temp) / (float)1; // pow(2.0, (double) InLen_frac_bits);
+	temp = (y_reg*condition5 + res_y_latency[0]*!condition5) / 4; // (IntXYLen - OutLen + 2)
+	res_y = (float) (temp) / (float)1; // pow(2.0, (double) InLen_frac_bits);
+	int res_out_x = (int)(res_x);
+	int res_out_y = (int)(res_y);
+
+	// Output MUX:
+	// If FS_on == true  => frequency corrected data muxed to the output
+	// If FS_on == false => cordic input data is only bypassed to the output without any correction
+	int condition6 = (FS_on == 1);
+	cordic_out[bufferToggle].re = ((res_out_x * fs_out_scale) / 16)*condition6 + freq_sync_correl_2STS_output[bufferToggle].re*!condition6;
+	cordic_out[bufferToggle].im = ((res_out_y * fs_out_scale) / 16)*condition6 + freq_sync_correl_2STS_output[bufferToggle].im*!condition6;
+
+	for (i = 1; i < (Stages/IntRegStages) + 2; i++) #5#5 {
+		res_x_latency[i-1] = res_x_latency[i];
+		res_y_latency[i-1] = res_y_latency[i];
+	}
+	
+	int condition7 = (Stages % IntRegStages == 0);
+	condition7 = !condition7;
+	res_x_latency[4 + condition7] = x_reg;	// res_x_latency[(Stages/IntRegStages)]
+	res_y_latency[4 + condition7] = y_reg;	// res_y_latency[(Stages/IntRegStages)]
+}
+
+
+thread stage4(void) {
+	// "static" variable declaration
+	int data_store_real[64 /*buffer_depth*/];
+	int data_store_imag[64 /*buffer_depth*/];
+	int data_store_index = 0;
+	int data_quant_real[64];
+	int data_quant_imag[64];
+	int data_quant_index = 0;
+	
+	int fine_time_est_int = 0;
+	int fine_time_est_new = 0;
+	int FTS_count = 0;
+	int difference_in_fine_time_est;
+	int maximum;
+	int maximum_new;
+	int maximum_found;
+	int downsampling_flag = 1;
+	int i;
+	for (i = 0; i < buffer_depth; i++) #37#37 {
+		data_store_real[i] = (float)0.0;
+		data_store_imag[i] = (float)0.0;
+		data_quant_real[i] = (float)0.0;
+		data_quant_imag[i] = (float)0.0;
+	}
+
+	int bufferToggle = 0;
+	int bufferToggle_pre = /*numberOfPipelineStages*/ 7 - 1;
+
+	pause;
+	pause;
+	pause;
+	pause;
+	
+	// Initialisation
+	maximum_found_main[bufferToggle] = maximum_found_main[bufferToggle_pre];
+	data_out_FT[bufferToggle].re = data_out_FT[bufferToggle_pre].re;
+	data_out_FT[bufferToggle].im = data_out_FT[bufferToggle_pre].im;
+	pause;
+	bufferToggle_pre = bufferToggle;
+	bufferToggle = (bufferToggle + 1) % /*numberOfPipelineStages*/ 7;
+	
+	int k;
+	for (k = 0; k < input_size - 1; ++k) #7#7 {
+		computeStage4(bufferToggle, bufferToggle_pre, &downsampling_flag, &maximum_found, data_store_real, data_store_imag, &data_store_index, data_quant_real, data_quant_imag, &data_quant_index, &FTS_count, &maximum, &maximum_new, &fine_time_est_int, &fine_time_est_new, &difference_in_fine_time_est, maximum_found_main);
+
+		pause;
+		
+		bufferToggle_pre = bufferToggle;
+		bufferToggle = (bufferToggle + 1) % /*numberOfPipelineStages*/ 7;
+	}
+}
+
+// fine_time_sync
+// Fine time synchronization using crosscorrelation
+// Fine time estimation: Finds exact start of Long TS1 (after Long GI)
+void computeStage4(const int bufferToggle, const int bufferToggle_pre, int *downsampling_flag, int *maximum_found, int data_store_real[], int data_store_imag[], int *data_store_index, 
+				   int data_quant_real[], int data_quant_imag[], int *data_quant_index, int *FTS_count, int *maximum, int *maximum_new, int *fine_time_est_int, int *fine_time_est_new, int *difference_in_fine_time_est,
+				   int *maximum_found_main) {
+	maximum_found_main[bufferToggle] = maximum_found_main[bufferToggle_pre];
+	data_out_FT[bufferToggle].re = data_out_FT[bufferToggle_pre].re;
+	data_out_FT[bufferToggle].im = data_out_FT[bufferToggle_pre].im;
+	
+	// 2-times Downsampling of input data ("data_in_real/imag" and of
+	int condition20 = (*downsampling_flag == 0);
+
+	// delay data by 32+RxTimingOffset samples (after LongGI, start of LTS1)
+	int condition0 = (*maximum_found == 1);
+	condition0 = condition0 * condition20;
+	data_out_FT[bufferToggle].re = (int)(data_store_real[*data_store_index])*condition0 + data_out_FT[bufferToggle].re*!condition20;
+	data_out_FT[bufferToggle].im = (int)(data_store_imag[*data_store_index])*condition0 + data_out_FT[bufferToggle].im*!condition20;
+	maximum_found_main[bufferToggle] = (*maximum_found == 1) + maximum_found_main[bufferToggle]*!condition20;
+
+	data_store_real[*data_store_index] = cordic_out[bufferToggle].re*condition20 + data_store_real[*data_store_index]*!condition20;
+	data_store_imag[*data_store_index] = cordic_out[bufferToggle].im*condition20 + data_store_imag[*data_store_index]*!condition20;
+	*data_store_index = ((*data_store_index + 1) % buffer_depth)*condition20 + *data_store_index*!condition20;
+	
+	int data_in_sign_re;
+	int condition1 = (cordic_out[bufferToggle].re > 0);
+	condition1 = condition1 * condition20;
+	data_in_sign_re = condition1;
+	
+	int condition2 = (cordic_out[bufferToggle].re < 0);
+	data_in_sign_re = (-condition2*!condition1 + data_in_sign_re*condition1)*condition20 + data_in_sign_re*!condition20;
+	
+	int data_in_sign_im;
+	int condition3 = (cordic_out[bufferToggle].im > 0);
+	condition3 = condition3 * condition20;
+	data_in_sign_im = condition3*condition20;
+	
+	int condition4 = (cordic_out[bufferToggle].im < 0);
+	data_in_sign_im = (-condition4*!condition3 + data_in_sign_im*condition3)*condition20 + data_in_sign_im*!condition20;
+	
+	data_quant_real[*data_quant_index] = data_in_sign_re*condition20 + data_quant_real[*data_quant_index]*!condition20;
+	data_quant_imag[*data_quant_index] = data_in_sign_im*condition20 + data_quant_imag[*data_quant_index]*!condition20;
+	*data_quant_index = ((*data_quant_index + 1) & 63)*condition20 + *data_quant_index*!condition20;
+
+	int j;
+	int time_corr_long_re = 0;
+	int time_corr_long_im = 0;
+	for(j = 0; j < 64; j++) #64#64 {
+		int time_corr_long_re_1 = (int)(data_quant_real[(*data_quant_index + j) & 63] * data_quant_trs_real[j])*condition20;
+		int time_corr_long_re_2 = (int)(data_quant_imag[(*data_quant_index + j) & 63] * data_quant_trs_imag[j])*condition20;
+		time_corr_long_re = (time_corr_long_re + time_corr_long_re_1 + time_corr_long_re_2)*condition20;
+
+		int time_corr_long_im_1 = (int)(data_quant_imag[(*data_quant_index + j) & 63] * data_quant_trs_real[j])*condition20;
+		int time_corr_long_im_2 = (int)(data_quant_real[(*data_quant_index + j) & 63] * data_quant_trs_imag[j])*condition20;
+		time_corr_long_im = (time_corr_long_im + time_corr_long_im_1 - time_corr_long_im_2)*condition20;
+	}
+	
+	int time_corr_long_re_temp = time_corr_long_re;
+	int condition5 = (time_corr_long_re_temp < 0);
+	time_corr_long_re_temp = (time_corr_long_re_temp*(1 - 2 * condition5))*condition20 + time_corr_long_re_temp*!condition20;
+	time_corr_long_re_temp = (time_corr_long_re_temp / 4)*condition20 + time_corr_long_re_temp*!condition20;
+
+	int time_corr_long_im_temp = time_corr_long_im;
+	int condition6 = (time_corr_long_im_temp < 0);
+	time_corr_long_im_temp = (time_corr_long_im_temp*(1 - 2 * condition6))*condition20 + time_corr_long_im_temp*!condition20;
+	time_corr_long_im_temp = (time_corr_long_im_temp / 4)*condition20 + time_corr_long_im_temp*!condition20;
+
+	int time_corr_long_norm = (time_corr_long_re_temp*time_corr_long_re_temp + time_corr_long_im_temp*time_corr_long_im_temp)*condition20;	// ((abs(time_corr_long_re)/4) * (abs(time_corr_long_re)/4) + (abs(time_corr_long_im)/4)*(abs(time_corr_long_im)/4));
+	int condition13 = (burst_found_pulse_for_FT[bufferToggle] == 0);
+	*FTS_count = *FTS_count*!condition13*condition20 + *FTS_count*!condition20;
+
+	*maximum = (time_corr_long_thresh*condition13 + *maximum*!condition13)*condition20 + *maximum*!condition20;
+	*fine_time_est_int = *fine_time_est_int*condition13*condition20 + *fine_time_est_int*!condition20;
+	*maximum_found = *maximum_found*!condition13*condition20 + *maximum_found*!condition20; 
+
+	int condition12 = *FTS_count - Searchwin_length;
+	condition12 = condition12 < 0;
+	condition12 = condition12 * !condition13;
+
+	// Storing the two maximum LTS peak values.
+	int condition7 = time_corr_long_norm + 1 - *maximum;
+	condition7 = condition7 > 0;
+	condition7 = condition7 * condition12;
+	*maximum_new = (time_corr_long_norm*condition7 + *maximum_new*!condition7)*condition20 + *maximum_new*!condition20;
+
+	// store maximum estimation value index
+	*fine_time_est_new = (*FTS_count*condition7 + *fine_time_est_new*!condition7)*condition20 + *fine_time_est_new*!condition20;
+
+	// This variable looks for the distance between the two maximas:
+	*difference_in_fine_time_est = ((*fine_time_est_new - *fine_time_est_int)*condition7 + *difference_in_fine_time_est*!condition7)*condition20 + *difference_in_fine_time_est*!condition20;
+
+	int condition8 = *difference_in_fine_time_est - 60;
+	condition8 = condition8 < 0;
+	int condition9 = *difference_in_fine_time_est - 68;
+	condition9 = condition9 > 0;
+	int condition10 = *maximum_found == 0;
+	int condition11 = condition8 | condition9 | condition10;
+	condition11 = condition11 == 1;
+	condition11 = condition11 * condition7;
+
+	*fine_time_est_int = (*fine_time_est_new*condition11 + *fine_time_est_int*!condition11)*condition20 + *fine_time_est_int*!condition20;
+	*maximum_found = (condition11 + *maximum_found*!condition11)*condition20 + *maximum_found*!condition20;
+	*FTS_count = (*FTS_count + 1)*condition11*condition20 + *FTS_count*!condition20;
+	
+	*downsampling_flag = (*downsampling_flag == 0);
+}
+
+thread stage5(void) {
+	// "static variables
+	int cnt_16 = 0;
+	int cnt_64 = 0;
+	int cnt_128 = 0;
+
+	int downsampling_flag = 0;
+	int mk_test = 0;
+	int GI_Flag = 0;
+	
+	//  bf2 & FIFO stage5
+	float bf2_fifo_stage5_i= (float)0.0;
+	float bf2_fifo_stage5_q= (float)0.0;
+	float fifo_stage5_i_reg= (float)0.0;
+	float fifo_stage5_q_reg= (float)0.0;
+	float bf2_n_stage5_i= (float)0.0;
+	float bf2_n_stage5_q= (float)0.0;
+  
+	//  bf2 & FIFO stage4
+	float bf2_fifo_stage4_i= (float)0.0;
+	float bf2_fifo_stage4_q= (float)0.0;
+	float fifo_stage4_i_reg= (float)0.0;
+	float fifo_stage4_q_reg= (float)0.0;
+	float bf2_n_stage4_i= (float)0.0;
+	float bf2_n_stage4_q= (float)0.0;
+
+	//  bf2 & FIFO stage3
+	float bf2_fifo_stage3_i= (float)0.0;
+	float bf2_fifo_stage3_q= (float)0.0;
+	float fifo_stage3_i_reg= (float)0.0;
+	float fifo_stage3_q_reg= (float)0.0;
+	float bf2_n_stage3_i= (float)0.0;
+	float bf2_n_stage3_q= (float)0.0;
+
+	//  bf2 & FIFO stage2
+	float bf2_fifo_stage2_i= (float)0.0;
+	float bf2_fifo_stage2_q= (float)0.0;
+	float fifo_stage2_i_reg= (float)0.0;
+	float fifo_stage2_q_reg= (float)0.0;
+	float bf2_n_stage2_i= (float)0.0;
+	float bf2_n_stage2_q= (float)0.0;
+
+	//  bf2 & FIFO stage1
+	float bf2_fifo_stage1_i= (float)0.0;
+	float bf2_fifo_stage1_q= (float)0.0;
+	float fifo_stage1_i_reg= (float)0.0;
+	float fifo_stage1_q_reg= (float)0.0;
+	float bf2_n_stage1_i= (float)0.0;
+	float bf2_n_stage1_q= (float)0.0;
+
+	//  bf2 & FIFO stage0
+	float bf2_fifo_stage0_i= (float)0.0;
+	float bf2_fifo_stage0_q= (float)0.0;
+	float fifo_stage0_i_reg= (float)0.0;
+	float fifo_stage0_q_reg= (float)0.0;
+	float bf2_n_stage0_i= (float)0.0;
+	float bf2_n_stage0_q= (float)0.0;
+
+	int cnt_index = 0;
+	int multiple_streams_index = 0;
+
+	int fifo_len_div2_1 = 1;
+	int nsample_1 = 0;
+	float fifo_i_array_1[3];
+	float fifo_q_array_1[3];
+	int a;
+	for (a = 0; a < 3; a++) #3#3 {
+		fifo_i_array_1[a] = (float)0.0;
+		fifo_q_array_1[a] = (float)0.0;
+	}
+
+	int fifo_len_div2_4 = 15;
+	int nsample_4 = 0;
+	float fifo_i_array_4[31];
+	float fifo_q_array_4[31];
+	for (a = 0; a < 31; a++) #31#31 {
+		fifo_i_array_4[a]= (float)0.0;
+		fifo_q_array_4[a]= (float)0.0;
+	}
+	float fifo_i_tmp_4 = (float)0.0;
+	float fifo_q_tmp_4 = (float)0.0;
+
+	int fifo_len_div2_5 = 31;
+	int nsample_5 = 0;
+	float fifo_i_array_5[63];
+	float fifo_q_array_5[63];
+	for (a = 0; a < 63; a++) #63#63 {
+		fifo_i_array_5[a] = (float)0.0;
+		fifo_q_array_5[a] = (float)0.0;
+	}
+	float fifo_i_tmp_5 = (float)0.0;
+	float fifo_q_tmp_5 = (float)0.0;
+
+	int fifo_len_div2_2 = 3;
+	int nsample_2 = 0;
+	float fifo_i_array_2[7];
+	float fifo_q_array_2[7];
+	for (a = 0; a < 7; a++) #7#7 {
+		fifo_i_array_2[a] = (float)0.0;
+		fifo_q_array_2[a] = (float)0.0;
+	}
+	
+	int fifo_len_div2_3 = 7;
+	int nsample_3 = 0;
+	float fifo_i_array_3[15];
+	float fifo_q_array_3[15];
+	for (a = 0; a < 15; a++) #15#15 {
+		fifo_i_array_3[a] = (float)0.0;
+		fifo_q_array_3[a] = (float)0.0;
+	}
+	float fifo_i_tmp_3;
+	float fifo_q_tmp_3;
+	
+	// Nothing
+	int bufferToggle = 0;
+
+	pause;
+	pause;
+	pause;
+	pause;
+	pause;
+
+	int k;
+	for (k = 0; k < input_size; ++k) #7#7 {
+		// downsampling 2:1
+		int condition00 = (downsampling_flag == 0);
+		int condition11 = (maximum_found_main[bufferToggle] == 1);
+		int condition22 = (condition00 + condition11) == 2;
+
+		// Remove Guard Interval (or better here: Mark guard interval data with a Flag. GI_Flag = '1' = > GI-Data...)
+		{
+			int condition0 = (mk_test == 0);
+			condition0 = condition0 * condition22;
+			cnt_128 = cnt_128*!condition0;
+			cnt_64 = cnt_64*!condition0;
+			cnt_16 = cnt_16*!condition0;
+			GI_Flag = GI_Flag*!condition0;
+
+			// For LTS1 and LTS2:
+			int condition1 = cnt_128 - 127;
+			condition1 = condition1 < 0;
+			condition0 = (mk_test == 0);
+			condition1 = condition1 * !condition0 * condition22;
+			cnt_128 += condition1;
+			GI_Flag = GI_Flag*!condition1;
+			
+			// For GI:
+			int condition2 = cnt_16 - 16;
+			condition2 = condition2 < 0;
+			int condition3 = (cnt_64 == 0);
+			int condition4 = (condition2 + condition3) == 2;
+			condition1 = condition1 * !condition0;
+			condition4 = condition4 * !condition1 * !condition0 * condition22;
+			cnt_16 += condition4;
+			GI_Flag = GI_Flag*!condition4 + condition4;
+			
+			
+			// For data:
+			int condition5 = cnt_64 - 63;
+			condition5 = condition5 < 0;
+			condition4 = condition4 * !condition1 * !condition0;
+			condition5 = condition5 * !condition4 * condition22;
+			cnt_64 += condition5;
+			GI_Flag = GI_Flag*!condition5;
+			
+			condition5 = condition5 * !condition4;
+			int condition6 = !condition4 * !condition5 * condition22;
+			cnt_64 = cnt_64*!condition6;
+			cnt_16 = cnt_16*!condition6;
+		}
+
+		// fft64
+		// Only "real" data, which is related to GI_Flag = 0 is processed further:
+		int condition33 = GI_Flag == 0;
+		condition22 = condition22 * condition33;
+		if (condition22) {
+			mk_test = 1;
+			{
+				re_out[bufferToggle] = bf2_n_stage0_i;
+				im_out[bufferToggle] = bf2_n_stage0_q;
+			  
+				int s[6];
+				s[0] = (cnt_index % 2) - 0;
+				s[0] = s[0] > 0;
+				s[1] = (cnt_index % 4) - 1;
+				s[1] = s[1] > 0;
+				s[2] = (cnt_index % 8) - 3;
+				s[2] = s[2] > 0;
+				s[3] = (cnt_index % 16) - 7;
+				s[3] = s[3] > 0;
+				s[4] = (cnt_index % 32) - 15;
+				s[4] = s[4] > 0;
+				s[5] = (cnt_index % 64) - 31;
+				s[5] = s[5] > 0;
+
+				fft64Stage5(bufferToggle, s[5], fifo_len_div2_5, fifo_stage5_i_reg, fifo_stage5_q_reg, &bf2_n_stage5_i, &bf2_n_stage5_q, &nsample_5, &fifo_i_tmp_5, &fifo_q_tmp_5, &bf2_fifo_stage5_i, &bf2_fifo_stage5_q, fifo_i_array_5, fifo_q_array_5);
+
+				fifo_stage5_i_reg = bf2_fifo_stage5_i;
+				fifo_stage5_q_reg = bf2_fifo_stage5_q;
+				
+			  	fft64Stage4(s[4], s[5], fifo_len_div2_4, bf2_n_stage5_i, bf2_n_stage5_q, fifo_stage4_i_reg, fifo_stage4_q_reg, &bf2_n_stage4_i, &bf2_n_stage4_q, &fifo_i_tmp_4, &fifo_q_tmp_4, &bf2_fifo_stage4_i, &bf2_fifo_stage4_q, &nsample_4, fifo_i_array_4, fifo_q_array_4);
+
+				fifo_stage4_i_reg = bf2_fifo_stage4_i;
+				fifo_stage4_q_reg = bf2_fifo_stage4_q;
+			  
+				// multiplier stage 4-3
+				float mult_stage43_i, mult_stage43_q;
+				int twiddle43_ptr = multiple_streams_index % 64;
+				{
+					int condition0 = twiddle43_ptr - twiddle43_size;
+					condition0 = condition0 < 0;
+					int twiddle_ptr_tmp = twiddle43_ptr*condition0;
+
+					float calc1_re = bf2_n_stage4_i*twiddle43_re[twiddle_ptr_tmp];
+					float calc2_re = bf2_n_stage4_q*twiddle43_im[twiddle_ptr_tmp];
+
+					float calc1_im = bf2_n_stage4_i*twiddle43_im[twiddle_ptr_tmp];
+					float calc2_im = bf2_n_stage4_q*twiddle43_re[twiddle_ptr_tmp];
+
+					mult_stage43_i = calc1_re - calc2_re;
+					mult_stage43_q = calc1_im + calc2_im;
+				}
+
+				fft64Stage3(s[3], fifo_len_div2_3, fifo_stage3_i_reg, fifo_stage3_q_reg, mult_stage43_i, mult_stage43_q, &bf2_n_stage3_i, &bf2_n_stage3_q, &fifo_i_tmp_3, &fifo_q_tmp_3, &bf2_fifo_stage3_i, &bf2_fifo_stage3_q, &nsample_3, fifo_i_array_3, fifo_q_array_3);
+
+				fifo_stage3_i_reg = bf2_fifo_stage3_i;
+				fifo_stage3_q_reg = bf2_fifo_stage3_q;
+
+				fft64Stage2(s[2], s[3], fifo_len_div2_2, bf2_n_stage3_i, bf2_n_stage3_q, fifo_stage2_i_reg, fifo_stage2_q_reg, &bf2_n_stage2_i, &bf2_n_stage2_q, &nsample_2, &bf2_fifo_stage2_i, &bf2_fifo_stage2_q, fifo_i_array_2, fifo_q_array_2);
+
+				fifo_stage2_i_reg = bf2_fifo_stage2_i;
+				fifo_stage2_q_reg = bf2_fifo_stage2_q;
+
+				// multiplier stage 2-1
+				float mult_stage21_i, mult_stage21_q;
+				int twiddle21_ptr = multiple_streams_index % 16;
+				{
+					int twiddle_ptr_tmp;
+					int condition0 = twiddle21_ptr - twiddle21_size;
+					condition0 = condition0 < 0;
+					twiddle_ptr_tmp = twiddle21_ptr*condition0;
+				
+					float calc1_re = bf2_n_stage2_i*twiddle21_re[twiddle_ptr_tmp];
+					float calc2_re = bf2_n_stage2_q*twiddle21_im[twiddle_ptr_tmp];
+
+					float calc1_im = bf2_n_stage2_i*twiddle21_im[twiddle_ptr_tmp];
+					float calc2_im = bf2_n_stage2_q*twiddle21_re[twiddle_ptr_tmp];
+
+					mult_stage21_i = calc1_re - calc2_re;
+					mult_stage21_q = calc1_im + calc2_im;
+				}
+
+				fft64Stage1(s[1], fifo_len_div2_1, fifo_stage1_i_reg, fifo_stage1_q_reg, mult_stage21_i, mult_stage21_q, &bf2_n_stage1_i, &bf2_n_stage1_q, &nsample_1, &bf2_fifo_stage1_i, &bf2_fifo_stage1_q, fifo_i_array_1, fifo_q_array_1);
+
+				fifo_stage1_i_reg = bf2_fifo_stage1_i;
+				fifo_stage1_q_reg = bf2_fifo_stage1_q;
+
+				fft64Stage0(s[0], s[1], bf2_n_stage1_i, bf2_n_stage1_q, fifo_stage0_i_reg, fifo_stage0_q_reg, &bf2_n_stage0_i, &bf2_n_stage0_q, &bf2_fifo_stage0_i, &bf2_fifo_stage0_q);
+
+				fifo_stage0_i_reg = bf2_fifo_stage0_i;
+				fifo_stage0_q_reg = bf2_fifo_stage0_q;
+			
+				int condition1 = multiple_streams_index - 63;
+				condition1 = condition1 < 0;
+				multiple_streams_index = (multiple_streams_index + 1)*condition1;
+				int condition0 = cnt_index - 63;
+				condition0 = condition0 < 0;
+				cnt_index = (cnt_index + 1)*condition0;
+			}
+
+			if (debug) {
+				fprintf(fft_re_reversed,"%12f\n", re_out[bufferToggle]);
+				fprintf(fft_im_reversed,"%12f\n", im_out[bufferToggle]);
+			}
+		}
+		
+		downsampling_flag = (downsampling_flag == 0);
+
+		pause;
+		
+		bufferToggle = (bufferToggle + 1) % /*numberOfPipelineStages*/ 7;
+	}
+}
+
+// stage5, bf2i, fifo=32
+void fft64Stage5(const int bufferToggle, const int s5, const int fifo_len_div2_5, const float fifo_stage5_i_reg, const float fifo_stage5_q_reg, float *bf2_n_stage5_i, float *bf2_n_stage5_q, int *nsample_5, 
+				float *fifo_i_tmp_5, float *fifo_q_tmp_5, float *bf2_fifo_stage5_i, float *bf2_fifo_stage5_q, float fifo_i_array_5[], float fifo_q_array_5[]) {
+	float bf2_ndiv2_stage5_i;
+	float bf2_ndiv2_stage5_q;
+	float data_out_FT_re = (float)data_out_FT[bufferToggle].re;
+	float data_out_FT_im = (float)data_out_FT[bufferToggle].im;
+	{
+		int condition0 = (s5 == 1);
+		int condition1 = !condition0;
+		*bf2_n_stage5_i = (fifo_stage5_i_reg + data_out_FT_re)*condition0 + fifo_stage5_i_reg*condition1;
+		*bf2_n_stage5_q = (fifo_stage5_q_reg + data_out_FT_im)*condition0 + fifo_stage5_q_reg*condition1;
+		bf2_ndiv2_stage5_i = (fifo_stage5_i_reg - data_out_FT_re)*condition0 + data_out_FT_re*condition1;
+		bf2_ndiv2_stage5_q = (fifo_stage5_q_reg - data_out_FT_im)*condition0 + data_out_FT_im*condition1;
+	}
+	{
+		*bf2_fifo_stage5_i = *fifo_i_tmp_5;
+		*bf2_fifo_stage5_q = *fifo_q_tmp_5;
+	  
+		int nsample_r;
+		int condition1 = (*nsample_5 < 1);
+		nsample_r = condition1;
+	
+		int condition2 = *nsample_5 - fifo_len_div2_5 + 2;
+		condition2 = condition2 > 0;
+		condition2 = condition2 * !condition1;
+		nsample_r = (*nsample_5 + 1)*!condition2;
+
+		*fifo_i_tmp_5 = fifo_i_array_5[nsample_r];
+		*fifo_q_tmp_5 = fifo_q_array_5[nsample_r];
+	  
+		fifo_i_array_5[*nsample_5] = bf2_ndiv2_stage5_i;
+		fifo_q_array_5[*nsample_5] = bf2_ndiv2_stage5_q;
+	  
+		int condition0 = *nsample_5 - fifo_len_div2_5 + 1;
+		condition0 = condition0 < 0;
+		*nsample_5 = (*nsample_5 + 1)*condition0;
+	}
+}
+
+// stage4, bf2ii
+void fft64Stage4(const int s4, const int s5, const int fifo_len_div2_4, const float bf2_n_stage5_i, const float bf2_n_stage5_q, const float fifo_stage4_i_reg, const float fifo_stage4_q_reg, float *bf2_n_stage4_i, float *bf2_n_stage4_q,
+				 float *fifo_i_tmp_4, float *fifo_q_tmp_4, float *bf2_fifo_stage4_i, float *bf2_fifo_stage4_q, int *nsample_4, float fifo_i_array_4[], float fifo_q_array_4[]) {
+	float bf2_ndiv2_stage4_i;
+	float bf2_ndiv2_stage4_q;
+	{
+		int condition0 = (s4 == 0);
+		int condition2 = !condition0;
+
+		// swap
+		int condition1 = (s5 == 0);
+		condition1 = condition1 * !condition0;
+		int condition3 = !condition1;
+		
+		// caculating
+		float tmp2_real, tmp2_imag;
+		tmp2_real = bf2_n_stage5_q*condition1 + bf2_n_stage5_i*condition3;
+		tmp2_imag = -bf2_n_stage5_i*condition1 + bf2_n_stage5_q*condition3;
+		
+		// shifting
+		bf2_ndiv2_stage4_i = bf2_n_stage5_i*condition0 + (fifo_stage4_i_reg - tmp2_real)*condition2;
+		bf2_ndiv2_stage4_q = bf2_n_stage5_q*condition0 + (fifo_stage4_q_reg - tmp2_imag)*condition2;
+		
+		*bf2_n_stage4_i = fifo_stage4_i_reg*condition0 + (fifo_stage4_i_reg + tmp2_real)*condition2;
+		*bf2_n_stage4_q = fifo_stage4_q_reg*condition0 + (fifo_stage4_q_reg + tmp2_imag)*condition2;
+	}
+	{
+		*bf2_fifo_stage4_i = *fifo_i_tmp_4;
+		*bf2_fifo_stage4_q = *fifo_q_tmp_4;
+	
+		int nsample_r;
+	  	int condition1 = (*nsample_4 < 1);
+		nsample_r = condition1;
+
+		int condition2 = *nsample_4 - fifo_len_div2_4 + 2;
+		condition2 = condition2 > 0;
+		condition2 = condition2 * !condition1;
+		nsample_r = (*nsample_4 + 1)*!condition2;
+
+		*fifo_i_tmp_4 = fifo_i_array_4[nsample_r];
+		*fifo_q_tmp_4 = fifo_q_array_4[nsample_r];
+
+		fifo_i_array_4[*nsample_4] = bf2_ndiv2_stage4_i;
+		fifo_q_array_4[*nsample_4] = bf2_ndiv2_stage4_q;
+
+		int condition0 = *nsample_4 - fifo_len_div2_4 + 1;
+		condition0 = condition0 < 0;
+		*nsample_4 = (*nsample_4 + 1)*condition0;
+	}
+}
+
+// stage3, bf2i
+void fft64Stage3(const int s3, const int fifo_len_div2_3, const float fifo_stage3_i_reg, const float fifo_stage3_q_reg, const float mult_stage43_i, const float mult_stage43_q, float *bf2_n_stage3_i, float *bf2_n_stage3_q,
+				 float *fifo_i_tmp_3, float *fifo_q_tmp_3, float *bf2_fifo_stage3_i, float *bf2_fifo_stage3_q, int *nsample_3, float fifo_i_array_3[], float fifo_q_array_3[]) {
+	float bf2_ndiv2_stage3_i;
+	float bf2_ndiv2_stage3_q;
+	{
+		int condition0 = (s3 == 1);
+		int condition1 = !condition0;
+		*bf2_n_stage3_i = (fifo_stage3_i_reg + mult_stage43_i)*condition0 + fifo_stage3_i_reg*condition1;
+		*bf2_n_stage3_q = (fifo_stage3_q_reg + mult_stage43_q)*condition0 + fifo_stage3_q_reg*condition1;
+		bf2_ndiv2_stage3_i = (fifo_stage3_i_reg - mult_stage43_i)*condition0 + mult_stage43_i*condition1;
+		bf2_ndiv2_stage3_q = (fifo_stage3_q_reg - mult_stage43_q)*condition0 + mult_stage43_q*condition1;
+	}
+	{
+		*bf2_fifo_stage3_i = *fifo_i_tmp_3;
+		*bf2_fifo_stage3_q = *fifo_q_tmp_3;
+	  
+		int nsample_r;
+		int condition0 = (*nsample_3 < 1);
+		nsample_r = condition0;
+	
+		int condition1 = (*nsample_3 - fifo_len_div2_3 + 2);
+		condition1 = condition1 > 0;
+		condition1 = condition1 * !condition0;
+		nsample_r = (*nsample_3 + 1)*!condition1;
+
+		*fifo_i_tmp_3 = fifo_i_array_3[nsample_r];
+		*fifo_q_tmp_3 = fifo_q_array_3[nsample_r];
+
+		fifo_i_array_3[*nsample_3] = bf2_ndiv2_stage3_i;
+		fifo_q_array_3[*nsample_3] = bf2_ndiv2_stage3_q;
+	  	
+	  	int condition2 = *nsample_3 - fifo_len_div2_3 + 1;
+	  	condition2 = condition2 < 0;
+		*nsample_3 = (*nsample_3 + 1)*condition2;
+	}
+}
+
+// stage2, bf2ii
+void fft64Stage2(const int s2, const int s3, const int fifo_len_div2_2, const float bf2_n_stage3_i, const float bf2_n_stage3_q, const float fifo_stage2_i_reg, const float fifo_stage2_q_reg,
+				 float *bf2_n_stage2_i, float *bf2_n_stage2_q, int *nsample_2, float *bf2_fifo_stage2_i, float *bf2_fifo_stage2_q, float fifo_i_array_2[], float fifo_q_array_2[]) {
+	float bf2_ndiv2_stage2_i;
+	float bf2_ndiv2_stage2_q;
+	{
+		int condition0 = (s2 == 0);
+		int condition2 = !condition0;
+
+		// swap
+		int condition1 = (s3 == 0);
+		condition1 = condition1 * !condition0;
+		int condition3 = !condition1;
+		
+		// caculating
+		float tmp2_real, tmp2_imag;
+		tmp2_real = bf2_n_stage3_q*condition1 + bf2_n_stage3_i*condition3;
+		tmp2_imag = -bf2_n_stage3_i*condition1 + bf2_n_stage3_q*condition3;
+		
+		// shifting
+		bf2_ndiv2_stage2_i = bf2_n_stage3_i*condition0 + (fifo_stage2_i_reg - tmp2_real)*condition2;
+		bf2_ndiv2_stage2_q = bf2_n_stage3_q*condition0 + (fifo_stage2_q_reg - tmp2_imag)*condition2;
+		
+		*bf2_n_stage2_i = fifo_stage2_i_reg*condition0 + (fifo_stage2_i_reg + tmp2_real)*condition2;
+		*bf2_n_stage2_q = fifo_stage2_q_reg*condition0 + (fifo_stage2_q_reg + tmp2_imag)*condition2;
+	}
+	{
+		*bf2_fifo_stage2_i = fifo_i_array_2[*nsample_2];
+		*bf2_fifo_stage2_q = fifo_q_array_2[*nsample_2];
+
+		fifo_i_array_2[*nsample_2] = bf2_ndiv2_stage2_i;
+		fifo_q_array_2[*nsample_2] = bf2_ndiv2_stage2_q;
+
+		int condition0 = *nsample_2 - fifo_len_div2_2 + 1;
+		condition0 = condition0 < 0;
+		*nsample_2 = (*nsample_2 + 1)*condition0;
+	}
+}
+
+// stage1, bf2i
+void fft64Stage1(const int s1, const int fifo_len_div2_1, const float fifo_stage1_i_reg, const float fifo_stage1_q_reg, const float mult_stage21_i, const float mult_stage21_q,
+				 float *bf2_n_stage1_i, float *bf2_n_stage1_q, int *nsample_1, float *bf2_fifo_stage1_i, float *bf2_fifo_stage1_q, float fifo_i_array_1[], float fifo_q_array_1[]) {
+	float bf2_ndiv2_stage1_i;
+	float bf2_ndiv2_stage1_q;
+	{
+		int condition0 = (s1 == 1);
+		int condition1 = !condition0;
+		*bf2_n_stage1_i = (fifo_stage1_i_reg + mult_stage21_i)*condition0 + fifo_stage1_i_reg*condition1;
+		*bf2_n_stage1_q = (fifo_stage1_q_reg + mult_stage21_q)*condition0 + fifo_stage1_q_reg*condition1;
+		bf2_ndiv2_stage1_i = (fifo_stage1_i_reg - mult_stage21_i)*condition0 + mult_stage21_i*condition1;
+		bf2_ndiv2_stage1_q = (fifo_stage1_q_reg - mult_stage21_q)*condition0 + mult_stage21_q*condition1;
+	}
+	{
+		*bf2_fifo_stage1_i = fifo_i_array_1[*nsample_1];
+		*bf2_fifo_stage1_q = fifo_q_array_1[*nsample_1];
+
+		fifo_i_array_1[*nsample_1] = bf2_ndiv2_stage1_i;
+		fifo_q_array_1[*nsample_1] = bf2_ndiv2_stage1_q;
+	
+		int condition0 = *nsample_1 - fifo_len_div2_1 + 1;
+		condition0 = condition0 < 0;
+		*nsample_1 = (*nsample_1 + 1)*condition0;
+	}
+}
+
+// stage0, bf2ii
+void fft64Stage0(const int s0, const int s1, const float bf2_n_stage1_i, const float bf2_n_stage1_q, const float fifo_stage0_i_reg, const float fifo_stage0_q_reg,
+				 float *bf2_n_stage0_i, float *bf2_n_stage0_q, float *bf2_fifo_stage0_i, float *bf2_fifo_stage0_q) {
+	float bf2_ndiv2_stage0_i;
+	float bf2_ndiv2_stage0_q;
+	{
+		int condition0 = (s0 == 0);
+		int condition2 = !condition0;
+
+		// swap
+		int condition1 = (s1 == 0);
+		condition1 = condition1 * !condition0;
+		int condition3 = !condition1;
+		
+		// caculating
+		float tmp2_real, tmp2_imag;
+		tmp2_real = bf2_n_stage1_q*condition1 + bf2_n_stage1_i*condition3;
+		tmp2_imag = -bf2_n_stage1_i*condition1 + bf2_n_stage1_q*condition3;
+		
+		// shifting
+		bf2_ndiv2_stage0_i = bf2_n_stage1_i*condition0 + (fifo_stage0_i_reg - tmp2_real)*condition2;
+		bf2_ndiv2_stage0_q = bf2_n_stage1_q*condition0 + (fifo_stage0_q_reg - tmp2_imag)*condition2;
+		
+		*bf2_n_stage0_i = fifo_stage0_i_reg*condition0 + (fifo_stage0_i_reg + tmp2_real)*condition2;
+		*bf2_n_stage0_q = fifo_stage0_q_reg*condition0 + (fifo_stage0_q_reg + tmp2_imag)*condition2;
+	}
+	{
+		*bf2_fifo_stage0_i = bf2_ndiv2_stage0_i;
+		*bf2_fifo_stage0_q = bf2_ndiv2_stage0_q;
+	}
+}
+
+thread stage6(void) {
+	// "static" variables
+	int cnt_16 = 0;
+	int cnt_64 = 0;
+	int cnt_128 = 0;
+	
+	int inv_int = 0;
+	int mux_cnt = 0;
+	int a;
+	for (a = 0; a < buffer_len; a++) #64#64 {
+		array_re[a] = (float)0.0;
+		array_im[a] = (float)0.0;
+	}
+
+	int downsampling_flag = 0;
+	int mk_test = 0;
+	int GI_Flag = 0;
+	int i = 0;
+	
+	// Nothing
+	int bufferToggle = 0;
+
+	pause;
+	pause;
+	pause;
+	pause;
+	pause;
+	pause;
+
+	int k;
+	for (k = 0; k < input_size; ++k) #7#7 {
+		// downsampling 2:1
+		int condition00 = (downsampling_flag == 0);
+		int condition11 = (maximum_found_main[bufferToggle] == 1);
+		int condition22 = (condition00 + condition11) == 2;
+
+		// Remove Guard Interval (or better here: Mark guard interval data with a Flag. GI_Flag = '1' = > GI-Data...)
+		{
+			int condition0 = (mk_test == 0);
+			condition0 = condition0 * condition22;
+			cnt_128 = cnt_128*!condition0;
+			cnt_64 = cnt_64*!condition0;
+			cnt_16 = cnt_16*!condition0;
+			GI_Flag = GI_Flag*!condition0;
+
+			// For LTS1 and LTS2:
+			int condition1 = cnt_128 - 127;
+			condition1 = condition1 < 0;
+			condition0 = (mk_test == 0);
+			condition1 = condition1 * !condition0 * condition22;
+			cnt_128 += condition1;
+			GI_Flag = GI_Flag*!condition1;
+			
+			// For GI:
+			int condition2 = cnt_16 - 16;
+			condition2 = condition2 < 0;
+			int condition3 = (cnt_64 == 0);
+			int condition4 = (condition2 + condition3) == 2;
+			condition1 = condition1 * !condition0;
+			condition4 = condition4 * !condition1 * !condition0 * condition22;
+			cnt_16 += condition4;
+			GI_Flag = GI_Flag*!condition4 + condition4;
+			
+			
+			// For data:
+			int condition5 = cnt_64 - 63;
+			condition5 = condition5 < 0;
+			condition4 = condition4 * !condition1 * !condition0;
+			condition5 = condition5 * !condition4 * condition22;
+			cnt_64 += condition5;
+			GI_Flag = GI_Flag*!condition5;
+			
+			condition5 = condition5 * !condition4;
+			int condition6 = !condition4 * !condition5 * condition22;
+			cnt_64 = cnt_64*!condition6;
+			cnt_16 = cnt_16*!condition6;
+		}
+		
+		// fft64
+		// Only "real" data, which is related to GI_Flag = 0 is processed further:
+		int condition33 = GI_Flag == 0;
+		condition22 = condition22 * condition33;
+		if (condition22) {
+			mk_test = 1;
+
+			// mstream_demux
+			// Demultiplexing of the data-stream for multi-stream mode and reordering of FFT output to get linear output.
+			{
+				int index_int = inv_int + mux_cnt;
+				array_re[index_int] = re_out[bufferToggle];
+				array_im[index_int] = im_out[bufferToggle];
+
+				int m_int = 32;
+				int condition3 = inv_int - 63;
+				condition3 = condition3 < 0;
+
+				int condition0 = m_int - 1;
+				condition0 = condition0 > 0;
+				int condition1 = inv_int - m_int + 1;
+				condition1 = condition1 > 0;
+				int condition2 = (condition0 + condition1) == 2;
+				condition2 = condition2 * condition3;
+				
+				while (condition2) #5#5 {
+					inv_int -= m_int;
+					m_int = m_int / 2; 
+					
+					condition0 = m_int - 1;
+					condition0 = condition0 > 0;
+					condition1 = inv_int - m_int + 1;
+					condition1 = condition1 > 0;
+					condition2 = (condition0 + condition1) == 2;
+					condition2 = condition2 * condition3;
+				}
+				inv_int = (inv_int + m_int) * condition3;	      
+
+				int condition4 = counter - 63;
+				condition4 = condition4 < 0;
+				par(demux0, demux1, demux2, demux3);
+				counter = (counter + 1)*condition4;
+			}
+
+			condition3 = i - 63;
+			condition3 = condition3 < 0;
+			i = (i + 1)*condition3;
+
+			// scale_reorder_removeGB
+			// Scale FFT output data, reorder data and remove the guard band (12 subcarriers):
+			// For 802.11a the data order has to be reordered again according to the standard: 
+			// Also 12 data values of the guard band have to be removed => Only 52 data values out of 64 data values are processed further.
+			par(removeReorder0, removeReorder1);
+			par(inputChe0, inputChe1, inputChe2, inputChe3);
+
+			// channel_estimation
+			// Channel estimation (CHE):
+			/*
+			This model performs the 802.11a channel estimation in the frequency domain.
+			Incoming LTS parts are first averaged and then multiplied by the frequency domain LTS values.
+
+			It is assumed, that only when burst_start_found is '1' and a valid LTS is found,
+			data is applied to the input of the channel estimation module for further signal processing.
+			*/
+			/* Initial 104 samples corresponds to lts part (2 Long Training Symbols)
+			   Calculate average of the 2 LTS */
+			// Least square estimation = Received sequence * Known_sequence(BPSK)
+			par(outputChe0, outputChe1, outputChe2, outputChe3);
+
+			// channel_correction
+			// Channel correction (CHC):
+			/*
+			This model performs the 802.11a channel CORRECTION in the frequency domain.
+			Conjugate complex multiplication of CHE-output with payload-data.
+			*/
+			par(outputChc0, outputChc1, outputChc2, outputChc3);
+				
+			if (debug && !condition3) {
+				// Print our reordered FFT output, which is now linear and not bit-reversed anymore.
+				int j;
+				for (j = 0; j < 64; j++) #64#64 {
+					fprintf(fft_re_out,"%12f\n", real_out_demux[j]);
+					fprintf(fft_im_out,"%12f\n", imag_out_demux[j]);
+				}
+		
+				if (CHE_flag == 3) {
+					// Print CHE output data into file
+					for(j = 0; j < 52; j++) #52#52 {
+						fprintf(CHE_out_I,"%d \n", output_CHE_real[j]) ;
+						fprintf(CHE_out_Q,"%d \n", output_CHE_imag[j]) ;
+					}
+				}
+
+				if (CHE_flag >= 3) {
+					// Print CHC output data into file
+					for (j = 0; j < 52; j++) #52#52 {
+						fprintf(CHC_out_I,"%d \n", (int)(output_CHC_real[j])) ;
+						fprintf(CHC_out_Q,"%d \n", (int)(output_CHC_imag[j])) ;
+					}
+				}
+			}
+
+			// incrementing CHE_flag
+			int condition0 = CHE_flag - 5;
+			condition0 = condition0 < 0;
+			CHE_flag = (CHE_flag + condition0)*!condition3 + CHE_flag*condition3;
+		}
+		
+		downsampling_flag = (downsampling_flag == 0);
+
+		pause;
+		
+		bufferToggle = (bufferToggle + 1) % /*numberOfPipelineStages*/ 7;
+	}
+}
+
+thread demux0(void) {
+	int condition4 = counter - 63;
+	condition4 = condition4 < 0;
+	int condition5 = !condition4;
+	int i;
+	for (i = 0; i < 16; i++) #16#16 {
+		real_out_demux[i] = array_re[i]*condition5 + real_out_demux[i]*condition4;
+		imag_out_demux[i] = array_im[i]*condition5 + imag_out_demux[i]*condition4;
+	}
+}
+
+thread demux1(void) {
+	int condition4 = counter - 63;
+	condition4 = condition4 < 0;
+	int condition5 = !condition4;
+	int i;
+	for (i = 16; i < 32; i++) #16#16 {
+		real_out_demux[i] = array_re[i]*condition5 + real_out_demux[i]*condition4;
+		imag_out_demux[i] = array_im[i]*condition5 + imag_out_demux[i]*condition4;
+	}
+}
+
+thread demux2(void) {
+	int condition4 = counter - 63;
+	condition4 = condition4 < 0;
+	int condition5 = !condition4;
+	int i;
+	for (i = 32; i < 48; i++) #16#16 {
+		real_out_demux[i] = array_re[i]*condition5 + real_out_demux[i]*condition4;
+		imag_out_demux[i] = array_im[i]*condition5 + imag_out_demux[i]*condition4;
+	}
+}
+
+thread demux3(void) {
+	int condition4 = counter - 63;
+	condition4 = condition4 < 0;
+	int condition5 = !condition4;
+	int i;
+	for (i = 48; i < 64; i++) #16#16 {
+		real_out_demux[i] = array_re[i]*condition5 + real_out_demux[i]*condition4;
+		imag_out_demux[i] = array_im[i]*condition5 + imag_out_demux[i]*condition4;
+	}
+}
+
+thread removeReorder0(void) {
+	float FFT_output_scale = ((float)11.0)/((float)8.0);
+	int j;
+	for (j = 0; j < 13; j++) #13#13 {
+		data_remove_GI_reorder_real[j+26] = (int)(FFT_output_scale * real_out_demux[j+1])*!condition3 + data_remove_GI_reorder_real[j+26]*condition3;
+		data_remove_GI_reorder_imag[j+26] = (int)(FFT_output_scale * imag_out_demux[j+1])*!condition3 + data_remove_GI_reorder_imag[j+26]*condition3;
+		data_remove_GI_reorder_real[j] = (int)(FFT_output_scale * real_out_demux[j+38])*!condition3 + data_remove_GI_reorder_real[j]*condition3;
+		data_remove_GI_reorder_imag[j] = (int)(FFT_output_scale * imag_out_demux[j+38])*!condition3 + data_remove_GI_reorder_imag[j]*condition3;
+	}
+}
+
+thread removeReorder1(void) {
+	float FFT_output_scale = ((float)11.0)/((float)8.0);
+	int j;
+	for (j = 13; j < 26; j++) #13#13 {
+		data_remove_GI_reorder_real[j+26] = (int)(FFT_output_scale * real_out_demux[j+1])*!condition3 + data_remove_GI_reorder_real[j+26]*condition3;
+		data_remove_GI_reorder_imag[j+26] = (int)(FFT_output_scale * imag_out_demux[j+1])*!condition3 + data_remove_GI_reorder_imag[j+26]*condition3;
+		data_remove_GI_reorder_real[j] = (int)(FFT_output_scale * real_out_demux[j+38])*!condition3 + data_remove_GI_reorder_real[j]*condition3;
+		data_remove_GI_reorder_imag[j] = (int)(FFT_output_scale * imag_out_demux[j+38])*!condition3 + data_remove_GI_reorder_imag[j]*condition3;
+	}
+}
+
+thread inputChe0(void) {
+	int j;
+	for (j = 0; j < 13; j++) #13#13 {
+		input_CHE_real[j+((CHE_flag-1)*52)] = (data_remove_GI_reorder_real[j]*(CHE_flag == 1) + input_CHE_real[j+((CHE_flag-1)*52)]*(CHE_flag != 1))*!condition3 + input_CHE_real[j+((CHE_flag-1)*52)]*condition3;
+		input_CHE_imag[j+((CHE_flag-1)*52)] = (data_remove_GI_reorder_imag[j]*(CHE_flag == 1) + input_CHE_imag[j+((CHE_flag-1)*52)]*(CHE_flag != 1))*!condition3 + input_CHE_imag[j+((CHE_flag-1)*52)]*condition3;
+		input_CHE_real[j+((CHE_flag-1)*52)] = (data_remove_GI_reorder_real[j]*(CHE_flag == 2) + input_CHE_real[j+((CHE_flag-1)*52)]*(CHE_flag != 2))*!condition3 + input_CHE_real[j+((CHE_flag-1)*52)]*condition3;
+		input_CHE_imag[j+((CHE_flag-1)*52)] = (data_remove_GI_reorder_imag[j]*(CHE_flag == 2) + input_CHE_imag[j+((CHE_flag-1)*52)]*(CHE_flag != 2))*!condition3 + input_CHE_imag[j+((CHE_flag-1)*52)]*condition3;
+	}
+}
+
+thread inputChe1(void) {
+	int j;
+	for (j = 13; j < 26; j++) #13#13 {
+		input_CHE_real[j+((CHE_flag-1)*52)] = (data_remove_GI_reorder_real[j]*(CHE_flag == 1) + input_CHE_real[j+((CHE_flag-1)*52)]*(CHE_flag != 1))*!condition3 + input_CHE_real[j+((CHE_flag-1)*52)]*condition3;
+		input_CHE_imag[j+((CHE_flag-1)*52)] = (data_remove_GI_reorder_imag[j]*(CHE_flag == 1) + input_CHE_imag[j+((CHE_flag-1)*52)]*(CHE_flag != 1))*!condition3 + input_CHE_imag[j+((CHE_flag-1)*52)]*condition3;
+		input_CHE_real[j+((CHE_flag-1)*52)] = (data_remove_GI_reorder_real[j]*(CHE_flag == 2) + input_CHE_real[j+((CHE_flag-1)*52)]*(CHE_flag != 2))*!condition3 + input_CHE_real[j+((CHE_flag-1)*52)]*condition3;
+		input_CHE_imag[j+((CHE_flag-1)*52)] = (data_remove_GI_reorder_imag[j]*(CHE_flag == 2) + input_CHE_imag[j+((CHE_flag-1)*52)]*(CHE_flag != 2))*!condition3 + input_CHE_imag[j+((CHE_flag-1)*52)]*condition3;
+	}
+}
+
+thread inputChe2(void) {
+	int j;
+	for (j = 26; j < 39; j++) #13#13 {
+		input_CHE_real[j+((CHE_flag-1)*52)] = (data_remove_GI_reorder_real[j]*(CHE_flag == 1) + input_CHE_real[j+((CHE_flag-1)*52)]*(CHE_flag != 1))*!condition3 + input_CHE_real[j+((CHE_flag-1)*52)]*condition3;
+		input_CHE_imag[j+((CHE_flag-1)*52)] = (data_remove_GI_reorder_imag[j]*(CHE_flag == 1) + input_CHE_imag[j+((CHE_flag-1)*52)]*(CHE_flag != 1))*!condition3 + input_CHE_imag[j+((CHE_flag-1)*52)]*condition3;
+		input_CHE_real[j+((CHE_flag-1)*52)] = (data_remove_GI_reorder_real[j]*(CHE_flag == 2) + input_CHE_real[j+((CHE_flag-1)*52)]*(CHE_flag != 2))*!condition3 + input_CHE_real[j+((CHE_flag-1)*52)]*condition3;
+		input_CHE_imag[j+((CHE_flag-1)*52)] = (data_remove_GI_reorder_imag[j]*(CHE_flag == 2) + input_CHE_imag[j+((CHE_flag-1)*52)]*(CHE_flag != 2))*!condition3 + input_CHE_imag[j+((CHE_flag-1)*52)]*condition3;
+	}
+}
+
+thread inputChe3(void) {
+	int j;
+	for (j = 39; j < 52; j++) #13#13 {
+		input_CHE_real[j+((CHE_flag-1)*52)] = (data_remove_GI_reorder_real[j]*(CHE_flag == 1) + input_CHE_real[j+((CHE_flag-1)*52)]*(CHE_flag != 1))*!condition3 + input_CHE_real[j+((CHE_flag-1)*52)]*condition3;
+		input_CHE_imag[j+((CHE_flag-1)*52)] = (data_remove_GI_reorder_imag[j]*(CHE_flag == 1) + input_CHE_imag[j+((CHE_flag-1)*52)]*(CHE_flag != 1))*!condition3 + input_CHE_imag[j+((CHE_flag-1)*52)]*condition3;
+		input_CHE_real[j+((CHE_flag-1)*52)] = (data_remove_GI_reorder_real[j]*(CHE_flag == 2) + input_CHE_real[j+((CHE_flag-1)*52)]*(CHE_flag != 2))*!condition3 + input_CHE_real[j+((CHE_flag-1)*52)]*condition3;
+		input_CHE_imag[j+((CHE_flag-1)*52)] = (data_remove_GI_reorder_imag[j]*(CHE_flag == 2) + input_CHE_imag[j+((CHE_flag-1)*52)]*(CHE_flag != 2))*!condition3 + input_CHE_imag[j+((CHE_flag-1)*52)]*condition3;
+	}
+}
+
+thread outputChe0(void) {
+	int i;
+	for (i = 0; i < 13; i++) #13#13 {
+		output_CHE_real[i] = (((input_CHE_real[i] + input_CHE_real[i+52])/2 * long_pattern[i])*(CHE_flag == 3) + output_CHE_real[i]*(CHE_flag != 3))*!condition3 + output_CHE_real[i]*condition3;
+		output_CHE_imag[i] = (((input_CHE_imag[i] + input_CHE_imag[i+52])/2 * long_pattern[i])*(CHE_flag == 3) + output_CHE_imag[i]*(CHE_flag != 3))*!condition3 + output_CHE_imag[i]*condition3;
+	}
+}
+
+thread outputChe1(void) {
+	int i;
+	for (i = 13; i < 26; i++) #13#13 {
+		output_CHE_real[i] = (((input_CHE_real[i] + input_CHE_real[i+52])/2 * long_pattern[i])*(CHE_flag == 3) + output_CHE_real[i]*(CHE_flag != 3))*!condition3 + output_CHE_real[i]*condition3;
+		output_CHE_imag[i] = (((input_CHE_imag[i] + input_CHE_imag[i+52])/2 * long_pattern[i])*(CHE_flag == 3) + output_CHE_imag[i]*(CHE_flag != 3))*!condition3 + output_CHE_imag[i]*condition3;
+	}
+}
+
+thread outputChe2(void) {
+	int i;
+	for (i = 26; i < 39; i++) #13#13 {
+		output_CHE_real[i] = (((input_CHE_real[i] + input_CHE_real[i+52])/2 * long_pattern[i])*(CHE_flag == 3) + output_CHE_real[i]*(CHE_flag != 3))*!condition3 + output_CHE_real[i]*condition3;
+		output_CHE_imag[i] = (((input_CHE_imag[i] + input_CHE_imag[i+52])/2 * long_pattern[i])*(CHE_flag == 3) + output_CHE_imag[i]*(CHE_flag != 3))*!condition3 + output_CHE_imag[i]*condition3;
+	}
+}
+
+thread outputChe3(void) {
+	int i;
+	for (i = 39; i < 52; i++) #13#13 {
+		output_CHE_real[i] = (((input_CHE_real[i] + input_CHE_real[i+52])/2 * long_pattern[i])*(CHE_flag == 3) + output_CHE_real[i]*(CHE_flag != 3))*!condition3 + output_CHE_real[i]*condition3;
+		output_CHE_imag[i] = (((input_CHE_imag[i] + input_CHE_imag[i+52])/2 * long_pattern[i])*(CHE_flag == 3) + output_CHE_imag[i]*(CHE_flag != 3))*!condition3 + output_CHE_imag[i]*condition3;
+	}
+}
+
+thread outputChc0(void) {
+	int condition0 = CHE_flag - 2;
+	condition0 = condition0 > 0;
+	int condition1 = CHE_flag - 3;
+	condition1 = condition1 < 0;
+	condition1 = condition1 * !condition3;
+	int i;
+	for (i = 0; i < 13; i++) #13#13 { 
+		long int mult_CHC_I = data_remove_GI_reorder_real[i] * output_CHE_real[i] + data_remove_GI_reorder_imag[i] * output_CHE_imag[i];
+		long int mult_CHC_Q = -data_remove_GI_reorder_real[i] * output_CHE_imag[i] + data_remove_GI_reorder_imag[i] * output_CHE_real[i];
+		output_CHC_real[i] = (mult_CHC_I / 1024)*condition0 + output_CHC_real[i]*condition1 + output_CHC_real[i]*condition3;
+		output_CHC_imag[i] = (mult_CHC_Q / 1024)*condition0 + output_CHC_imag[i]*condition1 + output_CHC_imag[i]*condition3;
+	}
+}
+
+thread outputChc1(void) {
+	int condition0 = CHE_flag - 2;
+	condition0 = condition0 > 0;
+	int condition1 = CHE_flag - 3;
+	condition1 = condition1 < 0;
+	condition1 = condition1 * !condition3;
+	int i;
+	for (i = 13; i < 26; i++) #13#13 { 
+		long int mult_CHC_I = data_remove_GI_reorder_real[i] * output_CHE_real[i] + data_remove_GI_reorder_imag[i] * output_CHE_imag[i];
+		long int mult_CHC_Q = -data_remove_GI_reorder_real[i] * output_CHE_imag[i] + data_remove_GI_reorder_imag[i] * output_CHE_real[i];
+		output_CHC_real[i] = (mult_CHC_I / 1024)*condition0 + output_CHC_real[i]*condition1 + output_CHC_real[i]*condition3;
+		output_CHC_imag[i] = (mult_CHC_Q / 1024)*condition0 + output_CHC_imag[i]*condition1 + output_CHC_imag[i]*condition3;
+	}
+}
+
+thread outputChc2(void) {
+	int condition0 = CHE_flag - 2;
+	condition0 = condition0 > 0;
+	int condition1 = CHE_flag - 3;
+	condition1 = condition1 < 0;
+	condition1 = condition1 * !condition3;
+	int i;
+	for (i = 26; i < 39; i++) #13#13 { 
+		long int mult_CHC_I = data_remove_GI_reorder_real[i] * output_CHE_real[i] + data_remove_GI_reorder_imag[i] * output_CHE_imag[i];
+		long int mult_CHC_Q = -data_remove_GI_reorder_real[i] * output_CHE_imag[i] + data_remove_GI_reorder_imag[i] * output_CHE_real[i];
+		output_CHC_real[i] = (mult_CHC_I / 1024)*condition0 + output_CHC_real[i]*condition1 + output_CHC_real[i]*condition3;
+		output_CHC_imag[i] = (mult_CHC_Q / 1024)*condition0 + output_CHC_imag[i]*condition1 + output_CHC_imag[i]*condition3;
+	}
+}
+
+thread outputChc3(void) {
+	int condition0 = CHE_flag - 2;
+	condition0 = condition0 > 0;
+	int condition1 = CHE_flag - 3;
+	condition1 = condition1 < 0;
+	condition1 = condition1 * !condition3;
+	int i;
+	for (i = 39; i < 52; i++) #13#13 { 
+		long int mult_CHC_I = data_remove_GI_reorder_real[i] * output_CHE_real[i] + data_remove_GI_reorder_imag[i] * output_CHE_imag[i];
+		long int mult_CHC_Q = -data_remove_GI_reorder_real[i] * output_CHE_imag[i] + data_remove_GI_reorder_imag[i] * output_CHE_real[i];
+		output_CHC_real[i] = (mult_CHC_I / 1024)*condition0 + output_CHC_real[i]*condition1 + output_CHC_real[i]*condition3;
+		output_CHC_imag[i] = (mult_CHC_Q / 1024)*condition0 + output_CHC_imag[i]*condition1 + output_CHC_imag[i]*condition3;
+	}
+}
+

@@ -1,0 +1,732 @@
+/* One Dimensional Computational Fluid Dynamics for a fuel injection system
+ * ------------------------------------------------------------------------
+ * The fuel system is modelled as a network of pipes. Each section of a 
+ * pipe is modelled as a computation element with pressure and flow rate
+ * properties. All computation elements are grouped together in the 
+ * array called pipeNetwork and referenced by its index into the array. 
+ * 
+ * The connections between each section of the pipe (computation element) 
+ * are modelled as indexes (ids) into the array pipeNetwork. These connections 
+ * can come from the left, right, and top directions (leftId, rightId, topId).
+ * 
+ * Different types of pipe sections have different calculations to update
+ * its pressure and flow rate properties. A separate array is created to
+ * store references to each type of pipe section (e.g. pipeSegmentIds). 
+ * This makes it easy to refer to all pipe sections of the same type.
+ * 
+ * For each group of pipe sections, we compute the necessary calculations.
+ * Since the calculations require the pressure and flow rate properties of
+ * its neighbours, the properties cannot be applied as soon as they are
+ * computed. This would lead to an inconsistent global state of the simulation.
+ * After all computations are completed, the new pressure and flow rates 
+ * are committed to each pipe section. This ends one time step of the 
+ * simulation (global tick).
+ */
+
+#include <stdio.h>
+
+// The following #include is to overcome a ForeC compiler limitation 
+// (doesn't parse GCC's extended assembly statements).
+#include "sqrtf.h"	
+
+//-------------- Interface --------------
+input float pressureSensor;
+input float pumpSensor;
+
+output float fuelInjector;
+
+
+//-------------- Pipe modelling --------------
+
+// Types of pipe segment.
+typedef enum {
+	PipeSegment = 0,	// Single input/output pipe.
+	Cap,				// End of a pipe.
+	ImposedPressure,	// Pressure sensor.
+	ImposedFlowRate,	// Pump.
+	PipeT,				// Multi input/output pipe.
+	Valve				// Fuel injector.
+} ElementType;
+
+// Structure to describe each pipe segment.
+typedef struct _ComputationElement {
+	// Id (array index) and type of computation element.
+	int id;
+	ElementType type;
+
+	// Reference to inputs from a mechanical calculation.
+	// Only for ElementType Valve, ImposedPressure, and ImposedFlowRate.
+	int mechanicalId;
+
+	// Neighbours to this computation element. -1 means no neighbour.
+	int leftId;
+	int rightId;
+	int topId;			// Only for ElementType PipeT.
+	
+	// Computed pressure and flow rate for this computation element.
+	float pressure;
+	float flowRate;
+	
+	float newPressure;	// Not used for ElementType PipeT.
+	float newFlowRate;	// Not used for ElementType PipeT.
+
+	// Only for ElementType PipeT. Flow rates may different for each pipe ending.
+	float flowRateLeft;
+	float flowRateRight;
+	float flowRateTop;
+	
+	float newFlowRateLeft;
+	float newFlowRateRight;
+	float newFlowRateTop;
+} ComputationElement;
+
+// All the pipe segments in the network. Gives initial values.
+static const int numberOfComputationElements = 8;
+ComputationElement pipeNetwork[numberOfComputationElements] = 
+	{
+		{.id = 0, .type = ImposedFlowRate, .mechanicalId =  0, .leftId = -1, .rightId =  1, .topId = -1, .pressure = 0.0f, .flowRate = 0.0f, .newPressure = 0.0f, .newFlowRate = 0.0f, .flowRateLeft = 0.0f, .flowRateRight = 0.0f, .flowRateTop = 0.0f, .newFlowRateLeft = 0.0f, .newFlowRateRight = 0.0f, .newFlowRateTop = 0.0f},
+		{.id = 1, .type = PipeSegment,     .mechanicalId = -1, .leftId =  0, .rightId =  2, .topId = -1, .pressure = 0.0f, .flowRate = 0.0f, .newPressure = 0.0f, .newFlowRate = 0.0f, .flowRateLeft = 0.0f, .flowRateRight = 0.0f, .flowRateTop = 0.0f, .newFlowRateLeft = 0.0f, .newFlowRateRight = 0.0f, .newFlowRateTop = 0.0f},
+		{.id = 2, .type = PipeSegment,     .mechanicalId = -1, .leftId =  1, .rightId =  3, .topId = -1, .pressure = 0.0f, .flowRate = 0.0f, .newPressure = 0.0f, .newFlowRate = 0.0f, .flowRateLeft = 0.0f, .flowRateRight = 0.0f, .flowRateTop = 0.0f, .newFlowRateLeft = 0.0f, .newFlowRateRight = 0.0f, .newFlowRateTop = 0.0f},
+		{.id = 3, .type = PipeT,           .mechanicalId = -1, .leftId =  2, .rightId =  4, .topId =  6, .pressure = 0.0f, .flowRate = 0.0f, .newPressure = 0.0f, .newFlowRate = 0.0f, .flowRateLeft = 0.0f, .flowRateRight = 0.0f, .flowRateTop = 0.0f, .newFlowRateLeft = 0.0f, .newFlowRateRight = 0.0f, .newFlowRateTop = 0.0f},
+		{.id = 4, .type = PipeSegment,     .mechanicalId = -1, .leftId =  3, .rightId =  5, .topId = -1, .pressure = 0.0f, .flowRate = 0.0f, .newPressure = 0.0f, .newFlowRate = 0.0f, .flowRateLeft = 0.0f, .flowRateRight = 0.0f, .flowRateTop = 0.0f, .newFlowRateLeft = 0.0f, .newFlowRateRight = 0.0f, .newFlowRateTop = 0.0f},
+		{.id = 5, .type = Valve,           .mechanicalId =  1, .leftId =  4, .rightId = -1, .topId = -1, .pressure = 0.0f, .flowRate = 0.0f, .newPressure = 0.0f, .newFlowRate = 0.0f, .flowRateLeft = 0.0f, .flowRateRight = 0.0f, .flowRateTop = 0.0f, .newFlowRateLeft = 0.0f, .newFlowRateRight = 0.0f, .newFlowRateTop = 0.0f},
+		{.id = 6, .type = PipeSegment,     .mechanicalId = -1, .leftId =  3, .rightId =  7, .topId = -1, .pressure = 0.0f, .flowRate = 0.0f, .newPressure = 0.0f, .newFlowRate = 0.0f, .flowRateLeft = 0.0f, .flowRateRight = 0.0f, .flowRateTop = 0.0f, .newFlowRateLeft = 0.0f, .newFlowRateRight = 0.0f, .newFlowRateTop = 0.0f},
+		{.id = 7, .type = Cap,             .mechanicalId =  1, .leftId =  6, .rightId = -1, .topId = -1, .pressure = 0.0f, .flowRate = 0.0f, .newPressure = 0.0f, .newFlowRate = 0.0f, .flowRateLeft = 0.0f, .flowRateRight = 0.0f, .flowRateTop = 0.0f, .newFlowRateLeft = 0.0f, .newFlowRateRight = 0.0f, .newFlowRateTop = 0.0f}
+	};
+
+// List of ids (indexes) in pipeNetwork that are PipeSegments.
+shared int numberOfPipeSegments = 4;
+shared int pipeSegmentIds[/*numberOfPipeSegments*/ 4] = {1, 2, 4, 6};
+
+// List of ids (indexes) in pipeNetwork that are Cap.
+shared int numberOfCaps = 1;
+shared int capIds[/*numberOfCaps*/ 1] = {7};
+
+// List of ids (indexes) in pipeNetwork that are ImposedPressure.
+shared int numberOfImposedPressures = 0;
+shared int imposedPressureIds[/*numberOfImposedPressures*/ 0];// = {};
+
+// List of ids (indexes) in pipeNetwork that are ImposedFlowRate.
+shared int numberOfImposedFlowRates = 1;
+shared int imposedFlowRateIds[/*numberOfImposedFlowRates*/ 1] = {0};
+
+// List of ids (indexes) in pipeNetwork that are PipeT.
+shared int numberOfPipeTs = 1;
+shared int pipeTIds[/*numberOfPipeTs*/ 1] = {3};
+
+// List of ids (indexes) in pipeNetwork that are Valve.
+shared int numberOfValves = 1;
+shared int valveIds[/*numberOfValves*/ 1] = {5};
+
+
+//-------------- Fluid modelling --------------
+
+// Structure to describe the global fluid properties.
+typedef struct _FluidProperties {
+	float p;			// density
+	float ap;			// wave speed * density
+
+	float newP;
+	float newAp;
+} FluidProperties;
+
+// Global fluid properites.
+FluidProperties fluidProperties = {.p = 1000.0f, .ap = 1.2E+6, .newP = 0.0f, .newAp = 0.0f};
+
+
+//-------------- Mechanical Calculations --------------
+
+// Types of mechanical calculations.
+typedef enum {
+	PressureSensor = 0,
+	Pump,
+	ValveM				// "M" suffix to differentiate with ElementType.Valve.
+} MechanicalType;
+
+// Structure to describe the results of the mechanical calulations.
+typedef struct _MechanicalCalculation {
+	// Id (array index) and type of mechanical calculation.
+	int id;
+	MechanicalType type;
+
+	// Computed pressure and flow rate.
+	float pressure;
+	float flowRate;
+	float valvePosition;
+
+	float newPressure;
+	float newFlowRate;
+	float newValvePosition;
+} MechanicalCalculation;
+
+// All the mechanical calculations. Gives initial values.
+static const int numberOfMechanicalCalculations = 2;
+MechanicalCalculation mechanicalCalculations[numberOfMechanicalCalculations] = 
+	{
+		{.id = 0, .type = Pump,   .pressure = 0.0f, .flowRate = 0.0f, .valvePosition = 0.0f, .newPressure = 0.0f, .newFlowRate = 0.0f, .newValvePosition = 0.0f},
+		{.id = 1, .type = ValveM, .pressure = 0.0f, .flowRate = 0.0f, .valvePosition = 0.0f, .newPressure = 0.0f, .newFlowRate = 0.0f, .newValvePosition = 0.0f}
+	};
+
+// List of ids (indexes) in mechanicalCalculations that are PressureSensor.
+shared int numberOfMechanicalPressureSensors = 0;
+shared int mechanicalPressureSensorIds[/*numberOfMechanicalPressureSensors*/ 0];// = {};
+
+// List of ids (indexes) in mechanicalCalculations that are Pump.
+shared int numberOfMechanicalPumps = 1;
+shared int mechanicalPumpIds[/*numberOfMechanicalPumps*/ 1] = {0};
+
+// List of ids (indexes) in mechanicalCalculations that are Valve.
+shared int numberOfMechanicalValves = 1;
+shared int mechanicalValveIds[/*numberOfMechanicalValves*/ 1] = {1};
+shared int valveIndex = 0;
+
+//-------------- Functions --------------
+
+// Compute the new pressure and flow rate for each computation element.
+void computePipeSegment(const int id, const float p, const float ap);
+void computeCap(const int id, const float p, const float ap);
+void computeImposedPressure(const int id, const float p, const float ap);
+void computeImposedFlowRate(const int id, const float p, const float ap);
+void computePipeT(const int id, const float p, const float ap);
+void computeValve(const int id, const float p, const float ap);
+
+// Compute new mechanical and global calculations.
+void computeMechanicalPressureSensorCalculations(const int id);
+void computeMechanicalPumpCalculations(const int id);
+void computeMechanicalValveCalculations(const int id);
+void computeGlobalCalculations(void);
+
+// Perform an interpolation.
+const float interpolate(const float center, const float edge, const float slope);
+
+// Convert a floating point number into an absolute floating point number.
+const float absFloat(const float number);
+
+// Apply (post) the new pressure and flow rate for the computation element.
+void applyComputationElementNonPipeT(const int id);
+void applyComputationElementPipeT(const int id);
+
+// Apply (post) the new Mechanical and Global calculations.
+void applyMechanicalCalculations(const int id);
+void applyGlobalCalculations(void);
+
+
+//-------------- Threads --------------
+thread computeNewValues(void);
+thread applyNewValues(void);
+
+
+//-------------- Entry point --------------
+// Entry point of the program.
+int main (int argc, char **argv) {
+	while (1) {
+		// Compute the new pressure and flow rate of tbhe computation elements. 
+		// Compute the mechanical and global calculations. 
+		par(computeNewValues);
+		printf("Computed");
+
+		// Apply (post) the new pressure and flow rate results.
+		par(applyNewValues);
+		printf(" and applied\r\n");
+
+		// End of the time step.
+		printf("End of time step %d\r\n", valveIndex);
+		pause;
+	}
+}
+
+//-------------- Computation phase --------------
+
+// There is an opportunity to split the computation into 
+// multiple threads (workloads). Consistency of the global
+// state is maintained because the new pressure and flow 
+// rates are kept local to each computation element. They
+// are applied later.
+thread computeNewValues(void) {
+	// For each computation element, compute its new pressure and flow rate.
+	float p = fluidProperties.p;
+	float ap = fluidProperties.ap;
+	
+	int i;
+
+	// Computation elements.
+	for (i = 0; i < numberOfPipeSegments; ++i) #4#4 {
+		computePipeSegment(pipeSegmentIds[i], p, ap);
+	}
+
+	for (i = 0; i < numberOfCaps; ++i) #1#1 {
+		computeCap(capIds[i], p, ap);
+	}
+
+	for (i = 0; i < numberOfImposedPressures; ++i) #0#0 {
+		computeImposedPressure(imposedPressureIds[i], p, ap);
+	}
+
+	for (i = 0; i < numberOfImposedFlowRates; ++i) #1#1 {
+		computeImposedFlowRate(imposedFlowRateIds[i], p, ap);
+	}
+
+	for (i = 0; i < numberOfPipeTs; ++i) #1#1 {
+		computePipeT(pipeTIds[i], p, ap);
+	}
+
+	for (i = 0; i < numberOfValves; ++i) #1#1 {
+		computeValve(valveIds[i], p, ap);
+	}
+
+	// Mechanical calculations.
+	for (i = 0; i < numberOfMechanicalPressureSensors; ++i) #0#0 {
+		computeMechanicalPressureSensorCalculations(mechanicalPumpIds[i]);
+	}
+	
+	for (i = 0; i < numberOfMechanicalPumps; ++i) #1#1 {
+		computeMechanicalPumpCalculations(mechanicalPumpIds[i]);
+	}
+
+	for (i = 0; i < numberOfMechanicalValves; ++i) #1#1 {
+		computeMechanicalValveCalculations(mechanicalValveIds[i]);
+	}
+
+	// Global calculations.
+	computeGlobalCalculations();
+
+	valveIndex++;		// Update the valve index.
+}
+
+void computePipeSegment(const int id, const float p, const float ap) {
+	// Variables and co-efficients.
+	const float theta = 1.0f;	// Desired amount of interpolation.
+	const float A = 1.0f; 		// Pipe cross-sectional area. Not used by Valve.
+
+	const float E = p * 1.0f;	// (pf*delta(x)) / (2DA^2).
+	const float B = ap / A;		// ap / A.
+
+	// Only for ElementType PipeT.
+	const float A2 = 1.0f;		// Pipe cross-sectional area2.
+	const float A3 = 1.0f;		// Pipe cross-sectional area3.
+
+	// Make a copy of the pressure and flow rate from its left and right neighbours.
+	float pressureLeft;			// P_(i - 1)
+	float flowRateLeft;			// Q_(i - 1)
+	const int leftId = pipeNetwork[id].leftId;
+	if (leftId != -1) {
+		pressureLeft = pipeNetwork[leftId].pressure;
+		flowRateLeft = pipeNetwork[leftId].flowRate;
+	} else {
+		pressureLeft = 0.0f;
+		flowRateLeft = 0.0f;
+	}
+
+	float pressureRight;		// P_(i + 1)
+	float flowRateRight;		// Q_(i + 1)
+	const int rightId = pipeNetwork[id].rightId;
+	if (rightId != -1) {
+		pressureRight = pipeNetwork[rightId].pressure;
+		flowRateRight = pipeNetwork[rightId].flowRate;
+	} else {
+		pressureRight = 0.0f;
+		flowRateRight = 0.0f;
+	}
+
+	// Interpolate.
+	const float pressure = pipeNetwork[id].pressure;
+	const float flowRate = pipeNetwork[id].flowRate;
+	pressureLeft = interpolate(pressure, pressureLeft, (ap * theta));
+	flowRateLeft = interpolate(flowRate, flowRateLeft, (ap * theta));
+	pressureRight = interpolate(pressure, pressureRight, (ap * theta));
+	flowRateRight = interpolate(flowRate, flowRateRight, (ap * theta));
+
+	// Calculate the new pressure and flow rate.
+	const float Cp = pressureLeft + flowRateLeft * (B - E * absFloat(flowRateLeft));	// Plus branch.
+	const float Cm = pressureRight - flowRateRight * (B - E * absFloat(flowRateRight));	// Minus branch.
+
+	const float newPressure = (Cp + Cm) / 2.0f;
+	pipeNetwork[id].newPressure = newPressure;
+	pipeNetwork[id].newFlowRate = (newPressure - Cm) / B;
+}
+
+void computeCap(const int id, const float p, const float ap) {
+	// Variables and co-efficients.
+	const float theta = 1.0f;	// Desired amount of interpolation.
+	const float A = 1.0f; 		// Pipe cross-sectional area. Not used by Valve.
+
+	const float E = p * 1.0f;	// (pf*delta(x)) / (2DA^2).
+	const float B = ap / A;		// ap / A.
+
+	// Only for ElementType PipeT.
+	const float A2 = 1.0f;		// Pipe cross-sectional area2.
+	const float A3 = 1.0f;		// Pipe cross-sectional area3.
+
+	// Make a copy of the pressure and flow rate from its left neighbour.
+	float pressureLeft;			// P_(i - 1)
+	float flowRateLeft;			// Q_(i - 1)
+	const int leftId = pipeNetwork[id].leftId;
+	if (leftId != -1) {
+		pressureLeft = pipeNetwork[leftId].pressure;
+		flowRateLeft = pipeNetwork[leftId].flowRate;
+	} else {
+		pressureLeft = 0.0f;
+		flowRateLeft = 0.0f;
+	}
+	
+	// Interpolate.
+	const float pressure = pipeNetwork[id].pressure;
+	const float flowRate = pipeNetwork[id].flowRate;
+	pressureLeft = interpolate(pressure, pressureLeft, (ap * theta));
+	flowRateLeft = interpolate(flowRate, flowRateLeft, (ap * theta));;	
+
+	// Calculate the new pressure and flow rate.
+	const float Cp = pressureLeft + flowRateLeft * (B - E * absFloat(flowRateLeft));	// Plus branch.
+
+	const float newFlowRate = 0.0f;
+	pipeNetwork[id].newFlowRate = newFlowRate;
+	pipeNetwork[id].newPressure = Cp - B * newFlowRate;
+}
+
+void computeImposedPressure(const int id, const float p, const float ap) {
+	// Variables and co-efficients.
+	const float theta = 1.0f;	// Desired amount of interpolation.
+	const float A = 1.0f; 		// Pipe cross-sectional area. Not used by Valve.
+
+	const float E = p * 1.0f;	// (pf*delta(x)) / (2DA^2).
+	const float B = ap / A;		// ap / A.
+
+	// Only for ElementType PipeT.
+	const float A2 = 1.0f;		// Pipe cross-sectional area2.
+	const float A3 = 1.0f;		// Pipe cross-sectional area3.
+
+	// Make a copy of the pressure and flow rate from its right neighbour.
+	float pressureRight;		// P_(i + 1)
+	float flowRateRight;		// Q_(i + 1)
+	const int rightId = pipeNetwork[id].rightId;
+	if (rightId != -1) {	
+		pressureRight = pipeNetwork[rightId].pressure;
+		flowRateRight = pipeNetwork[rightId].flowRate;
+	} else {
+		pressureRight = 0.0f;
+		flowRateRight = 0.0f;
+	}
+	
+	// Interpolote.
+	const float pressure = pipeNetwork[id].pressure;
+	const float flowRate = pipeNetwork[id].flowRate;
+	pressureRight = interpolate(pressure, pressureRight, (ap * theta));
+	flowRateRight = interpolate(flowRate, flowRateRight, (ap * theta));
+
+	// Calculate the new pressure and flow rate.
+	const float Cm = pressureRight - flowRateRight * (B - E * absFloat(flowRateRight));			// Minus branch.
+
+	const float newPressure = mechanicalCalculations[pipeNetwork[id].mechanicalId].pressure;	// Pressure from the pump.
+	pipeNetwork[id].newPressure = newPressure;
+	pipeNetwork[id].newFlowRate = (newPressure - Cm) / B;
+}
+
+void computeImposedFlowRate(const int id, const float p, const float ap) {
+	// Variables and co-efficients.
+	const float theta = 1.0f;	// Desired amount of interpolation.
+	const float A = 1.0f; 		// Pipe cross-sectional area. Not used by Valve.
+
+	const float E = p * 1.0f;	// (pf*delta(x)) / (2DA^2).
+	const float B = ap / A;		// ap / A.
+
+	// Only for ElementType PipeT.
+	const float A2 = 1.0f;		// Pipe cross-sectional area2.
+	const float A3 = 1.0f;		// Pipe cross-sectional area3.
+
+	// Make a copy of the pressure and flow rate from its right neighbour.
+	float pressureRight;		// P_(i + 1)
+	float flowRateRight;		// Q_(i + 1)
+	const int rightId = pipeNetwork[id].rightId;
+	if (rightId != -1) {
+		pressureRight = pipeNetwork[rightId].pressure;
+		flowRateRight = pipeNetwork[rightId].flowRate;
+	} else {
+		pressureRight = 0.0f;
+		flowRateRight = 0.0f;
+	}
+	
+	// Interpolate.
+	const float pressure = pipeNetwork[id].pressure;
+	const float flowRate = pipeNetwork[id].flowRate;
+	pressureRight = interpolate(pressure, pressureRight, (ap * theta));
+	flowRateRight = interpolate(flowRate, flowRateRight, (ap * theta));
+
+	// Calculate the new pressure and flow rate.
+	const float Cm = pressureRight - flowRateRight * (B - E * absFloat(flowRateRight));			// Minus branch.
+
+	const float newFlowRate = mechanicalCalculations[pipeNetwork[id].mechanicalId].flowRate;	// Flow rate from the sensor.
+	pipeNetwork[id].newPressure = Cm - (B * newFlowRate);	
+	pipeNetwork[id].newFlowRate = newFlowRate;
+}
+
+void computePipeT(const int id, const float p, const float ap) {
+	// Variables and co-efficients.
+	const float theta = 1.0f;	// Desired amount of interpolation.
+	const float A = 1.0f; 		// Pipe cross-sectional area. Not used by Valve.
+
+	const float E = p * 1.0f;	// (pf*delta(x)) / (2DA^2).
+	const float B = ap / A;		// ap / A.
+
+	// Only for ElementType PipeT.
+	const float A2 = 1.0f;		// Pipe cross-sectional area2.
+	const float A3 = 1.0f;		// Pipe cross-sectional area3.
+
+	// Make a copy of the pressure and flow rate from its left, right, and top neighbours.
+	float pressureLeft;			// P_(i - 1)
+	float flowRateLeft;			// Q_(i - 1)
+	const int leftId = pipeNetwork[id].leftId;
+	if (leftId != -1) {
+		pressureLeft = pipeNetwork[leftId].pressure;
+		flowRateLeft = pipeNetwork[leftId].flowRate;
+	} else {
+		pressureLeft = 0.0f;
+		flowRateLeft = 0.0f;
+	}
+
+	float pressureRight;		// P_(i + 1)
+	float flowRateRight;		// Q_(i + 1)
+	const int rightId = pipeNetwork[id].rightId;
+	if (rightId != -1) {
+		pressureRight = pipeNetwork[rightId].pressure;
+		flowRateRight = pipeNetwork[rightId].flowRate;
+	} else {
+		pressureRight = 0.0f;
+		flowRateRight = 0.0f;
+	}
+
+	float pressureTop;
+	float flowRateTop;
+	const int topId = pipeNetwork[id].topId;
+	if (topId != -1) {
+		pressureTop = pipeNetwork[topId].pressure;
+		flowRateTop = pipeNetwork[topId].pressure;
+	} else {
+		pressureTop = 0.0f;
+		flowRateTop = 0.0f;
+	}
+	
+	// Interpolate.
+	const float pressure = pipeNetwork[id].pressure;
+	const float flowRate = pipeNetwork[id].flowRate;
+	pressureLeft = interpolate(pressure, pressureLeft, (ap * theta));
+	flowRateLeft = interpolate(flowRate, flowRateLeft, (ap * theta));
+	pressureRight = interpolate(pressure, pressureRight, (ap * theta));
+	flowRateRight = interpolate(flowRate, flowRateRight, (ap * theta));
+	pressureTop = interpolate(pressure, pressureTop, (ap * theta));
+	flowRateTop = interpolate(flowRate, flowRateTop, (ap * theta));
+
+	// Calculate the new pressure and flow rate.
+	const float B2 = ap / A2;	// Right.
+	const float B3 = ap / A3;	// Top.
+
+	const float Cp1 = pressureLeft + flowRateLeft * (B - E * absFloat(flowRateLeft));		// Left. Plus branch.
+	const float Cm2 = pressureRight - flowRateRight * (B2 - E * absFloat(flowRateRight));	// Right. Minus branch.
+	const float Cm3 = pressureTop - flowRateTop * (B3 - E * absFloat(flowRateTop));			// Top. Minus branch.
+
+	const float newPressure = (Cp1 / B + Cm2 / B2 + Cm3 / B3) / (1/B + 1/B2 + 1/B3);
+	pipeNetwork[id].newPressure = newPressure;
+	pipeNetwork[id].newFlowRateLeft = -newPressure / B + Cp1 / B;		
+	pipeNetwork[id].newFlowRateRight = -newPressure / B2 + Cm2 / B2;
+	pipeNetwork[id].newFlowRateTop = -newPressure / B3 + Cm3 / B3;
+
+	// Original implementation did not update pipeNetwork[id].flowRate 
+	// or use the new left, right, and top flow rates.
+}
+
+void computeValve(const int id, const float p, const float ap) {
+	// Variables and co-efficients.
+	const float theta = 1.0f;	// Desired amount of interpolation.
+	const float A = 1.0f; 		// Pipe cross-sectional area. Not used by Valve.
+
+	const float E = p * 1.0f;	// (pf*delta(x)) / (2DA^2).
+	const float B = ap / A;		// ap / A.
+
+	// Only for ElementType PipeT.
+	const float A2 = 1.0f;		// Pipe cross-sectional area2.
+	const float A3 = 1.0f;		// Pipe cross-sectional area3.
+
+	// Make a copy of the pressure and flow rate from its left neighbour.
+	float pressureLeft;			// P_(i - 1)
+	float flowRateLeft;			// Q_(i - 1)
+	const int leftId = pipeNetwork[id].leftId;
+	if (leftId != -1) {
+		pressureLeft = pipeNetwork[leftId].pressure;
+		flowRateLeft = pipeNetwork[leftId].flowRate;
+	} else {
+		pressureLeft = 0.0f;
+		flowRateLeft = 0.0f;
+	}
+	
+	// Interpolate.
+	const float pressure = pipeNetwork[id].pressure;
+	const float flowRate = pipeNetwork[id].flowRate;
+	pressureLeft = interpolate(pressure, pressureLeft, (ap * theta));
+	flowRateLeft = interpolate(flowRate, flowRateLeft, (ap * theta));;	
+
+	// Calculate the new pressure and flow rate.
+	const float Cp = pressureLeft + flowRateLeft * (B - E * absFloat(flowRateLeft));		// Plus branch.
+	const float tau = mechanicalCalculations[pipeNetwork[id].mechanicalId].valvePosition;	// Fraction that the valve is open.
+	const float Cvp = 1.0f;																	// Q_0 / 2P_0.
+	const float Cv = (tau * tau) * Cvp;														// (Q_0 * tau)^2 / 2P_0. Flow co-efficient.
+
+	const float newFlowRate = -B * Cv + sqrtf((B * Cv) * (B * Cv) + 2 * Cv * Cp);
+	pipeNetwork[id].newFlowRate = newFlowRate;
+	pipeNetwork[id].newPressure = Cp - B * newFlowRate;
+}
+
+const float interpolate(const float center, const float edge, const float slope) {
+	return center - slope * (center - edge);
+}
+
+const float absFloat(const float number) {
+	float result;
+	if (number > 0.0f) {
+		result = number;
+	} else {
+		result = -number;
+	}
+	
+	return result;
+}
+
+void computeMechanicalPressureSensorCalculations(const int id) {
+	mechanicalCalculations[id].newPressure = 1470900.0f;
+}
+
+void computeMechanicalPumpCalculations(const int id) {
+	mechanicalCalculations[id].newFlowRate = 100.0f;		// Original implementation did not have this value.
+}
+
+void computeMechanicalValveCalculations(const int id) {
+	static const int numberOfValvePositions = 27;
+	const float valvePositions[numberOfValvePositions] = 
+		{
+			1.000000f, 
+			0.929429f, 
+			0.860600f,
+			0.793560f, 
+			0.728357f,
+			 
+			0.665045f, 
+			0.603682f, 
+			0.544331f, 
+			0.487064f, 
+			0.431959f, 
+			
+			0.379106f, 
+			0.328603f,
+			0.280566f, 
+			0.235129f, 
+			0.192450f, 
+			
+			0.152721f, 
+			0.116179f, 
+			0.083131f, 
+			0.053995f, 
+			0.029391f, 
+			
+			0.010391f, 
+			0.000000f, 
+			0.000000f, 
+			0.000000f, 
+			0.000000f, 
+			
+			0.000000f, 
+			0.000000f
+		};
+
+	mechanicalCalculations[id].newValvePosition = valvePositions[valveIndex % numberOfValvePositions];
+}
+
+void computeGlobalCalculations(void) {
+	// The original implementation for the PTARM
+	// had the following three global variables:
+	// wave velocity * density, inverse of wave 
+	// velocity * density, and density. In this 
+	// implementation, we omit the inverse wave 
+	// velocity and calculate it directly as 
+	// 1 / (wave velocity) when computing each 
+	// computation element.
+	
+	// For each global value, compute its new value.
+	fluidProperties.newP = 1000.0f;
+	fluidProperties.newAp = 1.2E+6;
+}
+
+
+//-------------- Application phase --------------
+
+// There is also an opportunity to split the workload of this thread.
+thread applyNewValues(void) {
+	int i;
+
+	// Computation elements.
+	for (i = 0; i < numberOfPipeSegments; ++i) #4#4 {
+		applyComputationElementNonPipeT(pipeSegmentIds[i]);
+	}
+
+	for (i = 0; i < numberOfCaps; ++i) #1#1 {
+		applyComputationElementNonPipeT(capIds[i]);
+	}
+
+	for (i = 0; i < numberOfImposedPressures; ++i) #0#0 {
+		applyComputationElementNonPipeT(imposedPressureIds[i]);
+	}
+
+	for (i = 0; i < numberOfImposedFlowRates; ++i) #1#1 {
+		applyComputationElementNonPipeT(imposedFlowRateIds[i]);
+	}
+
+	for (i = 0; i < numberOfPipeTs; ++i) #1#1 {
+		applyComputationElementPipeT(pipeTIds[i]);
+	}
+
+	for (i = 0; i < numberOfValves; ++i) #1#1 {
+		applyComputationElementNonPipeT(valveIds[i]);
+	}
+
+	// Mechanical calculations.
+	for (i = 0; i < numberOfMechanicalPressureSensors; ++i) #0#0 {
+		applyMechanicalCalculations(mechanicalPumpIds[i]);
+	}
+	
+	for (i = 0; i < numberOfMechanicalPumps; ++i) #1#1 {
+		applyMechanicalCalculations(mechanicalPumpIds[i]);
+	}
+
+	for (i = 0; i < numberOfMechanicalValves; ++i) #1#1 {
+		applyMechanicalCalculations(mechanicalValveIds[i]);
+	}
+
+	// Global calculations.
+	applyGlobalCalculations();
+}
+
+// Apply (post) the new pressure and flow rate for the computation element
+// that are not of type PipeT.
+void applyComputationElementNonPipeT(const int id) {
+	pipeNetwork[id].pressure = pipeNetwork[id].newPressure;
+	pipeNetwork[id].flowRate = pipeNetwork[id].newFlowRate;
+}
+
+// Apply (post) the new pressure and flow rate for the computation element
+// that are of type PipeT.
+void applyComputationElementPipeT(const int id) {
+	pipeNetwork[id].pressure = pipeNetwork[id].newPressure;
+	
+	pipeNetwork[id].flowRateLeft = pipeNetwork[id].newFlowRateLeft;
+	pipeNetwork[id].flowRateRight = pipeNetwork[id].newFlowRateRight;
+	pipeNetwork[id].flowRateTop = pipeNetwork[id].newFlowRateTop;
+}
+
+void applyMechanicalCalculations(const int id) {
+	mechanicalCalculations[id].pressure = mechanicalCalculations[id].newPressure;
+	mechanicalCalculations[id].flowRate = mechanicalCalculations[id].newFlowRate;
+	mechanicalCalculations[id].valvePosition = mechanicalCalculations[id].newValvePosition;
+}
+
+void applyGlobalCalculations(void) {
+	fluidProperties.p = fluidProperties.newP;
+	fluidProperties.ap = fluidProperties.newAp;
+}
+

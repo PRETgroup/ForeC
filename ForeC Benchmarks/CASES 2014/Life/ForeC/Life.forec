@@ -1,0 +1,212 @@
+////////////////////////////////////////////
+// ForeC Life
+// Based on:
+//   Copyright 2002, David Joiner and
+//   The Shodor Education Foundation, Inc.
+////////////////////////////////////////////
+
+#include "stdlib.h"
+
+int RAND_MAX;
+#define RAND_MAX__global_0_0 RAND_MAX
+
+shared int blackColor;
+
+struct life_datum {
+	int color;
+	int x1;
+	int y1;
+};
+
+struct life_datum life_data[96+2][24+2];
+shared struct life_datum (*life_data_ptr)[96+2][24+2] = &life_data;
+
+int grid[96+2][24+2];
+shared int (*grid_ptr)[96+2][24+2] = &grid;
+
+int next_grid[96+2][24+2];
+shared int (*next_grid_ptr)[96+2][24+2] = &next_grid;
+
+void do_step(const int threadNumber, int (*grid_ptr)[96+2][24+2], int (*next_grid_ptr)[96+2][24+2]);
+void initialise(const int ncols, const int startIndex, const int endIndex, int (*grid_ptr)[96+2][24+2]);
+void randomize_grid(const int ncols, const int startIndex, const int endIndex, int (*grid_ptr)[96+2][24+2], const float prob);
+float rand_float(void);
+void random_initByTime(void);
+
+thread do_step_0(void);
+thread do_step_1(void);
+thread do_step_2(void);
+thread do_step_3(void);
+
+int main(int argc, char **argv) {
+	par(do_step_0, do_step_1, do_step_2, do_step_3);
+}
+
+thread do_step_0(void) {
+	int RANGE = 6;
+	int ncols = 96;
+	int nrows = 6*4;
+	
+	int threadNumber = 0;
+	int startIndex = 1 + RANGE * threadNumber;
+	int endIndex = RANGE * (threadNumber+1);
+
+	int MAX_GENERATIONS = 2;
+    int generation = 0;
+    
+    initialise(ncols, startIndex, endIndex, grid_ptr);
+    
+	while (generation++ < MAX_GENERATIONS) {
+		// left right and corners we get from neighboring grids.
+		// copy left and right
+		int i;
+		for (i = 0; i <= nrows + 1; i++) {
+			(*grid_ptr)[0][i] = (*grid_ptr)[1][i];
+			(*grid_ptr)[ncols+1][i] = (*grid_ptr)[ncols][i];
+		}
+
+		pause;
+
+		do_step(0, grid_ptr, next_grid_ptr);
+	}
+}
+
+thread do_step_1(void) {
+	int RANGE = 6;
+	int ncols = 96;
+	int nrows = 6*4;
+	
+	int threadNumber = 1;
+	int startIndex = 1 + RANGE * threadNumber;
+	int endIndex = RANGE * (threadNumber+1);
+
+	int MAX_GENERATIONS = 2;
+    int generation = 0;
+    
+    initialise(ncols, startIndex, endIndex, grid_ptr);
+    
+	while (generation++ < MAX_GENERATIONS) {
+		// top and bottom we get from current cell.
+		//copy top and bottom
+		int i;
+		for (i = 1; i <= ncols; i++) {
+			(*grid_ptr)[i][0] = (*grid_ptr)[i][nrows];
+			(*grid_ptr)[i][nrows+1] = (*grid_ptr)[i][1];
+		}
+		
+		pause;
+		
+		do_step(1, grid_ptr, next_grid_ptr);
+	}
+}
+
+thread do_step_2(void) {
+	int RANGE = 6;
+	int ncols = 96;
+	int nrows = 6*4;
+	
+	int threadNumber = 2;
+	int startIndex = 1 + RANGE * threadNumber;
+	int endIndex = RANGE * (threadNumber+1);
+
+	int MAX_GENERATIONS = 2;
+    int generation = 0;
+
+    initialise(ncols, startIndex, endIndex, grid_ptr);
+    
+	while (generation++ < MAX_GENERATIONS) {
+		// copy corners
+		(*grid_ptr)[0][0] = (*grid_ptr)[0][nrows];
+		(*grid_ptr)[0][nrows+1] = (*grid_ptr)[0][1];
+		(*grid_ptr)[ncols+1][0] = (*grid_ptr)[ncols+1][nrows];
+		(*grid_ptr)[ncols+1][nrows+1] = (*grid_ptr)[ncols+1][1];
+	
+		pause;
+	
+		do_step(2, grid_ptr, next_grid_ptr);
+	}
+}
+
+thread do_step_3(void) {	
+	int RANGE = 6;
+	int ncols = 96;
+	
+	int threadNumber = 3;
+	int startIndex = 1 + RANGE * threadNumber;
+	int endIndex = RANGE * (threadNumber+1);
+
+	int MAX_GENERATIONS = 2;
+    int generation = 0;
+
+    initialise(ncols, startIndex, endIndex, grid_ptr);
+    
+	while (generation++ < MAX_GENERATIONS) {
+
+		pause;
+		
+		do_step(3, grid_ptr, next_grid_ptr);
+	}
+}
+
+void do_step(const int threadNumber, int (*grid_ptr)[96+2][24+2], int (*next_grid_ptr)[96+2][24+2]) {
+	int RANGE = 6;
+	int ncols = 96;
+	
+	int startIndex = 1 + RANGE * threadNumber;
+	int endIndex = RANGE * (threadNumber+1);
+	
+	int i;
+	for (i = 1; i <= ncols; i++) {
+		int j;
+		for (j = startIndex; j <= endIndex; j++) {
+			int neighbors = 0;
+
+			// 3x3 neighbours
+			int k;
+			for (k = i-1; k <= i+1; k++)  {
+				int l;
+				for (l = j-1; l <= j+1; l++) {
+					if (!(k == i && l==j) && (*grid_ptr)[k][l] > 0) {
+						neighbors++;
+					}
+				}
+				if (neighbors > 3) {
+					continue;
+				}
+			}
+
+			if (neighbors < 2 || neighbors > 3) {
+				(*next_grid_ptr)[i][j] = 0;
+			} else if ((*grid_ptr)[i][j] > 0 || neighbors == 3) {
+				(*next_grid_ptr)[i][j] = (*grid_ptr)[i][j]+1;
+			}
+		}
+	}
+
+	// apply next generation
+	for (i = 0; i < ncols + 2; i++) {
+		int j;
+		for (j = startIndex; j <= endIndex; j++) {
+		    (*grid_ptr)[i][j] = (*next_grid_ptr)[i][j];
+		}
+	}
+}
+
+void initialise(const int ncols, const int startIndex, const int endIndex, int (*grid_ptr)[96+2][24+2]) {
+	srand(0x0);
+	randomize_grid(ncols, startIndex, endIndex, grid_ptr, 0.25);
+}
+
+void randomize_grid(const int ncols, const int startIndex, const int endIndex, int (*grid_ptr)[96+2][24+2], const float prob) {
+	int i;
+    for (i = 1; i <= ncols; i++) {
+		int j;
+		for (j = startIndex; j <= endIndex; j++) {
+        	(*grid_ptr)[i][j] = rand_float() < prob;
+        }
+    }
+}
+
+float rand_float(void) {
+    return (float)rand()/(float)RAND_MAX;
+}

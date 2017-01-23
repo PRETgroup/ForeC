@@ -1,0 +1,76 @@
+/*==============================================================
+| Hardware architecture specific declarations:
+| Cores, mutex and input/output information.
+*=============================================================*/
+// Xilinx Microblaze
+#include "xparameters.h"
+
+// Xilinx Microblaze Processor Version Register
+#include "pvr.h"
+
+// Hardware counter connected via a direct FSL bus.
+#include "counter_dfsl.h"
+#define FSL_COUNTER_ID				2
+Counter counter;
+
+// ForeC hardware mutex
+#include "forec_mutex.h"
+#define FSL_FOREC_MUTEX_ID			0
+#define FSL_FOREC_MUTEX_RESET_ID	1
+#define MAX_MUTEX_COUNT				31
+
+
+/*==============================================================
+| ForeC type definitions:
+| Defines the types of storage elements specific to ForeC.
+*=============================================================*/
+// Status values.
+typedef enum {
+	// PAR
+	FOREC_PAR_OFF,				// 0
+	FOREC_PAR_ON,				// 1
+
+	// Core
+	FOREC_CORE_REACTING,		// 2
+	FOREC_CORE_REACTED,			// 3
+	FOREC_CORE_TERMINATED,		// 4
+	
+	// Shared variables
+	FOREC_SHARED_UNMODIFIED,	// 5
+	FOREC_SHARED_MODIFIED,		// 6
+	FOREC_SHARED_WAS_MODIFIED	// 7
+} Status;
+
+// Store child thread information.
+typedef struct _Thread {
+	void *programCounter;
+	struct _Thread *nextThread;
+	struct _Thread *prevThread;
+} Thread;
+
+// Store parent thread information
+typedef struct {
+	void *programCounter;
+	int parStatus;
+	int parId;
+} Parent;
+
+// Keep track of child threads executing on
+// a processor core.
+typedef struct {
+	int sync;
+	int activeThreads;
+	int status;
+	int reactionCounter;
+} Core;
+
+// Global variable for counting the number of global reactions.
+volatile long int globalReactions = 0;
+
+// Shared control variables for par(...)s -------------------------
+%{par}
+/*==============================================================
+| Original global declarations:
+| Global declarations in the original program code.
+*=============================================================*/
+

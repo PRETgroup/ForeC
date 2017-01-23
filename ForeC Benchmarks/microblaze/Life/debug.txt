@@ -1,0 +1,3385 @@
+ForeC Compiler (multicore distribution)
+Version: 0.99 (5 October 2014)
+Debug output
+---------------------------------------
+
+Debug level: 1
+Check instantaneous loops: false
+Minimum reaction time: 0 clock cycles
+Source file name: Life.forec
+Header file name: Life.08.foreh
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	microblaze
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	4		do_draw__thread
+	4		do_draw_0__thread
+	5		do_draw_1__thread
+	6		do_draw_2__thread
+	7		do_draw_3__thread
+	0		do_step__thread
+	0		do_step_0__thread
+	1		do_step_1__thread
+	2		do_step_2__thread
+	3		do_step_3__thread
+	0		main__thread
+
+
+==============================
+tools::SymbolTable::toString()
+==============================
+Symbol tables:
+--------------
+	Scope name: do_draw_0
+		Scope level: 0
+			Instance: 0
+				(variable) blackColor__do_draw_0_0_0
+				(variable) numXGrayscale__do_draw_0_0_0
+				(variable) PIXEL_SIZE__do_draw_0_0_0
+				(variable) ncols__do_draw_0_0_0
+				(variable) RANGE__do_draw_0_0_0
+		Scope level: 1
+			Instance: 0
+				(variable) threadNumber__do_draw_0_1_0
+				(variable) y1StartIndex__do_draw_0_1_0
+				(variable) y1EndIndex__do_draw_0_1_0
+				(variable) i__do_draw_0_1_0
+		Scope level: 2
+			Instance: 0
+				(variable) x1__do_draw_0_2_0
+				(variable) j__do_draw_0_2_0
+		Scope level: 3
+			Instance: 0
+				(variable) index__do_draw_0_3_0
+				(variable) index1__do_draw_0_3_0
+				(variable) y1__do_draw_0_3_0
+				(variable) life__do_draw_0_3_0
+
+	Scope name: do_draw_1
+		Scope level: 0
+			Instance: 0
+				(variable) blackColor__do_draw_1_0_0
+				(variable) numXGrayscale__do_draw_1_0_0
+				(variable) PIXEL_SIZE__do_draw_1_0_0
+				(variable) ncols__do_draw_1_0_0
+				(variable) RANGE__do_draw_1_0_0
+		Scope level: 1
+			Instance: 0
+				(variable) threadNumber__do_draw_1_1_0
+				(variable) y1StartIndex__do_draw_1_1_0
+				(variable) y1EndIndex__do_draw_1_1_0
+				(variable) i__do_draw_1_1_0
+		Scope level: 2
+			Instance: 0
+				(variable) x1__do_draw_1_2_0
+				(variable) j__do_draw_1_2_0
+		Scope level: 3
+			Instance: 0
+				(variable) index__do_draw_1_3_0
+				(variable) index1__do_draw_1_3_0
+				(variable) y1__do_draw_1_3_0
+				(variable) life__do_draw_1_3_0
+
+	Scope name: do_draw_2
+		Scope level: 0
+			Instance: 0
+				(variable) blackColor__do_draw_2_0_0
+				(variable) numXGrayscale__do_draw_2_0_0
+				(variable) PIXEL_SIZE__do_draw_2_0_0
+				(variable) ncols__do_draw_2_0_0
+				(variable) RANGE__do_draw_2_0_0
+		Scope level: 1
+			Instance: 0
+				(variable) threadNumber__do_draw_2_1_0
+				(variable) y1StartIndex__do_draw_2_1_0
+				(variable) y1EndIndex__do_draw_2_1_0
+				(variable) i__do_draw_2_1_0
+		Scope level: 2
+			Instance: 0
+				(variable) x1__do_draw_2_2_0
+				(variable) j__do_draw_2_2_0
+		Scope level: 3
+			Instance: 0
+				(variable) index__do_draw_2_3_0
+				(variable) index1__do_draw_2_3_0
+				(variable) y1__do_draw_2_3_0
+				(variable) life__do_draw_2_3_0
+
+	Scope name: do_draw_3
+		Scope level: 0
+			Instance: 0
+				(variable) blackColor__do_draw_3_0_0
+				(variable) numXGrayscale__do_draw_3_0_0
+				(variable) PIXEL_SIZE__do_draw_3_0_0
+				(variable) ncols__do_draw_3_0_0
+				(variable) RANGE__do_draw_3_0_0
+		Scope level: 1
+			Instance: 0
+				(variable) threadNumber__do_draw_3_1_0
+				(variable) y1StartIndex__do_draw_3_1_0
+				(variable) y1EndIndex__do_draw_3_1_0
+				(variable) i__do_draw_3_1_0
+		Scope level: 2
+			Instance: 0
+				(variable) x1__do_draw_3_2_0
+				(variable) j__do_draw_3_2_0
+		Scope level: 3
+			Instance: 0
+				(variable) index__do_draw_3_3_0
+				(variable) index1__do_draw_3_3_0
+				(variable) y1__do_draw_3_3_0
+				(variable) life__do_draw_3_3_0
+
+	Scope name: do_step
+		Scope level: 0
+			Instance: 0
+				(variable) ncols__do_step_0_0
+				(variable) nrows__do_step_0_0
+				(variable) i__do_step_0_0
+				(variable) datum__do_step_0_0
+				(variable) index1__do_step_0_0
+				(variable) index2__do_step_0_0
+				(variable) index3__do_step_0_0
+				(variable) index4__do_step_0_0
+				(variable) index5__do_step_0_0
+		Scope level: 1
+			Instance: 0
+				(variable) index1__do_step_1_0
+				(variable) datum__do_step_1_0
+				(variable) index2__do_step_1_0
+				(variable) index3__do_step_1_0
+			Instance: 1
+				(variable) index1__do_step_1_1
+				(variable) index2__do_step_1_1
+				(variable) datum__do_step_1_1
+				(variable) index3__do_step_1_1
+				(variable) index4__do_step_1_1
+
+	Scope name: do_step_0
+		Scope level: 0
+			Instance: 0
+				(variable) RANGE__do_step_0_0_0
+				(variable) ncols__do_step_0_0_0
+		Scope level: 1
+			Instance: 0
+				(variable) threadNumber__do_step_0_1_0
+				(variable) startIndex__do_step_0_1_0
+				(variable) endIndex__do_step_0_1_0
+				(variable) i__do_step_0_1_0
+		Scope level: 2
+			Instance: 0
+				(variable) j__do_step_0_2_0
+		Scope level: 3
+			Instance: 0
+				(variable) neighbors__do_step_0_3_0
+				(variable) k__do_step_0_3_0
+				(variable) index__do_step_0_3_0
+		Scope level: 4
+			Instance: 0
+				(variable) l__do_step_0_4_0
+
+	Scope name: do_step_1
+		Scope level: 0
+			Instance: 0
+				(variable) RANGE__do_step_1_0_0
+				(variable) ncols__do_step_1_0_0
+		Scope level: 1
+			Instance: 0
+				(variable) threadNumber__do_step_1_1_0
+				(variable) startIndex__do_step_1_1_0
+				(variable) endIndex__do_step_1_1_0
+				(variable) i__do_step_1_1_0
+		Scope level: 2
+			Instance: 0
+				(variable) j__do_step_1_2_0
+		Scope level: 3
+			Instance: 0
+				(variable) neighbors__do_step_1_3_0
+				(variable) k__do_step_1_3_0
+				(variable) index__do_step_1_3_0
+		Scope level: 4
+			Instance: 0
+				(variable) l__do_step_1_4_0
+
+	Scope name: do_step_2
+		Scope level: 0
+			Instance: 0
+				(variable) RANGE__do_step_2_0_0
+				(variable) ncols__do_step_2_0_0
+		Scope level: 1
+			Instance: 0
+				(variable) threadNumber__do_step_2_1_0
+				(variable) startIndex__do_step_2_1_0
+				(variable) endIndex__do_step_2_1_0
+				(variable) i__do_step_2_1_0
+		Scope level: 2
+			Instance: 0
+				(variable) j__do_step_2_2_0
+		Scope level: 3
+			Instance: 0
+				(variable) neighbors__do_step_2_3_0
+				(variable) k__do_step_2_3_0
+				(variable) index__do_step_2_3_0
+		Scope level: 4
+			Instance: 0
+				(variable) l__do_step_2_4_0
+
+	Scope name: do_step_3
+		Scope level: 0
+			Instance: 0
+				(variable) RANGE__do_step_3_0_0
+				(variable) ncols__do_step_3_0_0
+		Scope level: 1
+			Instance: 0
+				(variable) threadNumber__do_step_3_1_0
+				(variable) startIndex__do_step_3_1_0
+				(variable) endIndex__do_step_3_1_0
+				(variable) i__do_step_3_1_0
+		Scope level: 2
+			Instance: 0
+				(variable) j__do_step_3_2_0
+		Scope level: 3
+			Instance: 0
+				(variable) neighbors__do_step_3_3_0
+				(variable) k__do_step_3_3_0
+				(variable) index__do_step_3_3_0
+		Scope level: 4
+			Instance: 0
+				(variable) l__do_step_3_4_0
+
+	Scope name: global
+		Scope level: 0
+			Instance: 0
+				(variable) rand_seed__global_0_0
+				(variable) whiteColor__global_0_0
+				(variable) life_data_color__global_0_0
+				(variable) life_data_color_ptr1__global_0_0
+				(variable) life_data_color_ptr2__global_0_0
+				(variable) life_data_color_ptr3__global_0_0
+				(variable) life_data_color_ptr4__global_0_0
+				(variable) life_data_x1__global_0_0
+				(variable) life_data_x1_ptr1__global_0_0
+				(variable) life_data_x1_ptr2__global_0_0
+				(variable) life_data_x1_ptr3__global_0_0
+				(variable) life_data_x1_ptr4__global_0_0
+				(variable) life_data_y1__global_0_0
+				(variable) life_data_y1_ptr1__global_0_0
+				(variable) life_data_y1_ptr2__global_0_0
+				(variable) life_data_y1_ptr3__global_0_0
+				(variable) life_data_y1_ptr4__global_0_0
+				(variable) grid__global_0_0
+				(variable) grid_ptr1__global_0_0
+				(variable) grid_ptr2__global_0_0
+				(variable) grid_ptr3__global_0_0
+				(variable) grid_ptr4__global_0_0
+				(variable) grid_ptr5__global_0_0
+				(variable) next_grid__global_0_0
+				(variable) next_grid_ptr2__global_0_0
+				(variable) next_grid_ptr3__global_0_0
+				(variable) next_grid_ptr4__global_0_0
+				(variable) next_grid_ptr5__global_0_0
+				(function) rand_float
+				(thread) do_draw__thread
+				(thread) do_step__thread
+				(thread) do_step_0__thread
+				(thread) do_step_1__thread
+				(thread) do_step_2__thread
+				(thread) do_step_3__thread
+				(thread) do_draw_0__thread
+				(thread) do_draw_1__thread
+				(thread) do_draw_2__thread
+				(thread) do_draw_3__thread
+				(input) freeze__global_0_0
+				(variable) done__global_0_0
+
+	Scope name: leftInt
+		Scope level: 0
+			Instance: 0
+				(variable) lhs__leftInt_0_0
+				(variable) rhs__leftInt_0_0
+
+	Scope name: main
+		Scope level: 0
+			Instance: 0
+				(variable) argc__main_0_0
+				(variable) argv__main_0_0
+				(variable) MAX_GENERATIONS__main_0_0
+				(variable) ncols__main_0_0
+				(variable) nrows__main_0_0
+				(variable) i__main_0_0
+				(variable) generation__main_0_0
+		Scope level: 1
+			Instance: 0
+				(variable) j__main_1_0
+		Scope level: 2
+			Instance: 0
+				(variable) index__main_2_0
+				(variable) value__main_2_0
+			Instance: 1
+				(variable) i__main_2_1
+		Scope level: 3
+			Instance: 0
+				(variable) j__main_3_0
+		Scope level: 4
+			Instance: 0
+				(variable) index__main_4_0
+				(variable) datum__main_4_0
+
+
+Declared shared symbols:
+------------------------
+
+Use/Def of symbols:
+-------------------
+	Scope name: do_draw
+		use:
+			(thread) do_draw_0__thread
+			(thread) do_draw_1__thread
+			(thread) do_draw_2__thread
+			(thread) do_draw_3__thread
+
+	Scope name: do_draw_0
+		def:
+			(variable) life_data_color_ptr1__global_0_0
+			(variable) life_data_x1_ptr1__global_0_0
+			(variable) life_data_y1_ptr1__global_0_0
+			(variable) i__do_draw_0_1_0
+			(variable) j__do_draw_0_2_0
+			(variable) life__do_draw_0_3_0
+
+		use:
+			(variable) grid_ptr2__global_0_0
+			(input) freeze__global_0_0
+			(variable) blackColor__do_draw_0_0_0
+			(variable) numXGrayscale__do_draw_0_0_0
+			(variable) PIXEL_SIZE__do_draw_0_0_0
+			(variable) ncols__do_draw_0_0_0
+			(variable) RANGE__do_draw_0_0_0
+			(variable) threadNumber__do_draw_0_1_0
+			(variable) y1StartIndex__do_draw_0_1_0
+			(variable) y1EndIndex__do_draw_0_1_0
+			(variable) i__do_draw_0_1_0
+			(variable) x1__do_draw_0_2_0
+			(variable) j__do_draw_0_2_0
+			(variable) y1__do_draw_0_3_0
+			(variable) life__do_draw_0_3_0
+
+	Scope name: do_draw_1
+		def:
+			(variable) life_data_color_ptr2__global_0_0
+			(variable) life_data_x1_ptr2__global_0_0
+			(variable) life_data_y1_ptr2__global_0_0
+			(variable) i__do_draw_1_1_0
+			(variable) j__do_draw_1_2_0
+			(variable) life__do_draw_1_3_0
+
+		use:
+			(variable) grid_ptr3__global_0_0
+			(input) freeze__global_0_0
+			(variable) blackColor__do_draw_1_0_0
+			(variable) numXGrayscale__do_draw_1_0_0
+			(variable) PIXEL_SIZE__do_draw_1_0_0
+			(variable) ncols__do_draw_1_0_0
+			(variable) RANGE__do_draw_1_0_0
+			(variable) threadNumber__do_draw_1_1_0
+			(variable) y1StartIndex__do_draw_1_1_0
+			(variable) y1EndIndex__do_draw_1_1_0
+			(variable) i__do_draw_1_1_0
+			(variable) x1__do_draw_1_2_0
+			(variable) j__do_draw_1_2_0
+			(variable) y1__do_draw_1_3_0
+			(variable) life__do_draw_1_3_0
+
+	Scope name: do_draw_2
+		def:
+			(variable) life_data_color_ptr3__global_0_0
+			(variable) life_data_x1_ptr3__global_0_0
+			(variable) life_data_y1_ptr3__global_0_0
+			(variable) i__do_draw_2_1_0
+			(variable) j__do_draw_2_2_0
+			(variable) life__do_draw_2_3_0
+
+		use:
+			(variable) grid_ptr4__global_0_0
+			(input) freeze__global_0_0
+			(variable) blackColor__do_draw_2_0_0
+			(variable) numXGrayscale__do_draw_2_0_0
+			(variable) PIXEL_SIZE__do_draw_2_0_0
+			(variable) ncols__do_draw_2_0_0
+			(variable) RANGE__do_draw_2_0_0
+			(variable) threadNumber__do_draw_2_1_0
+			(variable) y1StartIndex__do_draw_2_1_0
+			(variable) y1EndIndex__do_draw_2_1_0
+			(variable) i__do_draw_2_1_0
+			(variable) x1__do_draw_2_2_0
+			(variable) j__do_draw_2_2_0
+			(variable) y1__do_draw_2_3_0
+			(variable) life__do_draw_2_3_0
+
+	Scope name: do_draw_3
+		def:
+			(variable) life_data_color_ptr4__global_0_0
+			(variable) life_data_x1_ptr4__global_0_0
+			(variable) life_data_y1_ptr4__global_0_0
+			(variable) i__do_draw_3_1_0
+			(variable) j__do_draw_3_2_0
+			(variable) life__do_draw_3_3_0
+
+		use:
+			(variable) grid_ptr5__global_0_0
+			(input) freeze__global_0_0
+			(variable) blackColor__do_draw_3_0_0
+			(variable) numXGrayscale__do_draw_3_0_0
+			(variable) PIXEL_SIZE__do_draw_3_0_0
+			(variable) ncols__do_draw_3_0_0
+			(variable) RANGE__do_draw_3_0_0
+			(variable) threadNumber__do_draw_3_1_0
+			(variable) y1StartIndex__do_draw_3_1_0
+			(variable) y1EndIndex__do_draw_3_1_0
+			(variable) i__do_draw_3_1_0
+			(variable) x1__do_draw_3_2_0
+			(variable) j__do_draw_3_2_0
+			(variable) y1__do_draw_3_3_0
+			(variable) life__do_draw_3_3_0
+
+	Scope name: do_step
+		def:
+			(variable) grid_ptr1__global_0_0
+			(variable) i__do_step_0_0
+			(variable) datum__do_step_1_0
+			(variable) datum__do_step_1_1
+			(variable) datum__do_step_0_0
+
+		use:
+			(variable) grid_ptr1__global_0_0
+			(thread) do_step_0__thread
+			(thread) do_step_1__thread
+			(thread) do_step_2__thread
+			(thread) do_step_3__thread
+			(variable) ncols__do_step_0_0
+			(variable) nrows__do_step_0_0
+			(variable) i__do_step_0_0
+			(variable) datum__do_step_1_0
+			(variable) datum__do_step_1_1
+			(variable) datum__do_step_0_0
+
+	Scope name: do_step_0
+		def:
+			(variable) next_grid_ptr2__global_0_0
+			(variable) i__do_step_0_1_0
+			(variable) j__do_step_0_2_0
+			(variable) k__do_step_0_3_0
+			(variable) l__do_step_0_4_0
+
+		use:
+			(input) freeze__global_0_0
+			(variable) RANGE__do_step_0_0_0
+			(variable) ncols__do_step_0_0_0
+			(variable) threadNumber__do_step_0_1_0
+			(variable) startIndex__do_step_0_1_0
+			(variable) endIndex__do_step_0_1_0
+			(variable) i__do_step_0_1_0
+			(variable) j__do_step_0_2_0
+			(variable) neighbors__do_step_0_3_0
+			(variable) k__do_step_0_3_0
+			(variable) l__do_step_0_4_0
+
+	Scope name: do_step_1
+		def:
+			(variable) next_grid_ptr3__global_0_0
+			(variable) i__do_step_1_1_0
+			(variable) j__do_step_1_2_0
+			(variable) k__do_step_1_3_0
+			(variable) l__do_step_1_4_0
+
+		use:
+			(input) freeze__global_0_0
+			(variable) RANGE__do_step_1_0_0
+			(variable) ncols__do_step_1_0_0
+			(variable) threadNumber__do_step_1_1_0
+			(variable) startIndex__do_step_1_1_0
+			(variable) endIndex__do_step_1_1_0
+			(variable) i__do_step_1_1_0
+			(variable) j__do_step_1_2_0
+			(variable) neighbors__do_step_1_3_0
+			(variable) k__do_step_1_3_0
+			(variable) l__do_step_1_4_0
+
+	Scope name: do_step_2
+		def:
+			(variable) next_grid_ptr4__global_0_0
+			(variable) i__do_step_2_1_0
+			(variable) j__do_step_2_2_0
+			(variable) k__do_step_2_3_0
+			(variable) l__do_step_2_4_0
+
+		use:
+			(input) freeze__global_0_0
+			(variable) RANGE__do_step_2_0_0
+			(variable) ncols__do_step_2_0_0
+			(variable) threadNumber__do_step_2_1_0
+			(variable) startIndex__do_step_2_1_0
+			(variable) endIndex__do_step_2_1_0
+			(variable) i__do_step_2_1_0
+			(variable) j__do_step_2_2_0
+			(variable) neighbors__do_step_2_3_0
+			(variable) k__do_step_2_3_0
+			(variable) l__do_step_2_4_0
+
+	Scope name: do_step_3
+		def:
+			(variable) next_grid_ptr5__global_0_0
+			(variable) i__do_step_3_1_0
+			(variable) j__do_step_3_2_0
+			(variable) k__do_step_3_3_0
+			(variable) l__do_step_3_4_0
+
+		use:
+			(input) freeze__global_0_0
+			(variable) RANGE__do_step_3_0_0
+			(variable) ncols__do_step_3_0_0
+			(variable) threadNumber__do_step_3_1_0
+			(variable) startIndex__do_step_3_1_0
+			(variable) endIndex__do_step_3_1_0
+			(variable) i__do_step_3_1_0
+			(variable) j__do_step_3_2_0
+			(variable) neighbors__do_step_3_3_0
+			(variable) k__do_step_3_3_0
+			(variable) l__do_step_3_4_0
+
+	Scope name: leftInt
+		use:
+			(variable) lhs__leftInt_0_0
+
+	Scope name: main
+		def:
+			(variable) rand_seed__global_0_0
+			(variable) j__main_1_0
+			(variable) grid__global_0_0
+			(input) freeze__global_0_0
+			(variable) done__global_0_0
+			(variable) i__main_0_0
+			(variable) i__main_2_1
+			(variable) j__main_3_0
+
+		use:
+			(variable) rand_seed__global_0_0
+			(variable) j__main_1_0
+			(variable) next_grid__global_0_0
+			(function) rand_float
+			(thread) do_draw__thread
+			(thread) do_step__thread
+			(input) freeze__global_0_0
+			(variable) done__global_0_0
+			(variable) MAX_GENERATIONS__main_0_0
+			(variable) ncols__main_0_0
+			(variable) nrows__main_0_0
+			(variable) i__main_0_0
+			(variable) value__main_2_0
+			(variable) generation__main_0_0
+			(variable) i__main_2_1
+			(variable) j__main_3_0
+			(variable) datum__main_4_0
+
+	Scope name: rand_float
+		use:
+			(variable) rand_seed__global_0_0
+
+
+Indirect use/def of symbols by parId:
+-------------------------------------
+	par0:
+		life_data_color_ptr1__global_0_0
+			def (skip): do_draw 
+
+		life_data_color_ptr2__global_0_0
+			def (skip): do_draw 
+
+		life_data_color_ptr3__global_0_0
+			def (skip): do_draw 
+
+		life_data_color_ptr4__global_0_0
+			def (skip): do_draw 
+
+		life_data_x1_ptr1__global_0_0
+			def (skip): do_draw 
+
+		life_data_x1_ptr2__global_0_0
+			def (skip): do_draw 
+
+		life_data_x1_ptr3__global_0_0
+			def (skip): do_draw 
+
+		life_data_x1_ptr4__global_0_0
+			def (skip): do_draw 
+
+		life_data_y1_ptr1__global_0_0
+			def (skip): do_draw 
+
+		life_data_y1_ptr2__global_0_0
+			def (skip): do_draw 
+
+		life_data_y1_ptr3__global_0_0
+			def (skip): do_draw 
+
+		life_data_y1_ptr4__global_0_0
+			def (skip): do_draw 
+
+		grid_ptr1__global_0_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		grid_ptr2__global_0_0
+			use (skip): do_draw 
+
+		grid_ptr3__global_0_0
+			use (skip): do_draw 
+
+		grid_ptr4__global_0_0
+			use (skip): do_draw 
+
+		grid_ptr5__global_0_0
+			use (skip): do_draw 
+
+		next_grid_ptr2__global_0_0
+			def (skip): do_step 
+
+		next_grid_ptr3__global_0_0
+			def (skip): do_step 
+
+		next_grid_ptr4__global_0_0
+			def (skip): do_step 
+
+		next_grid_ptr5__global_0_0
+			def (skip): do_step 
+
+		ncols__do_step_0_0
+			use (skip): do_step 
+
+		nrows__do_step_0_0
+			use (skip): do_step 
+
+		i__do_step_0_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		datum__do_step_1_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		datum__do_step_1_1
+			def (skip): do_step 
+			use (skip): do_step 
+
+		datum__do_step_0_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		RANGE__do_step_0_0_0
+			use (skip): do_step 
+
+		ncols__do_step_0_0_0
+			use (skip): do_step 
+
+		threadNumber__do_step_0_1_0
+			use (skip): do_step 
+
+		startIndex__do_step_0_1_0
+			use (skip): do_step 
+
+		endIndex__do_step_0_1_0
+			use (skip): do_step 
+
+		i__do_step_0_1_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		j__do_step_0_2_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		neighbors__do_step_0_3_0
+			use (skip): do_step 
+
+		k__do_step_0_3_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		l__do_step_0_4_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		RANGE__do_step_1_0_0
+			use (skip): do_step 
+
+		ncols__do_step_1_0_0
+			use (skip): do_step 
+
+		threadNumber__do_step_1_1_0
+			use (skip): do_step 
+
+		startIndex__do_step_1_1_0
+			use (skip): do_step 
+
+		endIndex__do_step_1_1_0
+			use (skip): do_step 
+
+		i__do_step_1_1_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		j__do_step_1_2_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		neighbors__do_step_1_3_0
+			use (skip): do_step 
+
+		k__do_step_1_3_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		l__do_step_1_4_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		RANGE__do_step_2_0_0
+			use (skip): do_step 
+
+		ncols__do_step_2_0_0
+			use (skip): do_step 
+
+		threadNumber__do_step_2_1_0
+			use (skip): do_step 
+
+		startIndex__do_step_2_1_0
+			use (skip): do_step 
+
+		endIndex__do_step_2_1_0
+			use (skip): do_step 
+
+		i__do_step_2_1_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		j__do_step_2_2_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		neighbors__do_step_2_3_0
+			use (skip): do_step 
+
+		k__do_step_2_3_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		l__do_step_2_4_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		RANGE__do_step_3_0_0
+			use (skip): do_step 
+
+		ncols__do_step_3_0_0
+			use (skip): do_step 
+
+		threadNumber__do_step_3_1_0
+			use (skip): do_step 
+
+		startIndex__do_step_3_1_0
+			use (skip): do_step 
+
+		endIndex__do_step_3_1_0
+			use (skip): do_step 
+
+		i__do_step_3_1_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		j__do_step_3_2_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		neighbors__do_step_3_3_0
+			use (skip): do_step 
+
+		k__do_step_3_3_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		l__do_step_3_4_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		blackColor__do_draw_0_0_0
+			use (skip): do_draw 
+
+		numXGrayscale__do_draw_0_0_0
+			use (skip): do_draw 
+
+		PIXEL_SIZE__do_draw_0_0_0
+			use (skip): do_draw 
+
+		ncols__do_draw_0_0_0
+			use (skip): do_draw 
+
+		RANGE__do_draw_0_0_0
+			use (skip): do_draw 
+
+		threadNumber__do_draw_0_1_0
+			use (skip): do_draw 
+
+		y1StartIndex__do_draw_0_1_0
+			use (skip): do_draw 
+
+		y1EndIndex__do_draw_0_1_0
+			use (skip): do_draw 
+
+		i__do_draw_0_1_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		x1__do_draw_0_2_0
+			use (skip): do_draw 
+
+		j__do_draw_0_2_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		y1__do_draw_0_3_0
+			use (skip): do_draw 
+
+		life__do_draw_0_3_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		blackColor__do_draw_1_0_0
+			use (skip): do_draw 
+
+		numXGrayscale__do_draw_1_0_0
+			use (skip): do_draw 
+
+		PIXEL_SIZE__do_draw_1_0_0
+			use (skip): do_draw 
+
+		ncols__do_draw_1_0_0
+			use (skip): do_draw 
+
+		RANGE__do_draw_1_0_0
+			use (skip): do_draw 
+
+		threadNumber__do_draw_1_1_0
+			use (skip): do_draw 
+
+		y1StartIndex__do_draw_1_1_0
+			use (skip): do_draw 
+
+		y1EndIndex__do_draw_1_1_0
+			use (skip): do_draw 
+
+		i__do_draw_1_1_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		x1__do_draw_1_2_0
+			use (skip): do_draw 
+
+		j__do_draw_1_2_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		y1__do_draw_1_3_0
+			use (skip): do_draw 
+
+		life__do_draw_1_3_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		blackColor__do_draw_2_0_0
+			use (skip): do_draw 
+
+		numXGrayscale__do_draw_2_0_0
+			use (skip): do_draw 
+
+		PIXEL_SIZE__do_draw_2_0_0
+			use (skip): do_draw 
+
+		ncols__do_draw_2_0_0
+			use (skip): do_draw 
+
+		RANGE__do_draw_2_0_0
+			use (skip): do_draw 
+
+		threadNumber__do_draw_2_1_0
+			use (skip): do_draw 
+
+		y1StartIndex__do_draw_2_1_0
+			use (skip): do_draw 
+
+		y1EndIndex__do_draw_2_1_0
+			use (skip): do_draw 
+
+		i__do_draw_2_1_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		x1__do_draw_2_2_0
+			use (skip): do_draw 
+
+		j__do_draw_2_2_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		y1__do_draw_2_3_0
+			use (skip): do_draw 
+
+		life__do_draw_2_3_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		blackColor__do_draw_3_0_0
+			use (skip): do_draw 
+
+		numXGrayscale__do_draw_3_0_0
+			use (skip): do_draw 
+
+		PIXEL_SIZE__do_draw_3_0_0
+			use (skip): do_draw 
+
+		ncols__do_draw_3_0_0
+			use (skip): do_draw 
+
+		RANGE__do_draw_3_0_0
+			use (skip): do_draw 
+
+		threadNumber__do_draw_3_1_0
+			use (skip): do_draw 
+
+		y1StartIndex__do_draw_3_1_0
+			use (skip): do_draw 
+
+		y1EndIndex__do_draw_3_1_0
+			use (skip): do_draw 
+
+		i__do_draw_3_1_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		x1__do_draw_3_2_0
+			use (skip): do_draw 
+
+		j__do_draw_3_2_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		y1__do_draw_3_3_0
+			use (skip): do_draw 
+
+		life__do_draw_3_3_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+	par1:
+		next_grid_ptr2__global_0_0
+			def (skip): do_step_0 
+
+		next_grid_ptr3__global_0_0
+			def (skip): do_step_1 
+
+		next_grid_ptr4__global_0_0
+			def (skip): do_step_2 
+
+		next_grid_ptr5__global_0_0
+			def (skip): do_step_3 
+
+		RANGE__do_step_0_0_0
+			use (skip): do_step_0 
+
+		ncols__do_step_0_0_0
+			use (skip): do_step_0 
+
+		threadNumber__do_step_0_1_0
+			use (skip): do_step_0 
+
+		startIndex__do_step_0_1_0
+			use (skip): do_step_0 
+
+		endIndex__do_step_0_1_0
+			use (skip): do_step_0 
+
+		i__do_step_0_1_0
+			def (skip): do_step_0 
+			use (skip): do_step_0 
+
+		j__do_step_0_2_0
+			def (skip): do_step_0 
+			use (skip): do_step_0 
+
+		neighbors__do_step_0_3_0
+			use (skip): do_step_0 
+
+		k__do_step_0_3_0
+			def (skip): do_step_0 
+			use (skip): do_step_0 
+
+		l__do_step_0_4_0
+			def (skip): do_step_0 
+			use (skip): do_step_0 
+
+		RANGE__do_step_1_0_0
+			use (skip): do_step_1 
+
+		ncols__do_step_1_0_0
+			use (skip): do_step_1 
+
+		threadNumber__do_step_1_1_0
+			use (skip): do_step_1 
+
+		startIndex__do_step_1_1_0
+			use (skip): do_step_1 
+
+		endIndex__do_step_1_1_0
+			use (skip): do_step_1 
+
+		i__do_step_1_1_0
+			def (skip): do_step_1 
+			use (skip): do_step_1 
+
+		j__do_step_1_2_0
+			def (skip): do_step_1 
+			use (skip): do_step_1 
+
+		neighbors__do_step_1_3_0
+			use (skip): do_step_1 
+
+		k__do_step_1_3_0
+			def (skip): do_step_1 
+			use (skip): do_step_1 
+
+		l__do_step_1_4_0
+			def (skip): do_step_1 
+			use (skip): do_step_1 
+
+		RANGE__do_step_2_0_0
+			use (skip): do_step_2 
+
+		ncols__do_step_2_0_0
+			use (skip): do_step_2 
+
+		threadNumber__do_step_2_1_0
+			use (skip): do_step_2 
+
+		startIndex__do_step_2_1_0
+			use (skip): do_step_2 
+
+		endIndex__do_step_2_1_0
+			use (skip): do_step_2 
+
+		i__do_step_2_1_0
+			def (skip): do_step_2 
+			use (skip): do_step_2 
+
+		j__do_step_2_2_0
+			def (skip): do_step_2 
+			use (skip): do_step_2 
+
+		neighbors__do_step_2_3_0
+			use (skip): do_step_2 
+
+		k__do_step_2_3_0
+			def (skip): do_step_2 
+			use (skip): do_step_2 
+
+		l__do_step_2_4_0
+			def (skip): do_step_2 
+			use (skip): do_step_2 
+
+		RANGE__do_step_3_0_0
+			use (skip): do_step_3 
+
+		ncols__do_step_3_0_0
+			use (skip): do_step_3 
+
+		threadNumber__do_step_3_1_0
+			use (skip): do_step_3 
+
+		startIndex__do_step_3_1_0
+			use (skip): do_step_3 
+
+		endIndex__do_step_3_1_0
+			use (skip): do_step_3 
+
+		i__do_step_3_1_0
+			def (skip): do_step_3 
+			use (skip): do_step_3 
+
+		j__do_step_3_2_0
+			def (skip): do_step_3 
+			use (skip): do_step_3 
+
+		neighbors__do_step_3_3_0
+			use (skip): do_step_3 
+
+		k__do_step_3_3_0
+			def (skip): do_step_3 
+			use (skip): do_step_3 
+
+		l__do_step_3_4_0
+			def (skip): do_step_3 
+			use (skip): do_step_3 
+
+	par2:
+		life_data_color_ptr1__global_0_0
+			def (skip): do_draw_0 
+
+		life_data_color_ptr2__global_0_0
+			def (skip): do_draw_1 
+
+		life_data_color_ptr3__global_0_0
+			def (skip): do_draw_2 
+
+		life_data_color_ptr4__global_0_0
+			def (skip): do_draw_3 
+
+		life_data_x1_ptr1__global_0_0
+			def (skip): do_draw_0 
+
+		life_data_x1_ptr2__global_0_0
+			def (skip): do_draw_1 
+
+		life_data_x1_ptr3__global_0_0
+			def (skip): do_draw_2 
+
+		life_data_x1_ptr4__global_0_0
+			def (skip): do_draw_3 
+
+		life_data_y1_ptr1__global_0_0
+			def (skip): do_draw_0 
+
+		life_data_y1_ptr2__global_0_0
+			def (skip): do_draw_1 
+
+		life_data_y1_ptr3__global_0_0
+			def (skip): do_draw_2 
+
+		life_data_y1_ptr4__global_0_0
+			def (skip): do_draw_3 
+
+		grid_ptr2__global_0_0
+			use (skip): do_draw_0 
+
+		grid_ptr3__global_0_0
+			use (skip): do_draw_1 
+
+		grid_ptr4__global_0_0
+			use (skip): do_draw_2 
+
+		grid_ptr5__global_0_0
+			use (skip): do_draw_3 
+
+		blackColor__do_draw_0_0_0
+			use (skip): do_draw_0 
+
+		numXGrayscale__do_draw_0_0_0
+			use (skip): do_draw_0 
+
+		PIXEL_SIZE__do_draw_0_0_0
+			use (skip): do_draw_0 
+
+		ncols__do_draw_0_0_0
+			use (skip): do_draw_0 
+
+		RANGE__do_draw_0_0_0
+			use (skip): do_draw_0 
+
+		threadNumber__do_draw_0_1_0
+			use (skip): do_draw_0 
+
+		y1StartIndex__do_draw_0_1_0
+			use (skip): do_draw_0 
+
+		y1EndIndex__do_draw_0_1_0
+			use (skip): do_draw_0 
+
+		i__do_draw_0_1_0
+			def (skip): do_draw_0 
+			use (skip): do_draw_0 
+
+		x1__do_draw_0_2_0
+			use (skip): do_draw_0 
+
+		j__do_draw_0_2_0
+			def (skip): do_draw_0 
+			use (skip): do_draw_0 
+
+		y1__do_draw_0_3_0
+			use (skip): do_draw_0 
+
+		life__do_draw_0_3_0
+			def (skip): do_draw_0 
+			use (skip): do_draw_0 
+
+		blackColor__do_draw_1_0_0
+			use (skip): do_draw_1 
+
+		numXGrayscale__do_draw_1_0_0
+			use (skip): do_draw_1 
+
+		PIXEL_SIZE__do_draw_1_0_0
+			use (skip): do_draw_1 
+
+		ncols__do_draw_1_0_0
+			use (skip): do_draw_1 
+
+		RANGE__do_draw_1_0_0
+			use (skip): do_draw_1 
+
+		threadNumber__do_draw_1_1_0
+			use (skip): do_draw_1 
+
+		y1StartIndex__do_draw_1_1_0
+			use (skip): do_draw_1 
+
+		y1EndIndex__do_draw_1_1_0
+			use (skip): do_draw_1 
+
+		i__do_draw_1_1_0
+			def (skip): do_draw_1 
+			use (skip): do_draw_1 
+
+		x1__do_draw_1_2_0
+			use (skip): do_draw_1 
+
+		j__do_draw_1_2_0
+			def (skip): do_draw_1 
+			use (skip): do_draw_1 
+
+		y1__do_draw_1_3_0
+			use (skip): do_draw_1 
+
+		life__do_draw_1_3_0
+			def (skip): do_draw_1 
+			use (skip): do_draw_1 
+
+		blackColor__do_draw_2_0_0
+			use (skip): do_draw_2 
+
+		numXGrayscale__do_draw_2_0_0
+			use (skip): do_draw_2 
+
+		PIXEL_SIZE__do_draw_2_0_0
+			use (skip): do_draw_2 
+
+		ncols__do_draw_2_0_0
+			use (skip): do_draw_2 
+
+		RANGE__do_draw_2_0_0
+			use (skip): do_draw_2 
+
+		threadNumber__do_draw_2_1_0
+			use (skip): do_draw_2 
+
+		y1StartIndex__do_draw_2_1_0
+			use (skip): do_draw_2 
+
+		y1EndIndex__do_draw_2_1_0
+			use (skip): do_draw_2 
+
+		i__do_draw_2_1_0
+			def (skip): do_draw_2 
+			use (skip): do_draw_2 
+
+		x1__do_draw_2_2_0
+			use (skip): do_draw_2 
+
+		j__do_draw_2_2_0
+			def (skip): do_draw_2 
+			use (skip): do_draw_2 
+
+		y1__do_draw_2_3_0
+			use (skip): do_draw_2 
+
+		life__do_draw_2_3_0
+			def (skip): do_draw_2 
+			use (skip): do_draw_2 
+
+		blackColor__do_draw_3_0_0
+			use (skip): do_draw_3 
+
+		numXGrayscale__do_draw_3_0_0
+			use (skip): do_draw_3 
+
+		PIXEL_SIZE__do_draw_3_0_0
+			use (skip): do_draw_3 
+
+		ncols__do_draw_3_0_0
+			use (skip): do_draw_3 
+
+		RANGE__do_draw_3_0_0
+			use (skip): do_draw_3 
+
+		threadNumber__do_draw_3_1_0
+			use (skip): do_draw_3 
+
+		y1StartIndex__do_draw_3_1_0
+			use (skip): do_draw_3 
+
+		y1EndIndex__do_draw_3_1_0
+			use (skip): do_draw_3 
+
+		i__do_draw_3_1_0
+			def (skip): do_draw_3 
+			use (skip): do_draw_3 
+
+		x1__do_draw_3_2_0
+			use (skip): do_draw_3 
+
+		j__do_draw_3_2_0
+			def (skip): do_draw_3 
+			use (skip): do_draw_3 
+
+		y1__do_draw_3_3_0
+			use (skip): do_draw_3 
+
+		life__do_draw_3_3_0
+			def (skip): do_draw_3 
+			use (skip): do_draw_3 
+
+
+Indirect use/def of symbols by threadId:
+----------------------------------------
+	do_draw:
+		life_data_color_ptr1__global_0_0
+			def (skip): do_draw 
+
+		life_data_color_ptr2__global_0_0
+			def (skip): do_draw 
+
+		life_data_color_ptr3__global_0_0
+			def (skip): do_draw 
+
+		life_data_color_ptr4__global_0_0
+			def (skip): do_draw 
+
+		life_data_x1_ptr1__global_0_0
+			def (skip): do_draw 
+
+		life_data_x1_ptr2__global_0_0
+			def (skip): do_draw 
+
+		life_data_x1_ptr3__global_0_0
+			def (skip): do_draw 
+
+		life_data_x1_ptr4__global_0_0
+			def (skip): do_draw 
+
+		life_data_y1_ptr1__global_0_0
+			def (skip): do_draw 
+
+		life_data_y1_ptr2__global_0_0
+			def (skip): do_draw 
+
+		life_data_y1_ptr3__global_0_0
+			def (skip): do_draw 
+
+		life_data_y1_ptr4__global_0_0
+			def (skip): do_draw 
+
+		grid_ptr2__global_0_0
+			use (skip): do_draw 
+
+		grid_ptr3__global_0_0
+			use (skip): do_draw 
+
+		grid_ptr4__global_0_0
+			use (skip): do_draw 
+
+		grid_ptr5__global_0_0
+			use (skip): do_draw 
+
+		blackColor__do_draw_0_0_0
+			use (skip): do_draw 
+
+		numXGrayscale__do_draw_0_0_0
+			use (skip): do_draw 
+
+		PIXEL_SIZE__do_draw_0_0_0
+			use (skip): do_draw 
+
+		ncols__do_draw_0_0_0
+			use (skip): do_draw 
+
+		RANGE__do_draw_0_0_0
+			use (skip): do_draw 
+
+		threadNumber__do_draw_0_1_0
+			use (skip): do_draw 
+
+		y1StartIndex__do_draw_0_1_0
+			use (skip): do_draw 
+
+		y1EndIndex__do_draw_0_1_0
+			use (skip): do_draw 
+
+		i__do_draw_0_1_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		x1__do_draw_0_2_0
+			use (skip): do_draw 
+
+		j__do_draw_0_2_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		y1__do_draw_0_3_0
+			use (skip): do_draw 
+
+		life__do_draw_0_3_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		blackColor__do_draw_1_0_0
+			use (skip): do_draw 
+
+		numXGrayscale__do_draw_1_0_0
+			use (skip): do_draw 
+
+		PIXEL_SIZE__do_draw_1_0_0
+			use (skip): do_draw 
+
+		ncols__do_draw_1_0_0
+			use (skip): do_draw 
+
+		RANGE__do_draw_1_0_0
+			use (skip): do_draw 
+
+		threadNumber__do_draw_1_1_0
+			use (skip): do_draw 
+
+		y1StartIndex__do_draw_1_1_0
+			use (skip): do_draw 
+
+		y1EndIndex__do_draw_1_1_0
+			use (skip): do_draw 
+
+		i__do_draw_1_1_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		x1__do_draw_1_2_0
+			use (skip): do_draw 
+
+		j__do_draw_1_2_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		y1__do_draw_1_3_0
+			use (skip): do_draw 
+
+		life__do_draw_1_3_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		blackColor__do_draw_2_0_0
+			use (skip): do_draw 
+
+		numXGrayscale__do_draw_2_0_0
+			use (skip): do_draw 
+
+		PIXEL_SIZE__do_draw_2_0_0
+			use (skip): do_draw 
+
+		ncols__do_draw_2_0_0
+			use (skip): do_draw 
+
+		RANGE__do_draw_2_0_0
+			use (skip): do_draw 
+
+		threadNumber__do_draw_2_1_0
+			use (skip): do_draw 
+
+		y1StartIndex__do_draw_2_1_0
+			use (skip): do_draw 
+
+		y1EndIndex__do_draw_2_1_0
+			use (skip): do_draw 
+
+		i__do_draw_2_1_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		x1__do_draw_2_2_0
+			use (skip): do_draw 
+
+		j__do_draw_2_2_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		y1__do_draw_2_3_0
+			use (skip): do_draw 
+
+		life__do_draw_2_3_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		blackColor__do_draw_3_0_0
+			use (skip): do_draw 
+
+		numXGrayscale__do_draw_3_0_0
+			use (skip): do_draw 
+
+		PIXEL_SIZE__do_draw_3_0_0
+			use (skip): do_draw 
+
+		ncols__do_draw_3_0_0
+			use (skip): do_draw 
+
+		RANGE__do_draw_3_0_0
+			use (skip): do_draw 
+
+		threadNumber__do_draw_3_1_0
+			use (skip): do_draw 
+
+		y1StartIndex__do_draw_3_1_0
+			use (skip): do_draw 
+
+		y1EndIndex__do_draw_3_1_0
+			use (skip): do_draw 
+
+		i__do_draw_3_1_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		x1__do_draw_3_2_0
+			use (skip): do_draw 
+
+		j__do_draw_3_2_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+		y1__do_draw_3_3_0
+			use (skip): do_draw 
+
+		life__do_draw_3_3_0
+			def (skip): do_draw 
+			use (skip): do_draw 
+
+	do_draw_0:
+		life_data_color_ptr1__global_0_0
+			def (skip): do_draw_0 
+
+		life_data_x1_ptr1__global_0_0
+			def (skip): do_draw_0 
+
+		life_data_y1_ptr1__global_0_0
+			def (skip): do_draw_0 
+
+		grid_ptr2__global_0_0
+			use (skip): do_draw_0 
+
+		blackColor__do_draw_0_0_0
+			use (skip): do_draw_0 
+
+		numXGrayscale__do_draw_0_0_0
+			use (skip): do_draw_0 
+
+		PIXEL_SIZE__do_draw_0_0_0
+			use (skip): do_draw_0 
+
+		ncols__do_draw_0_0_0
+			use (skip): do_draw_0 
+
+		RANGE__do_draw_0_0_0
+			use (skip): do_draw_0 
+
+		threadNumber__do_draw_0_1_0
+			use (skip): do_draw_0 
+
+		y1StartIndex__do_draw_0_1_0
+			use (skip): do_draw_0 
+
+		y1EndIndex__do_draw_0_1_0
+			use (skip): do_draw_0 
+
+		i__do_draw_0_1_0
+			def (skip): do_draw_0 
+			use (skip): do_draw_0 
+
+		x1__do_draw_0_2_0
+			use (skip): do_draw_0 
+
+		j__do_draw_0_2_0
+			def (skip): do_draw_0 
+			use (skip): do_draw_0 
+
+		y1__do_draw_0_3_0
+			use (skip): do_draw_0 
+
+		life__do_draw_0_3_0
+			def (skip): do_draw_0 
+			use (skip): do_draw_0 
+
+	do_draw_1:
+		life_data_color_ptr2__global_0_0
+			def (skip): do_draw_1 
+
+		life_data_x1_ptr2__global_0_0
+			def (skip): do_draw_1 
+
+		life_data_y1_ptr2__global_0_0
+			def (skip): do_draw_1 
+
+		grid_ptr3__global_0_0
+			use (skip): do_draw_1 
+
+		blackColor__do_draw_1_0_0
+			use (skip): do_draw_1 
+
+		numXGrayscale__do_draw_1_0_0
+			use (skip): do_draw_1 
+
+		PIXEL_SIZE__do_draw_1_0_0
+			use (skip): do_draw_1 
+
+		ncols__do_draw_1_0_0
+			use (skip): do_draw_1 
+
+		RANGE__do_draw_1_0_0
+			use (skip): do_draw_1 
+
+		threadNumber__do_draw_1_1_0
+			use (skip): do_draw_1 
+
+		y1StartIndex__do_draw_1_1_0
+			use (skip): do_draw_1 
+
+		y1EndIndex__do_draw_1_1_0
+			use (skip): do_draw_1 
+
+		i__do_draw_1_1_0
+			def (skip): do_draw_1 
+			use (skip): do_draw_1 
+
+		x1__do_draw_1_2_0
+			use (skip): do_draw_1 
+
+		j__do_draw_1_2_0
+			def (skip): do_draw_1 
+			use (skip): do_draw_1 
+
+		y1__do_draw_1_3_0
+			use (skip): do_draw_1 
+
+		life__do_draw_1_3_0
+			def (skip): do_draw_1 
+			use (skip): do_draw_1 
+
+	do_draw_2:
+		life_data_color_ptr3__global_0_0
+			def (skip): do_draw_2 
+
+		life_data_x1_ptr3__global_0_0
+			def (skip): do_draw_2 
+
+		life_data_y1_ptr3__global_0_0
+			def (skip): do_draw_2 
+
+		grid_ptr4__global_0_0
+			use (skip): do_draw_2 
+
+		blackColor__do_draw_2_0_0
+			use (skip): do_draw_2 
+
+		numXGrayscale__do_draw_2_0_0
+			use (skip): do_draw_2 
+
+		PIXEL_SIZE__do_draw_2_0_0
+			use (skip): do_draw_2 
+
+		ncols__do_draw_2_0_0
+			use (skip): do_draw_2 
+
+		RANGE__do_draw_2_0_0
+			use (skip): do_draw_2 
+
+		threadNumber__do_draw_2_1_0
+			use (skip): do_draw_2 
+
+		y1StartIndex__do_draw_2_1_0
+			use (skip): do_draw_2 
+
+		y1EndIndex__do_draw_2_1_0
+			use (skip): do_draw_2 
+
+		i__do_draw_2_1_0
+			def (skip): do_draw_2 
+			use (skip): do_draw_2 
+
+		x1__do_draw_2_2_0
+			use (skip): do_draw_2 
+
+		j__do_draw_2_2_0
+			def (skip): do_draw_2 
+			use (skip): do_draw_2 
+
+		y1__do_draw_2_3_0
+			use (skip): do_draw_2 
+
+		life__do_draw_2_3_0
+			def (skip): do_draw_2 
+			use (skip): do_draw_2 
+
+	do_draw_3:
+		life_data_color_ptr4__global_0_0
+			def (skip): do_draw_3 
+
+		life_data_x1_ptr4__global_0_0
+			def (skip): do_draw_3 
+
+		life_data_y1_ptr4__global_0_0
+			def (skip): do_draw_3 
+
+		grid_ptr5__global_0_0
+			use (skip): do_draw_3 
+
+		blackColor__do_draw_3_0_0
+			use (skip): do_draw_3 
+
+		numXGrayscale__do_draw_3_0_0
+			use (skip): do_draw_3 
+
+		PIXEL_SIZE__do_draw_3_0_0
+			use (skip): do_draw_3 
+
+		ncols__do_draw_3_0_0
+			use (skip): do_draw_3 
+
+		RANGE__do_draw_3_0_0
+			use (skip): do_draw_3 
+
+		threadNumber__do_draw_3_1_0
+			use (skip): do_draw_3 
+
+		y1StartIndex__do_draw_3_1_0
+			use (skip): do_draw_3 
+
+		y1EndIndex__do_draw_3_1_0
+			use (skip): do_draw_3 
+
+		i__do_draw_3_1_0
+			def (skip): do_draw_3 
+			use (skip): do_draw_3 
+
+		x1__do_draw_3_2_0
+			use (skip): do_draw_3 
+
+		j__do_draw_3_2_0
+			def (skip): do_draw_3 
+			use (skip): do_draw_3 
+
+		y1__do_draw_3_3_0
+			use (skip): do_draw_3 
+
+		life__do_draw_3_3_0
+			def (skip): do_draw_3 
+			use (skip): do_draw_3 
+
+	do_step:
+		grid_ptr1__global_0_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		next_grid_ptr2__global_0_0
+			def (skip): do_step 
+
+		next_grid_ptr3__global_0_0
+			def (skip): do_step 
+
+		next_grid_ptr4__global_0_0
+			def (skip): do_step 
+
+		next_grid_ptr5__global_0_0
+			def (skip): do_step 
+
+		ncols__do_step_0_0
+			use (skip): do_step 
+
+		nrows__do_step_0_0
+			use (skip): do_step 
+
+		i__do_step_0_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		datum__do_step_1_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		datum__do_step_1_1
+			def (skip): do_step 
+			use (skip): do_step 
+
+		datum__do_step_0_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		RANGE__do_step_0_0_0
+			use (skip): do_step 
+
+		ncols__do_step_0_0_0
+			use (skip): do_step 
+
+		threadNumber__do_step_0_1_0
+			use (skip): do_step 
+
+		startIndex__do_step_0_1_0
+			use (skip): do_step 
+
+		endIndex__do_step_0_1_0
+			use (skip): do_step 
+
+		i__do_step_0_1_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		j__do_step_0_2_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		neighbors__do_step_0_3_0
+			use (skip): do_step 
+
+		k__do_step_0_3_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		l__do_step_0_4_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		RANGE__do_step_1_0_0
+			use (skip): do_step 
+
+		ncols__do_step_1_0_0
+			use (skip): do_step 
+
+		threadNumber__do_step_1_1_0
+			use (skip): do_step 
+
+		startIndex__do_step_1_1_0
+			use (skip): do_step 
+
+		endIndex__do_step_1_1_0
+			use (skip): do_step 
+
+		i__do_step_1_1_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		j__do_step_1_2_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		neighbors__do_step_1_3_0
+			use (skip): do_step 
+
+		k__do_step_1_3_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		l__do_step_1_4_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		RANGE__do_step_2_0_0
+			use (skip): do_step 
+
+		ncols__do_step_2_0_0
+			use (skip): do_step 
+
+		threadNumber__do_step_2_1_0
+			use (skip): do_step 
+
+		startIndex__do_step_2_1_0
+			use (skip): do_step 
+
+		endIndex__do_step_2_1_0
+			use (skip): do_step 
+
+		i__do_step_2_1_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		j__do_step_2_2_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		neighbors__do_step_2_3_0
+			use (skip): do_step 
+
+		k__do_step_2_3_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		l__do_step_2_4_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		RANGE__do_step_3_0_0
+			use (skip): do_step 
+
+		ncols__do_step_3_0_0
+			use (skip): do_step 
+
+		threadNumber__do_step_3_1_0
+			use (skip): do_step 
+
+		startIndex__do_step_3_1_0
+			use (skip): do_step 
+
+		endIndex__do_step_3_1_0
+			use (skip): do_step 
+
+		i__do_step_3_1_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		j__do_step_3_2_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		neighbors__do_step_3_3_0
+			use (skip): do_step 
+
+		k__do_step_3_3_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+		l__do_step_3_4_0
+			def (skip): do_step 
+			use (skip): do_step 
+
+	do_step_0:
+		next_grid_ptr2__global_0_0
+			def (skip): do_step_0 
+
+		RANGE__do_step_0_0_0
+			use (skip): do_step_0 
+
+		ncols__do_step_0_0_0
+			use (skip): do_step_0 
+
+		threadNumber__do_step_0_1_0
+			use (skip): do_step_0 
+
+		startIndex__do_step_0_1_0
+			use (skip): do_step_0 
+
+		endIndex__do_step_0_1_0
+			use (skip): do_step_0 
+
+		i__do_step_0_1_0
+			def (skip): do_step_0 
+			use (skip): do_step_0 
+
+		j__do_step_0_2_0
+			def (skip): do_step_0 
+			use (skip): do_step_0 
+
+		neighbors__do_step_0_3_0
+			use (skip): do_step_0 
+
+		k__do_step_0_3_0
+			def (skip): do_step_0 
+			use (skip): do_step_0 
+
+		l__do_step_0_4_0
+			def (skip): do_step_0 
+			use (skip): do_step_0 
+
+	do_step_1:
+		next_grid_ptr3__global_0_0
+			def (skip): do_step_1 
+
+		RANGE__do_step_1_0_0
+			use (skip): do_step_1 
+
+		ncols__do_step_1_0_0
+			use (skip): do_step_1 
+
+		threadNumber__do_step_1_1_0
+			use (skip): do_step_1 
+
+		startIndex__do_step_1_1_0
+			use (skip): do_step_1 
+
+		endIndex__do_step_1_1_0
+			use (skip): do_step_1 
+
+		i__do_step_1_1_0
+			def (skip): do_step_1 
+			use (skip): do_step_1 
+
+		j__do_step_1_2_0
+			def (skip): do_step_1 
+			use (skip): do_step_1 
+
+		neighbors__do_step_1_3_0
+			use (skip): do_step_1 
+
+		k__do_step_1_3_0
+			def (skip): do_step_1 
+			use (skip): do_step_1 
+
+		l__do_step_1_4_0
+			def (skip): do_step_1 
+			use (skip): do_step_1 
+
+	do_step_2:
+		next_grid_ptr4__global_0_0
+			def (skip): do_step_2 
+
+		RANGE__do_step_2_0_0
+			use (skip): do_step_2 
+
+		ncols__do_step_2_0_0
+			use (skip): do_step_2 
+
+		threadNumber__do_step_2_1_0
+			use (skip): do_step_2 
+
+		startIndex__do_step_2_1_0
+			use (skip): do_step_2 
+
+		endIndex__do_step_2_1_0
+			use (skip): do_step_2 
+
+		i__do_step_2_1_0
+			def (skip): do_step_2 
+			use (skip): do_step_2 
+
+		j__do_step_2_2_0
+			def (skip): do_step_2 
+			use (skip): do_step_2 
+
+		neighbors__do_step_2_3_0
+			use (skip): do_step_2 
+
+		k__do_step_2_3_0
+			def (skip): do_step_2 
+			use (skip): do_step_2 
+
+		l__do_step_2_4_0
+			def (skip): do_step_2 
+			use (skip): do_step_2 
+
+	do_step_3:
+		next_grid_ptr5__global_0_0
+			def (skip): do_step_3 
+
+		RANGE__do_step_3_0_0
+			use (skip): do_step_3 
+
+		ncols__do_step_3_0_0
+			use (skip): do_step_3 
+
+		threadNumber__do_step_3_1_0
+			use (skip): do_step_3 
+
+		startIndex__do_step_3_1_0
+			use (skip): do_step_3 
+
+		endIndex__do_step_3_1_0
+			use (skip): do_step_3 
+
+		i__do_step_3_1_0
+			def (skip): do_step_3 
+			use (skip): do_step_3 
+
+		j__do_step_3_2_0
+			def (skip): do_step_3 
+			use (skip): do_step_3 
+
+		neighbors__do_step_3_3_0
+			use (skip): do_step_3 
+
+		k__do_step_3_3_0
+			def (skip): do_step_3 
+			use (skip): do_step_3 
+
+		l__do_step_3_4_0
+			def (skip): do_step_3 
+			use (skip): do_step_3 
+
+	main:
+		life_data_color_ptr1__global_0_0
+			def (skip): main 
+
+		life_data_color_ptr2__global_0_0
+			def (skip): main 
+
+		life_data_color_ptr3__global_0_0
+			def (skip): main 
+
+		life_data_color_ptr4__global_0_0
+			def (skip): main 
+
+		life_data_x1_ptr1__global_0_0
+			def (skip): main 
+
+		life_data_x1_ptr2__global_0_0
+			def (skip): main 
+
+		life_data_x1_ptr3__global_0_0
+			def (skip): main 
+
+		life_data_x1_ptr4__global_0_0
+			def (skip): main 
+
+		life_data_y1_ptr1__global_0_0
+			def (skip): main 
+
+		life_data_y1_ptr2__global_0_0
+			def (skip): main 
+
+		life_data_y1_ptr3__global_0_0
+			def (skip): main 
+
+		life_data_y1_ptr4__global_0_0
+			def (skip): main 
+
+		grid_ptr1__global_0_0
+			def (skip): main 
+			use (skip): main 
+
+		grid_ptr2__global_0_0
+			use (skip): main 
+
+		grid_ptr3__global_0_0
+			use (skip): main 
+
+		grid_ptr4__global_0_0
+			use (skip): main 
+
+		grid_ptr5__global_0_0
+			use (skip): main 
+
+		next_grid_ptr2__global_0_0
+			def (skip): main 
+
+		next_grid_ptr3__global_0_0
+			def (skip): main 
+
+		next_grid_ptr4__global_0_0
+			def (skip): main 
+
+		next_grid_ptr5__global_0_0
+			def (skip): main 
+
+		ncols__do_step_0_0
+			use (skip): main 
+
+		nrows__do_step_0_0
+			use (skip): main 
+
+		i__do_step_0_0
+			def (skip): main 
+			use (skip): main 
+
+		datum__do_step_1_0
+			def (skip): main 
+			use (skip): main 
+
+		datum__do_step_1_1
+			def (skip): main 
+			use (skip): main 
+
+		datum__do_step_0_0
+			def (skip): main 
+			use (skip): main 
+
+		RANGE__do_step_0_0_0
+			use (skip): main 
+
+		ncols__do_step_0_0_0
+			use (skip): main 
+
+		threadNumber__do_step_0_1_0
+			use (skip): main 
+
+		startIndex__do_step_0_1_0
+			use (skip): main 
+
+		endIndex__do_step_0_1_0
+			use (skip): main 
+
+		i__do_step_0_1_0
+			def (skip): main 
+			use (skip): main 
+
+		j__do_step_0_2_0
+			def (skip): main 
+			use (skip): main 
+
+		neighbors__do_step_0_3_0
+			use (skip): main 
+
+		k__do_step_0_3_0
+			def (skip): main 
+			use (skip): main 
+
+		l__do_step_0_4_0
+			def (skip): main 
+			use (skip): main 
+
+		RANGE__do_step_1_0_0
+			use (skip): main 
+
+		ncols__do_step_1_0_0
+			use (skip): main 
+
+		threadNumber__do_step_1_1_0
+			use (skip): main 
+
+		startIndex__do_step_1_1_0
+			use (skip): main 
+
+		endIndex__do_step_1_1_0
+			use (skip): main 
+
+		i__do_step_1_1_0
+			def (skip): main 
+			use (skip): main 
+
+		j__do_step_1_2_0
+			def (skip): main 
+			use (skip): main 
+
+		neighbors__do_step_1_3_0
+			use (skip): main 
+
+		k__do_step_1_3_0
+			def (skip): main 
+			use (skip): main 
+
+		l__do_step_1_4_0
+			def (skip): main 
+			use (skip): main 
+
+		RANGE__do_step_2_0_0
+			use (skip): main 
+
+		ncols__do_step_2_0_0
+			use (skip): main 
+
+		threadNumber__do_step_2_1_0
+			use (skip): main 
+
+		startIndex__do_step_2_1_0
+			use (skip): main 
+
+		endIndex__do_step_2_1_0
+			use (skip): main 
+
+		i__do_step_2_1_0
+			def (skip): main 
+			use (skip): main 
+
+		j__do_step_2_2_0
+			def (skip): main 
+			use (skip): main 
+
+		neighbors__do_step_2_3_0
+			use (skip): main 
+
+		k__do_step_2_3_0
+			def (skip): main 
+			use (skip): main 
+
+		l__do_step_2_4_0
+			def (skip): main 
+			use (skip): main 
+
+		RANGE__do_step_3_0_0
+			use (skip): main 
+
+		ncols__do_step_3_0_0
+			use (skip): main 
+
+		threadNumber__do_step_3_1_0
+			use (skip): main 
+
+		startIndex__do_step_3_1_0
+			use (skip): main 
+
+		endIndex__do_step_3_1_0
+			use (skip): main 
+
+		i__do_step_3_1_0
+			def (skip): main 
+			use (skip): main 
+
+		j__do_step_3_2_0
+			def (skip): main 
+			use (skip): main 
+
+		neighbors__do_step_3_3_0
+			use (skip): main 
+
+		k__do_step_3_3_0
+			def (skip): main 
+			use (skip): main 
+
+		l__do_step_3_4_0
+			def (skip): main 
+			use (skip): main 
+
+		blackColor__do_draw_0_0_0
+			use (skip): main 
+
+		numXGrayscale__do_draw_0_0_0
+			use (skip): main 
+
+		PIXEL_SIZE__do_draw_0_0_0
+			use (skip): main 
+
+		ncols__do_draw_0_0_0
+			use (skip): main 
+
+		RANGE__do_draw_0_0_0
+			use (skip): main 
+
+		threadNumber__do_draw_0_1_0
+			use (skip): main 
+
+		y1StartIndex__do_draw_0_1_0
+			use (skip): main 
+
+		y1EndIndex__do_draw_0_1_0
+			use (skip): main 
+
+		i__do_draw_0_1_0
+			def (skip): main 
+			use (skip): main 
+
+		x1__do_draw_0_2_0
+			use (skip): main 
+
+		j__do_draw_0_2_0
+			def (skip): main 
+			use (skip): main 
+
+		y1__do_draw_0_3_0
+			use (skip): main 
+
+		life__do_draw_0_3_0
+			def (skip): main 
+			use (skip): main 
+
+		blackColor__do_draw_1_0_0
+			use (skip): main 
+
+		numXGrayscale__do_draw_1_0_0
+			use (skip): main 
+
+		PIXEL_SIZE__do_draw_1_0_0
+			use (skip): main 
+
+		ncols__do_draw_1_0_0
+			use (skip): main 
+
+		RANGE__do_draw_1_0_0
+			use (skip): main 
+
+		threadNumber__do_draw_1_1_0
+			use (skip): main 
+
+		y1StartIndex__do_draw_1_1_0
+			use (skip): main 
+
+		y1EndIndex__do_draw_1_1_0
+			use (skip): main 
+
+		i__do_draw_1_1_0
+			def (skip): main 
+			use (skip): main 
+
+		x1__do_draw_1_2_0
+			use (skip): main 
+
+		j__do_draw_1_2_0
+			def (skip): main 
+			use (skip): main 
+
+		y1__do_draw_1_3_0
+			use (skip): main 
+
+		life__do_draw_1_3_0
+			def (skip): main 
+			use (skip): main 
+
+		blackColor__do_draw_2_0_0
+			use (skip): main 
+
+		numXGrayscale__do_draw_2_0_0
+			use (skip): main 
+
+		PIXEL_SIZE__do_draw_2_0_0
+			use (skip): main 
+
+		ncols__do_draw_2_0_0
+			use (skip): main 
+
+		RANGE__do_draw_2_0_0
+			use (skip): main 
+
+		threadNumber__do_draw_2_1_0
+			use (skip): main 
+
+		y1StartIndex__do_draw_2_1_0
+			use (skip): main 
+
+		y1EndIndex__do_draw_2_1_0
+			use (skip): main 
+
+		i__do_draw_2_1_0
+			def (skip): main 
+			use (skip): main 
+
+		x1__do_draw_2_2_0
+			use (skip): main 
+
+		j__do_draw_2_2_0
+			def (skip): main 
+			use (skip): main 
+
+		y1__do_draw_2_3_0
+			use (skip): main 
+
+		life__do_draw_2_3_0
+			def (skip): main 
+			use (skip): main 
+
+		blackColor__do_draw_3_0_0
+			use (skip): main 
+
+		numXGrayscale__do_draw_3_0_0
+			use (skip): main 
+
+		PIXEL_SIZE__do_draw_3_0_0
+			use (skip): main 
+
+		ncols__do_draw_3_0_0
+			use (skip): main 
+
+		RANGE__do_draw_3_0_0
+			use (skip): main 
+
+		threadNumber__do_draw_3_1_0
+			use (skip): main 
+
+		y1StartIndex__do_draw_3_1_0
+			use (skip): main 
+
+		y1EndIndex__do_draw_3_1_0
+			use (skip): main 
+
+		i__do_draw_3_1_0
+			def (skip): main 
+			use (skip): main 
+
+		x1__do_draw_3_2_0
+			use (skip): main 
+
+		j__do_draw_3_2_0
+			def (skip): main 
+			use (skip): main 
+
+		y1__do_draw_3_3_0
+			use (skip): main 
+
+		life__do_draw_3_3_0
+			def (skip): main 
+			use (skip): main 
+
+
+Functions used for combining shared variables:
+----------------------------------------------
+
+============================
+tools::Threading::toString()
+============================
+Threads declared:
+-----------------
+	* do_draw__thread
+	* do_draw_0__thread
+	* do_draw_1__thread
+	* do_draw_2__thread
+	* do_draw_3__thread
+	* do_step__thread
+	* do_step_0__thread
+	* do_step_1__thread
+	* do_step_2__thread
+	* do_step_3__thread
+	* main__thread
+
+Threads unused:
+---------------
+
+par(...) statements:
+--------------------
+	Thread scope: do_draw
+		par2:
+		* do_draw_0__thread
+		* do_draw_1__thread
+		* do_draw_2__thread
+		* do_draw_3__thread
+
+	Thread scope: do_step
+		par1:
+		* do_step_0__thread
+		* do_step_1__thread
+		* do_step_2__thread
+		* do_step_3__thread
+
+	Thread scope: main
+		par0:
+		* do_step__thread
+		* do_draw__thread
+
+========================
+tools::Abort::toString()
+========================
+Abort statements:
+-----------------
+	Thread scope: main__thread
+		par0:
+		* abortStrong0 strong
+
+
+============================
+tools::Condition::toString()
+============================
+Iterations statements:
+----------------------
+	Thread scope: main__thread
+		par0:
+		* while_4
+
+
+========================
+tarot::Tarot::toString()
+========================
+Full tarot:
+-----------
+	core0: main__thread
+	.	core0: abortStrong0
+	.	:	core0: while_4
+	.	:	.	core0: par0
+	.	:	.	|	core0: do_step__thread
+	.	:	.	|	.	pause1
+	.	:	.	|	.	core0: par1
+	.	:	.	|	.	|	core0: do_step_0__thread
+	.	:	.	|	.	|	core1: do_step_1__thread
+	.	:	.	|	.	|	core2: do_step_2__thread
+	.	:	.	|	.	|	core3: do_step_3__thread
+	.	:	.	|	core4: do_draw__thread
+	.	:	.	|	.	pause2
+	.	:	.	|	.	core4: par2
+	.	:	.	|	.	|	core4: do_draw_0__thread
+	.	:	.	|	.	|	core5: do_draw_1__thread
+	.	:	.	|	.	|	core6: do_draw_2__thread
+	.	:	.	|	.	|	core7: do_draw_3__thread
+	.	:	.	pause0
+
+
+Tarot by coreId:
+----------------
+	core0:
+	-------
+		core0: main__thread
+		.	core0: abortStrong0
+		.	:	core0: while_4
+		.	:	.	core0: par0
+		.	:	.	|	core0: do_step__thread
+		.	:	.	|	.	pause1
+		.	:	.	|	.	core0: par1
+		.	:	.	|	.	|	core0: do_step_0__thread
+		.	:	.	pause0
+
+	core1:
+	-------
+		core0: main__thread
+		.	core0: abortStrong0
+		.	:	core0: while_4
+		.	:	.	core0: par0
+		.	:	.	|	core0: do_step__thread
+		.	:	.	|	.	pause1
+		.	:	.	|	.	core0: par1
+		.	:	.	|	.	|	core1: do_step_1__thread
+		.	:	.	pause0
+
+	core2:
+	-------
+		core0: main__thread
+		.	core0: abortStrong0
+		.	:	core0: while_4
+		.	:	.	core0: par0
+		.	:	.	|	core0: do_step__thread
+		.	:	.	|	.	pause1
+		.	:	.	|	.	core0: par1
+		.	:	.	|	.	|	core2: do_step_2__thread
+		.	:	.	pause0
+
+	core3:
+	-------
+		core0: main__thread
+		.	core0: abortStrong0
+		.	:	core0: while_4
+		.	:	.	core0: par0
+		.	:	.	|	core0: do_step__thread
+		.	:	.	|	.	pause1
+		.	:	.	|	.	core0: par1
+		.	:	.	|	.	|	core3: do_step_3__thread
+		.	:	.	pause0
+
+	core4:
+	-------
+		core0: main__thread
+		.	core0: abortStrong0
+		.	:	core0: while_4
+		.	:	.	core0: par0
+		.	:	.	|	core4: do_draw__thread
+		.	:	.	|	.	pause2
+		.	:	.	|	.	core4: par2
+		.	:	.	|	.	|	core4: do_draw_0__thread
+		.	:	.	pause0
+
+	core5:
+	-------
+		core0: main__thread
+		.	core0: abortStrong0
+		.	:	core0: while_4
+		.	:	.	core0: par0
+		.	:	.	|	core4: do_draw__thread
+		.	:	.	|	.	pause2
+		.	:	.	|	.	core4: par2
+		.	:	.	|	.	|	core5: do_draw_1__thread
+		.	:	.	pause0
+
+	core6:
+	-------
+		core0: main__thread
+		.	core0: abortStrong0
+		.	:	core0: while_4
+		.	:	.	core0: par0
+		.	:	.	|	core4: do_draw__thread
+		.	:	.	|	.	pause2
+		.	:	.	|	.	core4: par2
+		.	:	.	|	.	|	core6: do_draw_2__thread
+		.	:	.	pause0
+
+	core7:
+	-------
+		core0: main__thread
+		.	core0: abortStrong0
+		.	:	core0: while_4
+		.	:	.	core0: par0
+		.	:	.	|	core4: do_draw__thread
+		.	:	.	|	.	pause2
+		.	:	.	|	.	core4: par2
+		.	:	.	|	.	|	core7: do_draw_3__thread
+		.	:	.	pause0
+
+
+par(...) statements with core allocation:
+-----------------------------------------
+	Thread do_draw__thread:
+		all:
+		* core4
+		* core5
+		* core6
+		* core7
+
+		par2:
+		* core4
+		* core5
+		* core6
+		* core7
+
+	Thread do_step__thread:
+		all:
+		* core0
+		* core1
+		* core2
+		* core3
+
+		par1:
+		* core0
+		* core1
+		* core2
+		* core3
+
+	Thread main__thread:
+		all:
+		* core0
+		* core1
+		* core2
+		* core3
+		* core4
+		* core5
+		* core6
+		* core7
+
+		par0:
+		* core0
+		* core1
+		* core2
+		* core3
+		* core4
+		* core5
+		* core6
+		* core7
+
+
+par(...) statements with active cores:
+--------------------------------------
+	Thread do_draw__thread:
+		all:
+		* core4
+		* core5
+		* core6
+		* core7
+
+		par2:
+		* core4
+		* core5
+		* core6
+		* core7
+
+	Thread do_step__thread:
+		all:
+		* core0
+		* core1
+		* core2
+		* core3
+
+		par1:
+		* core0
+		* core1
+		* core2
+		* core3
+
+	Thread main__thread:
+		all:
+		* core0
+		* core1
+		* core2
+		* core3
+		* core4
+		* core5
+		* core6
+		* core7
+
+		par0:
+		* core0
+		* core1
+		* core2
+		* core3
+		* core4
+		* core5
+		* core6
+		* core7
+
+
+Reaction starts:
+----------------
+	core0:
+		do_step: Master
+		main: Master
+
+	core1:
+		do_step: Slave
+		main: Slave
+
+	core2:
+		do_step: Slave
+		main: Slave
+
+	core3:
+		do_step: Slave
+		main: Slave
+
+	core4:
+		do_draw: Master
+		main: Slave
+
+	core5:
+		do_draw: Slave
+		main: Slave
+
+	core6:
+		do_draw: Slave
+		main: Slave
+
+	core7:
+		do_draw: Slave
+		main: Slave
+
+
+Reaction ends:
+--------------
+	core0:
+		par0:
+			coreIds:
+			* 0
+			* 1
+			* 2
+			* 3
+			* 4
+			* 5
+			* 6
+			* 7
+
+			isMaster:
+			* true
+
+			threadScope:
+			* main
+
+		par1:
+			coreIds:
+			* 0
+			* 1
+			* 2
+			* 3
+
+			isMaster:
+			* true
+
+			threadScope:
+			* do_step
+
+	core1:
+		par0:
+			threadScope:
+			* main
+
+		par1:
+			threadScope:
+			* do_step
+
+	core2:
+		par0:
+			threadScope:
+			* main
+
+		par1:
+			threadScope:
+			* do_step
+
+	core3:
+		par0:
+			threadScope:
+			* main
+
+		par1:
+			threadScope:
+			* do_step
+
+	core4:
+		par0:
+			threadScope:
+			* main
+
+		par2:
+			coreIds:
+			* 4
+			* 5
+			* 6
+			* 7
+
+			isMaster:
+			* true
+
+			threadScope:
+			* do_draw
+
+	core5:
+		par0:
+			threadScope:
+			* main
+
+		par2:
+			threadScope:
+			* do_draw
+
+	core6:
+		par0:
+			threadScope:
+			* main
+
+		par2:
+			threadScope:
+			* do_draw
+
+	core7:
+		par0:
+			threadScope:
+			* main
+
+		par2:
+			threadScope:
+			* do_draw
+
+
+Par(...) handlers:
+------------------
+	par0:
+	* do_draw__thread
+	* do_step__thread
+	* mainReactionStartMaster0
+	* mainReactionStartSlave1
+	* mainReactionStartSlave2
+	* mainReactionStartSlave3
+	* mainReactionStartSlave4
+	* mainReactionStartSlave5
+	* mainReactionStartSlave6
+	* mainReactionStartSlave7
+	* mainReactionEndMaster0
+	* mainReactionEndSlave1
+	* mainReactionEndSlave2
+	* mainReactionEndSlave3
+	* mainReactionEndSlave4
+	* mainReactionEndSlave5
+	* mainReactionEndSlave6
+	* mainReactionEndSlave7
+	* do_drawParHandlerMaster4
+	* do_drawParHandlerSlave5
+	* do_drawParHandlerSlave6
+	* do_drawParHandlerSlave7
+	* do_stepParHandlerMaster0
+	* do_stepParHandlerSlave1
+	* do_stepParHandlerSlave2
+	* do_stepParHandlerSlave3
+	* abortStrong0Check0
+	* abortStrong0Check1
+	* abortStrong0Check2
+	* abortStrong0Check3
+	* abortStrong0Check4
+	* abortStrong0Check5
+	* abortStrong0Check6
+	* abortStrong0Check7
+
+	par1:
+	* do_step_0__thread
+	* do_step_1__thread
+	* do_step_2__thread
+	* do_step_3__thread
+	* do_stepReactionStartMaster0
+	* do_stepReactionStartSlave1
+	* do_stepReactionStartSlave2
+	* do_stepReactionStartSlave3
+	* do_stepReactionEndMaster0
+	* do_stepReactionEndSlave1
+	* do_stepReactionEndSlave2
+	* do_stepReactionEndSlave3
+
+	par2:
+	* do_draw_0__thread
+	* do_draw_1__thread
+	* do_draw_2__thread
+	* do_draw_3__thread
+	* do_drawReactionStartMaster4
+	* do_drawReactionStartSlave5
+	* do_drawReactionStartSlave6
+	* do_drawReactionStartSlave7
+	* do_drawReactionEndMaster4
+	* do_drawReactionEndSlave5
+	* do_drawReactionEndSlave6
+	* do_drawReactionEndSlave7
+
+
+Abort checks:
+-------------
+	core0:
+		main:
+			strong:
+			* abortStrong0(done__global_0_0)
+
+	core1:
+		main:
+			strong:
+			* abortStrong0(done__global_0_0)
+
+	core2:
+		main:
+			strong:
+			* abortStrong0(done__global_0_0)
+
+	core3:
+		main:
+			strong:
+			* abortStrong0(done__global_0_0)
+
+	core4:
+		main:
+			strong:
+			* abortStrong0(done__global_0_0)
+
+	core5:
+		main:
+			strong:
+			* abortStrong0(done__global_0_0)
+
+	core6:
+		main:
+			strong:
+			* abortStrong0(done__global_0_0)
+
+	core7:
+		main:
+			strong:
+			* abortStrong0(done__global_0_0)
+
+
+Linked lists:
+-------------
+	core0:
+		Thread do_step__thread linked lists:
+			par1:
+			* (parStart) do_stepReactionStartMaster0
+			* (thread) do_step_0__thread
+			* (parEnd) do_stepReactionEndMaster0
+
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartMaster0
+			* (abortStrong) abortStrong0Check0
+			* (thread) do_step__thread
+			* (parHandler) do_stepParHandlerMaster0
+			* (parEnd) mainReactionEndMaster0
+
+	core1:
+		Thread do_step__thread linked lists:
+			par1:
+			* (parStart) do_stepReactionStartSlave1
+			* (thread) do_step_1__thread
+			* (parEnd) do_stepReactionEndSlave1
+
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave1
+			* (abortStrong) abortStrong0Check1
+			* (parHandler) do_stepParHandlerSlave1
+			* (parEnd) mainReactionEndSlave1
+
+	core2:
+		Thread do_step__thread linked lists:
+			par1:
+			* (parStart) do_stepReactionStartSlave2
+			* (thread) do_step_2__thread
+			* (parEnd) do_stepReactionEndSlave2
+
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave2
+			* (abortStrong) abortStrong0Check2
+			* (parHandler) do_stepParHandlerSlave2
+			* (parEnd) mainReactionEndSlave2
+
+	core3:
+		Thread do_step__thread linked lists:
+			par1:
+			* (parStart) do_stepReactionStartSlave3
+			* (thread) do_step_3__thread
+			* (parEnd) do_stepReactionEndSlave3
+
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave3
+			* (abortStrong) abortStrong0Check3
+			* (parHandler) do_stepParHandlerSlave3
+			* (parEnd) mainReactionEndSlave3
+
+	core4:
+		Thread do_draw__thread linked lists:
+			par2:
+			* (parStart) do_drawReactionStartMaster4
+			* (thread) do_draw_0__thread
+			* (parEnd) do_drawReactionEndMaster4
+
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave4
+			* (abortStrong) abortStrong0Check4
+			* (thread) do_draw__thread
+			* (parHandler) do_drawParHandlerMaster4
+			* (parEnd) mainReactionEndSlave4
+
+	core5:
+		Thread do_draw__thread linked lists:
+			par2:
+			* (parStart) do_drawReactionStartSlave5
+			* (thread) do_draw_1__thread
+			* (parEnd) do_drawReactionEndSlave5
+
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave5
+			* (abortStrong) abortStrong0Check5
+			* (parHandler) do_drawParHandlerSlave5
+			* (parEnd) mainReactionEndSlave5
+
+	core6:
+		Thread do_draw__thread linked lists:
+			par2:
+			* (parStart) do_drawReactionStartSlave6
+			* (thread) do_draw_2__thread
+			* (parEnd) do_drawReactionEndSlave6
+
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave6
+			* (abortStrong) abortStrong0Check6
+			* (parHandler) do_drawParHandlerSlave6
+			* (parEnd) mainReactionEndSlave6
+
+	core7:
+		Thread do_draw__thread linked lists:
+			par2:
+			* (parStart) do_drawReactionStartSlave7
+			* (thread) do_draw_3__thread
+			* (parEnd) do_drawReactionEndSlave7
+
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave7
+			* (abortStrong) abortStrong0Check7
+			* (parHandler) do_drawParHandlerSlave7
+			* (parEnd) mainReactionEndSlave7
+
+
+par(...) handlers in thread scopes:
+-----------------------------------
+	par0	main__thread
+	par1	do_step__thread
+	par2	do_draw__thread
+
+Last par(...)s in each thread's reaction:
+-----------------------------------------
+	core0:
+		Thread scope: do_step
+		* par1
+
+	core1:
+		Thread scope: do_step
+		* par1
+
+	core2:
+		Thread scope: do_step
+		* par1
+
+	core3:
+		Thread scope: do_step
+		* par1
+
+	core4:
+		Thread scope: do_draw
+		* par2
+
+	core5:
+		Thread scope: do_draw
+		* par2
+
+	core6:
+		Thread scope: do_draw
+		* par2
+
+	core7:
+		Thread scope: do_draw
+		* par2
+
+
+Last par(...)s in each abort:
+-------------------------------
+	core0:
+		Thread scope: main
+		* abortStrong0->par0
+
+	core1:
+		Thread scope: main
+		* abortStrong0->par0
+
+	core2:
+		Thread scope: main
+		* abortStrong0->par0
+
+	core3:
+		Thread scope: main
+		* abortStrong0->par0
+
+	core4:
+		Thread scope: main
+		* abortStrong0->par0
+
+	core5:
+		Thread scope: main
+		* abortStrong0->par0
+
+	core6:
+		Thread scope: main
+		* abortStrong0->par0
+
+	core7:
+		Thread scope: main
+		* abortStrong0->par0
+
+
+Last par(...) in each thread:
+------------------------------
+	core0:
+		Thread scope: do_step
+		* par1
+
+	core1:
+		Thread scope: do_step
+		* par1
+
+	core2:
+		Thread scope: do_step
+		* par1
+
+	core3:
+		Thread scope: do_step
+		* par1
+
+	core4:
+		Thread scope: do_draw
+		* par2
+
+	core5:
+		Thread scope: do_draw
+		* par2
+
+	core6:
+		Thread scope: do_draw
+		* par2
+
+	core7:
+		Thread scope: do_draw
+		* par2
+
+
+Scoped aborts:
+--------------
+	abortStrong0:
+		coreIds:
+		* 0
+		* 1
+		* 2
+		* 3
+		* 4
+		* 5
+		* 6
+		* 7
+
+		parIds:
+		* par0
+
+
+Scoped iterations:
+------------------
+	while_4:
+		coreIds:
+		* 0
+		* 1
+		* 2
+		* 3
+		* 4
+		* 5
+		* 6
+		* 7
+
+		parIds:
+		* par0
+		* par1
+		* par2
+
+
+Aborts around par(...):
+-----------------------
+	par0:
+	* abortStrong0 (par0)
+
+	par1:
+	* abortStrong0 (par0)
+
+	par2:
+	* abortStrong0 (par0)
+
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	microblaze
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	4		do_draw__thread
+	4		do_draw_0__thread
+	5		do_draw_1__thread
+	6		do_draw_2__thread
+	7		do_draw_3__thread
+	0		do_step__thread
+	0		do_step_0__thread
+	1		do_step_1__thread
+	2		do_step_2__thread
+	3		do_step_3__thread
+	0		main__thread
+
+Priority of cores for each par(...) in threads:
+-----------------------------------------------
+	do_draw:
+	* core4(0)
+	* core5(1)
+	* core6(2)
+	* core7(3)
+
+	do_step:
+	* core0(0)
+	* core1(1)
+	* core2(2)
+	* core3(3)
+
+
+
+========================
+tools::Mutex::toString()
+========================
+Mutex information:
+------------------
+	Thread do_draw:
+		baseMask  :10000000000000000000000000000000
+		coreCount :4
+		offset    :31
+
+	Thread do_step:
+		baseMask  :01000000000000000000000000000000
+		coreCount :4
+		offset    :30
+
+

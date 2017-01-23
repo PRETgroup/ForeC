@@ -1,0 +1,9 @@
+architecture:
+x86
+
+0:
+main
+hello
+
+1:
+world

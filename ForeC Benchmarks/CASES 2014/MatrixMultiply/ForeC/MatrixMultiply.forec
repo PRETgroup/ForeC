@@ -1,0 +1,163 @@
+// Computes C = A*B, where A, B, and C are square matrices.
+
+#include <stdio.h>
+
+shared int SIZE = 80;
+int NumberOfFillThreads = 4;
+int NumberOfMultiplyThreads = 8;
+
+int A[80][80] = {{0}};
+int B[80][80] = {{0}};
+int C[80][80] = {{0}};
+
+shared int (*A_ptr)[80][80] = &A;
+shared int (*B_ptr)[80][80] = &B;
+shared int (*C_ptr)[80][80] = &C;
+
+void fillMatrix(int (*A)[80][80], int threadId, int SIZE);
+void multiply(int (*A)[80][80], int (*B)[80][80], int (*C)[80][80], int threadId, int SIZE);
+void printOut(int (*A)[80][80], int SIZE);
+
+thread fillMatrixA0(void);
+thread fillMatrixA1(void);
+thread fillMatrixA2(void);
+thread fillMatrixA3(void);
+
+thread fillMatrixB0(void);
+thread fillMatrixB1(void);
+thread fillMatrixB2(void);
+thread fillMatrixB3(void);
+
+thread multiply0(void);
+thread multiply1(void);
+thread multiply2(void);
+thread multiply3(void);
+thread multiply4(void);
+thread multiply5(void);
+thread multiply6(void);
+thread multiply7(void);
+
+int main(int argc, char **argv) {
+	// Fill matrices A and B, one quarter at a time in parallel.
+	par(fillMatrixA0, fillMatrixA1, fillMatrixA2, fillMatrixA3, 
+		fillMatrixB0, fillMatrixB1, fillMatrixB2, fillMatrixB3);
+	
+	// Calculate the resultant matrix, one eight at a time in parallel.
+	par(multiply0, multiply1, multiply2, multiply3, 
+		multiply4, multiply5, multiply6, multiply7);
+	
+//	printOut(A_ptr, SIZE);
+//	printOut(B_ptr, SIZE);
+//	printOut(C_ptr, SIZE);
+}
+
+thread fillMatrixA0(void) {
+	fillMatrix(A_ptr, 0, SIZE);
+}
+
+thread fillMatrixA1(void) {
+	fillMatrix(A_ptr, 1, SIZE);
+}
+
+thread fillMatrixA2(void) {
+	fillMatrix(A_ptr, 2, SIZE);
+}
+
+thread fillMatrixA3(void) {
+	fillMatrix(A_ptr, 3, SIZE);
+}
+
+thread fillMatrixB0(void) {
+	fillMatrix(B_ptr, 0, SIZE);
+}
+
+thread fillMatrixB1(void) {
+	fillMatrix(B_ptr, 1, SIZE);
+}
+
+thread fillMatrixB2(void) {
+	fillMatrix(B_ptr, 2, SIZE);
+}
+
+thread fillMatrixB3(void) {
+	fillMatrix(B_ptr, 3, SIZE);
+}
+
+void fillMatrix(int (*A)[80][80], int threadId, int SIZE) {
+	int startRow = threadId * SIZE / NumberOfFillThreads;
+	int range = SIZE / NumberOfFillThreads;
+	
+	int i;
+	for (i = startRow; i < (startRow + range); i++) #20#20 {
+		
+		int j;
+		for (j = 0; j < SIZE; j++) #80#80 {
+			(*A)[i][j] = j;
+		}
+	}
+}
+
+thread multiply0(void) {
+	multiply(A_ptr, B_ptr, C_ptr, 0, SIZE);
+}
+
+thread multiply1(void) {
+	multiply(A_ptr, B_ptr, C_ptr, 1, SIZE);
+}
+
+thread multiply2(void) {
+	multiply(A_ptr, B_ptr, C_ptr, 2, SIZE);
+}
+
+thread multiply3(void) {
+	multiply(A_ptr, B_ptr, C_ptr, 3, SIZE);
+}
+
+thread multiply4(void) {
+	multiply(A_ptr, B_ptr, C_ptr, 4, SIZE);
+}
+
+thread multiply5(void) {
+	multiply(A_ptr, B_ptr, C_ptr, 5, SIZE);
+}
+
+thread multiply6(void) {
+	multiply(A_ptr, B_ptr, C_ptr, 6, SIZE);
+}
+
+thread multiply7(void) {
+	multiply(A_ptr, B_ptr, C_ptr, 7, SIZE);
+}
+
+void multiply(int (*A)[80][80], int (*B)[80][80], int (*C)[80][80], int threadId, int SIZE) {
+	int startRow = threadId * SIZE / NumberOfMultiplyThreads;
+	int range = SIZE / NumberOfMultiplyThreads;
+
+	int i;
+	for (i = startRow; i < (startRow + range); i++) #20#20 {
+	
+		int j;
+		for(j = 0; j < SIZE; j++) #80#80 {
+		
+			(*C)[i][j] = 0;
+			int k;
+			for(k = 0; k < SIZE; k++) #80#80 {
+				(*C)[i][j] += (*A)[i][k] * (*B)[k][j];
+			}
+		}
+	}
+}
+
+void printOut(int (*A)[80][80], int SIZE) {
+	int i;
+	for (i = 0; i < SIZE; i++) #80#80 {
+		
+		int j;
+		for (j = 0; j < SIZE; j++) #80#80 {
+			xil_printf("%d ", (*A)[i][j]);
+		}
+		xil_printf("\n");
+	}
+	xil_printf("\n");
+}
+

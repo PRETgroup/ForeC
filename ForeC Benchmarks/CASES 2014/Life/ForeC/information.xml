@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!-- Supplementary information generated for static analysis (Main.cpp::output). -->
+<information>
+	<!-- Header filename (Multicore.cpp::toXml). -->
+	<filename elf="Life.04" />
+	<architecture model="microblaze" />
+	<!-- Allocation of threads for each core (Multicore.cpp::toXml). -->
+	<allocations>
+		<core id="0">
+			<thread id="do_step_0" />
+			<thread id="main" />
+		</core>
+		<core id="1">
+			<thread id="do_step_1" />
+		</core>
+		<core id="2">
+			<thread id="do_step_2" />
+		</core>
+		<core id="3">
+			<thread id="do_step_3" />
+		</core>
+	</allocations>
+	<!-- Aborts around each par(...) (Abort.cpp::outputXml). -->
+	<aborts>
+	</aborts>
+	<!-- Nested thread structure (Tarot.cpp::outputXml). -->
+	<tarot>
+		<thread id="main">
+			<par id="0">
+				<thread id="do_step_0"></thread>
+				<thread id="do_step_1"></thread>
+				<thread id="do_step_2"></thread>
+				<thread id="do_step_3"></thread>
+			</par>
+		</thread>
+	</tarot>
+	<!-- Index of each par(...) in the par handlers of each core (Tarot.cpp::outputXml). -->
+	<parIndexes>
+		<core id="0">
+			<threadScope id="main">
+				<par id="0" handlers="3" />
+			</threadScope>
+		</core>
+		<core id="1">
+			<threadScope id="main">
+				<par id="0" handlers="3" />
+			</threadScope>
+		</core>
+		<core id="2">
+			<threadScope id="main">
+				<par id="0" handlers="3" />
+			</threadScope>
+		</core>
+		<core id="3">
+			<threadScope id="main">
+				<par id="0" handlers="3" />
+			</threadScope>
+		</core>
+	</parIndexes>
+	<!-- Cores involved in executing each par(...) (Tarot.cpp::outputXml). -->
+	<allocatedParCores>
+		<par id="0">
+			<core id="0" />
+			<core id="1" />
+			<core id="2" />
+			<core id="3" />
+		</par>
+	</allocatedParCores>
+	<!-- Cores involved in executing all the par(...)s in each thread (Tarot.cpp::outputXml). -->
+	<activeParCores>
+		<thread id="main">
+			<core id="0" />
+			<core id="1" />
+			<core id="2" />
+			<core id="3" />
+		</thread>
+	</activeParCores>
+	<!-- Shared variables (SymbolTable.cpp::outputXml). -->
+	<shared>
+	</shared>
+</information>

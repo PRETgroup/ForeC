@@ -1,0 +1,139 @@
+module life:
+type Grid;
+type GridMsg;
+input nrows : integer,
+      ncols : integer,
+      max_count : integer,
+      seed : integer;
+
+procedure initialize()(integer, integer, integer);
+procedure initialize_grid(Grid)();
+procedure send(GridMsg, Grid)(integer);
+procedure recv(GridMsg, Grid)(integer);
+procedure compute(Grid, Grid)();
+
+var v_nrows : integer,
+    v_ncols : integer,
+    v_max_count : integer in
+    [
+        await nrows do
+            v_nrows := ?nrows;
+        end
+        ||
+        await ncols do
+            v_ncols := ?ncols;
+        end
+        ||
+        await max_count do
+            v_max_count := ?max_count;
+        end
+    ];
+    await immediate seed do
+        call initialize()(v_ncols, v_nrows, ?seed)
+    end;
+    signal s_msg_0 : GridMsg,
+           s_msg_1 : GridMsg,
+           s_msg_2 : GridMsg,
+           s_msg_3 : GridMsg in
+        var grid : Grid, next_grid : Grid, msg : GridMsg in
+            call initialize_grid(grid)();
+            pause;
+            repeat v_max_count times
+                % send message
+                call send(msg, grid)(1);
+                emit s_msg_3(msg);
+                % receive message
+                await immediate s_msg_0;
+                msg := ?s_msg_0;
+                call recv(msg, grid)(v_ncols + 1);
+                % send message
+                pause;
+                call send(msg, grid)(v_ncols);
+                emit s_msg_1(msg);
+                % receive message
+                await immediate s_msg_0;
+                msg := ?s_msg_0;
+                call recv(msg, grid)(0);
+                % start computing
+                call compute(grid, next_grid)();
+                pause;
+            end repeat
+        end var
+        ||
+        var grid : Grid, next_grid : Grid, msg : GridMsg in
+            call initialize_grid(grid)();
+            pause;
+            repeat v_max_count times
+                % receive message
+                await immediate s_msg_1;
+                msg := ?s_msg_1;
+                call recv(msg, grid)(v_ncols + 1);
+                % send message
+                call send(msg, grid)(1);
+                emit s_msg_0(msg);
+                % send message
+                pause;
+                call send(msg, grid)(v_ncols);
+                emit s_msg_2(msg);
+                % receive message
+                await immediate s_msg_1;
+                msg := ?s_msg_1;
+                call recv(msg, grid)(0);
+                % start computing
+                call compute(grid, next_grid)();
+                pause;
+            end repeat
+        end var
+        ||
+        var grid : Grid, next_grid : Grid, msg : GridMsg in
+            call initialize_grid(grid)();
+            pause;
+            repeat v_max_count times
+                % receive message
+                await immediate s_msg_2;
+                msg := ?s_msg_2;
+                call recv(msg, grid)(v_ncols + 1);
+                % send message
+                call send(msg, grid)(1);
+                emit s_msg_1(msg);
+                % send message
+                pause;
+                call send(msg, grid)(v_ncols);
+                emit s_msg_3(msg);
+                % receive message
+                await immediate s_msg_2;
+                msg := ?s_msg_2;
+                call recv(msg, grid)(0);
+                % start computing
+                call compute(grid, next_grid)();
+                pause;
+            end repeat
+        end var
+        ||
+        var grid : Grid, next_grid : Grid, msg : GridMsg in
+            call initialize_grid(grid)();
+            pause;
+            repeat v_max_count times
+                % receive message
+                await immediate s_msg_3;
+                msg := ?s_msg_3;
+                call recv(msg, grid)(v_ncols + 1);
+                % send message
+                call send(msg, grid)(1);
+                emit s_msg_2(msg);
+                % receive message
+                await s_msg_3;
+                msg := ?s_msg_3;
+                call recv(msg, grid)(0);
+                % send message
+                call send(msg, grid)(v_ncols);
+                emit s_msg_0(msg);
+                % start computing
+                call compute(grid, next_grid)();
+                pause;
+            end repeat
+        end var
+    end signal
+end var
+
+end module

@@ -1,0 +1,495 @@
+ForeC Compiler (multicore distribution)
+Version: 0.99 (5 October 2014)
+Debug output
+---------------------------------------
+
+Debug level: 1
+Check instantaneous loops: false
+Minimum reaction time: 5719 clock cycles
+Source file name: MatrixMultiply.forec
+Header file name: MatrixMultiply.8.foreh
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	microblaze
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	0		main__thread
+	0		multiply0__thread
+	1		multiply1__thread
+	6		multiply2__thread
+	2		multiply3__thread
+	3		multiply4__thread
+	7		multiply5__thread
+	4		multiply6__thread
+	5		multiply7__thread
+
+
+==============================
+tools::SymbolTable::toString()
+==============================
+Symbol tables:
+--------------
+	Scope name: global
+		Scope level: 0
+			Instance: 0
+				(thread) multiply0__thread
+				(thread) multiply1__thread
+				(thread) multiply2__thread
+				(thread) multiply3__thread
+				(thread) multiply4__thread
+				(thread) multiply5__thread
+				(thread) multiply6__thread
+				(thread) multiply7__thread
+				(function) multiply
+
+	Scope name: main
+		Scope level: 0
+			Instance: 0
+				(variable) argc__main_0_0
+				(variable) args__main_0_0
+
+	Scope name: multiply
+		Scope level: 0
+			Instance: 0
+				(variable) SIZE__multiply_0_0
+				(variable) matrixA__multiply_0_0
+				(variable) matrixB__multiply_0_0
+				(variable) matrixC__multiply_0_0
+				(variable) sum__multiply_0_0
+
+
+Declared shared symbols:
+------------------------
+
+Use/Def of symbols:
+-------------------
+	Scope name: main
+		use:
+			(thread) multiply0__thread
+			(thread) multiply1__thread
+			(thread) multiply2__thread
+			(thread) multiply3__thread
+			(thread) multiply4__thread
+			(thread) multiply5__thread
+			(thread) multiply6__thread
+			(thread) multiply7__thread
+
+	Scope name: multiply
+		def:
+			(variable) matrixC__multiply_0_0
+			(variable) sum__multiply_0_0
+
+		use:
+			(variable) SIZE__multiply_0_0
+			(variable) matrixA__multiply_0_0
+			(variable) matrixB__multiply_0_0
+			(variable) sum__multiply_0_0
+
+	Scope name: multiply0
+		use:
+			(function) multiply
+
+	Scope name: multiply1
+		use:
+			(function) multiply
+
+	Scope name: multiply2
+		use:
+			(function) multiply
+
+	Scope name: multiply3
+		use:
+			(function) multiply
+
+	Scope name: multiply4
+		use:
+			(function) multiply
+
+	Scope name: multiply5
+		use:
+			(function) multiply
+
+	Scope name: multiply6
+		use:
+			(function) multiply
+
+	Scope name: multiply7
+		use:
+			(function) multiply
+
+
+Indirect use/def of symbols by parId:
+-------------------------------------
+	par0:
+
+Indirect use/def of symbols by threadId:
+----------------------------------------
+	main:
+
+Functions used for combining shared variables:
+----------------------------------------------
+
+============================
+tools::Threading::toString()
+============================
+Threads declared:
+-----------------
+	* main__thread
+	* multiply0__thread
+	* multiply1__thread
+	* multiply2__thread
+	* multiply3__thread
+	* multiply4__thread
+	* multiply5__thread
+	* multiply6__thread
+	* multiply7__thread
+
+Threads unused:
+---------------
+
+par(...) statements:
+--------------------
+	Thread scope: main
+		par0:
+		* multiply0__thread
+		* multiply1__thread
+		* multiply2__thread
+		* multiply3__thread
+		* multiply4__thread
+		* multiply5__thread
+		* multiply6__thread
+		* multiply7__thread
+
+========================
+tools::Abort::toString()
+========================
+============================
+tools::Condition::toString()
+============================
+
+========================
+tarot::Tarot::toString()
+========================
+Full tarot:
+-----------
+	core0: main__thread
+	.	core0: par0
+	.	|	core0: multiply0__thread
+	.	|	core1: multiply1__thread
+	.	|	core6: multiply2__thread
+	.	|	core2: multiply3__thread
+	.	|	core3: multiply4__thread
+	.	|	core7: multiply5__thread
+	.	|	core4: multiply6__thread
+	.	|	core5: multiply7__thread
+
+
+Tarot by coreId:
+----------------
+	core0:
+	-------
+		core0: main__thread
+		.	core0: par0
+		.	|	core0: multiply0__thread
+
+	core1:
+	-------
+		core0: main__thread
+		.	core0: par0
+		.	|	core1: multiply1__thread
+
+	core2:
+	-------
+		core0: main__thread
+		.	core0: par0
+		.	|	core2: multiply3__thread
+
+	core3:
+	-------
+		core0: main__thread
+		.	core0: par0
+		.	|	core3: multiply4__thread
+
+	core4:
+	-------
+		core0: main__thread
+		.	core0: par0
+		.	|	core4: multiply6__thread
+
+	core5:
+	-------
+		core0: main__thread
+		.	core0: par0
+		.	|	core5: multiply7__thread
+
+	core6:
+	-------
+		core0: main__thread
+		.	core0: par0
+		.	|	core6: multiply2__thread
+
+	core7:
+	-------
+		core0: main__thread
+		.	core0: par0
+		.	|	core7: multiply5__thread
+
+
+par(...) statements with core allocation:
+-----------------------------------------
+	Thread main__thread:
+		all:
+		* core0
+		* core1
+		* core2
+		* core3
+		* core4
+		* core5
+		* core6
+		* core7
+
+		par0:
+		* core0
+		* core1
+		* core2
+		* core3
+		* core4
+		* core5
+		* core6
+		* core7
+
+
+par(...) statements with active cores:
+--------------------------------------
+	Thread main__thread:
+		all:
+		* core0
+		* core1
+		* core2
+		* core3
+		* core4
+		* core5
+		* core6
+		* core7
+
+		par0:
+		* core0
+		* core1
+		* core2
+		* core3
+		* core4
+		* core5
+		* core6
+		* core7
+
+
+Reaction starts:
+----------------
+	core0:
+		main: Master
+
+	core1:
+		main: Slave
+
+	core2:
+		main: Slave
+
+	core3:
+		main: Slave
+
+	core4:
+		main: Slave
+
+	core5:
+		main: Slave
+
+	core6:
+		main: Slave
+
+	core7:
+		main: Slave
+
+
+Reaction ends:
+--------------
+	core0:
+		par0:
+			coreIds:
+			* 0
+			* 1
+			* 2
+			* 3
+			* 4
+			* 5
+			* 6
+			* 7
+
+			isMaster:
+			* true
+
+			threadScope:
+			* main
+
+	core1:
+		par0:
+			threadScope:
+			* main
+
+	core2:
+		par0:
+			threadScope:
+			* main
+
+	core3:
+		par0:
+			threadScope:
+			* main
+
+	core4:
+		par0:
+			threadScope:
+			* main
+
+	core5:
+		par0:
+			threadScope:
+			* main
+
+	core6:
+		par0:
+			threadScope:
+			* main
+
+	core7:
+		par0:
+			threadScope:
+			* main
+
+
+Par(...) handlers:
+------------------
+	par0:
+	* multiply0__thread
+	* multiply1__thread
+	* multiply2__thread
+	* multiply3__thread
+	* multiply4__thread
+	* multiply5__thread
+	* multiply6__thread
+	* multiply7__thread
+	* mainReactionStartMaster0
+	* mainReactionStartSlave1
+	* mainReactionStartSlave2
+	* mainReactionStartSlave3
+	* mainReactionStartSlave4
+	* mainReactionStartSlave5
+	* mainReactionStartSlave6
+	* mainReactionStartSlave7
+	* mainReactionEndMaster0
+	* mainReactionEndSlave1
+	* mainReactionEndSlave2
+	* mainReactionEndSlave3
+	* mainReactionEndSlave4
+	* mainReactionEndSlave5
+	* mainReactionEndSlave6
+	* mainReactionEndSlave7
+
+
+Linked lists:
+-------------
+	core0:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartMaster0
+			* (thread) multiply0__thread
+			* (parEnd) mainReactionEndMaster0
+
+	core1:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave1
+			* (thread) multiply1__thread
+			* (parEnd) mainReactionEndSlave1
+
+	core2:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave2
+			* (thread) multiply3__thread
+			* (parEnd) mainReactionEndSlave2
+
+	core3:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave3
+			* (thread) multiply4__thread
+			* (parEnd) mainReactionEndSlave3
+
+	core4:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave4
+			* (thread) multiply6__thread
+			* (parEnd) mainReactionEndSlave4
+
+	core5:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave5
+			* (thread) multiply7__thread
+			* (parEnd) mainReactionEndSlave5
+
+	core6:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave6
+			* (thread) multiply2__thread
+			* (parEnd) mainReactionEndSlave6
+
+	core7:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave7
+			* (thread) multiply5__thread
+			* (parEnd) mainReactionEndSlave7
+
+
+par(...) handlers in thread scopes:
+-----------------------------------
+	par0	main__thread
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	microblaze
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	0		main__thread
+	0		multiply0__thread
+	1		multiply1__thread
+	6		multiply2__thread
+	2		multiply3__thread
+	3		multiply4__thread
+	7		multiply5__thread
+	4		multiply6__thread
+	5		multiply7__thread
+
+
+========================
+tools::Mutex::toString()
+========================
+Mutex information:
+------------------
+

@@ -1,0 +1,39 @@
+#include <stdio.h>
+
+thread t0(void);
+thread t1(void);
+thread t2(void);
+
+shared int value = 0;
+
+void main(int argc, char **argv) {
+	par(t0, t1, t2);
+}
+
+
+thread t0(void) {
+	int i;
+	for (i = 0; i < 10; ++i) {
+		value = value + 1;
+		pause;
+	}
+}
+
+thread t1(void) {
+	int i;
+	for (i = 0; i < 5; ++i) {
+		printf("Broadcasted value: %d\n", value);
+		pause;
+		pause;
+	}
+}
+
+thread t2(void) {
+	int i;
+	for (i = 0; i < 5; ++i) {
+		pause;
+		printf("Broadcasted value: %d\n", value);
+		pause;
+	}
+}
+

@@ -1,0 +1,60 @@
+#include <stdio.h>
+
+thread t0(void);
+thread t1(void);
+thread t2(void);
+thread t3(void);
+thread t4(void);
+thread t5(void);
+
+int counter = 0;
+
+int main(int argc, char **argv) {
+	printf("Hello world!\r\n");
+	
+	int i;
+	for (i = 0; i < 2; ++i) #2#2 {
+		par(t0);
+		pause;
+	}
+
+	printf("Goodbye world!\r\n");
+}
+
+
+thread t0(void) {
+	printf("*\r\n");
+	pause;
+	par(t1);
+	printf(".\r\n");
+}
+
+thread t1(void) {
+	printf("**\r\n");
+	par(t2);
+	printf("..\r\n");
+}
+
+thread t2(void) {
+	printf("***\r\n");
+	par(t3);
+	printf("...\r\n");
+}
+
+thread t3(void) {
+	printf("****\r\n");
+	par(t4);
+	pause;
+	printf("....\r\n");
+}
+
+thread t4(void) {
+	printf("*****\r\n");
+	par(t5);
+	printf(".....\r\n");
+}
+
+thread t5(void) {
+	pause;
+	printf("......\r\n");
+}

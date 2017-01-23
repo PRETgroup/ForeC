@@ -1,0 +1,19 @@
+	// Initialise ForeC specific values ----------------------------
+%{initialise}
+	// ForeC mutex -------------------------------------------------
+	unsigned int forec_mutex_value;
+	forec_mutex_reset(FSL_FOREC_MUTEX_RESET_ID);
+	
+	// Variables for par()s ----------------------------------------
+%{par}
+	// Synchronise execution of cores ------------------------------
+	// pvr = Processor Version Register
+	unsigned int pvr0;
+	getpvr(0, pvr0);
+	pvr0 &= MICROBLAZE_PVR0_USER1_MASK;
+
+	switch (pvr0) {
+%{cases}		default:
+			// "Lock-up" unused cores.
+			while(1);
+	}

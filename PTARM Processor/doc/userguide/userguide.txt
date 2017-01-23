@@ -1,0 +1,111 @@
+
+PTARM User Guide
+================
+By David Broman
+:toc:
+:numbered:
+
+Introduction
+------------
+
+Precision-Timed ARM (PTARM) is a VHDL implementation of the Berkeley
+PRET microarchitecture. The current PTARM implementation supports
+ARMv2, extended with timing instructons.
+
+This user guide explains how PTARM can be used from a user point of
+view. For details about the VHDL implementation, see the PTARM
+architecture document.
+
+Contributers
+~~~~~~~~~~~
+
+Contributers to the PRET project in general are (in alphabetic order):
+David Broman, Dai Bui, Stephen A. Edwards, Sungjun Kim, Edward A. Lee, Ben
+Lickly, Isaac Liu, Hiren D. Patel, Jan Reineke, Martin Schoeberl, and Michael Zimmer.
+
+Getting started 
+---------------- 
+
+This text...
+
+
+Programming PTARM using 
+-----------------------
+
+The simplest way to program for PTARM is to implement the programs in
+C and then use predefined macros for accessing timing
+instructions. All these macro definitions are defined in file pret.h. 
+
+gettime (hi32, low32)
+
+delayuntil(hi32, low32)
+
+Memory
+------
+
+Address      Max   Current  Description
+0x00000000   n/a   32B      ARM's exception vector table
+0x00000020   n/a   64B      Exception on expire table
+0x00000060   16MB           BOOT ROM (including the above tables)
+0x01000000   32MB  32kB     Instruction Scratchpad                  
+0x03000000   32MB  32kB     Data Scratchpad
+0x05000000   
+
+The max scratchpad sizes (32MB) enables relative branch instructions
+to access the whole scratchpad. Also, half of the instruction scratchpad
+is directly accessible using relative branch instructions from the 
+Boot ROM.
+
+Memory mapped IO
+~~~~~~~~~~~~~~~~
+#define UART_CIN (*((volatile char *)0xFFFF0000))
+#define UART_DIN (*((volatile char *)0xFFFF0004))
+#define UART_COUT (*((volatile char *)0xFFFF0008))
+#define UART_DOUT (*((volatile char *)0xFFFF000C))
+
+#define LED_GPIO (*((volatile char *)0xFFFFFF00))
+#define LED_NESW (*((volatile char *)0xFFFFFF04))
+
+#define VGA_DATA (*((volatile int *)0xFFFFFE08))
+#define VGA_CTRL_OUT (*((volatile char *)0xFFFFFE04))
+#define VGA_CTRL_IN (*((volatile char *)0xFFFFFE00))
+
+
+#define VGA_DOUT 0x00000001
+#define VGA_HSYNC 0x00000002
+#define VGA_VSYNC 0x00000004
+
+
+Instruction Set Architecture (ISA)
+----------------------------------
+
+get time
+      cdp p13,8,0,high32,low32
+
+delay until
+      cdp p13,4,0,high32,low32
+
+exception on expire
+      cdp p13,2,0,high32,low32
+
+deactivate exception
+      cdp p13,3,0,0,0,
+
+
+Deadline Instructions
+~~~~~~~~~~~~~~~~~~~~~
+
+GT - GetTime
+The instruction GetTime returns the elapsed time in nano seconds since
+the processor was powered on. 
+
+DU - DelayUntil
+
+
+Memory Management
+~~~~~~~~~~~~~~~~~
+
+Text...
+
+Frequently Asked Questions (FAQs)
+---------------------------------

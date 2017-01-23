@@ -1,0 +1,54 @@
+{
+
+/*==============================================================
+| Multicore startup:
+| Platform dependent code.  Core identifies itself and
+| executes its corresponding start up code.
+*=============================================================*/
+%{multicore}
+// forec:scheduler:boot:end
+
+/*==============================================================
+| Core specific instructions:
+| Contains par, abort and synchronisation handlers.
+*=============================================================*/
+	/*--------------------------------------------------------------
+	| Master core: core%{masterCoreId}
+	| ForeC program's main() function:
+	| Original main() function code with ForeC constructs
+	| translated into C code.
+	*-------------------------------------------------------------*/
+	
+	// Thread local declarations -----------------------------------
+%{declarations}
+mainParCore%{masterCoreId}: {
+%{masterCoreBody}
+
+	// forec:scheduler:threadRemove:main:start
+	pthread_exit(NULL);
+	// forec:scheduler:threadRemove:main:end
+} // mainParCore%{masterCoreId}
+	// forec:thread:main:end
+
+%{parHandler}
+
+	// Nested par(...) handlers ------------------------------------
+%{masterCoreParHandlers}
+
+	// Reaction start handlers ---------------------------------------
+%{masterReactionStarts}
+
+	// Reaction end handlers ---------------------------------------
+%{masterReactionEnds}
+
+	// Abort check handlers ----------------------------------------
+%{masterAbortChecks}
+
+%{slaveCoreBodies}
+
+/*==============================================================
+| ForeC threads:
+| Threads' code translated into C code.
+*=============================================================*/
+%{threads}
+} // End of the main() function.

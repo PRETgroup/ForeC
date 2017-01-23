@@ -1,0 +1,37 @@
+SYNC-FFT-CHEST-CHC chain from 802.11a
+
+./
+
+Major signal processing blocks:
+
+sync_fft_che_top_tb		---> test bench for the SYNC-FFT-CHEST-CHC chain
+freq_sync_correl_2STS		---> autocorrelation of two STS for burst detection
+frequency_sync_slidsum		---> sliding Window autocorrelation for burst detection (SYNC)
+arctan				---> phase calculation via arctan + conversion from alpha into angle in radians
+cordic_turn			---> frequency offset correction via cordic algorithm
+fine_time_sync			---> fine time estimation (cross correlation - finds exact start of Long TS1 (after Long GI))
+fft64				---> multi-stream multi-standard FFT, which is set here into 802.11a-Mode (64-FFT, single-stream)
+channel_estimation		---> channel estimation (CHEST)
+channel_correction		---> channel correction (CHC)
+
+Major I/O files:
+
+./CCSS_ref_data/
+rx_real_data.am			---> input data, real parts (54Mbit/s, 64 QAM for data, BPSK for SIGNAL field, 3/4 code rate) 
+rx_imag_data.am			---> input data, real parts (54Mbit/s, 64 QAM for data, 3/4 code rate)
+
+data_quant_trs_i.am		---> reference LTS for fine time sync, I values are quantized to 4 bit 
+data_quant_trs_q.am		---> reference LTS for fine time sync, Q values are quantized to 4 bit 
+
+ChannelCorr_out_real.am		---> CCSS output data, real parts, serve as reference for plain C implementation (first burst -2028 samples only)
+ChannelCorr_out_imag.am		---> CCSS output data, imag parts, serve as reference for plain C implementation (first burst -2028 samples only) 
+
+./plainC_SimOutput/
+CHC_out_I.am			---> TB output data, real parts (verified against CCSS output data - first 2028 samples)
+								  !!!This data should be taken as reference for the parallelized code
+CHC_out_Q.am			---> TB output data, imag parts (verified against CCSS output data - first 2028 samples)
+								  !!!This data should be taken as reference for the parallelized code
+
+Matlab script to verify output data (see above):
+./
+verify_data.m

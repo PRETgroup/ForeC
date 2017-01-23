@@ -1,0 +1,908 @@
+ForeC Compiler (multicore distribution)
+Version: 0.99 (5 October 2014)
+Debug output
+---------------------------------------
+
+Source file name: Lzss.forec
+Header file name: Lzss.4.foreh
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	microblaze
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	0		longestMatch0__thread
+	1		longestMatch1__thread
+	2		longestMatch2__thread
+	3		longestMatch3__thread
+	0		main__thread
+
+
+==============================
+tools::SymbolTable::toString()
+==============================
+Symbol tables:
+--------------
+	Scope name: Fifo_at
+		Scope level: 0
+			Instance: 0
+				(variable) fifo__Fifo_at_0_0
+				(variable) i__Fifo_at_0_0
+
+	Scope name: Fifo_destroy
+		Scope level: 0
+			Instance: 0
+				(variable) fifo__Fifo_destroy_0_0
+
+	Scope name: Fifo_init
+		Scope level: 0
+			Instance: 0
+				(variable) fifo__Fifo_init_0_0
+				(variable) size__Fifo_init_0_0
+				(variable) buf__Fifo_init_0_0
+
+	Scope name: Fifo_pop_back
+		Scope level: 0
+			Instance: 0
+				(variable) fifo__Fifo_pop_back_0_0
+
+	Scope name: Fifo_pop_front
+		Scope level: 0
+			Instance: 0
+				(variable) fifo__Fifo_pop_front_0_0
+				(variable) c__Fifo_pop_front_0_0
+
+	Scope name: Fifo_print
+		Scope level: 0
+			Instance: 0
+				(variable) fifo__Fifo_print_0_0
+				(variable) i__Fifo_print_0_0
+				(variable) j__Fifo_print_0_0
+
+	Scope name: Fifo_push_back
+		Scope level: 0
+			Instance: 0
+				(variable) fifo__Fifo_push_back_0_0
+				(variable) c__Fifo_push_back_0_0
+
+	Scope name: Fifo_push_front
+		Scope level: 0
+			Instance: 0
+				(variable) fifo__Fifo_push_front_0_0
+				(variable) c__Fifo_push_front_0_0
+
+	Scope name: createDescriptor
+		Scope level: 0
+			Instance: 0
+				(variable) fileInfo__createDescriptor_0_0
+				(variable) archiveInfo__createDescriptor_0_0
+
+	Scope name: decode
+		Scope level: 0
+			Instance: 0
+				(variable) win__decode_0_0
+				(variable) sizeCount__decode_0_0
+				(variable) offset__decode_0_0
+				(variable) matches__decode_0_0
+				(variable) fileInfo__decode_0_0
+				(variable) archiveInfo__decode_0_0
+
+	Scope name: decompressFile
+		Scope level: 0
+			Instance: 0
+				(variable) offset__decompressFile_0_0
+				(variable) matches__decompressFile_0_0
+				(variable) fileInfo__decompressFile_0_0
+				(variable) archiveInfo__decompressFile_0_0
+
+	Scope name: first
+		Scope level: 0
+			Instance: 0
+				(variable) copy1__first_0_0
+				(variable) copy2__first_0_0
+
+	Scope name: global
+		Scope level: 0
+			Instance: 0
+				(storage) _Fifo__global_0_0
+				(typedef) Fifo__global_0_0
+				(function) Fifo_init
+				(function) Fifo_destroy
+				(function) Fifo_push_front
+				(function) Fifo_push_back
+				(function) Fifo_pop_front
+				(function) Fifo_pop_back
+				(function) Fifo_at
+				(function) Fifo_print
+				(function) mgetc
+				(function) mputc
+				(function) mwrite
+				(variable) FILE_SIZE__global_0_0
+				(variable) NUM_THREADS__global_0_0
+				(variable) WINLENGTH__global_0_0
+				(variable) LKLENGTH__global_0_0
+				(variable) archive__global_0_0
+				(variable) embedded__global_0_0
+				(variable) offset__global_0_0
+				(variable) matches__global_0_0
+				(variable) offset_thread__global_0_0
+				(shared) offset_thread_ptr__global_0_0
+				(variable) matches_thread__global_0_0
+				(shared) matches_thread_ptr__global_0_0
+				(storage) fileStats__global_0_0
+				(variable) fileInfo__global_0_0
+				(variable) archiveInfo__global_0_0
+				(variable) window_buf__global_0_0
+				(variable) lookAhead_buf__global_0_0
+				(shared) window__global_0_0
+				(shared) lookAhead__global_0_0
+				(function) getFileSize
+				(function) getBytesProcessed
+				(function) openFile
+				(function) createDescriptor
+				(function) storeFileInfo
+				(function) longestMatch
+				(function) writeToArchive
+				(function) printResult
+				(function) unpackArchive
+				(function) processDescriptor
+				(function) decompressFile
+				(function) decode
+				(function) obtainFileInfo
+				(thread) longestMatch0__thread
+				(thread) longestMatch1__thread
+				(thread) longestMatch2__thread
+				(thread) longestMatch3__thread
+
+	Scope name: longestMatch
+		Scope level: 0
+			Instance: 0
+				(variable) win__longestMatch_0_0
+				(variable) lk__longestMatch_0_0
+				(variable) begin__longestMatch_0_0
+				(variable) offset_thread__longestMatch_0_0
+				(variable) matches_thread__longestMatch_0_0
+				(variable) NUM_THREADS__longestMatch_0_0
+				(variable) _matches__longestMatch_0_0
+				(variable) i__longestMatch_0_0
+				(variable) j__longestMatch_0_0
+				(variable) k__longestMatch_0_0
+				(variable) _offset__longestMatch_0_0
+
+	Scope name: main
+		Scope level: 0
+			Instance: 0
+				(variable) argc__main_0_0
+				(variable) argv__main_0_0
+		Scope level: 1
+			Instance: 0
+			Instance: 1
+				(variable) count__main_1_1
+
+	Scope name: mgetc
+		Scope level: 0
+			Instance: 0
+				(variable) stream__mgetc_0_0
+				(variable) c__mgetc_0_0
+
+	Scope name: mputc
+		Scope level: 0
+			Instance: 0
+				(variable) c__mputc_0_0
+				(variable) stream__mputc_0_0
+
+	Scope name: mwrite
+		Scope level: 0
+			Instance: 0
+				(variable) ptr__mwrite_0_0
+				(variable) size__mwrite_0_0
+				(variable) nmemb__mwrite_0_0
+				(variable) stream__mwrite_0_0
+				(variable) n__mwrite_0_0
+				(variable) s__mwrite_0_0
+				(variable) ret__mwrite_0_0
+
+	Scope name: obtainFileInfo
+		Scope level: 0
+			Instance: 0
+				(variable) fileInfo__obtainFileInfo_0_0
+
+	Scope name: printResult
+		Scope level: 0
+			Instance: 0
+				(variable) fileInfo__printResult_0_0
+				(variable) archiveInfo__printResult_0_0
+
+	Scope name: processDescriptor
+		Scope level: 0
+			Instance: 0
+				(variable) fileInfo__processDescriptor_0_0
+				(variable) archiveInfo__processDescriptor_0_0
+
+	Scope name: storeFileInfo
+		Scope level: 0
+			Instance: 0
+				(variable) fileInfo__storeFileInfo_0_0
+				(variable) archiveInfo__storeFileInfo_0_0
+
+	Scope name: unpackArchive
+		Scope level: 0
+			Instance: 0
+				(variable) filename__unpackArchive_0_0
+				(variable) offset__unpackArchive_0_0
+				(variable) matches__unpackArchive_0_0
+				(variable) fileInfo__unpackArchive_0_0
+				(variable) archiveInfo__unpackArchive_0_0
+
+	Scope name: writeToArchive
+		Scope level: 0
+			Instance: 0
+				(variable) fifo__writeToArchive_0_0
+				(variable) offset__writeToArchive_0_0
+				(variable) matches__writeToArchive_0_0
+				(variable) archiveInfo__writeToArchive_0_0
+				(variable) offset_thread__writeToArchive_0_0
+				(variable) matches_thread__writeToArchive_0_0
+				(variable) window__writeToArchive_0_0
+				(variable) lookAhead__writeToArchive_0_0
+				(variable) NUM_THREADS__writeToArchive_0_0
+				(variable) EOF__writeToArchive_0_0
+				(variable) i__writeToArchive_0_0
+				(variable) encode__writeToArchive_0_0
+		Scope level: 1
+			Instance: 0
+			Instance: 1
+			Instance: 2
+				(variable) count__writeToArchive_1_2
+
+
+Declared shared symbols:
+------------------------
+	Scope name: global
+		(Shared_offset_thread_ptr__global_0_0) offset_thread_ptr__global_0_0
+		(Shared_matches_thread_ptr__global_0_0) matches_thread_ptr__global_0_0
+		(Shared_window__global_0_0) window__global_0_0
+		(Shared_lookAhead__global_0_0) lookAhead__global_0_0
+
+
+Use/Def of symbols:
+-------------------
+	Scope name: Fifo_at
+		def:
+			(typedef) Fifo__global_0_0
+
+		use:
+			(variable) fifo__Fifo_at_0_0
+			(variable) i__Fifo_at_0_0
+
+	Scope name: Fifo_destroy
+		def:
+			(typedef) Fifo__global_0_0
+
+	Scope name: Fifo_init
+		def:
+			(typedef) Fifo__global_0_0
+			(variable) fifo__Fifo_init_0_0
+
+		use:
+			(variable) size__Fifo_init_0_0
+			(variable) buf__Fifo_init_0_0
+
+	Scope name: Fifo_pop_back
+		def:
+			(typedef) Fifo__global_0_0
+			(variable) fifo__Fifo_pop_back_0_0
+
+		use:
+			(variable) fifo__Fifo_pop_back_0_0
+
+	Scope name: Fifo_pop_front
+		def:
+			(typedef) Fifo__global_0_0
+			(variable) fifo__Fifo_pop_front_0_0
+
+		use:
+			(variable) fifo__Fifo_pop_front_0_0
+			(variable) c__Fifo_pop_front_0_0
+
+	Scope name: Fifo_print
+		def:
+			(typedef) Fifo__global_0_0
+			(variable) i__Fifo_print_0_0
+			(variable) j__Fifo_print_0_0
+
+		use:
+			(variable) fifo__Fifo_print_0_0
+			(variable) i__Fifo_print_0_0
+			(variable) j__Fifo_print_0_0
+
+	Scope name: Fifo_push_back
+		def:
+			(typedef) Fifo__global_0_0
+			(variable) fifo__Fifo_push_back_0_0
+
+		use:
+			(variable) fifo__Fifo_push_back_0_0
+			(variable) c__Fifo_push_back_0_0
+
+	Scope name: Fifo_push_front
+		def:
+			(typedef) Fifo__global_0_0
+			(variable) fifo__Fifo_push_front_0_0
+
+		use:
+			(function) Fifo_push_back
+			(variable) fifo__Fifo_push_front_0_0
+			(variable) c__Fifo_push_front_0_0
+
+	Scope name: createDescriptor
+		def:
+			(storage) fileStats__global_0_0
+
+		use:
+			(function) storeFileInfo
+			(variable) fileInfo__createDescriptor_0_0
+			(variable) archiveInfo__createDescriptor_0_0
+
+	Scope name: decode
+		def:
+			(typedef) Fifo__global_0_0
+			(storage) fileStats__global_0_0
+
+	Scope name: decompressFile
+		def:
+			(storage) fileStats__global_0_0
+
+	Scope name: first
+		use:
+			(variable) copy1__first_0_0
+
+	Scope name: getBytesProcessed
+		use:
+			(variable) fileInfo__global_0_0
+
+	Scope name: getFileSize
+		use:
+			(variable) fileInfo__global_0_0
+
+	Scope name: longestMatch
+		def:
+			(typedef) Fifo__global_0_0
+			(variable) _matches__longestMatch_0_0
+			(variable) i__longestMatch_0_0
+			(variable) j__longestMatch_0_0
+			(variable) k__longestMatch_0_0
+			(variable) _offset__longestMatch_0_0
+
+		use:
+			(function) Fifo_at
+			(variable) LKLENGTH__global_0_0
+			(variable) win__longestMatch_0_0
+			(variable) lk__longestMatch_0_0
+			(variable) begin__longestMatch_0_0
+			(variable) offset_thread__longestMatch_0_0
+			(variable) matches_thread__longestMatch_0_0
+			(variable) NUM_THREADS__longestMatch_0_0
+			(variable) _matches__longestMatch_0_0
+			(variable) i__longestMatch_0_0
+			(variable) j__longestMatch_0_0
+			(variable) k__longestMatch_0_0
+			(variable) _offset__longestMatch_0_0
+
+	Scope name: longestMatch0
+		use:
+			(shared) offset_thread_ptr__global_0_0
+			(shared) matches_thread_ptr__global_0_0
+			(shared) window__global_0_0
+			(shared) lookAhead__global_0_0
+			(function) longestMatch
+
+	Scope name: longestMatch1
+		use:
+			(shared) offset_thread_ptr__global_0_0
+			(shared) matches_thread_ptr__global_0_0
+			(shared) window__global_0_0
+			(shared) lookAhead__global_0_0
+			(function) longestMatch
+
+	Scope name: longestMatch2
+		use:
+			(shared) offset_thread_ptr__global_0_0
+			(shared) matches_thread_ptr__global_0_0
+			(shared) window__global_0_0
+			(shared) lookAhead__global_0_0
+			(function) longestMatch
+
+	Scope name: longestMatch3
+		use:
+			(shared) offset_thread_ptr__global_0_0
+			(shared) matches_thread_ptr__global_0_0
+			(shared) window__global_0_0
+			(shared) lookAhead__global_0_0
+			(function) longestMatch
+
+	Scope name: main
+		def:
+			(variable) fileInfo__global_0_0
+
+		use:
+			(function) Fifo_init
+			(function) Fifo_push_back
+			(function) Fifo_pop_front
+			(function) Fifo_pop_back
+			(function) mgetc
+			(variable) WINLENGTH__global_0_0
+			(variable) LKLENGTH__global_0_0
+			(variable) offset__global_0_0
+			(variable) matches__global_0_0
+			(variable) offset_thread__global_0_0
+			(variable) matches_thread__global_0_0
+			(variable) fileInfo__global_0_0
+			(variable) archiveInfo__global_0_0
+			(variable) window_buf__global_0_0
+			(variable) lookAhead_buf__global_0_0
+			(shared) window__global_0_0
+			(shared) lookAhead__global_0_0
+			(function) getFileSize
+			(function) getBytesProcessed
+			(function) openFile
+			(function) writeToArchive
+			(thread) longestMatch0__thread
+			(thread) longestMatch1__thread
+			(thread) longestMatch2__thread
+			(thread) longestMatch3__thread
+			(variable) count__main_1_1
+
+	Scope name: mgetc
+		use:
+			(variable) stream__mgetc_0_0
+			(variable) c__mgetc_0_0
+
+	Scope name: mputc
+		def:
+			(variable) stream__mputc_0_0
+
+		use:
+			(variable) c__mputc_0_0
+			(variable) stream__mputc_0_0
+
+	Scope name: mwrite
+		def:
+			(variable) stream__mwrite_0_0
+			(variable) n__mwrite_0_0
+			(variable) s__mwrite_0_0
+
+		use:
+			(variable) ptr__mwrite_0_0
+			(variable) size__mwrite_0_0
+			(variable) nmemb__mwrite_0_0
+			(variable) stream__mwrite_0_0
+			(variable) n__mwrite_0_0
+			(variable) s__mwrite_0_0
+			(variable) ret__mwrite_0_0
+
+	Scope name: obtainFileInfo
+		def:
+			(storage) fileStats__global_0_0
+			(variable) fileInfo__obtainFileInfo_0_0
+
+		use:
+			(variable) FILE_SIZE__global_0_0
+			(variable) fileInfo__obtainFileInfo_0_0
+
+	Scope name: openFile
+		def:
+			(variable) fileInfo__global_0_0
+			(variable) archiveInfo__global_0_0
+
+		use:
+			(variable) archive__global_0_0
+			(variable) embedded__global_0_0
+			(variable) fileInfo__global_0_0
+			(variable) archiveInfo__global_0_0
+			(function) createDescriptor
+			(function) obtainFileInfo
+
+	Scope name: printResult
+		def:
+			(storage) fileStats__global_0_0
+
+		use:
+			(function) obtainFileInfo
+			(variable) archiveInfo__printResult_0_0
+
+	Scope name: processDescriptor
+		def:
+			(storage) fileStats__global_0_0
+
+	Scope name: storeFileInfo
+		def:
+			(storage) fileStats__global_0_0
+
+		use:
+			(function) mwrite
+			(variable) fileInfo__storeFileInfo_0_0
+			(variable) archiveInfo__storeFileInfo_0_0
+
+	Scope name: unpackArchive
+		def:
+			(storage) fileStats__global_0_0
+
+	Scope name: writeToArchive
+		def:
+			(typedef) Fifo__global_0_0
+			(storage) fileStats__global_0_0
+			(variable) fileInfo__global_0_0
+			(variable) offset__writeToArchive_0_0
+			(variable) matches__writeToArchive_0_0
+			(variable) i__writeToArchive_0_0
+			(variable) encode__writeToArchive_0_0
+			(variable) count__writeToArchive_1_2
+
+		use:
+			(function) Fifo_push_back
+			(function) Fifo_pop_front
+			(function) Fifo_at
+			(function) mgetc
+			(function) mputc
+			(variable) WINLENGTH__global_0_0
+			(variable) LKLENGTH__global_0_0
+			(variable) fileInfo__global_0_0
+			(variable) fifo__writeToArchive_0_0
+			(variable) offset__writeToArchive_0_0
+			(variable) matches__writeToArchive_0_0
+			(variable) archiveInfo__writeToArchive_0_0
+			(variable) offset_thread__writeToArchive_0_0
+			(variable) matches_thread__writeToArchive_0_0
+			(variable) window__writeToArchive_0_0
+			(variable) lookAhead__writeToArchive_0_0
+			(variable) NUM_THREADS__writeToArchive_0_0
+			(variable) EOF__writeToArchive_0_0
+			(variable) i__writeToArchive_0_0
+			(variable) encode__writeToArchive_0_0
+			(variable) count__writeToArchive_1_2
+
+
+Indirect use/def of symbols by parId:
+-------------------------------------
+	par0:
+		offset_thread_ptr__global_0_0
+			use (skip): longestMatch0 longestMatch1 longestMatch2 longestMatch3 
+
+		matches_thread_ptr__global_0_0
+			use (skip): longestMatch0 longestMatch1 longestMatch2 longestMatch3 
+
+		window__global_0_0
+			use (root): longestMatch0 longestMatch1 longestMatch2 longestMatch3 
+
+		lookAhead__global_0_0
+			use (root): longestMatch0 longestMatch1 longestMatch2 longestMatch3 
+
+
+Indirect use/def of symbols by threadId:
+----------------------------------------
+	longestMatch0:
+		offset_thread_ptr__global_0_0
+			use (root): longestMatch0 
+
+		matches_thread_ptr__global_0_0
+			use (root): longestMatch0 
+
+		window__global_0_0
+			use (intermediate): longestMatch0 
+
+		lookAhead__global_0_0
+			use (intermediate): longestMatch0 
+
+	longestMatch1:
+		offset_thread_ptr__global_0_0
+			use (root): longestMatch1 
+
+		matches_thread_ptr__global_0_0
+			use (root): longestMatch1 
+
+		window__global_0_0
+			use (intermediate): longestMatch1 
+
+		lookAhead__global_0_0
+			use (intermediate): longestMatch1 
+
+	longestMatch2:
+		offset_thread_ptr__global_0_0
+			use (root): longestMatch2 
+
+		matches_thread_ptr__global_0_0
+			use (root): longestMatch2 
+
+		window__global_0_0
+			use (intermediate): longestMatch2 
+
+		lookAhead__global_0_0
+			use (intermediate): longestMatch2 
+
+	longestMatch3:
+		offset_thread_ptr__global_0_0
+			use (root): longestMatch3 
+
+		matches_thread_ptr__global_0_0
+			use (root): longestMatch3 
+
+		window__global_0_0
+			use (intermediate): longestMatch3 
+
+		lookAhead__global_0_0
+			use (intermediate): longestMatch3 
+
+	main:
+		offset_thread_ptr__global_0_0
+			use (skip): main 
+
+		matches_thread_ptr__global_0_0
+			use (skip): main 
+
+		window__global_0_0
+			use (root): main 
+
+		lookAhead__global_0_0
+			use (root): main 
+
+
+Functions used for combining shared variables:
+----------------------------------------------
+	first
+
+============================
+tools::Threading::toString()
+============================
+Threads declared:
+-----------------
+	* longestMatch0__thread
+	* longestMatch1__thread
+	* longestMatch2__thread
+	* longestMatch3__thread
+	* main__thread
+
+Threads unused:
+---------------
+
+par(...) statements:
+--------------------
+	Thread scope: main
+		par0:
+		* longestMatch0__thread
+		* longestMatch1__thread
+		* longestMatch2__thread
+		* longestMatch3__thread
+
+========================
+tools::Abort::toString()
+========================
+============================
+tools::Condition::toString()
+============================
+Iterations statements:
+----------------------
+	Thread scope: main__thread
+		par0:
+		* while_2
+
+
+========================
+tarot::Tarot::toString()
+========================
+Full tarot:
+-----------
+	core0: main__thread
+	.	core0: while_2
+	.	.	core0: par0
+	.	.	|	core0: longestMatch0__thread
+	.	.	|	core1: longestMatch1__thread
+	.	.	|	core2: longestMatch2__thread
+	.	.	|	core3: longestMatch3__thread
+
+
+Tarot by coreId:
+----------------
+	core0:
+	-------
+		core0: main__thread
+		.	core0: while_2
+		.	.	core0: par0
+		.	.	|	core0: longestMatch0__thread
+
+	core1:
+	-------
+		core0: main__thread
+		.	core0: while_2
+		.	.	core0: par0
+		.	.	|	core1: longestMatch1__thread
+
+	core2:
+	-------
+		core0: main__thread
+		.	core0: while_2
+		.	.	core0: par0
+		.	.	|	core2: longestMatch2__thread
+
+	core3:
+	-------
+		core0: main__thread
+		.	core0: while_2
+		.	.	core0: par0
+		.	.	|	core3: longestMatch3__thread
+
+
+par(...) statements with core allocation:
+-----------------------------------------
+	Thread main__thread:
+		all:
+		* core0
+		* core1
+		* core2
+		* core3
+
+		par0:
+		* core0
+		* core1
+		* core2
+		* core3
+
+
+par(...) statements with active cores:
+--------------------------------------
+	Thread main__thread:
+		all:
+		* core0
+		* core1
+		* core2
+		* core3
+
+		par0:
+		* core0
+		* core1
+		* core2
+		* core3
+
+
+Reaction starts:
+----------------
+	core0:
+		main: Master
+
+	core1:
+		main: Slave
+
+	core2:
+		main: Slave
+
+	core3:
+		main: Slave
+
+
+Reaction ends:
+--------------
+	core0:
+		par0:
+			coreIds:
+			* 0
+			* 1
+			* 2
+			* 3
+
+			isMaster:
+			* true
+
+			threadScope:
+			* main
+
+	core1:
+		par0:
+			threadScope:
+			* main
+
+	core2:
+		par0:
+			threadScope:
+			* main
+
+	core3:
+		par0:
+			threadScope:
+			* main
+
+
+Par(...) handlers:
+------------------
+	par0:
+	* longestMatch0__thread
+	* longestMatch1__thread
+	* longestMatch2__thread
+	* longestMatch3__thread
+	* mainReactionStartMaster0
+	* mainReactionStartSlave1
+	* mainReactionStartSlave2
+	* mainReactionStartSlave3
+	* mainReactionEndMaster0
+	* mainReactionEndSlave1
+	* mainReactionEndSlave2
+	* mainReactionEndSlave3
+
+
+Linked lists:
+-------------
+	core0:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartMaster0
+			* (thread) longestMatch0__thread
+			* (parEnd) mainReactionEndMaster0
+
+	core1:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave1
+			* (thread) longestMatch1__thread
+			* (parEnd) mainReactionEndSlave1
+
+	core2:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave2
+			* (thread) longestMatch2__thread
+			* (parEnd) mainReactionEndSlave2
+
+	core3:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartSlave3
+			* (thread) longestMatch3__thread
+			* (parEnd) mainReactionEndSlave3
+
+
+par(...) handlers in thread scopes:
+-----------------------------------
+	par0	main__thread
+
+Scoped iterations:
+------------------
+	while_2:
+		coreIds:
+		* 0
+		* 1
+		* 2
+		* 3
+
+		parIds:
+		* par0
+
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	microblaze
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	0		longestMatch0__thread
+	1		longestMatch1__thread
+	2		longestMatch2__thread
+	3		longestMatch3__thread
+	0		main__thread
+
+
+========================
+tools::Mutex::toString()
+========================
+Mutex information:
+------------------
+

@@ -1,0 +1,120 @@
+The program has twelve synchronous tasks (named l1-4, m1-4, n1-4) 
+that execute for around 1 second. The execution of entire program is 
+split into discrete base periods that are 3 seconds long. In each 
+base period, tasks l1-4 and m1-4 are statically given 0.5 seconds of 
+execution time, after which they are preempted and the next statically 
+scheduled task is executed. After all statically scheduled tasks have 
+executed, the hardware thread chooses an unfinished task and resumes 
+that task's execution until the base period expires. 
+
+Tasks l1-4 and m1-4 have minimum release periods of 4 base periods, 
+while tasks n1-4 have minimum release periods of 8 base periods. A 
+formatted example of the outputs produced by the program are shown 
+below.
+
+==================================================
+$ ptarm.bat execute
+
+Used memory: 11.8/60.0 kilobytes (19.7%)
+
+ForeMC example.
+
+//_Base_period_0________________________________________________________________________________
+0:Releasing m1.         1:Releasing m2.         2:Releasing l3.         3:Releasing m3.
+0:Executing m1.         1:Executing m2.         2:Executing l3.         3:Executing m3.
+0:Preempted m1.         1:Preempted m2.         2:Preempted l3.         3:Preempted m3.
+0:Queuing m1.           1:Queuing m2.           2:Queuing l3.           3:Queuing m3.
+
+0:Releasing l1.         1:Releasing l2.         2:Releasing l4.         3:Releasing m4.
+0:Executing l1.         1:Executing l2.         2:Executing l4.         3:Executing m4.
+0:Preempted l1.         1:Preempted l2.         2:Preempted l4.         3:Preempted m4.
+0:Queuing l1.           1:Queuing l2.           2:Queuing l4.           3:Queuing m4.
+
+0:Dynamic phase.        1:Dynamic phase.        2:Dynamic phase.        3:Dynamic phase.
+0:Picking n2.           1:Picking n1.           2:Picking n4.           3:Picking n3.
+
+0:n2 pausing.           1:n1 pausing.           2:n4 pausing.           3:n3 pausing.
+
+0:Picking m1.           1:Picking m3.           2:Picking m4.           3:Picking m2.
+0:Preempted m1.         1:Preempted m3.         2:Preempted m4.         3:Preempted m2.
+
+//_Base_period_1________________________________________________________________________________
+0:Executing m1.         1:Executing m2.         2:Executing l3.         3:Executing m3.
+0:Preempted m1.         1:Preempted m2.         2:Preempted l3.         3:Preempted m3.
+0:Queuing m1.           1:Queuing m2.           2:Queuing l3.           3:Queuing m3.
+
+0:Executing l1.         1:Executing l2.         2:Executing l4.         3:Executing m4.
+0:Preempted l1.         1:Preempted l2.         2:Preempted l4.         3:Preempted m4.
+0:Queuing l1.           1:Queuing l2.           2:Queuing l4.           3:Queuing m4.
+
+0:Dynamic phase.        1:Dynamic phase.        2:Dynamic phase.        3:Dynamic phase.
+0:Picking m3.           1:Picking m4.           2:Picking m2.           3:Picking m1.
+0:m3 pausing.           1:m4 pausing.           2:m2 pausing.           3:m1 pausing.
+
+0:Picking l2.           1:Picking l4.           2:Picking l1.           3:Picking l3.
+0:l2 pausing.           1:l4 pausing.           2:l1 pausing.           3:l3 pausing.
+
+0:Preempted scheduler0. 1:Preempted scheduler1. 2:Preempted scheduler2. 3:Preempted scheduler3.
+
+//_Base_period_2________________________________________________________________________________
+0:Dynamic phase.        1:Dynamic phase.        2:Dynamic phase.        3:Dynamic phase.
+0:Preempted scheduler0. 1:Preempted scheduler1. 2:Preempted scheduler2. 3:Preempted scheduler3.
+
+//_Base_period_3________________________________________________________________________________
+0:Dynamic phase.        1:Dynamic phase.        2:Dynamic phase.        3:Dynamic phase.
+0:Preempted scheduler0. 1:Preempted scheduler1. 2:Preempted scheduler2. 3:Preempted scheduler3.
+
+//_Base_period_4________________________________________________________________________________
+0:Releasing m1.         1:Releasing m2.         2:Releasing l3.         3:Releasing m3.
+0:Executing m1.         1:Executing m2.         2:Executing l3.         3:Executing m3.
+0:Preempted m1.         1:Preempted m2.         2:Preempted l3.         3:Preempted m3.
+0:Queuing m1.           1:Queuing m2.           2:Queuing l3.           3:Queuing m3.
+
+0:Releasing l1.         1:Releasing l2.         2:Releasing l4.         3:Releasing m4.
+0:Executing l1.         1:Executing l2.         2:Executing l4.         3:Executing m4.
+0:Preempted l1.         1:Preempted l2.         2:Preempted l4.         3:Preempted m4.
+0:Queuing l1.           1:Queuing l2.           2:Queuing l4.           3:Queuing m4.
+
+0:Dynamic phase.        1:Dynamic phase.        2:Dynamic phase.        3:Dynamic phase.
+0:Picking m3.           1:Picking m4.           2:Picking m2.           3:Picking m1.
+0:m3 pausing.           1:m4 pausing.           2:m2 pausing.           3:m1 pausing.
+
+0:Picking l4.           1:Picking l2.           2:Picking l1.           3:Picking l3.
+0:Preempted l4.         1:Preempted l2.         2:Preempted l1.         3:Preempted l3.
+
+//_Base_period_5________________________________________________________________________________
+0:Executing l1.         1:Executing l2.         2:Executing l3.         3:Dynamic phase.
+0:l1 pausing.           1:l2 pausing.           2:l3 pausing.
+
+0:Dynamic phase.        1:Dynamic phase.        2:Executing l4.
+                                                2:l4 pausing.
+                        
+                                                2:Dynamic phase.
+0:Preempted scheduler0. 1:Preempted scheduler1. 2:Preempted scheduler2. 3:Preempted scheduler3.
+
+//_Base_period_6________________________________________________________________________________
+0:Dynamic phase.        1:Dynamic phase.        2:Dynamic phase.        3:Dynamic phase.
+0:Preempted scheduler0. 1:Preempted scheduler1. 2:Preempted scheduler2. 3:Preempted scheduler3.
+
+//_Base_period_7________________________________________________________________________________
+0:Dynamic phase.        1:Dynamic phase.        2:Dynamic phase.        3:Dynamic phase.
+0:Preempted scheduler0. 1:Preempted scheduler1. 2:Preempted scheduler2. 3:Preempted scheduler3.
+
+//_Base_period_8_(LCM_of_all_tasks)_____________________________________________________________
+0:Releasing m1.         1:Releasing m2.         2:Releasing l3.         3:Releasing m3.
+0:Executing m1.         1:Executing m2.         2:Executing l3.         3:Executing m3.
+0:Preempted m1.         1:Preempted m2.         2:Preempted l3.         3:Preempted m3.
+0:Queuing m1.           1:Queuing m2.           2:Queuing l3.           3:Queuing m3.
+
+0:Releasing l1.         1:Releasing l2.         2:Releasing l4.         3:Releasing m4.
+0:Executing l1.         1:Executing l2.         2:Executing l4.         3:Executing m4.
+0:Preempted l1.         1:Preempted l2.         2:Preempted l4.         3:Preempted m4.
+0:Queuing l1.           1:Queuing l2.           2:Queuing l4.           3:Queuing m4.
+        
+0:Dynamic phase.        1:Dynamic phase.        2:Dynamic phase.        3:Dynamic phase.
+0:Picking m3.           1:Picking m4.           2:Picking m2.           3:Picking m1.
+0:m3 pausing.           1:m4 pausing.           2:m2 pausing.           3:m1 pausing.
+
+0:Picking l4.           1:Picking l2.           2:Picking l1.           3:Picking l3.
+0:Preempted l4.         1:Preempted l2.         2:Preempted l1.         3:Preempted l3.
+

@@ -1,0 +1,34 @@
+#include <stdio.h>
+
+thread t0(void);
+thread t1(void);
+
+const int plus(const int *copy1, const int *copy2);
+
+shared int x = 0 combine with plus;
+
+void main(int argc, char **argv) {
+	x = 1;
+	par(t0, t1);
+	x = x - 1;
+	printf("x: %d\n", x);
+}
+
+thread t0(void) {
+	x = 10;
+	x = x + 1;
+	pause;
+	x = x + 1;
+}
+
+thread t1(void) {
+	x = x * 2;
+	pause;
+	printf("x: %d\n", x);
+	x = x * 2;
+}
+
+const int plus(const int *copy1, const int *copy2) {
+	return *copy1 + *copy2;
+}
+

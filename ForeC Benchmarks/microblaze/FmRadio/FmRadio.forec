@@ -1,0 +1,859 @@
+/* A simple approach to FMradio.
+ *
+ * The code was addapted from Marco Cornero Aug'06 
+ * for Acotes project. This version ensures to have
+ * the same result that the stream one for plain C.
+ * 
+ * Author: David Rodenas-Pico, BSC
+ * Creation Date: March 2007
+ */
+
+typedef struct {
+	float real;
+	float imag;
+} complex;
+
+typedef struct {
+	float history[2];
+} fm_quad_demod_filter;
+
+typedef struct {
+	float coeff[2];
+	int decimation;
+	int taps;
+	float  history[2];
+	int next;
+} ntaps_filter_conf;
+
+//ntaps_filter_conf lp_11_conf;
+float lp_11_conf_coeff[2];
+int lp_11_conf_decimation;
+shared int lp_11_conf_taps;
+float  lp_11_conf_history_array[2];
+shared float *lp_11_conf_history = lp_11_conf_history_array;
+shared int lp_11_conf_next;
+
+//ntaps_filter_conf lp_12_conf;
+float lp_12_conf_coeff[2];
+int lp_12_conf_decimation;
+shared int lp_12_conf_taps;
+float  lp_12_conf_history_array[2];
+shared float *lp_12_conf_history = lp_12_conf_history_array;
+shared int lp_12_conf_next;
+
+//ntaps_filter_conf lp_21_conf;
+float lp_21_conf_coeff[2];
+int lp_21_conf_decimation;
+shared int lp_21_conf_taps;
+float  lp_21_conf_history_array[2];
+shared float *lp_21_conf_history = lp_21_conf_history_array;
+shared int lp_21_conf_next;
+
+//ntaps_filter_conf lp_22_conf;
+float lp_22_conf_coeff[2];
+int lp_22_conf_decimation;
+shared int lp_22_conf_taps;
+float  lp_22_conf_history_array[2];
+shared float *lp_22_conf_history = lp_22_conf_history_array;
+shared int lp_22_conf_next;
+
+//ntaps_filter_conf lp_2_conf;
+float lp_2_conf_coeff[2];
+int lp_2_conf_decimation;
+shared int lp_2_conf_taps;
+float  lp_2_conf_history_array[2];
+shared float *lp_2_conf_history = lp_2_conf_history_array;
+shared int lp_2_conf_next;
+
+//ntaps_filter_conf lp_3_conf;
+float lp_3_conf_coeff[2];
+int lp_3_conf_decimation;
+shared int lp_3_conf_taps;
+float  lp_3_conf_history_array[2];
+shared float *lp_3_conf_history = lp_3_conf_history_array;
+shared int lp_3_conf_next;
+
+float band_11 = 0.0;
+shared float band_12 = 0.0;
+shared float band_21 = 0.0;
+shared float band_22 = 0.0;
+shared float fm_qd_value = 0.0;
+
+shared float band_2 = 0.0;
+shared float band_3 = 0.0;
+shared float resume_1 = 0.0;
+shared float resume_2 = 0.0;
+
+float fm_qd_buffer_array[8];
+float ffd_buffer_array[8];
+shared float *fm_qd_buffer = fm_qd_buffer_array;
+shared float *ffd_buffer = ffd_buffer_array;
+
+output float output1 = 0.0;
+output float output2 = 0.0;
+output short output_short[2];
+
+float ntaps_filter_ffd(void);
+
+float arctan(const float imag, const float real);
+float sine(const float arg);
+float cosine(const float arg);
+
+thread ntaps_filter_ffd_init0(void);
+thread ntaps_filter_ffd_init1(void);
+thread ntaps_filter_ffd_init2(void);
+thread ntaps_filter_ffd_init3(void);
+
+thread ntaps_filter_ffd_init4(void);
+thread ntaps_filter_ffd_init5(void);
+
+thread ntaps_filter_ffd_0(void);
+thread ntaps_filter_ffd_1(void);
+thread ntaps_filter_ffd_2(void);
+thread ntaps_filter_ffd_3(void);
+
+thread ntaps_filter_ffd_4(void);
+thread ntaps_filter_ffd_5(void);
+
+int main(int argc, char **argv) {
+	int GAIN_LMR = 2000;
+	    
+	par(ntaps_filter_ffd_init0, ntaps_filter_ffd_init1, ntaps_filter_ffd_init2, ntaps_filter_ffd_init3);
+	
+	fm_quad_demod_filter fm_qd_conf;
+	fm_qd_conf.history[0]= 0;
+	fm_qd_conf.history[1]= 0;
+	pause;
+	
+	float read_buffer[16];
+	
+	int i;
+	for (i = 0; i < 1000; ++i) /*#1000#1000*/ {
+		int j;
+		for (j = 0; j < 8; j++) /*#8#8*/ {
+			// 0
+			complex x_N, x_N_1, x_N_1_conj, y_N;
+			float d_gain = 0.5;
+
+			x_N.real = read_buffer[j*2] + 1;
+			x_N.imag = read_buffer[j*2];
+	
+			x_N_1.real = fm_qd_conf.history[1];
+			x_N_1.imag = fm_qd_conf.history[0];
+	
+			x_N_1_conj.real = x_N_1.real;
+			x_N_1_conj.imag = -1 * x_N_1.imag;
+			y_N.real = x_N_1_conj.real * x_N.real - (x_N_1_conj.imag * x_N.imag);
+			y_N.imag = x_N_1_conj.real * x_N.imag + x_N_1_conj.imag * x_N.real;
+	
+			fm_qd_conf.history[0]= read_buffer[j*2];
+			fm_qd_conf.history[1]= read_buffer[j*2] + 1;
+	
+			fm_qd_value = d_gain * arctan(y_N.imag, y_N.real);
+		
+			fm_qd_buffer[j]= fm_qd_value;
+			pause; 
+			par(ntaps_filter_ffd_0, ntaps_filter_ffd_1, ntaps_filter_ffd_2, ntaps_filter_ffd_3);
+			
+			ffd_buffer[j]= GAIN_LMR * resume_1 * resume_2 * resume_2;
+		}
+		par(ntaps_filter_ffd_init4, ntaps_filter_ffd_init5);
+		pause;
+		par(ntaps_filter_ffd_4, ntaps_filter_ffd_5);
+	}
+}
+
+thread ntaps_filter_ffd_init0(void) {
+	float M_PI = 3.14159265358979323846;
+	int input_rate = 512 * 1024;
+	
+	/* Taken from the GNU software radio .. */
+	int n = 0;
+	int i = 0;
+	
+	float delta_f = ((float)4000) / ((float)input_rate);
+	unsigned int ntaps = (int) (((float)3.1) / delta_f + ((float)0.5));
+	if ((ntaps & 1) == 0) {
+		ntaps++;
+	}
+
+	float w[2];
+	int M = (ntaps - 1) / 2;	
+	float fwT0 = 2 * M_PI * 53000 / input_rate;
+
+	lp_11_conf_taps = ntaps;
+	lp_11_conf_decimation = 1;
+	
+	float N = ntaps - 1;    // filter order
+//	for (n = 0; n < ntaps; n++) #407#407 {
+		w[n] = (float)0.5 - (float)0.5 * cosine((2 * M_PI * n) / N);
+//	}
+	
+//	for (n = 0; n < ntaps; n++) #407#407 {
+		lp_11_conf_coeff[n] = 0.0;
+//	}
+	
+//	for (n = -M; n <= M; n++) #407#407 {
+		if (n == 0) {
+			lp_11_conf_coeff[0 + M] = fwT0 / M_PI * w[0 + M];
+		} else {
+			lp_11_conf_coeff[1 + M] =  sine (1 * fwT0) / (1 * M_PI) * w[1 + M];
+		}
+//	}
+	
+	float fmax = lp_11_conf_coeff[0 + M];
+	
+//	for (n = 1; n <= M; n++) #203#203 {
+		fmax += 2 * lp_11_conf_coeff[1 + M];
+//	}
+
+	float gain = 1;
+	gain /= fmax; // normalize
+	
+//	for (i = 0; i < ntaps; i++) #407#407 {
+		lp_11_conf_coeff[i] *= gain;
+//	}
+	
+	// init history
+	lp_11_conf_next= 0;
+//	for (n = 0; n < ntaps; n++) #407#407 {
+//		lp_11_conf_history[n] = 0;
+//	}
+	for (n = 0; n < 100; n++) #100#100 {
+		lp_11_conf_history[0] = 0;
+	}
+}
+
+thread ntaps_filter_ffd_init1(void) {
+	float M_PI = 3.14159265358979323846;
+	int input_rate = 512 * 1024;
+	
+	/* Taken from the GNU software radio .. */
+	int n = 0;
+	int i = 0;
+	
+	float delta_f = ((float)4000) / ((float)input_rate);
+	unsigned int ntaps = (int) (((float)3.1) / delta_f + ((float)0.5));
+	if ((ntaps & 1) == 0) {
+		ntaps++;
+	}
+
+	float w[2];
+	int M = (ntaps - 1) / 2;	
+	float fwT0 = 2 * M_PI * 23000 / input_rate;
+
+	lp_12_conf_taps = ntaps;
+	lp_12_conf_decimation = 1;
+	
+	float N = ntaps - 1;    // filter order
+//	for (n = 0; n < ntaps; n++) #407#407 {
+		w[n] = (float)0.5 - (float)0.5 * cosine((2 * M_PI * n) / N);
+//	}
+	
+//	for (n = 0; n < ntaps; n++) #407#407 {
+		lp_12_conf_coeff[n] = 0.0;
+//	}
+	
+//	for (n = -M; n <= M; n++) #407#407 {
+		if (n == 0) {
+			lp_12_conf_coeff[0 + M] = fwT0 / M_PI * w[0 + M];
+		} else {
+			lp_12_conf_coeff[1 + M] =  sine (1 * fwT0) / (1 * M_PI) * w[1 + M];
+		}
+//	}
+	
+	float fmax = lp_12_conf_coeff[0 + M];
+	
+//	for (n = 1; n <= M; n++) #203#203 {
+		fmax += 2 * lp_12_conf_coeff[1 + M];
+//	}
+
+	float gain = 1;
+	gain /= fmax; // normalize
+	
+//	for (i = 0; i < ntaps; i++) #407#407 {
+		lp_12_conf_coeff[i] *= gain;
+//	}
+	
+	// init history
+	lp_12_conf_next= 0;
+//	for (n = 0; n < ntaps; n++) #407#407 {
+//		lp_12_conf_history[n] = 0;
+//	}
+	for (n = 0; n < 100; n++) #100#100 {
+		lp_12_conf_history[0] = 0;
+	}
+}
+
+thread ntaps_filter_ffd_init2(void) {
+	float M_PI = 3.14159265358979323846;
+	int input_rate = 512 * 1024;
+	
+	/* Taken from the GNU software radio .. */
+	int n = 0;
+	int i = 0;
+	
+	float delta_f = ((float)2000) / ((float)input_rate);
+	unsigned int ntaps = (int) (((float)3.1) / delta_f + ((float)0.5));
+	if ((ntaps & 1) == 0) {
+		ntaps++;
+	}
+
+	float w[2];
+	int M = (ntaps - 1) / 2;	
+	float fwT0 = 2 * M_PI * 21000 / input_rate;
+
+	lp_21_conf_taps = ntaps;
+	lp_21_conf_decimation = 1;
+	
+	float N = ntaps - 1;    // filter order
+//	for (n = 0; n < ntaps; n++) #813#813 {
+		w[n] = (float)0.5 - (float)0.5 * cosine((2 * M_PI * n) / N);
+//	}
+	
+//	for (n = 0; n < ntaps; n++) #813#813 {
+		lp_21_conf_coeff[n] = 0.0;
+//	}
+	
+//	for (n = -M; n <= M; n++) #813#813 {
+		if (n == 0) {
+			lp_21_conf_coeff[0 + M] = fwT0 / M_PI * w[0 + M];
+		} else {
+			lp_21_conf_coeff[1 + M] =  sine (1 * fwT0) / (1 * M_PI) * w[1 + M];
+		}
+//	}
+	
+	float fmax = lp_21_conf_coeff[0 + M];
+	
+//	for (n = 1; n <= M; n++) #406#406 {
+		fmax += 2 * lp_21_conf_coeff[1 + M];
+//	}
+
+	float gain = 1;
+	gain /= fmax; // normalize
+	
+//	for (i = 0; i < ntaps; i++) #813#813 {
+		lp_21_conf_coeff[i] *= gain;
+//	}
+	
+	// init history
+	lp_21_conf_next= 0;
+//	for (n = 0; n < ntaps; n++) #813#813 {
+//		lp_21_conf_history[n] = 0;
+//	}
+	for (n = 0; n < 100; n++) #100#100 {
+		lp_21_conf_history[0] = 0;
+	}
+}
+
+thread ntaps_filter_ffd_init3(void) {
+	float M_PI = 3.14159265358979323846;
+	int input_rate = 512 * 1024;
+	
+	/* Taken from the GNU software radio .. */
+	int n = 0;
+	int i = 0;
+	
+	float delta_f = ((float)2000) / ((float)input_rate);
+	unsigned int ntaps = (int) (((float)3.1) / delta_f + ((float)0.5));
+	if ((ntaps & 1) == 0) {
+		ntaps++;
+	}
+
+	float w[2];
+	int M = (ntaps - 1) / 2;	
+	float fwT0 = 2 * M_PI * 17000 / input_rate;
+
+	lp_22_conf_taps = ntaps;
+	lp_22_conf_decimation = 1;
+	
+	float N = ntaps - 1;    // filter order
+//	for (n = 0; n < ntaps; n++) #813#813 {
+		w[n] = (float)0.5 - (float)0.5 * cosine((2 * M_PI * n) / N);
+//	}
+	
+//	for (n = 0; n < ntaps; n++) #813#813 {
+		lp_22_conf_coeff[n] = 0.0;
+//	}
+	
+//	for (n = -M; n <= M; n++) #813#813{
+		if (n == 0) {
+			lp_22_conf_coeff[0 + M] = fwT0 / M_PI * w[0 + M];
+		} else {
+			lp_22_conf_coeff[1 + M] =  sine (1 * fwT0) / (1 * M_PI) * w[1 + M];
+		}
+//	}
+	
+	float fmax = lp_22_conf_coeff[0 + M];
+	
+//	for (n = 1; n <= M; n++) #406#406 {
+		fmax += 2 * lp_22_conf_coeff[1 + M];
+//	}
+
+	float gain = 1;
+	gain /= fmax; // normalize
+	
+//	for (i = 0; i < ntaps; i++) #813#813 {
+		lp_22_conf_coeff[i] *= gain;
+//	}
+	
+	// init history
+	lp_22_conf_next= 0;
+//	for (n = 0; n < ntaps; n++) #813#813 {
+//		lp_22_conf_history[n] = 0;
+//	}
+	for (n = 0; n < 100; n++) #100#100 {
+		lp_22_conf_history[0] = 0;
+	}
+}
+
+thread ntaps_filter_ffd_init4(void) {
+	float M_PI = 3.14159265358979323846;
+	int final_audio_frequency = 64 * 1024;
+	int input_rate = 512 * 1024;
+	
+	/* Taken from the GNU software radio .. */
+	int n = 0;
+	int i = 0;
+	
+	float delta_f = ((float)4000) / ((float)input_rate);
+	unsigned int ntaps = (int) (((float)3.1) / delta_f + ((float)0.5));
+	if ((ntaps & 1) == 0) {
+		ntaps++;
+	}
+
+	float w[2];
+	int M = (ntaps - 1) / 2;	
+	float fwT0 = 2 * M_PI * 15000 / input_rate;
+
+	lp_2_conf_taps = ntaps;
+	lp_2_conf_decimation = ((int) input_rate)/final_audio_frequency;
+	
+	float N = ntaps - 1;    // filter order
+//	for (n = 0; n < ntaps; n++) #407#407 {
+		w[n] = (float)0.5 - (float)0.5 * cosine((2 * M_PI * n) / N);
+//	}
+	
+//	for (n = 0; n < ntaps; n++) #407#407 {
+		lp_2_conf_coeff[n] = 0.0;
+//	}
+	
+//	for (n = -M; n <= M; n++) #407#407 {
+		if (n == 0) {
+			lp_2_conf_coeff[0 + M] = fwT0 / M_PI * w[0 + M];
+		} else {
+			lp_2_conf_coeff[1 + M] =  sine (1 * fwT0) / (1 * M_PI) * w[1 + M];
+		}
+//	}
+	
+	float fmax = lp_2_conf_coeff[0 + M];
+//	for (n = 1; n <= M; n++) #203#203 {
+		fmax += 2 * lp_2_conf_coeff[1 + M];
+//	}
+	
+	float gain = 0.5;
+	gain /= fmax; // normalize
+	
+//	for (i = 0; i < ntaps; i++) #407#407 {
+		lp_2_conf_coeff[i] *= gain;
+//	}
+	
+	// init history
+	lp_2_conf_next= 0;
+//	for (n = 0; n < ntaps; n++) #407#407 {
+		lp_2_conf_history[n] = 0;
+//	}
+}
+
+thread ntaps_filter_ffd_init5(void) {
+	float M_PI = 3.14159265358979323846;
+	int final_audio_frequency = 64 * 1024;
+	int input_rate = 512 * 1024;
+	
+	/* Taken from the GNU software radio .. */
+	int n = 0;
+	int i = 0;
+	
+	float delta_f = ((float)4000) / ((float)input_rate);
+	unsigned int ntaps = (int) (((float)3.1) / delta_f + ((float)0.5));
+	if ((ntaps & 1) == 0) {
+		ntaps++;
+	}
+
+	float w[2];
+	int M = (ntaps - 1) / 2;	
+	float fwT0 = 2 * M_PI * 15000 / input_rate;
+
+	lp_3_conf_taps = ntaps;
+	lp_3_conf_decimation = ((int) input_rate)/final_audio_frequency;
+	
+	float N = ntaps - 1;    // filter order
+//	for (n = 0; n < ntaps; n++) #407#407 {
+		w[n] = (float)0.5 - (float)0.5 * cosine((2 * M_PI * n) / N);
+//	}
+	
+//	for (n = 0; n < ntaps; n++) #407#407 {
+		lp_3_conf_coeff[n] = 0.0;
+//	}
+	
+//	for (n = -M; n <= M; n++) #407#407# {
+		if (n == 0) {
+			lp_3_conf_coeff[0 + M] = fwT0 / M_PI * w[0 + M];
+		} else {
+			lp_3_conf_coeff[1 + M] =  sine (1 * fwT0) / (1 * M_PI) * w[1 + M];
+		}
+//	}
+	
+	float fmax = lp_3_conf_coeff[0 + M];
+	
+//	for (n = 1; n <= M; n++) #203#203 {
+		fmax += 2 * lp_3_conf_coeff[1 + M];
+//	}
+	
+	float gain = 1;
+	gain /= fmax; // normalize
+	
+//	for (i = 0; i < ntaps; i++) #407#407 {
+		lp_3_conf_coeff[i] *= gain;
+//	}
+	
+	// init history
+	lp_3_conf_next= 0;
+//	for (n = 0; n < ntaps; n++) #407#407 {
+		lp_3_conf_history[n] = 0;
+//	}
+}
+
+thread ntaps_filter_ffd_0(void) {
+	int next = lp_11_conf_next;
+//	lp_11_conf_history = lp_11_conf_history + next;
+	*lp_11_conf_history = fm_qd_value;
+	next = (next + 1) % lp_11_conf_taps;
+	lp_11_conf_next = next;
+
+	band_11 = ntaps_filter_ffd();
+	pause;
+	resume_1 = band_11 - band_12;
+}
+
+thread ntaps_filter_ffd_1(void) {
+	int next = lp_12_conf_next;
+//	lp_12_conf_history += next;
+	*lp_12_conf_history = fm_qd_value;
+	next = (next + 1) % lp_12_conf_taps;
+	lp_12_conf_next = next;
+
+	band_12 = ntaps_filter_ffd();
+	pause;
+	resume_2 = band_21 - band_22;
+}
+
+thread ntaps_filter_ffd_2(void) {
+	int next = lp_21_conf_next;
+//	lp_21_conf_history += next;
+	*lp_21_conf_history = fm_qd_value;
+	next = (next + 1) % lp_21_conf_taps;
+	lp_21_conf_next = next;
+
+	band_21 = ntaps_filter_ffd();
+	pause;
+
+}
+
+thread ntaps_filter_ffd_3(void) {
+	int next  = lp_22_conf_next;
+//	lp_22_conf_history += next;
+	*lp_22_conf_history = fm_qd_value;
+	next = (next + 1) % lp_22_conf_taps;
+	lp_22_conf_next = next;
+	
+	band_22 = ntaps_filter_ffd();
+	pause;
+}
+
+
+thread ntaps_filter_ffd_4(void) {
+	int FM_MAX = 5;
+	int FM_LIMIT = (65536/2) - 1;
+	
+	int next = lp_2_conf_next;
+
+	*lp_2_conf_history = fm_qd_buffer[0];
+	next = (next + 1) % lp_2_conf_taps;
+	*lp_2_conf_history = fm_qd_buffer[1];
+	next = (next + 1) % lp_2_conf_taps;
+	*lp_2_conf_history = fm_qd_buffer[2];
+	next = (next + 1) % lp_2_conf_taps;
+	*lp_2_conf_history = fm_qd_buffer[3];
+	next = (next + 1) % lp_2_conf_taps;
+	*lp_2_conf_history = fm_qd_buffer[4];
+	next = (next + 1) % lp_2_conf_taps;
+	*lp_2_conf_history = fm_qd_buffer[5];
+	next = (next + 1) % lp_2_conf_taps;
+	*lp_2_conf_history = fm_qd_buffer[6];
+	next = (next + 1) % lp_2_conf_taps;
+	*lp_2_conf_history = fm_qd_buffer[7];
+	next = (next + 1) % lp_2_conf_taps;
+	lp_2_conf_next = next;
+	pause;
+	band_2 = ntaps_filter_ffd();
+	pause;
+	output1 = (band_2 + band_3);
+	*output_short = (output1 / FM_MAX)*FM_LIMIT;
+
+}
+
+thread ntaps_filter_ffd_5(void) {
+	int FM_MAX = 5;
+	int FM_LIMIT = (65536/2) - 1;
+	
+	int next = lp_3_conf_next;
+
+	*lp_3_conf_history = ffd_buffer[0];
+	next = (next + 1) % lp_3_conf_taps;
+	*lp_3_conf_history = ffd_buffer[1];
+	next = (next + 1) % lp_3_conf_taps;
+	*lp_3_conf_history = ffd_buffer[2];
+	next = (next + 1) % lp_3_conf_taps;
+	*lp_3_conf_history = ffd_buffer[3];
+	next = (next + 1) % lp_3_conf_taps;
+	*lp_3_conf_history = ffd_buffer[4];
+	next = (next + 1) % lp_3_conf_taps;
+	*lp_3_conf_history = ffd_buffer[5];
+	next = (next + 1) % lp_3_conf_taps;
+	*lp_3_conf_history = ffd_buffer[6];
+	next = (next + 1) % lp_3_conf_taps;
+	*lp_3_conf_history = ffd_buffer[7];
+	next = (next + 1) % lp_3_conf_taps;
+	pause;
+	band_3 = ntaps_filter_ffd();
+	pause;
+	output2 = (band_2 - band_3);
+	*output_short = (output2 / FM_MAX)*FM_LIMIT;
+}
+
+float ntaps_filter_ffd(void) {
+	int i;	
+	float sum = 0.0;
+	unsigned int ntaps = lp_12_conf_taps;
+	int next = lp_12_conf_next;
+//	for (i = 0; i < conf->taps; i++) {
+		int index0 = (next + 0) % ntaps;
+		int index1 = ntaps - 0 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+		
+		index0 = (next + 1) % ntaps;
+		index1 = ntaps - 1 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+		
+		index0 = (next + 2) % ntaps;
+		index1 = ntaps - 2 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 3) % ntaps;
+		index1 = ntaps - 3 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+		
+		index0 = (next + 4) % ntaps;
+		index1 = ntaps - 4 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 5) % ntaps;
+		index1 = ntaps - 5 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 6) % ntaps;
+		index1 = ntaps - 6 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 7) % ntaps;
+		index1 = ntaps - 7 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 8) % ntaps;
+		index1 = ntaps - 8 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 9) % ntaps;
+		index1 = ntaps - 9 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 10) % ntaps;
+		index1 = ntaps - 10 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+		
+		index0 = (next + 11) % ntaps;
+		index1 = ntaps - 11 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+		
+		index0 = (next + 12) % ntaps;
+		index1 = ntaps - 12 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 13) % ntaps;
+		index1 = ntaps - 13 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+		
+		index0 = (next + 14) % ntaps;
+		index1 = ntaps - 14 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 15) % ntaps;
+		index1 = ntaps - 15 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 16) % ntaps;
+		index1 = ntaps - 16 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 17) % ntaps;
+		index1 = ntaps - 17 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 18) % ntaps;
+		index1 = ntaps - 18 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 19) % ntaps;
+		index1 = ntaps - 19 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 20) % ntaps;
+		index1 = ntaps - 20 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+		
+		index0 = (next + 21) % ntaps;
+		index1 = ntaps - 21 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+		
+		index0 = (next + 22) % ntaps;
+		index1 = ntaps - 22 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 23) % ntaps;
+		index1 = ntaps - 23 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+		
+		index0 = (next + 24) % ntaps;
+		index1 = ntaps - 24 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 25) % ntaps;
+		index1 = ntaps - 25 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 26) % ntaps;
+		index1 = ntaps - 26 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 27) % ntaps;
+		index1 = ntaps - 27 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 28) % ntaps;
+		index1 = ntaps - 28 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 29) % ntaps;
+		index1 = ntaps - 29 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 30) % ntaps;
+		index1 = ntaps - 30 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+		
+		index0 = (next + 31) % ntaps;
+		index1 = ntaps - 31 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+		
+		index0 = (next + 32) % ntaps;
+		index1 = ntaps - 32 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 33) % ntaps;
+		index1 = ntaps - 33 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+		
+		index0 = (next + 34) % ntaps;
+		index1 = ntaps - 34 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 35) % ntaps;
+		index1 = ntaps - 35 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 36) % ntaps;
+		index1 = ntaps - 36 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 37) % ntaps;
+		index1 = ntaps - 37 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 38) % ntaps;
+		index1 = ntaps - 38 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 39) % ntaps;
+		index1 = ntaps - 39 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 40) % ntaps;
+		index1 = ntaps - 40 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+		
+		index0 = (next + 41) % ntaps;
+		index1 = ntaps - 41 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+		
+		index0 = (next + 42) % ntaps;
+		index1 = ntaps - 42 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 43) % ntaps;
+		index1 = ntaps - 43 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+		
+		index0 = (next + 44) % ntaps;
+		index1 = ntaps - 44 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 45) % ntaps;
+		index1 = ntaps - 45 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 46) % ntaps;
+		index1 = ntaps - 46 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 47) % ntaps;
+		index1 = ntaps - 47 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 48) % ntaps;
+		index1 = ntaps - 48 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+
+		index0 = (next + 49) % ntaps;
+		index1 = ntaps - 49 - 1;
+		sum = sum + *lp_12_conf_history * *lp_12_conf_coeff;
+//	}
+	
+	return sum;
+}
+
+float arctan(const float imag, const float real) {
+	const float result = 0;
+	return result;
+}
+
+float cosine(const float arg) {
+	const float result = 0;
+	return result;
+}
+
+float sine(const float arg) {
+	const float result = 0;
+	return result;
+}
+

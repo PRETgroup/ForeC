@@ -1,0 +1,4 @@
+slot	5
+local	1
+globalLoad	5
+globalStore	5

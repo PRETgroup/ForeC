@@ -1,0 +1,246 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%%Title:   Template 'TB'.
+%%Creator: (Academic) UPPAAL 4.0.7 (rev. 4140), November 2008
+%%Pages: 0
+%%BoundingBox: -262 -101 44 151
+%%EndComments
+
+% Basic coordinate transformation.
+0.5 0.5 scale
+
+% Move the origin.
+0 101 translate
+
+% Size of graphical elements.
+/vertex-radius 12 def
+/vertex-urgent-radius 5 def
+/vertex-commit-radius 5 def
+/vertex-init-radius 8 def
+/vertex-lw 1.2 def
+/edge-lw 1.0 def
+
+% Color setting of graphical elements.
+/black { 0 0 0 setrgbcolor } def
+/vertex-fill-col { 0.647 0.686 0.803 setrgbcolor} def
+/vertex-ol-col { black } def
+/urgent-ol-col { black } def
+/commit-ol-col { black } def
+/initial-ol-col { black } def
+/state-name-col { 0.549 0.2196 0.3882 setrgbcolor } def
+/inv-col { 0.6549 0.2588 0.6588 setrgbcolor } def
+/select-col { 0.6392 0.6588 0.2588 setrgbcolor } def
+/guard-col { 0.2588 0.6588 0.2824 setrgbcolor } def
+/sync-col { 0.2588 0.6275 0.6588 setrgbcolor } def
+/assign-col { 0.2588 0.2588 0.6588 setrgbcolor } def
+/trans-col { black } def
+
+% Draw (filled) vertex at given position.
+/vertex { 
+   2 copy
+   vertex-fill-col
+   newpath vertex-lw setlinewidth 
+   /vertex-radius load 0 360 arc fill
+   vertex-ol-col
+   /vertex-radius load 0 360 arc stroke
+} def
+
+% Mark vertex as urgent.
+/urgent { 
+   urgent-ol-col
+   newpath vertex-lw setlinewidth 
+   /vertex-urgent-radius load 150 30 arc stroke 
+} def
+
+% Mark vertex as committed.
+/commit { 
+   commit-ol-col
+   newpath vertex-lw setlinewidth 
+   /vertex-commit-radius load 50 310 arc stroke 
+} def
+
+% Mark vertex as initial.
+/initial { 
+   initial-ol-col
+   newpath vertex-lw setlinewidth 
+   /vertex-init-radius load 0 360 arc stroke 
+} def
+
+% Vertices.
+% Font used for vertex names and invariants.
+/Helvetica-Bold findfont 14 scalefont setfont
+-288 0 vertex
+   -264 -6 moveto state-name-col (NextReaction0) show
+   0 -14 moveto inv-col () show
+-224 -128 vertex
+   -208 -126 moveto state-name-col (ReactionEnded) show
+   0 -14 moveto inv-col () show
+-288 -128 vertex
+   -336 -150 moveto state-name-col (PAR2) show
+   0 -14 moveto inv-col () show
+-288 -224 vertex
+   -264 -230 moveto state-name-col (ThreadEnd) show
+   0 -14 moveto inv-col () show
+-288 64 vertex
+   -264 58 moveto state-name-col (EOT0) show
+   0 -14 moveto inv-col () show
+-288 160 vertex
+   -288 160 initial
+   -328 186 moveto state-name-col (WaitForPAR0) show
+   0 -14 moveto inv-col () show
+
+% Edges.
+% Font used for selects, guards, syncs and assigns.
+/Helvetica findfont 14 scalefont setfont
+newpath edge-lw setlinewidth
+   trans-col
+   -300.0 -128.0  moveto
+   -310.0 -128.0 lineto
+   -320.0 -128.0 -320.0 -128.0 -320.0 -118.0 curveto   -320.0 150.0 lineto
+   -320.0 160.0 -320.0 160.0 -310.5 160.0 curveto   -301.0 160.0  lineto
+stroke
+newpath edge-lw setlinewidth
+   trans-col
+   -310.6592712402344 162.58819580078125   moveto
+   -301.0 160.0   lineto
+   -310.6592712402344 157.41180419921875   lineto
+stroke
+   0 -14 moveto select-col () show
+   -488 -70 moveto guard-col (input_mode == SHUTDOWN) show
+   -352 -86 moveto sync-col (tick?) show
+   0 -14 moveto assign-col () show
+newpath edge-lw setlinewidth
+   trans-col
+   -300.0 64.0  moveto
+   -310.0 64.0 lineto
+   -320.0 64.0 -320.0 64.0 -320.0 74.0 curveto   -320.0 150.0 lineto
+   -320.0 160.0 -320.0 160.0 -310.5 160.0 curveto   -301.0 160.0  lineto
+stroke
+newpath edge-lw setlinewidth
+   trans-col
+   -310.6592712402344 162.58819580078125   moveto
+   -301.0 160.0   lineto
+   -310.6592712402344 157.41180419921875   lineto
+stroke
+   0 -14 moveto select-col () show
+   -488 114 moveto guard-col (input_mode == SHUTDOWN) show
+   -352 98 moveto sync-col (tick?) show
+   0 -14 moveto assign-col () show
+newpath edge-lw setlinewidth
+   trans-col
+   -288.0 -12.0   moveto
+   -288.0 -115.0   lineto
+stroke
+newpath edge-lw setlinewidth
+   trans-col
+   -285.41180419921875 -105.34074401855469   moveto
+   -288.0 -115.0   lineto
+   -290.58819580078125 -105.34074401855469   lineto
+stroke
+   0 -14 moveto select-col () show
+   -72 -22 moveto guard-col (turn[par0] == threadID) show
+   0 -14 moveto sync-col () show
+   -272 -22 moveto assign-col (parSignal[par2] = true,) show
+   -272 -36 moveto assign-col (threadsAlive[par2] = 1,) show
+   -272 -50 moveto assign-col (createLinkedList\(par2, threadID\),) show
+   -272 -64 moveto assign-col (turn[par2] = 5) show
+newpath edge-lw setlinewidth
+   trans-col
+   -288.0 52.0   moveto
+   -288.0 13.0   lineto
+stroke
+newpath edge-lw setlinewidth
+   trans-col
+   -285.41180419921875 22.659257888793945   moveto
+   -288.0 13.0   lineto
+   -290.58819580078125 22.659257888793945   lineto
+stroke
+   0 -14 moveto select-col () show
+   -272 18 moveto guard-col (!\(input_mode == SHUTDOWN\)) show
+   -272 34 moveto sync-col (tick?) show
+   0 -14 moveto assign-col () show
+newpath edge-lw setlinewidth
+   trans-col
+   -288.0 -140.0   moveto
+   -288.0 -211.0   lineto
+stroke
+newpath edge-lw setlinewidth
+   trans-col
+   -285.41180419921875 -201.3407440185547   moveto
+   -288.0 -211.0   lineto
+   -290.58819580078125 -201.3407440185547   lineto
+stroke
+   0 -14 moveto select-col () show
+   -280 -190 moveto guard-col (threadsAlive[par2] == 0) show
+   0 -14 moveto sync-col () show
+   0 -14 moveto assign-col () show
+newpath edge-lw setlinewidth
+   trans-col
+   -232.4852752685547 -136.4852752685547  moveto
+   -248.92893218813452 -152.92893218813452 lineto
+   -256.0 -160.0 -256.0 -160.0 -263.0710678118655 -152.92893218813452 curveto   -278.8076171875 -137.1923828125  lineto
+stroke
+newpath edge-lw setlinewidth
+   trans-col
+   -273.8076171875 -145.85263061523438   moveto
+   -278.8076171875 -137.1923828125   lineto
+   -270.1473693847656 -142.1923828125   lineto
+stroke
+   0 -14 moveto select-col () show
+   0 -14 moveto guard-col () show
+   0 -14 moveto sync-col () show
+   -216 -158 moveto assign-col (reactionEnded[par2] = 0,) show
+   -216 -172 moveto assign-col (turn[par0] = linkedList[threadID][1]) show
+newpath edge-lw setlinewidth
+   trans-col
+   -279.51470947265625 -119.51471710205078  moveto
+   -263.07106666475454 -103.07106895897624 lineto
+   -256.0 -96.0 -256.0 -96.0 -248.9289310054601 -103.07106662919087 curveto   -233.1923828125 -118.80760955810547  lineto
+stroke
+newpath edge-lw setlinewidth
+   trans-col
+   -238.1923828125 -110.14735412597656   moveto
+   -233.1923828125 -118.80760955810547   lineto
+   -241.85263061523438 -113.80760955810547   lineto
+stroke
+   0 -14 moveto select-col () show
+   -208 -86 moveto guard-col (reactionHasEnded\(par2\)) show
+   0 -14 moveto sync-col () show
+   -208 -102 moveto assign-col (reactionEnded[par0]++) show
+newpath edge-lw setlinewidth
+   trans-col
+   -288.0 -236.0  moveto
+   -288.0 -246.0 lineto
+   -288.0 -256.0 -288.0 -256.0 -298.0 -256.0 curveto   -502.0 -256.0 lineto
+   -512.0 -256.0 -512.0 -256.0 -512.0 -246.0 curveto   -512.0 150.0 lineto
+   -512.0 160.0 -512.0 160.0 -502.0 160.0 curveto   -301.0 160.0  lineto
+stroke
+newpath edge-lw setlinewidth
+   trans-col
+   -310.6592712402344 162.58819580078125   moveto
+   -301.0 160.0   lineto
+   -310.6592712402344 157.41180419921875   lineto
+stroke
+   0 -14 moveto select-col () show
+   -496 -270 moveto guard-col (turn[par0] == threadID) show
+   0 -14 moveto sync-col () show
+   -496 -286 moveto assign-col (terminate\(par0, threadID\),) show
+   -496 -300 moveto assign-col (turn[par0] = linkedList[threadID][1]) show
+newpath edge-lw setlinewidth
+   trans-col
+   -288.0 148.0   moveto
+   -288.0 77.0   lineto
+stroke
+newpath edge-lw setlinewidth
+   trans-col
+   -285.41180419921875 86.65925598144531   moveto
+   -288.0 77.0   lineto
+   -290.58819580078125 86.65925598144531   lineto
+stroke
+   0 -14 moveto select-col () show
+   -272 138 moveto guard-col (parSignal[par0] == true &&) show
+   -272 124 moveto guard-col (turn[par0] == threadID) show
+   0 -14 moveto sync-col () show
+   -272 106 moveto assign-col (reactionEnded[par0]++,) show
+   -272 92 moveto assign-col (turn[par0] = linkedList[threadID][1]) show
+showpage
+%%EOF

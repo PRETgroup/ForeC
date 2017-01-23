@@ -1,0 +1,79 @@
+thread stage1(void);
+thread stage2(void);
+thread stage3(void);
+
+shared int s1 = 0;
+shared int s2 = 0;
+shared int s3 = 0;
+
+void main(int argc, char **argv) {
+	par(stage1, stage2, stage3);
+}
+
+
+thread stage1(void) {
+	// Pipeline header.
+	//-------
+	
+	// Pipeline body.
+	int i;
+	for (i = 0; i < 10; ++i) {
+		printf(utoa(s1));
+		printf(" ");
+		s1 = s1 + 1;
+		pause;
+	}
+	//-------
+	
+	// Pipeline trailer.
+	printf("  ");
+	pause;
+	printf("  ");
+	pause;
+	//-------
+}
+
+thread stage2(void) {
+	// Pipeline header.
+	printf("  ");
+	pause;
+	//-------
+	
+	// Pipeline body.
+	int i;
+	for (i = 0; i < 10; ++i) {
+		printf(utoa(s2));
+		printf(" ");
+		s2 = s1;
+		pause;
+	}
+	//-------
+
+	// Pipeline trailer.
+	printf("  ");
+	pause;
+	//-------
+}
+
+thread stage3(void) {
+	// Pipeline header.
+	printf("\n");
+	pause;
+	printf("\n");
+	pause;
+	//-------
+	
+	// Pipeline body.
+	int i;
+	for (i = 0; i < 10; ++i) {
+		printf(utoa(s3));
+		printf("\n");
+		s3 = s2;
+		pause;
+	}
+	//-------
+
+	// Pipeline trailer.
+	//-------
+}
+

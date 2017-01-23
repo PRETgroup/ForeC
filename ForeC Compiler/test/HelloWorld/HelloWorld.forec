@@ -1,0 +1,41 @@
+#include <stdio.h>
+
+const int plus(const int *copy1, const int *copy2) {
+	return *copy1 + *copy2;
+}
+
+// Thread prototypes. Input arguments ignored by the compiler.
+thread hello(void);
+thread world(void);
+
+// Shared variable
+shared int state = 0;
+
+// Function main: The entry point of the program.
+void main(int argc, char **argv) {
+	// par statement to fork two threads.
+	abort {
+		par(hello, world);
+	} when (state == 1);
+}
+
+// Thread
+thread hello(void) {
+	// Value of state is 0.
+	while (1) {
+		printf("Hello");
+		pause;
+
+		pause;
+		// Value of state is now 1.
+	}
+}
+
+// Thread
+thread world(void) {
+	pause;
+	state = 1;
+	// Value of state is now 1.
+	printf(" world!\r\n");
+}
+

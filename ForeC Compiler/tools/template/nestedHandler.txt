@@ -1,0 +1,50 @@
+	// forec:scheduler:parHandler:%{threadScope}:%{masterOrSlave}:%{coreId}:start
+	//-- Thread %{threadScope} par(...) handlers
+%{handlerName}: {
+%{mutex}
+	int parId = %{threadScope}ParParent.parId;
+
+	// Check the par(...) ID.
+	%{nestedHandlers}if (parId == -2) {
+		// Iteration
+%{forLoop}
+	} else if (parId == -3) {
+		// Thread termination
+		%{decrementEnclosingThreadCount}
+		%{threadScope}ParCore%{coreId}.activeThreads--;
+
+%{synchronise}
+		// Delete this par(...) handler.
+		%{handlerName}.prevThread -> nextThread = %{handlerName}.nextThread;
+		%{handlerName}.nextThread -> prevThread = %{handlerName}.prevThread;
+			
+%{nextThread}
+	} else {
+		// Unscheduled par(...)
+		%{threadScope}ParCore%{coreId}.reactionCounter = %{threadScope}ParReactionCounter;
+
+		%{handlerName}.programCounter = &&wrongParId_%{handlerName};
+		wrongParId_%{handlerName}:;
+
+		%{threadScope}ParCore%{coreId}.status = FOREC_CORE_TERMINATED;
+
+		// Wait for the next reaction.
+		while (%{threadScope}ParCore%{coreId}.reactionCounter == %{threadScope}ParReactionCounter);
+		%{threadScope}ParCore%{coreId}.reactionCounter++;
+
+		// Wait for the par(...) to terminate.
+		if (%{threadScope}ParParent.parStatus == FOREC_PAR_ON && %{threadScope}ParParent.parId == parId) {
+			goto *%{handlerName}.nextThread -> programCounter;
+		}
+		
+		// Go back to the top and wait for the next nested par(...)
+		%{handlerName}.programCounter = &&%{handlerName};
+		%{armNop}
+		goto %{handlerName};
+	}
+	%{armNop}
+	// Control should not reach here.
+	goto %{handlerName};
+}
+	// forec:scheduler:parHandler:%{threadScope}:%{masterOrSlave}:%{coreId}:end
+ 

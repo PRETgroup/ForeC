@@ -1,0 +1,3 @@
+1. Heuristics for inserting/removing tasks from the dynamic lists.
+2. An output from the sending task should only appear in the buffer 
+   just before its next release.

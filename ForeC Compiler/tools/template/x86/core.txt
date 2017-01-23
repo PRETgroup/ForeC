@@ -1,0 +1,40 @@
+	// Initialise ForeC specific values ---------------------------
+%{initialise}
+	// Reset ForeC mutex values
+%{resetMutexValues}
+	// Start core execution
+	pthread_attr_init(&masterCoreAttribute);
+	pthread_attr_init(&slaveCoreAttribute);
+	pthread_attr_setdetachstate(&masterCoreAttribute, PTHREAD_CREATE_JOINABLE);
+	pthread_attr_setdetachstate(&slaveCoreAttribute, PTHREAD_CREATE_DETACHED);
+		
+	// Master core
+	Arguments arguments0 = {.coreId = 0, .argc = %{argcName}, .argv = %{argvName}};
+	pthread_create(&cores[0], &masterCoreAttribute, forecMain, (void *)&arguments0);
+%{pthreadSlavesCreate}
+	// End core execution
+	pthread_attr_destroy(&masterCoreAttribute);
+	pthread_attr_destroy(&slaveCoreAttribute);
+	
+	// Program termination
+	pthread_join(cores[0], NULL);%{pthreadSlavesJoin}
+}
+
+
+/*==============================================================
+| Original main(...) function:
+*=============================================================*/
+void *forecMain(void *args) {
+	Arguments *arguments = (Arguments *)args;
+	int coreId = arguments->coreId;
+	int %{argcName} = arguments->argc;
+	char **%{argvName} = arguments->argv;
+
+	// Variables for par()s ----------------------------------------
+%{par}
+	// Let cores jump to their code segment ------------------------
+	switch (coreId) {
+%{cases}		default:
+			// Terminate unused cores.
+			pthread_exit(NULL);
+	}

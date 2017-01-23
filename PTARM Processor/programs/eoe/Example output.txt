@@ -1,0 +1,43 @@
+This program has four tasks (named one, two, three, four)
+whose execute continues forever. Each task is allocated 
+to its own PTARM hardware thread. The program preempts task
+one every 1 second, preempts task two every 2 seconds, 
+preempts task three every 3 seconds, and preempts task four
+every 4 seconds. An example of the outputs produced by the
+program is shown below.
+
+============================================================
+$ ptarm.bat execute
+
+Used memory: 4.4/60.0 kilobytes (7.4%)
+
+Execution begins.
+
+Preempted task: one--.		// 1s
+Preempted task: two  .		// 2s
+Preempted task: one--.		// 
+Preempted task: three.		// 3s
+Preempted task: one--.		// 
+Preempted task: four .		// 4s
+Preempted task: two  .		//
+Preempted task: one--.		//
+Preempted task: one--.		// 5s
+Preempted task: three.		// 6s
+Preempted task: two  .		//
+Preempted task: one--.		//
+Preempted task: one--.		// 7s
+Preempted task: four .		// 8s
+Preempted task: two  .		//
+Preempted task: one--.		//
+Preempted task: three.		// 9s
+Preempted task: one--.		//
+Preempted task: two  .		// 10s
+Preempted task: one--.		//
+Preempted task: one--.		// 11s
+Preempted task: four .		// 12s (LCM of the task periods)
+Preempted task: three.		//
+Preempted task: two  .		//
+Preempted task: one--.		//
+
+(Outputs will repeat)
+

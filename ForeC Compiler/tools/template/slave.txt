@@ -1,0 +1,46 @@
+// forec:scheduler:parHandler:main:slave:%{slaveCoreId}:start
+/*--------------------------------------------------------------
+| Slave core: core%{slaveCoreId}
+*-------------------------------------------------------------*/
+mainParCore%{slaveCoreId}: {
+	// Check the execution status of the root par(...)s.
+	while (mainParParent.parStatus == FOREC_PAR_OFF);
+
+	int parId = mainParParent.parId;
+
+	// Check the par(...) ID.
+	%{slavePars}{
+		// Unscheduled par(...)
+		mainParCore%{slaveCoreId}.reactionCounter = mainParReactionCounter;
+		
+		// Wait for the par(...) to terminate.
+		do {
+			mainParCore%{slaveCoreId}.status = FOREC_CORE_TERMINATED;
+			
+			// Wait for the next reaction.
+			while (mainParCore%{slaveCoreId}.reactionCounter == mainParReactionCounter);
+			mainParCore%{slaveCoreId}.reactionCounter++;
+			
+		} while (mainParParent.parStatus == FOREC_PAR_ON && mainParParent.parId == parId);
+		%{armNop}
+		// Go back to the top and wait for the next nested par(...) 
+		goto mainParCore%{slaveCoreId};
+	}
+	%{armNop}
+	// Control shouldn't reach here.
+	goto mainParCore%{slaveCoreId};
+}
+// forec:scheduler:parHandler:main:slave:%{slaveCoreId}:end
+
+	// Nested par(...) handlers ------------------------------------
+%{slaveCoreParHandlers}
+
+	// Reaction start handlers ---------------------------------------
+%{slaveReactionStarts}
+
+	// Reaction end handlers ---------------------------------------
+%{slaveReactionEnds}
+
+	// Abort check handlers ----------------------------------------
+%{slaveAbortChecks}
+

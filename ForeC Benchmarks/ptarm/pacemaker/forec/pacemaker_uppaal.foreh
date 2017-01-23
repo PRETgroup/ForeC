@@ -1,0 +1,17 @@
+architecture:
+x86
+
+0:
+main
+ekgSensing
+lri_ms
+avi_ms
+uri
+pvarp_elt
+vrp
+interval_ms
+counter_ms
+duration_ms
+pattern_vpAs
+counter_vpAs
+logging
