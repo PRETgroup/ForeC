@@ -1,0 +1,233 @@
+\subsubsection{Program 2}
+\begin{lstlisting}[style=snippet]
+int x=0;
+void main(void) {
+  weak abort {
+    x=1; pause; x=2;
+  } when immediate(x==0);
+}
+\end{lstlisting}
+This program is structurally translated to:
+\begin{lstlisting}[style=snippet]
+int x=0;
+void main(void) {
+  addAbort(a_0,1,x==0);
+  par( t1:{x=1; pause; x=2; preempt();}, t2:{preempt(a_0);} );
+}
+\end{lstlisting}
+The initial program state and its derivatives are defined 
+in Table~\ref{figure:forec_program_2}.
+\newline
+
+\begin{figure}
+	\centering
+	$$\begin{array}{l l l l l l l}
+		 \Environment		&=& \lbrace \Global \to \lbrace x \to 0	\rbrace \rbrace	& \qquad \Abort		&=& \lbrace ~ \rbrace			\\
+		 \Environment^1		&=& \lbrace \Global \to \lbrace x \to 1	\rbrace \rbrace & \qquad \Abort^1	&=& \lbrace a\_0 \to 1 \rbrace	\\
+		 					& &														& \qquad \Abort^2	&=& \lbrace a\_0 \to 0 \rbrace	\\
+	\end{array}$$
+	
+	\caption{Definition of the initial program state and its derivatives for Program 2.}
+	\label{figure:forec_program_2}
+\end{figure}
+
+\noindent
+Step 1: Apply the (\ref{forec:seq-left}) and (\ref{forec:imm-abort}) rules. 
+\begin{equation*}
+	\frac{
+		\dfrac{
+				1 = 1
+			}{
+				\langle \Environment, \Abort \rangle ~ \mathtt{main: addAbort(a\_0, 1, x==0)}
+					\xrightarrow[~~\Input~~]{\bot} 
+				\langle \Environment, \Abort^1 \rangle ~ \mathtt{main: nop}
+			}
+		}{
+			\begin{array}{l}
+				\langle \Environment, \Abort \rangle ~ \mathtt{main: addAbort(a\_0, 1, x==0);}		\\
+				\mathtt{par( t1:\{x=1; pause; x=2; preempt();\},}									\\
+				\mathtt{t2:\{preempt(a\_0);\} );}													\\
+			\end{array}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\begin{array}{l}
+				\langle \Environment, \Abort^1 \rangle ~ \mathtt{main: nop;~par( t1:\{x=1; pause;}	\\
+				\mathtt{x=2; preempt();\},}															\\
+				\mathtt{t2:\{preempt(a\_0);\} );}	
+			\end{array}
+		}
+\end{equation*}
+
+\noindent
+Step 2: Apply the (\ref{forec:seq-right}) and (\ref{forec:nop}) rules. 
+\begin{equation*}
+	\frac{
+			\langle \Environment, \Abort^1 \rangle ~ \mathtt{main: nop}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment, \Abort^1 \rangle ~ \mathtt{main: }
+		}{
+			\begin{array}{l}
+				\langle \Environment, \Abort^1 \rangle ~ \mathtt{main: nop;~par( t1:\{x=1; pause;}	\\
+				\mathtt{x=2; preempt();\}, t2:\{preempt(a\_0);\} );}								\\
+			\end{array}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\begin{array}{l}
+				\langle \Environment, \Abort^1 \rangle ~ \mathtt{main: par( t1:\{x=1; pause;}		\\
+				\mathtt{x=2; preempt();\}, t2:\{preempt(a\_0);\} );}								\\
+			\end{array}
+		}
+\end{equation*}
+
+\noindent
+Step 3: Apply the (\ref{forec:par-3}) rule. Additionally, apply the 
+(\ref{forec:seq-left}) and (\ref{forec:assign-private}) rules to the 
+first thread, and the (\ref{forec:preempt}) rule to the second thread.
+\begin{equation*}
+	\frac{
+			\twolines{
+				~
+			}{
+				term1
+			}
+			\qquad
+			\qquad
+		\dfrac{
+				1 \neq 0
+			}{
+				\langle \Environment, \Abort^1 \rangle ~ \mathtt{main: preempt(a\_0)}
+					\xrightarrow[~~\Input~~]{2} 
+				\langle \Environment, \Abort^1 \rangle ~ \mathtt{main: nop}
+			}
+		}{
+			\begin{array}{l}
+				\langle \Environment, \Abort^1 \rangle ~ \mathtt{main: par( t1:\{x=1; pause; x=2;}	\\
+				\mathtt{preempt();\}, t2:\{preempt(a\_0);\} );}										\\
+			\end{array}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\begin{array}{l}
+				\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{main: par( t1:\{nop; pause; x=2;}\\
+				\mathtt{preempt();\}, t2:\{preempt(a\_0);\} );}										\\
+			\end{array}
+		}
+\end{equation*}
+where $term1$ represents:
+\begin{equation*}
+	\frac{
+			\dfrac{
+				x \notin \Shared(\Environment[\Global])
+			}{
+				\langle \Environment, \Abort^1 \rangle ~ \mathtt{t1: x=1}
+					\xrightarrow[~~\Input~~]{\bot} 
+				\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{t1: nop}
+			}
+		}{
+			\langle \Environment, \Abort^1 \rangle ~ \mathtt{t1: x=1; pause;x=2; preempt()}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{t1: nop; pause;x=2; preempt()}
+		}
+\end{equation*}
+
+\noindent
+Step 4: Apply the (\ref{forec:par-3}) rule. Additionally, apply the 
+(\ref{forec:seq-right}) and (\ref{forec:nop}) rules to the first
+thread, and the (\ref{forec:preempt}) rule to the second thread.
+\begin{equation*}
+	\frac{
+			\twolines{
+				~
+			}{
+				term1
+			}
+			\qquad
+			\qquad
+		\dfrac{
+				1 \neq 0
+			}{
+				\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{main: preempt(a\_0)}
+					\xrightarrow[~~\Input~~]{2} 
+				\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{main: nop}
+			}
+		}{
+			\begin{array}{l}
+				\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{main: par( t1:\{nop; pause;x=2;}	\\
+				\mathtt{preempt();\}, t2:\{preempt(a\_0);\} );}										\\
+			\end{array}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\begin{array}{l}
+				\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{main: par( t1:\{pause;x=2;}		\\
+				\mathtt{preempt();\}, t2:\{preempt(a\_0);\} );}										\\
+			\end{array}
+		}
+\end{equation*}
+where $term2$ represents:
+\begin{equation*}
+	\frac{
+			\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{t1: nop}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{t1: }
+		}{
+			\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{t1: nop; pause;x=2; preempt()}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{t1: pause;x=2; preempt()}
+		}
+\end{equation*}
+
+\noindent
+Step 5: Apply the (\ref{forec:par-9}) rule. Additionally, apply the 
+(\ref{forec:seq-left}) and (\ref{forec:pause}) rules to the first thread,
+and the (\ref{forec:preempt}) rule to the second thread.
+\begin{equation*}
+	\frac{
+			\twolines{
+				~
+			}{
+				term3
+			}
+			\qquad
+			\qquad
+		\dfrac{
+				1 \neq 0
+			}{
+				\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{main: preempt(a\_0)}
+					\xrightarrow[~~\Input~~]{2} 
+				\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{main: nop}
+			}
+		}{
+			\begin{array}{l}
+				\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{main: par( t1:\{pause;x=2;}		\\
+				\mathtt{preempt();\}, t2:\{preempt(a\_0);\} );}										\\
+			\end{array}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\begin{array}{l}
+				\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{main: nop;}						\\
+			\end{array}
+		}
+\end{equation*}
+where $term3$ represents:
+\begin{equation*}
+	\frac{
+			\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{t1: pause}
+				\xrightarrow[~~\Input~~]{1} 
+			\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{t1: nop}
+		}{
+			\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{t1: pause;x=2; preempt()}
+				\xrightarrow[~~\Input~~]{1} 
+			\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{t1: nop;x=2; preempt()}
+		}
+\end{equation*}
+
+\noindent
+Step 6: Apply the (\ref{forec:global-tick}) rule.
+The program terminates.
+\begin{equation*}
+	\frac{
+			\mathtt{main} = main
+			\quad
+			\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{main: nop}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{main: }
+		}{
+			\langle \Environment^1, \Abort^1 \rangle ~ \mathtt{main: nop;}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment^1, \Abort^2 \rangle ~ \mathtt{main: }
+		}
+\end{equation*}

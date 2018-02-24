@@ -1,0 +1,267 @@
+\subsubsection{Program 5}
+\begin{lstlisting}[style=snippet]
+int x=1;
+void main(void) {
+  par(
+    {pause;}, 
+    {par({x++; pause;},{pause;});}
+  );
+}
+\end{lstlisting}
+This program is structurally translated to:
+\begin{lstlisting}[style=snippet]
+int x=1;
+void main(void) {
+  par(
+    t1:{pause;}, 
+    t2:{par(t3:{x++; pause;},t4:{pause;});}
+  );
+}
+\end{lstlisting}
+The predicates $\Shared(main)$, $\Shared(t1)$, $\Shared(t2)$, $\Shared(t3)$,
+$\Shared(t4)$ and $\Shared(\Global)$ are all $\emptyset$.
+Initially, the set of preemption statuses \Abort{} is $\emptyset$.
+The program's environment \Environment{} 
+and its derivatives are defined in Figure~\ref{figure:forec_program_5}.
+\newline
+
+\begin{figure}
+	\centering
+	$$\begin{array}{l l l}
+		\Environment		&=& \left \lbrace
+									\Global \to \lbrace x \to (1, \mathtt{pre}) \rbrace
+								\right \rbrace	\\
+		\Environment^1		&=& \left \lbrace
+									\Global \to \lbrace x \to (2, \mathtt{pre}) \rbrace
+								\right \rbrace	\\
+	\end{array}$$
+	
+	\caption{Definition of the initial program state and its derivatives for Program 5.}
+	\label{figure:forec_program_5}
+\end{figure}
+
+\noindent
+Step 1: Apply the (\ref{forec:par-2}) rule. Additionally, apply the (\ref{forec:pause}) 
+rule to the first thread and (\ref{forec:par-3}) rule to the second thread. Additionally
+apply the (\ref{forec:seq-right}) and (\ref{forec:assign-private}) rules to the first 
+nested thread and the (\ref{forec:pause}) rule to the second nested thread.
+{\footnotesize
+\begin{equation*}
+	\frac{
+		\twolines{
+			\twolines{
+					~
+				}{
+					~
+				}
+			}{
+				\begin{array}{l}
+					\langle \Environment, \Abort \rangle ~ \mathtt{t1:}							\\
+					\mathtt{pause}																\\
+				\end{array}
+					\xrightarrow[~~\Input~~]{1} 
+				\begin{array}{l}
+					\langle \Environment, \Abort \rangle ~ \mathtt{t1:}							\\
+					\mathtt{copy}																\\
+				\end{array}
+			}
+			\qquad
+		\dfrac{
+			\dfrac{
+				\dfrac{
+						x \notin \lbrace ~ \rbrace
+					}{
+						\langle \Environment, \Abort \rangle ~ \mathtt{t3: x++}
+							\xrightarrow[~~\Input~~]{0} 
+						\langle \Environment^1, \Abort \rangle ~ \mathtt{t3: nop}
+					}
+				}{
+					\begin{array}{l}
+						\langle \Environment, \Abort \rangle ~ \mathtt{t3:}					\\
+						\mathtt{x++; pause}													\\
+					\end{array}
+						\xrightarrow[~~\Input~~]{\bot} 
+					\langle \Environment^1, \Abort \rangle ~ \mathtt{t3: pause}
+				}
+				\qquad
+			\twolines{
+				~
+				}{
+					\begin{array}{l}
+						\langle \Environment, \Abort \rangle ~ \mathtt{t4:}						\\
+						\mathtt{pause}															\\
+					\end{array}
+						\xrightarrow[~~\Input~~]{1} 
+					\begin{array}{l}
+						\langle \Environment, \Abort \rangle ~ \mathtt{t4:}						\\
+						\mathtt{copy}															\\
+					\end{array}
+				}
+			}{
+				\begin{array}{l}
+					\langle \Environment, \Abort \rangle ~ \mathtt{t2: par(t3:\{x++; pause;\},}	\\
+					\mathtt{t4:\{pause;\})}														\\
+				\end{array}
+					\xrightarrow[~~\Input~~]{\bot} 
+				\begin{array}{l}
+					\langle \Environment^1, \Abort \rangle ~ \mathtt{t2: par(t3:\{pause;\},}	\\
+					\mathtt{t4:\{pause;\})}														\\
+				\end{array}
+			}
+		}{
+			\begin{array}{l}
+				\langle \Environment, \Abort \rangle ~ \mathtt{main: par(t1:\{pause;\},}		\\
+				\mathtt{t2:\{par(t3:\{x++; pause;\},t4:\{pause;\});\})}							\\
+			\end{array}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\begin{array}{l}
+				\langle \Environment^1, \Abort \rangle ~ \mathtt{main: par(t1:\{pause;\},}		\\
+				\mathtt{t2:\{par(t3:\{pause;\},t4:\{pause;\});\})}								\\
+			\end{array}
+		}
+\end{equation*}
+}
+
+\noindent
+Step 2: Apply the (\ref{forec:par-4}) rule. Additionally, apply the (\ref{forec:pause}) 
+rule to the first thread and (\ref{forec:par-4}) rule to the second thread. Additionally
+apply the (\ref{forec:pause}) rule to both nested threads.
+{\footnotesize
+\begin{equation*}
+	\frac{
+		\twolines{
+			\twolines{
+					~
+				}{
+					~
+				}
+			}{
+				\begin{array}{l}
+					\langle \Environment^1, \Abort \rangle ~ \mathtt{t1:}							\\
+					\mathtt{pause}																	\\
+				\end{array}
+					\xrightarrow[~~\Input~~]{1} 
+				\begin{array}{l}
+					\langle \Environment^1, \Abort \rangle ~ \mathtt{t1:}							\\
+					\mathtt{copy}																	\\
+				\end{array}
+			}
+			\qquad
+		\dfrac{
+				\begin{array}{l}
+					\langle \Environment^1, \Abort \rangle ~ \mathtt{t3:}						\\
+					\mathtt{pause}																\\
+				\end{array}
+					\xrightarrow[~~\Input~~]{1} 
+				\begin{array}{l}
+					\langle \Environment^1, \Abort \rangle ~ \mathtt{t3:}						\\
+					\mathtt{copy}																\\
+				\end{array}
+				\qquad
+				\begin{array}{l}
+					\langle \Environment^1, \Abort \rangle ~ \mathtt{t4:}						\\
+					\mathtt{pause}																\\
+				\end{array}
+					\xrightarrow[~~\Input~~]{1} 
+				\begin{array}{l}
+					\langle \Environment^1, \Abort \rangle ~ \mathtt{t4:}						\\
+					\mathtt{copy}																\\
+				\end{array}
+			}{
+				\begin{array}{l}
+					\langle \Environment^1, \Abort \rangle ~ \mathtt{t2: par(t3:\{pause;\},}	\\
+					\mathtt{t4:\{pause;\})}														\\
+				\end{array}
+					\xrightarrow[~~\Input~~]{1} 
+				\begin{array}{l}
+					\langle \Environment^1, \Abort \rangle ~ \mathtt{t2: par(t3:\{copy;\},}		\\
+					\mathtt{t4:\{copy;\})}														\\
+				\end{array}
+			}
+		}{
+			\begin{array}{l}
+				\langle \Environment^1, \Abort \rangle ~ \mathtt{main: par(t1:\{pause;\},}		\\
+				\mathtt{t2:\{par(t3:\{pause;\},t4:\{pause;\});\})}								\\
+			\end{array}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\begin{array}{l}
+				\langle \Environment^1, \Abort \rangle ~ \mathtt{main: par(t1:\{copy;\},}		\\
+				\mathtt{t2:\{par(t3:\{copy;\},t4:\{copy;\});\})}								\\
+			\end{array}
+		}
+\end{equation*}
+}
+
+\noindent
+Step 3: Apply the (\ref{forec:par-2}) rule. Additionally, apply the (\ref{forec:copy}) 
+rule to the first thread and (\ref{forec:par-5}) rule to the second thread. Additionally
+apply the (\ref{forec:copy}) rule to both nested threads.
+{\footnotesize
+\begin{equation*}
+	\frac{
+	\twolines{
+			~
+		}{
+			\langle \Environment^1, \Abort \rangle ~ \mathtt{t1: copy}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment^1, \Abort \rangle ~ \mathtt{t1: nop}
+			\qquad
+		}
+		\dfrac{
+				\langle \Environment^1, \Abort \rangle ~ \mathtt{t3: copy}
+					\xrightarrow[~~\Input~~]{0} 
+				\langle \Environment^1, \Abort \rangle ~ \mathtt{t3: nop}
+				\qquad
+				\langle \Environment^1, \Abort \rangle ~ \mathtt{t4: copy}
+					\xrightarrow[~~\Input~~]{0} 
+				\langle \Environment^1, \Abort \rangle ~ \mathtt{t4: nop}
+			}{
+				\langle \Environment^1, \Abort \rangle ~ \mathtt{t2: par(t3:\{copy;\},t4:\{copy;\})}
+					\xrightarrow[~~\Input~~]{\bot} 
+				\langle \Environment^1, \Abort \rangle ~ \mathtt{t2: copy}
+			}
+		}{
+			\langle \Environment^1, \Abort \rangle ~ \mathtt{main: par(t1:\{copy;\},t2:\{par(t3:\{copy;\},t4:\{copy;\});\})}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\langle \Environment^1, \Abort \rangle ~ \mathtt{main: par(t1:\{copy;\},t2:\{copy;\})}
+		}
+\end{equation*}
+}
+
+\noindent
+Step 4: Apply the (\ref{forec:par-5}) rule. Additionally, 
+apply the (\ref{forec:copy}) rule to both threads.
+{\footnotesize
+\begin{equation*}
+	\frac{
+			\langle \Environment^1, \Abort \rangle ~ \mathtt{t1: copy}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment^1, \Abort \rangle ~ \mathtt{t1: nop}
+			\qquad
+			\langle \Environment^1, \Abort \rangle ~ \mathtt{t2: copy}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment^1, \Abort \rangle ~ \mathtt{t2: nop}
+		}{
+			\langle \Environment^1, \Abort \rangle ~ \mathtt{main: par(t1:\{copy;\},t2:\{copy;\})}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\langle \Environment^1, \Abort \rangle ~ \mathtt{main: copy}
+		}
+\end{equation*}
+}
+
+\noindent
+Step 5: Apply the (\ref{forec:tick}) and (\ref{forec:copy}) rules. The program
+terminates.
+{\footnotesize
+\begin{equation*}
+	\frac{
+			\langle \Environment^1, \Abort \rangle ~ \mathtt{main: copy}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment^1, \Abort \rangle ~ \mathtt{main: nop}
+		}{
+			\langle \Environment^1, \Abort \rangle ~ \mathtt{main: copy}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment^1, \Abort \rangle ~ \mathtt{main: nop}
+		}
+\end{equation*}
+}

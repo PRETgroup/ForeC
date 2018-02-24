@@ -1,0 +1,217 @@
+\subsection{Example Executions}
+This section provides examples of how ForeC programs
+execute with the rewrite rules. A possible execution 
+for each example program is given as a sequence of 
+rewrites. 
+
+\subsubsection{Program 1}
+\begin{lstlisting}[style=snippet]
+void main(void) {
+  int x=1;
+  par( {int u=2;}, {int v=3;}, {int w=4;} );
+}
+\end{lstlisting}
+This program is structurally translated to:
+\begin{lstlisting}[style=snippet]
+int u, v, w, x;
+void main(void) {
+  x=1;
+  par( t1:{u=2;}, t2:{par( t3:{v=3;}, t4:{w=4;} );} );
+}
+\end{lstlisting}
+Initially, the set of \verb$abort$ identifiers \Abort{}
+is empty. The program's environment \Environment{} and its
+derivatives are defined in Table~\ref{figure:forec_program_1}.
+\newline
+
+\begin{figure}
+	\centering
+	$$\begin{array}{l l l l l l l}
+		 \Environment		&=& \lbrace \Global \to \lbrace u		&, v		&, w		&, x~~~~~~ \rbrace \rbrace	\\
+		 \Environment^1		&=& \lbrace \Global \to \lbrace u		&, v		&, w		&, x \to 1 \rbrace \rbrace	\\
+		 \Environment^2		&=& \lbrace \Global \to \lbrace u \to 2	&, v		&, w		&, x \to 1 \rbrace \rbrace	\\
+		 \Environment^3		&=& \lbrace \Global \to \lbrace u 		&, v \to 3	&, w		&, x \to 1 \rbrace \rbrace	\\
+		 \Environment^4		&=& \lbrace \Global \to \lbrace u 		&, v		&, w \to 4	&, x \to 1 \rbrace \rbrace	\\
+		 \Environment^5		&=& \lbrace \Global \to \lbrace u 		&, v \to 3	&, w \to 4	&, x \to 1 \rbrace \rbrace	\\
+		 \Environment^6		&=& \lbrace \Global \to \lbrace u \to 2 &, v \to 3	&, w \to 4	&, x \to 1 \rbrace \rbrace
+	\end{array}$$
+	
+	\caption{Definition of the initial program environment and its derivatives for Program 1.}
+	\label{figure:forec_program_1}
+\end{figure}
+
+\noindent
+Step 1: Apply the (\ref{forec:seq-left}) and (\ref{forec:assign-private}) rules. 
+\begin{equation*}
+	\frac{
+		\dfrac{
+				x \notin \Shared(\Environment[\Global])
+			}{
+				\langle \Environment, \Abort \rangle ~ \mathtt{main: x=1}
+					\xrightarrow[~~\Input~~]{\bot} 
+				\langle \Environment^1, \Abort \rangle ~ \mathtt{main: nop}
+			}
+		}{
+			\begin{array}{l}
+				\langle \Environment, \Abort \rangle ~ \mathtt{main: x=1;~par(t1:\{u=2;\},}	\\
+				\mathtt{t2:\{par(t3:\{v=3;\}, t4:\{w=4;\} );\});}				\\
+			\end{array}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\begin{array}{l}
+				\langle \Environment^1, \Abort \rangle ~ \mathtt{main: nop;~par(t1:\{u=2;\},}	\\
+				\mathtt{t2:\{par( t3:\{v=3;\},t4:\{w=4;\} );\} );}				\\
+			\end{array}
+		}
+\end{equation*}
+
+\noindent
+Step 2: Apply the (\ref{forec:seq-right}) and (\ref{forec:nop}) rules. 
+\begin{equation*}
+	\frac{
+			\langle \Environment^1, \Abort \rangle ~ \text{main: nop}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment^1, \Abort \rangle ~ \text{main:}
+		}{
+			\begin{array}{l}
+				\langle \Environment^1, \Abort \rangle ~ \mathtt{main: nop;~par(t1:\{u=2;\},}	\\
+				\mathtt{t2:\{par(t3:\{v=3;\}, t4:\{w=4;\} );\});}				\\
+			\end{array}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\begin{array}{l}
+				\langle \Environment^1, \Abort \rangle ~ \mathtt{main: par(t1:\{u=2;\},}		\\
+				\mathtt{t2:\{par( t3:\{v=3;\},t4:\{w=4;\} );\} );}				\\
+			\end{array}
+		}
+\end{equation*}
+
+\noindent
+Step 3: Apply the (\ref{forec:par-1}) rule. Additionally, apply the 
+(\ref{forec:assign-private}) rule to the first thread, and the 
+(\ref{forec:par-1}) and (\ref{forec:assign-private})
+rules to the second thread.
+\begin{equation*}
+	\frac{
+		\dfrac{
+				u \notin \Shared(\Environment[\Global])
+			}{
+				\langle \Environment^1, \Abort \rangle ~ \mathtt{t1: u=2}
+					\xrightarrow[~~\Input~~]{\bot} 
+				\langle \Environment^2, \Abort \rangle ~ \mathtt{t1: nop}
+			}
+			\qquad
+			\qquad
+			\twolines{
+				~
+			}{
+				term1
+			}
+		}{
+			\begin{array}{l}
+				\langle \Environment^1, \Abort \rangle ~ \mathtt{main: par(t1:\{u=2;\},}	\\
+				\mathtt{t2:\{par(t3:\{v=3;\}, t4:\{w=4;\} );\});}			\\
+			\end{array}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\begin{array}{l}
+				\langle \Environment^6, \Abort \rangle ~ \mathtt{main: par(t1:\{nop;\},}	\\
+				\mathtt{t2:\{par( t3:\{nop;\},t4:\{nop;\} );\} );}			\\
+			\end{array}
+		}
+\end{equation*}
+where $term1$ represents:
+\begin{equation*}
+	\frac{
+		\dfrac{
+				v \notin \Shared(\Environment[\Global])
+			}{
+				\langle \Environment^1, \Abort \rangle ~ \mathtt{t3:v=3}
+					\xrightarrow[~~\Input~~]{\bot} 
+				\langle \Environment^3, \Abort \rangle ~ \mathtt{t3:nop}
+			}
+			\quad
+		\dfrac{
+				w \notin \Shared(\Environment[\Global])
+			}{
+				\langle \Environment^1, \Abort \rangle ~ \mathtt{t4:w=4}
+					\xrightarrow[~~\Input~~]{\bot} 
+				\langle \Environment^4, \Abort \rangle ~ \mathtt{t4:nop}
+			}
+		}{
+			\langle \Environment^1, \Abort \rangle ~ \mathtt{t2:par(t3:\{v=3;\},t4:\{w=4;\} )}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\langle \Environment^5, \Abort \rangle ~ \mathtt{t2:par( t3:\{nop;\},t4:\{nop;\} )}
+		}
+\end{equation*}
+
+\noindent
+Step 4: Apply the (\ref{forec:par-2}) rule. Additionally, apply the 
+(\ref{forec:nop}) rule to the first thread, and the (\ref{forec:par-5})
+and (\ref{forec:nop}) rules to the second thread.
+\begin{equation*}
+	\frac{
+			\langle \Environment^6, \Abort \rangle ~ \mathtt{t1: nop}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment^6, \Abort \rangle ~ \mathtt{t1:}
+			\qquad
+			\qquad
+			term2
+		}{
+			\begin{array}{l}
+				\langle \Environment^6, \Abort \rangle ~ \mathtt{main: par(t1:\{nop;\},}	\\
+				\mathtt{t2:\{par( t3:\{nop;\},t4:\{nop;\} );\} );}							\\
+			\end{array}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\langle \Environment^6, \Abort \rangle ~ \mathtt{main: par(t1:\{nop;\}, t2:\{nop;\} );}
+		}
+\end{equation*}
+where $term2$ represents:
+\begin{equation*}
+	\frac{
+			\langle \Environment^6, \Abort \rangle ~ \mathtt{t3:nop}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment^6, \Abort \rangle ~ \mathtt{t3:}
+			\qquad
+			\langle \Environment^6, \Abort \rangle ~ \mathtt{t4:nop}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment^6, \Abort \rangle ~ \mathtt{t4:}
+		}{
+			\langle \Environment^6, \Abort \rangle ~ \mathtt{t2:par(t3:\{nop;\},t4:\{nop;\} )}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\langle \Environment^6, \Abort \rangle ~ \mathtt{t2:nop}
+		}
+\end{equation*}
+
+\noindent
+Step 5: Apply the (\ref{forec:par-5}) rule and the \verb$par$
+instruction terminates.
+\begin{equation*}
+	\frac{
+			\langle \Environment^6, \Abort \rangle ~ \mathtt{t1: nop}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment^6, \Abort \rangle ~ \mathtt{t1:}
+			\qquad
+			\langle \Environment^6, \Abort \rangle ~ \mathtt{t2: nop}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment^6, \Abort \rangle ~ \mathtt{t2:}
+		}{
+			\langle \Environment^6, \Abort \rangle ~ \mathtt{main: par(t1:\{nop;\}, t2:\{nop;\} );}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\langle \Environment^6, \Abort \rangle ~ \mathtt{main: nop;}
+		}
+\end{equation*}
+
+\noindent
+Step 6: Apply the (\ref{forec:global-tick}) rule.
+The program terminates.
+\begin{equation*}
+	\frac{
+			\mathtt{main} = main
+			\quad
+			\langle \Environment^6, \Abort \rangle ~ \mathtt{main: nop}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment^6, \Abort \rangle ~ \mathtt{main: }
+		}{
+			\langle \Environment^6, \Abort \rangle ~ \mathtt{main: nop;}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment^6, \Abort \rangle ~ \mathtt{main: }
+		}
+\end{equation*}

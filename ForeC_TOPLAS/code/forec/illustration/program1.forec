@@ -1,0 +1,4 @@
+shared int s=0 combine all with plus;
+void main(void) {
+	par({pause; s=3;},{s=4;});
+}

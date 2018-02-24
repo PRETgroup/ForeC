@@ -1,0 +1,11 @@
+architecture:
+microblaze
+
+0:
+main
+tA
+tC
+
+1:
+tB
+tD

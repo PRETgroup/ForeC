@@ -1,0 +1,940 @@
+\section{Static Analysis of Shared Variables}
+
+\begin{figure}
+	\centering
+	
+	\begin{minipage}{0.4\columnwidth}
+		\lstinputlisting{./code/sharedAnalysis.forec}
+	\end{minipage}
+	\vskip-2ex
+	\caption{Example ForeC program to illustrate the static data-flow analysis for shared variables.}
+	\label{listing:sharedAnalysis.forec}
+\end{figure}
+
+
+
+\begin{description}
+	\item[Line~\ref{code:sharedAnalysis1}] \hfill \\
+		The global scope ($\mathcal{G}$) has a shared variable declaration for \verb$x$. 
+		We create mappings in scope $\mathcal{G}$ for variable \verb$x$.
+		\begin{align*}
+			% Environment E
+			E &= E_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 0		& true
+				\end{array}
+			\right]	\\		
+			% State S
+			S &= S_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					0	& \bot
+				\end{array}
+			\right] \\
+			% State D
+			D &= D_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace ~\rbrace
+				\end{array}
+			\right] \\
+			% State U
+			U &= U_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace ~ \rbrace
+				\end{array}
+			\right]	
+		\end{align*}
+
+	\item[Line~\ref{code:sharedAnalysis2}] \hfill \\
+		We enter the scope of the \verb$main$ thread so new scopes called \verb$main$
+		are made.
+		\begin{align*}
+			% Environment E
+			E &= E_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 0		& true
+				\end{array}
+			\right]
+			\oplus{} 
+			E_{main} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+						& 		& 
+				\end{array}
+			\right] \\	
+			% State S
+			S& =S_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					0	& \bot
+				\end{array}
+			\right]
+			\oplus{}
+			S_{main} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+						& 
+				\end{array}
+			\right] \\
+			% State D
+			D &= D_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace ~\rbrace
+				\end{array}
+			\right]
+			\oplus
+			D_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+						& 
+				\end{array}
+			\right] \\
+			% State U
+			U &= U_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace ~ \rbrace
+				\end{array}
+			\right]	
+			\oplus
+			U_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+						& 
+				\end{array}
+			\right]
+		\end{align*}
+		
+	\item[Line~\ref{code:sharedAnalysis3}] \hfill \\
+		We find a statement and 
+		\verb$Def(x = x + 1)$ returns $\lbrace x \rbrace$, which is found in 
+		scope $\mathcal{G}$. \verb$Use(x = x + 1)$ returns $\lbrace x \rbrace$, 
+		which is also found in scope $\mathcal{G}$. Thus, we make the following
+		updates to states $D$ and $U$, $D_{\mathcal{G}}\left[x \rightarrow \lbrace main \rbrace \right]$
+		and $U_{\mathcal{G}}\left[x \rightarrow \lbrace main \rbrace \right]$.
+		\begin{align*}	
+			% State D
+			D &= D_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace
+				\end{array}
+			\right]
+			\oplus
+			D_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+						& 
+				\end{array}
+			\right] \\
+			% State U
+			U &= U_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace
+				\end{array}
+			\right]	
+			\oplus
+			U_{main}
+			\left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+						& 
+				\end{array}
+			\right]
+		\end{align*}
+		
+	\item[Line~\ref{code:sharedAnalysis4}] \hfill \\
+		A local variable declaration for \verb$x$ is found. We create mappings in scope
+		$main$ for variable \verb$x$.
+		\begin{align*}
+			% Environment E
+			E &= E_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 0		& true
+				\end{array}
+			\right]
+			\oplus
+			E_{main} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 1		& false	
+				\end{array}
+			\right] \\		
+			% State S
+			S &= S_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					0	& \bot
+				\end{array}
+			\right]
+			\oplus
+			S_{main} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					1	& \bot	
+				\end{array}
+			\right] \\
+			% State D
+			D &= D_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace
+				\end{array}
+			\right]
+			\oplus
+			D_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace		
+				\end{array}
+			\right] \\
+			% State U
+			U &= U_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace
+				\end{array}
+			\right]	
+			\oplus
+			U_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace ~ \rbrace			
+				\end{array}
+			\right]
+		\end{align*}
+	
+	\item[Line~\ref{code:sharedAnalysis5}] \hfill \\
+		A local shared variable declaration for \verb$y$ is found. We create mappings in scope
+		$main$ for variable \verb$y$.
+		\begin{align*}
+			% Environment E
+			E &= E_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 0		& true
+				\end{array}
+			\right]
+			\oplus
+			E_{main} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 1		& false	\\
+					y	& 2		& true
+				\end{array}
+			\right] \\		
+			% State S
+			S &= S_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					0	& \bot
+				\end{array}
+			\right]
+			\oplus
+			S_{main} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					1	& \bot	\\
+					2	& \bot
+				\end{array}
+			\right] \\
+			% State D
+			D &= D_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace
+				\end{array}
+			\right]
+			\oplus
+			D_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace		\\
+					y	& \lbrace main \rbrace
+				\end{array}
+			\right] \\
+			% State U
+			U &= U_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace
+				\end{array}
+			\right]	
+			\oplus
+			U_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace ~ \rbrace			\\
+					y	& \lbrace ~ \rbrace
+				\end{array}
+			\right]
+		\end{align*}
+	
+	\item[Line~\ref{code:sharedAnalysis6}] \hfill \\
+		We have to analyse for each child thread. We start with thread \verb$t0$, \verb$t1$
+		then \verb$t2$ using the current environment $E$ and states $S$, $D$, and $U$.
+	
+	\item[Line~\ref{code:sharedAnalysis8}] \hfill \\
+		After entering the scope of thread \verb$t0$ and creating new scopes called \verb$t0$, 
+		we find a statement. \verb$Def(x = 10)$ returns $\lbrace x \rbrace$, which is found in 
+		scope $\mathcal{G}$. Thus, we make the following
+		update to state $D$, $D_{\mathcal{G}}\left[x \rightarrow \lbrace main,~t0 \rbrace \right]$.
+		\begin{align*}
+			% Environment E
+			E &= E_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 0		& true
+				\end{array}
+			\right]
+			\oplus
+			E_{main} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 1		& false	\\
+					y	& 2		& true
+				\end{array}
+			\right] 
+			\oplus
+			E_{t0} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+						& 		& 
+				\end{array}
+			\right] \\		
+			% State S
+			S &= S_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					0	& \bot
+				\end{array}
+			\right]
+			\oplus
+			S_{main} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					1	& \bot	\\
+					2	& \bot
+				\end{array}
+			\right]
+			\oplus
+			S_{t0} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+						& 
+				\end{array}
+			\right] \\
+			% State D
+			D &= D_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main,~t0 \rbrace
+				\end{array}
+			\right]
+			\oplus
+			D_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace		\\
+					y	& \lbrace main \rbrace
+				\end{array}
+			\right]
+			\oplus
+			D_{t0} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+						& 
+				\end{array}
+			\right] \\
+			% State U
+			U &= U_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace
+				\end{array}
+			\right]	
+			\oplus
+			U_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace ~ \rbrace			\\
+					y	& \lbrace ~ \rbrace
+				\end{array}
+			\right]
+			\oplus
+			U_{t0} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+						&
+				\end{array}
+			\right]
+		\end{align*}
+		We check and find that $D_{\mathcal{G}}\left[x \right] \cup U_{\mathcal{G}}\left[x \right]$ 
+		has more than one thread id. Hence, it is a shared variable. Using the function 
+		$isShared(x,~\mathcal{G})$, we find that the variable $x$ has been correctly declared
+		as a shared variable.
+		
+	\item[Line~\ref{code:sharedAnalysis6}] \hfill \\
+		When we leave the scope of thread \verb$t0$, we remove its scopes from the
+		program's environment and states before stepping into thread \verb$t1$ and 
+		analysing it.
+		\begin{align*}
+			% Environment E
+			E &= E_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 0		& true
+				\end{array}
+			\right]
+			\oplus
+			E_{main} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 1		& false	\\
+					y	& 2		& true
+				\end{array}
+			\right] \\		
+			% State S
+			S &= S_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					0	& \bot
+				\end{array}
+			\right]
+			\oplus
+			S_{main} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					1	& \bot	\\
+					2	& \bot
+				\end{array}
+			\right] \\
+			% State D
+			D &= D_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main,~t0 \rbrace
+				\end{array}
+			\right]
+			\oplus
+			D_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace		\\
+					y	& \lbrace main \rbrace
+				\end{array}
+			\right] \\
+			% State U
+			U &= U_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace
+				\end{array}
+			\right]	
+			\oplus
+			U_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace ~ \rbrace			\\
+					y	& \lbrace ~ \rbrace
+				\end{array}
+			\right]
+		\end{align*}
+
+	\item[Line~\ref{code:sharedAnalysis9}] \hfill \\
+		After entering the scope of thread \verb$t1$ and creating new scopes called \verb$t1$, 
+		we find a local variable declaration for \verb$x$. We create mappings in scope
+		$t1$ for variable \verb$x$.
+		\begin{align*}
+			% Environment E
+			E &= E_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 0		& true
+				\end{array}
+			\right]
+			\oplus
+			E_{main} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 1		& false	\\
+					y	& 2		& true
+				\end{array}
+			\right]
+			\oplus
+			E_{t1} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 3		& false
+				\end{array}
+			\right] \\		
+			% State S
+			S &= S_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					0	& \bot
+				\end{array}
+			\right]
+			\oplus
+			S_{main} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					1	& \bot	\\
+					2	& \bot
+				\end{array}
+			\right]
+			\oplus
+			S_{t1} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					3	& \bot
+				\end{array}
+			\right] \\
+			% State D
+			D &= D_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main,~t0 \rbrace
+				\end{array}
+			\right]
+			\oplus
+			D_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace		\\
+					y	& \lbrace main \rbrace
+				\end{array}
+			\right]
+			\oplus
+			D_{t1} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace t1 \rbrace
+				\end{array}
+			\right] \\
+			% State U
+			U &= U_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace
+				\end{array}
+			\right]	
+			\oplus
+			U_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace ~ \rbrace			\\
+					y	& \lbrace ~ \rbrace
+				\end{array}
+			\right]
+			\oplus
+			U_{t1} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace ~ \rbrace	
+				\end{array}
+			\right]
+		\end{align*}
+		
+	\item[Line~\ref{code:sharedAnalysis10}] \hfill \\
+		We find a statement and \verb$Def(x = 9)$ returns $\lbrace x \rbrace$, which
+		is found in the scope $t1$. Thus, we make the following updates to states $D$,
+		$D_{t1}\left[x \rightarrow \lbrace t1 \rbrace \right]$.
+		\begin{align*}
+			% State D
+			D &= D_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main,~t0 \rbrace
+				\end{array}
+			\right]
+			\oplus
+			D_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace		\\
+					y	& \lbrace main \rbrace
+				\end{array}
+			\right]
+			\oplus
+			D_{t1} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace t1 \rbrace
+				\end{array}
+			\right] 
+		\end{align*}
+		
+	\item[Line~\ref{code:sharedAnalysis6}] \hfill \\
+		When we leave the scope of thread \verb$t1$, we remove its scopes from the
+		program's environment and states before stepping into thread \verb$t2$ and 
+		analysing it.
+		\begin{align*}
+			% Environment E
+			E &= E_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 0		& true
+				\end{array}
+			\right]
+			\oplus
+			E_{main} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 1		& false	\\
+					y	& 2		& true
+				\end{array}
+			\right] \\		
+			% State S
+			S &= S_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					0	& \bot
+				\end{array}
+			\right]
+			\oplus
+			S_{main} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					1	& \bot	\\
+					2	& \bot
+				\end{array}
+			\right] \\
+			% State D
+			D &= D_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main,~t0 \rbrace
+				\end{array}
+			\right]
+			\oplus
+			D_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace		\\
+					y	& \lbrace main \rbrace
+				\end{array}
+			\right] \\
+			% State U
+			U &= U_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace
+				\end{array}
+			\right]	
+			\oplus
+			U_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace ~ \rbrace			\\
+					y	& \lbrace ~ \rbrace
+				\end{array}
+			\right]
+		\end{align*}
+		
+	\item[Line~\ref{code:sharedAnalysis11}] \hfill \\
+		When entering the scope of thread \verb$t2$, we creating new scopes called \verb$t2$.
+		We find a local declaration \verb$y$ for the constant pointer to the shared variable 
+		\verb$y$ declared in scope $main$ and location $2$. We create mappings in scope $t2$ for the pointer
+		\verb$y$.
+		\begin{align*}
+			% Environment E
+			E &= E_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 0		& true
+				\end{array}
+			\right]
+			\oplus
+			E_{main} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 1		& false	\\
+					y	& 2		& true
+				\end{array}
+			\right]
+			\oplus
+			E_{t2} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					y	& 4		& false
+				\end{array}
+			\right] \\		
+			% State S
+			S &= S_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					0	& \bot
+				\end{array}
+			\right]
+			\oplus
+			S_{main} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					1	& \bot	\\
+					2	& \bot
+				\end{array}
+			\right]
+			\oplus
+			S_{t2} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					4	& 2		\\
+				\end{array}
+			\right] \\
+			% State D
+			D &= D_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main,~t0 \rbrace
+				\end{array}
+			\right]
+			\oplus
+			D_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace		\\
+					y	& \lbrace main \rbrace
+				\end{array}
+			\right]
+			\oplus
+			D_{t2} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					y	& \lbrace t2 \rbrace
+				\end{array}
+			\right]\\
+			% State U
+			U &= U_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace
+				\end{array}
+			\right]	
+			\oplus
+			U_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace ~ \rbrace			\\
+					y	& \lbrace ~ \rbrace
+				\end{array}
+			\right]
+			\oplus
+			U_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					y	& \lbrace ~ \rbrace
+				\end{array}
+			\right]
+		\end{align*}
+	
+	\item[Line~\ref{code:sharedAnalysis12}] \hfill \\
+		We find a statement and \verb$Def(*y = *y + 1)$ returns $\lbrace y \rbrace$, which
+		is found in the scope $t2$. \verb$Use(*y = *y + 1)$ returns $\lbrace y \rbrace$, which
+		is also in the scope $t2$. Since \verb$y$ is dereferenced as a pointer in the statement, 
+		we need to find the dereferenced variable. Using the function $dereference(y,~t2)$, the
+		dereferenced variable is \verb$y$ in scope $main$. We make the following updates to the
+		states $D$ and $U$, $D_{main}\left[y \rightarrow \lbrace main,~t2 \rbrace \right]$ and 
+		$U_{main}\left[y \rightarrow \lbrace t2 \rbrace \right]$
+		\begin{align*}
+			% Environment E
+			E &= E_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 0		& true
+				\end{array}
+			\right]
+			\oplus
+			E_{main} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 1		& false	\\
+					y	& 2		& true
+				\end{array}
+			\right]
+			\oplus
+			E_{t2} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					y	& 4		& false
+				\end{array}
+			\right] \\		
+			% State S
+			S &= S_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					0	& \bot
+				\end{array}
+			\right]
+			\oplus
+			S_{main} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					1	& \bot	\\
+					2	& \bot
+				\end{array}
+			\right]
+			\oplus
+			S_{t2} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					4	& 2		\\
+				\end{array}
+			\right] \\
+			% State D
+			D &= D_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main,~t0 \rbrace
+				\end{array}
+			\right]
+			\oplus
+			D_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace		\\
+					y	& \lbrace main,~t2 \rbrace
+				\end{array}
+			\right]
+			\oplus
+			D_{t2} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					y	& \lbrace t2 \rbrace
+				\end{array}
+			\right]\\
+			% State U
+			U &= U_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace
+				\end{array}
+			\right]	
+			\oplus
+			U_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace ~ \rbrace			\\
+					y	& \lbrace t2 \rbrace
+				\end{array}
+			\right]
+			\oplus
+			U_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					y	& \lbrace ~ \rbrace
+				\end{array}
+			\right]
+		\end{align*}
+		We check and find that $D_{main}\left[y \right] \cup U_{main}\left[y \right]$ 
+		has more than one thread id. Hence, it is a shared variable. Using the function 
+		$isShared(y,~main)$, we find that the variable $y$ has been correctly declared
+		as a shared variable.
+
+	\item[Line~\ref{code:sharedAnalysis6}] \hfill \\
+		When we leave the scope of thread \verb$t2$, we remove its scopes from the
+		program's environment and states.
+		\begin{align*}
+			% Environment E
+			E &= E_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 0		& true
+				\end{array}
+			\right]
+			\oplus
+			E_{main} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 1		& false	\\
+					y	& 2		& true
+				\end{array}
+			\right] \\		
+			% State S
+			S &= S_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					0	& \bot
+				\end{array}
+			\right]
+			\oplus
+			S_{main} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					1	& \bot	\\
+					2	& \bot
+				\end{array}
+			\right] \\
+			% State D
+			D &= D_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main,~t0 \rbrace
+				\end{array}
+			\right]
+			\oplus
+			D_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace		\\
+					y	& \lbrace main,~t2 \rbrace
+				\end{array}
+			\right] \\
+			% State U
+			U &= U_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace
+				\end{array}
+			\right]	
+			\oplus
+			U_{main} \left[
+				\begin{array}{c | c c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace ~ \rbrace			\\
+					y	& \lbrace t2 \rbrace
+				\end{array}
+			\right]
+		\end{align*}
+		
+	\item[Line~\ref{code:sharedAnalysis7}] \hfill \\
+		When we leave the scope of thread \verb$main$, we remove its scopes from the
+		program's environment and states.
+		\begin{align*}
+			% Environment E
+			E &= E_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					var	& loc	& bool	\\ \hline
+					x	& 0		& true
+				\end{array}
+			\right] \\		
+			% State S
+			S &= S_{\mathcal{G}} \left[
+				\begin{array}{c | c c}
+					loc	& val	\\ \hline
+					0	& \bot
+				\end{array}
+			\right] \\
+			% State D
+			D &= D_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main,~t0 \rbrace
+				\end{array}
+			\right] \\
+			% State U
+			U &= U_{\mathcal{G}} \left[
+				\begin{array}{c | c}
+					var	& \lbrace threadId \rbrace	\\ \hline
+					x	& \lbrace main \rbrace
+				\end{array}
+			\right]
+		\end{align*}
+\end{description}

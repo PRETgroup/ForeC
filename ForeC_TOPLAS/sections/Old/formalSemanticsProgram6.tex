@@ -1,0 +1,177 @@
+\subsubsection{Program 6}
+\begin{lstlisting}[style=snippet]
+int plus(int a, int b) {return a + b;}
+shared:plus int x=2;
+void main(void) {
+  x=x+1;
+  par( 
+    t0:{
+      x=x+2; 
+      par( t1:{x=x+3;} );
+    } 
+  );
+}
+\end{lstlisting}
+The initial program state, $\langle State \rangle$,
+and its derivatives are defined in Table~\ref{table:forec_program_6}.
+\newline
+
+\begin{table}[t]
+	\centering
+	\renewcommand{\arraystretch}{1.25}
+	
+	\begin{tabular}{| l | c | c | c | c | c |}
+		\hline
+		\textbf{State}						& \textbf{\textit{A}}			& \textbf{\textit{I}} 			& \textbf{\textit{P}} 	& \textbf{\textit{C}} 	& \textbf{\textit{E}}											\\ \hline
+		$\langle State \rangle$				& $\lbrace main \rbrace$		& $\lbrace ~ \rbrace$			& $\lbrace ~ \rbrace$	& $\lbrace ~ \rbrace$	& $\lbrace \Global \to \lbrace x \to 2 \rbrace \rbrace$			\\ \cline{1-1} \cline{6-6}
+		$\langle State^1 \rangle$			&								&								&						&						& $\begin{Bmatrix} \begin{array}{r l} 
+																																								\Global &\to \lbrace x \to 2 \rbrace,	\\ 
+																																								main &\to \lbrace x \to 3 \rbrace 
+																																							\end{array} \end{Bmatrix}$										\\ \cline{1-3}
+		$\langle State^2 \rangle$			& $\lbrace t0 \rbrace$			& $\lbrace main \rbrace$		&						&						& 																\\ \cline{1-1} \cline{6-6}
+		$\langle State^3 \rangle$			& 								& 								&						&						& $\begin{Bmatrix} \begin{array}{r l} 
+																																								\Global &\to \lbrace x \to 2 \rbrace,	\\ 
+																																								main &\to \lbrace x \to 3 \rbrace,		\\
+																																								t0 &\to \lbrace x \to 5 \rbrace 
+																																							\end{array} \end{Bmatrix}$										\\ \cline{1-3}
+		$\langle State^4 \rangle$			& $\lbrace t1 \rbrace$			& $\lbrace main, t0 \rbrace$	&						&						& 																\\ \cline{1-1} \cline{6-6}
+		$\langle State^5 \rangle$			& 								& 								& 						&						& $\begin{Bmatrix} \begin{array}{r l} 
+																																								\Global &\to \lbrace x \to 2 \rbrace,	\\ 
+																																								main &\to \lbrace x \to 3 \rbrace,		\\
+																																								t0 &\to \lbrace x \to 5 \rbrace, 		\\
+																																								t1 &\to \lbrace x \to 8 \rbrace
+																																							\end{array} \end{Bmatrix}$										\\ \cline{1-3} \cline{6-6}
+		$\langle State^6 \rangle$			& $\lbrace t0 \rbrace$			& $\lbrace main \rbrace$		&						&						& $\begin{Bmatrix} \begin{array}{r l} 
+																																								\Global &\to \lbrace x \to 2 \rbrace,	\\ 
+																																								main &\to \lbrace x \to 3 \rbrace,		\\
+																																								t0 &\to \lbrace x \to 8 \rbrace
+																																							\end{array} \end{Bmatrix}$										\\ \cline{1-3} \cline{6-6}
+		$\langle State^7 \rangle$			& $\lbrace main \rbrace$		& $\lbrace ~ \rbrace$			& 						&						& $\begin{Bmatrix} \begin{array}{r l} 
+																																								\Global &\to \lbrace x \to 2 \rbrace,	\\ 
+																																								main &\to \lbrace x \to 8 \rbrace
+																																							\end{array} \end{Bmatrix}$										\\ \cline{1-2} \cline{6-6}
+		$\langle State^8 \rangle$			& $\lbrace ~ \rbrace$			&								&						&						& $\lbrace \Global \to \lbrace x \to 8 \rbrace \rbrace$			\\ \hline
+	\end{tabular}
+	
+	\caption{Definition of the initial program state and its derivatives for Program 6.}
+	\label{table:forec_program_6}
+\end{table}
+
+\noindent
+Step 1: Apply the (\ref{forec:seq-right}) and (\ref{forec:assign-shared}) rules 
+on thread \verb$main$.
+\begin{equation*}
+	\frac{
+			\langle State \rangle ~ \text{main: x=x+1}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle State^1 \rangle ~ \text{main: nop}
+		}{
+			\begin{array}{l}
+				\langle State \rangle ~ \text{main: x=x+1;}	\\
+				\text{par( t0:\{}							\\
+				\text{~~~x=x+2; par( t1:\{x=x+3;\} );}		\\
+				\text{\} );}								
+			\end{array}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\begin{array}{l}
+				\langle State^1 \rangle ~ \text{main: par( t0:\{}	\\
+				\text{~~~x=x+2; par( t1:\{x=x+3;\} );}				\\
+				\text{\} );}								
+			\end{array}
+		}
+\end{equation*}
+
+\noindent
+Step 2: Apply the (\ref{forec:par}) rule on thread \verb$main$.
+Thread \verb$t0$ is forked.
+\begin{equation*}
+	\begin{array}{l}
+		\langle State^1 \rangle ~ \text{main: par( t0:\{}	\\
+		\text{~~~x=x+2; par( t1:\{x=x+3;\} );}				\\
+		\text{\} );}
+	\end{array}
+		\xrightarrow[~~\Input~~]{\bot} 
+	\langle State^2 \rangle ~ \text{main: nop}
+\end{equation*}
+
+\noindent
+Step 3: Apply the (\ref{forec:seq-right}) and (\ref{forec:assign-shared})
+rules on thread \verb$t0$.
+\begin{equation*}
+	\frac{
+			\langle State^2 \rangle ~ \text{t0: x=x+2}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle State^3 \rangle ~ \text{t0: nop}
+		}{
+			\langle State^2 \rangle ~ \text{t0:	x=x+2; par( t1:\{x=x+3;\} );}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\langle State^3 \rangle ~ \text{t0:	par( t1:\{x=x+3;\} );}
+		}
+\end{equation*}
+
+\noindent
+Step 4: Apply the (\ref{forec:par}) rule on thread \verb$t0$.
+Thread \verb$t1$ is forked.
+\begin{equation*}
+	\langle State^3 \rangle ~ \text{t0: par( t1:\{x=x+3;\} );}
+		\xrightarrow[~~\Input~~]{\bot} 
+	\langle State^4 \rangle ~ \text{t0: nop;}
+\end{equation*}
+
+\noindent
+Step 5: Apply the (\ref{forec:assign-shared}) rule on thread \verb$t1$.
+\begin{equation*}
+	\langle State^4 \rangle ~ \text{t1: x=x+3;}
+		\xrightarrow[~~\Input~~]{0} 
+	\langle State^5 \rangle ~ \text{t1: nop;}
+\end{equation*}
+
+\noindent
+Step 6: Apply the (\ref{forec:term2}) rule on thread \verb$t1$.
+This terminates \verb$t1$ and a join occurs.
+\begin{equation*}
+	\frac{
+			\text{t1} \xrightarrow{~~0~~} \text{t1}
+		}{
+			\langle State^5 \rangle \xrightarrow{~~~~~} \langle State^6 \rangle
+		}
+\end{equation*}
+
+\noindent
+Step 7: Apply the (\ref{forec:nop}) rule on thread \verb$t0$.
+\begin{equation*}
+	\langle State^6 \rangle ~ \text{t0: nop}
+		\xrightarrow[~~\Input~~]{0} 
+	\langle State^6 \rangle ~ \text{t0: }
+\end{equation*}
+
+\noindent
+Step 8: Apply the (\ref{forec:term2}) rule on thread \verb$t0$.
+This terminates \verb$t0$ and a join occurs.
+\begin{equation*}
+	\frac{
+			\text{t0} \xrightarrow{~~0~~} \text{t0}
+		}{
+			\langle State^6 \rangle \xrightarrow{~~~~~} \langle State^7 \rangle
+		}
+\end{equation*}
+
+\noindent
+Step 9: Apply the (\ref{forec:nop}) rule on thread \verb$main$.
+\begin{equation*}
+	\langle State^7 \rangle ~ \text{main: nop}
+		\xrightarrow[~~\Input~~]{0} 
+	\langle State^7 \rangle ~ \text{main: }
+\end{equation*}
+
+Step 10: Apply the (\ref{forec:term3}) rule on thread \verb$main$.
+The program terminates.
+\begin{equation*}
+	\frac{
+			\text{main} \xrightarrow{~~0~~} \text{main}
+		}{
+			\langle State^7 \rangle \xrightarrow{~~~~~} \langle State^8 \rangle
+		}
+\end{equation*}
+
+

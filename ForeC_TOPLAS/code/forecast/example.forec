@@ -1,0 +1,9 @@
+void main(void) {
+	int x=0;
+	@abort {@
+		x=1;
+		@@pause;@@
+		@@@par(tA(),tB());@@@
+	@} when (x > 1);@
+}
+...

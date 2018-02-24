@@ -1,0 +1,253 @@
+\subsubsection{Program 4}
+\begin{lstlisting}[style=snippet]
+int x=1;
+void main(void) {
+  weak abort {
+    par( t0:{pause;} , t1:{pause;} );
+    x=x+1;
+  } when immediate (x == 1);
+}
+\end{lstlisting}
+This program is structurally translated to:
+\begin{lstlisting}[style=snippet]
+int x=1;
+void main(void) {
+  abort a {  // Weak and immediate abort
+    addAbort(a,1);
+    par( t0:{preempt(a); pause;} ,
+         t1:{preempt(a); pause;} );
+    preempted(a);
+    x=x+1;
+  } when (x == 1);
+}
+\end{lstlisting}
+The initial program state, $\langle State \rangle$,
+and its derivatives are defined in Table~\ref{table:forec_program_4}.
+\newline
+
+\begin{table}[t]
+	\centering
+	\renewcommand{\arraystretch}{1.25}
+	
+	\begin{tabular}{| l | c | c | c | c | c |}
+		\hline
+		\textbf{State}						& \textbf{\textit{A}}			& \textbf{\textit{I}} 		& \textbf{\textit{P}} 	& \textbf{\textit{C}} 		& \textbf{\textit{E}}										\\ \hline
+		$\langle State \rangle$				& $\lbrace main \rbrace$		& $\lbrace ~ \rbrace$		& $\lbrace ~ \rbrace$	& $\lbrace ~ \rbrace$		& $\lbrace \Global \to \lbrace x \to 1 \rbrace \rbrace$		\\ \cline{1-1} \cline{5-5}
+		$\langle State^1 \rangle$			&								&							&						& $\lbrace a \to 1 \rbrace$	& 															\\ \cline{1-3}
+		$\langle State^2 \rangle$			& $\lbrace t0, t1 \rbrace$		& $\lbrace main \rbrace$	&						&							& 															\\ \cline{1-2}
+		$\langle State^3 \rangle$			& $\lbrace t1 \rbrace$			& 							&						&							& 															\\ \cline{1-3}
+		$\langle State^4 \rangle$			& $\lbrace main \rbrace$		& $\lbrace ~ \rbrace$		&						&							& 															\\ \cline{1-2}
+		$\langle State^5 \rangle$			& $\lbrace ~ \rbrace$			& 							& 						&							& 															\\ \hline
+	\end{tabular}
+	
+	\caption{Definition of the initial program state and its derivatives for Program 4.}
+	\label{table:forec_program_4}
+\end{table}
+
+\noindent
+Step 1: Apply the (\ref{forec:not-aborted}), (\ref{forec:seq-right}) and (\ref{forec:imm-abort})
+rules on thread \verb$main$.
+\begin{equation*}
+	\frac{
+		\dfrac{
+				\langle State \rangle ~ \text{main: addAbort(a,1)}
+					\xrightarrow[~~\Input~~]{0}
+				 \langle State^1 \rangle ~ \text{main: nop}
+			}{
+				\begin{array}{l}
+					\langle State \rangle ~ \text{main: addAbort(a,1);}	\\
+					\text{par( t0:\{preempt(a); pause;\} ,}				\\
+					\text{~~~~~~t1:\{preempt(a); pause;\} );}			\\
+					\text{preempted(a); x=x+1;}							
+				\end{array}
+					\xrightarrow[~~\Input~~]{\bot} 
+				\begin{array}{l}
+					\langle State^1 \rangle ~ \text{main:}		\\
+					\text{par( t0:\{preempt(a); pause;\} ,}		\\
+					\text{~~~~~~t1:\{preempt(a); pause;\} );}	\\
+					\text{preempted(a); x=x+1;}							
+				\end{array}
+			}
+		}{
+			\begin{array}{l}
+				\langle State \rangle ~ \text{main: abort a \{}	\\
+				\text{~~~addAbort(a,1);}						\\
+				\text{~~~par( t0:\{preempt(a); pause;\} ,}		\\
+				\text{~~~~~~~~~t1:\{preempt(a); pause;\} );}	\\
+				\text{~~~preempted(a); x=x+1;}					\\
+				\text{\} when (x == 1);}						
+			\end{array}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\begin{array}{l}
+				\langle State^1 \rangle ~ \text{main: abort a \{}	\\
+				\text{~~~par( t0:\{preempt(a); pause;\} ,}			\\
+				\text{~~~~~~~~~t1:\{preempt(a); pause;\} );}		\\
+				\text{~~~preempted(a); x=x+1;}						\\
+				\text{\} when (x == 1);}							
+			\end{array}
+		}
+\end{equation*}
+
+\noindent
+Step 2: Apply the (\ref{forec:not-aborted}), (\ref{forec:seq-right}) and 
+(\ref{forec:par}) rules on thread \verb$main$. Threads \verb$t0$ and 
+\verb$t1$ are forked.
+\begin{equation*}
+	\frac{
+		\dfrac{
+				\begin{array}{l}
+					\langle State^1 \rangle ~ \text{main: par( t0:\{preempt(a); pause;\} ,}	 \\
+					\text{~~~~~~~~~~~~~~~~~~~~~~~~~~~t1:\{preempt(a); pause;\} );}
+				\end{array}
+					\xrightarrow[~~\Input~~]{\bot} 
+				\langle State^2 \rangle ~ \text{main: nop}
+			}{
+				\begin{array}{l}
+					\langle State^1 \rangle ~ \text{main:}		\\
+					\text{par( t0:\{preempt(a); pause;\} ,}		\\
+					\text{~~~~~~t1:\{preempt(a); pause;\} );}	\\
+					\text{preempted(a); x=x+1;}					
+				\end{array}
+					\xrightarrow[~~\Input~~]{\bot} 
+				\begin{array}{l}
+					\langle State^2 \rangle ~ \text{main:}			\\
+					\text{nop; preempted(a); x=x+1;}				
+				\end{array}
+			}
+		}{
+			\begin{array}{l}
+				\langle State^1 \rangle ~ \text{main: abort a \{}	\\
+				\text{~~~par( t0:\{preempt(a); pause;\} ,}			\\
+				\text{~~~~~~~~~t1:\{preempt(a); pause;\} );}		\\
+				\text{~~~preempted(a); x=x+1;}						\\
+				\text{\} when (x == 1);}							
+			\end{array}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\begin{array}{l}
+				\langle State^2 \rangle ~ \text{main: abort a \{}	\\
+				\text{~~~nop; preempted(a); x=x+1;}					\\
+				\text{\} when (x == 1);}							
+			\end{array}
+		}
+\end{equation*}
+
+\noindent
+Step 3: Apply the (\ref{forec:seq-left}) and (\ref{forec:preempt}) rules 
+on thread \verb$t0$. Preemption is taken.
+\begin{equation*}
+	\frac{
+		\langle State^2 \rangle ~ \text{t0: preempt(a);}
+			\xrightarrow[~~\Input~~]{~~a~~} 
+		\langle State^2 \rangle ~ \text{t0: nop;}
+	}{
+		\langle State^2 \rangle ~ \text{t0: preempt(a); pause;}
+			\xrightarrow[~~\Input~~]{~~a~~} 
+		\langle State^2 \rangle ~ \text{t0: nop; pause;}
+	}
+\end{equation*}
+
+\noindent
+Step 4: Apply the (\ref{forec:term1}) rule on thread \verb$t0$. 
+This terminates \verb$t0$.
+\begin{equation*}
+	\frac{
+			\text{t0} \xrightarrow{~~a~~} \text{t0}
+		}{
+			\langle State^2 \rangle \xrightarrow{~~~~~} \langle State^3 \rangle
+		}
+\end{equation*}
+
+\noindent
+Step 5: Apply the (\ref{forec:seq-left}) and (\ref{forec:preempt}) rules
+on thread \verb$t1$. Preemption is taken.
+\begin{equation*}
+	\frac{
+		\langle State^3 \rangle ~ \text{t1: preempt(a);}
+			\xrightarrow[~~\Input~~]{~~a~~} 
+		\langle State^3 \rangle ~ \text{t1: nop;}
+	}{
+		\langle State^3 \rangle ~ \text{t1: preempt(a); pause;}
+			\xrightarrow[~~\Input~~]{~~a~~} 
+		\langle State^3 \rangle ~ \text{t1: nop; pause;}
+	}
+\end{equation*}
+
+\noindent
+Step 6: Apply the (\ref{forec:term2}) rule on thread \verb$t1$. 
+This terminates \verb$t0$ and a join occurs.
+\begin{equation*}
+	\frac{
+			\text{t1} \xrightarrow{~~a~~} \text{t1}
+		}{
+			\langle State^3 \rangle \xrightarrow{~~~~~} \langle State^4 \rangle
+		}
+\end{equation*}
+
+\noindent
+Step 7: Apply the (\ref{forec:not-aborted}), (\ref{forec:seq-right}) and 
+(\ref{forec:nop}) rules on thread \verb$main$.
+\begin{equation*}
+	\frac{
+		\dfrac{
+				\langle State^4 \rangle ~ \text{main: nop}
+					\xrightarrow[~~\Input~~]{0} 
+				\langle State^4 \rangle ~ \text{main: }
+			}{
+				\langle State^4 \rangle ~ \text{main: nop; preempted(a); x=x+1;}					
+					\xrightarrow[~~\Input~~]{\bot} 
+				\langle State^4 \rangle ~ \text{main: preempted(a); x=x+1;}				
+			}
+		}{
+			\begin{array}{l}
+				\langle State^4 \rangle ~ \text{main: abort a \{}	\\
+				\text{~~~nop; preempted(a); x=x+1;}					\\
+				\text{\} when (x == 1);}							
+			\end{array}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\begin{array}{l}
+				\langle State^4 \rangle ~ \text{main: abort a \{}	\\
+				\text{~~~preempted(a); x=x+1;}						\\
+				\text{\} when (x == 1);}							
+			\end{array}
+		}
+\end{equation*}
+
+\noindent
+Step 8: Apply the (\ref{forec:aborted}), (\ref{forec:seq-left}) and 
+(\ref{forec:preempted}) rules on thread \verb$main$. Preemption is taken.
+\begin{equation*}
+	\frac{
+		\dfrac{
+				\langle State^4 \rangle ~ \text{main: preempted(a)}
+					\xrightarrow[~~\Input~~]{a} 
+				\langle State^4 \rangle ~ \text{main: nop}
+			}{
+				\langle State^4 \rangle ~ \text{main: preempted(a); x=x+1;}					
+					\xrightarrow[~~\Input~~]{a} 
+				\langle State^4 \rangle ~ \text{main: nop; x=x+1;}				
+			}
+		}{
+			\begin{array}{l}
+				\langle State^4 \rangle ~ \text{main: abort a \{}	\\
+				\text{~~~preempted(a); x=x+1;}						\\
+				\text{\} when (x == 1);}							
+			\end{array}
+				\xrightarrow[~~\Input~~]{0} 
+			\begin{array}{l}
+				\langle State^4 \rangle ~ \text{main: nop;}
+			\end{array}
+		}
+\end{equation*}
+
+\noindent
+Step 9: Apply the (\ref{forec:term3}) rule on thread \verb$main$.
+The program terminates.
+\begin{equation*}
+	\frac{
+			\text{main} \xrightarrow{~~0~~} \text{main}
+		}{
+			\langle State^4 \rangle \xrightarrow{~~~~~} \langle State^5 \rangle
+		}
+\end{equation*}
+
+

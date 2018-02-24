@@ -1,0 +1,23 @@
+shared int x=0 combine all with plus;
+void main(void) {
+	abort {
+		x=1;
+		pause;
+		par(tA(),tB());   // id = 1(*\label{code:forec_compiling:forec_par1}*)
+	} when (x > 1); (*\label{code:forec_compiling:forec_preemption}*)
+}
+
+void tA(void) {
+	x=x+1;
+	pause;
+	x=x+1;
+}
+void tB(void) {
+	par(tC(),tD());     // id = 2
+}
+void tC(void) { int a=1; ... }
+void tD(void) { ... }
+
+int plus(int th1,int th2) {
+	return (th1+th2);
+}

@@ -1,0 +1,1031 @@
+\section{The Formal Semantics of ForeC}
+\label{sec:formalSemantics}
+
+This section presents the formal semantics of ForeC as rewrite rules,
+in the style of Structural Operation Semantics~\cite{semantics_sos}. 
+The semantics is inspired by that of other synchronous programming
+languages (Esterel~\cite{EsterelV7} and \pretc{}~\cite{pret_pretc} in particular).
+We define the semantics on a set of primitive (kernel) ForeC statements
+(see Table~\ref{table:forec_kernel}), from which the full set of ForeC 
+statements is derived. The kernel statements are not used for compiling, 
+but for simplifying the formal definition of ForeC. The kernel only 
+considers a subset of the C language in order to focus on the semantics 
+of parallel execution and shared variables. The translation of ForeC 
+statements (Table~\ref{table:forec_semantics}) to the kernel statements 
+(Table~\ref{table:forec_kernel}) is explained in 
+Section~\ref{sec:formalSemantics_translations}.
+
+\begin{table}[!h]
+	\centering
+	\renewcommand{\arraystretch}{1.25}
+	
+	\begin{tabular}{l l}
+		\bf{Kernel Statement}													& \bf{Short Description}		\\ \hline
+		\verb$nop$																& Empty statement				\\
+		\verb$pause$															& Barrier synchronisation		\\
+		\verb$shared:$ $cf$														& Shared type-qualifier			\\
+		\var{}~\verb$=$~\expression{}											& Assignment					\\
+		$f$\verb$;$~$g$															& Sequence						\\
+		\verb$if$~(\expression{})~\{$f$\}~\verb$else$~\{$g$\}					& Conditional					\\
+		\verb$while$~(\expression{})~\{$f$\}									& Loop							\\
+		\verb$par$(\thread{}$_0$:\{$f_0$\},~$\dots$,~\thread{}$_n$:\{$f_n$\})	& Fork/join parallelism			\\
+		\verb$abort$~$a$~\{$f$\}~\verb$when$~(\expression{})					& Preemption scope				\\
+		\verb$addAbort$($a$, \imm{})											& Initialise a preemption		\\
+		\verb$preempt$($a$)														& Take a preemption				\\
+		\verb$preempted$(\thread{}$_0$,~$\dots$,~\thread{}$_n$)					& Propagate a preemption		\\
+	\end{tabular}
+	
+	\caption{The ForeC kernel statements. Here, $cf$ is a combine function, \var{} is a variable, 
+			 \expression{} and \imm{} are expressions, $f$ and $g$ are arbitrary compositions of kernel 
+			 statements, $t_0$ to $t_n$ are thread identifiers, and $a$ is an abort identifier.}
+	\label{table:forec_kernel}
+\end{table}
+
+We make the following assumptions about ForeC programs. 
+(A1) All programs follow safety-critical coding practices,
+as discussed in Section~\ref{sec:foreLanguage_programming}.
+For example, all expressions are side-effect free, 
+all memory allocations are static defined, and all loops are 
+either bounded or always execute a \verb$pause$ in each iteration.
+(A2) All programs are correctly typed. For example, all 
+variables accessed by multiple threads are declared 
+as shared variables. 
+(A3) No recursive function calls or forking of threads.
+Assumption A1 is to limit ourselves to a deterministic 
+subset of the C language. Assumption A2 can be checked
+and enforced statically. Assumption A3 prevents the unbounded 
+execution of functions and threads, which can lead to unbounded 
+memory use and execution time.
+
+To simplify the presentation of the semantics, we 
+assume that the following transformations have been performed on 
+ForeC programs: (1) Inlining of functions at their call sites, 
+(2) Renaming variables uniquely and hoisting their declarations 
+up to the program's global scope, and (3) Replacing pointers 
+with the actual variables they are referencing. 
+Thus, the semantics can ignore: (1) Function calls, (2) Variable 
+declarations, scoping and shadowing, and (3) pointers.
+For example, the ForeC kernel program of 
+Figure~\ref{fig:transform_forec_original} can be
+transformed into the equivalent program of 
+Figure~\ref{fig:transform_forec_refactored}.
+
+\begin{figure}
+	\subfloat[Original kernel program.] {
+		\begin{minipage}[b]{0.46\textwidth}
+			\lstinputlisting[style=full]{./code/transform_forec_original.forec}
+			\label{fig:transform_forec_original}
+		\end{minipage}
+	}
+	\hfill
+	\subfloat[Transformed kernel program.] {
+		\begin{minipage}[b]{0.45\textwidth}
+			\lstinputlisting[style=full]{./code/transform_forec_refactored.forec}
+			\label{fig:transform_forec_refactored}
+		\end{minipage}
+	}
+	
+	\caption{Example of transforming a ForeC kernel program.}
+	\label{fig:transform_forec}
+\end{figure}
+
+This section continues by describing the notation of the 
+rewrite rules. Then, predicates are defined for returning 
+statically known properties about ForeC programs. 
+Finally, the ForeC semantics are presented.
+
+
+%-----------------------------------------------------------------------------
+
+\subsection{Structural Translations}
+\label{sec:formalSemantics_translations}
+
+\begin{table}
+	\centering
+	\renewcommand{\arraystretch}{1.25}
+	
+	\begin{tabular}{| l | l |}
+		\hline
+		\bf{ForeC construct}														& \bf{Translation to kernel statement(s)}						\\ \hline
+		\verb$input$ and \verb$output$												& Mapped to global variables.									\\ \hline
+		\verb$pause$																& \verb$pause$													\\ \hline
+		\verb$shared$ $\dots$ \verb$combine with$ $cf$								& \verb$shared:$ $cf$											\\ \hline
+		\verb$par$( $st$ (, $st$)* )												& \verb$par$( \thread{}:\{$st$\} (, \thread{}:\{$st$\})* )		\\ \hline
+		\verb$weak$?~\verb$abort$~\{$st$\}~\verb$when immediate$?~(\expression{})	& Mapped to \verb$abort$, \verb$addAbort$, \verb$preempt$, and 	\\
+																					& \verb$preempted$ statements.									\\ \hline
+	\end{tabular}
+	
+	\caption{The structural translations of the ForeC statements in 
+			 Table~\ref{table:forec_semantics} to the kernel statements 
+			 in Table~\ref{table:forec_kernel}.}
+	\label{table:forec_structural_translations}
+\end{table}
+
+Table~\ref{table:forec_structural_translations} shows how 
+the ForeC statements of Table~\ref{table:forec_semantics}, 
+are translated to the 
+kernel statements of Table~\ref{table:forec_kernel}.
+The translations for \verb$input$, \verb$output$, and 
+\verb$pause$ are straightforward. The \verb$shared$ type-qualifier
+is translated into a more compact form. The translation
+of a \verb$par$ statement prefixes each thread body ($st$) 
+with a unique identifier (\thread{}) which serves
+as an abstract reference (handle) to the thread body.
+The \verb$abort$ semantics is more complex and we 
+separate its behaviour into four kernel statements:
+\begin{itemize}
+	\item \verb$abort$~$a$~\{$f$\}~\verb$when$~(\expression{}):
+		  Defines the scope of the \verb$abort$ statement
+		  with a unique identifier $a$. Preemption is triggered 
+		  when \expression{} evaluates to a non-zero value.
+	\item \verb$addAbort$($a$, \imm{}):
+		  Initialises the preemption status of \verb$abort$ $a$,
+		  with $\imm{} =$~\verb$0$ for a delayed \verb$abort$ and 
+		  $\imm{} =$~\verb$1$ for an immediate \verb$abort$.
+	\item \verb$preempt$($a$):
+		  Instructs the executing thread to preempt if  
+		  \verb$abort$ $a$'s preemption has been triggered.
+	\item \verb$preempted$(\thread{}$_0$,~$\dots$,~\thread{}$_n$):
+		  Instructs the executing thread to preempt if its child
+		  threads, \thread{}$_0$ to \thread{}$_n$, were also preempted.
+\end{itemize}
+All \verb$abort$s in ForeC are translated into a combination
+of these four kernel statements. Figure~\ref{fig:translate_abort} 
+illustrates the translation of a strong and delayed \verb$abort$. 
+The \verb$e$, \verb$f$, \verb$g$, and \verb$h$ are arbitrary 
+compositions of kernel statements.
+The original \verb$abort$ (line~\ref{translate_abort_0}) is replaced 
+by the kernel \verb$abort$ statement (line~\ref{translate_abort_1}). 
+The kernel \verb$addAbort$ statement is inserted before the 
+\verb$abort$ body to initialise the \verb$abort$'s preemption 
+status when it is first executed (line~\ref{translate_abort_addAbort}). 
+The kernel \verb$preempt$ statement is placed immediately after 
+the \verb$addAbort$ and after every \verb$pause$ statement in 
+the \verb$abort$ body (lines~\ref{translate_abort_preempt_0} and 
+\ref{translate_abort_preempt_1}). These are the places where strong
+preemption can occur. 
+An \verb$abort$ could contain nested \verb$par$ 
+statements and child threads. When the inner 
+most child threads take a triggered preemption, 
+we propagate the preemption out to the enclosing 
+\verb$abort$. The propagation is facilitated by placing 
+the kernel \verb$preempted$ statement after every 
+\verb$par$ statement in the \verb$abort$ body
+(line~\ref{translate_abort_preempted}). The
+arguments of the \verb$preempted$ statement are
+the child threads of the \verb$par$ statement.
+
+The translation of a weak and delayed \verb$abort$ 
+is similar to the strong and delayed \verb$abort$, 
+as illustrated in Figure~\ref{fig:translate_weak_abort}. 
+The only difference is that the \verb$preempt$ statements 
+are only placed before every \verb$pause$ statement 
+in the \verb$abort$ body (line~\ref{translate_weak_abort_preempt}). 
+For the immediate \verb$abort$ variants, the \imm{} 
+argument of the \verb$addAbort$ statement becomes
+\verb$1$. E.g., the \verb$addAbort$ statements on 
+line~\ref{translate_abort_addAbort} in Figure~\ref{fig:translate_abort} 
+and Figure~\ref{fig:translate_weak_abort} become 
+\verb$addAbort(a,1)$.
+
+For nested \verb$abort$ statements, the \verb$abort$s 
+can be translated in an arbitrary order. Figure~\ref{fig:translate_nested_abort}
+illustrates the translation for four nested \verb$abort$s.
+Only one \verb$preempted$ statement is needed after every 
+\verb$par$ statement (line~\ref{translate_nested_abort_preempted}). 
+Recall that the preemption of an outer \verb$abort$ takes 
+precedence over its inner \verb$abort$s. We order the 
+\verb$preempt$ statements before and after every \verb$pause$ 
+statement to preserve the precedences. For strong \verb$abort$s,
+the \verb$preempt$ statement of an outer \verb$abort$ is always 
+before those of its inner \verb$abort$s. E.g., the \verb$preempt$
+statement for \verb$abort$ \verb$a0$ (line~\ref{translate_nested_abort_a0}) 
+is always before \verb$abort$ \verb$a2$'s (line~\ref{translate_nested_abort_a2}). 
+For weak \verb$abort$s, the \verb$preempt$ statement of an outer 
+\verb$abort$ is always after those of its inner \verb$abort$s. 
+This allows the \verb$abort$ statements inside a weak \verb$abort$ 
+to execute one last time before they are preempted. E.g., the 
+\verb$preempt$ statement for \verb$abort$ \verb$a1$ 
+(line~\ref{translate_nested_abort_a1}) is always after 
+\verb$abort$ \verb$a3$'s (line~\ref{translate_nested_abort_a3}).
+
+\begin{figure}
+	\begin{minipage}[b]{0.45\textwidth}
+		\subfloat[Strong and delayed abort.] {
+			\begin{minipage}[b]{\textwidth}
+				\lstinputlisting[style=full]{./code/translate_abort.forec}
+				\label{fig:translate_abort}
+			\end{minipage}
+		}
+		
+		\subfloat[Weak and delayed abort.] {
+			\begin{minipage}[b]{\textwidth}
+				\lstinputlisting[style=full]{./code/translate_weak_abort.forec}
+				\label{fig:translate_weak_abort}
+			\end{minipage}
+		}
+	\end{minipage}
+	\hfill
+	\subfloat[Nested aborts.] {
+		\begin{minipage}[b]{0.45\textwidth}
+			\lstinputlisting[style=full]{./code/translate_nested_abort.forec}
+			\label{fig:translate_nested_abort}
+		\end{minipage}
+	}
+	
+	\caption{Illustration of translating aborts.}
+	\label{fig:translate_aborts}
+\end{figure}
+
+
+%-----------------------------------------------------------------------------
+
+%\begin{figure}
+	%\subfloat[Translated program.] {
+		%\begin{minipage}[b]{0.45\textwidth}
+			%\lstinputlisting[style=full]{./code/transform_forec_translated.forec}
+			%\label{fig:transform_forec_translated}
+		%\end{minipage}
+	%}
+	%\hfill
+	%\subfloat[Inlined.] {
+		%\begin{minipage}[b]{0.45\textwidth}
+			%\lstinputlisting[style=full]{./code/transform_forec_inlining.forec}
+			%\label{fig:transform_forec_inlining}
+		%\end{minipage}
+	%}
+	
+	%\subfloat[Renamed and hoisted.] {
+		%\begin{minipage}[b]{0.45\textwidth}
+			%\lstinputlisting[style=full]{./code/transform_forec_hoisting.forec}
+			%\label{fig:transform_forec_hoisting}
+		%\end{minipage}
+	%}
+	%\hfill
+	%\subfloat[Deferenced.] {
+		%\begin{minipage}[b]{0.45\textwidth}
+			%\lstinputlisting[style=full]{./code/transform_forec_pointers.forec}
+			%\label{fig:transform_forec_pointers}
+		%\end{minipage}
+	%}
+	%
+	%\caption{Illustration of the simplifying program transformations.}
+	%\label{fig:transform_forec}
+%\end{figure}
+
+%\subsection{Simplifying Transformations}
+%This section describes three simplifying transformations that are 
+%used to simplify the structure of ForeC programs. The short ForeC 
+%program in Figure~\ref{fig:transform_forec_original} is used to illustrate 
+%each transformation and is written with the ForeC kernel statements. 
+%The \verb$main$ function contains a 
+%locally declared shared variable \verb$s$ (line~\ref{fig:transform_forec_original_s}). 
+%The \verb$par$ statement forks two instances of function \verb$t0$ to 
+%execute in parallel. The parameter of function \verb$t0$ 
+%(line~\ref{fig:transform_forec_original_c}) is initialised with a 
+%reference to the shared variable \verb$s$ (the argument).
+
+%\subsubsection{Inlining Functions}
+%The inlining of functions is a standard transformation performed by
+%most compilers. Each function call is replaced by the function's body. 
+%Statements are added at the start of the body to
+%initialise all function parameters to their given arguments. 
+%Figure~\ref{fig:transform_forec_inlining} gives an example of inlining
+%functions. On lines~\ref{fig:transform_forec_inlining_c_0} and 
+%\ref{fig:transform_forec_inlining_c_1}, the function parameter \verb$c$ is
+%initialised to \verb$&s$ because that was the original argument for the 
+%function calls.
+
+%\subsubsection{Renaming and Hoisting Variables to the Global Scope}
+%The goal of this transformation is to avoid the need to consider
+%variable declarations and scoping in the semantics. This is achieved by hoisting all 
+%variable declarations into the global scope. However, variables declared
+%in different scopes, but with the same identifier, will clash when 
+%hoisted up to the same global scope. We also need to ensure 
+%that the variables accessible to each expression remains unchanged
+%after the variables have been hoisted. To avoid name clashes, but also 
+%preserve the scoping behaviour, we rename each variable and all its 
+%scoped occurrences to the same unique identifier before hoisting its 
+%declaration up. Figure~\ref{fig:transform_forec_hoisting} gives an
+%example of hoisting the declarations in Figure~\ref{fig:transform_forec_inlining}
+%up to the global scope. Note that the constant pointer initialisations are 
+%hoisted up with the declarations.
+
+%\subsubsection{Dereferencing Pointers}
+%Given that all functions are inlined, all variable declarations are 
+%in global scope, and only constant pointers are allowed, we can 
+%statically dereference pointers to the variables they point to. 
+%Figure~\ref{fig:transform_forec_pointers} gives an example of 
+%converting pointers in Figure~\ref{fig:transform_forec_hoisting} 
+%to the actual variable.
+
+
+%-----------------------------------------------------------------------------
+
+\subsection{Notation}
+We use two forms of notation for the rewrite rules, in 
+the style of Structural Operational Semantics~\cite{semantics_sos}.
+The first style:
+\begin{equation*}
+	\langle State \rangle ~ \thread:\body 
+		\xrightarrow[\Input]{~~k~~} 
+	\langle State' \rangle ~ \thread:\body'
+\end{equation*}
+means that, in the program state $\langle State \rangle$ and with inputs \Input{}, 
+the program fragment \body{} of thread \thread{} reacts 
+and modifies the program state to $\langle State' \rangle$, emits the 
+completion code $k$, and becomes the new program fragment 
+$\body'$ of thread \thread{}. The second style:
+\begin{equation*}
+	\langle State \rangle
+		\xrightarrow{~~~~~} 
+	\langle State' \rangle
+\end{equation*}
+means that, the program state $\langle State \rangle$ changes to 
+the new program state $\langle State' \rangle$ because of some 
+transition triggered by a thread.
+
+Let \Thread{} be the set of all 
+threads in the program. Each thread 
+is associated with a unique program fragment 
+\body{} (the thread body). Let $\thread:\body$ 
+denote that \body{} is the body of thread 
+\thread{}. Thread \thread{} can be treated
+as an abstract reference (handler) to its 
+body \body{}. Then, $\langle State \rangle$ is defined as the 
+$\langle \Active, \Inactive, \Paused, \Abort, \Environment \rangle$ tuple, where:
+\begin{itemize}
+	\item $\Active \subseteq \Thread$ is the set of (active) threads that can be chosen for execution.
+	\item $\Inactive \subseteq \Thread$ is the set of (inactive) threads that cannot be chosen for execution
+		  until their child threads have terminated.
+	\item $\Paused \subseteq \Thread$ is the set of (paused) threads that have executed a \verb$pause$.
+	\item \Abort{} is a mapping of \verb$abort$ identifiers to values (\Val{}) representing their preemption
+		  status. Let $\mathcal{A}$ denote the set of \verb$abort$ identifiers, then
+		  $\Abort: \mathcal{A} \to Val$. An \verb$abort$ with a non-zero value means that its
+		  preemption has been triggered.
+	\item \Environment{}: An environment that maps thread identifiers and a special 
+		  identifier \Global{} to a store (\Store{}) of variables (\Var{}) and their 
+		  valuations (\Val{}). Let $\Id = \Thread \cup \{\Global\}$ denote the set of 
+		  thread identifiers and \Global{}. Then, $\Environment: \Id \to \Store$ and 
+		  $\Store: \Var \to Val$. Both \Environment{} and \Store{} are partial functions. 
+		  All the global variables are contained in $\Environment[\Global]$ 
+		  and the copies of shared variables are contained in $\Environment[\thread]$
+		  for each thread.
+\end{itemize}
+The completion code of a transition is encoded by $k$, where:
+\begin{equation*}
+	k = \begin{cases}
+		0					& \text{If the transition terminates.}									\\
+		1					& \text{If the transition pauses, but resumes in the next global tick.}	\\
+		a \in \mathcal{A}	& \text{If the transition takes the preemption of abort $a$.}			\\
+		\bot				& \text{If the transition continues.}
+	\end{cases}
+\end{equation*}
+
+
+%-----------------------------------------------------------------------------
+
+\subsection{Predicates}
+To keep the ForeC semantics concise, we define predicates to return
+statically known information about the program. The first set of
+predicates describes the genealogy of the threads:
+\begin{itemize}
+	\item $\Parent(\thread)$:
+		Returns the parent thread of thread \thread{}.
+		However, if \thread{} is the \verb$main$ thread of the
+		program, then $\top$ is returned.
+	\item $\Children(\thread)$:
+		Returns a set containing all the child threads that can be forked by the 
+		thread \thread{}. An empty set is returned if thread 
+		\thread{} has no \verb$par$ statement.
+	\item $\Siblings(\thread)$:
+		Returns a set containing all the sibling threads of thread \thread{}.
+		An empty set is returned if \thread{} is the \verb$main$ thread
+		or is the only argument in a \verb$par$ statement.
+\end{itemize}
+The second set of predicates describes shared variables and preemptions:
+\begin{itemize}
+	\item $\Shared(\store)$:
+		Returns the set of all shared variables in the given \store{}.
+	\item $\Combinator(\var)$:
+		Returns the combine function specified for the shared variable \var{}.
+	\item $\GetExp(a)$:
+		Returns the expression \expression{} from the \verb$abort$ statement of \verb$abort$ $a$.
+\end{itemize}
+As an example, Figure~\ref{fig:forec_predicates} shows the predicates being used on
+the program in Figure~\ref{fig:transform_forec_refactored}:
+\begin{figure}[ht]
+	\centering
+	\begin{tabular}{|l l l|}
+		\hline
+												&																			&														\\
+		$\Parent($\verb$main$$) = \top$			& $\Children($\verb$main$$) = \lbrace$\verb$t0$$,~$\verb$t1$$\rbrace$		& $\Siblings($\verb$main$$) = \lbrace ~ \rbrace$		\\
+		$\Parent($\verb$t0$$) =~$\verb$main$	& $\Children($\verb$t0$$) = \lbrace ~ \rbrace$								& $\Siblings($\verb$t0$$) = \lbrace$\verb$t1$$\rbrace$	\\
+		$\Parent($\verb$t1$$) =~$\verb$main$	& $\Children($\verb$t1$$) = \lbrace ~ \rbrace$								& $\Siblings($\verb$t1$$) = \lbrace$\verb$t0$$\rbrace$	\\
+												&																			&														\\
+		$\Shared(\Environment[\Global]) = \lbrace$\verb$s_main$$\rbrace$	& $\Combinator($\verb$s_main$$) =~$\verb$plus$	& $\GetExp($\verb$a_0$$) =~$\verb$s_main>10$			\\
+												&																			&														\\
+		\hline
+	\end{tabular}
+	
+	\caption{Example of applying predicates to the program of Figure~\ref{fig:transform_forec_refactored}.}
+	\label{fig:forec_predicates}
+\end{figure}
+
+%-----------------------------------------------------------------------------
+
+\subsection{The Structural Operational Semantics}
+We use the first form of the rewrite rules to 
+describe the execution behaviour of a thread body. 
+Then, we use the second form of the rewrite rules to 
+describe the thread termination and global synchronisation
+behaviours. Each rule is designed to be applied to 
+an arbitrary active thread ($\thread \in \Active$). 
+An active thread may require an arbitrary number of 
+rewrites, potentially interleaved with the rewrites 
+of another thread, before it pauses or terminates. 
+The semantics of a ForeC program does not depend on 
+the rewrite order and is deterministic 
+(see Theorem~\ref{thm:deterministic}).
+
+\subsubsection{The nop Statement}
+The \verb$nop$ statement does nothing, emits
+the completion code of $0$, and terminates 
+immediately:
+\begin{equation*}	
+	\tag{nop}
+	\label{forec:nop}
+	\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:nop
+		\xrightarrow[~~\Input~~]{0} 
+	\langle \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread: 
+\end{equation*}
+
+\subsubsection{The pause Statement}
+The \verb$pause$ statement does nothing, emits the 
+completion code of $1$, and terminates immediately:
+\begin{equation*}
+	\tag{pause}
+	\label{forec:pause}
+	\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:pause
+		\xrightarrow[~~\Input~~]{1} 
+	\langle \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:nop
+\end{equation*}
+
+\subsubsection{The Assignment Statement}
+The assignment statement evaluates the expression
+\expression{} into a value using the semantic
+function $\Eval$ (described in Section~\ref{sec:forec_Eval}).
+If \var{} is a shared variable (\ref{forec:assign-shared}), then the value is 
+assigned to the thread's store, $\Environment[\thread][\var]$. 
+This allows the thread to keep its modified copy of \var{} 
+separate from the other threads.
+Otherwise, if the variable \var{} is a private variable (\ref{forec:assign-private}), then the value 
+is assigned to the actual variable, $\Environment[\Global][\var]$:
+\begin{equation*}
+	\tag{assign-shared}
+	\label{forec:assign-shared}
+	\frac{
+			\var \in \Shared(\Environment[\Global])
+		}{
+			\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:\var = \expression
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Active, \Inactive, \Paused, \Abort, \Environment[\thread][\var \gets \Eval(\Environment, \thread, \expression)] \rangle ~ \thread:nop
+		}
+\end{equation*}
+
+\begin{equation*}
+	\tag{assign-private}
+	\label{forec:assign-private}
+	\frac{
+			\var \notin \Shared(\Environment[\Global])
+		}{
+			\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:\var = \expression
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Active, \Inactive, \Paused, \Abort, \Environment[\Global][\var \gets \Eval(\Environment, \thread, \expression)] \rangle ~ \thread:nop
+		}
+\end{equation*}
+
+\subsubsection{Sequencing}
+For a sequence of two terms, the first term $f$
+must be rewritten until it terminates before the 
+second term can be rewritten (\ref{forec:seq-left}). 
+The (\ref{forec:seq-left}) rule 
+emits the completion code of the first term:
+\begin{equation*}
+	\tag{seq-left}
+	\label{forec:seq-left}
+	\frac{
+			\langle \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:f
+				\xrightarrow[~~\Input~~]{k \neq 0} 
+			\langle \Active', \Inactive', \Paused', \Abort', \Environment' \rangle ~ \thread:f'
+		}{
+			\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:f;g
+				\xrightarrow[~~\Input~~]{k} 
+			\langle \Active', \Inactive', \Paused', \Abort', \Environment' \rangle ~ \thread:f';g
+		}
+\end{equation*}
+Otherwise, if the first term terminates, then 
+the (\ref{forec:seq-right}) rule is applied:
+\begin{equation*}
+	\tag{seq-right}
+	\label{forec:seq-right}
+	\frac{
+			\langle \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:f
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Active', \Inactive', \Paused', \Abort', \Environment' \rangle ~ \thread:nop
+		}{
+			\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:f;g
+				\xrightarrow[~~\Input~~]{\bot} 
+			\langle \Active', \Inactive', \Paused', \Abort', \Environment' \rangle ~ \thread:g
+		}
+\end{equation*}
+
+\subsubsection{The if-else Statement}
+A conditional statement is rewritten into one of its branches, depending on 
+the value of its expression:
+\begin{equation*}
+	\tag{then}
+	\label{forec:then}
+	\frac{
+			\Eval(\Environment, \thread, \expression) \neq 0
+		}{
+			\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:\mathit{if}(\expression)~\lbrace f \rbrace~else~\lbrace g \rbrace
+				\xrightarrow[~~\Input~~]{\bot} 
+			\langle \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:f
+		}
+\end{equation*}
+
+\begin{equation*}
+	\tag{else}
+	\label{forec:else}
+	\frac{
+			\Eval(\Environment, \thread, \expression) = 0
+		}{
+			\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:\mathit{if}(\expression)~\lbrace f \rbrace~else~\lbrace g \rbrace
+				\xrightarrow[~~\Input~~]{\bot} 
+			\langle \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:g
+		}
+\end{equation*}
+
+\subsubsection{The while Loop}
+For a loop statement, its body $f$ and condition expression \expression{} 
+are unrolled once:
+\begin{equation*}
+	\tag{loop}
+	\label{forec:loop}
+			\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:while(\expression)~\lbrace f \rbrace
+				\xrightarrow[~~\Input~~]{\bot} 
+			\langle \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:\mathit{if}(\expression)~\lbrace f;while(\expression)~\lbrace f \rbrace \rbrace~else~\lbrace nop \rbrace
+\end{equation*}
+
+\subsubsection{The par Statement}
+The \verb$par$ statement places its child threads 
+($\thread_0,~\dots,~\thread_n$) into the set of 
+active threads and makes the parent thread (\thread{}) 
+inactive:
+\begin{equation*}
+	\tag{par}
+	\label{forec:par}
+	\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:par(\thread_0:\lbrace f_0 \rbrace,~\dots,~\thread_n:\lbrace f_n \rbrace)
+		\xrightarrow[~~\Input~~]{\bot} 
+	\langle \lbrace \thread_0,~\dots,~\thread_n \rbrace \cup \Active \setminus \lbrace \thread \rbrace, \lbrace \thread \rbrace \cup \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:nop
+\end{equation*}
+
+\subsubsection{Preemption}
+The \verb$addAbort$ statement creates a new mapping between the 
+\verb$abort$ identifier $a$ and its preemption status in \Abort{}. 
+For an immediate \verb$abort$ (i.e., $\imm = 1$), the immediate 
+semantics is captured by initialising the preemption status with 
+an evaluation of the \verb$abort$ expression \expression{}:
+\begin{equation*}
+	\tag{imm-abort}
+	\label{forec:imm-abort}
+	\frac{
+			\imm = 1
+		}{
+			\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:addAbort(a, \imm)
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Active, \Inactive, \Paused, \Abort[a \gets \Eval(\GetExp(a))], \Environment \rangle ~ \thread:nop
+		}
+\end{equation*}
+Otherwise, the (\ref{forec:del-abort}) rule captures the delayed 
+semantics by initialising the preemption status to $0$:
+\begin{equation*}
+	\tag{del-abort}
+	\label{forec:del-abort}
+	\frac{
+			\imm \neq 1
+		}{
+			\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:addAbort(a, \imm)
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Active, \Inactive, \Paused, \Abort[a \gets 0], \Environment \rangle ~ \thread:nop
+		}
+\end{equation*}
+
+The \verb$preempt$ statement checks if \verb$abort$ $a$'s
+preemption has been triggered. If preemption has not been
+triggered (i.e., $\Abort[a] = 0$), then the preemption is 
+not taken by emitting $0$:
+\begin{equation*}
+	\tag{not-preempt}
+	\label{forec:not-preempt}
+	\frac{
+			\Abort[a] = 0
+		}{
+			\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:preempt(a)
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:nop
+		}
+\end{equation*}
+Otherwise, the preemption is taken by emitting the \verb$abort$ identifier $a$:
+\begin{equation*}
+	\tag{preempt}
+	\label{forec:preempt}
+	\frac{
+			\Abort[a] \neq 0
+		}{
+			\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:preempt(a)
+				\xrightarrow[~~\Input~~]{a} 
+			\langle \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:nop
+		}
+\end{equation*}
+
+The \verb$preempted$ statement emits the \emph{overall} completion code 
+of the threads in its argument. The semantic function $\Preempted$ 
+(described in Section~\ref{sec:forec_Preempted}) determines the overall 
+completion code:
+\begin{equation*}
+	\tag{preempted}
+	\label{forec:preempted}
+	\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:preempted(\thread_0,~\dots,~\thread_n)
+		\xrightarrow[~~\Input~~]{k \in \lbrace 0 \rbrace \cup \mathcal{A}} 
+	\langle \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:nop
+\end{equation*}
+with $k = \Preempted(\lbrace \thread_0,~\dots,~\thread_n \rbrace)$.
+
+The \verb$abort$ statement terminates if its body 
+emits a completion code of $0$ or $a$. A completion
+code of $a$ means that the preemption of \verb$abort$ 
+$a$ has been taken:
+\begin{equation*}
+	\tag{aborted}
+	\label{forec:aborted}
+	\frac{
+			\langle \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:f
+				\xrightarrow[~~\Input~~]{k \in \lbrace 0, a \rbrace} 
+			\langle \Active', \Inactive', \Paused', \Abort', \Environment' \rangle ~ \thread:f'
+		}{
+			\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:abort~a~\{f\}~when~(\expression)
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Active', \Inactive', \Paused', \Abort', \Environment' \rangle ~ \thread:nop
+		}
+\end{equation*}
+Otherwise, if the \verb$abort$ statement body does 
+not emit a completion code of $0$ or $a$, then
+the \verb$abort$ behaves as its body. The 
+(\ref{forec:not-aborted}) rule may emit the identifier
+of an enclosing \verb$abort$:
+\begin{equation*}
+	\tag{not-aborted}
+	\label{forec:not-aborted}
+	\frac{
+			\langle \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:f
+				\xrightarrow[~~\Input~~]{k \notin \lbrace 0, a \rbrace} 
+			\langle \Active', \Inactive', \Paused', \Abort', \Environment' \rangle ~ \thread:f'
+		}{
+			\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle ~ \thread:abort~a~\{f\}~when~(\expression)
+				\xrightarrow[~~\Input~~]{k} 
+			\langle \Active', \Inactive', \Paused', \Abort', \Environment' \rangle ~ \thread:abort~a~\{f'\}~when~(\expression)
+		}
+\end{equation*}
+%Our method of preemption uses the natural unwinding
+%of nested child threads back to their parent thread.
+%Another method is to forcefully remove all threads 
+%within the abort scope. However, this requires the 
+%threads to check that all threads within the abort
+%scope are no longer active. The copies of shared 
+%variables will also need to be combined and assigned
+%to the ancestor thread of the abort statement.
+
+\subsubsection{Thread termination}
+A thread terminates if its body emits either $0$ or an 
+\verb$abort$ identifier as its completion code, 
+$k \in \lbrace 0 \rbrace \cup \mathcal{A}$. The 
+terminating thread is removed from the set of active 
+threads. The (\ref{forec:term1}) rule applies if 
+some of the thread's siblings have not yet terminated
+(i.e., some siblings are in \Active{}, \Inactive{}, or \Paused{}):
+\begin{equation*}	
+	\tag{term1}
+	\label{forec:term1}
+	\frac{
+			\thread \neq main
+			\quad
+			\thread \xrightarrow{k \in \lbrace 0 \rbrace \cup \mathcal{A}} \thread
+			\quad
+			\Siblings(\thread) \cap (\Active \cup \Inactive \cup \Paused) \neq \lbrace ~ \rbrace
+		}{
+			\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle
+				\xrightarrow{~~~~~} 
+			\langle \Active \setminus \lbrace \thread \rbrace, \Inactive, \Paused, \Abort, \Environment \rangle
+		}
+\end{equation*}
+If all of the thread's siblings have terminated, 
+then a join occurs and the parent thread is resumed 
+(\ref{forec:term2}). The modified copies of shared variables 
+from the terminating thread and its siblings are combined 
+and assigned to its parent thread. This is captured by the 
+semantic function $\Combine$ 
+(described in Section~\ref{sec:forec_Combine}):
+\begin{equation*}	
+	\tag{term2}
+	\label{forec:term2}
+	\frac{
+			\thread \neq main
+			\quad
+			\thread \xrightarrow{k \in \lbrace 0 \rbrace \cup \mathcal{A}} \thread
+			\quad
+			\Siblings(\thread) \cap (\Active \cup \Inactive \cup \Paused) = \lbrace ~ \rbrace
+		}{
+			\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle
+				\xrightarrow{~~~~~} 
+			\langle \lbrace \Parent(\thread) \rbrace \cup \Active \setminus \lbrace \thread \rbrace, \Inactive \setminus \lbrace \Parent(\thread) \rbrace, \Paused, \Abort, \Environment' \rangle 
+		}
+\end{equation*}
+with $\Environment' = \Combine(\Environment, \lbrace \thread \rbrace \cup \Siblings(\thread), \Parent(\thread))$.
+
+Otherwise, if the \verb$main$ thread terminates, then
+the entire program terminates (\ref{forec:term3}). The
+modified copies of shared variables are assigned to the
+actual shared variables using the semantic function
+$\Combine$ (described in Section~\ref{sec:forec_Combine}):
+\begin{equation*}	
+	\tag{term3}
+	\label{forec:term3}
+	\frac{
+			\thread = main
+			\quad
+			\thread \xrightarrow{k \in \lbrace 0 \rbrace \cup \mathcal{A}} \thread
+		}{
+			\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle
+				\xrightarrow{~~~~~} 
+			\langle \lbrace ~ \rbrace, \Inactive, \Paused, \Abort, \Combine(\Environment, \lbrace \thread \rbrace, \Global) \rangle 
+		}
+\end{equation*}
+
+\subsubsection{Synchronisation}
+A thread reaches the end of its local tick if
+its body emits a completion code of $1$.
+If a thread is not the last to pause, then the 
+the thread is placed into the set of paused threads:
+\begin{equation*}
+	\tag{local-tick}
+	\label{forec:local-tick}
+	\frac{
+			\Active \neq \lbrace \thread \rbrace
+			\quad
+			\thread \xrightarrow{~~1~~} \thread
+		}{
+			\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle
+				\xrightarrow{~~~~~} 
+			\langle \Active \setminus \lbrace \thread \rbrace, \Inactive, \lbrace \thread \rbrace \cup \Paused, \Abort, \Environment \rangle
+		}
+\end{equation*}
+Otherwise, if the thread is the last to pause, then a global 
+tick occurs (\ref{forec:global-tick}). All the modified copies of 
+shared variables are combined and assigned to the actual shared 
+variables using the semantic function $\Combine$ (described in 
+Section~\ref{sec:forec_Combine}). To allow the next global tick
+to proceed, the paused threads are made active and the preemption
+statuses are updated using the semantic function 
+$\Preemptions$ (described in Section~\ref{sec:forec_Preemptions}):
+\begin{equation*}
+	\tag{global-tick}
+	\label{forec:global-tick}
+	\frac{
+			\Active = \lbrace \thread \rbrace
+			\quad
+			\thread \xrightarrow{~~1~~} \thread
+		}{
+			\langle \thread \in \Active, \Inactive, \Paused, \Abort, \Environment \rangle
+				\xrightarrow{~~~~~} 
+			\langle \lbrace \thread \rbrace \cup \Paused, \Inactive, \lbrace ~ \rbrace, \Preemptions(\Environment', \Abort), \Environment' \rangle
+		}
+\end{equation*}
+with $\Environment' = \Combine(\Environment, \Thread, \Global)$.
+
+%-----------------------------------------------------------------------------
+
+\subsection{Semantic Functions}
+This section describes the various semantic functions 
+used by the semantics of ForeC.
+
+\subsubsection{\textsc{Eval}}
+\label{sec:forec_Eval}
+The semantic function $\Eval(\Environment, \thread, \expression)$ 
+follows the evaluation rules of the C-language to 
+evaluate the expression \expression{} and returns 
+the result. During the evaluation, the value of a 
+variable is retrieved by the semantic function $\GetVal$ 
+(described in Section~\ref{sec:forec_GetVal}).
+
+\begin{algorithm}[t]
+	\begin{algorithmic}[1]
+		\Function{$\GetVal$}{\Environment{}, \thread{}, \var{}}
+			\If {$\var \in \Environment[\thread]$}	
+				\State \Return $\Environment[\thread][\var]$							\Comment{Return the thread's value for \var{}.}\label{algo:GetVal_local}
+			\Else
+				\State $\thread_a = \GetAncestorWithCopy(\Environment, \thread, \var)$	\Comment{Get the ancestor with a copy of \var{}.}
+				\If {$\thread_a \neq \top$}
+					\State \Return $\Environment[\thread_a][\var]$						\Comment{Return the ancestor's value for \var{}.}\label{algo:GetVal_parent}
+				\Else
+					\State \Return $\Environment[\Global][\var]$						\Comment{Return the value of the actual \var{}.}\label{algo:GetVal_global}
+				\EndIf
+			\EndIf
+		\EndFunction
+	\end{algorithmic}
+	
+	\caption{Gets the value of a given variable.}
+	\label{algo:GetVal}
+\end{algorithm}
+
+\subsubsection{\textsc{GetVal}}
+\label{sec:forec_GetVal}
+When evaluating an expression, the semantic function
+$\GetVal(\Environment, \thread, \var)$ is used 
+to retrieve the value of each variable. 
+This function is described by Algorithm~\ref{algo:GetVal}. 
+The inputs to the algorithm are: the program's environment 
+\Environment{}, the thread \thread{} that the expression 
+belongs to, and the variable \var{} that we want the value 
+of. The output is a value \val{}. If \var{} is in thread 
+\thread{}'s store, then its value in the store is returned 
+(line~\ref{algo:GetVal_local}). Otherwise, we find the ancestor of
+thread \thread{} that has a copy of \var{} by using the
+semantic function $\GetAncestorWithCopy$ 
+(described in Section~\ref{sec:forec_GetAncestorWithCopy}). 
+If such an ancestor exists ($\thread_a \neq \top$), then
+the value in the ancestor's store is returned (line~\ref{algo:GetVal_parent}). 
+Otherwise, the value of the actual \var{} is returned
+(line~\ref{algo:GetVal_global}).
+
+\subsubsection{\textsc{GetAncestor}}
+\label{sec:forec_GetAncestorWithCopy}
+The semantic function $\GetAncestorWithCopy(\Environment, \thread, \var)$ 
+finds thread \thread{}'s ancestor which has a copy 
+of a given variable \var{} in its store. This function is described 
+by Algorithm~\ref{algo:GetAncestorWithCopy}. The inputs
+to the algorithm are: the program's environment 
+\Environment{}, the thread \thread{} to start searching 
+from, and the variable \var{} to find. The output is a
+thread. The first ancestor we search through is thread 
+\thread{}'s parent. If the parent has a copy of \var{}, 
+then the parent is returned. Otherwise, the search continues 
+through the thread's ancestry until a copy is found. On
+line~\ref{algo:GetAncestorWithCopy_top1}, recall that 
+$\Parent(\thread_a)$ returns $\top$ when $\thread_a$ is 
+the program's \verb$main$ thread. If no ancestor is found, 
+then $\top$ is returned (line~\ref{algo:GetAncestorWithCopy_top2}).
+
+\begin{algorithm}[t]
+	\begin{algorithmic}[1]
+		\Function{$\GetAncestorWithCopy$}{\Environment{}, \thread{}, \var{}}
+			\State $\thread_a = \Parent(\thread)$			\Comment{Get the parent.}
+			\While {$\thread_a \neq \top$}					\Comment{While an ancestor exists.}
+				\If {$\var \in \Environment[\thread_a]$}
+					\State \Return $\thread_a$				\Comment{A copy of \var{} is in this ancestor's store.}
+				\EndIf
+				\State $\thread_a = \Parent(\thread_a)$		\Comment{continue searching through the ancestry.}\label{algo:GetAncestorWithCopy_top1}
+			\EndWhile
+			\State \Return $\top$							\Comment{No ancestor found.}\label{algo:GetAncestorWithCopy_top2}
+		\EndFunction
+	\end{algorithmic}
+	
+	\caption{Gets the ancestor that has a copy of a given variable.}
+	\label{algo:GetAncestorWithCopy}
+\end{algorithm}
+
+\begin{algorithm}[t]
+	\begin{algorithmic}[1]
+		\Function{$\Combine$}{\Environment{}, \Thread{}, \id{}}
+			\State $\Environment' = \Environment \setminus \Thread$								\Comment{Copy a subset of the environment.}\label{algo:Combine_copy_E}
+			\ForAll {$\var \in \Shared(\Environment[\Global])$}									\Comment{For all shared variables.}
+				\State $\Thread_c = \lbrace \thread \mid \forall \thread \in \Thread, \var \in \Environment[\thread] \rbrace$	\Comment{Get the threads that have a copy of \var{}.}\label{algo:Combine_find}
+				\ForAll {$\thread_c \in \Thread_c,$ where $\Children(\thread_c) \cap \Thread_c \neq \lbrace ~ \rbrace$}
+					\State $\Thread_c = \Thread_c \setminus \lbrace \thread_c \rbrace$			\Comment{Remove the parent threads.}\label{algo:Combine_remove}
+				\EndFor
+				\If {$\lvert \Thread_c \rvert > 0$}
+					\State $\val = \Environment[\thread][\var],$ where $\thread \in \Thread_c$		\Comment{Use a copy to initialise \val{}.}\label{algo:Combine_init}
+					\State $cf = \Combinator(\var)$												\Comment{Combine function for \var{}.}\label{algo:Combine_c}
+					\ForAll {$\thread_c \in \Thread_c \setminus \lbrace \thread \rbrace$}
+						\State $\val = cf(\val, ~ \Environment[\thread][\var])$					\Comment{Combine \val{} with the remaining copies.}\label{algo:Combine_combine}
+					\EndFor
+					\State $\Environment'[\id][\var \gets \val]$								\Comment{Assign the result to \id{}'s store.}\label{algo:Combine_assign}
+				\EndIf
+			\EndFor
+			\State \Return $\Environment'$
+		\EndFunction
+	\end{algorithmic}
+	
+	\caption{Combines copies of shared variables for a given set of threads.}
+	\label{algo:Combine}
+\end{algorithm}
+
+\subsubsection{\textsc{Combine}}
+\label{sec:forec_Combine}
+According to the (\ref{forec:assign-shared}) rule, a thread only 
+makes a copy of a shared variable when it makes an assignment to the 
+variable. The semantic function $\Combine(\Environment, \Thread, \id)$ 
+combines the copies of shared variables for a set of threads \Thread{}. This function
+is described by Algorithm~\ref{algo:Combine}. The inputs
+to the algorithm are: the program's environment \Environment{},
+the set of threads \Thread{} to combine, and the 
+identifier \id{} of the store to assign the combined
+values into. The output is an updated environment $\Environment{}'$.
+The updated environment begins as a copy of \Environment{}, excluding
+the stores belonging to the threads in \Thread{} (line~\ref{algo:Combine_copy_E}). 
+For each shared variable \var{}, we find the threads that 
+have a copy of \var{} (line~\ref{algo:Combine_find}). 
+We remove the parent threads to prevent their copies from 
+being combined with their children's copies (line~\ref{algo:Combine_remove}).
+If at least one child thread remains, then we initialise 
+a temporary value \val{} with a copy (line~\ref{algo:Combine_init}). 
+The value is combined with the remaining copies (line~\ref{algo:Combine_combine}) 
+by using the shared variable's combine function $cf$ 
+(line~\ref{algo:Combine_c}). The combined value is assigned 
+to the given \id{}'s store in $\Environment'$
+(line~\ref{algo:Combine_assign}).
+
+\subsubsection{\textsc{Preempted}}
+\label{sec:forec_Preempted}
+The semantic function $\Preempted(\Thread)$ determines the 
+overall completion code for the set of threads \Thread{}. 
+This function is only used in the (\ref{forec:preempted}) 
+rule for the \verb$preempted$ statement. Recall that the 
+structural translation of \verb$abort$s (Section~\ref{sec:formalSemantics_translations})
+is the only use of \verb$preempted$ statements.
+By construction, \verb$preempted$ statements are always
+placed after \verb$par$ statements. The \verb$preempted$ 
+statement takes, as arguments, the child threads of the 
+preceding \verb$par$ statement, which are eventually passed 
+into the semantic function $\Preempted$. All threads in 
+\Thread{} would have terminated and their last completion code 
+would be $0$ or $\abort \in \mathcal{A}$. Using the threads' 
+last completion codes, Algorithm~\ref{algo:Preempted} describes
+how the overall completion code is determined. The input 
+to the algorithm is the set of child threads \Thread{} and
+the output is a completion code. For each child thread, its
+last completion code is retrieved (line~\ref{algo:Preempted_k}).
+If the completion code is an \verb$abort$ identifier, then 
+the thread was preempted by an enclosing \verb$abort$ statement.
+Note that the \verb$abort$ statement would have enclosed the other 
+child threads and preempted them too. Hence, the \verb$abort$ 
+identifier can be returned (line~\ref{algo:Preempted_a}) without 
+having to check the completion code of the remaining threads. 
+Otherwise, if no child thread was preempted, $0$ is returned as 
+the completion code (line~\ref{algo:Preempted_0}).
+
+\begin{algorithm}[t]
+	\begin{algorithmic}[1]
+		\Function{$\Preempted$}{\Thread{}}
+			\ForAll {$\thread \in \Thread$}
+				\State $k =$ thread \thread's last completion code	\label{algo:Preempted_k}
+				\If {$k \in \mathcal{A}$}
+					\State \Return $k$								\label{algo:Preempted_a}
+				\EndIf
+			\EndFor
+			\State \Return $0$										\label{algo:Preempted_0}
+		\EndFunction
+	\end{algorithmic}
+	
+	\caption{Returns the overall completion code for a set of threads.}
+	\label{algo:Preempted}
+\end{algorithm}
+
+\subsubsection{\textsc{Preemptions}}
+\label{sec:forec_Preemptions}
+The semantic function $\Preemptions(\Environment, \Abort)$
+updates the preemption statuses of all \verb$abort$s. This function
+is described by Algorithm~\ref{algo:Preemptions}. The inputs 
+to the algorithm are: the program's environment \Environment{}, 
+and the set of \verb$abort$ identifiers \Abort{}. The output is 
+\Abort{} with updated preemption statuses. For each \verb$abort$, 
+line~\ref{algo:Preemptions_val} evaluates its expression 
+using values of the actual variables. The result 
+is assigned to the \verb$abort$ identifier as its new preemption 
+status (line~\ref{algo:Preemptions_update}).
+
+\begin{algorithm}[t]
+	\begin{algorithmic}[1]
+		\Function{$\Preemptions$}{\Environment{}, \Abort{}}
+			\ForAll {$\abort \in \Abort$}
+				\State $\val = \Eval(\Environment, \Global, \GetExp(a))$	\label{algo:Preemptions_val}
+				\State $\Abort[\abort \gets \val]$							\label{algo:Preemptions_update}
+			\EndFor
+			\State \Return \Abort
+		\EndFunction
+	\end{algorithmic}
+	
+	\caption{Updates the preemption status of all abort identifiers.}
+	\label{algo:Preemptions}
+\end{algorithm}

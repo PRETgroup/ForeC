@@ -1,0 +1,435 @@
+\subsubsection{Program 5}
+\begin{lstlisting}[style=snippet]
+int x=1;
+void main(void) {
+  abort {
+    weak abort {
+      pause;
+    } when immediate (x == 0);
+  } when (x == 1);
+}
+\end{lstlisting}
+This program is structurally translated to:
+\begin{lstlisting}[style=snippet]
+int x=1;
+void main(void) {
+  abort a_0 { // Strong and delayed abort
+    addAbort(a_0,0); 
+    preempt(a_0);
+    abort a_1 {  // Weak and immediate abort
+      addAbort(a_1,1); 
+      preempt(a_1); 
+      pause; 
+      preempt(a_0);
+    } when (x == 0);
+  } when (x == 1);
+}
+\end{lstlisting}
+The initial program state, $\langle State \rangle$,
+and its derivatives are defined in Table~\ref{table:forec_program_5}.
+\newline
+
+\begin{table}[t]
+	\centering
+	\renewcommand{\arraystretch}{1.25}
+	
+	\begin{tabular}{| l | c | c | c | c | c |}
+		\hline
+		\textbf{State}						& \textbf{\textit{A}}			& \textbf{\textit{I}} 		& \textbf{\textit{P}} 	& \textbf{\textit{C}}	 					& \textbf{\textit{E}}										\\ \hline
+		$\langle State \rangle$				& $\lbrace main \rbrace$		& $\lbrace ~ \rbrace$		& $\lbrace ~ \rbrace$	& $\lbrace ~ \rbrace$						& $\lbrace \Global \to \lbrace x \to 0 \rbrace \rbrace$		\\ \cline{1-1} \cline{5-5}
+		$\langle State^1 \rangle$			&								&							&						& $\lbrace a\_0 \to 0 \rbrace$				& 															\\ \cline{1-1} \cline{5-5}
+		$\langle State^2 \rangle$			&								&							&						& $\lbrace a\_0 \to 0, a\_1 \to 0 \rbrace$	& 															\\ \cline{1-1} \cline{5-5}
+		$\langle State^3 \rangle$			& 								& 							&						& $\lbrace a\_0 \to 1, a\_1 \to 0 \rbrace$	& 															\\ \cline{1-2}
+		$\langle State^4 \rangle$			& $\lbrace ~ \rbrace$			& 							&						&											& 															\\ \hline
+	\end{tabular}
+	
+	\caption{Definition of the initial program state and its derivatives for Program 5.}
+	\label{table:forec_program_5}
+\end{table}
+
+\noindent
+Step 1: Apply the (\ref{forec:not-aborted}), (\ref{forec:seq-right}) and 
+(\ref{forec:del-abort}) rules on thread \verb$main$.
+\begin{equation*}
+	\frac{
+		\dfrac{
+				\langle State \rangle ~ \text{main: addAbort(a\_0,0)}
+					\xrightarrow[~~\Input~~]{0}
+				\langle State^1 \rangle ~ \text{main: nop}
+			}{
+				\begin{array}{l}
+					\langle State \rangle ~ \text{main:}		\\
+					\text{addAbort(a\_0,0); preempt(a\_0);}		\\
+					\text{abort a\_1 \{}						\\
+					\text{~~~addAbort(a\_1,1); preempt(a\_1);}	\\
+					\text{~~~pause; preempt(a\_0);}				\\
+					\text{\} when (x == 0);}					
+				\end{array}
+					\xrightarrow[~~\Input~~]{\bot} 
+				\begin{array}{l}
+					\langle State^1 \rangle ~ \text{main:}		\\
+					\text{preempt(a\_0);}						\\
+					\text{abort a\_1 \{}						\\
+					\text{~~~addAbort(a\_1,1); preempt(a\_1);}	\\
+					\text{~~~pause; preempt(a\_0);}				\\
+					\text{\} when (x == 0);}					
+				\end{array}
+			}
+		}{
+			\begin{array}{l}
+				\langle State \rangle ~ \text{main: abort a\_0 \{}	\\
+				\text{~~~addAbort(a\_0,0); preempt(a\_0);}			\\
+				\text{~~~abort a\_1 \{}								\\
+				\text{~~~~~~addAbort(a\_1,1); preempt(a\_1);}		\\
+				\text{~~~~~~pause; preempt(a\_0);}					\\
+				\text{~~~\} when (x == 0);}							\\
+				\text{\} when (x == 1);}
+			\end{array}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\begin{array}{l}
+				\langle State^1 \rangle ~ \text{main: abort a\_0 \{}\\
+				\text{~~~preempt(a\_0);}							\\
+				\text{~~~abort a\_1 \{}								\\
+				\text{~~~~~~addAbort(a\_1,1); preempt(a\_1);}		\\
+				\text{~~~~~~pause; preempt(a\_0);}					\\
+				\text{~~~\} when (x == 0);}							\\
+				\text{\} when (x == 1);}
+			\end{array}
+		}
+\end{equation*}
+
+\noindent
+Step 2: Apply the (\ref{forec:not-aborted}), (\ref{forec:seq-right}) and 
+(\ref{forec:not-preempt}) rules on thread \verb$main$.
+\begin{equation*}
+	\frac{
+		\dfrac{
+				\langle State^1 \rangle ~ \text{main: preempt(a\_0)}
+					\xrightarrow[~~\Input~~]{0}
+				\langle State^1 \rangle ~ \text{main: nop}
+			}{
+				\begin{array}{l}
+					\langle State^1 \rangle ~ \text{main: preempt(a\_0);}	\\
+					\text{abort a\_1 \{}									\\
+					\text{~~~addAbort(a\_1,1); preempt(a\_1);}				\\
+					\text{~~~pause; preempt(a\_0);}							\\
+					\text{\} when (x == 0);}					
+				\end{array}
+					\xrightarrow[~~\Input~~]{\bot} 
+				\begin{array}{l}
+					\langle State^1 \rangle ~ \text{main:}		\\
+					\text{abort a\_1 \{}						\\
+					\text{~~~addAbort(a\_1,1); preempt(a\_1);}	\\
+					\text{~~~pause; preempt(a\_0);}				\\
+					\text{\} when (x == 0);}					
+				\end{array}
+			}
+		}{
+			\begin{array}{l}
+				\langle State^1 \rangle ~ \text{main: abort a\_0 \{}	\\
+				\text{~~~preempt(a\_0);}								\\
+				\text{~~~abort a\_1 \{}									\\
+				\text{~~~~~~addAbort(a\_1,1); preempt(a\_1);}			\\
+				\text{~~~~~~pause; preempt(a\_0);}						\\
+				\text{~~~\} when (x == 0);}								\\
+				\text{\} when (x == 1);}
+			\end{array}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\begin{array}{l}
+				\langle State^1 \rangle ~ \text{main: abort a\_0 \{}\\
+				\text{~~~abort a\_1 \{}								\\
+				\text{~~~~~~addAbort(a\_1,1); preempt(a\_1);}		\\
+				\text{~~~~~~pause; preempt(a\_0);}					\\
+				\text{~~~\} when (x == 0);}							\\
+				\text{\} when (x == 1);}
+			\end{array}
+		}
+\end{equation*}
+\newpage 
+
+\noindent
+Step 3: Apply the (\ref{forec:not-aborted}), (\ref{forec:not-aborted}), (\ref{forec:seq-right}) and 
+(\ref{forec:imm-abort}) rules on thread \verb$main$.
+\begin{equation*}
+	\frac{
+		\dfrac{
+			\dfrac{
+					\langle State^1 \rangle ~ \text{main: addAbort(a\_1,1)}
+						\xrightarrow[~~\Input~~]{0}
+					\langle State^2 \rangle ~ \text{main: nop}
+				}{
+					\begin{array}{l}
+						\langle State^1 \rangle ~ \text{main:}		\\
+						\text{~~~addAbort(a\_1,1); preempt(a\_1);}	\\
+						\text{~~~pause; preempt(a\_0);}				
+					\end{array}
+						\xrightarrow[~~\Input~~]{\bot} 
+					\begin{array}{l}
+						\langle State^2 \rangle ~ \text{main:}		\\
+						\text{~~~preempt(a\_1);}					\\
+						\text{~~~pause; preempt(a\_0);}				
+					\end{array}
+				}
+			}{
+				\begin{array}{l}
+					\langle State^1 \rangle ~ \text{main:}		\\
+					\text{abort a\_1 \{}						\\
+					\text{~~~addAbort(a\_1,1); preempt(a\_1);}	\\
+					\text{~~~pause; preempt(a\_0);}				\\
+					\text{\} when (x == 0);}					
+				\end{array}
+					\xrightarrow[~~\Input~~]{\bot} 
+				\begin{array}{l}
+					\langle State^2 \rangle ~ \text{main:}		\\
+					\text{abort a\_1 \{}						\\
+					\text{~~~preempt(a\_1);}					\\
+					\text{~~~pause; preempt(a\_0);}				\\
+					\text{\} when (x == 0);}					
+				\end{array}
+			}
+		}{
+			\begin{array}{l}
+				\langle State^1 \rangle ~ \text{main: abort a\_0 \{}	\\
+				\text{~~~abort a\_1 \{}									\\
+				\text{~~~~~~addAbort(a\_1,1); preempt(a\_1);}			\\
+				\text{~~~~~~pause; preempt(a\_0);}						\\
+				\text{~~~\} when (x == 0);}								\\
+				\text{\} when (x == 1);}
+			\end{array}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\begin{array}{l}
+				\langle State^2 \rangle ~ \text{main: abort a\_0 \{}\\
+				\text{~~~abort a\_1 \{}								\\
+				\text{~~~~~~preempt(a\_1);}							\\
+				\text{~~~~~~pause; preempt(a\_0);}					\\
+				\text{~~~\} when (x == 0);}							\\
+				\text{\} when (x == 1);}
+			\end{array}
+		}
+\end{equation*}
+
+\noindent
+Step 4: Apply the (\ref{forec:not-aborted}), (\ref{forec:not-aborted}), (\ref{forec:seq-right}) and 
+(\ref{forec:not-preempt}) rules on thread \verb$main$.
+\begin{equation*}
+	\frac{
+		\dfrac{
+			\dfrac{
+					\langle State^2 \rangle ~ \text{main: preempt(a\_1)}
+						\xrightarrow[~~\Input~~]{0}
+					\langle State^2 \rangle ~ \text{main: nop}
+				}{
+					\begin{array}{l}
+						\langle State^2 \rangle ~ \text{main:}		\\
+						\text{~~~preempt(a\_1);}					\\
+						\text{~~~pause; preempt(a\_0);}				
+					\end{array}
+						\xrightarrow[~~\Input~~]{\bot} 
+					\begin{array}{l}
+						\langle State^2 \rangle ~ \text{main:}		\\
+						\text{~~~pause; preempt(a\_0);}				
+					\end{array}
+				}
+			}{
+				\begin{array}{l}
+					\langle State^2 \rangle ~ \text{main:}		\\
+					\text{abort a\_1 \{}						\\
+					\text{~~~preempt(a\_1);}					\\
+					\text{~~~pause; preempt(a\_0);}				\\
+					\text{\} when (x == 0);}					
+				\end{array}
+					\xrightarrow[~~\Input~~]{\bot} 
+				\begin{array}{l}
+					\langle State^2 \rangle ~ \text{main:}		\\
+					\text{abort a\_1 \{}						\\
+					\text{~~~pause; preempt(a\_0);}				\\
+					\text{\} when (x == 0);}					
+				\end{array}
+			}
+		}{
+			\begin{array}{l}
+				\langle State^2 \rangle ~ \text{main: abort a\_0 \{}	\\
+				\text{~~~abort a\_1 \{}									\\
+				\text{~~~~~~preempt(a\_1);}								\\
+				\text{~~~~~~pause; preempt(a\_0);}						\\
+				\text{~~~\} when (x == 0);}								\\
+				\text{\} when (x == 1);}
+			\end{array}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\begin{array}{l}
+				\langle State^2 \rangle ~ \text{main: abort a\_0 \{}\\
+				\text{~~~abort a\_1 \{}								\\
+				\text{~~~~~~pause; preempt(a\_0);}					\\
+				\text{~~~\} when (x == 0);}							\\
+				\text{\} when (x == 1);}
+			\end{array}
+		}
+\end{equation*}
+\newpage
+
+\noindent
+Step 5: Apply the (\ref{forec:not-aborted}), (\ref{forec:not-aborted}), (\ref{forec:seq-left}) and 
+(\ref{forec:pause}) rules on thread \verb$main$.
+\begin{equation*}
+	\frac{
+		\dfrac{
+			\dfrac{
+					\langle State^2 \rangle ~ \text{main: pause}
+						\xrightarrow[~~\Input~~]{1}
+					\langle State^2 \rangle ~ \text{main: nop}
+				}{
+					\begin{array}{l}
+						\langle State^2 \rangle ~ \text{main: pause; preempt(a\_0);}				
+					\end{array}
+						\xrightarrow[~~\Input~~]{1} 
+					\begin{array}{l}
+						\langle State^2 \rangle ~ \text{main: nop; preempt(a\_0);}				
+					\end{array}
+				}
+			}{
+				\begin{array}{l}
+					\langle State^2 \rangle ~ \text{main:}		\\
+					\text{abort a\_1 \{}						\\
+					\text{~~~pause; preempt(a\_0);}				\\
+					\text{\} when (x == 0);}					
+				\end{array}
+					\xrightarrow[~~\Input~~]{1} 
+				\begin{array}{l}
+					\langle State^2 \rangle ~ \text{main:}		\\
+					\text{abort a\_1 \{}						\\
+					\text{~~~nop; preempt(a\_0);}				\\
+					\text{\} when (x == 0);}					
+				\end{array}
+			}
+		}{
+			\begin{array}{l}
+				\langle State^2 \rangle ~ \text{main: abort a\_0 \{}	\\
+				\text{~~~abort a\_1 \{}									\\
+				\text{~~~~~~pause; preempt(a\_0);}						\\
+				\text{~~~\} when (x == 0);}								\\
+				\text{\} when (x == 1);}
+			\end{array}
+				\xrightarrow[~~\Input~~]{1} 
+			\begin{array}{l}
+				\langle State^2 \rangle ~ \text{main: abort a\_0 \{}\\
+				\text{~~~abort a\_1 \{}								\\
+				\text{~~~~~~nop; preempt(a\_0);}					\\
+				\text{~~~\} when (x == 0);}							\\
+				\text{\} when (x == 1);}
+			\end{array}
+		}
+\end{equation*}
+
+\noindent
+Step 6: Apply the (\ref{forec:global-tick}) rule on thread
+\verb$main$. A global tick occurs.
+\begin{equation*}
+	\frac{
+			\text{main} \xrightarrow{~~1~~} \text{main}
+		}{
+			\langle State^2 \rangle \xrightarrow{~~~~~} \langle State^3 \rangle
+		}
+\end{equation*}
+
+\noindent
+Step 7: Apply the (\ref{forec:not-aborted}), (\ref{forec:not-aborted}), (\ref{forec:seq-right}) and 
+(\ref{forec:nop}) rules on thread \verb$main$.
+\begin{equation*}
+	\frac{
+		\dfrac{
+			\dfrac{
+					\langle State^3 \rangle ~ \text{main: nop}
+						\xrightarrow[~~\Input~~]{0}
+					\langle State^3 \rangle ~ \text{main: }
+				}{
+					\begin{array}{l}
+						\langle State^3 \rangle ~ \text{main: nop; preempt(a\_0);}				
+					\end{array}
+						\xrightarrow[~~\Input~~]{\bot} 
+					\begin{array}{l}
+						\langle State^3 \rangle ~ \text{main: preempt(a\_0);}				
+					\end{array}
+				}
+			}{
+				\begin{array}{l}
+					\langle State^3 \rangle ~ \text{main:}		\\
+					\text{abort a\_1 \{}						\\
+					\text{~~~nop; preempt(a\_0);}				\\
+					\text{\} when (x == 0);}					
+				\end{array}
+					\xrightarrow[~~\Input~~]{1} 
+				\begin{array}{l}
+					\langle State^3 \rangle ~ \text{main:}		\\
+					\text{abort a\_1 \{}						\\
+					\text{~~~preempt(a\_0);}					\\
+					\text{\} when (x == 0);}					
+				\end{array}
+			}
+		}{
+			\begin{array}{l}
+				\langle State^3 \rangle ~ \text{main: abort a\_0 \{}	\\
+				\text{~~~abort a\_1 \{}									\\
+				\text{~~~~~~nop; preempt(a\_0);}						\\
+				\text{~~~\} when (x == 0);}								\\
+				\text{\} when (x == 1);}
+			\end{array}
+				\xrightarrow[~~\Input~~]{1} 
+			\begin{array}{l}
+				\langle State^3 \rangle ~ \text{main: abort a\_0 \{}\\
+				\text{~~~abort a\_1 \{}								\\
+				\text{~~~~~~preempt(a\_0);}							\\
+				\text{~~~\} when (x == 0);}							\\
+				\text{\} when (x == 1);}
+			\end{array}
+		}
+\end{equation*}
+
+\noindent
+Step 8: Apply the (\ref{forec:aborted}), (\ref{forec:not-aborted}) and (\ref{forec:preempt})  
+rules on thread \verb$main$.
+\begin{equation*}
+	\frac{
+		\dfrac{
+				\langle State^3 \rangle ~ \text{main: preempt(a\_0)}
+					\xrightarrow[~~\Input~~]{a\_0}
+				\langle State^3 \rangle ~ \text{main: nop}
+			}{
+				\begin{array}{l}
+					\langle State^3 \rangle ~ \text{main:}		\\
+					\text{abort a\_1 \{}						\\
+					\text{~~~preempt(a\_0);}				\\
+					\text{\} when (x == 0);}					
+				\end{array}
+					\xrightarrow[~~\Input~~]{a\_0} 
+				\begin{array}{l}
+					\langle State^3 \rangle ~ \text{main:}		\\
+					\text{abort a\_1 \{}						\\
+					\text{~~~nop;}					\\
+					\text{\} when (x == 0);}					
+				\end{array}
+			}
+		}{
+			\begin{array}{l}
+				\langle State^3 \rangle ~ \text{main: abort a\_0 \{}	\\
+				\text{~~~abort a\_1 \{}									\\
+				\text{~~~~~~preempt(a\_0);}								\\
+				\text{~~~\} when (x == 0);}								\\
+				\text{\} when (x == 1);}
+			\end{array}
+				\xrightarrow[~~\Input~~]{0} 
+			\begin{array}{l}
+				\langle State^3 \rangle ~ \text{main: nop}
+			\end{array}
+		}
+\end{equation*}
+
+\noindent
+Step 9: Apply the (\ref{forec:term3}) rule on thread \verb$main$.
+The program terminates.
+\begin{equation*}
+	\frac{
+			\text{main} \xrightarrow{~~0~~} \text{main}
+		}{
+			\langle State^3 \rangle \xrightarrow{~~~~~} \langle State^4 \rangle
+		}
+\end{equation*}

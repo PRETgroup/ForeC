@@ -1,0 +1,15 @@
+module main:
+signal A, B (*\label{esterel:signal}*)
+[
+	emit A; (*\label{esterel:thread1}\label{esterel:emit1}*)
+	pause (*\label{esterel:pause1}*)
+|| (*\label{esterel:par}*)
+	present A then emit B end; (*\label{esterel:thread2}\label{esterel:emit2}*)
+	pause; (*\label{esterel:pause2}*)
+	abort (*\label{esterel:abort}*)
+		emit B; (*\label{esterel:abort_body_start}\label{esterel:emit3}*)
+		pause; (*\label{esterel:pause3}*)
+		emit A; emit B (*\label{esterel:emit4}\label{esterel:abort_body_end}*)
+	when immediate A
+]
+end module

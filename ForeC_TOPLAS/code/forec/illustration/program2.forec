@@ -1,0 +1,6 @@
+int x=1;
+void main(void) {
+	weak abort {
+		x++; pause;
+	} when immediate (x==1);
+}

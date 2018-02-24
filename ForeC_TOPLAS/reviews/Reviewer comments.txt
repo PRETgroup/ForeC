@@ -1,0 +1,241 @@
+Dear Dr. Eugene Yip,
+
+Based on the reviews and on the recommendation of Rupak
+Majumdar, I regret to inform you that your submission to
+TOPLAS has been rejected.  TOPLAS aims to publish the papers
+that are in the top few of its topic area and are of broad
+interest, and many good papers cannot be accepted.
+
+See the following url for more details: 
+http://compilers.cs.ucla.edu/toplas/acceptance.html
+
+I hope you find the reviews below useful.  If you have any
+questions please fee free to contact me at the email address
+above.
+
+Best regards, 
+Andrew Myers 
+Editor-in-Chief ACM TOPLAS 
+- - - - - - - - - -
+
+From the Associate Editor Rupak Majumdar:
+
+Recommendation #1: Reject
+
+Associate Editor Comments for Author: I regret that I cannot
+recommend the work be accepted at this time. I hope the
+recommendations of the reviewers are useful to you in
+preparing a modified version for publication.
+
+- - - - - - - - - -
+
+From the reviewers:
+
+Referee: 1
+
+Comments to the Author
+
+This article presents ForeC, a synchronous programming
+language intended for creating multi-core embedded software.
+
+Content. It starts with an introduction to the context
+explaining why parallelism is getting more and more
+important in this area and what needs to be considered when
+designing software for safety-critical embedded systems. As
+the language is mostly based on previous area of synchronous
+programming languages, the authors also present their main
+concepts and briefly review previous approaches to interface
+C from them. The next sections give an introduction to
+related work (with respect to programming and with respect
+to architectures). The technical content of the article
+starts on Page 11, where the ForeC languge is introduced.
+Its semantics is first informally illustrated with the help
+of a running example and then formally presented with the
+help of SOS rules in the spirit of Plotkin. Its presentation
+takes some space discussing every rule in more detail and
+finally illustrating their application with the help of two
+very small examples. The next main section considers the
+compilation of ForeC programs for parallel execution. The
+presentation of the variant for direct execution on a Xilinz
+MicroBlaze is given more space (almost complete), while the
+modifications for generating PThreads are only sketched. The
+final technical section shows experimental results, where
+the performance of ForeC is compared to Esterel or OpenMP.
+
+Presentation. The article is generally well written, and
+from my point of view, it is at a perfect level of
+abstraction: the reader first gets a good overview but
+later, all the details for a deeper understanding are also
+given. The submission is already very polished, and I could
+hardly find any typos (see below for exceptions). The
+presentation is definitely effective, and my only suggestion
+for improvement is related to the structure: the discussion
+of related work is scattered over the article (introduction,
+Section "Related Work", other subsections in the following).
+Maybe all these parts could be rearranged in a more
+consistent way, e.g. combining all the parts of Sections 1,
+2, and 3 in a single section "Related Work" with appropriate
+subsection, and then simply keeping the current "Discussion"
+subsections (or renaming to "Related Work" if new related
+work is rather introduced).
+
+Soundness. From the technical side, the presented approach
+is sound: the desired properties (determinism,
+predictability, parallelism) are obviously achieved. The
+given formal semantics is well-thought-out, and - due to the
+lack of instantaneous communication between threads - not as
+complicated as the ones for other synchronous languages (in
+particular it could be truly structural). In particular, I
+liked the rules for the parallel and how the termination of
+threads are handled. The translation to C also looks fine,
+and its performance is exceeding competing approaches for
+academic examples. All in all, the contribution is not
+seminal but rather very solid work which combines previous
+ideas in a non-trivial way.
+
+Applicability/Restrictions. (1) From my point of view, this
+is a very weak point of the presented approach. I am rather
+sceptical that the presented model of parallelism could be
+really used in practice. Although the authors claim that it
+is perfect for parallel execution, there is still the
+single-level barrier synchronization, which enforces that
+all the threads have to meet at the end of a global tick.
+This means that even the threads, which do not communicate
+at all, have to synchronize all the time. An acceptable
+performance for a real embedded software application having
+a size to use a multi-core processor, would be out of reach
+from my point of view. The industrial example I know from
+e.g avionics of the automotive domain are completely out of
+reach for the presented approach.
+
+(2) Furthermore, the same single level of synchronization
+exists is also there in the model. Mixing different tasks of
+different timing granularity (as it could be done in Lustre)
+is impossible. Thus, the given approach is only feasible for
+data-intensive applications having a single level of time
+granularity.
+
+(3) It should be also stated that - compared to Esterel and
+Lustre, ForeC is on the implementation level - a lower level
+of abstraction. The threads in the program are also
+"threads" in the implementation (either pieces of atomically
+executed code or real threads), which is different to
+Esterel, where the aim is to model parallel threads and
+executing them sequentially. This is a true limitation since
+the restrictions that parallel threads could not synchronize
+in the course of a global tick gives the division into
+threads a real semantic difference. Thus, the program author
+already has to think how to parallelize the program (a design
+decision). Of course, the better performance is due to this
+point and - naturally - the restriction that parallel
+threads could not synchronize in the course of a global
+tick.
+
+General advice. I think that the presented approach is
+sufficiently interesting for presentation. (Since I have
+always been interested in the work of the synchronous
+languages community, I am not really sure whether a broad
+audience shares the same opinion.) However, before a
+possible publication, the article should be carefully
+revised. With respect to the technical content, I do not any
+significant points. However, the authors could either clearly
+state the limitations of their approach so that people not
+very familiar with the area do not have wrong expectations.
+Of course, I would even prefer that the authors continue to
+work on their language - and maybe see the possibility to
+address my concerns. Furthermore, as said above, the
+authors could consider to give a better structure of the
+related work parts.
+
+
+Referee: 2
+
+Comments to the Author I like the basic idea of this paper
+and it seems like you've developed some interesting
+technology, but this 76-page monster need a lot of
+restructuring work before it's ready for publication.
+
+I have three basic questions for your work and was unable to
+find adequate answers for any of them:
+
+1. What, exactly, can your language do and not do? 2. What,
+exactly, were the challenges in designing and implementing
+such a language and how did you overcome them? 3. How,
+exactly, does your work differ from others?
+
+A really fundamental question I couldn't figure out is
+exactly which C features you support and which you don't.
+For example, a lot of the analysis you seem to do appears to
+rely on the absence of pointer-induced aliasing, arrays, and
+various other C mainstays. Exactly what types do you
+support? Do you support arrays and other aggregate types?
+How are they dealt with w.r.t. your mechanisms for
+preventing race conditions on access to shared structures?
+
+Do you support recursive functions?  If so, how? If not,
+exactly what constraints do you put on the call graph of
+your program? Do you support function pointers, for example?
+
+Do you support recursive data types (e.g., trees implemented
+with structs and pointers)?
+
+You appear to insist every loop have a bound placed on it
+(your # notation). How do you, if at all, check that these
+bounds are respected? Are these only for loops whose bodies
+don't include pause statements, or do they apply to every
+loop?
+
+Your claims that your technique can produce code that's more
+efficient than Esterel and OpenMP need to be backed up
+more and made more clear. What things were you measuring?
+How were the Esterel and OpenMP programs compiled? What made
+your solution better? How does your solution scale with an
+increasing number of available cores?
+
+A central technical contribution, which I wasn't able to
+understand fully, was how you implemented your language on
+multi-core processors. Really basic things, such as whether
+the generated code relied on a particular number of threads
+or would create more at runtime, weren't obvious.
+
+Exactly how are you implementing your "copy on fork; combine
+on join" semantics for local variables? It seems like this
+could easily be extremely costly and wasteful (e.g., if in
+fact only thread ever touches certain variables). I didn't
+see how you were implementing this at all, let alone
+efficiently. This seems fundamental to your solution; please
+explain how you handled it.
+
+Do you map each ForeC thread to a unique pthread, or do you
+map multiple logical threads onto a single operating-system
+thread? I'm sure I could probably eventually figure this out
+from your discussion, but it should have been stated much
+more clearly right at the beginning.
+
+This is one paper that would greatly benefit from having the
+discussion of related work moved later. At the moment, it
+takes you something like 12 pages to get to actually
+discussing any contribution. Why you do indeed have to
+explain how your technique relates to the functional
+languages and related work, it would greatly benefit your
+presentation to move that later. I really want to learn how
+you solved problems rather than get a history lesson on all
+the other techniques in this space.
+
+Your formal presentation of semantics is encouraging, but
+I'm not really sure how much it adds. Given that others have
+argued the formal semantics and determinism of, say,
+Esterel, wouldn't it be enough to explain how your semantics
+differ, if any, from those other works? Nothing dramatically
+different (i.e., constructs that demand a greatly different
+treatment) jumped out at me, but perhaps I missed it. In
+either case, either stress how these semantics are somehow
+critical or novel, or explain how they're essentially the
+same as others.
+
+I really liked that you had numerous examples throughout.
+Please keep this style of explanation. Just building the
+paper around your UAV example and showing how it should
+behave and finally how your runtime system realizes that
+behavior would go a long way toward improving the structure
+of your paper.

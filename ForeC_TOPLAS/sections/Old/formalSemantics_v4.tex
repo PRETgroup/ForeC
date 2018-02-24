@@ -1,0 +1,871 @@
+\section{Semantics}
+\label{sec:formalSemantics}
+
+This section presents the semantics of ForeC as rewrite rules,
+in the style of Structural Operation Semantics~\cite{semantics_sos}. 
+The semantics is inspired by that of other synchronous programming
+languages (Esterel~\cite{timed_compiling_esterel} and \pretc{}~\cite{pret_pretc} in particular).
+The semantics is defined on a set of primitive (kernel) ForeC constructs
+(see Table~\ref{table:forec_kernel}) from which all the ForeC 
+constructs are derived from. The kernel constructs are not used for compiling
+and only considers a subset of the C language: the assignment (\verb$=$)
+and sequence (\verb$;$) operators and the \verb$if$ and \verb$while$ statements. 
+Table~\ref{table:forec_structural_translations} shows how the
+ForeC constructs (Table~\ref{table:forec_semantics}) are translated into the kernel 
+constructs (Table~\ref{table:forec_kernel}). This is exemplified by the 
+translation of the ForeC constructs in Figure~\ref{fig:transform_forec_refactored} 
+into the kernel constructs in Figure~\ref{fig:transform_forec_kernel}. 
+The translations for \verb$input$, \verb$output$, and \verb$pause$ are
+straightforward. The \verb$shared$ variable is translated into
+a global variable and a \verb$copy$ kernel statement is placed at
+the start of every thread body. The
+\verb$copy$ kernel statement is needed to define how threads
+create local copies of shared variables.
+The \verb$par$ statement is translated by prefixing each
+thread body \body{} with a unique identifier thread \thread{} to 
+distinguish the body of one thread from another. 
+Traditionally, \verb$trap$s~\cite{timed_compiling_esterel} are used 
+to describe \verb$abort$s and other complex preemption statements. 
+In ForeC, a straightforward \verb$abort$ translation is 
+possible because it is the only type of preemption statement.
+Each \verb$abort$ is assigned a unique identifier $a$ and then 
+translated into the \verb$status$ and \verb$abort$ kernel
+statements. The \verb$status$ kernel statement is needed to
+define the immediate behavior of an \verb$abort$ and it takes the
+unique identifier $a$ and an expression. The expression is
+0 (zero) for a non-immediate \verb$abort$, but is \expression{}
+(preemption condition) for an immediate \verb$abort$. The
+\verb$abort$ kernel statement takes the unique
+identifier $a$ and the \verb$abort$ body~\body{}. This section
+describes the assumptions on ForeC kernel programs to 
+simplify the presentation of the formal semantics. The notation
+of the rewrite rules, useful predicates, and semantic functions 
+are described before the rewrite rules are presented.
+
+\begin{table}[h]
+	\centering
+	\renewcommand{\arraystretch}{1.25}
+	
+	\begin{tabular}{l l}
+		\bf{Kernel Construct}									& \bf{Short Description}	\\ 
+		\hline
+		\verb$nop$												& Empty statement			\\
+		\body{}\verb$;$~\body{}									& Sequence					\\
+		\var{}~\verb$=$~\expression{}							& Variable assignment		\\
+		\verb$while$~(\expression{})~\body{}					& Loop						\\
+		\verb$if$~(\expression{})~\body{}~\verb$else$~\body{}	& Conditional				\\
+		\verb$copy$												& Copy shared variables		\\
+		\verb$pause$											& Barrier synchronization	\\
+		\verb$par$(\thread{}:\body{},~\thread{}:\body{})		& Fork/join parallelism		\\
+		\verb$status$($a$, \expression{})						& Initial preemption status	\\
+		\verb$weak$?~\verb$abort$($a$, \body{})					& Abort						\\
+	\end{tabular}
+	
+	\caption{The ForeC kernel constructs. Here, \body{} is an arbitrary composition of kernel 
+			 constructs, \var{} is a variable, \expression{} is an expression, $t$ is a thread 
+			 identifier, and $a$ is an abort identifier. A question mark denotes that the 
+			 preceding symbol is optional.}
+	\label{table:forec_kernel}
+\end{table}
+
+\begin{table}
+	\centering
+	\renewcommand{\arraystretch}{1.25}
+	
+	\begin{tabular}{| l | p{8cm} |}
+		\hline
+		\bf{ForeC Construct}													& \bf{Translation to ForeC Kernel Constructs}											\\ 
+		\hline
+		\verb$input$ and \verb$output$											& Translated into global variables.														\\ \hline
+		\verb$shared$															& Translated into global variables. The \verb$copy$ kernel statement is placed at 
+																				  start of every thread body.															\\ \hline
+		\verb$pause$															& \verb$pause$																			\\ \hline
+		\verb$par$(\body{}, \body{})											& \verb$par$(\thread{}:\body{}, \thread{}:\body{})										\\ \hline
+		\verb$weak$?~\verb$abort$~\body{}~\verb$when$~(\expression{})			& \verb$status$($a$, 0)\verb$;$ \verb$weak$?~\verb$abort$($a$, \body{})					\\ \hline
+		\verb$weak$?~\verb$abort$~\body{}~\verb$when immediate$~(\expression{})	& \verb$status$($a$, \expression{})\verb$;$ \verb$weak$?~\verb$abort$($a$, \body{})		\\ \hline
+	\end{tabular}
+	
+	\caption{Structural translations of the ForeC constructs  
+			 (Table~\ref{table:forec_semantics}) to kernel constructs 
+			 (Table~\ref{table:forec_kernel}).}
+	\label{table:forec_structural_translations}
+\end{table}
+
+\begin{figure}
+	\centering 
+	\subfloat[Original program.] {
+		\begin{minipage}[b]{0.48\textwidth}
+			\lstinputlisting[style=full]{./code/transform_forec_original.forec}
+			\label{fig:transform_forec_original}
+		\end{minipage}
+	}
+	\hfill
+	\subfloat[Transformed program.] {
+		\begin{minipage}[b]{0.43\textwidth}
+			\lstinputlisting[style=full]{./code/transform_forec_refactored.forec}
+			\label{fig:transform_forec_refactored}
+		\end{minipage}
+	}
+	
+	\subfloat[Translated kernel program.] {
+		\begin{minipage}[b]{0.63\textwidth}
+			\lstinputlisting[style=full]{./code/transform_forec_kernel.forec}
+			\label{fig:transform_forec_kernel}
+		\end{minipage}
+	}
+	
+	\caption{Example of transforming and translating a ForeC program into the kernel constructs.}
+	\label{fig:transform_forec}
+\end{figure}
+
+
+\subsection{Assumptions}
+\label{sec:formalSemantics_assumptions}
+We make the following assumptions about ForeC programs. 
+(1) All programs follow safety-critical coding practices,
+as discussed in Section~\ref{sec:forecLanguage_programming}.
+For example, all expressions are side-effect free, 
+dynamic memory allocation is not used, and loops that can 
+iterate an unbounded number of times without pausing are not used.
+This assumption limits us to a deterministic subset of the 
+C language.
+(2) All recursive function calls or forking of threads are bounded.
+This assumption prevents the unbounded 
+execution of functions and threads, leading to unbounded
+memory use and execution time. 
+To simplify the presentation of the semantics, we assume that the 
+following transformations have been performed on ForeC programs. 
+(1) Inlining of functions at their call sites. The semantics can
+ignore function calls.
+(2) Renaming variables uniquely and hoisting their declarations 
+up to the program's global scope. The semantics can ignore 
+memory allocation and focus on the semantics of private and 
+shared variables.
+(3) Replacing pointers with the variables they reference. The 
+semantics can ignore pointer analysis.
+For example, the program of 
+Figure~\ref{fig:transform_forec_original} can be
+transformed into the equivalent program of 
+Figure~\ref{fig:transform_forec_refactored}.
+
+
+%-----------------------------------------------------------------------------
+
+\subsection{Notation}
+The rewrite rules have the following form in the style of 
+Structural Operational Semantics~\cite{semantics_sos}:
+\begin{equation*}
+	\langle \StateP \rangle ~ \thread{}:\body{} 
+		\xrightarrow[~~\Input~~]{k} 
+	\langle \StateP' \rangle ~ \thread{}:\body{}'
+\end{equation*}
+This notation describes a program fragment \body{} belonging to thread \thread{},
+in the program state $\langle \StateP \rangle$ and with inputs \Input{}, which
+reacts and modifies the program state to $\langle \StateP' \rangle$, emits the 
+completion code $k$, and becomes the new program fragment $\body{}'$. 
+All the input variables are stored in \Input{}. Recall 
+from Section~\ref{sec:forecLanguage_io} that all \verb$input$ variables 
+must be globally declared.
+Let $\thread{} \in \Thread$ be the set of all threads in the program. 
+Let $\langle \StateP \rangle$ be defined as 
+$\langle \Environment, \Abort \rangle$, where:
+\begin{itemize}
+	\item \Environment{} is an environment that maintains the valuations of all the variables and 
+		  copies of shared variables in the program. Specifically, \Environment{} is a partial
+		  function that maps the global scope \Global{} and threads ($\thread{} \in \Thread$) to a 
+		  store (\Store{}) of variables. Let $\Id = \Thread \cup \{\Global\}$, then 
+		  $\Environment: \Id \to \Store$.
+		  Since all variables are globally declared (Section~\ref{sec:formalSemantics_assumptions}), 
+		  $\Environment[\Global]$ stores all the output, shared, and ordinary C variables. 
+		  $\Environment[\thread{}]$ stores thread \thread{}'s copies of shared variables. 
+		  The store (\Store{}) is a partial function that maps variables ($\var \in \Var$) to values ($\val \in \Val$) 
+		  and statuses ($\sts \in \Sts$), $\Store: \Var \to (\Val, \Sts)$. Statuses are
+		  needed only to define how the combine policies affect which copies get combined.
+		  The status of a variable in $\Environment[\thread{}]$ is either \verb$pre$ (previous 
+		  combined value), \verb$mod$ (modified value), or \verb$cmb$ (partially combined value). 
+		  The status of each global variable $\var \in \Environment[\Global]$ is always \verb$pre$.
+		
+		  For example, $\Environment = \left \lbrace \Global \to \lbrace s \to (1, \mathtt{pre}) \rbrace, t1 \to \lbrace s \to (3, \mathtt{mod}) \right \rbrace$
+		  for a program with shared variable \verb$s$ with value 1 and thread $t1$'s modified copy of
+		  \verb$s$ with value 3. We use the
+		  notation, e.g., $\Environment[t1][s]$ to look up the value and status $(3, \mathtt{mod})$ of \verb$s$ in $t1$'s store.
+		  We use the notations, e.g.,  $\Environment[t1][s].\val$ and $\Environment[t1][s].\sts$
+		  to look up its value and status separately.
+		  
+	\item \Abort{} is a partial function that maps the \verb$abort$ identifiers in the program 
+		  ($a \in \mathcal{A}$) to values ($\val \in \Val$) representing their preemption status, 
+		  $\Abort: \mathcal{A} \to Val$. An \verb$abort$ with a non-zero value means that its
+		  preemption has been triggered. 
+		  
+		  For example, $\Abort = \lbrace a1 \to 1, a2 \to 0 \rbrace$ 
+		  for a program with \verb$abort$s $a1$ and $a2$ with the statuses 1 and 0, respectively.
+		  We use the notation, e.g., $\Abort[a1]$ to look up the status of \verb$abort$ $a1$.
+\end{itemize}
+The completion code of a transition is encoded by $k$, where:
+\begin{equation*}
+	k = \begin{cases}
+		0		& \text{If the transition terminates.}								\\
+		1		& \text{If the transition pauses until a tick occurs.}		\\
+		\bot	& \text{If the transition can continue.}
+	\end{cases}
+\end{equation*}
+
+
+%-----------------------------------------------------------------------------
+
+\subsection{Predicates}
+To keep the ForeC semantics concise, we define predicates for returning 
+statically known information about the program. 
+\begin{itemize}
+	\item $\Parent(\thread{})$:
+		Returns the parent of thread \thread{}.
+		If $\thread{} =$ \verb$main$, then ``\verb$main$'' is returned.
+	\item $\Shared(\Global)$:
+		Returns the set of all shared variables declared in the program.
+	\item $\Shared(\thread{})$:
+		Returns the set of all shared variables that the body of thread \thread{} accesses (reads or writes).
+	\item $\GetCombine(\var)$:
+		Returns the combine function of shared variable \var{}.
+	\item $\GetPolicy(\var)$:
+		Returns the combine policy of shared variable \var{}.
+	\item $\GetExp(a)$:
+		Returns the preemption condition \expression{} of \verb$abort$ $a$.
+\end{itemize}
+As an example, Figure~\ref{fig:forec_predicates} shows the use of predicates on
+the program in Figure~\ref{fig:transform_forec_kernel}:
+\begin{figure}[ht]
+	\centering
+	\renewcommand{\arraystretch}{1.25}
+	\begin{tabular}{|l l l|}
+		\hline
+		$\Parent($\verb$main$$) =$ \verb$main$			& $\Parent($\verb$t1$$) =$ \verb$main$					& $\Parent($\verb$t2$$) =$ \verb$main$		\\
+		$\Shared(\Global) = \{$\verb$x$$,$\verb$s$$\}$	& $\Shared($\verb$t1$$) = \{$\verb$x$$,$\verb$s$$\}$	& $\Shared($\verb$t2$$) = \{$\verb$x$$\}$	\\
+		$\GetCombine($\verb$s$$) =$ \verb$plus$			& $\GetPolicy($\verb$s$$) =$ \verb$all$					& $\GetExp($\verb$a1$$) =$ \verb$s>10$		\\
+		\hline
+	\end{tabular}
+	
+	\caption{Example of applying predicates to the program of Figure~\ref{fig:transform_forec_kernel}.}
+	\label{fig:forec_predicates}
+\end{figure}
+
+
+%-----------------------------------------------------------------------------
+
+\subsection{Semantic Functions}
+To keep the ForeC semantics concise, we define semantic functions 
+used by the rewrite rules.
+
+\subsubsection{\textsc{Eval}}
+\label{sec:forec_Eval}
+The semantic function $\Eval(\Environment, \Input, \id, \expression)$ 
+follows the evaluation rules of the C-language to 
+evaluate the expression \expression{} and return 
+its value. During the evaluation, the value of a 
+variable is retrieved using the semantic function $\GetVal(\Environment, \Input, \id, \var)$ 
+described by Algorithm~\ref{algo:GetVal}. 
+The inputs to the algorithm are: the program's environment 
+\Environment{}, the inputs \Input{}, the identifier \id{} of the
+store to try and retrieve the value from, and the variable \var{} of interest. The 
+output is a value \val{}. If \var{} is an input, 
+then its value is returned (line~\ref{algo:GetVal_input}). 
+Otherwise, if \var{} is in \id{}'s store, then its value is returned 
+(line~\ref{algo:GetVal_local}). 
+Otherwise, the global value of \var{} is returned
+(line~\ref{algo:GetVal_global}).
+
+\begin{algorithm}[t]
+	\begin{algorithmic}[1]
+		\Function{$\GetVal$}{\Environment{}, \Input{}, \id{}, \var{}}
+			\If {$\var \in \Input$}
+				\State \Return $\Input[\var]$								\Comment{Return the input value for \var{}.}\label{algo:GetVal_input}
+			\ElsIf {$\var \in \Environment[\id{}]$}	
+					\State \Return $\Environment[\id{}][\var].\val$			\Comment{Return the value for \var{} from \id{}'s store.}\label{algo:GetVal_local}
+			\Else
+				\State \Return $\Environment[\Global][\var].\val$			\Comment{Return the global value for \var{}.}\label{algo:GetVal_global}
+			\EndIf
+		\EndFunction
+	\end{algorithmic}
+	
+	\caption{Gets the value of a given variable.}
+	\label{algo:GetVal}
+\end{algorithm}
+
+\subsubsection{\textsc{Copy}}
+\label{sec:forec_Copy}
+The semantic function $\Copy(\Environment, \thread{})$ creates 
+copies of shared variables that thread \thread{} needs but 
+does not already have. This copying behavior ensures that, 
+when a \verb$par$ terminates, the combined values assigned to the 
+parent thread are not overwritten. The behavior also ensures
+that, when a \verb$par$ forks and joins in the same tick, 
+the parent thread's existing copies are not overwritten.
+This function is described by Algorithm~\ref{algo:Copy}. 
+The inputs to the algorithm are: the program's environment 
+\Environment{} and a thread \thread{}. The output is an updated
+environment \Environment{}. The algorithm retrieves all the shared 
+variables that are accessed in the thread's body (line~\ref{algo:Copy_retrieve}).
+For each shared variable, line~\ref{algo:Copy_if} checks if a
+copy already exists. If it does not exist, then a copy is created 
+from the parent thread's copy if available (line~\ref{algo:Copy_parent}), 
+otherwise from the shared variable (line~\ref{algo:Copy_global}).  
+Finally, the updated environment \Environment{} is returned (line~\ref{algo:Copy_return}).
+
+\begin{algorithm}[t]
+	\begin{algorithmic}[1]
+		\Function{$\Copy$}{\Environment{}, \thread{}}
+			\ForAll {$\var \in \Shared(\thread{})$}						\Comment{For all shared variables needed by thread \thread{}.}\label{algo:Copy_retrieve}
+				\If {$\var \notin \Environment[\thread{}]$}				\Comment{If thread \thread{} does not have a copy.}\label{algo:Copy_if}
+					\If {$\var \in \Environment[\Parent(\thread{})]$}
+						\State $\Environment[\thread{}][\var \gets (\Environment[\Parent(\thread{})][\var].val, \texttt{pre})]$	\Comment{Copy its parent's copy.}\label{algo:Copy_parent}
+					\Else
+						\State $\Environment[\thread{}][\var \gets (\Environment[\Global][\var].val, \texttt{pre})]$			\Comment{Copy the shared variable.}\label{algo:Copy_global}
+					\EndIf
+				\EndIf
+			\EndFor
+			\State \Return $\Environment$		\label{algo:Copy_return}
+		\EndFunction
+	\end{algorithmic}
+	
+	\caption{Copy all the shared variables needed by a thread.}
+	\label{algo:Copy}
+\end{algorithm}
+
+\subsubsection{\textsc{Combine}}
+\label{sec:forec_Combine}
+The semantic function $\Combine(\Environment, \thread{1}, \thread{2}, \thread{0})$ combines 
+the copies of shared variables of two threads. This 
+function is described by Algorithm~\ref{algo:Combine}. The inputs to the 
+algorithm are: the program's environment \Environment{}, two threads 
+\thread{1} and \thread{2}, and a thread \thread{0} to assign the 
+combined values to. The output is an updated environment \Environment{}.
+The algorithm combines the shared variables one at a time (line~\ref{algo:Combine_for}).
+By default, we combine the copies from both threads if they exist (line~\ref{algo:Combine_default}).
+If the combine policy is \verb$new$ (line~\ref{algo:Combine_new}), then it finds the copies with 
+values different to $\Environment[\Global][\var]$ (i.e., the \verb$pre$ value) 
+or are partially combined values (i.e., status is \verb$cmb$).
+If the combine policy is \verb$mod$ (line~\ref{algo:Combine_mod}), then it finds the copies 
+that are modified or are partially combined values (i.e., status is \verb$mod$ or \verb$cmb$).
+If two copies are found, then the shared variable's combine 
+function is retrieved (line~\ref{algo:Combine_c}) to compute the combined value (line~\ref{algo:Combine_combine}).
+The combined value is assigned to thread \thread{0} with the status 
+\verb$cmb$ to indicate that it is a partially combined result (line~\ref{algo:Combine_assign2}).
+If one copy is found, then the value of that copy is assigned to thread \thread{0}
+with the status \verb$cmb$ (line~\ref{algo:Combine_assign1}). 
+Finally, the updated environment \Environment{} without thread \thread{1} 
+and \thread{2}'s store is returned (line~\ref{algo:Combine_return}).
+
+\begin{algorithm}[t]
+	\begin{algorithmic}[1]
+		\Function{$\Combine$}{\Environment{}, \thread{1}, \thread{2}, \thread{0}}
+			\ForAll {$\var \in \Shared(\Global)$}										\Comment{All the shared variables.}\label{algo:Combine_for}
+				\State $\Thread = \lbrace \thread{} \mid \thread{} \in \lbrace \thread{1}, \thread{2} \rbrace, \var \in \Environment[\thread{}] \rbrace$		\label{algo:Combine_default}
+				\If {$\GetPolicy(\var) = \texttt{new}$}
+					\State $\Thread = \lbrace \thread{} \mid \thread{} \in \Thread, \Environment[\thread{}][\var].\val \neq \Environment[\Global][\var].\val \lor \Environment[\thread{}][\var].\sts = \texttt{cmb} \rbrace$	\label{algo:Combine_new}
+				\ElsIf {$\GetPolicy(\var) = \texttt{mod}$}
+					\State $\Thread = \lbrace \thread{} \mid \thread{} \in \Thread, \Environment[\thread{}][\var].\sts \in \{ \texttt{mod}, \texttt{cmb} \} \rbrace$						\label{algo:Combine_mod}
+				\EndIf	\label{algo:Combine_endif1}
+				\If {$\lvert \Thread \rvert = 2$}	\label{algo:Combine_if}
+					\State $cf = \GetCombine(\var)$													\Comment{Combine function for \var{}.}\label{algo:Combine_c}
+					\State $\val = cf(\Environment[\thread{1}][\var].\val, \Environment[\thread{2}][\var].\val, \Environment[\Global][\var].\val)$	\Comment{Combine the two copies.}\label{algo:Combine_combine}
+					\State $\Environment[\thread{0}][\var \gets (\val, \texttt{cmb}) ]$	\Comment{Assign the combined result to \thread{0}.}\label{algo:Combine_assign2}
+				\ElsIf {$\lvert \Thread \rvert = 1$}
+					\State $\Environment[\thread{0}][\var \gets (\Environment[\thread{} \in \Thread][\var].\val, \texttt{cmb}) ]$	\Comment{Assign \thread{}'s value directly to \thread{0}.}\label{algo:Combine_assign1}
+				\EndIf	\label{algo:Combine_endif2}
+			\EndFor
+			\State \Return $\Environment \setminus \{ \thread{1}, \thread{2} \}$															\label{algo:Combine_return}
+		\EndFunction
+	\end{algorithmic}
+	
+	\caption{Combines the copies of shared variables of two threads.}
+	\label{algo:Combine}
+\end{algorithm}
+
+
+%-----------------------------------------------------------------------------
+
+\subsection{The Structural Operational Semantics}
+
+\subsubsection{The \texttt{nop} Statement}
+The \verb$nop$ statement does nothing and terminates:
+\begin{equation*}
+	\tag{nop}
+	\label{forec:nop}
+	\langle \Environment, \Abort \rangle ~ \thread{}:\mathtt{nop}
+		\xrightarrow[~~\Input~~]{0} 
+	\langle \Environment, \Abort \rangle ~ \thread{}:
+\end{equation*}
+
+\subsubsection{The \texttt{copy} Statement}
+The \verb$copy$ statement copies the shared variables needed
+by thread \thread{}:
+\begin{equation*}
+	\tag{copy}
+	\label{forec:copy}
+	\langle \Environment, \Abort \rangle ~ \thread{}:\mathtt{copy}
+		\xrightarrow[~~\Input~~]{0} 
+	\langle \Copy(\Environment, \thread{}), \Abort \rangle ~ \thread{}:\mathtt{nop}
+\end{equation*}
+
+\subsubsection{The \texttt{pause} Statement}
+The \verb$pause$ statement rewrites into the \verb$copy$ statement
+and pauses. The \verb$copy$ statement ensures that thread \thread{} 
+starts its next local tick by copying the shared variables it needs:
+\begin{equation*}
+	\tag{pause}
+	\label{forec:pause}
+	\langle \Environment, \Abort \rangle ~ \thread{}:\mathtt{pause}
+		\xrightarrow[~~\Input~~]{1} 
+	\langle \Environment, \Abort \rangle ~ \thread{}:\mathtt{copy}
+\end{equation*}
+
+\subsubsection{The \texttt{status} Statement}
+The \verb$status$ statement sets \verb$abort$ $a$'s preemption status
+to the value of the expression \expression{}:
+\begin{equation*}
+	\tag{status}
+	\label{forec:status}
+	\langle \Environment, \Abort \rangle ~ \thread{}:\mathtt{status}(a, \expression)
+		\xrightarrow[~~\Input~~]{0} 
+	\langle \Environment, \Abort[a \gets \Eval(\Environment, \Input, \thread{}, \expression)] \rangle ~ \thread{}:\mathtt{nop}
+\end{equation*}
+
+\subsubsection{The \texttt{abort} Statement}
+The \verb$abort$ executes its body \body{} if its preemption has not been triggered:
+\begin{equation*}
+	\tag{abort-1}
+	\label{forec:abort-1}
+	\frac{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\body{}
+				\xrightarrow[~~\Input~~]{k \in \lbrace 1, \bot \rbrace} 
+			\langle \Environment', \Abort' \rangle ~ \thread{}:\body{}'
+			\quad
+			\Abort[a] = 0
+		}{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\mathtt{weak}?~\mathtt{abort}(a, \body{})
+				\xrightarrow[~~\Input~~]{k} 
+			\langle \Environment', \Abort' \rangle ~ \thread{}:\mathtt{weak}?~\mathtt{abort}(a, \body{}')
+		}
+\end{equation*}
+The \verb$abort$ terminates normally if its body terminates and its preemption has not
+been triggered:
+\begin{equation*}
+	\tag{abort-2}
+	\label{forec:abort-2}
+	\frac{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\body{}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment', \Abort' \rangle ~ \thread{}:\body{}'
+			\quad
+			\Abort[a] = 0
+		}{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\mathtt{weak}?~\mathtt{abort}(a, \body{})
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment', \Abort' \rangle ~ \thread{}:\mathtt{nop}
+		}
+\end{equation*}
+Additionally, the \verb$weak abort$ terminates normally even
+if its preemption has been triggered:
+\begin{equation*}
+	\tag{abort-3}
+	\label{forec:abort-3}
+	\frac{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\body{}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment', \Abort' \rangle ~ \thread{}:\body{}'
+			\quad
+			\Abort[a] \neq 0
+		}{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\mathtt{weak}~\mathtt{abort}(a, \body{})
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment', \Abort' \rangle ~ \thread{}:\mathtt{nop}
+		}
+\end{equation*}
+The \verb$weak abort$ terminates if its body pauses and its preemption has been triggered. 
+It rewrites into the \verb$copy$ statement because it could be the start of thread \thread{}'s 
+local tick:
+\begin{equation*}
+	\tag{abort-4}
+	\label{forec:abort-4}
+	\frac{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\body{}
+				\xrightarrow[~~\Input~~]{1} 
+			\langle \Environment', \Abort' \rangle ~ \thread{}:\body{}'
+			\quad
+			\Abort[a] \neq 0
+		}{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\mathtt{weak}~\mathtt{abort}(a, \body{})
+				\xrightarrow[~~\Input~~]{\bot} 
+			\langle \Environment', \Abort' \rangle ~ \thread{}:\mathtt{copy}
+		}
+\end{equation*}
+The \verb$weak abort$ allows its body to execute until it pauses if its 
+preemption has been triggered:
+\begin{equation*}
+	\tag{abort-5}
+	\label{forec:abort-5}
+	\frac{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\body{}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\langle \Environment', \Abort' \rangle ~ \thread{}:\body{}'
+			\quad
+			\Abort[a] \neq 0
+		}{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\mathtt{weak}~\mathtt{abort}(a, \body{})
+				\xrightarrow[~~\Input~~]{\bot} 
+			\langle \Environment', \Abort' \rangle ~ \thread{}:\mathtt{weak}~\mathtt{abort}(a, \body{}')
+		}
+\end{equation*}
+The strong \verb$abort$ terminates without executing its body if its preemption has been triggered. 
+It rewrites into the \verb$copy$ statement because it could be the start of thread \thread{}'s 
+local tick:
+\begin{equation*}
+	\tag{abort-6}
+	\label{forec:abort-6}
+	\frac{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\body{}
+				\xrightarrow[~~\Input~~]{k \in \lbrace 0, 1, \bot \rbrace} 
+			\langle \Environment', \Abort' \rangle ~ \thread{}:\body{}'
+			\quad
+			\Abort[a] \neq 0
+		}{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\mathtt{abort}(a, \body{})
+				\xrightarrow[~~\Input~~]{\bot} 
+			\langle \Environment, \Abort \rangle ~ \thread{}:\mathtt{copy}
+		}
+\end{equation*}
+
+\subsubsection{The Assignment Operator (\texttt{=})}
+The assignment operator evaluates the expression
+\expression{} into a value $\val = \Eval(\Environment, \Input, \thread{}, \expression)$.
+If \var{} is a shared variable (\ref{forec:assign-shared}), then the value and status \verb$mod$ 
+is assigned to the thread's copy in $\Environment[\thread{}]$. 
+Otherwise, if the variable \var{} is a private variable (\ref{forec:assign-private}), then the value 
+and status \verb$pre$ is assigned to the global variable in $\Environment[\Global]$:
+\begin{equation*}
+	\tag{assign-shared}
+	\label{forec:assign-shared}
+	\frac{
+			\var \in \Shared(\thread{})
+		}{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\var \mathtt{=} \expression
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment[\thread{}][\var \gets (\val, \texttt{mod})], \Abort \rangle ~ \thread{}:\mathtt{nop}
+		}
+\end{equation*}
+
+\begin{equation*}
+	\tag{assign-private}
+	\label{forec:assign-private}
+	\frac{
+			\var \notin \Shared(\thread{})
+		}{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\var \mathtt{=} \expression
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment[\Global][\var \gets (\val, \texttt{pre})], \Abort \rangle ~ \thread{}:\mathtt{nop}
+		}
+\end{equation*}
+
+\subsubsection{The \texttt{if-else} Statement}
+A conditional construct is rewritten into one of its branches, depending on 
+the value of its condition \expression{}:
+\begin{equation*}
+	\tag{if-then}
+	\label{forec:if-then}
+	\frac{
+			\Eval(\Environment, \Input, \thread{}, \expression) \neq 0
+		}{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\mathtt{if}~(\expression)~\body{1}~\mathtt{else}~\body{2}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\langle \Environment, \Abort \rangle ~ \thread{}:\body{1}
+		}
+\end{equation*}
+
+\begin{equation*}
+	\tag{if-else}
+	\label{forec:if-else}
+	\frac{
+			\Eval(\Environment, \Input, \thread{}, \expression) = 0
+		}{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\mathtt{if}~(\expression)~\body{1}~\mathtt{else}~\body{2}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\langle \Environment, \Abort \rangle ~ \thread{}:\body{2}
+		}
+\end{equation*}
+
+\subsubsection{The \texttt{while} Statement}
+The body of a loop statement is unrolled once, depending 
+on the value of its condition \expression{}:
+\begin{equation*}
+	\tag{loop-then}
+	\label{forec:loop-then}
+	\frac{
+			\Eval(\Environment, \Input, \thread{}, \expression) \neq 0
+		}{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\mathtt{while}~(\expression)~\body{}
+				\xrightarrow[~~\Input~~]{\bot} 
+			\langle \Environment, \Abort \rangle ~ \thread{}:\body{};~\mathtt{while}~(\expression)~\body{}
+		}
+\end{equation*}
+
+\begin{equation*}
+	\tag{loop-else}
+	\label{forec:loop-else}
+	\frac{
+			\Eval(\Environment, \Input, \thread{}, \expression) = 0
+		}{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\mathtt{while}~(\expression)~\body{}
+				\xrightarrow[~~\Input~~]{0} 
+			\langle \Environment, \Abort \rangle ~ \thread{}:\mathtt{nop}
+		}
+\end{equation*}
+
+\subsubsection{The Sequence Operator (\texttt{;})}
+For a sequence of program fragments, the first fragment \body{1}
+must terminate before the second fragment \body{2} can be rewritten. 
+The (\ref{forec:seq-left}) rule emits the completion code of 
+the first fragment:
+\begin{equation*}
+	\tag{seq-left}
+	\label{forec:seq-left}
+	\frac{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\body{1}
+				\xrightarrow[~~\Input~~]{k \in \lbrace 1, \bot \rbrace}
+			\langle \Environment', \Abort' \rangle ~ \thread{}:\body{1}'
+		}{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\body{1}\mathtt{;}~\body{2}
+				\xrightarrow[~~\Input~~]{k} 
+			\langle \Environment', \Abort' \rangle ~ \thread{}:\body{1}'\mathtt{;}~\body{2}
+		}
+\end{equation*}
+The (\ref{forec:seq-right}) rule is applied if the 
+first fragment terminates:
+\begin{equation*}
+	\tag{seq-right}
+	\label{forec:seq-right}
+	\frac{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\body{1}
+				\xrightarrow[~~\Input~~]{0}
+			\langle \Environment', \Abort' \rangle ~ \thread{}:\body{1}'
+		}{
+			\langle \Environment, \Abort \rangle ~ \thread{}:\body{1}\mathtt{;}~\body{2}
+				\xrightarrow[~~\Input~~]{\bot}
+			\langle \Environment', \Abort' \rangle ~ \thread{}:\body{2}
+		}
+\end{equation*}
+
+\subsubsection{The \texttt{par} Statement}
+The \verb$par$ statement allows both its child threads, $\thread{1}$
+and $\thread{2}$, to execute in parallel. The parent thread is $\thread{0}$:
+\begin{equation*}
+	\tag{par-1}
+	\label{forec:par-1}
+	\frac{
+		\langle \Environment, \Abort \rangle ~ \thread{1}:\body{1}
+			\xrightarrow[~~\Input~~]{\bot} 
+		\langle \Environment', \Abort' \rangle ~ \thread{1}:\body{1}'
+		\quad
+		\langle \Environment, \Abort \rangle ~ \thread{2}:\body{2}
+			\xrightarrow[~~\Input~~]{\bot} 
+		\langle \Environment'', \Abort'' \rangle ~ \thread{2}:\body{2}'
+	}{
+		\langle \Environment, \Abort \rangle ~ \thread{0}:\mathtt{par}(\thread{1}:\body{1},~\thread{2}:\body{2})
+			\xrightarrow[~~\Input~~]{\bot} 
+		\langle \Environment^M, \Abort^M \rangle ~ \thread{0}:\mathtt{par}(\thread{1}:\body{1}',~\thread{2}:\body{2}')
+	}
+\end{equation*}
+The variables that changed in $\Environment'$ or $\Environment''$ are merged 
+together to form $\Environment^M$ by taking the union of the changes 
+in $\Environment'$ (i.e., $\Environment' \setminus (\Environment' \cap \Environment)$) and in
+$\Environment''$ (i.e., $\Environment'' \setminus (\Environment'' \cap \Environment)$) 
+with the remaining unchanged variables
+(i.e., $\Environment' \cap \Environment''$). Note that intersecting two environments, 
+e.g., $\Environment' \cap \Environment''$,
+produces a new environment containing variables that have the same values and statuses in $\Environment'$
+and $\Environment''$.
+Also, parallel threads always
+modify the same environment $\Environment$ in a mutually exclusive
+manner. The (\ref{forec:assign-shared}) rule only 
+allows a thread to access its own copies of shared variables and the 
+(\ref{forec:assign-private}) rule only allows a thread to access its 
+own private variables.
+Thus, $\Environment^M = \left ( \Environment' \setminus (\Environment' \cap \Environment) \right ) \cup \left ( \Environment'' \setminus (\Environment'' \cap \Environment) \right ) \cup \left ( \Environment' \cap \Environment'' \right )$.
+Similarly, the \verb$abort$ statuses that changed in $\Abort'$
+and $\Abort''$ are merged together to form 
+$\Abort^M = \left ( \Abort' \setminus (\Abort' \cap \Abort) \right ) \cup \left ( \Abort'' \setminus (\Abort'' \cap \Abort) \right ) \cup \left ( \Abort' \cap \Abort'' \right )$.
+
+If a child thread can complete its local tick, by pausing or 
+terminating, then it will wait for its sibling to complete their local tick:
+\begin{equation*}
+	\tag{par-2}
+	\label{forec:par-2}
+	\frac{
+		\langle \Environment, \Abort \rangle ~ \thread{1}:\body{1}
+			\xrightarrow[~~\Input~~]{k \in \lbrace 0, 1 \rbrace} 
+		\langle \Environment', \Abort' \rangle ~ \thread{1}:\body{1}'
+		\quad
+		\langle \Environment, \Abort \rangle ~ \thread{2}:\body{2}
+			\xrightarrow[~~\Input~~]{\bot} 
+		\langle \Environment'', \Abort'' \rangle ~ \thread{2}:\body{2}'
+	}{
+		\langle \Environment, \Abort \rangle ~ \thread{0}:\mathtt{par}(\thread{1}:\body{1},~\thread{2}:\body{2})
+			\xrightarrow[~~\Input~~]{\bot} 
+		\langle \Environment'', \Abort'' \rangle ~ \thread{0}:\mathtt{par}(\thread{1}:\body{1},~\thread{2}:\body{2}')
+	}
+\end{equation*}
+\begin{equation*}
+	\tag{par-3}
+	\label{forec:par-3}
+	\frac{
+		\langle \Environment, \Abort \rangle ~ \thread{1}:\body{1}
+			\xrightarrow[~~\Input~~]{\bot} 
+		\langle \Environment', \Abort' \rangle ~ \thread{1}:\body{1}'
+		\quad
+		\langle \Environment, \Abort \rangle ~ \thread{2}:\body{2}
+			\xrightarrow[~~\Input~~]{k \in \lbrace 0, 1 \rbrace} 
+		\langle \Environment'', \Abort'' \rangle ~ \thread{2}:\body{2}'
+	}{
+		\langle \Environment, \Abort \rangle ~ \thread{0}:\mathtt{par}(\thread{1}:\body{1},~\thread{2}:\body{2})
+			\xrightarrow[~~\Input~~]{\bot} 
+		\langle \Environment', \Abort' \rangle ~ \thread{0}:\mathtt{par}(\thread{1}:\body{1}',~\thread{2}:\body{2})
+	}
+\end{equation*}
+The \verb$par$ pauses if both its child threads pause. The changes made to \Environment{} and \Abort{} 
+are merged into $\Environment^M$ and $\Abort^M$, respectively, as defined
+for the (\ref{forec:par-1}) rule. The copies
+of shared variables from the child threads are combined and assigned to their parent thread: 
+\begin{equation*}
+	\tag{par-4}
+	\label{forec:par-4}
+	\frac{
+		\langle \Environment, \Abort \rangle ~ \thread{1}:\body{1}
+			\xrightarrow[~~\Input~~]{1} 
+		\langle \Environment', \Abort' \rangle ~ \thread{1}:\body{1}'
+		\quad
+		\langle \Environment, \Abort \rangle ~ \thread{2}:\body{2}
+			\xrightarrow[~~\Input~~]{1} 
+		\langle \Environment'', \Abort'' \rangle ~ \thread{2}:\body{2}'
+	}{
+		\langle \Environment, \Abort \rangle ~ \thread{0}:\mathtt{par}(\thread{1}:\body{1},~\thread{2}:\body{2})
+			\xrightarrow[~~\Input~~]{1} 
+		\langle \Combine(\Environment^M, \thread{1}, \thread{2}, \thread{0}), \Abort^M \rangle ~ \thread{0}:\mathtt{par}(\thread{1}:\body{1}',~\thread{2}:\body{2}')
+	}
+\end{equation*}
+Otherwise, the \verb$par$ terminates if both its child threads terminate. The \verb$par$
+rewrites into the \verb$copy$ statement because it could be the start of the parent
+thread's local tick: 
+\begin{equation*}
+	\tag{par-5}
+	\label{forec:par-5}
+	\frac{
+		\langle \Environment, \Abort \rangle ~ \thread{1}:\body{1}
+			\xrightarrow[~~\Input~~]{0} 
+		\langle \Environment', \Abort' \rangle ~ \thread{1}:\body{1}'
+		\quad
+		\langle \Environment, \Abort \rangle ~ \thread{2}:\body{2}
+			\xrightarrow[~~\Input~~]{0} 
+		\langle \Environment'', \Abort'' \rangle ~ \thread{2}:\body{2}'
+	}{
+		\langle \Environment, \Abort \rangle ~ \thread{0}:\mathtt{par}(\thread{1}:\body{1},~\thread{2}:\body{2})
+			\xrightarrow[~~\Input~~]{\bot} 
+		\langle \Combine(\Environment^M, \thread{1}, \thread{2}, \thread{0}), \Abort^M \rangle ~ \thread{0}:\mathtt{copy}
+	}
+\end{equation*}
+If only one child thread terminates, then the terminated thread rewrites into the \verb$nop$ statement:
+% We do not rewrite the parent thread into the non-terminated child thread 
+% because the shared variables that the remaining child thread needs may be
+% different from those needed by its parent thread.
+\begin{equation*}
+	\tag{par-6}
+	\label{forec:par-6}
+	\frac{
+		\langle \Environment, \Abort \rangle ~ \thread{1}:\body{1}
+			\xrightarrow[~~\Input~~]{0} 
+		\langle \Environment', \Abort' \rangle ~ \thread{1}:\body{1}'
+		\quad
+		\langle \Environment, \Abort \rangle ~ \thread{2}:\body{2}
+			\xrightarrow[~~\Input~~]{1} 
+		\langle \Environment'', \Abort'' \rangle ~ \thread{2}:\body{2}'
+	}{
+		\langle \Environment, \Abort \rangle ~ \thread{0}:\mathtt{par}(\thread{1}:\body{1},~\thread{2}:\body{2})
+			\xrightarrow[~~\Input~~]{1} 
+		\langle \Combine(\Environment^M, \thread{1}, \thread{2}, \thread{0}), \Abort^M \rangle ~ \thread{0}:\mathtt{par}(\thread{1}:\mathtt{nop},~\thread{2}:\body{2}')
+	}
+\end{equation*}
+\begin{equation*}
+	\tag{par-7}
+	\label{forec:par-7}
+	\frac{
+		\langle \Environment, \Abort \rangle ~ \thread{1}:\body{1}
+			\xrightarrow[~~\Input~~]{1} 
+		\langle \Environment', \Abort' \rangle ~ \thread{1}:\body{1}'
+		\quad
+		\langle \Environment, \Abort \rangle ~ \thread{2}:\body{2}
+			\xrightarrow[~~\Input~~]{0} 
+		\langle \Environment'', \Abort'' \rangle ~ \thread{2}:\body{2}'
+	}{
+		\langle \Environment, \Abort \rangle ~ \thread{0}:\mathtt{par}(\thread{1}:\body{1},~\thread{2}:\body{2})
+			\xrightarrow[~~\Input~~]{1} 
+		\langle \Combine(\Environment^M, \thread{1}, \thread{2}, \thread{0}), \Abort^M \rangle ~ \thread{0}:\mathtt{par}(\thread{1}:\body{1}',~\thread{2}:\mathtt{nop})
+	}
+\end{equation*}
+
+\subsubsection{Tick Completion}
+A tick completes if the \verb$main$ thread pauses or
+terminates. The shared variables are resynchronized, preemption statuses
+are updated, outputs are emitted, and inputs are sampled:
+\begin{equation*}
+	\tag{tick}
+	\label{forec:tick}
+	\frac{
+			\langle \Environment, \Abort \rangle ~ main:\body{}
+				\xrightarrow[~~\Input~~]{k \in \lbrace 0, 1 \rbrace} 
+			\langle \Environment', \Abort' \rangle ~ main:\body{}'
+		}{
+			\langle \Environment, \Abort \rangle ~ main:\body{}
+				\xrightarrow[~~\Input'~~]{k} 
+			\langle \Environment'', \Abort'' \rangle ~ main:\body{}'
+		}
+\end{equation*}
+The shared variables are resynchronized by assigning the 
+combined values in $\Environment'[main]$ (i.e., \verb$main$'s store) to
+their corresponding variables in $\Environment'[\Global]$ and then removing \verb$main$'s store. Thus, 
+$\forall \var \in \Environment'[main]$, we have 
+$\Environment'' = \Environment'[\Global][\var \gets (\Environment'[main][\var].\val, \texttt{pre})] \setminus \{main\}$.
+All the preemption statuses are updated by evaluating their preemption 
+conditions with the resynchronized global variables. Thus, 
+$\forall \abort \in \Abort'$, we have $\Abort'' = \Abort'[\abort \gets \Eval(\Environment'', \Input, \Global, \GetExp(a))]$.
+
+
+%-----------------------------------------------------------------------------
+
+%\subsection{Comparison with Concurrent Revisions}
+%SPC-MoC subsumes the idea of Concurrent Revisions while offering extra flexibility.
+%Similarities with Concurrent Revisions:
+%\begin{itemize}
+%	\item Assignment to variables: Classic data statements.
+%	\item Classic control statements: Conditional statements.
+%	\item Forking and joining of threads: Concurrent Revisions is more expressive
+%		  (Synchronous versus Asynchronous, Static versus Dynamic).
+%\end{itemize}
+%Dissimilarities with Concurrent Revisions:
+%\begin{itemize}
+%	\item Blocking semantics of fork and join.
+%	\item Combining of revisions is only based on value.
+%	\item Preemptions.
+%	\item Synchronisation during thread executions (the butterfly communication pattern not 
+%		  supported by Concurrent Revisions).
+%\end{itemize}
+%
+%Creating equivalent Concurrent Revision programs in ForeC (ForeC is a superset of 
+%Concurrent Revisions?):
+%\begin{itemize}
+%	\item Only use data, control, and fork/join statements.
+%	\item How to extend the proofs of determinacy to preemptions and ticks?
+%	\begin{itemize}
+%		\item Preemptions: Preemption of executions are defined precisely by the control-flow.
+%			  It is never the case that you can choose between taking a preemption and performing
+%			  another action (deterministic execution semantics).
+%		\item Ticks: All threads have paused and cannot continue executing. Therefore, 
+%			  all copies of a shared variable can be safely combined.
+%	\end{itemize}
+%\end{itemize}

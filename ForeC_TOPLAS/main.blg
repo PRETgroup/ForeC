@@ -1,0 +1,220 @@
+This is BibTeX, Version 0.99d (TeX Live 2015)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: main.aux
+A level-1 auxiliary file: ./sections/appendix.aux
+The style file: ACM-Reference-Format-Journals.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated field_info (elt_size=4) to 11045 items from 5000.
+Database file #1: ./references/GeneralHardwareSoftware.bib
+Database file #2: ./references/Wireless.bib
+Database file #3: ./references/PRET.bib
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Warning--empty publisher in AndalamRG10
+Warning--empty address in AndalamRG10
+Warning--empty publisher in AndalamRG11
+Warning--empty address in AndalamRG11
+Warning--require articleno with numpages field in multiprocessing_sharc
+Warning--empty address in memory_buses
+Warning--empty address in multiprocessing_domp
+Warning--page numbers missing in both pages and numpages fields in multiprocessing_domp
+Warning--empty address in distributed_synchronous_dependency_driven
+Warning--empty address in multiprocessing_openmp_synchronous
+Warning--empty address in multithreading_predictable_multiprocessor
+Warning--require articleno with numpages field in BenvenisteCG00
+Warning--empty address in multiprocessing_coredet
+Warning--require articleno with numpages field in multiprocessing_coredet
+Warning--empty publisher in multiprocessing_dos
+Warning--empty address in multiprocessing_dos
+Warning--require articleno with numpages field in multiprocessing_dos
+Warning--empty publisher in multiprocessing_grace
+Warning--empty address in multiprocessing_grace
+Warning--require articleno with numpages field in multiprocessing_grace
+Warning--empty address in timed_preemption
+Warning--require articleno with numpages field in timed_preemption
+Warning--empty publisher in distributed_synchronous_desynchronize_modes
+Warning--empty address in distributed_synchronous_desynchronize_modes
+Warning--page numbers missing in both pages and numpages fields in BriereRPC95
+Warning--empty address in BurckhardtL11
+Warning--require articleno with numpages field in BurckhardtL11
+Warning--require articleno with numpages field in BussBSE10
+Warning--empty address in CaspiM05
+Warning--articleno field, but no numpages field, in CaspiSST08
+Warning--INFO: reduced pages = [1 - 40] to numpages = [40]
+Warning--empty address in wcrt_taxys
+Warning--empty publisher in pret_macs
+Warning--empty address in pret_macs
+Warning--empty address in multiprocessing_lustre_futures
+Warning--require articleno with numpages field in multiprocessing_lustre_futures
+Warning--empty address in ColacoP03
+Warning--no number and no volume in multithreading_designing_predictable_considerations
+Warning--page numbers missing in both pages and numpages fields in multithreading_designing_predictable_considerations
+Warning--empty publisher in DayaratneRS06
+Warning--page numbers missing in both pages and numpages fields in DayaratneRS06
+Warning--empty publisher in memory_shared_cache_aware_wcrt
+Warning--empty address in memory_shared_cache_aware_wcrt
+Warning--page numbers missing in both pages and numpages fields in memory_shared_cache_aware_wcrt
+Warning--no number and no volume in memory_multicore_code_positioning
+Warning--empty publisher in pret_repeatable_timing
+Warning--empty address in pret_repeatable_timing
+Warning--page numbers missing in both pages and numpages fields in pret_repeatable_timing
+Warning--empty address in pret_pret
+Warning--page numbers missing in both pages and numpages fields in timed_cec
+Warning--empty address in multiprocessing_cat
+Warning--require articleno with numpages field in multiprocessing_cat
+Warning--no number and no volume in Gardner70
+Warning--empty address in safety_critical_coding_structure
+Warning--empty address in distributed_reactive_systems_survey
+Warning--page numbers missing in both pages and numpages fields in distributed_reactive_systems_survey
+Warning--require articleno with numpages field in GiraultNP06
+Warning--empty address in multiprocessing_sigmac
+Warning--empty publisher in HamannE05
+Warning--empty address in HamannE05
+Warning--empty address in HardekopfL11
+Warning--require articleno with numpages field in HardekopfL11
+Warning--empty address in programming_languages_cyclone
+Warning--require articleno with numpages field in programming_languages_cyclone
+Warning--empty address in wcrt_esterel_multicores
+Warning--empty address in KastnerSPCGHF12
+Warning--empty address in multiprocessing_forklight
+Warning--empty publisher in KimBCS14
+Warning--empty address in KimBCS14
+Warning--page numbers missing in both pages and numpages fields in KimBCS14
+Warning--empty publisher in safety_critical_challenges_directions
+Warning--empty address in safety_critical_challenges_directions
+Warning--empty address in safety_critical_coding_traps_pitfalls
+Warning--empty address in sld_complexity
+Warning--empty publisher in KuoSR11
+Warning--empty address in KuoSR11
+Warning--empty address in memory_tdma_lottery
+Warning--require articleno with numpages field in memory_tdma_lottery
+Warning--empty publisher in timed_ecl
+Warning--empty address in timed_ecl
+Warning--page numbers missing in both pages and numpages fields in timed_ecl
+Warning--require articleno with numpages field in Lee09
+Warning--empty publisher in LiMS14
+Warning--empty address in LiMS14
+Warning--empty publisher in LiuRBZL12
+Warning--empty address in LiuRBZL12
+Warning--empty address in multiprocessing_dthreads
+Warning--require articleno with numpages field in multiprocessing_dthreads
+Warning--empty address in multiprocessing_debugging_concurrency_study
+Warning--require articleno with numpages field in multiprocessing_debugging_concurrency_study
+Warning--empty publisher in LundqvistS99
+Warning--empty address in LundqvistS99
+Warning--empty address in Maraninchi92
+Warning--require articleno with numpages field in multiprocessing_debugging_concurrency
+Warning--empty publisher in wcrt_algebra_interfaces
+Warning--page numbers missing in both pages and numpages fields in wcrt_algebra_interfaces
+Warning--empty publisher in NadeemBS11
+Warning--empty address in NadeemBS11
+Warning--empty publisher in NataleZ12
+Warning--empty address in NataleZ12
+Warning--empty publisher in benchmark_papabench
+Warning--empty address in benchmark_papabench
+Warning--page numbers missing in both pages and numpages fields in benchmark_papabench
+Warning--empty address in memory_scratchpad_unknown_size
+Warning--empty address in programming_languages_cholera
+Warning--require articleno with numpages field in programming_languages_cholera
+Warning--empty address in multiprocessing_kendo
+Warning--require articleno with numpages field in multiprocessing_kendo
+Warning--empty publisher in safety_critical_tacmu
+Warning--empty address in safety_critical_tacmu
+Warning--empty publisher in wcet_aware_framework
+Warning--empty address in streaming_openmp_extension
+Warning--require articleno with numpages field in streaming_openmp_extension
+Warning--empty address in distributed_synchronous_semantics_preserving
+Warning--empty address in timed_compiling_esterel
+Warning--empty address in pret_jop_cmp_scalability
+Warning--require articleno with numpages field in pret_jop_cmp_scalability
+Warning--empty address in multiprocessing_data_race_detection
+Warning--require articleno with numpages field in multiprocessing_data_race_detection
+Warning--empty address in RaymondMPC13
+Warning--require articleno with numpages field in RaymondMPC13
+Warning--empty address in SalcicBB02
+Warning--page numbers missing in both pages and numpages fields in pret_java_architecture
+Warning--empty address in pret_patmos
+Warning--empty publisher in SchranzhoferPCTC11
+Warning--empty address in SchranzhoferPCTC11
+Warning--require articleno with numpages field in Schwartz80
+Warning--empty publisher in memory_tdma_priority_division
+Warning--empty address in memory_tdma_priority_division
+Warning--empty publisher in SouyrisPHJBH05
+Warning--require articleno with numpages field in benchmark_lzss
+Warning--empty address in memory_scratchpad_concurrent_allocation
+Warning--articleno field, but no numpages field, in Tardieu07
+Warning--page numbers missing in both pages and numpages fields in Tardieu07
+Warning--require pages or numpages fields with articleno field in Tardieu07
+Warning--empty address in multiprocessing_shim_scheduling
+Warning--require articleno with numpages field in multiprocessing_shim_scheduling
+Warning--require articleno with numpages field in Valiant90
+Warning--empty address in multiprocessing_shim_cell
+Warning--require articleno with numpages field in multiprocessing_shim_cell
+Warning--empty publisher in timed_synccharts_c_proposal
+Warning--empty address in timed_synccharts_c_proposal
+Warning--empty publisher in timed_seq_concurrency
+Warning--empty address in timed_seq_concurrency
+Warning--page numbers missing in both pages and numpages fields in timed_seq_concurrency
+Warning--empty publisher in WangRA13
+Warning--empty address in WangRA13
+Warning--empty publisher in pret_mcgrep
+Warning--empty address in pret_mcgrep
+Warning--empty address in memory_scratchpad_predictable
+Warning--require articleno with numpages field in Wilhelm14
+Warning--empty publisher in pret_merasa_rtos
+Warning--empty address in pret_merasa_rtos
+Warning--empty publisher in YipRAG13
+Warning--empty address in YipRAG13
+Warning--require articleno with numpages field in YipRAG13
+Warning--empty publisher in timed_esterel_distribution_emperor
+Warning--page numbers missing in both pages and numpages fields in timed_esterel_distribution_emperor
+Warning--require articleno with numpages field in YuanAYRS09
+Warning--empty publisher in YuanYR11
+Warning--empty address in YuanYR11
+Warning--empty address in multiprocessing_detmp
+Warning--require articleno with numpages field in multiprocessing_detmp
+Warning--empty publisher in ZimmerBSL14
+Warning--empty address in ZimmerBSL14
+Warning--page numbers missing in both pages and numpages fields in ZimmerBSL14
+You've used 155 entries,
+            5290 wiz_defined-function locations,
+            2133 strings with 45269 characters,
+and the built_in function-call counts, 162742 in all, are:
+= -- 19848
+> -- 6920
+< -- 19
++ -- 2073
+- -- 2379
+* -- 10750
+:= -- 18408
+add.period$ -- 816
+call.type$ -- 155
+change.case$ -- 1093
+chr.to.int$ -- 188
+cite$ -- 320
+duplicate$ -- 13752
+empty$ -- 9679
+format.name$ -- 2823
+if$ -- 39251
+int.to.chr$ -- 4
+int.to.str$ -- 0
+missing$ -- 552
+newline$ -- 1256
+num.names$ -- 1263
+pop$ -- 5228
+preamble$ -- 1
+purify$ -- 1865
+quote$ -- 0
+skip$ -- 4010
+stack$ -- 0
+substring$ -- 12341
+swap$ -- 1502
+text.length$ -- 50
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 2152
+warning$ -- 166
+while$ -- 1154
+width$ -- 0
+write$ -- 2724
+(There were 166 warnings)

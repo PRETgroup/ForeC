@@ -1,0 +1,42 @@
+\section{Conclusions and Future Directions}
+\label{sec:conclusion}
+A common approach to developing cyber-physical systems 
+is to program an embedded ARM
+multi-core with C and Pthreads and to use an RTOS
+to manage the execution. Although high performance 
+can be achieved with this approach, time predictability
+is sacrificed. This paper proposed the ForeC language for 
+the deterministic, parallel, and reactive 
+programming of parallel architectures. Section~\ref{sec:forec}
+provided an in-depth description of ForeC and, unlike existing 
+C-based synchronous languages, it is designed specifically for 
+parallel programming. The semantics of ForeC is designed to give 
+programmers the ability to express many forms of parallel patterns
+while ensuring that ForeC programs can be compiled efficiently
+for parallel execution and be amenable to static timing 
+analysis. ForeC's main innovation 
+revolves around its shared variable semantics that provides 
+thread isolation and deterministic communication. The behavior
+of a shared variable can be tailored to the application at hand
+by specifying a suitable \emph{combine function} and \emph{policy}. All 
+ForeC programs are correct by construction (no race conditions,
+no deadlocks) 
+because mutual exclusion constructs are not needed. The formal 
+semantics greatly simplifies the understanding and debugging
+of parallel programs.
+Section~\ref{sec:forec_compiling} presented a compilation approach
+that used non-preemptive static thread scheduling. The key 
+strategy was to preserve the ForeC threads and to use light-weight
+context-switching and simple scheduling routines to preserve the
+ForeC semantics.
+
+For future work, the ForeC compiler could be improved to generate more efficient
+code that remains amenable to static timing analysis. In
+particular, different static scheduling strategies could be
+explored for different parallel patterns. Currently, scheduling 
+priorities are assigned to ForeC threads by traversing the thread
+hierarchy in a depth-first manner. However, assigning 
+scheduling priorities in a breadth-first manner could produce 
+more efficient schedules in some cases. The allocation of 
+ForeC threads could be refined automatically by feeding the 
+WCRT results of the ForeCast analyzer into the ForeC compiler.

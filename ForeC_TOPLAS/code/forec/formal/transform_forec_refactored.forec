@@ -1,0 +1,8 @@
+input int i; output int o=0;
+int plus(...) {...}
+shared int s combine all with plus;(*\label{code:transform_forec_refactored_s}*)
+void main(void) {
+  s=1;
+  par({s++; pause;}, {s=1;});
+  abort {s=2;} when (s>3); (*\label{code:transform_forec_refactored_abort}*)
+}

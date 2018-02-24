@@ -1,0 +1,14 @@
+shared int count=0 combine all with plus;
+
+void main(void) {
+	par(f(),f());
+}
+
+void f(void) {
+	while (1) {
+		count = items();
+		pause;
+	}
+}
+
+int plus(int th1,int th2) { return (th1+th2); }

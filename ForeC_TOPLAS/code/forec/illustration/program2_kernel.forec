@@ -1,0 +1,5 @@
+int x=1;
+void main(void) {
+	status(a1, x==1); 
+	weak abort(a1, {x++; pause;});
+}
