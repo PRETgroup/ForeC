@@ -42,13 +42,13 @@ namespace tools {
 			static const std::map<forec::ast::ParStatement *, std::vector<forec::ast::AbortStatement *> > getAborts(const std::string &threadScope);
 			static const std::vector<forec::ast::AbortStatement *> getAborts(const std::string &threadScope, forec::ast::ParStatement &parStatement);
 
+			static const std::string getInitIdentifier(const std::string &abortId);
+			static const std::vector<std::string> getInitIdentifiers(void);
+		
 			static const std::string toString(void);
 			static const std::string outputXml(const std::string &indent);
 
 		private:
-			// set<abortStatement>
-			static std::set<forec::ast::AbortStatement *> oldAbortScopes;
-
 			// vector<abortStatement>
 			static std::vector<forec::ast::AbortStatement *> scopeName;
 			

@@ -10,7 +10,6 @@
 #include "PauseStatement.hpp"
 
 #include "AbortStatement.hpp"
-#include "ParStatement.hpp"
 #include "PrimaryExpression.hpp"
 
 #include "../tarot/Tarot.hpp"
@@ -49,7 +48,6 @@ namespace forec {
 		void PauseStatement::updateSymbolTable(const std::string &type, const bool isUsage, const bool isRead) {
 			threadScope = tools::SymbolTable::getScopeName();
 			aborts = tools::Abort::getCurrentAborts();
-			parStatements = tools::Abort::getParStatements(threadScope);
 		}
 
 		void PauseStatement::createTarot(const std::string &threadScope, tarot::Node &tarotNode) {
@@ -67,11 +65,6 @@ namespace forec {
 		}
 
 		void PauseStatement::prettyPrint(std::ostream &output) {
-			std::set<std::string> parStatementsString;
-			for (std::set<ParStatement *>::const_iterator par = parStatements.begin(); par != parStatements.end(); ++par) {
-				parStatementsString.insert((*par)->getId());
-			}
-
 			std::vector<AbortStatement *> weakAborts;
 			std::vector<AbortStatement *> strongAborts;
 			for (std::vector<AbortStatement *>::const_iterator abort = aborts.begin(); abort != aborts.end(); ++abort) {
@@ -85,12 +78,17 @@ namespace forec {
 			if (weakAborts.size() > 0) {
 				output << "// Weak aborts:" << std::endl;
 				for (std::vector<AbortStatement *>::const_reverse_iterator abort = weakAborts.rbegin(); abort != weakAborts.rend(); ++abort) {
-					output << "// forec:statement:abort:" <<  (*abort)->getId() << ":start" << std::endl;
+					output << tools::Tab::toString() << "// forec:statement:abort:" <<  (*abort)->getId() << ":start" << std::endl;
 					output << tools::Tab::toString() << "if (" << (*abort)->getCondition(false) << ") {" << std::endl;
 					tools::Tab::indent();
 					output << tools::Tab::toString() << "goto abortEnd_" << (*abort)->getId() << ';' << std::endl;
 					tools::Tab::dedent();
 					output << tools::Tab::toString() << '}' << std::endl;
+					if ((*abort)->isVariant("weakNonImmediate")) {
+						// Non-immediate aborts cannot preempt when execution enters the abort body for the first time.
+						// This assignment is actually not needed for all pause statements, but only for the first pause statement that gets executed.
+						output << tools::Tab::toString() << tools::Abort::getInitIdentifier((*abort)->getId()) << " = 1;" << std::endl;
+					}
 					output << tools::Tab::toString() << "// forec:statement:abort:" <<  (*abort)->getId() << ":end" << std::endl;
 				}
 				output << tools::Tab::toString();

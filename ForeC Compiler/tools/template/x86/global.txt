@@ -62,8 +62,9 @@ typedef struct {
 	char **argv;
 } Arguments;
 
-
-// Shared control variables for par(...)s -------------------------
+// Shared control variables for non-immediate aborts -----------
+%{abort}
+// Shared control variables for par(...)s ----------------------
 %{par}
 /*==============================================================
 | Original global declarations:

@@ -46,8 +46,11 @@ namespace forec {
 		}
 
 		const std::string AbortStatement::getId(void) const {
+			std::string variantCapitalised = this->variant;
+			variantCapitalised[0] = toupper(variantCapitalised[0]);
+			
 			std::ostringstream name;
-			name << "abort" << (isVariant("weak") ? "Weak" : "Strong") << id;
+			name << "abort" << variantCapitalised << id;
 			return name.str();
 		}
 
@@ -59,6 +62,9 @@ namespace forec {
 		
 			std::ostringstream condition;
 			condition << *children.back();
+			if (isVariant("nonImmediate")) {
+				condition << " && " << tools::Abort::getInitIdentifier(this->getId()) << " == 1";
+			}
 			
 			for (std::vector<Node *>::iterator variable = primaryExpressions.begin(); variable != primaryExpressions.end(); ++variable) {
 				((PrimaryExpression *)*variable)->setSuppressCopySuffix(false);
@@ -69,6 +75,20 @@ namespace forec {
 
 		const std::string AbortStatement::getThreadScope(void) const {
 			return threadScope;
+		}
+		
+		const bool AbortStatement::isVariant(const std::string &variantName) const {
+			if (variantName.compare("strong") == 0) {
+				return (this->variant).compare("strongImmediate") == 0 || (this->variant).compare("strongNonImmediate") == 0;
+			} else if (variantName.compare("weak") == 0) {
+				return (this->variant).compare("weakImmediate") == 0 || (this->variant).compare("weakNonImmediate") == 0;
+			} else if (variantName.compare("immediate") == 0) {
+				return (this->variant).compare("weakImmediate") == 0 || (this->variant).compare("strongImmediate") == 0;
+			} else if (variantName.compare("nonImmediate") == 0) {
+				return (this->variant).compare("weakNonImmediate") == 0 || (this->variant).compare("strongNonImmediate") == 0;
+			} else {
+				return (this->variant).compare(variant) == 0;
+			}
 		}
 
 		int AbortStatement::getCount(void) {
@@ -100,14 +120,20 @@ namespace forec {
 		const struct Node::Instantaneous AbortStatement::willPause(const bool requireBothBranches) {
 			// An immediate abort can preempt its body without pausing.
 			instantaneous = children[0]->willPause(requireBothBranches);
-			instantaneous.pauses = false;
-			
+			if (isVariant("immediate")) {
+				instantaneous.pauses = false;
+			}
 			return instantaneous;
 		}
 		
 		void AbortStatement::prettyPrint(std::ostream &output) {
 			output << "/* " << getId() << " */ {" << std::endl;
 			tools::Tab::indent();
+			
+			if (isVariant("nonImmediate")) {
+				// Non-immediate aborts cannot preempt when execution enters the abort body for the first time.
+				output << tools::Tab::toString() << tools::Abort::getInitIdentifier(this->getId()) << " = 0;" << std::endl;
+			}
 
 			if (isVariant("strong")) {
 				output << tools::Tab::toString() << "// forec:statement:abort:" << getId() << ":start" << std::endl;
@@ -116,6 +142,10 @@ namespace forec {
 				output << tools::Tab::toString() << "goto abortEnd_" << getId() << ';' << std::endl;
 				tools::Tab::dedent();
 				output << tools::Tab::toString() << '}' << std::endl;
+				if (isVariant("strongNonImmediate")) {
+					// Non-immediate aborts cannot preempt when execution enters the abort body for the first time.
+					output << tools::Tab::toString() << tools::Abort::getInitIdentifier(this->getId()) << " = 1;" << std::endl;
+				}
 				output << tools::Tab::toString() << "// forec:statement:abort:" << getId() << ":end" << std::endl << std::endl;
 			}
 
@@ -123,7 +153,7 @@ namespace forec {
 			output << tools::Tab::toString() << "abortEnd_" << getId() << ":;" << std::endl;
 			tools::Tab::dedent();
 			output << tools::Tab::toString() << "} // when (" << getCondition(false) << ");" << std::endl;
-			output << tools::Tab::toString() << "// forec:statement:abort:" << getId() << ":scope:end";
+			output << tools::Tab::toString() << "// forec:statement:abort:" << this->getId() << ":scope:end";
 		}
 
 	}

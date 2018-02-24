@@ -90,6 +90,25 @@ namespace tools {
 
 		return std::vector<forec::ast::AbortStatement *>();
 	}
+	
+	
+	const std::string Abort::getInitIdentifier(const std::string &abortId) {
+		std::ostringstream output;
+		output << "init__" << abortId;
+		return output.str();
+	}
+
+	const std::vector<std::string> Abort::getInitIdentifiers(void) {
+		std::vector<std::string> initIdentifiers;
+		for (std::map<std::string, forec::ast::AbortStatement *>::const_iterator abort = Abort::abortIdTable.begin(); abort != Abort::abortIdTable.end(); ++abort) {
+			if (abort->second->isVariant("nonImmediate")) {
+				initIdentifiers.push_back(getInitIdentifier(abort->first));
+			}
+		}
+		
+		return initIdentifiers;
+	}
+
 
 
 	const std::string Abort::toString(void) {

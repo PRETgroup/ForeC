@@ -28,6 +28,8 @@ namespace forec {
 				const std::string getId(void) const;
 				const std::string getCondition(const bool suppressCopySuffix);
 				const std::string getThreadScope(void) const;
+			
+				const bool isVariant(const std::string &variant) const;
 
 				static int getCount(void);
 
@@ -42,6 +44,7 @@ namespace forec {
 			protected:
 				static int globalCount;
 				std::string threadScope;
+				
 		};
 	}
 }

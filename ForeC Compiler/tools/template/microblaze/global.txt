@@ -67,7 +67,9 @@ typedef struct {
 // Global variable for counting the number of global reactions.
 volatile long int globalReactions = 0;
 
-// Shared control variables for par(...)s -------------------------
+// Shared control variables for non-immediate aborts -----------
+%{abort}
+// Shared control variables for par(...)s ----------------------
 %{par}
 /*==============================================================
 | Original global declarations:

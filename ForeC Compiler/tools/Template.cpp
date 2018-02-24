@@ -122,7 +122,14 @@ namespace tools {
 			}
 			Template::replace(content, "mutexValues", mutexValues.str());
 		}
-
+		
+		const std::vector<std::string> abortInitIdentifiers = Abort::getInitIdentifiers();
+		std::ostringstream abort;
+		for (std::vector<std::string>::const_iterator initIdentifier = abortInitIdentifiers.begin(); initIdentifier != abortInitIdentifiers.end(); initIdentifier++) {
+			abort << "volatile int " << *initIdentifier << " = 0;" << std::endl;
+		}
+		Template::replace(content, "abort", abort.str());
+		
 		const std::map<std::string, std::vector<forec::ast::ParStatement *> > parStatements = Threading::getParStatements();
 		std::map<std::string, std::set<std::string> > coreIds = forec::tarot::Tarot::getControlVariables();
 
@@ -137,8 +144,8 @@ namespace tools {
 
 			par << "volatile int " << threadScope->first << "ParReactionCounter;" << std::endl << std::endl;
 		}
-
 		Template::replace(content, "par", par.str());
+		
 		return content;
 	}
 
@@ -426,7 +433,7 @@ namespace tools {
 		return content;
 	}
 
-	const std::string Template::formatPar(const std::string &parId, const std::string &coreId, const std::string &parStatement, const std::string &threadScope) {
+	const std::string Template::formatPar(const std::string &parId, const std::string &coreId, const std::string &parStatement, const std::string &threadScope, const bool parWillPause) {
 		std::ostringstream content;
 
 		const std::string parParent = threadScope + "ParParent";
@@ -435,19 +442,24 @@ namespace tools {
 		std::string parNumber(parId);
 		parNumber.replace(parNumber.find("par"), std::string("par").length(), "");
 
-		// Propagate the latest values of shared variables to the child threads that use it.
-		// Note that, the child threads that do not use a shared variable may still define it. 
+		// Propagate the latest values of shared variables to the child threads that use it
+		// Note that, the child threads that do not use a shared variable may still define it.
+		std::map<forec::ast::PrimaryExpression *, std::pair<SymbolTable::UpdateType, std::set<std::string> > > indirectParallelUseDef = SymbolTable::getIndirectParallelPar(true, false, parId);;
+		if (parWillPause) {
+			// If the can par pause, then update the global projections of the parent's local copies of shared variables that may have been defined.
+			// Otherwise, the defines will be lost when the par pauses.
+			const std::map<forec::ast::PrimaryExpression *, std::pair<SymbolTable::UpdateType, std::set<std::string> > > indirectParallelThreadDef = SymbolTable::getIndirectParallelThread(false, true, threadScope);
+			indirectParallelUseDef.insert(indirectParallelThreadDef.begin(), indirectParallelThreadDef.end());
+		}
 		std::ostringstream propagateSharedToChildren;
-		std::ostringstream propagateSharedToParent;
-		const std::map<forec::ast::PrimaryExpression *, std::pair<SymbolTable::UpdateType, std::set<std::string> > > indirectParallelParUse = SymbolTable::getIndirectParallelPar(true, false, parId);
-		for (std::map<forec::ast::PrimaryExpression *, std::pair<SymbolTable::UpdateType, std::set<std::string> > >::const_iterator variable = indirectParallelParUse.begin(); variable != indirectParallelParUse.end(); ++variable) {
+		for (std::map<forec::ast::PrimaryExpression *, std::pair<SymbolTable::UpdateType, std::set<std::string> > >::const_iterator variable = indirectParallelUseDef.begin(); variable != indirectParallelUseDef.end(); ++variable) {
 			if (variable->second.first == SymbolTable::intermediate) {
-				// From parent to children.
 				propagateSharedToChildren << Tab::toString() << *(variable->first) << "_copy_" << threadScope << " = " << *(variable->first) << "_copy_" << threadScope << "_local" << ';' << std::endl;
 			}
 		}
 
 		// Note that, a parent thread that does not define a shared variable may still use it.
+		std::ostringstream propagateSharedToParent;
 		const std::map<forec::ast::PrimaryExpression *, std::pair<SymbolTable::UpdateType, std::set<std::string> > > indirectParallelParUseDef = SymbolTable::getIndirectParallelPar(true, true, parId);
 		for (std::map<forec::ast::PrimaryExpression *, std::pair<SymbolTable::UpdateType, std::set<std::string> > >::const_iterator variable = indirectParallelParUseDef.begin(); variable != indirectParallelParUseDef.end(); ++variable) {
 			if (variable->second.first == SymbolTable::intermediate) {

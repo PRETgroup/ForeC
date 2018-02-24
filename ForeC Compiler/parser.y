@@ -659,8 +659,10 @@ par_statement
 	;
 	
 abort_statement
-	: WEAK ABORT compound_statement WHEN '(' expression ')' ';'	{ $$ = new forec::ast::AbortStatement(*$3, *$6, "weak"); }
-	| ABORT compound_statement WHEN '(' expression ')' ';'		{ $$ = new forec::ast::AbortStatement(*$2, *$5, "strong"); }
+	: WEAK ABORT compound_statement WHEN '(' expression ')' ';'				{ $$ = new forec::ast::AbortStatement(*$3, *$6, "weakNonImmediate"); }
+	| ABORT compound_statement WHEN '(' expression ')' ';'					{ $$ = new forec::ast::AbortStatement(*$2, *$5, "strongNonImmediate"); }
+	| WEAK ABORT compound_statement WHEN IMMEDIATE '(' expression ')' ';'	{ $$ = new forec::ast::AbortStatement(*$3, *$7, "weakImmediate"); }
+	| ABORT compound_statement WHEN IMMEDIATE '(' expression ')' ';'		{ $$ = new forec::ast::AbortStatement(*$2, *$6, "strongImmediate"); }
 	;
 
 translation_unit

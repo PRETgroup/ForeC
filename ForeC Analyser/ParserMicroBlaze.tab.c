@@ -1,8 +1,8 @@
-// A Bison parser, made by GNU Bison 3.0.2.
+// A Bison parser, made by GNU Bison 3.0.4.
 
 // Skeleton implementation for Bison LALR(1) parsers in C++
 
-// Copyright (C) 2002-2013 Free Software Foundation, Inc.
+// Copyright (C) 2002-2015 Free Software Foundation, Inc.
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@
 
 // First part of user declarations.
 
-#line 39 "ParserMicroBlaze.tab.c" // lalr1.cc:399
+#line 39 "ParserMicroBlaze.tab.c" // lalr1.cc:404
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -49,14 +49,14 @@
 
 // User implementation prologue.
 
-#line 53 "ParserMicroBlaze.tab.c" // lalr1.cc:407
+#line 53 "ParserMicroBlaze.tab.c" // lalr1.cc:412
 // Unqualified %code blocks.
-#line 55 "ParserMicroBlaze.y" // lalr1.cc:408
+#line 55 "ParserMicroBlaze.y" // lalr1.cc:413
 
 	// Prototype for the yylex function
 	static int yylex(forec::loader::ParserMicroBlaze::semantic_type * yylval, forec::loader::ParserMicroBlaze::location_type * yylloc, forec::loader::ScannerMicroBlaze &scanner);
 
-#line 60 "ParserMicroBlaze.tab.c" // lalr1.cc:408
+#line 60 "ParserMicroBlaze.tab.c" // lalr1.cc:413
 
 
 #ifndef YY_
@@ -133,16 +133,16 @@
 #endif // !MICROBLAZEDEBUG
 
 #define yyerrok         (yyerrstatus_ = 0)
-#define yyclearin       (yyempty = true)
+#define yyclearin       (yyla.clear ())
 
 #define YYACCEPT        goto yyacceptlab
 #define YYABORT         goto yyabortlab
 #define YYERROR         goto yyerrorlab
 #define YYRECOVERING()  (!!yyerrstatus_)
 
-#line 13 "ParserMicroBlaze.y" // lalr1.cc:474
+#line 13 "ParserMicroBlaze.y" // lalr1.cc:479
 namespace forec { namespace loader {
-#line 146 "ParserMicroBlaze.tab.c" // lalr1.cc:474
+#line 146 "ParserMicroBlaze.tab.c" // lalr1.cc:479
 
   /* Return YYSTR after stripping away unnecessary quotes and
      backslashes, so that it's suitable for yyerror.  The heuristic is
@@ -247,6 +247,23 @@ namespace forec { namespace loader {
   inline
   ParserMicroBlaze::basic_symbol<Base>::~basic_symbol ()
   {
+    clear ();
+  }
+
+  template <typename Base>
+  inline
+  void
+  ParserMicroBlaze::basic_symbol<Base>::clear ()
+  {
+    Base::clear ();
+  }
+
+  template <typename Base>
+  inline
+  bool
+  ParserMicroBlaze::basic_symbol<Base>::empty () const
+  {
+    return Base::type_get () == empty_symbol;
   }
 
   template <typename Base>
@@ -262,7 +279,7 @@ namespace forec { namespace loader {
   // by_type.
   inline
   ParserMicroBlaze::by_type::by_type ()
-     : type (empty)
+    : type (empty_symbol)
   {}
 
   inline
@@ -277,10 +294,17 @@ namespace forec { namespace loader {
 
   inline
   void
+  ParserMicroBlaze::by_type::clear ()
+  {
+    type = empty_symbol;
+  }
+
+  inline
+  void
   ParserMicroBlaze::by_type::move (by_type& that)
   {
     type = that.type;
-    that.type = empty;
+    that.clear ();
   }
 
   inline
@@ -294,7 +318,7 @@ namespace forec { namespace loader {
   // by_state.
   inline
   ParserMicroBlaze::by_state::by_state ()
-    : state (empty)
+    : state (empty_state)
   {}
 
   inline
@@ -304,10 +328,17 @@ namespace forec { namespace loader {
 
   inline
   void
+  ParserMicroBlaze::by_state::clear ()
+  {
+    state = empty_state;
+  }
+
+  inline
+  void
   ParserMicroBlaze::by_state::move (by_state& that)
   {
     state = that.state;
-    that.state = empty;
+    that.clear ();
   }
 
   inline
@@ -319,7 +350,10 @@ namespace forec { namespace loader {
   ParserMicroBlaze::symbol_number_type
   ParserMicroBlaze::by_state::type_get () const
   {
-    return state == empty ? 0 : yystos_[state];
+    if (state == empty_state)
+      return empty_symbol;
+    else
+      return yystos_[state];
   }
 
   inline
@@ -333,7 +367,7 @@ namespace forec { namespace loader {
   {
     value = that.value;
     // that is emptied.
-    that.type = empty;
+    that.type = empty_symbol;
   }
 
   inline
@@ -368,6 +402,10 @@ namespace forec { namespace loader {
     std::ostream& yyoutput = yyo;
     YYUSE (yyoutput);
     symbol_number_type yytype = yysym.type_get ();
+    // Avoid a (spurious) G++ 4.8 warning about "array subscript is
+    // below array bounds".
+    if (yysym.empty ())
+      std::abort ();
     yyo << (yytype < yyntokens_ ? "token" : "nterm")
         << ' ' << yytname_[yytype] << " ("
         << yysym.location << ": ";
@@ -452,9 +490,6 @@ namespace forec { namespace loader {
   int
   ParserMicroBlaze::parse ()
   {
-    /// Whether yyla contains a lookahead.
-    bool yyempty = true;
-
     // State.
     int yyn;
     /// Length of the RHS of the rule being reduced.
@@ -506,7 +541,7 @@ namespace forec { namespace loader {
       goto yydefault;
 
     // Read a lookahead token.
-    if (yyempty)
+    if (yyla.empty ())
       {
         YYCDEBUG << "Reading a token: ";
         try
@@ -518,7 +553,6 @@ namespace forec { namespace loader {
             error (yyexc);
             goto yyerrlab1;
           }
-        yyempty = false;
       }
     YY_SYMBOL_PRINT ("Next token is", yyla);
 
@@ -537,9 +571,6 @@ namespace forec { namespace loader {
         yyn = -yyn;
         goto yyreduce;
       }
-
-    // Discard the token being shifted.
-    yyempty = true;
 
     // Count tokens shifted since error; after three, turn off error status.
     if (yyerrstatus_)
@@ -590,145 +621,145 @@ namespace forec { namespace loader {
           switch (yyn)
             {
   case 2:
-#line 113 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 113 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Operand(*(yystack_[0].value.str), "generalRegister"); }
-#line 596 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 627 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 3:
-#line 114 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 114 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Operand(*(yystack_[0].value.str), "specialRegister"); }
-#line 602 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 633 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 4:
-#line 115 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 115 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Operand(*(yystack_[0].value.str), "constant"); }
-#line 608 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 639 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 5:
-#line 119 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 119 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.nodeList) = new forec::cfg::OperandList(*(yystack_[0].value.node)); }
-#line 614 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 645 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 6:
-#line 120 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 120 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.nodeList) = (yystack_[2].value.nodeList); (yylhs.value.nodeList)->append(*(yystack_[0].value.node)); }
-#line 620 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 651 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 7:
-#line 124 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 124 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "branchConditional"); }
-#line 626 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 657 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 8:
-#line 125 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 125 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "branchConditionalWithDelay"); }
-#line 632 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 663 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 9:
-#line 126 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 126 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "branchUnconditional"); }
-#line 638 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 669 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 10:
-#line 127 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 127 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "branchUnconditionalWithDelay"); }
-#line 644 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 675 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 11:
-#line 128 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 128 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "break"); }
-#line 650 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 681 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 12:
-#line 129 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 129 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "return"); }
-#line 656 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 687 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 13:
-#line 130 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 130 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "logic"); }
-#line 662 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 693 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 14:
-#line 131 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 131 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "arithmeticInteger"); }
-#line 668 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 699 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 15:
-#line 132 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 132 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "arithmeticFloat"); }
-#line 674 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 705 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 16:
-#line 133 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 133 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "read"); }
-#line 680 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 711 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 17:
-#line 134 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 134 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "store"); }
-#line 686 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 717 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 18:
-#line 135 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 135 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "move"); }
-#line 692 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 723 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 19:
-#line 136 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 136 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "memory"); }
-#line 698 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 729 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 20:
-#line 140 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 140 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyLine(*(yystack_[4].value.str), *(yystack_[2].value.str), *(yystack_[1].value.node), *(yystack_[0].value.nodeList)); }
-#line 704 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 735 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 21:
-#line 141 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 141 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyLine(*(yystack_[5].value.str), *(yystack_[3].value.str), *(yystack_[2].value.node), *(yystack_[1].value.nodeList), *(yystack_[0].value.str)); }
-#line 710 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 741 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 22:
-#line 142 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 142 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyLine(*(yystack_[8].value.str), *(yystack_[6].value.str), *(yystack_[5].value.node), *(yystack_[4].value.nodeList), *(yystack_[3].value.str), *(yystack_[1].value.str)); }
-#line 716 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 747 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 23:
-#line 146 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 146 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Label(*(yystack_[4].value.str), *(yystack_[2].value.str)); }
-#line 722 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 753 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 24:
-#line 150 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 150 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::CSourceLine(*(yystack_[0].value.str)); }
-#line 728 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 759 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 25:
-#line 151 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 151 "ParserMicroBlaze.y" // lalr1.cc:859
     { if ((yystack_[1].value.str)->compare("80000001") != 0) {	/* Special MicroBlaze instruction to terminate the simulation. */
 											unsigned int pcValue;
 											std::istringstream pc(*(yystack_[3].value.str));
@@ -738,203 +769,203 @@ namespace forec { namespace loader {
 											throw error.str();
 										  }; (yylhs.value.node) = new forec::cfg::CSourceLine("80000001 r0, r0, r0"); 
 										}
-#line 742 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 773 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 26:
-#line 163 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 163 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::IterationBound(*(yystack_[0].value.str)); }
-#line 748 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 779 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 27:
-#line 167 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 167 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 754 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 785 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 28:
-#line 168 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 168 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 760 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 791 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 29:
-#line 169 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 169 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 766 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 797 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 30:
-#line 175 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 175 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AbortStatement(*(yystack_[2].value.str), *(yystack_[1].value.nodeList), "statement"); }
-#line 772 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 803 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 31:
-#line 179 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 179 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AbortStatement(*(yystack_[0].value.str), "scopeEnd"); }
-#line 778 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 809 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 32:
-#line 183 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 183 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::ParStatement(*(yystack_[2].value.str), *(yystack_[1].value.nodeList)); }
-#line 784 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 815 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 33:
-#line 187 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 187 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::PauseStatement(*(yystack_[2].value.str), *(yystack_[1].value.nodeList)); }
-#line 790 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 821 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 34:
-#line 191 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 191 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 796 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 827 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 35:
-#line 192 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 192 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 802 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 833 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 36:
-#line 193 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 193 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 808 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 839 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 37:
-#line 194 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 194 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 814 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 845 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 38:
-#line 200 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 200 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Scheduler(*(yystack_[2].value.str), *(yystack_[1].value.nodeList), "counter");}
-#line 820 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 851 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 39:
-#line 201 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 201 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Scheduler(*(yystack_[2].value.str), *(yystack_[1].value.nodeList), "boot");}
-#line 826 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 857 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 40:
-#line 202 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 202 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Scheduler(*(yystack_[2].value.str), *(yystack_[1].value.nodeList), "reactionStart");}
-#line 832 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 863 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 41:
-#line 203 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 203 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Scheduler(*(yystack_[2].value.str), *(yystack_[1].value.nodeList), "reactionEnd");}
-#line 838 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 869 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 42:
-#line 204 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 204 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Scheduler(*(yystack_[2].value.str), *(yystack_[1].value.nodeList), "parHandler");}
-#line 844 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 875 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 43:
-#line 205 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 205 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Scheduler(*(yystack_[2].value.str), *(yystack_[1].value.nodeList), "abortHandler");}
-#line 850 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 881 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 44:
-#line 206 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 206 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Scheduler(*(yystack_[2].value.str), *(yystack_[1].value.nodeList), "threadRemove");}
-#line 856 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 887 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 45:
-#line 207 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 207 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Scheduler(*(yystack_[2].value.str), *(yystack_[1].value.nodeList), "iterationEnd");}
-#line 862 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 893 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 46:
-#line 213 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 213 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 868 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 899 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 47:
-#line 214 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 214 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 874 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 905 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 48:
-#line 215 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 215 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 880 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 911 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 49:
-#line 219 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 219 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.nodeList) = new forec::cfg::Body(*(yystack_[0].value.node)); }
-#line 886 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 917 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 50:
-#line 220 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 220 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.nodeList) = (yystack_[1].value.nodeList); (yylhs.value.nodeList)->append(*(yystack_[0].value.node)); }
-#line 892 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 923 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 51:
-#line 226 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 226 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Thread(*(yystack_[2].value.str), *(yystack_[1].value.nodeList));}
-#line 898 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 929 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 52:
-#line 231 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 231 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 904 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 935 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 53:
-#line 232 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 232 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 910 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 941 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 54:
-#line 233 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 233 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 916 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 947 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 55:
-#line 234 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 234 "ParserMicroBlaze.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 922 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 953 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 56:
-#line 238 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 238 "ParserMicroBlaze.y" // lalr1.cc:859
     { rootNode.append(*(yystack_[0].value.node)); }
-#line 928 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 959 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
   case 57:
-#line 239 "ParserMicroBlaze.y" // lalr1.cc:847
+#line 239 "ParserMicroBlaze.y" // lalr1.cc:859
     { rootNode.append(*(yystack_[0].value.node)); }
-#line 934 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 965 "ParserMicroBlaze.tab.c" // lalr1.cc:859
     break;
 
 
-#line 938 "ParserMicroBlaze.tab.c" // lalr1.cc:847
+#line 969 "ParserMicroBlaze.tab.c" // lalr1.cc:859
             default:
               break;
             }
@@ -962,8 +993,7 @@ namespace forec { namespace loader {
     if (!yyerrstatus_)
       {
         ++yynerrs_;
-        error (yyla.location, yysyntax_error_ (yystack_[0].state,
-                                           yyempty ? yyempty_ : yyla.type_get ()));
+        error (yyla.location, yysyntax_error_ (yystack_[0].state, yyla));
       }
 
 
@@ -976,10 +1006,10 @@ namespace forec { namespace loader {
         // Return failure if at end of input.
         if (yyla.type_get () == yyeof_)
           YYABORT;
-        else if (!yyempty)
+        else if (!yyla.empty ())
           {
             yy_destroy_ ("Error: discarding", yyla);
-            yyempty = true;
+            yyla.clear ();
           }
       }
 
@@ -1055,7 +1085,7 @@ namespace forec { namespace loader {
     goto yyreturn;
 
   yyreturn:
-    if (!yyempty)
+    if (!yyla.empty ())
       yy_destroy_ ("Cleanup: discarding lookahead", yyla);
 
     /* Do not reclaim the symbols of the rule whose action triggered
@@ -1075,7 +1105,7 @@ namespace forec { namespace loader {
                  << std::endl;
         // Do not try to display the values of the reclaimed symbols,
         // as their printer might throw an exception.
-        if (!yyempty)
+        if (!yyla.empty ())
           yy_destroy_ (YY_NULLPTR, yyla);
 
         while (1 < yystack_.size ())
@@ -1095,9 +1125,8 @@ namespace forec { namespace loader {
 
   // Generate an error message.
   std::string
-  ParserMicroBlaze::yysyntax_error_ (state_type yystate, symbol_number_type yytoken) const
+  ParserMicroBlaze::yysyntax_error_ (state_type yystate, const symbol_type& yyla) const
   {
-    std::string yyres;
     // Number of reported tokens (one for the "unexpected", one per
     // "expected").
     size_t yycount = 0;
@@ -1111,7 +1140,7 @@ namespace forec { namespace loader {
          the only way this function was invoked is if the default action
          is an error action.  In that case, don't check for expected
          tokens because there are none.
-       - The only way there can be no lookahead present (in yytoken) is
+       - The only way there can be no lookahead present (in yyla) is
          if this state is a consistent state with a default action.
          Thus, detecting the absence of a lookahead is sufficient to
          determine that there is no unexpected or expected token to
@@ -1131,8 +1160,9 @@ namespace forec { namespace loader {
          token that will not be accepted due to an error action in a
          later state.
     */
-    if (yytoken != yyempty_)
+    if (!yyla.empty ())
       {
+        int yytoken = yyla.type_get ();
         yyarg[yycount++] = yytname_[yytoken];
         int yyn = yypact_[yystate];
         if (!yy_pact_value_is_default_ (yyn))
@@ -1175,6 +1205,7 @@ namespace forec { namespace loader {
 #undef YYCASE_
       }
 
+    std::string yyres;
     // Argument number.
     size_t yyi = 0;
     for (char const* yyp = yyformat; *yyp; ++yyp)
@@ -1499,10 +1530,10 @@ namespace forec { namespace loader {
       return undef_token_;
   }
 
-#line 13 "ParserMicroBlaze.y" // lalr1.cc:1155
+#line 13 "ParserMicroBlaze.y" // lalr1.cc:1167
 } } // forec::loader
-#line 1505 "ParserMicroBlaze.tab.c" // lalr1.cc:1155
-#line 242 "ParserMicroBlaze.y" // lalr1.cc:1156
+#line 1536 "ParserMicroBlaze.tab.c" // lalr1.cc:1167
+#line 242 "ParserMicroBlaze.y" // lalr1.cc:1168
 
 
 

@@ -1,8 +1,8 @@
-// A Bison parser, made by GNU Bison 3.0.2.
+// A Bison parser, made by GNU Bison 3.0.4.
 
 // Skeleton implementation for Bison LALR(1) parsers in C++
 
-// Copyright (C) 2002-2013 Free Software Foundation, Inc.
+// Copyright (C) 2002-2015 Free Software Foundation, Inc.
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@
 
 // First part of user declarations.
 
-#line 39 "ParserPtarm.tab.c" // lalr1.cc:399
+#line 39 "ParserPtarm.tab.c" // lalr1.cc:404
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -49,14 +49,14 @@
 
 // User implementation prologue.
 
-#line 53 "ParserPtarm.tab.c" // lalr1.cc:407
+#line 53 "ParserPtarm.tab.c" // lalr1.cc:412
 // Unqualified %code blocks.
-#line 55 "ParserPtarm.y" // lalr1.cc:408
+#line 55 "ParserPtarm.y" // lalr1.cc:413
 
 	// Prototype for the yylex function
 	static int yylex(forec::loader::ParserPtarm::semantic_type * yylval, forec::loader::ParserPtarm::location_type * yylloc, forec::loader::ScannerPtarm &scanner);
 
-#line 60 "ParserPtarm.tab.c" // lalr1.cc:408
+#line 60 "ParserPtarm.tab.c" // lalr1.cc:413
 
 
 #ifndef YY_
@@ -133,16 +133,16 @@
 #endif // !PTARMDEBUG
 
 #define yyerrok         (yyerrstatus_ = 0)
-#define yyclearin       (yyempty = true)
+#define yyclearin       (yyla.clear ())
 
 #define YYACCEPT        goto yyacceptlab
 #define YYABORT         goto yyabortlab
 #define YYERROR         goto yyerrorlab
 #define YYRECOVERING()  (!!yyerrstatus_)
 
-#line 13 "ParserPtarm.y" // lalr1.cc:474
+#line 13 "ParserPtarm.y" // lalr1.cc:479
 namespace forec { namespace loader {
-#line 146 "ParserPtarm.tab.c" // lalr1.cc:474
+#line 146 "ParserPtarm.tab.c" // lalr1.cc:479
 
   /* Return YYSTR after stripping away unnecessary quotes and
      backslashes, so that it's suitable for yyerror.  The heuristic is
@@ -247,6 +247,23 @@ namespace forec { namespace loader {
   inline
   ParserPtarm::basic_symbol<Base>::~basic_symbol ()
   {
+    clear ();
+  }
+
+  template <typename Base>
+  inline
+  void
+  ParserPtarm::basic_symbol<Base>::clear ()
+  {
+    Base::clear ();
+  }
+
+  template <typename Base>
+  inline
+  bool
+  ParserPtarm::basic_symbol<Base>::empty () const
+  {
+    return Base::type_get () == empty_symbol;
   }
 
   template <typename Base>
@@ -262,7 +279,7 @@ namespace forec { namespace loader {
   // by_type.
   inline
   ParserPtarm::by_type::by_type ()
-     : type (empty)
+    : type (empty_symbol)
   {}
 
   inline
@@ -277,10 +294,17 @@ namespace forec { namespace loader {
 
   inline
   void
+  ParserPtarm::by_type::clear ()
+  {
+    type = empty_symbol;
+  }
+
+  inline
+  void
   ParserPtarm::by_type::move (by_type& that)
   {
     type = that.type;
-    that.type = empty;
+    that.clear ();
   }
 
   inline
@@ -294,7 +318,7 @@ namespace forec { namespace loader {
   // by_state.
   inline
   ParserPtarm::by_state::by_state ()
-    : state (empty)
+    : state (empty_state)
   {}
 
   inline
@@ -304,10 +328,17 @@ namespace forec { namespace loader {
 
   inline
   void
+  ParserPtarm::by_state::clear ()
+  {
+    state = empty_state;
+  }
+
+  inline
+  void
   ParserPtarm::by_state::move (by_state& that)
   {
     state = that.state;
-    that.state = empty;
+    that.clear ();
   }
 
   inline
@@ -319,7 +350,10 @@ namespace forec { namespace loader {
   ParserPtarm::symbol_number_type
   ParserPtarm::by_state::type_get () const
   {
-    return state == empty ? 0 : yystos_[state];
+    if (state == empty_state)
+      return empty_symbol;
+    else
+      return yystos_[state];
   }
 
   inline
@@ -333,7 +367,7 @@ namespace forec { namespace loader {
   {
     value = that.value;
     // that is emptied.
-    that.type = empty;
+    that.type = empty_symbol;
   }
 
   inline
@@ -368,6 +402,10 @@ namespace forec { namespace loader {
     std::ostream& yyoutput = yyo;
     YYUSE (yyoutput);
     symbol_number_type yytype = yysym.type_get ();
+    // Avoid a (spurious) G++ 4.8 warning about "array subscript is
+    // below array bounds".
+    if (yysym.empty ())
+      std::abort ();
     yyo << (yytype < yyntokens_ ? "token" : "nterm")
         << ' ' << yytname_[yytype] << " ("
         << yysym.location << ": ";
@@ -452,9 +490,6 @@ namespace forec { namespace loader {
   int
   ParserPtarm::parse ()
   {
-    /// Whether yyla contains a lookahead.
-    bool yyempty = true;
-
     // State.
     int yyn;
     /// Length of the RHS of the rule being reduced.
@@ -506,7 +541,7 @@ namespace forec { namespace loader {
       goto yydefault;
 
     // Read a lookahead token.
-    if (yyempty)
+    if (yyla.empty ())
       {
         YYCDEBUG << "Reading a token: ";
         try
@@ -518,7 +553,6 @@ namespace forec { namespace loader {
             error (yyexc);
             goto yyerrlab1;
           }
-        yyempty = false;
       }
     YY_SYMBOL_PRINT ("Next token is", yyla);
 
@@ -537,9 +571,6 @@ namespace forec { namespace loader {
         yyn = -yyn;
         goto yyreduce;
       }
-
-    // Discard the token being shifted.
-    yyempty = true;
 
     // Count tokens shifted since error; after three, turn off error status.
     if (yyerrstatus_)
@@ -590,403 +621,403 @@ namespace forec { namespace loader {
           switch (yyn)
             {
   case 2:
-#line 114 "ParserPtarm.y" // lalr1.cc:847
+#line 114 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Operand(*(yystack_[0].value.str), "generalRegister"); }
-#line 596 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 627 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 3:
-#line 115 "ParserPtarm.y" // lalr1.cc:847
+#line 115 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Operand(*(yystack_[0].value.str), "specialRegister"); }
-#line 602 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 633 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 4:
-#line 116 "ParserPtarm.y" // lalr1.cc:847
+#line 116 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Operand(*(yystack_[0].value.str), "coprocessorRegister"); }
-#line 608 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 639 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 5:
-#line 117 "ParserPtarm.y" // lalr1.cc:847
+#line 117 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Operand(*(yystack_[0].value.str), "constant"); }
-#line 614 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 645 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 6:
-#line 118 "ParserPtarm.y" // lalr1.cc:847
+#line 118 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Operand(*(yystack_[0].value.str), "shiftedOperand"); }
-#line 620 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 651 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 7:
-#line 119 "ParserPtarm.y" // lalr1.cc:847
+#line 119 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Operand(*(yystack_[1].value.node), "address1"); }
-#line 626 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 657 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 8:
-#line 120 "ParserPtarm.y" // lalr1.cc:847
+#line 120 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Operand(*(yystack_[3].value.node), *(yystack_[1].value.node), "address2"); }
-#line 632 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 663 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 9:
-#line 124 "ParserPtarm.y" // lalr1.cc:847
+#line 124 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.nodeList) = new forec::cfg::OperandList(*(yystack_[0].value.node)); }
-#line 638 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 669 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 10:
-#line 125 "ParserPtarm.y" // lalr1.cc:847
+#line 125 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.nodeList) = new forec::cfg::OperandList(*(yystack_[1].value.node)); }
-#line 644 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 675 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 11:
-#line 126 "ParserPtarm.y" // lalr1.cc:847
+#line 126 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.nodeList) = new forec::cfg::OperandList(*(yystack_[1].value.node)); }
-#line 650 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 681 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 12:
-#line 127 "ParserPtarm.y" // lalr1.cc:847
+#line 127 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.nodeList) = new forec::cfg::OperandList(*(yystack_[1].value.nodeList), "registerList"); }
-#line 656 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 687 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 13:
-#line 128 "ParserPtarm.y" // lalr1.cc:847
+#line 128 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.nodeList) = (yystack_[2].value.nodeList); (yylhs.value.nodeList)->append(*(yystack_[0].value.node)); }
-#line 662 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 693 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 14:
-#line 129 "ParserPtarm.y" // lalr1.cc:847
+#line 129 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.nodeList) = (yystack_[3].value.nodeList); (yylhs.value.nodeList)->append(*(yystack_[1].value.node)); }
-#line 668 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 699 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 15:
-#line 130 "ParserPtarm.y" // lalr1.cc:847
+#line 130 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.nodeList) = (yystack_[3].value.nodeList); (yylhs.value.nodeList)->append(*(yystack_[1].value.node)); }
-#line 674 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 705 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 16:
-#line 131 "ParserPtarm.y" // lalr1.cc:847
+#line 131 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.nodeList) = (yystack_[4].value.nodeList); (yylhs.value.nodeList)->append(*(yystack_[1].value.node)); }
-#line 680 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 711 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 17:
-#line 135 "ParserPtarm.y" // lalr1.cc:847
+#line 135 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "branchConditional"); }
-#line 686 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 717 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 18:
-#line 136 "ParserPtarm.y" // lalr1.cc:847
+#line 136 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "branchUnconditional"); }
-#line 692 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 723 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 19:
-#line 137 "ParserPtarm.y" // lalr1.cc:847
+#line 137 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "interrupt"); }
-#line 698 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 729 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 20:
-#line 138 "ParserPtarm.y" // lalr1.cc:847
+#line 138 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "logic"); }
-#line 704 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 735 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 21:
-#line 139 "ParserPtarm.y" // lalr1.cc:847
+#line 139 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "arithmeticInteger"); }
-#line 710 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 741 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 22:
-#line 140 "ParserPtarm.y" // lalr1.cc:847
+#line 140 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "read"); }
-#line 716 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 747 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 23:
-#line 141 "ParserPtarm.y" // lalr1.cc:847
+#line 141 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "store"); }
-#line 722 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 753 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 24:
-#line 142 "ParserPtarm.y" // lalr1.cc:847
+#line 142 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "move"); }
-#line 728 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 759 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 25:
-#line 143 "ParserPtarm.y" // lalr1.cc:847
+#line 143 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "coprocessor"); }
-#line 734 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 765 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 26:
-#line 144 "ParserPtarm.y" // lalr1.cc:847
+#line 144 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyInstruction(*(yystack_[0].value.str), "data"); }
-#line 740 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 771 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 27:
-#line 148 "ParserPtarm.y" // lalr1.cc:847
+#line 148 "ParserPtarm.y" // lalr1.cc:859
     { /* Do nothing */ }
-#line 746 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 777 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 28:
-#line 152 "ParserPtarm.y" // lalr1.cc:847
+#line 152 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyLine(*(yystack_[4].value.str), *(yystack_[2].value.str), *(yystack_[1].value.node), *(yystack_[0].value.nodeList)); }
-#line 752 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 783 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 29:
-#line 153 "ParserPtarm.y" // lalr1.cc:847
+#line 153 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyLine(*(yystack_[4].value.str), *(yystack_[2].value.str), *(yystack_[1].value.node), *(new forec::cfg::OperandList(*(new forec::cfg::Operand(""))))); }
-#line 758 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 789 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 30:
-#line 154 "ParserPtarm.y" // lalr1.cc:847
+#line 154 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyLine(*(yystack_[5].value.str), *(yystack_[3].value.str), *(yystack_[2].value.node), *(yystack_[1].value.nodeList)); }
-#line 764 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 795 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 31:
-#line 155 "ParserPtarm.y" // lalr1.cc:847
+#line 155 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyLine(*(yystack_[7].value.str), *(yystack_[5].value.str), *(yystack_[4].value.node), *(yystack_[3].value.nodeList), "; " + ((forec::cfg::Operand *)(((forec::cfg::OperandList *)(yystack_[3].value.nodeList))->getOperands()[0]))->getValue(), *(yystack_[1].value.str)); }
-#line 770 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 801 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 32:
-#line 156 "ParserPtarm.y" // lalr1.cc:847
+#line 156 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyLine(*(yystack_[5].value.str), *(yystack_[3].value.str), *(yystack_[2].value.node), *(yystack_[1].value.nodeList), *(yystack_[0].value.str)); }
-#line 776 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 807 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 33:
-#line 157 "ParserPtarm.y" // lalr1.cc:847
+#line 157 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AssemblyLine(*(yystack_[8].value.str), *(yystack_[6].value.str), *(yystack_[5].value.node), *(yystack_[4].value.nodeList), *(yystack_[3].value.str), *(yystack_[1].value.str)); }
-#line 782 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 813 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 34:
-#line 161 "ParserPtarm.y" // lalr1.cc:847
+#line 161 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Label(*(yystack_[4].value.str), *(yystack_[2].value.str)); }
-#line 788 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 819 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 35:
-#line 165 "ParserPtarm.y" // lalr1.cc:847
+#line 165 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::CSourceLine(*(yystack_[0].value.str)); }
-#line 794 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 825 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 36:
-#line 169 "ParserPtarm.y" // lalr1.cc:847
+#line 169 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::IterationBound(*(yystack_[0].value.str)); }
-#line 800 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 831 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 37:
-#line 173 "ParserPtarm.y" // lalr1.cc:847
+#line 173 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 806 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 837 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 38:
-#line 174 "ParserPtarm.y" // lalr1.cc:847
+#line 174 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 812 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 843 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 39:
-#line 175 "ParserPtarm.y" // lalr1.cc:847
+#line 175 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 818 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 849 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 40:
-#line 181 "ParserPtarm.y" // lalr1.cc:847
+#line 181 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AbortStatement(*(yystack_[2].value.str), *(yystack_[1].value.nodeList), "statement"); }
-#line 824 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 855 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 41:
-#line 185 "ParserPtarm.y" // lalr1.cc:847
+#line 185 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::AbortStatement(*(yystack_[0].value.str), "scopeEnd"); }
-#line 830 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 861 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 42:
-#line 189 "ParserPtarm.y" // lalr1.cc:847
+#line 189 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::ParStatement(*(yystack_[2].value.str), *(yystack_[1].value.nodeList)); }
-#line 836 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 867 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 43:
-#line 193 "ParserPtarm.y" // lalr1.cc:847
+#line 193 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::PauseStatement(*(yystack_[2].value.str), *(yystack_[1].value.nodeList)); }
-#line 842 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 873 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 44:
-#line 197 "ParserPtarm.y" // lalr1.cc:847
+#line 197 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 848 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 879 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 45:
-#line 198 "ParserPtarm.y" // lalr1.cc:847
+#line 198 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 854 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 885 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 46:
-#line 199 "ParserPtarm.y" // lalr1.cc:847
+#line 199 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 860 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 891 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 47:
-#line 200 "ParserPtarm.y" // lalr1.cc:847
+#line 200 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 866 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 897 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 48:
-#line 206 "ParserPtarm.y" // lalr1.cc:847
+#line 206 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Scheduler(*(yystack_[2].value.str), *(yystack_[1].value.nodeList), "counter");}
-#line 872 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 903 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 49:
-#line 207 "ParserPtarm.y" // lalr1.cc:847
+#line 207 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Scheduler(*(yystack_[2].value.str), *(yystack_[1].value.nodeList), "boot");}
-#line 878 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 909 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 50:
-#line 208 "ParserPtarm.y" // lalr1.cc:847
+#line 208 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Scheduler(*(yystack_[2].value.str), *(yystack_[1].value.nodeList), "reactionStart");}
-#line 884 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 915 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 51:
-#line 209 "ParserPtarm.y" // lalr1.cc:847
+#line 209 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Scheduler(*(yystack_[2].value.str), *(yystack_[1].value.nodeList), "reactionEnd");}
-#line 890 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 921 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 52:
-#line 210 "ParserPtarm.y" // lalr1.cc:847
+#line 210 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Scheduler(*(yystack_[2].value.str), *(yystack_[1].value.nodeList), "parHandler");}
-#line 896 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 927 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 53:
-#line 211 "ParserPtarm.y" // lalr1.cc:847
+#line 211 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Scheduler(*(yystack_[2].value.str), *(yystack_[1].value.nodeList), "abortHandler");}
-#line 902 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 933 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 54:
-#line 212 "ParserPtarm.y" // lalr1.cc:847
+#line 212 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Scheduler(*(yystack_[2].value.str), *(yystack_[1].value.nodeList), "threadRemove");}
-#line 908 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 939 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 55:
-#line 213 "ParserPtarm.y" // lalr1.cc:847
+#line 213 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Scheduler(*(yystack_[2].value.str), *(yystack_[1].value.nodeList), "iterationEnd");}
-#line 914 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 945 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 56:
-#line 219 "ParserPtarm.y" // lalr1.cc:847
+#line 219 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 920 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 951 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 57:
-#line 220 "ParserPtarm.y" // lalr1.cc:847
+#line 220 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 926 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 957 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 58:
-#line 221 "ParserPtarm.y" // lalr1.cc:847
+#line 221 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 932 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 963 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 59:
-#line 225 "ParserPtarm.y" // lalr1.cc:847
+#line 225 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.nodeList) = new forec::cfg::Body(*(yystack_[0].value.node)); }
-#line 938 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 969 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 60:
-#line 226 "ParserPtarm.y" // lalr1.cc:847
+#line 226 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.nodeList) = (yystack_[1].value.nodeList); (yylhs.value.nodeList)->append(*(yystack_[0].value.node)); }
-#line 944 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 975 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 61:
-#line 232 "ParserPtarm.y" // lalr1.cc:847
+#line 232 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = new forec::cfg::Thread(*(yystack_[2].value.str), *(yystack_[1].value.nodeList));}
-#line 950 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 981 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 62:
-#line 237 "ParserPtarm.y" // lalr1.cc:847
+#line 237 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 956 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 987 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 63:
-#line 238 "ParserPtarm.y" // lalr1.cc:847
+#line 238 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 962 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 993 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 64:
-#line 239 "ParserPtarm.y" // lalr1.cc:847
+#line 239 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 968 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 999 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 65:
-#line 240 "ParserPtarm.y" // lalr1.cc:847
+#line 240 "ParserPtarm.y" // lalr1.cc:859
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 974 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 1005 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 66:
-#line 244 "ParserPtarm.y" // lalr1.cc:847
+#line 244 "ParserPtarm.y" // lalr1.cc:859
     { rootNode.append(*(yystack_[0].value.node)); }
-#line 980 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 1011 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
   case 67:
-#line 245 "ParserPtarm.y" // lalr1.cc:847
+#line 245 "ParserPtarm.y" // lalr1.cc:859
     { rootNode.append(*(yystack_[0].value.node)); }
-#line 986 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 1017 "ParserPtarm.tab.c" // lalr1.cc:859
     break;
 
 
-#line 990 "ParserPtarm.tab.c" // lalr1.cc:847
+#line 1021 "ParserPtarm.tab.c" // lalr1.cc:859
             default:
               break;
             }
@@ -1014,8 +1045,7 @@ namespace forec { namespace loader {
     if (!yyerrstatus_)
       {
         ++yynerrs_;
-        error (yyla.location, yysyntax_error_ (yystack_[0].state,
-                                           yyempty ? yyempty_ : yyla.type_get ()));
+        error (yyla.location, yysyntax_error_ (yystack_[0].state, yyla));
       }
 
 
@@ -1028,10 +1058,10 @@ namespace forec { namespace loader {
         // Return failure if at end of input.
         if (yyla.type_get () == yyeof_)
           YYABORT;
-        else if (!yyempty)
+        else if (!yyla.empty ())
           {
             yy_destroy_ ("Error: discarding", yyla);
-            yyempty = true;
+            yyla.clear ();
           }
       }
 
@@ -1107,7 +1137,7 @@ namespace forec { namespace loader {
     goto yyreturn;
 
   yyreturn:
-    if (!yyempty)
+    if (!yyla.empty ())
       yy_destroy_ ("Cleanup: discarding lookahead", yyla);
 
     /* Do not reclaim the symbols of the rule whose action triggered
@@ -1127,7 +1157,7 @@ namespace forec { namespace loader {
                  << std::endl;
         // Do not try to display the values of the reclaimed symbols,
         // as their printer might throw an exception.
-        if (!yyempty)
+        if (!yyla.empty ())
           yy_destroy_ (YY_NULLPTR, yyla);
 
         while (1 < yystack_.size ())
@@ -1147,9 +1177,8 @@ namespace forec { namespace loader {
 
   // Generate an error message.
   std::string
-  ParserPtarm::yysyntax_error_ (state_type yystate, symbol_number_type yytoken) const
+  ParserPtarm::yysyntax_error_ (state_type yystate, const symbol_type& yyla) const
   {
-    std::string yyres;
     // Number of reported tokens (one for the "unexpected", one per
     // "expected").
     size_t yycount = 0;
@@ -1163,7 +1192,7 @@ namespace forec { namespace loader {
          the only way this function was invoked is if the default action
          is an error action.  In that case, don't check for expected
          tokens because there are none.
-       - The only way there can be no lookahead present (in yytoken) is
+       - The only way there can be no lookahead present (in yyla) is
          if this state is a consistent state with a default action.
          Thus, detecting the absence of a lookahead is sufficient to
          determine that there is no unexpected or expected token to
@@ -1183,8 +1212,9 @@ namespace forec { namespace loader {
          token that will not be accepted due to an error action in a
          later state.
     */
-    if (yytoken != yyempty_)
+    if (!yyla.empty ())
       {
+        int yytoken = yyla.type_get ();
         yyarg[yycount++] = yytname_[yytoken];
         int yyn = yypact_[yystate];
         if (!yy_pact_value_is_default_ (yyn))
@@ -1227,6 +1257,7 @@ namespace forec { namespace loader {
 #undef YYCASE_
       }
 
+    std::string yyres;
     // Argument number.
     size_t yyi = 0;
     for (char const* yyp = yyformat; *yyp; ++yyp)
@@ -1562,10 +1593,10 @@ namespace forec { namespace loader {
       return undef_token_;
   }
 
-#line 13 "ParserPtarm.y" // lalr1.cc:1155
+#line 13 "ParserPtarm.y" // lalr1.cc:1167
 } } // forec::loader
-#line 1568 "ParserPtarm.tab.c" // lalr1.cc:1155
-#line 248 "ParserPtarm.y" // lalr1.cc:1156
+#line 1599 "ParserPtarm.tab.c" // lalr1.cc:1167
+#line 248 "ParserPtarm.y" // lalr1.cc:1168
 
 
 

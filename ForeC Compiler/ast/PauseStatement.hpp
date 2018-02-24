@@ -46,8 +46,6 @@ namespace forec {
 				static int globalCount;
 				std::string threadScope;
 				std::vector<AbortStatement *> aborts;
-				std::set<ParStatement *> parStatements;
-
 		};
 	}
 }

@@ -39,7 +39,7 @@ namespace tools {
 			static const std::string formatMain(const std::string &declarations, std::vector<forec::ast::Node *> &mainBody, std::vector<forec::ast::Node *> &threads, const std::string argcName, const std::string argvName);
 			static const std::string formatThread(const std::string &declarations, const std::string &identifier, const std::vector<forec::ast::Node *> &body);
 			static const std::string formatPar(const std::string &parId, const std::string &coreId, const std::string &parStatement, const std::vector<std::pair<std::string, std::string> > &linkedList);
-			static const std::string formatPar(const std::string &parId, const std::string &coreId, const std::string &parStatement, const std::string &threadScope);
+			static const std::string formatPar(const std::string &parId, const std::string &coreId, const std::string &parStatement, const std::string &threadScope, const bool willPause);
 
 			static const std::string toString(void);
 

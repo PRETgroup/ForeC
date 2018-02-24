@@ -166,16 +166,16 @@ namespace forec {
 		}
 
 		void ParStatement::prettyPrint(std::ostream &output) {
-			std::string parStatement = getId() + "(" + *children[0]->toString() + ");";
+			std::string parStatement = this->getId() + "(" + *children[0]->toString() + ");";
 
 			std::string coreId = tools::Multicore::getCoreId(threadScope);
 
 			if (threadScope.compare("main") == 0) {
-				std::vector<std::pair<std::string, std::string> > linkedList = tarot::Tarot::getLinkedList(coreId, "main", getId());
+				std::vector<std::pair<std::string, std::string> > linkedList = tarot::Tarot::getLinkedList(coreId, "main", this->getId());
 
-				output << tools::Template::formatPar(getId(), coreId, parStatement, linkedList);
+				output << tools::Template::formatPar(this->getId(), coreId, parStatement, linkedList);
 			} else {
-				output << tools::Template::formatPar(getId(), coreId, parStatement, threadScope);
+				output << tools::Template::formatPar(this->getId(), coreId, parStatement, threadScope, this->willPause(false).pauses);
 			}
 		}
 
