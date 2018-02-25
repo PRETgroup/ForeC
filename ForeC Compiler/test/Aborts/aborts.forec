@@ -1,0 +1,78 @@
+#include <stdio.h>
+
+// input and output keywords are not yet implemented by the ForeC compiler.
+// No checks are made on whether they are shared among threads.
+// Use shared variables instead.
+/*input*/  shared int R = 1;
+
+thread tSetInputs(void);
+thread tDebug(void);
+thread tStrongNonImmediateAbort(void);
+thread tStrongImmediateAbort(void);
+thread tWeakNonImmediateAbort(void);
+thread tWeakImmediateAbort(void);
+
+shared int strongNonImmediateAbortResult = 0;
+shared int strongImmediateAbortResult = 0;
+shared int weakNonImmediateAbortResult = 0;
+shared int weakImmediateAbortResult = 0;
+
+const int MAX_TICK_NUMBER = 3;
+
+void main(int argc, char **argv) {
+	par(tSetInputs, tDebug, tStrongNonImmediateAbort, tStrongImmediateAbort, tWeakNonImmediateAbort, tWeakImmediateAbort);
+}
+
+thread tSetInputs(void) {
+	R = 1;
+	pause;
+	R = 1;
+	pause;
+}
+
+thread tStrongNonImmediateAbort(void) {
+	abort {
+		printf("strongNonImmediateAbortResult = 1\n");
+		pause;
+		printf("strongNonImmediateAbortResult = 2\n");
+		pause;
+	} when (R == 1);
+	printf("strongNonImmediateAbortResult = terminated\n");
+}
+
+thread tStrongImmediateAbort(void) {
+	abort {
+		printf("strongImmediateAbortResult = 1\n");
+		pause;
+		printf("strongImmediateAbortResult = 2\n");
+		pause;
+	} when immediate (R == 1);
+	printf("strongImmediateAbortResult = terminated\n");
+}
+
+thread tWeakNonImmediateAbort(void) {
+	weak abort {
+		printf("weakNonImmediateAbortResult = 1\n");
+		pause;
+		printf("weakNonImmediateAbortResult = 2\n");
+		pause;
+	} when (R == 1);
+	printf("weakNonImmediateAbortResult = terminated\n");
+}
+
+thread tWeakImmediateAbort(void) {
+	weak abort {
+		printf("weakImmediateAbortResult = 1\n");
+		pause;
+		printf("weakImmediateAbortResult = 2\n");
+		pause;
+	} when immediate (R == 1);
+	printf("weakImmediateAbortResult = terminated\n");
+}
+
+thread tDebug(void) {
+	for (int i = 0; i < MAX_TICK_NUMBER; i++) {
+		printf("Tick %d: R = %d\n", i, R);
+		pause;
+	}
+}

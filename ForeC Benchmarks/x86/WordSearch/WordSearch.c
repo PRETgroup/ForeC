@@ -62,8 +62,9 @@ typedef struct {
 	char **argv;
 } Arguments;
 
+// Shared control variables for non-immediate aborts -----------
 
-// Shared control variables for par(...)s -------------------------
+// Shared control variables for par(...)s ----------------------
 // Thread main with par(...)s
 volatile Parent mainParParent;
 volatile Core mainParCore0;
@@ -124,13 +125,18 @@ int fgetw(FILE__global_0_0 *file, char wordFound[20]);
 int fgetws(FILE__global_0_0 *file, char word[20], int *wordsLeft);
 const Accum__global_0_0 plus(Accum__global_0_0 *lhs, const Accum__global_0_0 *rhs);
 
+// thread mimicInput__thread(void);
 // thread search1__thread(void);
 // thread search2__thread(void);
+
+int tickCount__global_0_0 = 0;
+static const int MAX_WORDS_TO_SEARCH__global_0_0 = 100;
 
 // Locally declared shared variables -------------------------------
 
 // Global versions of local copies of shared variables -------------
 // main
+// mimicInput
 // search1
 Shared_oldWord_ptr__global_0_0 oldWord_ptr__global_0_0_copy_search1 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_file1__global_0_0 file1__global_0_0_copy_search1 = {.status = FOREC_SHARED_UNMODIFIED};
@@ -188,11 +194,12 @@ void *forecMain(void *args) {
 
 	// Variables for par()s ----------------------------------------
 	// par0
+	Thread mimicInput__thread;
 	Thread search1__thread;
 	Thread search2__thread;
 	Thread mainReactionStartMaster0;
 	Thread mainReactionEndMaster0;
-	Thread abortStrong0Check0;
+	Thread abortStrongImmediate0Check0;
 
 
 	// Let cores jump to their code segment ------------------------
@@ -219,6 +226,8 @@ void *forecMain(void *args) {
 	
 	// Thread local declarations -----------------------------------
 	struct timeval startTime__main_0_0, endTime__main_0_0;
+	int i__main_1_3;
+	int preemptionOccured__main_1_3;
 	long seconds__main_0_0;
 	int microseconds__main_0_0;
 
@@ -226,6 +235,7 @@ mainParCore0: {
 	//--------------------------------------------------------------
 
 	gettimeofday(&startTime__main_0_0, 0);
+	printf("Case-sensitive word search across two text files.\n");
 	if (argc__main_0_0 != 4) {
 		printf("Usage: ./WordSearch <word> <file1> <file2>\n");
 		return 0;
@@ -246,19 +256,20 @@ mainParCore0: {
 		// if2
 	}
 
-	while (1) {
+	for (i__main_1_3 = 0; i__main_1_3 < 4; i__main_1_3++) {
 		found__global_0_0.value.current = 0;
 		found__global_0_0.value.last = 0;
 		strcpy(oldWord__global_0_0, newWord__global_0_0);
+		preemptionOccured__main_1_3 = 1;
 
-		/* abortStrong0 */ {
-			// forec:statement:abort:abortStrong0:start
+		/* abortStrongImmediate0 */ {
+			// forec:statement:abort:abortStrongImmediate0:start
 			if (strcmp(oldWord__global_0_0, newWord__global_0_0) != 0 && strcmp("", newWord__global_0_0) != 0) {
-				goto abortEnd_abortStrong0;
+				goto abortEnd_abortStrongImmediate0;
 			}
-			// forec:statement:abort:abortStrong0:end
+			// forec:statement:abort:abortStrongImmediate0:end
 
-			// par0(search1__thread, search2__thread);
+			// par0(mimicInput__thread, search1__thread, search2__thread);
 			// forec:statement:par:par0:start
 			// Set the par(...) information.
 			mainParParent.parId = 0;
@@ -266,12 +277,15 @@ mainParCore0: {
 
 			// Link the threads and handlers together.
 			mainReactionStartMaster0.programCounter = &&mainReactionStartMaster0;
-			abortStrong0Check0.programCounter = &&abortStrong0Check0;
-			mainReactionStartMaster0.nextThread = &abortStrong0Check0;
-			abortStrong0Check0.prevThread = &mainReactionStartMaster0;
+			abortStrongImmediate0Check0.programCounter = &&abortStrongImmediate0Check0;
+			mainReactionStartMaster0.nextThread = &abortStrongImmediate0Check0;
+			abortStrongImmediate0Check0.prevThread = &mainReactionStartMaster0;
+			mimicInput__thread.programCounter = &&mimicInput__thread;
+			abortStrongImmediate0Check0.nextThread = &mimicInput__thread;
+			mimicInput__thread.prevThread = &abortStrongImmediate0Check0;
 			search1__thread.programCounter = &&search1__thread;
-			abortStrong0Check0.nextThread = &search1__thread;
-			search1__thread.prevThread = &abortStrong0Check0;
+			mimicInput__thread.nextThread = &search1__thread;
+			search1__thread.prevThread = &mimicInput__thread;
 			search2__thread.programCounter = &&search2__thread;
 			search1__thread.nextThread = &search2__thread;
 			search2__thread.prevThread = &search1__thread;
@@ -287,71 +301,34 @@ mainParCore0: {
 			mainParParent.programCounter = &&par0JoinAddress_mainParCore0;
 
 			// Set the core information.
-			mainParCore0.activeThreads = 2;
+			mainParCore0.activeThreads = 3;
 			mainParCore0.reactionCounter = mainParReactionCounter;
 
 			// Go to the first thread.
-			goto search1__thread;
+			goto mimicInput__thread;
 			par0JoinAddress_mainParCore0:;
 			// forec:statement:par:par0:end
 
 			printf("\"%s\" appears %d times in %s and %s.\n", * oldWord_ptr__global_0_0.value, found__global_0_0.value.current, argv__main_0_0[2], argv__main_0_0[3]);
-
-			while (1) {
-				strcpy(newWord__global_0_0, "");
-
-				// pause;
-				// forec:statement:pause:pause0:start
-				asm volatile ("nop");
-				// forec:statement:pause:pause0:end
-
-				// Strong aborts:
-				// forec:statement:abort:abortStrong0:start
-				if (strcmp(oldWord__global_0_0, newWord__global_0_0) != 0 && strcmp("", newWord__global_0_0) != 0) {
-					goto abortEnd_abortStrong0;
-				}
-				// forec:statement:abort:abortStrong0:end
-
-				strcpy(newWord__global_0_0, "");
-
-				// pause;
-				// forec:statement:pause:pause1:start
-				asm volatile ("nop");
-				// forec:statement:pause:pause1:end
-
-				// Strong aborts:
-				// forec:statement:abort:abortStrong0:start
-				if (strcmp(oldWord__global_0_0, newWord__global_0_0) != 0 && strcmp("", newWord__global_0_0) != 0) {
-					goto abortEnd_abortStrong0;
-				}
-				// forec:statement:abort:abortStrong0:end
-
-				strcpy(newWord__global_0_0, "if");
-
-				// pause;
-				// forec:statement:pause:pause2:start
-				asm volatile ("nop");
-				// forec:statement:pause:pause2:end
-
-				// Strong aborts:
-				// forec:statement:abort:abortStrong0:start
-				if (strcmp(oldWord__global_0_0, newWord__global_0_0) != 0 && strcmp("", newWord__global_0_0) != 0) {
-					goto abortEnd_abortStrong0;
-				}
-				// forec:statement:abort:abortStrong0:end
-			}
-			abortEnd_abortStrong0:;
+			preemptionOccured__main_1_3 = 0;
+			abortEnd_abortStrongImmediate0:;
 		} // when (strcmp(oldWord__global_0_0, newWord__global_0_0) != 0 && strcmp("", newWord__global_0_0) != 0);
-		// forec:statement:abort:abortStrong0:scope:end
+		// forec:statement:abort:abortStrongImmediate0:scope:end
 
-		// forec:scheduler:iterationEnd:while_1:start
+		if (preemptionOccured__main_1_3) {
+			printf("\"%s\" appeared %d times in %s and %s before being preempted.\n", * oldWord_ptr__global_0_0.value, found__global_0_0.value.current, argv__main_0_0[2], argv__main_0_0[3]);
+		} else {
+			// if3
+		}
+
+		// forec:scheduler:iterationEnd:for3_0:start
 		// Synchronise end of iteration
 		mainParParent.parId = -2;
 		mainParParent.parStatus = FOREC_PAR_ON;
-		mainParParent.programCounter = &&while_1_endAddress;
+		mainParParent.programCounter = &&for3_0_endAddress;
 		goto mainParHandlerMaster0;
-		while_1_endAddress:;
-		// forec:scheduler:iterationEnd:while_1:end
+		for3_0_endAddress:;
+		// forec:scheduler:iterationEnd:for3_0:end
 	}
 
 	fclose(file1__global_0_0.value);
@@ -364,7 +341,7 @@ mainParCore0: {
 		microseconds__main_0_0 += 1000000;
 		seconds__main_0_0--;
 	} else {
-		// if3
+		// if4
 	}
 	printf("Runtime: %ld.%.6d\r\n", seconds__main_0_0, microseconds__main_0_0);
 	return 0;
@@ -489,24 +466,24 @@ mainReactionEndMaster0: {
 
 
 	// Abort check handlers ----------------------------------------
-	// forec:scheduler:abortHandler:abortStrong0:0:start
-	// abortStrong0 (strcmp(oldWord__global_0_0, newWord__global_0_0) != 0 && strcmp("", newWord__global_0_0) != 0)
-abortStrong0Check0: {
+	// forec:scheduler:abortHandler:abortStrongImmediate0:0:start
+	// abortStrongImmediate0 (strcmp(oldWord__global_0_0, newWord__global_0_0) != 0 && strcmp("", newWord__global_0_0) != 0)
+abortStrongImmediate0Check0: {
 	// Check the abort condition.
 	if (strcmp(oldWord__global_0_0, newWord__global_0_0) != 0 && strcmp("", newWord__global_0_0) != 0) {
 		// Force the reaction end handler to terminate the par(...).
 		mainParCore0.activeThreads = 0;
 
 		// Update the parent thread to resume at the end of the abort scope.
-		mainParParent.programCounter = &&abortEnd_abortStrong0;
+		mainParParent.programCounter = &&abortEnd_abortStrongImmediate0;
 		
 		goto mainReactionEndMaster0;
 	}
 	
 	// Continue to the next thread.
-	goto *abortStrong0Check0.nextThread -> programCounter;
+	goto *abortStrongImmediate0Check0.nextThread -> programCounter;
 }
-	// forec:scheduler:abortHandler:abortStrong0:0:end
+	// forec:scheduler:abortHandler:abortStrongImmediate0:0:end
 
 
 
@@ -515,6 +492,77 @@ abortStrong0Check0: {
 | ForeC threads:
 | Threads' code translated into C code.
 *=============================================================*/
+	// forec:thread:mimicInput:start
+	/*--------------------------------------------------------------
+	| Thread mimicInput
+	*-------------------------------------------------------------*/
+
+	// Thread local declarations -----------------------------------
+	// No declarations.
+
+	// Thread body -------------------------------------------------
+	mimicInput__thread: {
+		// Initialise the local copies of shared variables.
+		//--------------------------------------------------------------
+
+		switch (tickCount__global_0_0) {
+				
+			case 0:
+				strcpy(newWord__global_0_0, "");
+
+				// pause;
+				// forec:statement:pause:pause0:start
+				mimicInput__thread.programCounter = &&pause0;
+				goto *mimicInput__thread.nextThread -> programCounter;
+				pause0:;
+				// forec:statement:pause:pause0:end
+
+
+				
+			case 1:
+				strcpy(newWord__global_0_0, "");
+
+				// pause;
+				// forec:statement:pause:pause1:start
+				mimicInput__thread.programCounter = &&pause1;
+				goto *mimicInput__thread.nextThread -> programCounter;
+				pause1:;
+				// forec:statement:pause:pause1:end
+
+
+				
+			case 2:
+				strcpy(newWord__global_0_0, "if");
+
+				// pause;
+				// forec:statement:pause:pause2:start
+				mimicInput__thread.programCounter = &&pause2;
+				goto *mimicInput__thread.nextThread -> programCounter;
+				pause2:;
+				// forec:statement:pause:pause2:end
+
+
+				
+			default:
+				break;
+		}
+
+		tickCount__global_0_0 = tickCount__global_0_0 + 1;
+
+		//--------------------------------------------------------------
+		// Write the defined shared variables back to their global copy.
+
+		// forec:scheduler:threadRemove:mimicInput:start
+
+		// Delete thread from the linked list and core.
+		mainParCore0.activeThreads--;
+		mimicInput__thread.nextThread -> prevThread = mimicInput__thread.prevThread;
+		mimicInput__thread.prevThread -> nextThread = mimicInput__thread.nextThread;
+		goto *mimicInput__thread.nextThread -> programCounter;
+		// forec:scheduler:threadRemove:mimicInput:end
+	} // mimicInput__thread
+	// forec:thread:mimicInput:end
+
 	// forec:thread:search1:start
 	/*--------------------------------------------------------------
 	| Thread search1
@@ -524,7 +572,7 @@ abortStrong0Check0: {
 	Shared_oldWord_ptr__global_0_0 oldWord_ptr__global_0_0_copy_search1_local;
 	Shared_file1__global_0_0 file1__global_0_0_copy_search1_local;
 	Shared_found__global_0_0 found__global_0_0_copy_search1_local;
-	int numToSearch__search1_0_0;
+	int numSearched__search1_0_0;
 
 	// Thread body -------------------------------------------------
 	search1__thread: {
@@ -537,11 +585,12 @@ abortStrong0Check0: {
 		found__global_0_0_copy_search1_local.status = FOREC_SHARED_UNMODIFIED;
 		//--------------------------------------------------------------
 
+		numSearched__search1_0_0 = 0;
 		rewind(file1__global_0_0_copy_search1_local.value);
 
 		do {
-			numToSearch__search1_0_0 = 100;
-			found__global_0_0_copy_search1_local.value.current = found__global_0_0_copy_search1_local.value.current + fgetws(file1__global_0_0_copy_search1_local.value, * oldWord_ptr__global_0_0_copy_search1_local.value, &numToSearch__search1_0_0);
+			numSearched__search1_0_0 = 0;
+			found__global_0_0_copy_search1_local.value.current = found__global_0_0_copy_search1_local.value.current + fgetws(file1__global_0_0_copy_search1_local.value, * oldWord_ptr__global_0_0_copy_search1_local.value, &numSearched__search1_0_0);
 			found__global_0_0_copy_search1_local.status = FOREC_SHARED_MODIFIED;
 
 			// pause;
@@ -557,7 +606,7 @@ abortStrong0Check0: {
 			file1__global_0_0_copy_search1_local = file1__global_0_0;
 			found__global_0_0_copy_search1_local = found__global_0_0;
 
-		} while (numToSearch__search1_0_0 == 0);
+		} while (numSearched__search1_0_0 != 0);
 
 		//--------------------------------------------------------------
 		// Write the defined shared variables back to their global copy.
@@ -583,7 +632,7 @@ abortStrong0Check0: {
 	Shared_oldWord_ptr__global_0_0 oldWord_ptr__global_0_0_copy_search2_local;
 	Shared_file2__global_0_0 file2__global_0_0_copy_search2_local;
 	Shared_found__global_0_0 found__global_0_0_copy_search2_local;
-	int numToSearch__search2_0_0;
+	int numSearched__search2_0_0;
 
 	// Thread body -------------------------------------------------
 	search2__thread: {
@@ -596,11 +645,12 @@ abortStrong0Check0: {
 		found__global_0_0_copy_search2_local.status = FOREC_SHARED_UNMODIFIED;
 		//--------------------------------------------------------------
 
+		numSearched__search2_0_0 = 0;
 		rewind(file2__global_0_0_copy_search2_local.value);
 
 		do {
-			numToSearch__search2_0_0 = 100;
-			found__global_0_0_copy_search2_local.value.current = found__global_0_0_copy_search2_local.value.current + fgetws(file2__global_0_0_copy_search2_local.value, * oldWord_ptr__global_0_0_copy_search2_local.value, &numToSearch__search2_0_0);
+			numSearched__search2_0_0 = 0;
+			found__global_0_0_copy_search2_local.value.current = found__global_0_0_copy_search2_local.value.current + fgetws(file2__global_0_0_copy_search2_local.value, * oldWord_ptr__global_0_0_copy_search2_local.value, &numSearched__search2_0_0);
 			found__global_0_0_copy_search2_local.status = FOREC_SHARED_MODIFIED;
 
 			// pause;
@@ -616,7 +666,7 @@ abortStrong0Check0: {
 			file2__global_0_0_copy_search2_local = file2__global_0_0;
 			found__global_0_0_copy_search2_local = found__global_0_0;
 
-		} while (numToSearch__search2_0_0 == 0);
+		} while (numSearched__search2_0_0 != 0);
 
 		//--------------------------------------------------------------
 		// Write the defined shared variables back to their global copy.
@@ -636,16 +686,16 @@ abortStrong0Check0: {
 
 } // End of the main() function.
 
-int fgetws(FILE__global_0_0 *file__fgetws_0_0, char word__fgetws_0_0[20], int *wordsLeft__fgetws_0_0) {
+int fgetws(FILE__global_0_0 *file__fgetws_0_0, char word__fgetws_0_0[20], int *numSearched__fgetws_0_0) {
 	int found__fgetws_0_0 = 0;
 	char wordFound__fgetws_0_0[20];
-	while ((fgetw(file__fgetws_0_0, wordFound__fgetws_0_0) != 0) && (* wordsLeft__fgetws_0_0 > 0)) {
+	while ((fgetw(file__fgetws_0_0, wordFound__fgetws_0_0) != 0) && (* numSearched__fgetws_0_0 < MAX_WORDS_TO_SEARCH__global_0_0)) {
 		if (strcmp(word__fgetws_0_0, wordFound__fgetws_0_0) == 0) {
 			found__fgetws_0_0 = found__fgetws_0_0 + 1;
 		} else {
-			// if4
+			// if6
 		}
-		* wordsLeft__fgetws_0_0 = * wordsLeft__fgetws_0_0 - 1;
+		* numSearched__fgetws_0_0 = * numSearched__fgetws_0_0 + 1;
 	}
 	return found__fgetws_0_0;
 }
@@ -656,10 +706,10 @@ int fgetw(FILE__global_0_0 *file__fgetw_0_0, char wordFound__fgetw_0_0[20]) {
 	while ((0x40 < c__fgetw_0_0 && c__fgetw_0_0 < 0x5B) || (0x60 < c__fgetw_0_0 && c__fgetw_0_0 < 0x7B)) {
 		if (length__fgetw_0_0 < 20) {
 			wordFound__fgetw_0_0[length__fgetw_0_0] = c__fgetw_0_0;
+			length__fgetw_0_0 = length__fgetw_0_0 + 1;
 		} else {
-			// if5
+			// if7
 		}
-		length__fgetw_0_0 = length__fgetw_0_0 + 1;
 		c__fgetw_0_0 = fgetc(file__fgetw_0_0);
 	}
 	wordFound__fgetw_0_0[length__fgetw_0_0] = '\0';

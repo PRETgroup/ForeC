@@ -1,0 +1,11 @@
+architecture:
+x86
+
+0:
+main
+tSetInputs
+tDebug
+tStrongNonImmediateAbort
+tStrongImmediateAbort
+tWeakNonImmediateAbort
+tWeakImmediateAbort

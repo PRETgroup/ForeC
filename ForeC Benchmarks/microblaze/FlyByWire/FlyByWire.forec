@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
 	while (!terminate) {
 		weak abort {
 			par(servo, timer, flight, failsafe);
-		} when (!isSafe);
+		} when immediate (!isSafe);
 
 		pause;
 	}
@@ -46,7 +46,7 @@ thread flight(void) {
 			
 			pause;
 		}
-	} when (terminate);
+	} when immediate (terminate);
 }
 
 thread servo(void) {
@@ -57,7 +57,7 @@ thread servo(void) {
 			
 			pause;
 		}
-	} when (terminate);
+	} when immediate (terminate);
 }
 
 thread servo0(void) {
@@ -128,7 +128,7 @@ thread timer(void) {
 			
 			pause;
 		}
-	} when (terminate);
+	} when immediate (terminate);
 }
 
 thread failsafe(void) {
@@ -165,7 +165,7 @@ thread failsafe(void) {
 			
 			pause;
 		}
-	} when (terminate);
+	} when immediate (terminate);
 }
 
 int getMode(const int communicationInput) {
