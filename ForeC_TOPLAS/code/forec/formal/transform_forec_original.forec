@@ -1,8 +1,0 @@
-input int i; output int o=0;
-int plus(...) {...}
-void main(void) {
-  shared int s=1 combine all with plus;(*\label{code:transform_forec_original_s}*)
-  par({s++; pause;}, {s=1;});
-  abort {f(&s);} when (s>3); (*\label{code:transform_forec_original_abort}*)
-}
-void f(shared int *x) {*x=2;} (*\label{code:transform_forec_original_f}*)

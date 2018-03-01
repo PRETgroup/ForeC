@@ -1,8 +1,0 @@
-int i; int o=0;
-int plus(...) {...}
-int s;
-void main(void) {
-  copy; s=1;
-  par(t1:{copy; s++; pause;}, t2:{copy; s=1;});
-  status(a1,0); abort(a1, {s=2;});
-}
