@@ -1,5 +1,7 @@
 #! /usr/bin/env python3
 # By David Broman 2012
+# Modified by Matthew Kuo 2013
+# Modified by Eugene Yip 2018
 
 import argparse
 import sys
@@ -14,7 +16,7 @@ import glob
 import shutil
 
 # Parse program arguments.
-parser = argparse.ArgumentParser(description = 'Make generator and program execution tool. Created by David Broman 2012. Modified by Eugene Yip 2016.', usage = 'ptarm <command> [options]')
+parser = argparse.ArgumentParser(description = 'Make generator and program execution tool. Created by David Broman 2012. Modified by Matthew Kuo 2013. Modified by Eugene Yip 2018.', usage = 'ptarm <command> [options]')
 subparsers = parser.add_subparsers(dest = 'command', title = 'commands')
 parser_create   = subparsers.add_parser("create", help = "create the program start up code, linker script and make file")
 parser_make		= subparsers.add_parser("make", help = "make files without executing the program")
@@ -28,7 +30,7 @@ args = parser.parse_args()
 # DEFINITIONS 
 ########################################################
 
-stack_size			= 0x00000400	# Size of each stack. 4 kilobytes.
+stack_size			= 0x00000400	# Stack size = 2.5 kilobytes. Total = 10 kilobytes.
 
 addr_bootloader		= 0xFFFE0000	# Boot loader starts from here.
 addr_code_spm		= 0x00000000	# Data is directly after this.
@@ -44,7 +46,8 @@ builddir = "_build/"
 
 
 # Serial port identifier
-comport = "/dev/tty.usbserial-AL00COK9"
+comport = "/dev/tty.usbserial-A503VSS0"
+baudrate = 115200
 
 # The C startup code
 startup_code = r"""
@@ -235,15 +238,15 @@ def size(mainfile):
 # Execute a program using the UART
 def execute(file):
     # Setup serial port
-    ser = serial.Serial(comport, 115200, timeout = 1)
+    ser = serial.Serial(comport, baudrate, timeout = 1)
 
     # Send ready and check response.
-    ser.write(b'\xff')
-    b = ser.read(1)
+    ser.write(b'\xff')        
+    b = ser.read(1) 
 
     # Is the device working?
     if b != b'\xfe':
-        print("The PTARM bootloader is not responding.")
+        print("The PTARM bootloader is not responding...")
         sys.exit()
         
     # Open binary file
@@ -254,6 +257,8 @@ def execute(file):
         ser.write(struct.pack('>I', size))
         # Send the program
         ser.write(data)        
+
+    print("Program downloaded to the PTARM.")
 
     # Wait for magic program termination
     sys.stdout.write("\n")
@@ -281,7 +286,7 @@ def execute(file):
     print("\n---------------------------------------------")
     print("Instruction count:           ", inst_count)
     print("Thread cycle count:          ", cycle_count)
-    print("Execution time at 50Mhz:     ", float(cycle_count) * 4 / 50000, "ms")
+    print("Execution time at 50MHz:     ", float(cycle_count) * 4 / 50000, "ms")
     print("Cycles per instruction (CPI):", float(cycle_count)/inst_count)
 
     
@@ -308,6 +313,5 @@ if __name__ == "__main__":
 			make()
 			size(mainfile)
 			execute(mainfile)
-
 
 

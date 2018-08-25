@@ -1,9 +1,9 @@
 # 1 "memory.c"
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/programs/memory//"
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/programs/memory//"
 # 1 "<built-in>"
 # 1 "<command-line>"
 # 1 "memory.c"
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_hw_thread.h" 1
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_hw_thread.h" 1
 // This file defines macros for managing the PTARM hardware threads.
 
 
@@ -15,30 +15,30 @@
 //======================================================================
 
 // Gets the ID of the current PTARM hardware thread.
-# 21 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_hw_thread.h"
+# 21 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_hw_thread.h"
 // Gets the Saved Processor Status Register (SPSR) of the current PTARM hardware thread.
 // 20 bits long.
-# 32 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_hw_thread.h"
+# 32 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_hw_thread.h"
 // Gets the Current Processor Status Register (CPSR) of the current PTARM hardware thread.
 // 20 bits long.
-# 43 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_hw_thread.h"
+# 43 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_hw_thread.h"
 // Sets the Current Processor Status Register (CPSR) of the current PTARM hardware thread.
 // 20 bits long.
-# 54 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_hw_thread.h"
+# 54 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_hw_thread.h"
 // Goes to a label if the PTARM hardware thread's ID matches.
-# 66 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_hw_thread.h"
+# 66 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_hw_thread.h"
 // Go to a label.
-# 76 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_hw_thread.h"
+# 76 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_hw_thread.h"
 // 32-bit unsigned integer division.
 // quotient = dividend / divisor
 # 2 "memory.c" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_io.h" 1
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_io.h" 1
 // This file defines macros for reading and writing to registers and memory mapped IO.
 
 
 
 
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_types.h" 1
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_types.h" 1
 // This file defines some useful data types.
 
 
@@ -65,8 +65,8 @@ typedef enum {
 
 
 // Time units.
-# 7 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_io.h" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_mutex.h" 1
+# 7 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_io.h" 2
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_mutex.h" 1
 // This file defines macros for a mutex.
 
 
@@ -83,22 +83,22 @@ typedef enum {
 
 
 // Release the mutex. Only the acquirer can release the mutex.
-# 8 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_io.h" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_hw_thread.h" 1
+# 8 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_io.h" 2
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_hw_thread.h" 1
 // This file defines macros for managing the PTARM hardware threads.
-# 9 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_io.h" 2
+# 9 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_io.h" 2
 
 
 //======================================================================
 // PTARM memory mapped I/O base addresses.
 //======================================================================
-# 41 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_io.h"
+# 41 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_io.h"
 //======================================================================
 // PTARM register macros.
 //======================================================================
 
 // Stores the value of a register into a variable.
-# 54 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_io.h"
+# 54 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_io.h"
 //======================================================================
 // PTARM Switch and Key Input functions.
 //======================================================================

@@ -1,9 +1,9 @@
 # 1 "eoe.c"
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/programs/eoe//"
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/programs/eoe//"
 # 1 "<built-in>"
 # 1 "<command-line>"
 # 1 "eoe.c"
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_types.h" 1
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_types.h" 1
 // This file defines some useful data types.
 
 
@@ -31,7 +31,7 @@ typedef enum {
 
 // Time units.
 # 2 "eoe.c" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_mutex.h" 1
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_mutex.h" 1
 // This file defines macros for a mutex.
 
 
@@ -49,19 +49,19 @@ typedef enum {
 
 // Release the mutex. Only the acquirer can release the mutex.
 # 3 "eoe.c" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_io.h" 1
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_io.h" 1
 // This file defines macros for reading and writing to registers and memory mapped IO.
 
 
 
 
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_types.h" 1
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_types.h" 1
 // This file defines some useful data types.
-# 7 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_io.h" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_mutex.h" 1
+# 7 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_io.h" 2
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_mutex.h" 1
 // This file defines macros for a mutex.
-# 8 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_io.h" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_hw_thread.h" 1
+# 8 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_io.h" 2
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_hw_thread.h" 1
 // This file defines macros for managing the PTARM hardware threads.
 
 
@@ -73,35 +73,35 @@ typedef enum {
 //======================================================================
 
 // Gets the ID of the current PTARM hardware thread.
-# 21 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_hw_thread.h"
+# 21 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_hw_thread.h"
 // Gets the Saved Processor Status Register (SPSR) of the current PTARM hardware thread.
 // 20 bits long.
-# 32 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_hw_thread.h"
+# 32 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_hw_thread.h"
 // Gets the Current Processor Status Register (CPSR) of the current PTARM hardware thread.
 // 20 bits long.
-# 43 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_hw_thread.h"
+# 43 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_hw_thread.h"
 // Sets the Current Processor Status Register (CPSR) of the current PTARM hardware thread.
 // 20 bits long.
-# 54 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_hw_thread.h"
+# 54 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_hw_thread.h"
 // Goes to a label if the PTARM hardware thread's ID matches.
-# 66 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_hw_thread.h"
+# 66 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_hw_thread.h"
 // Go to a label.
-# 76 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_hw_thread.h"
+# 76 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_hw_thread.h"
 // 32-bit unsigned integer division.
 // quotient = dividend / divisor
-# 9 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_io.h" 2
+# 9 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_io.h" 2
 
 
 //======================================================================
 // PTARM memory mapped I/O base addresses.
 //======================================================================
-# 41 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_io.h"
+# 41 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_io.h"
 //======================================================================
 // PTARM register macros.
 //======================================================================
 
 // Stores the value of a register into a variable.
-# 54 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_io.h"
+# 54 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_io.h"
 //======================================================================
 // PTARM Switch and Key Input functions.
 //======================================================================
@@ -361,7 +361,7 @@ const char * hex(const unsigned int number) {
  return ptarmStringBuffer;
 }
 # 4 "eoe.c" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_timer.h" 1
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_timer.h" 1
 // This file defines macros for querying the time, using timing instructions, and manipulating time values.
 
 
@@ -386,20 +386,20 @@ typedef struct {
 
 // Get the current platform time as a 64 bit value.
 // (in nanoseconds represented as a 64 bit value).
-# 35 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_timer.h"
+# 35 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_timer.h"
 // Unsigned subtraction between two 64 bit values, each represented as two 32 bit values.
 // result = minuend - subtrahend, where minuend is assumed to be greater than subtrahend.
-# 51 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_timer.h"
+# 51 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_timer.h"
 // Unsigned addition between two 64 bit values, each represented as two 32 bit values.
 // result = addend1 + addend2.
-# 67 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_timer.h"
+# 67 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_timer.h"
 //======================================================================
 // Delay macros.
 //======================================================================
 
 // Delay execution to an absolute timestamp
 // (in nanoseconds represented as a 64 bit value).
-# 83 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_timer.h"
+# 83 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_timer.h"
 //======================================================================
 // Exception on Expire macros.
 //======================================================================
@@ -421,52 +421,52 @@ extern unsigned int eoe_table;
 
 // For the executing PTARM hardware thread, get the PC it was
 // at when the EOE occured.
-# 113 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_timer.h"
+# 113 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_timer.h"
 // Set an exception to occur at an absolute timestamp
 // (in nanoseconds represented as a 64 bit value).
 # 5 "eoe.c" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_hw_thread.h" 1
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_hw_thread.h" 1
 // This file defines macros for managing the PTARM hardware threads.
 # 6 "eoe.c" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_task.h" 1
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_task.h" 1
 // This file defines macros for creating and manipulating tasks.
 
 
 
 
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_types.h" 1
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_types.h" 1
 // This file defines some useful data types.
-# 7 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_task.h" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_io.h" 1
+# 7 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_task.h" 2
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_io.h" 1
 // This file defines macros for reading and writing to registers and memory mapped IO.
-# 8 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_task.h" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_timer.h" 1
+# 8 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_task.h" 2
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_timer.h" 1
 // This file defines macros for querying the time, using timing instructions, and manipulating time values.
-# 9 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_task.h" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_scheduler.h" 1
+# 9 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_task.h" 2
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_scheduler.h" 1
 // This file defines macros for creating and managing static and dynamic task schedules.
 
 
 
 
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_types.h" 1
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_types.h" 1
 // This file defines some useful data types.
-# 7 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_scheduler.h" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_io.h" 1
+# 7 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_scheduler.h" 2
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_io.h" 1
 // This file defines macros for reading and writing to registers and memory mapped IO.
-# 8 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_scheduler.h" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_mutex.h" 1
+# 8 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_scheduler.h" 2
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_mutex.h" 1
 // This file defines macros for a mutex.
-# 9 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_scheduler.h" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_task.h" 1
+# 9 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_scheduler.h" 2
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_task.h" 1
 // This file defines macros for creating and manipulating tasks.
-# 10 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_scheduler.h" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_timer.h" 1
+# 10 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_scheduler.h" 2
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_timer.h" 1
 // This file defines macros for querying the time, using timing instructions, and manipulating time values.
-# 11 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_scheduler.h" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_hw_thread.h" 1
+# 11 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_scheduler.h" 2
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_hw_thread.h" 1
 // This file defines macros for managing the PTARM hardware threads.
-# 12 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_scheduler.h" 2
+# 12 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_scheduler.h" 2
 
 
 //======================================================================
@@ -542,11 +542,11 @@ typedef struct {
 //======================================================================
 
 // Save the stack pointer, frame pointer, and program counter of the current scheduler.
-# 97 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_scheduler.h"
+# 97 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_scheduler.h"
 // Restore the stack and frame pointer of a scheduler.
-# 107 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_scheduler.h"
+# 107 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_scheduler.h"
 // Create a local scheduler for a hardware thread. Uses the hardware thread's stack.
-# 134 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_scheduler.h"
+# 134 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_scheduler.h"
  /*
 
 	// Scheduler = xxx, SP = xxx, PC = xxx, hwThreadId = xxx.
@@ -566,36 +566,36 @@ typedef struct {
 	PTARM_MUTEX_UNLOCK();
 
 	*/
-# 145 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_scheduler.h"
+# 145 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_scheduler.h"
 // Inserts a life or mission critical task into the global priority queue.
-# 156 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_scheduler.h"
+# 156 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_scheduler.h"
 // Inserts a non-critical task into the global priority queue.
-# 180 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_scheduler.h"
+# 180 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_scheduler.h"
 // Finds a task from the global priority queues.
-# 196 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_scheduler.h"
+# 196 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_scheduler.h"
 // Reset the global priority queue.
-# 10 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_task.h" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_hw_thread.h" 1
+# 10 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_task.h" 2
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_hw_thread.h" 1
 // This file defines macros for managing the PTARM hardware threads.
-# 11 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_task.h" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_foremc.h" 1
+# 11 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_task.h" 2
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_foremc.h" 1
 // This file defines macros for managing the communication between multi-rate tasks.
 
 
 
 
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_hw_thread.h" 1
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_hw_thread.h" 1
 // This file defines macros for managing the PTARM hardware threads.
-# 7 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_foremc.h" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_timer.h" 1
+# 7 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_foremc.h" 2
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_timer.h" 1
 // This file defines macros for querying the time, using timing instructions, and manipulating time values.
-# 8 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_foremc.h" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_task.h" 1
+# 8 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_foremc.h" 2
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_task.h" 1
 // This file defines macros for creating and manipulating tasks.
-# 9 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_foremc.h" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_scheduler.h" 1
+# 9 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_foremc.h" 2
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_scheduler.h" 1
 // This file defines macros for creating and managing static and dynamic task schedules.
-# 10 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_foremc.h" 2
+# 10 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_foremc.h" 2
 
 
 //======================================================================
@@ -603,7 +603,7 @@ typedef struct {
 //======================================================================
 
 // Buffer type.
-# 32 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_foremc.h"
+# 32 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_foremc.h"
 // Pre-defined buffer type.
 
 
@@ -631,7 +631,7 @@ typedef struct _ForeMc_100int {
 
 // Returns 0 <= index <= count for a given index.
 // If index is -1, then the last (latest) data index is returned.
-# 69 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_foremc.h"
+# 69 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_foremc.h"
 // Maps the index of the buffer array to the index of the circular buffer.
 const unsigned int foreMcGetIndex(const unsigned int indexPlusFirst, const unsigned int maxSize) {
  unsigned int quotient;
@@ -647,15 +647,15 @@ const unsigned int foreMcGetIndex(const unsigned int indexPlusFirst, const unsig
 
 
 // Updates the circular buffer when the receiving task is released.
-# 97 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_foremc.h"
+# 97 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_foremc.h"
 //======================================================================
 // ForeMC macros.
 //======================================================================
 
 // Pause the task execution.
-# 113 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_foremc.h"
+# 113 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_foremc.h"
 // Pause the task execution and buffer the output variable.
-# 12 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_task.h" 2
+# 12 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_task.h" 2
 
 
 //======================================================================
@@ -699,7 +699,7 @@ typedef struct _Task {
 	   |--------------------------------------|
 
 				   Base period					*/
-# 50 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_task.h"
+# 50 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_task.h"
  const Timer64Bit allocatedTime; // Statically allocated execution time in each base period.
  const unsigned int basePeriodsMin; // Minimum number of base periods between each release time.
  volatile unsigned int lastRelease; // The base period of its last release.
@@ -744,18 +744,18 @@ unsigned int *ptarmPreviousTaskStackEnd = &addr_stack_end;
 // address       |__task's frame__| <-- fp1 (ptarmPreviousTaskStackEnd)
 //
 //                A task's stack
-# 129 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_task.h"
+# 129 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_task.h"
 // Stores the value of a stack element into a variable.
 // PC offset = 56
-# 139 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_task.h"
+# 139 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_task.h"
 // Stores the value of a variable into a stack element.
 // PC offset = 56
-# 149 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_task.h"
+# 149 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_task.h"
 // Save the context of the current task.
-# 166 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_task.h"
+# 166 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_task.h"
 // Save the context of the preempted task.
 // (Only used by the exception handler)
-# 185 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_task.h"
+# 185 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_task.h"
 // Assign a saved context to a task.
 
 
@@ -763,7 +763,7 @@ unsigned int *ptarmPreviousTaskStackEnd = &addr_stack_end;
 
 
 // Restore the context of a task.
-# 204 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_task.h"
+# 204 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_task.h"
 // Set the current scheduler to the new scheduler.
 
 
@@ -821,11 +821,11 @@ void ptarmCreateTask(volatile Task *task, unsigned int *startPc, volatile LocalS
 	printf(".\n");
 
 	*/
-# 254 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_task.h"
+# 254 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_task.h"
  asm volatile("cdp p13, 1, cr0, cr7, cr0, 0");
 }
 # 7 "eoe.c" 2
-# 1 "/Volumes/Data/Documents/Dropbox/PRET/PTARM/include/ptarm_scheduler.h" 1
+# 1 "/Volumes/Data/Documents/University of Auckland/Post Doc/ForeC/PTARM Processor/include/ptarm_scheduler.h" 1
 // This file defines macros for creating and managing static and dynamic task schedules.
 # 8 "eoe.c" 2
 
