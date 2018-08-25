@@ -1,0 +1,10 @@
+architecture:
+x86
+
+0:
+main
+tSetInputs
+tDebug
+tA
+tB
+tABRO

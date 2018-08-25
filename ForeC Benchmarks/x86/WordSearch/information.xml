@@ -8,6 +8,7 @@
 	<allocations>
 		<core id="0">
 			<thread id="main" />
+			<thread id="mimicInput" />
 			<thread id="search1" />
 			<thread id="search2" />
 		</core>
@@ -15,13 +16,14 @@
 	<!-- Aborts around each par(...) (Abort.cpp::outputXml). -->
 	<aborts>
 		<par id="0">
-			<abort id="abortStrong0" variant="strong" />
+			<abort id="abortStrongImmediate0" variant="strongImmediate" />
 		</par>
 	</aborts>
 	<!-- Nested thread structure (Tarot.cpp::outputXml). -->
 	<tarot>
 		<thread id="main">
 			<par id="0">
+				<thread id="mimicInput"></thread>
 				<thread id="search1"></thread>
 				<thread id="search2"></thread>
 			</par>
@@ -31,7 +33,7 @@
 	<parIndexes>
 		<core id="0">
 			<threadScope id="main">
-				<par id="0" handlers="5" />
+				<par id="0" handlers="6" />
 			</threadScope>
 		</core>
 	</parIndexes>

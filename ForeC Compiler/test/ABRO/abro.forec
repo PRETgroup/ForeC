@@ -1,0 +1,109 @@
+#include <stdio.h>
+
+// input and output keywords are not yet implemented by the ForeC compiler.
+// No checks are made on whether they are shared among threads.
+// Use shared variables instead.
+/*input*/  shared int A = 0;
+/*input*/  shared int B = 0;
+/*input*/  shared int R = 0;
+/*output*/ shared int O = 0;
+
+thread tSetInputs(void);
+thread tA(void);
+thread tB(void);
+thread tABRO(void);
+thread tDebug(void);
+
+shared const int MAX_TICK_NUMBER = 12;
+
+void main(int argc, char **argv) {
+	par(tSetInputs, tDebug, tABRO);
+}
+
+thread tSetInputs(void) {
+	// Normal execution: Output and then reset
+	A = 0; B = 0; R = 0;	// Tick 1
+	pause;
+	A = 1; B = 0; R = 0;	// Tick 2
+	pause;
+	A = 0; B = 1; R = 0;	// Tick 3
+	pause;
+	A = 0; B = 0; R = 1;	// Tick 4
+	pause;
+	
+	// Waiting:
+	A = 0; B = 0; R = 0;	// Tick 5
+	pause;
+	A = 0; B = 0; R = 0;	// Tick 6
+	pause;
+	
+	// No output because of the reset:
+	A = 1; B = 1; R = 1;	// Tick 7
+	pause;
+	
+	// Normal execution: Output
+	A = 0; B = 0; R = 0;	// Tick 8
+	pause;
+	A = 1; B = 1; R = 0;	// Tick 9
+	pause;
+	
+	// Output is sustained
+	A = 0; B = 0; R = 0;	// Tick 10+
+	pause;
+}
+
+thread tABRO(void) {
+	// loop ... each R
+	// which expands to 
+	// loop 
+	//    abort 
+	//       ...; 
+	//       halt 
+	//    when R 
+	// end loop
+	for (int i = 0; i < MAX_TICK_NUMBER; i++) {
+		abort {			
+			// Reset output O to zero:
+			// Unlike Esterel, where signal presence is always cleared at the
+			// start of each tick, output variables in ForeC have persistent 
+			// values which need to be explicitly "cleared" by the programmer.
+			O = 0;
+			
+			// [ await A || await B ]
+			par(tA, tB);
+			
+			// emit O
+			O = 1;		// A and B have both occurred
+			
+			while (1) { pause; }	// Wait for a reset
+		} when (R == 1);
+	}
+}
+
+thread tA(void) {
+	// "await A": Model the non-immediate semantics with an "init" boolean.
+	int initAwait = 0;
+	while (A == 0 || initAwait == 0) {
+		initAwait = 1; 
+		pause;
+	}
+	
+	// await could also be modelled with an abort around a while(1) loop.
+}
+
+thread tB(void) {
+	// "await B": Model the non-immediate semantics with an "init" boolean.
+	int initAwait = 0;
+	while (B == 0 || initAwait == 0) {
+		initAwait = 1; 
+		pause;
+	}
+}
+
+thread tDebug(void) {
+	for (int i = 0; i < MAX_TICK_NUMBER; i++) {
+		// Output O always lags the inputs by one tick.
+		printf("Tick %d: A = %d, B = %d, R = %d, O = %d\n", i, A, B, R, O);
+		pause;
+	}
+}

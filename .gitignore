@@ -27,7 +27,12 @@
 *.exe
 *.out
 *.app
+<<<<<<< HEAD
 PTARM Processor/programs/memory/_build/memory.o.expanded.c
 PTARM Processor/programs/memory/_build/memory.elf
 PTARM Processor/programs/eoe/_build/eoe.o.expanded.c
 PTARM Processor/programs/eoe/_build/eoe.elf
+=======
+
+.DS_Store
+>>>>>>> 608f00d6809d479f5119a6f6698b6f0ddc0c4eb3

@@ -87,7 +87,7 @@ namespace forec {
 			} else if (variantName.compare("nonImmediate") == 0) {
 				return (this->variant).compare("weakNonImmediate") == 0 || (this->variant).compare("strongNonImmediate") == 0;
 			} else {
-				return (this->variant).compare(variant) == 0;
+				return (this->variant).compare(variantName) == 0;
 			}
 		}
 

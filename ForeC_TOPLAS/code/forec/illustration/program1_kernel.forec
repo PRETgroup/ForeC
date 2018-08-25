@@ -1,6 +1,0 @@
-int s=0;
-void main(void) {
-	copy;
-	par(t1:{copy; pause; s=3;},
-	    t2:{copy; s=4;});
-}

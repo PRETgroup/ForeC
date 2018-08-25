@@ -1,0 +1,97 @@
+digraph "aborts" {
+	ordering = out
+
+	labeljust = l
+	node [shape = box, fixedsize = true, height = 0.7, width = 1.1]
+
+	start [shape = plaintext, height = 0.4]
+
+	start -> par0_0Start [label = main, headport = n, tailport = s, weight = 2]
+	subgraph cluster_par0_0 {
+		style = filled
+		color = lightgrey
+
+		par0_0Start [label = 0, shape = triangle]
+		par0_0End [label = 0, shape = invtriangle]
+
+		par0_0Start -> pause0_0 [label = tSetInputs, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+		pause0_0 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause0_0 -> pause1_1 [headport = n, tailport = s]
+		pause1_1 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause1_1 -> par0_0End [headport = n, tailport = s]
+
+		par0_0Start -> for3_0_3 [label = tDebug, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+		subgraph cluster_for3_0_3 {
+			style = invis
+			for3_0_3 [label = 0, shape = diamond]
+			for3_0_3 -> pause10_3 [label = true, headport = n, tailport = s, weight = 2]
+			pause10_3 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+			pause10_3 -> for3_0_3 [/*headport = w,*/ constraint = false, tailport = s]
+		}
+		for3_0_3 -> par0_0End [label = false, headport = n/*, tailport = e*/]
+
+			par0_0Start -> pause2_6 [label = tStrongNonImmediateAbort, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+		subgraph cluster_abortStrongNonImmediate0_6 {
+			color = black
+			style = dotted
+
+			pause2_6 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+			pause2_6 -> pause3_7 [headport = n, tailport = s]
+			pause3_7 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+			label = "abortStrongNonImmediate0\nwhen (R__global_0_0.value == 1 && init__abortStrongNonImmediate0 == 1)"
+		}
+		pause3_7 -> par0_0End [headport = n, tailport = s]
+
+			par0_0Start -> pause4_10 [label = tStrongImmediateAbort, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+		subgraph cluster_abortStrongImmediate1_10 {
+			color = black
+			style = dotted
+
+			pause4_10 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+			pause4_10 -> pause5_11 [headport = n, tailport = s]
+			pause5_11 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+			label = "abortStrongImmediate1\nwhen (R__global_0_0.value == 1)"
+		}
+		pause5_11 -> par0_0End [headport = n, tailport = s]
+
+			par0_0Start -> pause6_14 [label = tWeakNonImmediateAbort, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+		subgraph cluster_abortWeakNonImmediate2_14 {
+			color = black
+			style = dotted
+
+			pause6_14 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+			pause6_14 -> pause7_15 [headport = n, tailport = s]
+			pause7_15 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+			label = "abortWeakNonImmediate2\nwhen (R__global_0_0.value == 1 && init__abortWeakNonImmediate2 == 1)"
+		}
+		pause7_15 -> par0_0End [headport = n, tailport = s]
+
+			par0_0Start -> pause8_18 [label = tWeakImmediateAbort, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+		subgraph cluster_abortWeakImmediate3_18 {
+			color = black
+			style = dotted
+
+			pause8_18 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+			pause8_18 -> pause9_19 [headport = n, tailport = s]
+			pause9_19 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+			label = "abortWeakImmediate3\nwhen (R__global_0_0.value == 1)"
+		}
+		pause9_19 -> par0_0End [headport = n, tailport = s]
+	}
+	{
+		edge[style = invis]
+		par0_0Start -> {pause0_0 for3_0_3 pause2_6 pause4_10 pause6_14 pause8_18}
+		{pause1_1 pause10_3 pause3_7 pause5_11 pause7_15 pause9_19} -> par0_0End
+	}
+	par0_0End -> end [headport = n, tailport = s]
+
+	end [shape = plaintext, height = 0.4]
+	{
+		edge[style = invis]
+		start -> par0_0Start
+		par0_0End -> end
+	}
+	label = "aborts.forec"
+	labelloc = t
+	labeljust = c
+}

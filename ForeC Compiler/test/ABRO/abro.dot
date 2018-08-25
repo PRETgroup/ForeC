@@ -1,0 +1,120 @@
+digraph "abro" {
+	ordering = out
+
+	labeljust = l
+	node [shape = box, fixedsize = true, height = 0.7, width = 1.1]
+
+	start [shape = plaintext, height = 0.4]
+
+	start -> par0_0Start [label = main, headport = n, tailport = s, weight = 2]
+	subgraph cluster_par0_0 {
+		style = filled
+		color = lightgrey
+
+		par0_0Start [label = 0, shape = triangle]
+		par0_0End [label = 0, shape = invtriangle]
+
+		par0_0Start -> pause0_0 [label = tSetInputs, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+		pause0_0 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause0_0 -> pause1_1 [headport = n, tailport = s]
+		pause1_1 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause1_1 -> pause2_2 [headport = n, tailport = s]
+		pause2_2 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause2_2 -> pause3_3 [headport = n, tailport = s]
+		pause3_3 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause3_3 -> pause4_4 [headport = n, tailport = s]
+		pause4_4 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause4_4 -> pause5_5 [headport = n, tailport = s]
+		pause5_5 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause5_5 -> pause6_6 [headport = n, tailport = s]
+		pause6_6 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause6_6 -> pause7_7 [headport = n, tailport = s]
+		pause7_7 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause7_7 -> pause8_8 [headport = n, tailport = s]
+		pause8_8 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause8_8 -> pause9_9 [headport = n, tailport = s]
+		pause9_9 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+		pause9_9 -> par0_0End [headport = n, tailport = s]
+
+		par0_0Start -> for3_4_11 [label = tDebug, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+		subgraph cluster_for3_4_11 {
+			style = invis
+			for3_4_11 [label = 4, shape = diamond]
+			for3_4_11 -> pause13_11 [label = true, headport = n, tailport = s, weight = 2]
+			pause13_11 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+			pause13_11 -> for3_4_11 [/*headport = w,*/ constraint = false, tailport = s]
+		}
+		for3_4_11 -> par0_0End [label = false, headport = n/*, tailport = e*/]
+
+		par0_0Start -> for3_1_14 [label = tABRO, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+		subgraph cluster_for3_1_14 {
+			style = invis
+			for3_1_14 [label = 1, shape = diamond]
+				for3_1_14 -> par1_14Start [label = true, headport = n, tailport = s, weight = 2]
+			subgraph cluster_abortStrongNonImmediate0_14 {
+				color = black
+				style = dotted
+
+				subgraph cluster_par1_14 {
+					style = filled
+					color = white
+
+					par1_14Start [label = 1, shape = triangle]
+					par1_14End [label = 1, shape = invtriangle]
+
+					par1_14Start -> while_2_14 [label = tA, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+					subgraph cluster_while_2_14 {
+						style = invis
+						while_2_14 [label = 2, shape = diamond]
+						while_2_14 -> pause11_14 [label = true, headport = n, tailport = s, weight = 2]
+						pause11_14 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+						pause11_14 -> while_2_14 [/*headport = w,*/ constraint = false, tailport = s]
+					}
+					while_2_14 -> par1_14End [label = false, headport = n/*, tailport = e*/]
+
+					par1_14Start -> while_3_17 [label = tB, fontcolor = blue, sametail = 0, headport = n, tailport = s]
+					subgraph cluster_while_3_17 {
+						style = invis
+						while_3_17 [label = 3, shape = diamond]
+						while_3_17 -> pause12_17 [label = true, headport = n, tailport = s, weight = 2]
+						pause12_17 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+						pause12_17 -> while_3_17 [/*headport = w,*/ constraint = false, tailport = s]
+					}
+					while_3_17 -> par1_14End [label = false, headport = n/*, tailport = e*/]
+				}
+				{
+					edge[style = invis]
+					par1_14Start -> {while_2_14 while_3_17}
+					{pause11_14 pause12_17} -> par1_14End
+				}
+				par1_14End -> while_0_21 [headport = n, tailport = s]
+				subgraph cluster_while_0_21 {
+					style = invis
+					while_0_21 [label = 0, shape = diamond]
+					while_0_21 -> pause10_21 [label = true, headport = n, tailport = s, weight = 2]
+					pause10_21 [label = "", shape = box, height = 0.4, style = filled, fillcolor = black]
+					pause10_21 -> while_0_21 [/*headport = w,*/ constraint = false, tailport = s]
+				}
+				label = "abortStrongNonImmediate0\nwhen (R__global_0_0.value == 1 && init__abortStrongNonImmediate0 == 1)"
+			}
+			while_0_21 -> for3_1_14 [/*headport = w,*/ constraint = false, tailport = s]
+		}
+		for3_1_14 -> par0_0End [label = false, headport = n/*, tailport = e*/]
+	}
+	{
+		edge[style = invis]
+		par0_0Start -> {pause0_0 for3_4_11 for3_1_14}
+		{pause9_9 pause13_11 pause10_21} -> par0_0End
+	}
+	par0_0End -> end [headport = n, tailport = s]
+
+	end [shape = plaintext, height = 0.4]
+	{
+		edge[style = invis]
+		start -> par0_0Start
+		par0_0End -> end
+	}
+	label = "abro.forec"
+	labelloc = t
+	labeljust = c
+}

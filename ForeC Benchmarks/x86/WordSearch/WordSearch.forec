@@ -25,13 +25,19 @@ int fgetw(FILE *file, char wordFound[20]);
 int fgetws(FILE *file, char word[20], int *wordsLeft);
 const Accum plus(Accum *lhs, const Accum *rhs);
 
+thread mimicInput(void);
 thread search1(void);
 thread search2(void);
+
+int tickCount = 0;
+
+static const int MAX_WORDS_TO_SEARCH = 100;
 
 int main(int argc, char **argv) {
 	struct timeval startTime, endTime;
 	gettimeofday(&startTime, 0);
 	//- - - -
+	printf("Case-sensitive word search across two text files.\n");
 	if (argc != 4) {
 		printf("Usage: ./WordSearch <word> <file1> <file2>\n");
 		return 0;
@@ -47,24 +53,22 @@ int main(int argc, char **argv) {
 		printf("Could not open \"%s\".\n", argv[3]);
 	}
 	
-	while (1) {
+	for (int i = 0; i < 4; i++) {
 		found.current = 0;
 		found.last = 0;
 		strcpy(oldWord, newWord);
 
+		int preemptionOccured = 1;
 		abort {
-			par(search1, search2);
+			par(mimicInput, search1, search2);
 			printf("\"%s\" appears %d times in %s and %s.\n", *oldWord_ptr, found.current, argv[2], argv[3]);
 
-			while (1) {
-				strcpy(newWord, "");	// Mimic new input.
-				pause;
-				strcpy(newWord, "");	// Mimic new input.
-				pause;
-				strcpy(newWord, "if");	// Mimic new input.
-				pause;
-			}
-		} when (strcmp(oldWord, newWord) != 0 && strcmp("", newWord) != 0);
+			preemptionOccured = 0;
+		} when immediate (strcmp(oldWord, newWord) != 0 && strcmp("", newWord) != 0);
+
+		if (preemptionOccured) {
+			printf("\"%s\" appeared %d times in %s and %s before being preempted.\n", *oldWord_ptr, found.current, argv[2], argv[3]);
+		}
 	}
 	
 	fclose(file1);
@@ -85,38 +89,52 @@ int main(int argc, char **argv) {
 	return 0;
 }
 
+thread mimicInput(void) {
+	switch(tickCount) {
+		case 0:		strcpy(newWord, "");
+					pause;
+		case 1:		strcpy(newWord, "");
+					pause;
+		case 2:		strcpy(newWord, "if");
+					pause;
+		default:	break;
+	}
+
+	tickCount = tickCount + 1;
+}
+
 thread search1(void) {
-	int numToSearch;
+	int numSearched = 0;
 	rewind(file1);
 
 	do {
-		numToSearch = 100;
-		found.current = found.current + fgetws(file1, *oldWord_ptr, &numToSearch);
+		numSearched = 0;
+		found.current = found.current + fgetws(file1, *oldWord_ptr, &numSearched);
 		pause;
-	} while (numToSearch == 0);
+	} while (numSearched != 0);
 }
 
 thread search2(void) {
-	int numToSearch;
+	int numSearched = 0;
 	rewind(file2);
 	
 	do {
-		numToSearch = 100;
-		found.current = found.current + fgetws(file2, *oldWord_ptr, &numToSearch);
+		numSearched = 0;
+		found.current = found.current + fgetws(file2, *oldWord_ptr, &numSearched);
 		pause;
-	} while (numToSearch == 0);
+	} while (numSearched != 0);
 }
 
-int fgetws(FILE *file, char word[20], int *wordsLeft) {
+int fgetws(FILE *file, char word[20], int *numSearched) {
 	int found = 0;
 	char wordFound[20];
-	while((fgetw(file, wordFound) != 0) && (*wordsLeft > 0)) {
+	while((fgetw(file, wordFound) != 0) && (*numSearched < MAX_WORDS_TO_SEARCH)) {
 		if (strcmp(word, wordFound) == 0) {
 			found = found + 1;
 		}
-		*wordsLeft = *wordsLeft - 1;
+		*numSearched = *numSearched + 1;
 	}
-	
+
 	return found;
 }
 
@@ -130,9 +148,9 @@ int fgetw(FILE *file, char wordFound[20]) {
 		// Otherwise, the word has ended.
 		if (length < 20) {
 			wordFound[length] = c;
+			length = length + 1;
 		}
-		length = length + 1;
-		
+
 		// Get the next character.
 		c = fgetc(file);
 	}

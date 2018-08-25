@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
 	
 	abort {
 		par(t0, t1);
-	} when (found != -1);
+	} when immediate (found != -1);
 	
 	printf("Found (%c, %d)\n", data[found].key, data[found].value);
 	return 0;

@@ -21,10 +21,10 @@
 	<!-- Aborts around each par(...) (Abort.cpp::outputXml). -->
 	<aborts>
 		<par id="0">
-			<abort id="abortWeak0" variant="weak" />
+			<abort id="abortWeakImmediate0" variant="weakImmediate" />
 		</par>
 		<par id="1">
-			<abort id="abortStrong2" variant="strong" />
+			<abort id="abortStrongImmediate2" variant="strongImmediate" />
 		</par>
 	</aborts>
 	<!-- Nested thread structure (Tarot.cpp::outputXml). -->

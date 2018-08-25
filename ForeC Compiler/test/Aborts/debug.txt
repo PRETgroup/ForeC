@@ -1,0 +1,368 @@
+ForeC Compiler (multicore distribution)
+Version: 0.99 (5 October 2014)
+Debug output
+---------------------------------------
+
+Debug level: 0
+Check instantaneous loops: false
+Minimum reaction time: 0 clock cycles
+Source file name: aborts.forec
+Header file name: aborts.foreh
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	x86
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	0		main__thread
+	0		tDebug__thread
+	0		tSetInputs__thread
+	0		tStrongImmediateAbort__thread
+	0		tStrongNonImmediateAbort__thread
+	0		tWeakImmediateAbort__thread
+	0		tWeakNonImmediateAbort__thread
+
+
+==============================
+tools::SymbolTable::toString()
+==============================
+Symbol tables:
+--------------
+	Scope name: global
+		Scope level: 0
+			Instance: 0
+				(shared) R__global_0_0
+				(thread) tSetInputs__thread
+				(thread) tDebug__thread
+				(thread) tStrongNonImmediateAbort__thread
+				(thread) tStrongImmediateAbort__thread
+				(thread) tWeakNonImmediateAbort__thread
+				(thread) tWeakImmediateAbort__thread
+				(shared) strongNonImmediateAbortResult__global_0_0
+				(shared) strongImmediateAbortResult__global_0_0
+				(shared) weakNonImmediateAbortResult__global_0_0
+				(shared) weakImmediateAbortResult__global_0_0
+				(variable) MAX_TICK_NUMBER__global_0_0
+
+	Scope name: main
+		Scope level: 0
+			Instance: 0
+				(variable) argc__main_0_0
+				(variable) argv__main_0_0
+
+	Scope name: tDebug
+		Scope level: 0
+
+		Scope level: 1
+			Instance: 0
+				(variable) i__tDebug_1_0
+
+
+Declared shared symbols:
+------------------------
+	Scope name: global
+		(Shared_R__global_0_0) R__global_0_0
+		(Shared_strongNonImmediateAbortResult__global_0_0) strongNonImmediateAbortResult__global_0_0
+		(Shared_strongImmediateAbortResult__global_0_0) strongImmediateAbortResult__global_0_0
+		(Shared_weakNonImmediateAbortResult__global_0_0) weakNonImmediateAbortResult__global_0_0
+		(Shared_weakImmediateAbortResult__global_0_0) weakImmediateAbortResult__global_0_0
+
+
+Use/Def of symbols:
+-------------------
+	Scope name: main
+		use:
+			(thread) tSetInputs__thread
+			(thread) tDebug__thread
+			(thread) tStrongNonImmediateAbort__thread
+			(thread) tStrongImmediateAbort__thread
+			(thread) tWeakNonImmediateAbort__thread
+			(thread) tWeakImmediateAbort__thread
+
+	Scope name: tDebug
+		use:
+			(shared) R__global_0_0
+			(variable) MAX_TICK_NUMBER__global_0_0
+			(variable) i__tDebug_1_0
+
+	Scope name: tSetInputs
+		def:
+			(shared) R__global_0_0
+
+	Scope name: tStrongImmediateAbort
+		use:
+			(shared) R__global_0_0
+
+	Scope name: tStrongNonImmediateAbort
+		use:
+			(shared) R__global_0_0
+
+	Scope name: tWeakImmediateAbort
+		use:
+			(shared) R__global_0_0
+
+	Scope name: tWeakNonImmediateAbort
+		use:
+			(shared) R__global_0_0
+
+
+Indirect use/def of symbols by parId:
+-------------------------------------
+	par0:
+		R__global_0_0
+			def (root): tSetInputs 
+			use (root): tDebug tStrongImmediateAbort tStrongNonImmediateAbort tWeakImmediateAbort tWeakNonImmediateAbort 
+
+		MAX_TICK_NUMBER__global_0_0
+			use (skip): tDebug 
+
+		i__tDebug_1_0
+			use (skip): tDebug 
+
+
+Indirect use/def of symbols by threadId:
+----------------------------------------
+	main:
+		R__global_0_0
+			def (root): main 
+			use (root): main 
+
+		MAX_TICK_NUMBER__global_0_0
+			use (skip): main 
+
+		i__tDebug_1_0
+			use (skip): main 
+
+	tDebug:
+		R__global_0_0
+			use (intermediate): tDebug 
+
+		MAX_TICK_NUMBER__global_0_0
+			use (skip): tDebug 
+
+		i__tDebug_1_0
+			use (skip): tDebug 
+
+	tSetInputs:
+		R__global_0_0
+			def (intermediate): tSetInputs 
+
+	tStrongImmediateAbort:
+		R__global_0_0
+			use (intermediate): tStrongImmediateAbort 
+
+	tStrongNonImmediateAbort:
+		R__global_0_0
+			use (intermediate): tStrongNonImmediateAbort 
+
+	tWeakImmediateAbort:
+		R__global_0_0
+			use (intermediate): tWeakImmediateAbort 
+
+	tWeakNonImmediateAbort:
+		R__global_0_0
+			use (intermediate): tWeakNonImmediateAbort 
+
+
+Functions used for combining shared variables:
+----------------------------------------------
+
+============================
+tools::Threading::toString()
+============================
+Threads declared:
+-----------------
+	* main__thread
+	* tDebug__thread
+	* tSetInputs__thread
+	* tStrongImmediateAbort__thread
+	* tStrongNonImmediateAbort__thread
+	* tWeakImmediateAbort__thread
+	* tWeakNonImmediateAbort__thread
+
+Threads unused:
+---------------
+
+par(...) statements:
+--------------------
+	Thread scope: main
+		par0:
+		* tSetInputs__thread
+		* tDebug__thread
+		* tStrongNonImmediateAbort__thread
+		* tStrongImmediateAbort__thread
+		* tWeakNonImmediateAbort__thread
+		* tWeakImmediateAbort__thread
+
+========================
+tools::Abort::toString()
+========================
+============================
+tools::Condition::toString()
+============================
+
+========================
+tarot::Tarot::toString()
+========================
+Full tarot:
+-----------
+	core0: main__thread
+	.	core0: par0
+	.	|	core0: tSetInputs__thread
+	.	|	.	pause0
+	.	|	.	pause1
+	.	|	core0: tDebug__thread
+	.	|	.	core0: for3_0
+	.	|	.	.	pause10
+	.	|	core0: tStrongNonImmediateAbort__thread
+	.	|	.	core0: abortStrongNonImmediate0
+	.	|	.	:	pause2
+	.	|	.	:	pause3
+	.	|	core0: tStrongImmediateAbort__thread
+	.	|	.	core0: abortStrongImmediate1
+	.	|	.	:	pause4
+	.	|	.	:	pause5
+	.	|	core0: tWeakNonImmediateAbort__thread
+	.	|	.	core0: abortWeakNonImmediate2
+	.	|	.	:	pause6
+	.	|	.	:	pause7
+	.	|	core0: tWeakImmediateAbort__thread
+	.	|	.	core0: abortWeakImmediate3
+	.	|	.	:	pause8
+	.	|	.	:	pause9
+
+
+Tarot by coreId:
+----------------
+	core0:
+	-------
+		core0: main__thread
+		.	core0: par0
+		.	|	core0: tSetInputs__thread
+		.	|	.	pause0
+		.	|	.	pause1
+		.	|	core0: tDebug__thread
+		.	|	.	core0: for3_0
+		.	|	.	.	pause10
+		.	|	core0: tStrongNonImmediateAbort__thread
+		.	|	.	core0: abortStrongNonImmediate0
+		.	|	.	:	pause2
+		.	|	.	:	pause3
+		.	|	core0: tStrongImmediateAbort__thread
+		.	|	.	core0: abortStrongImmediate1
+		.	|	.	:	pause4
+		.	|	.	:	pause5
+		.	|	core0: tWeakNonImmediateAbort__thread
+		.	|	.	core0: abortWeakNonImmediate2
+		.	|	.	:	pause6
+		.	|	.	:	pause7
+		.	|	core0: tWeakImmediateAbort__thread
+		.	|	.	core0: abortWeakImmediate3
+		.	|	.	:	pause8
+		.	|	.	:	pause9
+
+
+par(...) statements with core allocation:
+-----------------------------------------
+	Thread main__thread:
+		all:
+		* core0
+
+		par0:
+		* core0
+
+
+par(...) statements with active cores:
+--------------------------------------
+	Thread main__thread:
+		all:
+		* core0
+
+		par0:
+		* core0
+
+
+Reaction starts:
+----------------
+	core0:
+		main: Master
+
+
+Reaction ends:
+--------------
+	core0:
+		par0:
+			coreIds:
+			* 0
+
+			isMaster:
+			* true
+
+			threadScope:
+			* main
+
+
+Par(...) handlers:
+------------------
+	par0:
+	* tDebug__thread
+	* tSetInputs__thread
+	* tStrongImmediateAbort__thread
+	* tStrongNonImmediateAbort__thread
+	* tWeakImmediateAbort__thread
+	* tWeakNonImmediateAbort__thread
+	* mainReactionStartMaster0
+	* mainReactionEndMaster0
+
+
+Linked lists:
+-------------
+	core0:
+		Thread main__thread linked lists:
+			par0:
+			* (parStart) mainReactionStartMaster0
+			* (thread) tSetInputs__thread
+			* (thread) tDebug__thread
+			* (thread) tStrongNonImmediateAbort__thread
+			* (thread) tStrongImmediateAbort__thread
+			* (thread) tWeakNonImmediateAbort__thread
+			* (thread) tWeakImmediateAbort__thread
+			* (parEnd) mainReactionEndMaster0
+
+
+par(...) handlers in thread scopes:
+-----------------------------------
+	par0	main__thread
+
+============================
+tools::Multicore::toString()
+============================
+Multicore architecture:
+-----------------------
+	x86
+
+Multicore allocations:
+----------------------
+	Core	Thread
+	----	------
+	0		main__thread
+	0		tDebug__thread
+	0		tSetInputs__thread
+	0		tStrongImmediateAbort__thread
+	0		tStrongNonImmediateAbort__thread
+	0		tWeakImmediateAbort__thread
+	0		tWeakNonImmediateAbort__thread
+
+
+========================
+tools::Mutex::toString()
+========================
+Mutex information:
+------------------
+

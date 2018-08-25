@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
 	while (!terminate) {
 		weak abort {
 			par(servo, timer, flight, failsafe);
-		} when (!isSafe);
+		} when immediate (!isSafe);
 
 		pause;
 	}
@@ -94,7 +94,7 @@ thread flight(void) {
 			decision = autopilot(mode, radioInput);
 			pause;
 		}
-	} when (terminate);
+	} when immediate (terminate);
 }
 
 thread servo(void) {
@@ -104,7 +104,7 @@ thread servo(void) {
 			computation();
 			pause;
 		}
-	} when (terminate);
+	} when immediate (terminate);
 }
 
 thread servo0(void) {
@@ -163,7 +163,7 @@ thread timer(void) {
 					
 			pause;
 		}
-	} when (terminate);
+	} when immediate (terminate);
 }
 
 thread failsafe(void) {
@@ -194,7 +194,7 @@ thread failsafe(void) {
 			fprintf(outputFile, "%d\n", isSafe);
 			pause;
 		}
-	} when (terminate);
+	} when immediate (terminate);
 }
 
 int getMode(const int communicationInput) {
