@@ -1,0 +1,42 @@
+This directory contains:
+
+assemblage.plu:
+  The Prelude programme source code which describes the assembly
+  of several "imported" computational nodes including their
+  relative period.
+  There is several version of the assemblage node in the .plu file:
+  assemblage,
+  assemblage_v2,
+  assemblage_v3,
+  assemblage_v4, assemblage_v41,
+  assemblage_v5.
+
+  They all use the same set of imported nodes.
+
+assemblage_includes.h:
+  The header describing the [Prelude] imported nodes.
+
+assemblage_includes.c:
+  The body of the previous. i.e. implementation of the
+  functions declared in assemblage_includes.h.
+
+For inspecting real-time characteristic with SchedMCore:
+  lsmc_converter -l ./libassemblage-noencoding.so
+
+For running with SchedMCore:
+  lsmc_run-nort -l ./libassemblage-noencoding.so -c 1 -b 1000 -m 20000 -v 0
+
+-c gives the number of core to run on.
+-b argument is the basetime in nanosecond,
+     1000 --> 1 tick = 10^3 nano-second = 1 micro-second
+-m is the maximum number of tick to run
+-v verbosity level
+     0 do not print anything
+
+One can run with various scheduler using -s argument.
+
+lsmc_run-nort -l ./libassemblage-noencoding.so -c 1 -b 1000 -m 20000 -v 0 -s edf  --> Global EDF
+lsmc_run-nort -l ./libassemblage-noencoding.so -c 1 -b 1000 -m 20000 -v 0 -s fp   --> Global FP
+
+and even run with a dispatcher:
+lsmc_run-nort -l ./libassemblage-noencoding.so -c 1 -b 1000 -m 20000 -v 0 -s sched_assemblage/libsched_dispatcher.so
