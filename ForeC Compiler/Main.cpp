@@ -9,6 +9,7 @@
 #include <cstring>
 #include <unistd.h>
 #include <algorithm>
+#include <list>
 
 #include "File.hpp"
 
@@ -26,7 +27,7 @@
 #include "tools/Tab.hpp"
 
 
-const std::string version = "Version: 0.99 (5 October 2014)";
+const std::string version = "Version: 0.99 (1 April 2019)";
 std::ofstream debugFile;
 
 namespace global {
@@ -124,6 +125,13 @@ int main(const int argc, const char *argv[]) {
 	// Try and open the ForeC source and header files
 	try {
 		fileName = sourceFileName.substr(0, sourceFileName.find(".forec"));
+		std::list<char> pathSeparators = {'\\', '/'};
+		for (char pathSeparator: pathSeparators) {
+			if (fileName.rfind(pathSeparator) != std::string::npos) {
+				fileName = fileName.substr(fileName.rfind(pathSeparator) + 1);
+				break;
+			}
+		}
 			
 		programInput(sourceFileName, astRoot);
 		threadAllocationInput(headerFileName);

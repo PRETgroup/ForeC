@@ -9,7 +9,7 @@ else
 	CC			= g++
 endif
 
-CFLAGS			= -O0 -Wall -g
+CFLAGS			= -O0 -Wall -g -std=c++11
 #CFLAGS			= -O3 -Wall
 
 AST_SOURCES		= $(wildcard ast/*.cpp)

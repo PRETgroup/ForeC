@@ -28,4 +28,12 @@
 *.out
 *.app
 
+information.xml
+debug.txt
+*.dot
+ForeC Compiler/forecc.dSYM/
+ForeC Benchmarks/ptarm/Pipelining/Pipelining.c
+ForeC Benchmarks/x86/Design patterns/Broadcast/Broadcast.c
+ForeC Compiler/ForeC Compiler.xcodeproj/project.xcworkspace/xcuserdata/eugeneyip.xcuserdatad/UserInterfaceState.xcuserstate
+
 .DS_Store
