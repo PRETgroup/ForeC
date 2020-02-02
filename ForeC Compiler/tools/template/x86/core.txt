@@ -1,4 +1,4 @@
-	// Initialise ForeC specific values ---------------------------
+%{declareArgcArgv}	// Initialise ForeC specific values ---------------------------
 %{initialise}
 	// Reset ForeC mutex values
 %{resetMutexValues}
@@ -17,7 +17,7 @@
 	pthread_attr_destroy(&slaveCoreAttribute);
 	
 	// Program termination
-	pthread_join(cores[0], NULL);%{pthreadSlavesJoin}
+	pthread_join(cores[0], NULL);%{pthreadSlavesJoin}%{returnValue}
 }
 
 
@@ -27,8 +27,8 @@
 void *forecMain(void *args) {
 	Arguments *arguments = (Arguments *)args;
 	int coreId = arguments->coreId;
-	int %{argcName} = arguments->argc;
-	char **%{argvName} = arguments->argv;
+	int %{argcName} __attribute__((unused)) = arguments->argc;
+	char **%{argvName} __attribute__((unused)) = arguments->argv;
 
 	// Variables for par()s ----------------------------------------
 %{par}

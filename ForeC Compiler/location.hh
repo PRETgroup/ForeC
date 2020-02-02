@@ -1,8 +1,8 @@
-// A Bison parser, made by GNU Bison 3.0.4.
+// A Bison parser, made by GNU Bison 3.1.
 
 // Locations for Bison parsers in C++
 
-// Copyright (C) 2002-2015 Free Software Foundation, Inc.
+// Copyright (C) 2002-2015, 2018 Free Software Foundation, Inc.
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,9 +40,9 @@
 
 # include "position.hh"
 
-#line 12 "parser.y" // location.cc:337
+#line 12 "parser.y" // location.cc:331
 namespace forec { namespace loader {
-#line 46 "location.hh" // location.cc:337
+#line 46 "location.hh" // location.cc:331
   /// Abstract a location.
   class location
   {
@@ -52,30 +52,27 @@ namespace forec { namespace loader {
     location (const position& b, const position& e)
       : begin (b)
       , end (e)
-    {
-    }
+    {}
 
     /// Construct a 0-width location in \a p.
     explicit location (const position& p = position ())
       : begin (p)
       , end (p)
-    {
-    }
+    {}
 
     /// Construct a 0-width location in \a f, \a l, \a c.
     explicit location (std::string* f,
-                       unsigned int l = 1u,
-                       unsigned int c = 1u)
+                       unsigned l = 1u,
+                       unsigned c = 1u)
       : begin (f, l, c)
       , end (f, l, c)
-    {
-    }
+    {}
 
 
     /// Initialization.
     void initialize (std::string* f = YY_NULLPTR,
-                     unsigned int l = 1u,
-                     unsigned int c = 1u)
+                     unsigned l = 1u,
+                     unsigned c = 1u)
     {
       begin.initialize (f, l, c);
       end = begin;
@@ -170,10 +167,10 @@ namespace forec { namespace loader {
    ** Avoid duplicate information.
    */
   template <typename YYChar>
-  inline std::basic_ostream<YYChar>&
+  std::basic_ostream<YYChar>&
   operator<< (std::basic_ostream<YYChar>& ostr, const location& loc)
   {
-    unsigned int end_col = 0 < loc.end.column ? loc.end.column - 1 : 0;
+    unsigned end_col = 0 < loc.end.column ? loc.end.column - 1 : 0;
     ostr << loc.begin;
     if (loc.end.filename
         && (!loc.begin.filename
@@ -186,7 +183,7 @@ namespace forec { namespace loader {
     return ostr;
   }
 
-#line 12 "parser.y" // location.cc:337
+#line 12 "parser.y" // location.cc:331
 } } // forec::loader
-#line 192 "location.hh" // location.cc:337
+#line 189 "location.hh" // location.cc:331
 #endif // !YY_YY_LOCATION_HH_INCLUDED

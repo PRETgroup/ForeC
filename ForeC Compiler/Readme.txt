@@ -56,6 +56,8 @@ Usage:
   -i for checking instantaneous loops.
   -t<clock cycles> for creating time predictable code that
     runs each global tick for at least <clock cycles> long.
+  -m<name> for embedding the program with <name> for the 
+    main function.
 
 * Expected source file extension: *.forec
 * Expected header file extension: *.foreh

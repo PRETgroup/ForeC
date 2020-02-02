@@ -27,13 +27,14 @@
 #include "tools/Tab.hpp"
 
 
-const std::string version = "Version: 0.99 (1 April 2019)";
+const std::string version = "Version: 0.991 (2 February 2020)";
 std::ofstream debugFile;
 
 namespace global {
 	int debugLevel = 0;
 	bool checkLoops = false;
 	unsigned long minReactionTime = 0;
+	std::string embeddedMainFunctionName;
 }
 
 void programInput(const std::string &sourceFileName, forec::ast::Root &astRoot);
@@ -80,6 +81,8 @@ int main(const int argc, const char *argv[]) {
 			std::istringstream(std::string(argv[i]).substr(2)) >> global::debugLevel;
 		} else if (std::string(argv[i]).substr(0,2).compare("-t") == 0) {
 			std::istringstream(std::string(argv[i]).substr(2)) >> global::minReactionTime;
+		} else if (std::string(argv[i]).substr(0,2).compare("-m") == 0) {
+			global::embeddedMainFunctionName = std::istringstream(std::string(argv[i]).substr(2)).str();
 		} else {
 			if (sourceFileName.empty()) {
 				sourceFileName = std::string(argv[i]);
@@ -93,8 +96,9 @@ int main(const int argc, const char *argv[]) {
 	
 	if (unexpectedArguments || sourceFileName.empty() || headerFileName.empty()) {
 		std::cerr << "Usage: forecc [-option] <SOURCE FILENAME> <HEADER FILENAME>" << std::endl
-				  << "  Option can be -v (version), or -d<1, 2, 3> (debug)," << std::endl
-				  << "  -i (check loops), or -t<clock cycles> (timing)" << std::endl;
+				  << "  Option can be -v (version), -d<1, 2, 3> (debug)," << std::endl
+				  << "  -i (check loops), -t<clock cycles> (timing), or" << std::endl
+				  << "  -m<name> (embed main function)" << std::endl;
 		return EXIT_FAILURE;
 	}
 
@@ -105,10 +109,11 @@ int main(const int argc, const char *argv[]) {
 	debugFile << "Debug output" << std::endl;
 	debugFile << "---------------------------------------" << std::endl << std::endl;
 	debugFile << "Debug level: " << global::debugLevel << std::endl;
-	debugFile << "Check instantaneous loops: " << (global::checkLoops ? "true" : "false") << std::endl;
+	debugFile << "Check instantaneous loops: " << (global::checkLoops ? "yes" : "no") << std::endl;
 	debugFile << "Minimum reaction time: " << global::minReactionTime << " clock cycles" << std::endl;
 	debugFile << "Source file name: " << sourceFileName << std::endl;
-	debugFile << "Header file name: " << headerFileName << std::endl << std::endl;
+	debugFile << "Header file name: " << headerFileName << std::endl;
+	debugFile << "Embed main function: " << (global::embeddedMainFunctionName.empty() ? "no" : "yes (" + global::embeddedMainFunctionName) + ")" << std::endl << std::endl;
 
 	// Starting node for the abstract syntax tree
 	forec::ast::Root astRoot;

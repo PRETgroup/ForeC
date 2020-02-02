@@ -1,8 +1,8 @@
-// A Bison parser, made by GNU Bison 3.0.4.
+// A Bison parser, made by GNU Bison 3.1.
 
 // Skeleton interface for Bison LALR(1) parsers in C++
 
-// Copyright (C) 2002-2015 Free Software Foundation, Inc.
+// Copyright (C) 2002-2015, 2018 Free Software Foundation, Inc.
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@
 #ifndef YY_YY_PARSER_TAB_H_INCLUDED
 # define YY_YY_PARSER_TAB_H_INCLUDED
 // //                    "%code requires" blocks.
-#line 18 "parser.y" // lalr1.cc:392
+#line 18 "parser.y" // lalr1.cc:395
 
 	#include <string>
 
@@ -115,7 +115,7 @@
 		}
 	}
 
-#line 119 "parser.tab.h" // lalr1.cc:392
+#line 119 "parser.tab.h" // lalr1.cc:395
 
 
 # include <cstdlib> // std::abort
@@ -161,7 +161,7 @@
 # define YYUSE(E) /* empty */
 #endif
 
-#if defined __GNUC__ && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
+#if defined __GNUC__ && ! defined __ICC && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
 /* Suppress an incorrect diagnostic about yylval being uninitialized.  */
 # define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN \
     _Pragma ("GCC diagnostic push") \
@@ -180,14 +180,21 @@
 # define YY_INITIAL_VALUE(Value) /* Nothing. */
 #endif
 
+# ifndef YY_NULLPTR
+#  if defined __cplusplus && 201103L <= __cplusplus
+#   define YY_NULLPTR nullptr
+#  else
+#   define YY_NULLPTR 0
+#  endif
+# endif
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
 #endif
 
-#line 12 "parser.y" // lalr1.cc:392
+#line 12 "parser.y" // lalr1.cc:395
 namespace forec { namespace loader {
-#line 191 "parser.tab.h" // lalr1.cc:392
+#line 198 "parser.tab.h" // lalr1.cc:395
 
 
 
@@ -201,13 +208,13 @@ namespace forec { namespace loader {
     /// Symbol semantic values.
     union semantic_type
     {
-    #line 93 "parser.y" // lalr1.cc:392
+    #line 93 "parser.y" // lalr1.cc:395
 
 	forec::ast::Node *node;
 	forec::ast::NodeList *nodeList;
 	std::string *str;
 
-#line 211 "parser.tab.h" // lalr1.cc:392
+#line 218 "parser.tab.h" // lalr1.cc:395
     };
 #else
     typedef YYSTYPE semantic_type;
@@ -469,7 +476,7 @@ namespace forec { namespace loader {
     /// \param yyvalue   the value to check
     static bool yy_table_value_is_error_ (int yyvalue);
 
-    static const short int yypact_ninf_;
+    static const short yypact_ninf_;
     static const signed char yytable_ninf_;
 
     /// Convert a scanner token number \a t to a symbol number.
@@ -478,25 +485,25 @@ namespace forec { namespace loader {
     // Tables.
   // YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
   // STATE-NUM.
-  static const short int yypact_[];
+  static const short yypact_[];
 
   // YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
   // Performed when YYTABLE does not specify something else to do.  Zero
   // means the default is an error.
-  static const unsigned short int yydefact_[];
+  static const unsigned short yydefact_[];
 
   // YYPGOTO[NTERM-NUM].
-  static const short int yypgoto_[];
+  static const short yypgoto_[];
 
   // YYDEFGOTO[NTERM-NUM].
-  static const short int yydefgoto_[];
+  static const short yydefgoto_[];
 
   // YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
   // positive, shift that token.  If negative, reduce the rule whose
   // number is the opposite.  If YYTABLE_NINF, syntax error.
-  static const unsigned short int yytable_[];
+  static const unsigned short yytable_[];
 
-  static const short int yycheck_[];
+  static const short yycheck_[];
 
   // YYSTOS[STATE-NUM] -- The (internal number of the) accessing
   // symbol of state STATE-NUM.
@@ -517,7 +524,7 @@ namespace forec { namespace loader {
     static const char* const yytname_[];
 #if YYDEBUG
   // YYRLINE[YYN] -- Source line where rule number YYN was defined.
-  static const unsigned short int yyrline_[];
+  static const unsigned short yyrline_[];
     /// Report on the debug stream that the rule \a r is going to be reduced.
     virtual void yy_reduce_print_ (int r);
     /// Print the state stack on the debug stream.
@@ -582,6 +589,8 @@ namespace forec { namespace loader {
       typedef basic_symbol<by_state> super_type;
       /// Construct an empty symbol.
       stack_symbol_type ();
+      /// Copy construct (for efficiency).
+      stack_symbol_type (const stack_symbol_type& that);
       /// Steal the contents from \a sym to build this.
       stack_symbol_type (state_type s, symbol_type& sym);
       /// Assignment, needed by push_back.
@@ -610,7 +619,7 @@ namespace forec { namespace loader {
     void yypush_ (const char* m, state_type s, symbol_type& sym);
 
     /// Pop \a n symbols the three stacks.
-    void yypop_ (unsigned int n = 1);
+    void yypop_ (unsigned n = 1);
 
     /// Constants.
     enum
@@ -631,9 +640,9 @@ namespace forec { namespace loader {
   };
 
 
-#line 12 "parser.y" // lalr1.cc:392
+#line 12 "parser.y" // lalr1.cc:395
 } } // forec::loader
-#line 637 "parser.tab.h" // lalr1.cc:392
+#line 646 "parser.tab.h" // lalr1.cc:395
 
 
 

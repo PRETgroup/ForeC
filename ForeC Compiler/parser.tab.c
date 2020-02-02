@@ -1,8 +1,8 @@
-// A Bison parser, made by GNU Bison 3.0.4.
+// A Bison parser, made by GNU Bison 3.1.
 
 // Skeleton implementation for Bison LALR(1) parsers in C++
 
-// Copyright (C) 2002-2015 Free Software Foundation, Inc.
+// Copyright (C) 2002-2015, 2018 Free Software Foundation, Inc.
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@
 
 // First part of user declarations.
 
-#line 37 "parser.tab.c" // lalr1.cc:404
+#line 37 "parser.tab.c" // lalr1.cc:407
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -47,14 +47,14 @@
 
 // User implementation prologue.
 
-#line 51 "parser.tab.c" // lalr1.cc:412
+#line 51 "parser.tab.c" // lalr1.cc:415
 // Unqualified %code blocks.
-#line 99 "parser.y" // lalr1.cc:413
+#line 99 "parser.y" // lalr1.cc:416
 
 	// Prototype for the yylex function
 	static int yylex(forec::loader::Parser::semantic_type * yylval, forec::loader::Parser::location_type * yylloc, forec::loader::Scanner &scanner);
 
-#line 58 "parser.tab.c" // lalr1.cc:413
+#line 58 "parser.tab.c" // lalr1.cc:416
 
 
 #ifndef YY_
@@ -66,6 +66,15 @@
 # endif
 # ifndef YY_
 #  define YY_(msgid) msgid
+# endif
+#endif
+
+// Whether we are compiled with exception support.
+#ifndef YY_EXCEPTIONS
+# if defined __GNUC__ && !defined __EXCEPTIONS
+#  define YY_EXCEPTIONS 0
+# else
+#  define YY_EXCEPTIONS 1
 # endif
 #endif
 
@@ -105,7 +114,7 @@
     {                                           \
       *yycdebug_ << Title << ' ';               \
       yy_print_ (*yycdebug_, Symbol);           \
-      *yycdebug_ << std::endl;                  \
+      *yycdebug_ << '\n';                       \
     }                                           \
   } while (false)
 
@@ -124,9 +133,9 @@
 #else // !YYDEBUG
 
 # define YYCDEBUG if (false) std::cerr
-# define YY_SYMBOL_PRINT(Title, Symbol)  YYUSE(Symbol)
-# define YY_REDUCE_PRINT(Rule)           static_cast<void>(0)
-# define YY_STACK_PRINT()                static_cast<void>(0)
+# define YY_SYMBOL_PRINT(Title, Symbol)  YYUSE (Symbol)
+# define YY_REDUCE_PRINT(Rule)           static_cast<void> (0)
+# define YY_STACK_PRINT()                static_cast<void> (0)
 
 #endif // !YYDEBUG
 
@@ -138,9 +147,9 @@
 #define YYERROR         goto yyerrorlab
 #define YYRECOVERING()  (!!yyerrstatus_)
 
-#line 12 "parser.y" // lalr1.cc:479
+#line 12 "parser.y" // lalr1.cc:491
 namespace forec { namespace loader {
-#line 144 "parser.tab.c" // lalr1.cc:479
+#line 153 "parser.tab.c" // lalr1.cc:491
 
   /* Return YYSTR after stripping away unnecessary quotes and
      backslashes, so that it's suitable for yyerror.  The heuristic is
@@ -199,7 +208,6 @@ namespace forec { namespace loader {
   | Symbol types.  |
   `---------------*/
 
-  inline
   Parser::syntax_error::syntax_error (const location_type& l, const std::string& m)
     : std::runtime_error (m)
     , location (l)
@@ -207,24 +215,20 @@ namespace forec { namespace loader {
 
   // basic_symbol.
   template <typename Base>
-  inline
   Parser::basic_symbol<Base>::basic_symbol ()
     : value ()
+    , location ()
   {}
 
   template <typename Base>
-  inline
   Parser::basic_symbol<Base>::basic_symbol (const basic_symbol& other)
     : Base (other)
-    , value ()
+    , value (other.value)
     , location (other.location)
   {
-    value = other.value;
   }
 
-
   template <typename Base>
-  inline
   Parser::basic_symbol<Base>::basic_symbol (typename Base::kind_type t, const semantic_type& v, const location_type& l)
     : Base (t)
     , value (v)
@@ -234,7 +238,6 @@ namespace forec { namespace loader {
 
   /// Constructor for valueless symbols.
   template <typename Base>
-  inline
   Parser::basic_symbol<Base>::basic_symbol (typename Base::kind_type t, const location_type& l)
     : Base (t)
     , value ()
@@ -242,14 +245,12 @@ namespace forec { namespace loader {
   {}
 
   template <typename Base>
-  inline
   Parser::basic_symbol<Base>::~basic_symbol ()
   {
     clear ();
   }
 
   template <typename Base>
-  inline
   void
   Parser::basic_symbol<Base>::clear ()
   {
@@ -257,7 +258,6 @@ namespace forec { namespace loader {
   }
 
   template <typename Base>
-  inline
   bool
   Parser::basic_symbol<Base>::empty () const
   {
@@ -265,39 +265,33 @@ namespace forec { namespace loader {
   }
 
   template <typename Base>
-  inline
   void
   Parser::basic_symbol<Base>::move (basic_symbol& s)
   {
-    super_type::move(s);
+    super_type::move (s);
     value = s.value;
     location = s.location;
   }
 
   // by_type.
-  inline
   Parser::by_type::by_type ()
     : type (empty_symbol)
   {}
 
-  inline
   Parser::by_type::by_type (const by_type& other)
     : type (other.type)
   {}
 
-  inline
   Parser::by_type::by_type (token_type t)
     : type (yytranslate_ (t))
   {}
 
-  inline
   void
   Parser::by_type::clear ()
   {
     type = empty_symbol;
   }
 
-  inline
   void
   Parser::by_type::move (by_type& that)
   {
@@ -305,7 +299,6 @@ namespace forec { namespace loader {
     that.clear ();
   }
 
-  inline
   int
   Parser::by_type::type_get () const
   {
@@ -314,24 +307,20 @@ namespace forec { namespace loader {
 
 
   // by_state.
-  inline
   Parser::by_state::by_state ()
     : state (empty_state)
   {}
 
-  inline
   Parser::by_state::by_state (const by_state& other)
     : state (other.state)
   {}
 
-  inline
   void
   Parser::by_state::clear ()
   {
     state = empty_state;
   }
 
-  inline
   void
   Parser::by_state::move (by_state& that)
   {
@@ -339,12 +328,10 @@ namespace forec { namespace loader {
     that.clear ();
   }
 
-  inline
   Parser::by_state::by_state (state_type s)
     : state (s)
   {}
 
-  inline
   Parser::symbol_number_type
   Parser::by_state::type_get () const
   {
@@ -354,21 +341,22 @@ namespace forec { namespace loader {
       return yystos_[state];
   }
 
-  inline
   Parser::stack_symbol_type::stack_symbol_type ()
   {}
 
-
-  inline
-  Parser::stack_symbol_type::stack_symbol_type (state_type s, symbol_type& that)
-    : super_type (s, that.location)
+  Parser::stack_symbol_type::stack_symbol_type (const stack_symbol_type& that)
+    : super_type (that.state, that.location)
   {
     value = that.value;
+  }
+
+  Parser::stack_symbol_type::stack_symbol_type (state_type s, symbol_type& that)
+    : super_type (s, that.value, that.location)
+  {
     // that is emptied.
     that.type = empty_symbol;
   }
 
-  inline
   Parser::stack_symbol_type&
   Parser::stack_symbol_type::operator= (const stack_symbol_type& that)
   {
@@ -380,7 +368,6 @@ namespace forec { namespace loader {
 
 
   template <typename Base>
-  inline
   void
   Parser::yy_destroy_ (const char* yymsg, basic_symbol<Base>& yysym) const
   {
@@ -412,7 +399,6 @@ namespace forec { namespace loader {
   }
 #endif
 
-  inline
   void
   Parser::yypush_ (const char* m, state_type s, symbol_type& sym)
   {
@@ -420,7 +406,6 @@ namespace forec { namespace loader {
     yypush_ (m, t);
   }
 
-  inline
   void
   Parser::yypush_ (const char* m, stack_symbol_type& s)
   {
@@ -429,9 +414,8 @@ namespace forec { namespace loader {
     yystack_.push (s);
   }
 
-  inline
   void
-  Parser::yypop_ (unsigned int n)
+  Parser::yypop_ (unsigned n)
   {
     yystack_.pop (n);
   }
@@ -463,7 +447,7 @@ namespace forec { namespace loader {
   }
 #endif // YYDEBUG
 
-  inline Parser::state_type
+  Parser::state_type
   Parser::yy_lr_goto_state_ (state_type yystate, int yysym)
   {
     int yyr = yypgoto_[yysym - yyntokens_] + yystate;
@@ -473,13 +457,13 @@ namespace forec { namespace loader {
       return yydefgoto_[yysym - yyntokens_];
   }
 
-  inline bool
+  bool
   Parser::yy_pact_value_is_default_ (int yyvalue)
   {
     return yyvalue == yypact_ninf_;
   }
 
-  inline bool
+  bool
   Parser::yy_table_value_is_error_ (int yyvalue)
   {
     return yyvalue == yytable_ninf_;
@@ -506,11 +490,11 @@ namespace forec { namespace loader {
     /// The return value of parse ().
     int yyresult;
 
-    // FIXME: This shoud be completely indented.  It is not yet to
-    // avoid gratuitous conflicts when merging into the master branch.
+#if YY_EXCEPTIONS
     try
+#endif // YY_EXCEPTIONS
       {
-    YYCDEBUG << "Starting parse" << std::endl;
+    YYCDEBUG << "Starting parse\n";
 
 
     /* Initialize the stack.  The initial state will be set in
@@ -522,7 +506,7 @@ namespace forec { namespace loader {
 
     // A new symbol was pushed on the stack.
   yynewstate:
-    YYCDEBUG << "Entering state " << yystack_[0].state << std::endl;
+    YYCDEBUG << "Entering state " << yystack_[0].state << '\n';
 
     // Accept?
     if (yystack_[0].state == yyfinal_)
@@ -532,7 +516,6 @@ namespace forec { namespace loader {
 
     // Backup.
   yybackup:
-
     // Try to take a decision without lookahead.
     yyn = yypact_[yystack_[0].state];
     if (yy_pact_value_is_default_ (yyn))
@@ -542,15 +525,19 @@ namespace forec { namespace loader {
     if (yyla.empty ())
       {
         YYCDEBUG << "Reading a token: ";
+#if YY_EXCEPTIONS
         try
+#endif // YY_EXCEPTIONS
           {
             yyla.type = yytranslate_ (yylex (&yyla.value, &yyla.location, scanner));
           }
+#if YY_EXCEPTIONS
         catch (const syntax_error& yyexc)
           {
             error (yyexc);
             goto yyerrlab1;
           }
+#endif // YY_EXCEPTIONS
       }
     YY_SYMBOL_PRINT ("Next token is", yyla);
 
@@ -594,7 +581,7 @@ namespace forec { namespace loader {
     yylen = yyr2_[yyn];
     {
       stack_symbol_type yylhs;
-      yylhs.state = yy_lr_goto_state_(yystack_[yylen].state, yyr1_[yyn]);
+      yylhs.state = yy_lr_goto_state_ (yystack_[yylen].state, yyr1_[yyn]);
       /* If YYLEN is nonzero, implement the default value of the
          action: '$$ = $1'.  Otherwise, use the top of the stack.
 
@@ -606,1631 +593,1636 @@ namespace forec { namespace loader {
       else
         yylhs.value = yystack_[0].value;
 
-      // Compute the default @$.
+      // Default location.
       {
         slice<stack_symbol_type, stack_type> slice (yystack_, yylen);
         YYLLOC_DEFAULT (yylhs.location, slice, yylen);
+        yyerror_range[1].location = yylhs.location;
       }
 
       // Perform the reduction.
       YY_REDUCE_PRINT (yyn);
+#if YY_EXCEPTIONS
       try
+#endif // YY_EXCEPTIONS
         {
           switch (yyn)
             {
   case 2:
-#line 196 "parser.y" // lalr1.cc:859
+#line 196 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::PreProcessorDirective(*(yystack_[0].value.str), "include"); }
-#line 625 "parser.tab.c" // lalr1.cc:859
+#line 615 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 3:
-#line 197 "parser.y" // lalr1.cc:859
+#line 197 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::PreProcessorDirective(*(yystack_[0].value.str), "define"); }
-#line 631 "parser.tab.c" // lalr1.cc:859
+#line 621 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 4:
-#line 201 "parser.y" // lalr1.cc:859
+#line 201 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::PrimaryExpression(*(yystack_[0].value.str), yystack_[0].location.begin.line, "identifier"); }
-#line 637 "parser.tab.c" // lalr1.cc:859
+#line 627 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 5:
-#line 202 "parser.y" // lalr1.cc:859
+#line 202 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::PrimaryExpression(*(yystack_[0].value.str), "terminal"); }
-#line 643 "parser.tab.c" // lalr1.cc:859
+#line 633 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 6:
-#line 203 "parser.y" // lalr1.cc:859
+#line 203 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::PrimaryExpression(*(yystack_[0].value.str), "terminal"); }
-#line 649 "parser.tab.c" // lalr1.cc:859
+#line 639 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 7:
-#line 204 "parser.y" // lalr1.cc:859
+#line 204 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::PrimaryExpression(*(yystack_[0].value.str), "terminal"); }
-#line 655 "parser.tab.c" // lalr1.cc:859
+#line 645 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 8:
-#line 205 "parser.y" // lalr1.cc:859
+#line 205 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::PrimaryExpression(*(yystack_[0].value.str), "terminal"); }
-#line 661 "parser.tab.c" // lalr1.cc:859
+#line 651 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 9:
-#line 206 "parser.y" // lalr1.cc:859
+#line 206 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::PrimaryExpression(*(yystack_[1].value.nodeList), "expression"); }
-#line 667 "parser.tab.c" // lalr1.cc:859
+#line 657 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 10:
-#line 210 "parser.y" // lalr1.cc:859
+#line 210 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 673 "parser.tab.c" // lalr1.cc:859
+#line 663 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 11:
-#line 211 "parser.y" // lalr1.cc:859
+#line 211 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::PostfixExpression(*(yystack_[3].value.node), *(yystack_[1].value.nodeList), "index"); }
-#line 679 "parser.tab.c" // lalr1.cc:859
+#line 669 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 12:
-#line 212 "parser.y" // lalr1.cc:859
+#line 212 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::PostfixExpression(*(yystack_[2].value.node), "function0"); }
-#line 685 "parser.tab.c" // lalr1.cc:859
+#line 675 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 13:
-#line 213 "parser.y" // lalr1.cc:859
+#line 213 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::PostfixExpression(*(yystack_[3].value.node), *(yystack_[1].value.nodeList), "function1"); }
-#line 691 "parser.tab.c" // lalr1.cc:859
+#line 681 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 14:
-#line 214 "parser.y" // lalr1.cc:859
+#line 214 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::PostfixExpression(*(yystack_[2].value.node), *(new forec::ast::PrimaryExpression(*(yystack_[0].value.str), yystack_[0].location.begin.line, "identifier")), "member"); }
-#line 697 "parser.tab.c" // lalr1.cc:859
+#line 687 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 15:
-#line 215 "parser.y" // lalr1.cc:859
+#line 215 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::PostfixExpression(*(yystack_[2].value.node), *(new forec::ast::PrimaryExpression(*(yystack_[0].value.str), yystack_[0].location.begin.line, "identifier")), "pointer"); }
-#line 703 "parser.tab.c" // lalr1.cc:859
+#line 693 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 16:
-#line 216 "parser.y" // lalr1.cc:859
+#line 216 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::PostfixExpression(*(yystack_[1].value.node), "increment"); }
-#line 709 "parser.tab.c" // lalr1.cc:859
+#line 699 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 17:
-#line 217 "parser.y" // lalr1.cc:859
+#line 217 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::PostfixExpression(*(yystack_[1].value.node), "decrement"); }
-#line 715 "parser.tab.c" // lalr1.cc:859
+#line 705 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 18:
-#line 218 "parser.y" // lalr1.cc:859
+#line 218 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::PostfixExpression(*(yystack_[4].value.node), *(yystack_[1].value.node), "cast0"); }
-#line 721 "parser.tab.c" // lalr1.cc:859
+#line 711 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 19:
-#line 219 "parser.y" // lalr1.cc:859
+#line 219 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::PostfixExpression(*(yystack_[5].value.node), *(yystack_[2].value.node), "cast1"); }
-#line 727 "parser.tab.c" // lalr1.cc:859
+#line 717 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 20:
-#line 223 "parser.y" // lalr1.cc:859
+#line 223 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = new forec::ast::ArgumentExpressionList(*(yystack_[0].value.node)); }
-#line 733 "parser.tab.c" // lalr1.cc:859
+#line 723 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 21:
-#line 224 "parser.y" // lalr1.cc:859
+#line 224 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = (yystack_[2].value.nodeList); (yylhs.value.nodeList)->append(*(yystack_[0].value.node)); }
-#line 739 "parser.tab.c" // lalr1.cc:859
+#line 729 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 22:
-#line 228 "parser.y" // lalr1.cc:859
+#line 228 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 745 "parser.tab.c" // lalr1.cc:859
+#line 735 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 23:
-#line 229 "parser.y" // lalr1.cc:859
+#line 229 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::UnaryExpression(*(yystack_[0].value.node), "increment"); }
-#line 751 "parser.tab.c" // lalr1.cc:859
+#line 741 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 24:
-#line 230 "parser.y" // lalr1.cc:859
+#line 230 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::UnaryExpression(*(yystack_[0].value.node), "decrement"); }
-#line 757 "parser.tab.c" // lalr1.cc:859
+#line 747 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 25:
-#line 231 "parser.y" // lalr1.cc:859
+#line 231 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::UnaryExpression(*(yystack_[1].value.str), *(yystack_[0].value.node), "cast"); }
-#line 763 "parser.tab.c" // lalr1.cc:859
+#line 753 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 26:
-#line 232 "parser.y" // lalr1.cc:859
+#line 232 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::UnaryExpression(*(yystack_[0].value.node), "sizeof0"); }
-#line 769 "parser.tab.c" // lalr1.cc:859
+#line 759 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 27:
-#line 233 "parser.y" // lalr1.cc:859
+#line 233 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::UnaryExpression(*(yystack_[1].value.node), "sizeof1"); }
-#line 775 "parser.tab.c" // lalr1.cc:859
+#line 765 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 28:
-#line 237 "parser.y" // lalr1.cc:859
+#line 237 "parser.y" // lalr1.cc:870
     { (yylhs.value.str) = new std::string("&"); }
-#line 781 "parser.tab.c" // lalr1.cc:859
+#line 771 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 29:
-#line 238 "parser.y" // lalr1.cc:859
+#line 238 "parser.y" // lalr1.cc:870
     { (yylhs.value.str) = new std::string("*"); }
-#line 787 "parser.tab.c" // lalr1.cc:859
+#line 777 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 30:
-#line 239 "parser.y" // lalr1.cc:859
+#line 239 "parser.y" // lalr1.cc:870
     { (yylhs.value.str) = new std::string("+"); }
-#line 793 "parser.tab.c" // lalr1.cc:859
+#line 783 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 31:
-#line 240 "parser.y" // lalr1.cc:859
+#line 240 "parser.y" // lalr1.cc:870
     { (yylhs.value.str) = new std::string("-"); }
-#line 799 "parser.tab.c" // lalr1.cc:859
+#line 789 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 32:
-#line 241 "parser.y" // lalr1.cc:859
+#line 241 "parser.y" // lalr1.cc:870
     { (yylhs.value.str) = new std::string("~"); }
-#line 805 "parser.tab.c" // lalr1.cc:859
+#line 795 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 33:
-#line 242 "parser.y" // lalr1.cc:859
+#line 242 "parser.y" // lalr1.cc:870
     { (yylhs.value.str) = new std::string("!"); }
-#line 811 "parser.tab.c" // lalr1.cc:859
+#line 801 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 34:
-#line 246 "parser.y" // lalr1.cc:859
+#line 246 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::CastExpression(*(yystack_[0].value.node)); }
-#line 817 "parser.tab.c" // lalr1.cc:859
+#line 807 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 35:
-#line 247 "parser.y" // lalr1.cc:859
+#line 247 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); (yylhs.value.node)->prepend(*(yystack_[2].value.node)); }
-#line 823 "parser.tab.c" // lalr1.cc:859
+#line 813 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 36:
-#line 251 "parser.y" // lalr1.cc:859
+#line 251 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[0].value.node), "cast"); }
-#line 829 "parser.tab.c" // lalr1.cc:859
+#line 819 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 37:
-#line 252 "parser.y" // lalr1.cc:859
+#line 252 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[2].value.node), *(yystack_[0].value.node), "*"); }
-#line 835 "parser.tab.c" // lalr1.cc:859
+#line 825 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 38:
-#line 253 "parser.y" // lalr1.cc:859
+#line 253 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[2].value.node), *(yystack_[0].value.node), "/"); }
-#line 841 "parser.tab.c" // lalr1.cc:859
+#line 831 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 39:
-#line 254 "parser.y" // lalr1.cc:859
+#line 254 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[2].value.node), *(yystack_[0].value.node), "%"); }
-#line 847 "parser.tab.c" // lalr1.cc:859
+#line 837 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 40:
-#line 258 "parser.y" // lalr1.cc:859
+#line 258 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[0].value.node), "multiplicative"); }
-#line 853 "parser.tab.c" // lalr1.cc:859
+#line 843 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 41:
-#line 259 "parser.y" // lalr1.cc:859
+#line 259 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[2].value.node), *(yystack_[0].value.node), " + "); }
-#line 859 "parser.tab.c" // lalr1.cc:859
+#line 849 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 42:
-#line 260 "parser.y" // lalr1.cc:859
+#line 260 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[2].value.node), *(yystack_[0].value.node), " - "); }
-#line 865 "parser.tab.c" // lalr1.cc:859
+#line 855 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 43:
-#line 264 "parser.y" // lalr1.cc:859
+#line 264 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[0].value.node), "additive"); }
-#line 871 "parser.tab.c" // lalr1.cc:859
+#line 861 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 44:
-#line 265 "parser.y" // lalr1.cc:859
+#line 265 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[2].value.node), *(yystack_[0].value.node), " << "); }
-#line 877 "parser.tab.c" // lalr1.cc:859
+#line 867 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 45:
-#line 266 "parser.y" // lalr1.cc:859
+#line 266 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[2].value.node), *(yystack_[0].value.node), " >> "); }
-#line 883 "parser.tab.c" // lalr1.cc:859
+#line 873 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 46:
-#line 270 "parser.y" // lalr1.cc:859
+#line 270 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[0].value.node), "shift"); }
-#line 889 "parser.tab.c" // lalr1.cc:859
+#line 879 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 47:
-#line 271 "parser.y" // lalr1.cc:859
+#line 271 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[2].value.node), *(yystack_[0].value.node), " < "); }
-#line 895 "parser.tab.c" // lalr1.cc:859
+#line 885 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 48:
-#line 272 "parser.y" // lalr1.cc:859
+#line 272 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[2].value.node), *(yystack_[0].value.node), " > "); }
-#line 901 "parser.tab.c" // lalr1.cc:859
+#line 891 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 49:
-#line 273 "parser.y" // lalr1.cc:859
+#line 273 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[2].value.node), *(yystack_[0].value.node), " <= "); }
-#line 907 "parser.tab.c" // lalr1.cc:859
+#line 897 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 50:
-#line 274 "parser.y" // lalr1.cc:859
+#line 274 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[2].value.node), *(yystack_[0].value.node), " >= "); }
-#line 913 "parser.tab.c" // lalr1.cc:859
+#line 903 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 51:
-#line 278 "parser.y" // lalr1.cc:859
+#line 278 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[0].value.node), "relational"); }
-#line 919 "parser.tab.c" // lalr1.cc:859
+#line 909 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 52:
-#line 279 "parser.y" // lalr1.cc:859
+#line 279 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[2].value.node), *(yystack_[0].value.node), " == "); }
-#line 925 "parser.tab.c" // lalr1.cc:859
+#line 915 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 53:
-#line 280 "parser.y" // lalr1.cc:859
+#line 280 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[2].value.node), *(yystack_[0].value.node), " != "); }
-#line 931 "parser.tab.c" // lalr1.cc:859
+#line 921 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 54:
-#line 284 "parser.y" // lalr1.cc:859
+#line 284 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[0].value.node), "equality"); }
-#line 937 "parser.tab.c" // lalr1.cc:859
+#line 927 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 55:
-#line 285 "parser.y" // lalr1.cc:859
+#line 285 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[2].value.node), *(yystack_[0].value.node), " & "); }
-#line 943 "parser.tab.c" // lalr1.cc:859
+#line 933 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 56:
-#line 289 "parser.y" // lalr1.cc:859
+#line 289 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[0].value.node), "and"); }
-#line 949 "parser.tab.c" // lalr1.cc:859
+#line 939 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 57:
-#line 290 "parser.y" // lalr1.cc:859
+#line 290 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[2].value.node), *(yystack_[0].value.node), " ^ "); }
-#line 955 "parser.tab.c" // lalr1.cc:859
+#line 945 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 58:
-#line 294 "parser.y" // lalr1.cc:859
+#line 294 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[0].value.node), "exclusiveOr"); }
-#line 961 "parser.tab.c" // lalr1.cc:859
+#line 951 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 59:
-#line 295 "parser.y" // lalr1.cc:859
+#line 295 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[2].value.node), *(yystack_[0].value.node), " | "); }
-#line 967 "parser.tab.c" // lalr1.cc:859
+#line 957 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 60:
-#line 299 "parser.y" // lalr1.cc:859
+#line 299 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[0].value.node), "inclusiveOr"); }
-#line 973 "parser.tab.c" // lalr1.cc:859
+#line 963 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 61:
-#line 300 "parser.y" // lalr1.cc:859
+#line 300 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[2].value.node), *(yystack_[0].value.node), " && "); }
-#line 979 "parser.tab.c" // lalr1.cc:859
+#line 969 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 62:
-#line 304 "parser.y" // lalr1.cc:859
+#line 304 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[0].value.node), "logicalAnd"); }
-#line 985 "parser.tab.c" // lalr1.cc:859
+#line 975 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 63:
-#line 305 "parser.y" // lalr1.cc:859
+#line 305 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[2].value.node), *(yystack_[0].value.node), " || "); }
-#line 991 "parser.tab.c" // lalr1.cc:859
+#line 981 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 64:
-#line 309 "parser.y" // lalr1.cc:859
+#line 309 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TernaryExpression(*(yystack_[0].value.node), "logicalOr"); }
-#line 997 "parser.tab.c" // lalr1.cc:859
+#line 987 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 65:
-#line 310 "parser.y" // lalr1.cc:859
+#line 310 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TernaryExpression(*(yystack_[4].value.node), *(yystack_[2].value.nodeList), *(yystack_[0].value.node)); }
-#line 1003 "parser.tab.c" // lalr1.cc:859
+#line 993 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 66:
-#line 314 "parser.y" // lalr1.cc:859
+#line 314 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::AssignmentExpression(*(yystack_[0].value.node), "conditional"); }
-#line 1009 "parser.tab.c" // lalr1.cc:859
+#line 999 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 67:
-#line 315 "parser.y" // lalr1.cc:859
+#line 315 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::AssignmentExpression(*(yystack_[2].value.node), *(yystack_[1].value.node), *(yystack_[0].value.node)); }
-#line 1015 "parser.tab.c" // lalr1.cc:859
+#line 1005 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 68:
-#line 319 "parser.y" // lalr1.cc:859
+#line 319 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::AssignmentOperator("="); }
-#line 1021 "parser.tab.c" // lalr1.cc:859
+#line 1011 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 69:
-#line 320 "parser.y" // lalr1.cc:859
+#line 320 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::AssignmentOperator("*="); }
-#line 1027 "parser.tab.c" // lalr1.cc:859
+#line 1017 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 70:
-#line 321 "parser.y" // lalr1.cc:859
+#line 321 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::AssignmentOperator("/="); }
-#line 1033 "parser.tab.c" // lalr1.cc:859
+#line 1023 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 71:
-#line 322 "parser.y" // lalr1.cc:859
+#line 322 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::AssignmentOperator("%="); }
-#line 1039 "parser.tab.c" // lalr1.cc:859
+#line 1029 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 72:
-#line 323 "parser.y" // lalr1.cc:859
+#line 323 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::AssignmentOperator("+="); }
-#line 1045 "parser.tab.c" // lalr1.cc:859
+#line 1035 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 73:
-#line 324 "parser.y" // lalr1.cc:859
+#line 324 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::AssignmentOperator("-="); }
-#line 1051 "parser.tab.c" // lalr1.cc:859
+#line 1041 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 74:
-#line 325 "parser.y" // lalr1.cc:859
+#line 325 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::AssignmentOperator("<<="); }
-#line 1057 "parser.tab.c" // lalr1.cc:859
+#line 1047 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 75:
-#line 326 "parser.y" // lalr1.cc:859
+#line 326 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::AssignmentOperator(">>="); }
-#line 1063 "parser.tab.c" // lalr1.cc:859
+#line 1053 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 76:
-#line 327 "parser.y" // lalr1.cc:859
+#line 327 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::AssignmentOperator("&="); }
-#line 1069 "parser.tab.c" // lalr1.cc:859
+#line 1059 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 77:
-#line 328 "parser.y" // lalr1.cc:859
+#line 328 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::AssignmentOperator("^="); }
-#line 1075 "parser.tab.c" // lalr1.cc:859
+#line 1065 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 78:
-#line 329 "parser.y" // lalr1.cc:859
+#line 329 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::AssignmentOperator("|="); }
-#line 1081 "parser.tab.c" // lalr1.cc:859
+#line 1071 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 79:
-#line 333 "parser.y" // lalr1.cc:859
+#line 333 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = new forec::ast::Expression(*(yystack_[0].value.node)); }
-#line 1087 "parser.tab.c" // lalr1.cc:859
+#line 1077 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 80:
-#line 334 "parser.y" // lalr1.cc:859
+#line 334 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = (yystack_[2].value.nodeList); (yylhs.value.nodeList)->append(*(yystack_[0].value.node)); }
-#line 1093 "parser.tab.c" // lalr1.cc:859
+#line 1083 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 81:
-#line 338 "parser.y" // lalr1.cc:859
+#line 338 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 1099 "parser.tab.c" // lalr1.cc:859
+#line 1089 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 82:
-#line 346 "parser.y" // lalr1.cc:859
+#line 346 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::Declaration(*(yystack_[1].value.nodeList), "declaration"); }
-#line 1105 "parser.tab.c" // lalr1.cc:859
+#line 1095 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 83:
-#line 347 "parser.y" // lalr1.cc:859
+#line 347 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::Declaration(*(yystack_[2].value.nodeList), *(yystack_[1].value.nodeList), "initDeclaration"); }
-#line 1111 "parser.tab.c" // lalr1.cc:859
+#line 1101 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 84:
-#line 348 "parser.y" // lalr1.cc:859
+#line 348 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::Declaration(*(yystack_[1].value.nodeList), "threadDeclaration"); }
-#line 1117 "parser.tab.c" // lalr1.cc:859
+#line 1107 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 85:
-#line 352 "parser.y" // lalr1.cc:859
+#line 352 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = new forec::ast::DeclarationSpecifiers(*(yystack_[0].value.node), "storageClassSpecifier"); }
-#line 1123 "parser.tab.c" // lalr1.cc:859
+#line 1113 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 86:
-#line 353 "parser.y" // lalr1.cc:859
+#line 353 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = (yystack_[0].value.nodeList); (yystack_[0].value.nodeList)->prepend(*(yystack_[1].value.node)); }
-#line 1129 "parser.tab.c" // lalr1.cc:859
+#line 1119 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 87:
-#line 354 "parser.y" // lalr1.cc:859
+#line 354 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = new forec::ast::DeclarationSpecifiers(*(yystack_[0].value.node), "typeSpecifier"); }
-#line 1135 "parser.tab.c" // lalr1.cc:859
+#line 1125 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 88:
-#line 355 "parser.y" // lalr1.cc:859
+#line 355 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = (yystack_[0].value.nodeList); (yystack_[0].value.nodeList)->prepend(*(yystack_[1].value.node)); }
-#line 1141 "parser.tab.c" // lalr1.cc:859
+#line 1131 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 89:
-#line 356 "parser.y" // lalr1.cc:859
+#line 356 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = new forec::ast::DeclarationSpecifiers(*(yystack_[0].value.node), "typeQualifier"); }
-#line 1147 "parser.tab.c" // lalr1.cc:859
+#line 1137 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 90:
-#line 357 "parser.y" // lalr1.cc:859
+#line 357 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = (yystack_[0].value.nodeList); (yystack_[0].value.nodeList)->prepend(*(yystack_[1].value.node)); }
-#line 1153 "parser.tab.c" // lalr1.cc:859
+#line 1143 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 91:
-#line 358 "parser.y" // lalr1.cc:859
+#line 358 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = new forec::ast::DeclarationSpecifiers(*(yystack_[0].value.node), "functionSpecifier"); }
-#line 1159 "parser.tab.c" // lalr1.cc:859
+#line 1149 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 92:
-#line 359 "parser.y" // lalr1.cc:859
+#line 359 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = (yystack_[0].value.nodeList); (yystack_[0].value.nodeList)->prepend(*(yystack_[1].value.node)); }
-#line 1165 "parser.tab.c" // lalr1.cc:859
+#line 1155 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 93:
-#line 363 "parser.y" // lalr1.cc:859
+#line 363 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = new forec::ast::InitDeclaratorList(*(yystack_[0].value.node)); }
-#line 1171 "parser.tab.c" // lalr1.cc:859
+#line 1161 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 94:
-#line 364 "parser.y" // lalr1.cc:859
+#line 364 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = (yystack_[2].value.nodeList); (yystack_[2].value.nodeList)->append(*(yystack_[0].value.node)); }
-#line 1177 "parser.tab.c" // lalr1.cc:859
+#line 1167 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 95:
-#line 368 "parser.y" // lalr1.cc:859
+#line 368 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[0].value.node), "declarator"); }
-#line 1183 "parser.tab.c" // lalr1.cc:859
+#line 1173 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 96:
-#line 369 "parser.y" // lalr1.cc:859
+#line 369 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(yystack_[1].value.node), *(yystack_[0].value.node), "declarator"); }
-#line 1189 "parser.tab.c" // lalr1.cc:859
+#line 1179 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 97:
-#line 370 "parser.y" // lalr1.cc:859
+#line 370 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(new forec::ast::BinaryExpression(*(yystack_[2].value.node), "declarator")), *(yystack_[0].value.node), " = "); }
-#line 1195 "parser.tab.c" // lalr1.cc:859
+#line 1185 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 98:
-#line 371 "parser.y" // lalr1.cc:859
+#line 371 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::BinaryExpression(*(new forec::ast::BinaryExpression(*(yystack_[3].value.node), "declarator")), *(yystack_[1].value.node), *(yystack_[0].value.node), " = "); }
-#line 1201 "parser.tab.c" // lalr1.cc:859
+#line 1191 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 99:
-#line 375 "parser.y" // lalr1.cc:859
+#line 375 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::StorageClassSpecifier("typedef"); }
-#line 1207 "parser.tab.c" // lalr1.cc:859
+#line 1197 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 100:
-#line 376 "parser.y" // lalr1.cc:859
+#line 376 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::StorageClassSpecifier("extern"); }
-#line 1213 "parser.tab.c" // lalr1.cc:859
+#line 1203 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 101:
-#line 377 "parser.y" // lalr1.cc:859
+#line 377 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::StorageClassSpecifier("static"); }
-#line 1219 "parser.tab.c" // lalr1.cc:859
+#line 1209 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 102:
-#line 378 "parser.y" // lalr1.cc:859
+#line 378 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::StorageClassSpecifier("auto"); }
-#line 1225 "parser.tab.c" // lalr1.cc:859
+#line 1215 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 103:
-#line 379 "parser.y" // lalr1.cc:859
+#line 379 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::StorageClassSpecifier("register"); }
-#line 1231 "parser.tab.c" // lalr1.cc:859
+#line 1221 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 104:
-#line 383 "parser.y" // lalr1.cc:859
+#line 383 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TypeSpecifier("void"); }
-#line 1237 "parser.tab.c" // lalr1.cc:859
+#line 1227 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 105:
-#line 384 "parser.y" // lalr1.cc:859
+#line 384 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TypeSpecifier("char"); }
-#line 1243 "parser.tab.c" // lalr1.cc:859
+#line 1233 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 106:
-#line 385 "parser.y" // lalr1.cc:859
+#line 385 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TypeSpecifier("short"); }
-#line 1249 "parser.tab.c" // lalr1.cc:859
+#line 1239 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 107:
-#line 386 "parser.y" // lalr1.cc:859
+#line 386 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TypeSpecifier("int"); }
-#line 1255 "parser.tab.c" // lalr1.cc:859
+#line 1245 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 108:
-#line 387 "parser.y" // lalr1.cc:859
+#line 387 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TypeSpecifier("long"); }
-#line 1261 "parser.tab.c" // lalr1.cc:859
+#line 1251 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 109:
-#line 388 "parser.y" // lalr1.cc:859
+#line 388 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TypeSpecifier("float"); }
-#line 1267 "parser.tab.c" // lalr1.cc:859
+#line 1257 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 110:
-#line 389 "parser.y" // lalr1.cc:859
+#line 389 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TypeSpecifier("double"); }
-#line 1273 "parser.tab.c" // lalr1.cc:859
+#line 1263 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 111:
-#line 390 "parser.y" // lalr1.cc:859
+#line 390 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TypeSpecifier("signed"); }
-#line 1279 "parser.tab.c" // lalr1.cc:859
+#line 1269 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 112:
-#line 391 "parser.y" // lalr1.cc:859
+#line 391 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TypeSpecifier("unsigned"); }
-#line 1285 "parser.tab.c" // lalr1.cc:859
+#line 1275 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 113:
-#line 392 "parser.y" // lalr1.cc:859
+#line 392 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TypeSpecifier("_Bool"); }
-#line 1291 "parser.tab.c" // lalr1.cc:859
+#line 1281 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 114:
-#line 393 "parser.y" // lalr1.cc:859
+#line 393 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TypeSpecifier("_Complex"); }
-#line 1297 "parser.tab.c" // lalr1.cc:859
+#line 1287 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 115:
-#line 394 "parser.y" // lalr1.cc:859
+#line 394 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TypeSpecifier("_Imaginary"); }
-#line 1303 "parser.tab.c" // lalr1.cc:859
+#line 1293 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 116:
-#line 395 "parser.y" // lalr1.cc:859
+#line 395 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 1309 "parser.tab.c" // lalr1.cc:859
+#line 1299 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 117:
-#line 396 "parser.y" // lalr1.cc:859
+#line 396 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 1315 "parser.tab.c" // lalr1.cc:859
+#line 1305 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 118:
-#line 397 "parser.y" // lalr1.cc:859
+#line 397 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TypeSpecifier(*(new forec::ast::PrimaryExpression(*(yystack_[0].value.str), yystack_[0].location.begin.line, "identifier")), "typedef"); }
-#line 1321 "parser.tab.c" // lalr1.cc:859
+#line 1311 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 119:
-#line 401 "parser.y" // lalr1.cc:859
+#line 401 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::StructUnionSpecifier(*(yystack_[4].value.str), *(new forec::ast::PrimaryExpression(*(yystack_[3].value.str), yystack_[3].location.begin.line, "identifier")), *(yystack_[1].value.nodeList), "definition"); }
-#line 1327 "parser.tab.c" // lalr1.cc:859
+#line 1317 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 120:
-#line 402 "parser.y" // lalr1.cc:859
+#line 402 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::StructUnionSpecifier(*(yystack_[3].value.str), *(yystack_[1].value.nodeList), "anonymous"); }
-#line 1333 "parser.tab.c" // lalr1.cc:859
+#line 1323 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 121:
-#line 403 "parser.y" // lalr1.cc:859
+#line 403 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::StructUnionSpecifier(*(yystack_[1].value.str), *(new forec::ast::PrimaryExpression(*(yystack_[0].value.str), yystack_[0].location.begin.line, "identifier")), "declaration"); }
-#line 1339 "parser.tab.c" // lalr1.cc:859
+#line 1329 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 122:
-#line 407 "parser.y" // lalr1.cc:859
+#line 407 "parser.y" // lalr1.cc:870
     { (yylhs.value.str) = new std::string("struct"); }
-#line 1345 "parser.tab.c" // lalr1.cc:859
+#line 1335 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 123:
-#line 408 "parser.y" // lalr1.cc:859
+#line 408 "parser.y" // lalr1.cc:870
     { (yylhs.value.str) = new std::string("union"); }
-#line 1351 "parser.tab.c" // lalr1.cc:859
+#line 1341 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 124:
-#line 412 "parser.y" // lalr1.cc:859
+#line 412 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = new forec::ast::StructDeclarationList(*(yystack_[0].value.node)); }
-#line 1357 "parser.tab.c" // lalr1.cc:859
+#line 1347 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 125:
-#line 413 "parser.y" // lalr1.cc:859
+#line 413 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = (yystack_[1].value.nodeList); (yylhs.value.nodeList)->append(*(yystack_[0].value.node)); }
-#line 1363 "parser.tab.c" // lalr1.cc:859
+#line 1353 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 126:
-#line 417 "parser.y" // lalr1.cc:859
+#line 417 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::StructDeclaration(*(yystack_[2].value.nodeList), *(yystack_[1].value.nodeList)); }
-#line 1369 "parser.tab.c" // lalr1.cc:859
+#line 1359 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 127:
-#line 421 "parser.y" // lalr1.cc:859
+#line 421 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = (yystack_[0].value.nodeList); (yystack_[0].value.nodeList)->prepend(*(yystack_[1].value.node)); }
-#line 1375 "parser.tab.c" // lalr1.cc:859
+#line 1365 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 128:
-#line 422 "parser.y" // lalr1.cc:859
+#line 422 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = new forec::ast::SpecifierQualifierList(*(yystack_[0].value.node), "typeSpecifier"); }
-#line 1381 "parser.tab.c" // lalr1.cc:859
+#line 1371 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 129:
-#line 423 "parser.y" // lalr1.cc:859
+#line 423 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = (yystack_[0].value.nodeList); (yystack_[0].value.nodeList)->prepend(*(yystack_[1].value.node)); }
-#line 1387 "parser.tab.c" // lalr1.cc:859
+#line 1377 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 130:
-#line 424 "parser.y" // lalr1.cc:859
+#line 424 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = new forec::ast::SpecifierQualifierList(*(yystack_[0].value.node), "typeQualifier"); }
-#line 1393 "parser.tab.c" // lalr1.cc:859
+#line 1383 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 131:
-#line 428 "parser.y" // lalr1.cc:859
+#line 428 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = new forec::ast::StructDeclaratorList(*(yystack_[0].value.node)); }
-#line 1399 "parser.tab.c" // lalr1.cc:859
+#line 1389 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 132:
-#line 429 "parser.y" // lalr1.cc:859
+#line 429 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = (yystack_[2].value.nodeList); (yylhs.value.nodeList)->append(*(yystack_[0].value.node)); }
-#line 1405 "parser.tab.c" // lalr1.cc:859
+#line 1395 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 133:
-#line 433 "parser.y" // lalr1.cc:859
+#line 433 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 1411 "parser.tab.c" // lalr1.cc:859
+#line 1401 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 134:
-#line 434 "parser.y" // lalr1.cc:859
+#line 434 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::StructDeclarator(*(yystack_[0].value.node), "constantExpression"); }
-#line 1417 "parser.tab.c" // lalr1.cc:859
+#line 1407 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 135:
-#line 435 "parser.y" // lalr1.cc:859
+#line 435 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::StructDeclarator(*(yystack_[2].value.node), *(yystack_[0].value.node), "full"); }
-#line 1423 "parser.tab.c" // lalr1.cc:859
+#line 1413 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 136:
-#line 439 "parser.y" // lalr1.cc:859
+#line 439 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::EnumSpecifier(*(yystack_[1].value.nodeList), "anonymous0"); }
-#line 1429 "parser.tab.c" // lalr1.cc:859
+#line 1419 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 137:
-#line 440 "parser.y" // lalr1.cc:859
+#line 440 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::EnumSpecifier(*(new forec::ast::PrimaryExpression(*(yystack_[3].value.str), yystack_[3].location.begin.line, "identifier")), *(yystack_[1].value.nodeList), "definition0"); }
-#line 1435 "parser.tab.c" // lalr1.cc:859
+#line 1425 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 138:
-#line 441 "parser.y" // lalr1.cc:859
+#line 441 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::EnumSpecifier(*(yystack_[2].value.nodeList), "anonymous1"); }
-#line 1441 "parser.tab.c" // lalr1.cc:859
+#line 1431 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 139:
-#line 442 "parser.y" // lalr1.cc:859
+#line 442 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::EnumSpecifier(*(new forec::ast::PrimaryExpression(*(yystack_[4].value.str), yystack_[4].location.begin.line, "identifier")), *(yystack_[2].value.nodeList), "definition1"); }
-#line 1447 "parser.tab.c" // lalr1.cc:859
+#line 1437 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 140:
-#line 443 "parser.y" // lalr1.cc:859
+#line 443 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::EnumSpecifier(*(new forec::ast::PrimaryExpression(*(yystack_[0].value.str), yystack_[0].location.begin.line, "identifier")), "declaration"); }
-#line 1453 "parser.tab.c" // lalr1.cc:859
+#line 1443 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 141:
-#line 447 "parser.y" // lalr1.cc:859
+#line 447 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = new forec::ast::EnumeratorList(*(yystack_[0].value.node)); }
-#line 1459 "parser.tab.c" // lalr1.cc:859
+#line 1449 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 142:
-#line 448 "parser.y" // lalr1.cc:859
+#line 448 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = (yystack_[2].value.nodeList); (yylhs.value.nodeList)->append(*(yystack_[0].value.node)); }
-#line 1465 "parser.tab.c" // lalr1.cc:859
+#line 1455 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 143:
-#line 452 "parser.y" // lalr1.cc:859
+#line 452 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::PrimaryExpression(*(yystack_[0].value.str), yystack_[0].location.begin.line, "identifier"); }
-#line 1471 "parser.tab.c" // lalr1.cc:859
+#line 1461 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 144:
-#line 453 "parser.y" // lalr1.cc:859
+#line 453 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::Enumerator(*(new forec::ast::PrimaryExpression(*(yystack_[2].value.str), yystack_[2].location.begin.line, "identifier")), *(yystack_[0].value.node)); }
-#line 1477 "parser.tab.c" // lalr1.cc:859
+#line 1467 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 145:
-#line 457 "parser.y" // lalr1.cc:859
+#line 457 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TypeQualifier("const"); }
-#line 1483 "parser.tab.c" // lalr1.cc:859
+#line 1473 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 146:
-#line 458 "parser.y" // lalr1.cc:859
+#line 458 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TypeQualifier("restrict"); }
-#line 1489 "parser.tab.c" // lalr1.cc:859
+#line 1479 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 147:
-#line 459 "parser.y" // lalr1.cc:859
+#line 459 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TypeQualifier("volatile"); }
-#line 1495 "parser.tab.c" // lalr1.cc:859
+#line 1485 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 148:
-#line 460 "parser.y" // lalr1.cc:859
+#line 460 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TypeQualifier("input"); }
-#line 1501 "parser.tab.c" // lalr1.cc:859
+#line 1491 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 149:
-#line 461 "parser.y" // lalr1.cc:859
+#line 461 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TypeQualifier("output"); }
-#line 1507 "parser.tab.c" // lalr1.cc:859
+#line 1497 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 150:
-#line 462 "parser.y" // lalr1.cc:859
+#line 462 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TypeQualifier("shared"); }
-#line 1513 "parser.tab.c" // lalr1.cc:859
+#line 1503 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 151:
-#line 466 "parser.y" // lalr1.cc:859
+#line 466 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::CombineSpecifier(*(yystack_[0].value.str)); }
-#line 1519 "parser.tab.c" // lalr1.cc:859
+#line 1509 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 152:
-#line 470 "parser.y" // lalr1.cc:859
+#line 470 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::FunctionSpecifier("inline"); }
-#line 1525 "parser.tab.c" // lalr1.cc:859
+#line 1515 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 153:
-#line 477 "parser.y" // lalr1.cc:859
+#line 477 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::Declarator(*(yystack_[1].value.node), *(yystack_[0].value.node)); }
-#line 1531 "parser.tab.c" // lalr1.cc:859
+#line 1521 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 154:
-#line 478 "parser.y" // lalr1.cc:859
+#line 478 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 1537 "parser.tab.c" // lalr1.cc:859
+#line 1527 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 155:
-#line 483 "parser.y" // lalr1.cc:859
+#line 483 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectDeclarator(*(new forec::ast::PrimaryExpression(*(yystack_[0].value.str), yystack_[0].location.begin.line, "identifier")), "identifier"); }
-#line 1543 "parser.tab.c" // lalr1.cc:859
+#line 1533 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 156:
-#line 484 "parser.y" // lalr1.cc:859
+#line 484 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectDeclarator(*(yystack_[1].value.node), "cast"); }
-#line 1549 "parser.tab.c" // lalr1.cc:859
+#line 1539 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 157:
-#line 485 "parser.y" // lalr1.cc:859
+#line 485 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectDeclarator(*(yystack_[4].value.node), *(yystack_[2].value.nodeList), *(yystack_[1].value.node), "array0"); }
-#line 1555 "parser.tab.c" // lalr1.cc:859
+#line 1545 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 158:
-#line 486 "parser.y" // lalr1.cc:859
+#line 486 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectDeclarator(*(yystack_[3].value.node), *(yystack_[1].value.nodeList), "array1"); }
-#line 1561 "parser.tab.c" // lalr1.cc:859
+#line 1551 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 159:
-#line 487 "parser.y" // lalr1.cc:859
+#line 487 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectDeclarator(*(yystack_[3].value.node), *(yystack_[1].value.node), "array2"); }
-#line 1567 "parser.tab.c" // lalr1.cc:859
+#line 1557 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 160:
-#line 488 "parser.y" // lalr1.cc:859
+#line 488 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectDeclarator(*(yystack_[5].value.node), *(yystack_[2].value.nodeList), *(yystack_[1].value.node), "array3"); }
-#line 1573 "parser.tab.c" // lalr1.cc:859
+#line 1563 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 161:
-#line 489 "parser.y" // lalr1.cc:859
+#line 489 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectDeclarator(*(yystack_[5].value.node), *(yystack_[3].value.nodeList), *(yystack_[1].value.node), "array4"); }
-#line 1579 "parser.tab.c" // lalr1.cc:859
+#line 1569 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 162:
-#line 490 "parser.y" // lalr1.cc:859
+#line 490 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectDeclarator(*(yystack_[4].value.node), *(yystack_[2].value.nodeList), "array5"); }
-#line 1585 "parser.tab.c" // lalr1.cc:859
+#line 1575 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 163:
-#line 491 "parser.y" // lalr1.cc:859
+#line 491 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectDeclarator(*(yystack_[3].value.node), "array6"); }
-#line 1591 "parser.tab.c" // lalr1.cc:859
+#line 1581 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 164:
-#line 492 "parser.y" // lalr1.cc:859
+#line 492 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectDeclarator(*(yystack_[2].value.node), "array7"); }
-#line 1597 "parser.tab.c" // lalr1.cc:859
+#line 1587 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 165:
-#line 493 "parser.y" // lalr1.cc:859
+#line 493 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectDeclarator(*(yystack_[3].value.node), *(yystack_[1].value.node), "function0"); }
-#line 1603 "parser.tab.c" // lalr1.cc:859
+#line 1593 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 166:
-#line 494 "parser.y" // lalr1.cc:859
+#line 494 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectDeclarator(*(yystack_[3].value.node), *(yystack_[1].value.nodeList), "function1"); }
-#line 1609 "parser.tab.c" // lalr1.cc:859
+#line 1599 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 167:
-#line 495 "parser.y" // lalr1.cc:859
+#line 495 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectDeclarator(*(yystack_[2].value.node), "function2"); }
-#line 1615 "parser.tab.c" // lalr1.cc:859
+#line 1605 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 168:
-#line 499 "parser.y" // lalr1.cc:859
+#line 499 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::Pointer("asterisk"); }
-#line 1621 "parser.tab.c" // lalr1.cc:859
+#line 1611 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 169:
-#line 500 "parser.y" // lalr1.cc:859
+#line 500 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::Pointer(*(yystack_[0].value.nodeList), "typeQualifier"); }
-#line 1627 "parser.tab.c" // lalr1.cc:859
+#line 1617 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 170:
-#line 501 "parser.y" // lalr1.cc:859
+#line 501 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::Pointer(*(yystack_[0].value.node), "pointer"); }
-#line 1633 "parser.tab.c" // lalr1.cc:859
+#line 1623 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 171:
-#line 502 "parser.y" // lalr1.cc:859
+#line 502 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::Pointer(*(yystack_[1].value.nodeList), *(yystack_[0].value.node), "typeQualifierPointer"); }
-#line 1639 "parser.tab.c" // lalr1.cc:859
+#line 1629 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 172:
-#line 506 "parser.y" // lalr1.cc:859
+#line 506 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = new forec::ast::TypeQualifierList(*(yystack_[0].value.node)); }
-#line 1645 "parser.tab.c" // lalr1.cc:859
+#line 1635 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 173:
-#line 507 "parser.y" // lalr1.cc:859
+#line 507 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = (yystack_[1].value.nodeList); (yylhs.value.nodeList)->append(*(yystack_[0].value.node)); }
-#line 1651 "parser.tab.c" // lalr1.cc:859
+#line 1641 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 174:
-#line 512 "parser.y" // lalr1.cc:859
+#line 512 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.nodeList); }
-#line 1657 "parser.tab.c" // lalr1.cc:859
+#line 1647 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 175:
-#line 513 "parser.y" // lalr1.cc:859
+#line 513 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::ParameterTypeList(*(yystack_[2].value.nodeList), "unbounded"); }
-#line 1663 "parser.tab.c" // lalr1.cc:859
+#line 1653 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 176:
-#line 517 "parser.y" // lalr1.cc:859
+#line 517 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = new forec::ast::ParameterList(*(yystack_[0].value.node)); }
-#line 1669 "parser.tab.c" // lalr1.cc:859
+#line 1659 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 177:
-#line 518 "parser.y" // lalr1.cc:859
+#line 518 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = (yystack_[2].value.nodeList); (yylhs.value.nodeList)->append(*(yystack_[0].value.node)); }
-#line 1675 "parser.tab.c" // lalr1.cc:859
+#line 1665 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 178:
-#line 522 "parser.y" // lalr1.cc:859
+#line 522 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::ParameterDeclaration(*(yystack_[1].value.nodeList), *(yystack_[0].value.node)); }
-#line 1681 "parser.tab.c" // lalr1.cc:859
+#line 1671 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 179:
-#line 523 "parser.y" // lalr1.cc:859
+#line 523 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::ParameterDeclaration(*(yystack_[1].value.nodeList), *(yystack_[0].value.node)); }
-#line 1687 "parser.tab.c" // lalr1.cc:859
+#line 1677 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 180:
-#line 524 "parser.y" // lalr1.cc:859
+#line 524 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.nodeList); }
-#line 1693 "parser.tab.c" // lalr1.cc:859
+#line 1683 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 181:
-#line 528 "parser.y" // lalr1.cc:859
+#line 528 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = new forec::ast::IdentifierList(*(new forec::ast::PrimaryExpression(*(yystack_[0].value.str), yystack_[0].location.begin.line, "identifier"))); }
-#line 1699 "parser.tab.c" // lalr1.cc:859
+#line 1689 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 182:
-#line 529 "parser.y" // lalr1.cc:859
+#line 529 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = (yystack_[2].value.nodeList); (yylhs.value.nodeList)->append(*(new forec::ast::PrimaryExpression(*(yystack_[0].value.str), yystack_[0].location.begin.line, "identifier"))); }
-#line 1705 "parser.tab.c" // lalr1.cc:859
+#line 1695 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 183:
-#line 533 "parser.y" // lalr1.cc:859
+#line 533 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TypeName(*(yystack_[0].value.nodeList)); }
-#line 1711 "parser.tab.c" // lalr1.cc:859
+#line 1701 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 184:
-#line 534 "parser.y" // lalr1.cc:859
+#line 534 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::TypeName(*(yystack_[1].value.nodeList), *(yystack_[0].value.node)); }
-#line 1717 "parser.tab.c" // lalr1.cc:859
+#line 1707 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 185:
-#line 538 "parser.y" // lalr1.cc:859
+#line 538 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 1723 "parser.tab.c" // lalr1.cc:859
+#line 1713 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 186:
-#line 539 "parser.y" // lalr1.cc:859
+#line 539 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 1729 "parser.tab.c" // lalr1.cc:859
+#line 1719 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 187:
-#line 540 "parser.y" // lalr1.cc:859
+#line 540 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::AbstractDeclarator(*(yystack_[1].value.node), *(yystack_[0].value.node)); }
-#line 1735 "parser.tab.c" // lalr1.cc:859
+#line 1725 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 188:
-#line 544 "parser.y" // lalr1.cc:859
+#line 544 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectAbstractDeclarator(*(yystack_[1].value.node), "cast"); }
-#line 1741 "parser.tab.c" // lalr1.cc:859
+#line 1731 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 189:
-#line 545 "parser.y" // lalr1.cc:859
+#line 545 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectAbstractDeclarator("index0"); }
-#line 1747 "parser.tab.c" // lalr1.cc:859
+#line 1737 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 190:
-#line 546 "parser.y" // lalr1.cc:859
+#line 546 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectAbstractDeclarator(*(yystack_[1].value.node), "index1"); }
-#line 1753 "parser.tab.c" // lalr1.cc:859
+#line 1743 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 191:
-#line 547 "parser.y" // lalr1.cc:859
+#line 547 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectAbstractDeclarator(*(yystack_[2].value.node), "array0"); }
-#line 1759 "parser.tab.c" // lalr1.cc:859
+#line 1749 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 192:
-#line 548 "parser.y" // lalr1.cc:859
+#line 548 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectAbstractDeclarator(*(yystack_[3].value.node), *(yystack_[1].value.node), "array1"); }
-#line 1765 "parser.tab.c" // lalr1.cc:859
+#line 1755 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 193:
-#line 549 "parser.y" // lalr1.cc:859
+#line 549 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectAbstractDeclarator("array2"); }
-#line 1771 "parser.tab.c" // lalr1.cc:859
+#line 1761 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 194:
-#line 550 "parser.y" // lalr1.cc:859
+#line 550 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectAbstractDeclarator(*(yystack_[3].value.node), "index2"); }
-#line 1777 "parser.tab.c" // lalr1.cc:859
+#line 1767 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 195:
-#line 551 "parser.y" // lalr1.cc:859
+#line 551 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectAbstractDeclarator("function0"); }
-#line 1783 "parser.tab.c" // lalr1.cc:859
+#line 1773 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 196:
-#line 552 "parser.y" // lalr1.cc:859
+#line 552 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectAbstractDeclarator(*(yystack_[1].value.node), "function1"); }
-#line 1789 "parser.tab.c" // lalr1.cc:859
+#line 1779 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 197:
-#line 553 "parser.y" // lalr1.cc:859
+#line 553 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectAbstractDeclarator(*(yystack_[2].value.node), "function2"); }
-#line 1795 "parser.tab.c" // lalr1.cc:859
+#line 1785 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 198:
-#line 554 "parser.y" // lalr1.cc:859
+#line 554 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::DirectAbstractDeclarator(*(yystack_[3].value.node), *(yystack_[1].value.node), "function3"); }
-#line 1801 "parser.tab.c" // lalr1.cc:859
+#line 1791 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 199:
-#line 558 "parser.y" // lalr1.cc:859
+#line 558 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 1807 "parser.tab.c" // lalr1.cc:859
+#line 1797 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 200:
-#line 559 "parser.y" // lalr1.cc:859
+#line 559 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::Initializer(*(yystack_[1].value.node), "initializerList0"); }
-#line 1813 "parser.tab.c" // lalr1.cc:859
+#line 1803 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 201:
-#line 560 "parser.y" // lalr1.cc:859
+#line 560 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::Initializer(*(yystack_[2].value.node), "initializerList1"); }
-#line 1819 "parser.tab.c" // lalr1.cc:859
+#line 1809 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 202:
-#line 564 "parser.y" // lalr1.cc:859
+#line 564 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 1825 "parser.tab.c" // lalr1.cc:859
+#line 1815 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 203:
-#line 565 "parser.y" // lalr1.cc:859
+#line 565 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::InitializerList(*(yystack_[1].value.node), *(yystack_[0].value.node), "designation"); }
-#line 1831 "parser.tab.c" // lalr1.cc:859
+#line 1821 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 204:
-#line 566 "parser.y" // lalr1.cc:859
+#line 566 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::InitializerList(*(yystack_[2].value.node), *(yystack_[0].value.node), "initializer"); }
-#line 1837 "parser.tab.c" // lalr1.cc:859
+#line 1827 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 205:
-#line 567 "parser.y" // lalr1.cc:859
+#line 567 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::InitializerList(*(yystack_[3].value.node), *(yystack_[1].value.node), *(yystack_[0].value.node), "designationInitalizer"); }
-#line 1843 "parser.tab.c" // lalr1.cc:859
+#line 1833 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 206:
-#line 571 "parser.y" // lalr1.cc:859
+#line 571 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::Designation(*(yystack_[1].value.nodeList)); }
-#line 1849 "parser.tab.c" // lalr1.cc:859
+#line 1839 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 207:
-#line 575 "parser.y" // lalr1.cc:859
+#line 575 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = new forec::ast::DesignatorList(*(yystack_[0].value.node)); }
-#line 1855 "parser.tab.c" // lalr1.cc:859
+#line 1845 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 208:
-#line 576 "parser.y" // lalr1.cc:859
+#line 576 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = (yystack_[1].value.nodeList); (yylhs.value.nodeList)->append(*(yystack_[0].value.node)); }
-#line 1861 "parser.tab.c" // lalr1.cc:859
+#line 1851 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 209:
-#line 580 "parser.y" // lalr1.cc:859
+#line 580 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::Designator(*(yystack_[1].value.node), "index"); }
-#line 1867 "parser.tab.c" // lalr1.cc:859
+#line 1857 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 210:
-#line 581 "parser.y" // lalr1.cc:859
+#line 581 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::Designator(*(new forec::ast::PrimaryExpression(*(yystack_[0].value.str), yystack_[0].location.begin.line, "identifier")), "member"); }
-#line 1873 "parser.tab.c" // lalr1.cc:859
+#line 1863 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 211:
-#line 585 "parser.y" // lalr1.cc:859
+#line 585 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 1879 "parser.tab.c" // lalr1.cc:859
+#line 1869 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 212:
-#line 586 "parser.y" // lalr1.cc:859
+#line 586 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 1885 "parser.tab.c" // lalr1.cc:859
+#line 1875 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 213:
-#line 587 "parser.y" // lalr1.cc:859
+#line 587 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 1891 "parser.tab.c" // lalr1.cc:859
+#line 1881 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 214:
-#line 588 "parser.y" // lalr1.cc:859
+#line 588 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 1897 "parser.tab.c" // lalr1.cc:859
+#line 1887 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 215:
-#line 589 "parser.y" // lalr1.cc:859
+#line 589 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 1903 "parser.tab.c" // lalr1.cc:859
+#line 1893 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 216:
-#line 590 "parser.y" // lalr1.cc:859
+#line 590 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 1909 "parser.tab.c" // lalr1.cc:859
+#line 1899 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 217:
-#line 591 "parser.y" // lalr1.cc:859
+#line 591 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 1915 "parser.tab.c" // lalr1.cc:859
+#line 1905 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 218:
-#line 592 "parser.y" // lalr1.cc:859
+#line 592 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 1921 "parser.tab.c" // lalr1.cc:859
+#line 1911 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 219:
-#line 593 "parser.y" // lalr1.cc:859
+#line 593 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 1927 "parser.tab.c" // lalr1.cc:859
+#line 1917 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 220:
-#line 597 "parser.y" // lalr1.cc:859
+#line 597 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::LabeledStatement(*(new forec::ast::PrimaryExpression(*(yystack_[2].value.str), yystack_[2].location.begin.line, "identifier")), *(yystack_[0].value.node), "label"); }
-#line 1933 "parser.tab.c" // lalr1.cc:859
+#line 1923 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 221:
-#line 598 "parser.y" // lalr1.cc:859
+#line 598 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::LabeledStatement(*(yystack_[2].value.node), *(yystack_[0].value.node), "case"); }
-#line 1939 "parser.tab.c" // lalr1.cc:859
+#line 1929 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 222:
-#line 599 "parser.y" // lalr1.cc:859
+#line 599 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::LabeledStatement(*(yystack_[0].value.node), "default"); }
-#line 1945 "parser.tab.c" // lalr1.cc:859
+#line 1935 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 223:
-#line 603 "parser.y" // lalr1.cc:859
+#line 603 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::CompoundStatement(); }
-#line 1951 "parser.tab.c" // lalr1.cc:859
+#line 1941 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 224:
-#line 604 "parser.y" // lalr1.cc:859
+#line 604 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::CompoundStatement(*(yystack_[1].value.nodeList)); }
-#line 1957 "parser.tab.c" // lalr1.cc:859
+#line 1947 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 225:
-#line 608 "parser.y" // lalr1.cc:859
+#line 608 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = new forec::ast::BlockItemList(*(yystack_[0].value.node)); }
-#line 1963 "parser.tab.c" // lalr1.cc:859
+#line 1953 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 226:
-#line 609 "parser.y" // lalr1.cc:859
+#line 609 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = (yystack_[1].value.nodeList); (yylhs.value.nodeList)->append(*(yystack_[0].value.node)); }
-#line 1969 "parser.tab.c" // lalr1.cc:859
+#line 1959 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 227:
-#line 613 "parser.y" // lalr1.cc:859
+#line 613 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 1975 "parser.tab.c" // lalr1.cc:859
+#line 1965 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 228:
-#line 614 "parser.y" // lalr1.cc:859
+#line 614 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 1981 "parser.tab.c" // lalr1.cc:859
+#line 1971 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 229:
-#line 615 "parser.y" // lalr1.cc:859
+#line 615 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 1987 "parser.tab.c" // lalr1.cc:859
+#line 1977 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 230:
-#line 619 "parser.y" // lalr1.cc:859
+#line 619 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::ExpressionStatement(); }
-#line 1993 "parser.tab.c" // lalr1.cc:859
+#line 1983 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 231:
-#line 620 "parser.y" // lalr1.cc:859
+#line 620 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::ExpressionStatement(*(yystack_[1].value.nodeList)); }
-#line 1999 "parser.tab.c" // lalr1.cc:859
+#line 1989 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 232:
-#line 624 "parser.y" // lalr1.cc:859
+#line 624 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::SelectionStatement(*(yystack_[2].value.nodeList), *(yystack_[0].value.node), "if"); }
-#line 2005 "parser.tab.c" // lalr1.cc:859
+#line 1995 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 233:
-#line 625 "parser.y" // lalr1.cc:859
+#line 625 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::SelectionStatement(*(yystack_[4].value.nodeList), *(yystack_[2].value.node), *(yystack_[0].value.node), "ifElse"); }
-#line 2011 "parser.tab.c" // lalr1.cc:859
+#line 2001 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 234:
-#line 626 "parser.y" // lalr1.cc:859
+#line 626 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::SelectionStatement(*(yystack_[2].value.nodeList), *(yystack_[0].value.node), "switch"); }
-#line 2017 "parser.tab.c" // lalr1.cc:859
+#line 2007 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 235:
-#line 630 "parser.y" // lalr1.cc:859
+#line 630 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::IterationStatement(yystack_[4].location.begin.line, *(yystack_[2].value.nodeList), *(yystack_[0].value.node), "while"); }
-#line 2023 "parser.tab.c" // lalr1.cc:859
+#line 2013 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 236:
-#line 631 "parser.y" // lalr1.cc:859
+#line 631 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::IterationStatement(yystack_[6].location.begin.line, *(yystack_[5].value.node), *(yystack_[2].value.nodeList), "doWhile"); }
-#line 2029 "parser.tab.c" // lalr1.cc:859
+#line 2019 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 237:
-#line 632 "parser.y" // lalr1.cc:859
+#line 632 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::IterationStatement(yystack_[5].location.begin.line, *(yystack_[3].value.node), *(yystack_[2].value.node), *(yystack_[0].value.node), "for0"); }
-#line 2035 "parser.tab.c" // lalr1.cc:859
+#line 2025 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 238:
-#line 633 "parser.y" // lalr1.cc:859
+#line 633 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::IterationStatement(yystack_[6].location.begin.line, *(yystack_[4].value.node), *(yystack_[3].value.node), *(yystack_[2].value.nodeList), *(yystack_[0].value.node), "for1"); }
-#line 2041 "parser.tab.c" // lalr1.cc:859
+#line 2031 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 239:
-#line 634 "parser.y" // lalr1.cc:859
+#line 634 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::IterationStatement(yystack_[5].location.begin.line, *(yystack_[3].value.node), *(yystack_[2].value.node), *(yystack_[0].value.node), "for2"); }
-#line 2047 "parser.tab.c" // lalr1.cc:859
+#line 2037 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 240:
-#line 635 "parser.y" // lalr1.cc:859
+#line 635 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::IterationStatement(yystack_[6].location.begin.line, *(yystack_[4].value.node), *(yystack_[3].value.node), *(yystack_[2].value.nodeList), *(yystack_[0].value.node), "for3"); }
-#line 2053 "parser.tab.c" // lalr1.cc:859
+#line 2043 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 241:
-#line 636 "parser.y" // lalr1.cc:859
+#line 636 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::IterationStatement(yystack_[8].location.begin.line, *(yystack_[6].value.nodeList), *(yystack_[3].value.str), *(yystack_[1].value.str), *(yystack_[0].value.node), "while"); }
-#line 2059 "parser.tab.c" // lalr1.cc:859
+#line 2049 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 242:
-#line 637 "parser.y" // lalr1.cc:859
+#line 637 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::IterationStatement(yystack_[10].location.begin.line, *(yystack_[9].value.node), *(yystack_[6].value.nodeList), *(yystack_[3].value.str), *(yystack_[1].value.str), "doWhile"); }
-#line 2065 "parser.tab.c" // lalr1.cc:859
+#line 2055 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 243:
-#line 638 "parser.y" // lalr1.cc:859
+#line 638 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::IterationStatement(yystack_[9].location.begin.line, *(yystack_[7].value.node), *(yystack_[6].value.node), *(yystack_[3].value.str), *(yystack_[1].value.str), *(yystack_[0].value.node), "for0"); }
-#line 2071 "parser.tab.c" // lalr1.cc:859
+#line 2061 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 244:
-#line 639 "parser.y" // lalr1.cc:859
+#line 639 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::IterationStatement(yystack_[10].location.begin.line, *(yystack_[8].value.node), *(yystack_[7].value.node), *(yystack_[6].value.nodeList), *(yystack_[3].value.str), *(yystack_[1].value.str), *(yystack_[0].value.node), "for1"); }
-#line 2077 "parser.tab.c" // lalr1.cc:859
+#line 2067 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 245:
-#line 640 "parser.y" // lalr1.cc:859
+#line 640 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::IterationStatement(yystack_[9].location.begin.line, *(yystack_[7].value.node), *(yystack_[6].value.node), *(yystack_[3].value.str), *(yystack_[1].value.str), *(yystack_[0].value.node), "for2"); }
-#line 2083 "parser.tab.c" // lalr1.cc:859
+#line 2073 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 246:
-#line 641 "parser.y" // lalr1.cc:859
+#line 641 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::IterationStatement(yystack_[10].location.begin.line, *(yystack_[8].value.node), *(yystack_[7].value.node), *(yystack_[6].value.nodeList), *(yystack_[3].value.str), *(yystack_[1].value.str), *(yystack_[0].value.node), "for3"); }
-#line 2089 "parser.tab.c" // lalr1.cc:859
+#line 2079 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 247:
-#line 646 "parser.y" // lalr1.cc:859
+#line 646 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::JumpStatement(*(new forec::ast::PrimaryExpression(*(yystack_[1].value.str), yystack_[1].location.begin.line, "identifier")), "goto"); }
-#line 2095 "parser.tab.c" // lalr1.cc:859
+#line 2085 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 248:
-#line 647 "parser.y" // lalr1.cc:859
+#line 647 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::JumpStatement("continue"); }
-#line 2101 "parser.tab.c" // lalr1.cc:859
+#line 2091 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 249:
-#line 648 "parser.y" // lalr1.cc:859
+#line 648 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::JumpStatement("break"); }
-#line 2107 "parser.tab.c" // lalr1.cc:859
+#line 2097 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 250:
-#line 649 "parser.y" // lalr1.cc:859
+#line 649 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::JumpStatement("return"); }
-#line 2113 "parser.tab.c" // lalr1.cc:859
+#line 2103 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 251:
-#line 650 "parser.y" // lalr1.cc:859
+#line 650 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::JumpStatement(*(yystack_[1].value.nodeList), "returnExpression"); }
-#line 2119 "parser.tab.c" // lalr1.cc:859
+#line 2109 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 252:
-#line 654 "parser.y" // lalr1.cc:859
+#line 654 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::PauseStatement(); }
-#line 2125 "parser.tab.c" // lalr1.cc:859
+#line 2115 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 253:
-#line 658 "parser.y" // lalr1.cc:859
+#line 658 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::ParStatement(*(yystack_[2].value.nodeList)); }
-#line 2131 "parser.tab.c" // lalr1.cc:859
+#line 2121 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 254:
-#line 662 "parser.y" // lalr1.cc:859
+#line 662 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::AbortStatement(*(yystack_[5].value.node), *(yystack_[2].value.nodeList), "weakNonImmediate"); }
-#line 2137 "parser.tab.c" // lalr1.cc:859
+#line 2127 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 255:
-#line 663 "parser.y" // lalr1.cc:859
+#line 663 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::AbortStatement(*(yystack_[5].value.node), *(yystack_[2].value.nodeList), "strongNonImmediate"); }
-#line 2143 "parser.tab.c" // lalr1.cc:859
+#line 2133 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 256:
-#line 664 "parser.y" // lalr1.cc:859
+#line 664 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::AbortStatement(*(yystack_[6].value.node), *(yystack_[2].value.nodeList), "weakImmediate"); }
-#line 2149 "parser.tab.c" // lalr1.cc:859
+#line 2139 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 257:
-#line 665 "parser.y" // lalr1.cc:859
+#line 665 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::AbortStatement(*(yystack_[6].value.node), *(yystack_[2].value.nodeList), "strongImmediate"); }
-#line 2155 "parser.tab.c" // lalr1.cc:859
+#line 2145 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 258:
-#line 669 "parser.y" // lalr1.cc:859
+#line 669 "parser.y" // lalr1.cc:870
     { rootNode.append(*(yystack_[0].value.node)); }
-#line 2161 "parser.tab.c" // lalr1.cc:859
+#line 2151 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 259:
-#line 670 "parser.y" // lalr1.cc:859
+#line 670 "parser.y" // lalr1.cc:870
     { rootNode.append(*(yystack_[0].value.node)); }
-#line 2167 "parser.tab.c" // lalr1.cc:859
+#line 2157 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 260:
-#line 674 "parser.y" // lalr1.cc:859
+#line 674 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 2173 "parser.tab.c" // lalr1.cc:859
+#line 2163 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 261:
-#line 675 "parser.y" // lalr1.cc:859
+#line 675 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 2179 "parser.tab.c" // lalr1.cc:859
+#line 2169 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 262:
-#line 676 "parser.y" // lalr1.cc:859
+#line 676 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 2185 "parser.tab.c" // lalr1.cc:859
+#line 2175 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 263:
-#line 677 "parser.y" // lalr1.cc:859
+#line 677 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 2191 "parser.tab.c" // lalr1.cc:859
+#line 2181 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 264:
-#line 681 "parser.y" // lalr1.cc:859
+#line 681 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::FunctionDefinition(*(yystack_[3].value.nodeList), *(yystack_[2].value.node), *(yystack_[1].value.nodeList), *(yystack_[0].value.node)); }
-#line 2197 "parser.tab.c" // lalr1.cc:859
+#line 2187 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 265:
-#line 682 "parser.y" // lalr1.cc:859
+#line 682 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::FunctionDefinition(*(yystack_[2].value.nodeList), *(yystack_[1].value.node), *(yystack_[0].value.node)); }
-#line 2203 "parser.tab.c" // lalr1.cc:859
+#line 2193 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 266:
-#line 686 "parser.y" // lalr1.cc:859
+#line 686 "parser.y" // lalr1.cc:870
     { (yylhs.value.node) = new forec::ast::ThreadDefinition(*(yystack_[1].value.node), *(yystack_[0].value.node)); }
-#line 2209 "parser.tab.c" // lalr1.cc:859
+#line 2199 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 267:
-#line 690 "parser.y" // lalr1.cc:859
+#line 690 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = new forec::ast::DeclarationList(*(yystack_[0].value.node)); }
-#line 2215 "parser.tab.c" // lalr1.cc:859
+#line 2205 "parser.tab.c" // lalr1.cc:870
     break;
 
   case 268:
-#line 691 "parser.y" // lalr1.cc:859
+#line 691 "parser.y" // lalr1.cc:870
     { (yylhs.value.nodeList) = (yystack_[1].value.nodeList); (yylhs.value.nodeList)->append(*(yystack_[0].value.node)); }
-#line 2221 "parser.tab.c" // lalr1.cc:859
+#line 2211 "parser.tab.c" // lalr1.cc:870
     break;
 
 
-#line 2225 "parser.tab.c" // lalr1.cc:859
+#line 2215 "parser.tab.c" // lalr1.cc:870
             default:
               break;
             }
         }
+#if YY_EXCEPTIONS
       catch (const syntax_error& yyexc)
         {
           error (yyexc);
           YYERROR;
         }
+#endif // YY_EXCEPTIONS
       YY_SYMBOL_PRINT ("-> $$ =", yylhs);
       yypop_ (yylen);
       yylen = 0;
@@ -2283,7 +2275,6 @@ namespace forec { namespace loader {
        code.  */
     if (false)
       goto yyerrorlab;
-    yyerror_range[1].location = yystack_[yylen - 1].location;
     /* Do not reclaim the symbols of the rule whose action triggered
        this YYERROR.  */
     yypop_ (yylen);
@@ -2355,12 +2346,12 @@ namespace forec { namespace loader {
 
     return yyresult;
   }
+#if YY_EXCEPTIONS
     catch (...)
       {
-        YYCDEBUG << "Exception caught: cleaning lookahead and stack"
-                 << std::endl;
+        YYCDEBUG << "Exception caught: cleaning lookahead and stack\n";
         // Do not try to display the values of the reclaimed symbols,
-        // as their printer might throw an exception.
+        // as their printers might throw an exception.
         if (!yyla.empty ())
           yy_destroy_ (YY_NULLPTR, yyla);
 
@@ -2371,12 +2362,13 @@ namespace forec { namespace loader {
           }
         throw;
       }
+#endif // YY_EXCEPTIONS
   }
 
   void
   Parser::error (const syntax_error& yyexc)
   {
-    error (yyexc.location, yyexc.what());
+    error (yyexc.location, yyexc.what ());
   }
 
   // Generate an error message.
@@ -2452,12 +2444,13 @@ namespace forec { namespace loader {
         case N:                               \
           yyformat = S;                       \
         break
-        YYCASE_(0, YY_("syntax error"));
-        YYCASE_(1, YY_("syntax error, unexpected %s"));
-        YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
-        YYCASE_(3, YY_("syntax error, unexpected %s, expecting %s or %s"));
-        YYCASE_(4, YY_("syntax error, unexpected %s, expecting %s or %s or %s"));
-        YYCASE_(5, YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s"));
+      default: // Avoid compiler warnings.
+        YYCASE_ (0, YY_("syntax error"));
+        YYCASE_ (1, YY_("syntax error, unexpected %s"));
+        YYCASE_ (2, YY_("syntax error, unexpected %s, expecting %s"));
+        YYCASE_ (3, YY_("syntax error, unexpected %s, expecting %s or %s"));
+        YYCASE_ (4, YY_("syntax error, unexpected %s, expecting %s or %s or %s"));
+        YYCASE_ (5, YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s"));
 #undef YYCASE_
       }
 
@@ -2476,11 +2469,11 @@ namespace forec { namespace loader {
   }
 
 
-  const short int Parser::yypact_ninf_ = -337;
+  const short Parser::yypact_ninf_ = -337;
 
   const signed char Parser::yytable_ninf_ = -1;
 
-  const short int
+  const short
   Parser::yypact_[] =
   {
     1832,  -337,  -337,  -337,  -337,  -337,  -337,  -337,  -337,  -337,
@@ -2534,7 +2527,7 @@ namespace forec { namespace loader {
      998,  -337,   998,  -337,  -337,  -337
   };
 
-  const unsigned short int
+  const unsigned short
   Parser::yydefact_[] =
   {
        0,     2,     3,   118,    99,   100,   101,   102,   103,   152,
@@ -2588,7 +2581,7 @@ namespace forec { namespace loader {
        0,   243,     0,   242,   246,   244
   };
 
-  const short int
+  const short
   Parser::yypgoto_[] =
   {
     -337,   -50,  -337,  -337,  -337,   -34,  -337,  -129,    95,    98,
@@ -2601,7 +2594,7 @@ namespace forec { namespace loader {
     -337,   534,  -337,  -337,  -337
   };
 
-  const short int
+  const short
   Parser::yydefgoto_[] =
   {
       -1,    32,   140,   141,   327,   142,   143,   144,   145,   146,
@@ -2614,7 +2607,7 @@ namespace forec { namespace loader {
       42,    43,    44,    45,    90
   };
 
-  const unsigned short int
+  const unsigned short
   Parser::yytable_[] =
   {
      173,   174,   178,    34,   185,   201,    53,    73,    72,    58,
@@ -2857,7 +2850,7 @@ namespace forec { namespace loader {
        0,     0,    28,    29,    30
   };
 
-  const short int
+  const short
   Parser::yycheck_[] =
   {
       79,    79,    82,     0,    83,    98,    31,    50,    50,    34,
@@ -3269,7 +3262,7 @@ namespace forec { namespace loader {
   };
 
 #if YYDEBUG
-  const unsigned short int
+  const unsigned short
   Parser::yyrline_[] =
   {
        0,   196,   196,   197,   201,   202,   203,   204,   205,   206,
@@ -3311,18 +3304,18 @@ namespace forec { namespace loader {
            i_end = yystack_.end ();
          i != i_end; ++i)
       *yycdebug_ << ' ' << i->state;
-    *yycdebug_ << std::endl;
+    *yycdebug_ << '\n';
   }
 
   // Report on the debug stream that the rule \a yyrule is going to be reduced.
   void
   Parser::yy_reduce_print_ (int yyrule)
   {
-    unsigned int yylno = yyrline_[yyrule];
+    unsigned yylno = yyrline_[yyrule];
     int yynrhs = yyr2_[yyrule];
     // Print the symbols being reduced, and their result.
     *yycdebug_ << "Reducing stack by rule " << yyrule - 1
-               << " (line " << yylno << "):" << std::endl;
+               << " (line " << yylno << "):\n";
     // The symbols being reduced.
     for (int yyi = 0; yyi < yynrhs; yyi++)
       YY_SYMBOL_PRINT ("   $" << yyi + 1 << " =",
@@ -3331,7 +3324,6 @@ namespace forec { namespace loader {
 #endif // YYDEBUG
 
   // Symbol number corresponding to token number t.
-  inline
   Parser::token_number_type
   Parser::yytranslate_ (int t)
   {
@@ -3374,21 +3366,21 @@ namespace forec { namespace loader {
       65,    66,    67,    68,    69,    70,    71,    72,    73,    74,
       75,    76,    77,    78,    79,    80,    81,    82,    83,    84
     };
-    const unsigned int user_token_number_max_ = 339;
+    const unsigned user_token_number_max_ = 339;
     const token_number_type undef_token_ = 2;
 
-    if (static_cast<int>(t) <= yyeof_)
+    if (static_cast<int> (t) <= yyeof_)
       return yyeof_;
-    else if (static_cast<unsigned int> (t) <= user_token_number_max_)
+    else if (static_cast<unsigned> (t) <= user_token_number_max_)
       return translate_table[t];
     else
       return undef_token_;
   }
 
-#line 12 "parser.y" // lalr1.cc:1167
+#line 12 "parser.y" // lalr1.cc:1181
 } } // forec::loader
-#line 3391 "parser.tab.c" // lalr1.cc:1167
-#line 695 "parser.y" // lalr1.cc:1168
+#line 3383 "parser.tab.c" // lalr1.cc:1181
+#line 695 "parser.y" // lalr1.cc:1182
 
 
 // Now that we have the Parser declared, we can declare the Scanner and implement

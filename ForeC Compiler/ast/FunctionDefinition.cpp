@@ -23,6 +23,10 @@
 #include "../tools/Template.hpp"
 #include "../tools/SymbolTable.hpp"
 
+namespace global {
+	extern std::string embeddedMainFunctionName;
+}
+
 namespace forec {
 	namespace ast {
 
@@ -131,13 +135,21 @@ namespace forec {
 			if (identifier.compare("main") == 0) {
 				output << tools::Template::formatSharedSymbols() << std::endl;
 				output << "// forec:scheduler:boot:start" << std::endl;
-				output << "int ";
+				if (global::embeddedMainFunctionName.empty()) {
+					output << "int ";
+				} else {
+					output << "void *";
+				}
 			} else {
 				output << *children[0] << " ";
 			}
 
-			for (std::vector<Node *>::iterator i = children.begin() + 1; i != children.end() - 1; ++i) {
-				output << *(*i) << " ";
+			if (identifier.compare("main") == 0 && !global::embeddedMainFunctionName.empty()) {
+				output << global::embeddedMainFunctionName << "(void *_) ";
+			} else {
+				for (std::vector<Node *>::iterator i = children.begin() + 1; i != children.end() - 1; ++i) {
+					output << *(*i) << " ";
+				}
 			}
 
 			if (identifier.compare("main") == 0) {

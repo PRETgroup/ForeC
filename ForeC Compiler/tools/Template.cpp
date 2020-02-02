@@ -29,6 +29,7 @@
 namespace global {
 	extern int debugLevel;
 	extern unsigned long minReactionTime;
+	extern std::string embeddedMainFunctionName;
 }
 
 namespace tools {
@@ -507,27 +508,38 @@ namespace tools {
 		std::string content(Template::structures["core"]);
 
 		if (Multicore::isArchitecture("x86")) {
+			std::ostringstream declareArgcArgv;			
+			std::ostringstream returnValue;			
+			if (!global::embeddedMainFunctionName.empty()) {
+				declareArgcArgv << tools::Tab::toString() << "int argc__main_0_0 = 0;" << std::endl;
+				declareArgcArgv << tools::Tab::toString() << "char ** argv__main_0_0 = NULL;" << std::endl << std::endl;
+				
+				returnValue << std::endl << tools::Tab::toString() << "return NULL;";
+			}
+		
 			std::ostringstream pthreadSlavesCreate;			
 			std::ostringstream pthreadSlavesJoin;
 			std::set<std::string> slaveCoreIds = Multicore::getSlaveCoreIds();
 			
 			if (!slaveCoreIds.empty()) {
-				pthreadSlavesCreate << std::endl << "\t// Slave cores" << std::endl;
+				pthreadSlavesCreate << std::endl << Tab::toString() << "// Slave cores" << std::endl;
 				pthreadSlavesJoin << std::endl;
 			}
 			
 			int i = 1;
 			for (std::set<std::string>::const_iterator slaveCoreId = slaveCoreIds.begin(); slaveCoreId != slaveCoreIds.end(); ++slaveCoreId) {
-				pthreadSlavesCreate << "\tArguments arguments" << i << " = {.coreId = " << i << ", .argc = " << argcName << ", .argv = " << argvName << "};" << std::endl;
-				pthreadSlavesCreate << "\tpthread_create(&cores[" << i << "], &slaveCoreAttribute, forecMain, (void *)&arguments" << i << ");" << std::endl;
-				pthreadSlavesJoin << "\tpthread_join(cores[" << i << "], NULL);" << std::endl;
+				pthreadSlavesCreate << Tab::toString() << "Arguments arguments" << i << " = {.coreId = " << i << ", .argc = " << argcName << ", .argv = " << argvName << "};" << std::endl;
+				pthreadSlavesCreate << Tab::toString() << "pthread_create(&cores[" << i << "], &slaveCoreAttribute, forecMain, (void *)&arguments" << i << ");" << std::endl;
+				pthreadSlavesJoin   << Tab::toString() << "pthread_join(cores[" << i << "], NULL);" << std::endl;
 				++i;
 			}
 			
+			Template::replace(content, "declareArgcArgv", declareArgcArgv.str());
 			Template::replace(content, "argcName", argcName);
 			Template::replace(content, "argvName", argvName);
 			Template::replace(content, "pthreadSlavesCreate", pthreadSlavesCreate.str());
 			Template::replace(content, "pthreadSlavesJoin", pthreadSlavesJoin.str());
+			Template::replace(content, "returnValue", returnValue.str());
 		}
 		
 		if (Multicore::isArchitecture("x86") || Multicore::isArchitecture("ptarm")) {
