@@ -514,7 +514,7 @@ namespace tools {
 				declareArgcArgv << tools::Tab::toString() << "int argc__main_0_0 = 0;" << std::endl;
 				declareArgcArgv << tools::Tab::toString() << "char ** argv__main_0_0 = NULL;" << std::endl << std::endl;
 				
-				returnValue << std::endl << tools::Tab::toString() << "return NULL;";
+				returnValue << std::endl << tools::Tab::toString() << "pthread_exit(NULL);";
 			}
 		
 			std::ostringstream pthreadSlavesCreate;			
@@ -530,6 +530,7 @@ namespace tools {
 			for (std::set<std::string>::const_iterator slaveCoreId = slaveCoreIds.begin(); slaveCoreId != slaveCoreIds.end(); ++slaveCoreId) {
 				pthreadSlavesCreate << Tab::toString() << "Arguments arguments" << i << " = {.coreId = " << i << ", .argc = " << argcName << ", .argv = " << argvName << "};" << std::endl;
 				pthreadSlavesCreate << Tab::toString() << "pthread_create(&cores[" << i << "], &slaveCoreAttribute, forecMain, (void *)&arguments" << i << ");" << std::endl;
+				pthreadSlavesJoin   << Tab::toString() << "pthread_cancel(cores[" << i << "]);" << std::endl;
 				pthreadSlavesJoin   << Tab::toString() << "pthread_join(cores[" << i << "], NULL);" << std::endl;
 				++i;
 			}

@@ -6,7 +6,7 @@
 	pthread_attr_init(&masterCoreAttribute);
 	pthread_attr_init(&slaveCoreAttribute);
 	pthread_attr_setdetachstate(&masterCoreAttribute, PTHREAD_CREATE_JOINABLE);
-	pthread_attr_setdetachstate(&slaveCoreAttribute, PTHREAD_CREATE_DETACHED);
+	pthread_attr_setdetachstate(&slaveCoreAttribute, PTHREAD_CREATE_JOINABLE);
 		
 	// Master core
 	Arguments arguments0 = {.coreId = 0, .argc = %{argcName}, .argv = %{argvName}};

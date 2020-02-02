@@ -4,7 +4,9 @@
 *-------------------------------------------------------------*/
 mainParCore%{slaveCoreId}: {
 	// Check the execution status of the root par(...)s.
-	while (mainParParent.parStatus == FOREC_PAR_OFF);
+	while (mainParParent.parStatus == FOREC_PAR_OFF) {
+		pthread_testcancel();
+	}
 
 	int parId = mainParParent.parId;
 
