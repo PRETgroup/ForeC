@@ -29,8 +29,30 @@ cat >AdditionalLanguages.plist <<EOF
 <dict>
 	<key>Xcode.SourceCodeLanguage.ForeC</key>
 	<dict>
+		<key>commentSyntax</key>
+		<array>
+			<dict>
+				<key>prefix</key>
+				<string>/*</string>
+				<key>suffix</key>
+				<string>*/</string>
+			</dict>
+			<dict>
+				<key>prefix</key>
+				<string>//</string>
+			</dict>
+		</array>
+		<key>conformsTo</key>
+		<array>
+			<dict>
+				<key>identifier</key>
+				<string>Xcode.SourceCodeLanguage.Generic</string>
+			</dict>
+		</array>
 		<key>languageSpecification</key>
 		<string>xcode.lang.forec</string>
+		<key>documentationAbbreviation</key>
+		<string>forec</string>
 		<key>fileDataType</key>
 		<array>
 			<dict>
@@ -46,13 +68,6 @@ cat >AdditionalLanguages.plist <<EOF
 		<string>ForeC</string>
 		<key>version</key>
 		<string>1.0</string>
-		<key>conformsTo</key>
-		<array>
-			<dict>
-				<key>identifier</key>
-				<string>Xcode.SourceCodeLanguage.Generic</string>
-			</dict>
-		</array>
 		<key>name</key>
 		<string>ForeC Language</string>
 	</dict>
