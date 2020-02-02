@@ -1,0 +1,165 @@
+imported node Va_filter_100 (Va : real) returns (Va_f : real) wcet 1;
+imported node Vz_filter_100 (Vz : real) returns (Vz_f : real) wcet 1;
+imported node Va_filter_50 (Va : real) returns (Va_f : real) wcet 1;
+imported node Vz_filter_50 (Vz : real) returns (Vz_f : real) wcet 1;
+imported node q_filter_100  (q : real)  returns (q_f  : real) wcet 1;
+imported node az_filter_100 (az: real)  returns (az_f : real) wcet 1;
+imported node h_filter_100  (h: real)   returns (h_f  : real) wcet 1;
+imported node h_filter_50  (h: real)   returns (h_f  : real) wcet 1;
+imported node altitude_hold_50(h_f : real;  h_c : real  ) returns (Vz_c : real) wcet 1;
+imported node altitude_hold_10(h_f : real;  h_c : real  ) returns (Vz_c : real) wcet 1;
+imported node Va_control_50(Va_f, Vz_f, q_f,  Va_c : real) returns (delta_th_c : real) wcet 1;
+imported node Vz_control_50(Vz_f, Vz_c, q_f, az_f : real ) returns (delta_e_c: real) wcet 1;
+imported node Va_control_25(Va_f, Vz_f, q_f,  Va_c : real) returns (delta_th_c : real) wcet 1;
+imported node Vz_control_25(Vz_f, Vz_c, q_f, az_f : real ) returns (delta_e_c: real) wcet 1;
+imported node engine (delta_th_c : real) returns (T : real) wcet 1;
+imported node elevator (delta_e_c : real) returns (delta_e : real) wcet 1;
+imported node aircraft_dynamics (delta_e, T : real) returns (Va, Vz, q, az, h : real) wcet 1;
+
+actuator delta_e_c wcet 1;
+actuator delta_th_c  wcet 1;
+
+-- target altitude
+sensor h_c wcet 1;
+-- target speed for reaching altitude
+sensor Va_c wcet 1;
+
+
+
+node assemblage (h_c,  Va_c: real rate (1000,0))
+returns (delta_e_c, delta_th_c : real)
+var Va, Vz, q, az, h: real;
+  Va_f, Vz_f, q_f, az_f, h_f : real;
+  Vz_c, delta_e, T : real;
+let
+  h_f = h_filter_100(h/^2);
+  Va_f = Va_filter_100(Va/^2);
+  Vz_f = Vz_filter_100(Vz/^2);
+  q_f = q_filter_100(q/^2);
+  az_f = az_filter_100(az/^2);
+  Vz_c = altitude_hold_50 
+        (h_f/^2,  h_c*^5);
+  delta_th_c = Va_control_50 
+        (Va_f/^2, Vz_f/^2, q_f/^2,  Va_c*^5 );
+  delta_e_c = Vz_control_50
+        (Vz_f/^2, Vz_c, q_f/^2, az_f/^2);
+  T = engine (delta_th_c*^4);
+  delta_e = elevator (delta_e_c*^4);
+  (Va, Vz, q, az, h)= aircraft_dynamics
+        ((0.012009615652468 fby delta_e), (41813.92119463 fby T));
+tel
+
+
+node assemblage_v2 (h_c,  Va_c: real rate (1000,0))
+returns (delta_e_c, delta_th_c : real)
+var Va, Vz, q, az, h: real;
+  Va_f, Vz_f, q_f, az_f, h_f : real;
+  Vz_c, delta_e, T : real;
+let
+  h_f = h_filter_100(h/^2);
+  Va_f = Va_filter_100(Va/^2);
+  Vz_f = Vz_filter_100(Vz/^2);
+  q_f = q_filter_100(q/^2);
+  az_f = az_filter_100(az/^2);
+  Vz_c = altitude_hold_50 (h_f/^2,  h_c*^5);
+  delta_th_c = Va_control_50 
+        (Va_f/^2, Vz_f/^2, q_f/^2,  Va_c*^5);
+  delta_e_c = Vz_control_50
+        (Vz_f/^2, Vz_c, q_f/^2, az_f/^2);
+  T = engine ((1.5868660794926 fby delta_th_c)*^4);
+  delta_e = elevator ((0.012009615652468  fby delta_e_c)*^4);
+  (Va, Vz, q, az, h)= aircraft_dynamics
+        ((0.012009615652468 fby delta_e), (41813.92119463 fby T));
+tel
+
+node assemblage_v3 (h_c,  Va_c: real rate (1000,0))
+returns (delta_e_c, delta_th_c : real)
+var Va, Vz, q, az, h: real;
+  Va_f, Vz_f, q_f, az_f, h_f : real;
+  Vz_c, delta_e, T : real;
+let
+  h_f = h_filter_50(h/^4);
+  Va_f = Va_filter_50(Va/^4);
+  Vz_f = Vz_filter_50(Vz/^4);
+  q_f = q_filter_100(q/^2);
+  az_f = az_filter_100(az/^2);
+  Vz_c = altitude_hold_10 (h_f/^5,  h_c);
+  delta_th_c = Va_control_50 
+        (Va_f, Vz_f, q_f/^2,  Va_c*^5);
+  delta_e_c = Vz_control_50
+        (Vz_f, Vz_c*^5, q_f/^2, az_f/^2);
+  T = engine (delta_th_c*^4);
+  delta_e = elevator (delta_e_c*^4);
+  (Va, Vz, q, az, h)= aircraft_dynamics
+         ((0.012009615652468 fby delta_e), (41813.92119463 fby T));
+tel
+
+
+
+node assemblage_v4 (h_c,  Va_c: real rate (1000,0))
+returns (delta_e_c, delta_th_c : real)
+var Va, Vz, q, az, h: real;
+  Va_f, Vz_f, q_f, az_f, h_f : real;
+  Vz_c, delta_e, T : real;
+let
+  h_f = h_filter_50(h/^4);
+  Va_f = Va_filter_50(Va/^4);
+  Vz_f = Vz_filter_50(Vz/^4);
+  q_f = q_filter_100(q/^2);
+  az_f = az_filter_100(az/^2);
+  Vz_c = altitude_hold_10 (h_f/^5,  h_c);
+  delta_th_c = Va_control_50 
+        (Va_f, Vz_f, q_f/^2,  Va_c*^5);
+  delta_e_c = Vz_control_50
+        (Vz_f, Vz_c*^5, q_f/^2, az_f/^2);
+  T = engine ((1.5868660794926 fby delta_th_c)*^4);
+  delta_e = elevator ((0.012009615652468  fby delta_e_c)*^4);
+  (Va, Vz, q, az, h)= aircraft_dynamics
+       ((0.012009615652468 fby delta_e), (41813.92119463 fby T));
+tel
+
+
+node assemblage_v41 (h_c,  Va_c: real rate (1000,0))
+returns (delta_e_c, delta_th_c : real)
+var Va, Vz, q, az, h: real;
+  Va_f, Vz_f, q_f, az_f, h_f : real;
+  Vz_c, delta_e, T : real;
+let
+  h_f = h_filter_50(h/^4);
+  Va_f = Va_filter_50(Va/^4);
+  Vz_f = Vz_filter_50(Vz/^4);
+  q_f = q_filter_100(q/^2);
+  az_f = az_filter_100(az/^2);
+  Vz_c = altitude_hold_10 (h_f/^5,  h_c);
+  delta_th_c = Va_control_50 
+        (Va_f, Vz_f, q_f/^2,  Va_c*^5);
+  delta_e_c = Vz_control_50
+        (Vz_f, (0.0 fby Vz_c)*^5, q_f/^2, az_f/^2);
+  T = engine ((1.5868660794926 fby delta_th_c)*^4);
+  delta_e = elevator ((0.012009615652468  fby delta_e_c)*^4);
+  (Va, Vz, q, az, h)= aircraft_dynamics
+       ((0.012009615652468 fby delta_e), (41813.92119463 fby T));
+tel
+
+
+node assemblage_v5 (h_c,  Va_c: real rate (1000,0))
+returns (delta_e_c, delta_th_c : real)
+var Va, Vz, q, az, h: real;
+  Va_f, Vz_f, q_f, az_f, h_f : real;
+  Vz_c, delta_e, T : real;
+let
+  h_f = h_filter_50(h/^4);
+  Va_f = Va_filter_50(Va/^4);
+  Vz_f = Vz_filter_50(Vz/^4);
+  q_f = q_filter_100(q/^2);
+  az_f = az_filter_100(az/^2);
+  Vz_c = altitude_hold_10 (h_f/^5,  h_c);
+  delta_th_c = Va_control_25 
+        (Va_f/^2, Vz_f/^2, q_f/^4,  Va_c*^5/^2);
+  delta_e_c = Vz_control_25
+        (Vz_f/^2, Vz_c*^5/^2, q_f/^4, az_f/^4);
+  T = engine (delta_th_c*^8);
+  delta_e = elevator (delta_e_c*^8);
+  (Va, Vz, q, az, h)= aircraft_dynamics
+        ((0.012009615652468 fby delta_e), (41813.92119463 fby T));
+tel
