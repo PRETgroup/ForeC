@@ -933,6 +933,17 @@ namespace tools {
 			}
 
 			std::ostringstream reactionCounter;
+			if (Multicore::isArchitecture("x86") && threadScope.compare("main") == 0) {
+				reactionCounter << std::endl;
+				reactionCounter << Tab::toString() << "// forec:scheduler:counter:start" << std::endl;
+				reactionCounter << Tab::toString() << "clockTimeUs.current = getClockTimeUs();" << std::endl;
+				reactionCounter << Tab::toString() << "clockTimeUs.elapsed = clockTimeUs.current - clockTimeUs.previous;" << std::endl;
+				reactionCounter << Tab::toString() << "if (clockTimeUs.elapsed < " << global::minReactionTime << ") {" << std::endl;
+				reactionCounter << Tab::toString() << "\tusleep(" << global::minReactionTime << " - clockTimeUs.elapsed);" << std::endl;
+				reactionCounter << Tab::toString() << "}" << std::endl;
+				reactionCounter << Tab::toString() << "clockTimeUs.previous = clockTimeUs.current;" << std::endl;
+				reactionCounter << Tab::toString() << "// forec:scheduler:counter:end" << std::endl;
+			}
 			if (global::debugLevel > 0) {
 				if (Multicore::isArchitecture("microblaze") && threadScope.compare("main") == 0) {
 					reactionCounter << std::endl;

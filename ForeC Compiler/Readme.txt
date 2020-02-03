@@ -55,9 +55,12 @@ Usage:
     the elapsed time after each program reaction.
   -i for checking instantaneous loops.
   -t<clock cycles> for creating time predictable code that
-    runs each global tick for at least <clock cycles> long.
+    runs each global tick for at least <clock cycles> long
+    on microblaze or ptarm platforms, or at least 
+    <microseconds> long on x86 platforms.
   -m<name> for embedding the program with <name> for the 
-    main function.
+    main function, with void * as the return type and 
+    void *_ for the function parameter.
 
 * Expected source file extension: *.forec
 * Expected header file extension: *.foreh

@@ -22,9 +22,23 @@
 	// Thread local declarations -----------------------------------
 %{declarations}
 mainParCore%{masterCoreId}: {
+	// forec:scheduler:counter:start
+	// Initialise and start timing each reaction.
+	clockTimeUs.previous = getClockTimeUs();
+	// forec:scheduler:counter:end
+	
 %{masterCoreBody}
-
 	// forec:scheduler:threadRemove:main:start
+
+	// forec:scheduler:counter:start
+	clockTimeUs.current = getClockTimeUs();
+	clockTimeUs.elapsed = clockTimeUs.current - clockTimeUs.previous;
+	if (clockTimeUs.elapsed < %{minReactionTime}) {
+		usleep(%{minReactionTime} - clockTimeUs.elapsed);
+	}
+	clockTimeUs.previous = clockTimeUs.current;
+	// forec:scheduler:counter:end
+	
 	pthread_exit(NULL);
 	// forec:scheduler:threadRemove:main:end
 } // mainParCore%{masterCoreId}
