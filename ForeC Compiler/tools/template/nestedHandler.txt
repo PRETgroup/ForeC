@@ -26,7 +26,10 @@
 		%{handlerName}.programCounter = &&wrongParId_%{handlerName};
 		wrongParId_%{handlerName}:;
 
+		pthread_mutex_lock(&%{threadScope}ParCore%{coreId}.statusLock);
 		%{threadScope}ParCore%{coreId}.status = FOREC_CORE_TERMINATED;
+		pthread_cond_signal(&%{threadScope}ParCore%{coreId}.statusCond);
+		pthread_mutex_unlock(&%{threadScope}ParCore%{coreId}.statusLock);
 
 		// Wait for the next tick.
 		pthread_mutex_lock(&%{threadScope}ParReactionCounterLock);

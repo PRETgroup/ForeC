@@ -36,7 +36,7 @@ mainParCore%{masterCoreId}: {
 	if (clockTimeUs.elapsed < %{minReactionTime}) {
 		usleep(%{minReactionTime} - clockTimeUs.elapsed);
 	}
-	clockTimeUs.previous = clockTimeUs.current;
+	clockTimeUs.previous = getClockTimeUs();
 	// forec:scheduler:counter:end
 	
 	pthread_exit(NULL);

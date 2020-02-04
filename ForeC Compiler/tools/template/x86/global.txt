@@ -63,21 +63,21 @@ typedef struct _Thread {
 // Store parent thread information
 typedef struct {
 	void *programCounter;
-	int parStatus;
+	volatile int parStatus;
 	pthread_cond_t parStatusCond;
 	pthread_mutex_t parStatusLock;
-	int parId;
+	volatile int parId;
 } Parent;
 
 // Keep track of child threads executing on
 // a processor core.
 typedef struct {
-	int sync;
-	int activeThreads;
-	int status;
+	volatile int sync;
+	volatile int activeThreads;
+	volatile int status;
 	pthread_cond_t statusCond;
 	pthread_mutex_t statusLock;
-	int reactionCounter;
+	volatile int reactionCounter;
 	pthread_cond_t reactionCounterCond;
 	pthread_mutex_t reactionCounterLock;
 } Core;

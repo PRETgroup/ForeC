@@ -363,7 +363,10 @@ namespace forec {
 				synchronise << tools::Tab::toString() << "// forec:scheduler:iterationEnd:" << getId() << ":start" << std::endl;
 				synchronise << tools::Tab::toString() << "// Synchronise end of iteration" << std::endl;
 				synchronise << tools::Tab::toString() << threadScope << "ParParent.parId = -2;" << std::endl;
+				synchronise << tools::Tab::toString() << "pthread_mutex_lock(&" << threadScope << "ParParent.parStatusLock);" << std::endl;
 				synchronise << tools::Tab::toString() << threadScope << "ParParent.parStatus = FOREC_PAR_ON;" << std::endl;
+				synchronise << tools::Tab::toString() << "pthread_cond_broadcast(&" << threadScope << "ParParent.parStatusCond);" << std::endl;
+				synchronise << tools::Tab::toString() << "pthread_mutex_unlock(&" << threadScope << "ParParent.parStatusLock);" << std::endl;
 				synchronise << tools::Tab::toString() << threadScope << "ParParent.programCounter = &&" << getId() << "_endAddress;" << std::endl;
 				synchronise << tools::Tab::toString() << "goto " << threadScope << "ParHandlerMaster" << tools::Multicore::getCoreId(threadScope) << ';' << std::endl;
 				synchronise << tools::Tab::toString() << getId() << "_endAddress:;" << std::endl;
