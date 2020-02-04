@@ -64,6 +64,8 @@ typedef struct _Thread {
 typedef struct {
 	void *programCounter;
 	int parStatus;
+	pthread_cond_t parStatusCond;
+	pthread_mutex_t parStatusLock;
 	int parId;
 } Parent;
 
@@ -73,7 +75,11 @@ typedef struct {
 	int sync;
 	int activeThreads;
 	int status;
+	pthread_cond_t statusCond;
+	pthread_mutex_t statusLock;
 	int reactionCounter;
+	pthread_cond_t reactionCounterCond;
+	pthread_mutex_t reactionCounterLock;
 } Core;
 
 // Structure to pass input arguments into forecMain.

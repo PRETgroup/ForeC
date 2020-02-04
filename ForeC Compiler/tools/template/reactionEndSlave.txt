@@ -6,7 +6,9 @@
 		%{threadScope}ParCore%{coreId}.status = FOREC_CORE_REACTED;
 		
 		// Wait for the next tick.
-		while (%{threadScope}ParCore%{coreId}.reactionCounter == %{threadScope}ParReactionCounter);
+		pthread_mutex_lock(&%{threadScope}ParReactionCounterLock);
+		while (%{threadScope}ParCore%{coreId}.reactionCounter == %{threadScope}ParReactionCounter) { pthread_testcancel(); pthread_cond_wait(&%{threadScope}ParReactionCounterCond, &%{threadScope}ParReactionCounterLock); }
+		pthread_mutex_unlock(&%{threadScope}ParReactionCounterLock);
 		%{threadScope}ParCore%{coreId}.reactionCounter++;
 		
 		// Continue reacting.
@@ -19,8 +21,10 @@
 		
 		%{threadScope}ParCore%{coreId}.status = FOREC_CORE_TERMINATED;
 		
-		// Wait for the next reaction.
-		while (%{threadScope}ParCore%{coreId}.reactionCounter == %{threadScope}ParReactionCounter);
+		// Wait for the next tick.
+		pthread_mutex_lock(&%{threadScope}ParReactionCounterLock);
+		while (%{threadScope}ParCore%{coreId}.reactionCounter == %{threadScope}ParReactionCounter) { pthread_testcancel(); pthread_cond_wait(&%{threadScope}ParReactionCounterCond, &%{threadScope}ParReactionCounterLock); }
+		pthread_mutex_unlock(&%{threadScope}ParReactionCounterLock);
 		%{threadScope}ParCore%{coreId}.reactionCounter++;
 		
 		// Wait for the par(...) to terminate.

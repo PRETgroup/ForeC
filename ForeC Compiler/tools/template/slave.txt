@@ -4,9 +4,7 @@
 *-------------------------------------------------------------*/
 mainParCore%{slaveCoreId}: {
 	// Check the execution status of the root par(...)s.
-	while (mainParParent.parStatus == FOREC_PAR_OFF) {
-		pthread_testcancel();
-	}
+	while (mainParParent.parStatus == FOREC_PAR_OFF) { pthread_testcancel(); }
 
 	int parId = mainParParent.parId;
 
@@ -19,8 +17,10 @@ mainParCore%{slaveCoreId}: {
 		do {
 			mainParCore%{slaveCoreId}.status = FOREC_CORE_TERMINATED;
 			
-			// Wait for the next reaction.
-			while (mainParCore%{slaveCoreId}.reactionCounter == mainParReactionCounter);
+			// Wait for the next tick.
+			pthread_mutex_lock(&mainParReactionCounterLock);
+			while (mainParCore%{slaveCoreId}.reactionCounter == mainParReactionCounter) { pthread_testcancel(); pthread_cond_wait(&mainParReactionCounterCond, &mainParReactionCounterLock); }
+			pthread_mutex_unlock(&mainParReactionCounterLock);
 			mainParCore%{slaveCoreId}.reactionCounter++;
 			
 		} while (mainParParent.parStatus == FOREC_PAR_ON && mainParParent.parId == parId);

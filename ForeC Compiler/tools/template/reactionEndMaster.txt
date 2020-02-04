@@ -19,7 +19,10 @@
 		// Set slave cores' status to reacting
 %{setParCoresAsReactingIndented}
 		// Increment the reaction counter for synchronization.
-		%{threadScope}ParReactionCounter++;%{nestedSwap}
+		pthread_mutex_lock(&%{threadScope}ParReactionCounterLock);
+		%{threadScope}ParReactionCounter++;
+		pthread_cond_broadcast(&%{threadScope}ParReactionCounterCond);
+		pthread_mutex_unlock(&%{threadScope}ParReactionCounterLock);%{nestedSwap}
 
 		goto *%{threadScope}ParParent.programCounter;
 	}
@@ -27,7 +30,10 @@
 	// Set slave cores' status to reacting
 %{setParCoresAsReacting}%{reactionCounter}
 	// Increment the reaction counter for synchronization.
+	pthread_mutex_lock(&%{threadScope}ParReactionCounterLock);
 	%{threadScope}ParReactionCounter++;
+	pthread_cond_broadcast(&%{threadScope}ParReactionCounterCond);
+	pthread_mutex_unlock(&%{threadScope}ParReactionCounterLock);
 
 	// Go to the next thread.
 	goto *%{handlerEndName}.nextThread -> programCounter;
