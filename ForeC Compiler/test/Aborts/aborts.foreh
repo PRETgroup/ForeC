@@ -3,9 +3,21 @@ x86
 
 0:
 main
+
+1:
 tSetInputs
+
+2:
 tDebug
+
+3:
 tStrongNonImmediateAbort
+
+4:
 tStrongImmediateAbort
+
+5:
 tWeakNonImmediateAbort
+
+6:
 tWeakImmediateAbort

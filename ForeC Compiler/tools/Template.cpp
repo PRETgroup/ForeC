@@ -543,7 +543,6 @@ namespace tools {
 			for (std::set<std::string>::const_iterator slaveCoreId = slaveCoreIds.begin(); slaveCoreId != slaveCoreIds.end(); ++slaveCoreId) {
 				pthreadSlavesCreate << Tab::toString() << "Arguments arguments" << i << " = {.coreId = " << i << ", .argc = " << argcName << ", .argv = " << argvName << "};" << std::endl;
 				pthreadSlavesCreate << Tab::toString() << "pthread_create(&cores[" << i << "], &slaveCoreAttribute, forecMain, (void *)&arguments" << i << ");" << std::endl;
-				pthreadSlavesJoin   << Tab::toString() << "pthread_cancel(cores[" << i << "]);" << std::endl;
 				pthreadSlavesJoin   << Tab::toString() << "pthread_cond_broadcast(&mainParParent.parStatusCond);" << std::endl;
 				pthreadSlavesJoin   << Tab::toString() << "pthread_join(cores[" << i << "], NULL);" << std::endl;
 				++i;
