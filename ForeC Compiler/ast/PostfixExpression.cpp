@@ -69,7 +69,7 @@ namespace forec {
 					if (error.find("Function::getDeclaration:") != std::string::npos){
 						std::cout << std::endl << "!!  PostfixExpression::willPause: Assuming \"" << name << "\"() terminates instantly.";
 					} else {
-						throw error;
+						throw std::move(error);
 					}
 				}
 			}
