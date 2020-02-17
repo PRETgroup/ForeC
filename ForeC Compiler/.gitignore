@@ -1,0 +1,7 @@
+forecc
+parser.tab.* 
+*.hh 
+*.cc
+*.o
+*.dSYM
+ForeC Compiler.xcodeproj/project.xcworkspace
