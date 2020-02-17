@@ -51,7 +51,11 @@ typedef enum {
 	// Shared variables
 	FOREC_SHARED_UNMODIFIED,	// 5
 	FOREC_SHARED_MODIFIED,		// 6
-	FOREC_SHARED_WAS_MODIFIED	// 7
+	FOREC_SHARED_WAS_MODIFIED,	// 7
+	
+	// Program termination
+	RUNNING,					// 8
+	TERMINATED					// 9
 } Status;
 
 // Store child thread information.
@@ -64,7 +68,7 @@ typedef struct _Thread {
 // Store parent thread information
 typedef struct {
 	void *programCounter;
-	volatile int parStatus;
+	volatile Status parStatus;
 	pthread_cond_t parStatusCond;
 	pthread_mutex_t parStatusLock;
 	volatile int parId;
@@ -75,7 +79,7 @@ typedef struct {
 typedef struct {
 	volatile int sync;
 	volatile int activeThreads;
-	volatile int status;
+	volatile Status status;
 	pthread_cond_t statusCond;
 	pthread_mutex_t statusLock;
 	volatile int reactionCounter;
@@ -89,6 +93,9 @@ typedef struct {
 	int argc;
 	char **argv;
 } Arguments;
+
+// Shared control variable to signal program termination to the slave pthreads
+volatile Status programStatus;
 
 // Shared control variables for non-immediate aborts -----------
 %{abort}

@@ -4,9 +4,15 @@
 *-------------------------------------------------------------*/
 mainParCore%{slaveCoreId}: {
 	// Check the execution status of the root par(...)s.
-	// TODO: pthread_mutex_lock(&mainParParent.parStatusLock);
-	while (mainParParent.parStatus == FOREC_PAR_OFF) { pthread_testcancel(); /* TODO: pthread_cond_wait(&mainParParent.parStatusCond, &mainParParent.parStatusLock); */ }
-	// TODO: pthread_mutex_unlock(&mainParParent.parStatusLock);
+	pthread_mutex_lock(&mainParParent.parStatusLock);
+	while (mainParParent.parStatus == FOREC_PAR_OFF) {
+		if (programStatus == TERMINATED) {
+			pthread_mutex_unlock(&mainParParent.parStatusLock);
+			pthread_exit(NULL);
+		}
+		pthread_cond_wait(&mainParParent.parStatusCond, &mainParParent.parStatusLock);
+	}
+	pthread_mutex_unlock(&mainParParent.parStatusLock);
 
 	int parId = mainParParent.parId;
 
@@ -24,7 +30,7 @@ mainParCore%{slaveCoreId}: {
 			
 			// Wait for the next tick.
 			pthread_mutex_lock(&mainParReactionCounterLock);
-			while (mainParCore%{slaveCoreId}.reactionCounter == mainParReactionCounter) { pthread_testcancel(); pthread_cond_wait(&mainParReactionCounterCond, &mainParReactionCounterLock); }
+			while (mainParCore%{slaveCoreId}.reactionCounter == mainParReactionCounter) { pthread_cond_wait(&mainParReactionCounterCond, &mainParReactionCounterLock); }
 			pthread_mutex_unlock(&mainParReactionCounterLock);
 			mainParCore%{slaveCoreId}.reactionCounter++;
 			

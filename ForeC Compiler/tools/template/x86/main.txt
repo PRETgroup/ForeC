@@ -39,6 +39,7 @@ mainParCore%{masterCoreId}: {
 	clockTimeUs.previous = getClockTimeUs();
 	// forec:scheduler:counter:end
 	
+	programStatus = TERMINATED;
 	pthread_exit(NULL);
 	// forec:scheduler:threadRemove:main:end
 } // mainParCore%{masterCoreId}

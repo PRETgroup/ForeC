@@ -10,7 +10,7 @@
 		
 		// Wait for the next tick.
 		pthread_mutex_lock(&%{threadScope}ParReactionCounterLock);
-		while (%{threadScope}ParCore%{coreId}.reactionCounter == %{threadScope}ParReactionCounter) { pthread_testcancel(); pthread_cond_wait(&%{threadScope}ParReactionCounterCond, &%{threadScope}ParReactionCounterLock); }
+		while (%{threadScope}ParCore%{coreId}.reactionCounter == %{threadScope}ParReactionCounter) { pthread_cond_wait(&%{threadScope}ParReactionCounterCond, &%{threadScope}ParReactionCounterLock); }
 		pthread_mutex_unlock(&%{threadScope}ParReactionCounterLock);
 		%{threadScope}ParCore%{coreId}.reactionCounter++;
 		
@@ -29,7 +29,7 @@
 		
 		// Wait for the next tick.
 		pthread_mutex_lock(&%{threadScope}ParReactionCounterLock);
-		while (%{threadScope}ParCore%{coreId}.reactionCounter == %{threadScope}ParReactionCounter) { pthread_testcancel(); pthread_cond_wait(&%{threadScope}ParReactionCounterCond, &%{threadScope}ParReactionCounterLock); }
+		while (%{threadScope}ParCore%{coreId}.reactionCounter == %{threadScope}ParReactionCounter) { pthread_cond_wait(&%{threadScope}ParReactionCounterCond, &%{threadScope}ParReactionCounterLock); }
 		pthread_mutex_unlock(&%{threadScope}ParReactionCounterLock);
 		%{threadScope}ParCore%{coreId}.reactionCounter++;
 		

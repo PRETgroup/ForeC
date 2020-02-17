@@ -1,10 +1,14 @@
 ForeC Compiler (multicore distribution)
-Version: 0.983 (27 May 2013)
+Version: 0.991 (2 February 2020)
 Debug output
 ---------------------------------------
 
+Debug level: 0
+Check instantaneous loops: no
+Minimum reaction time: 0 clock cycles
 Source file name: NestedPar.forec
 Header file name: NestedPar.foreh
+Embed main function: no)
 
 ============================
 tools::Multicore::toString()

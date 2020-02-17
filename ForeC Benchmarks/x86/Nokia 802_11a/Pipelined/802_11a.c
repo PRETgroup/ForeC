@@ -3,6 +3,28 @@
 | Cores, mutex and input/output information.
 *=============================================================*/
 #include <pthread.h>
+#include <time.h>
+#include <sys/time.h>
+#include <stdint.h>
+#include <unistd.h>
+
+typedef struct {
+	long long previous;
+	long long current;
+	long long elapsed;
+} ClockTimeUs;
+ClockTimeUs clockTimeUs;
+
+// Returns the current time in microseconds
+long long getClockTimeUs(void) {
+	struct timespec ts;
+
+	if (clock_gettime(CLOCK_MONOTONIC, &ts) == 0) {
+		return (long long) (ts.tv_sec * 1000000 + ts.tv_nsec / 1000);
+	} else {
+		return 0;
+	}
+}
 
 // Mapping Pthreads to processor cores
 pthread_t cores[1];
@@ -43,17 +65,23 @@ typedef struct _Thread {
 // Store parent thread information
 typedef struct {
 	void *programCounter;
-	int parStatus;
-	int parId;
+	volatile int parStatus;
+	pthread_cond_t parStatusCond;
+	pthread_mutex_t parStatusLock;
+	volatile int parId;
 } Parent;
 
 // Keep track of child threads executing on
 // a processor core.
 typedef struct {
-	int sync;
-	int activeThreads;
-	int status;
-	int reactionCounter;
+	volatile int sync;
+	volatile int activeThreads;
+	volatile int status;
+	pthread_cond_t statusCond;
+	pthread_mutex_t statusLock;
+	volatile int reactionCounter;
+	pthread_cond_t reactionCounterCond;
+	pthread_mutex_t reactionCounterLock;
 } Core;
 
 // Structure to pass input arguments into forecMain.
@@ -63,17 +91,22 @@ typedef struct {
 	char **argv;
 } Arguments;
 
+// Shared control variables for non-immediate aborts -----------
 
-// Shared control variables for par(...)s -------------------------
+// Shared control variables for par(...)s ----------------------
 // Thread main with par(...)s
-volatile Parent mainParParent;
-volatile Core mainParCore0;
+Parent mainParParent = { .parStatusCond = PTHREAD_COND_INITIALIZER, .parStatusLock = PTHREAD_MUTEX_INITIALIZER };
+Core mainParCore0 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
 volatile int mainParReactionCounter;
+pthread_cond_t mainParReactionCounterCond = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t mainParReactionCounterLock = PTHREAD_MUTEX_INITIALIZER;
 
 // Thread stage6 with par(...)s
-volatile Parent stage6ParParent;
-volatile Core stage6ParCore0;
+Parent stage6ParParent = { .parStatusCond = PTHREAD_COND_INITIALIZER, .parStatusLock = PTHREAD_MUTEX_INITIALIZER };
+Core stage6ParCore0 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
 volatile int stage6ParReactionCounter;
+pthread_cond_t stage6ParReactionCounterCond = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t stage6ParReactionCounterLock = PTHREAD_MUTEX_INITIALIZER;
 
 
 /*==============================================================
@@ -612,7 +645,7 @@ int main(int argc__main_0_0, char ** argv__main_0_0) {
 	pthread_attr_init(&masterCoreAttribute);
 	pthread_attr_init(&slaveCoreAttribute);
 	pthread_attr_setdetachstate(&masterCoreAttribute, PTHREAD_CREATE_JOINABLE);
-	pthread_attr_setdetachstate(&slaveCoreAttribute, PTHREAD_CREATE_DETACHED);
+	pthread_attr_setdetachstate(&slaveCoreAttribute, PTHREAD_CREATE_JOINABLE);
 		
 	// Master core
 	Arguments arguments0 = {.coreId = 0, .argc = argc__main_0_0, .argv = argv__main_0_0};
@@ -633,8 +666,8 @@ int main(int argc__main_0_0, char ** argv__main_0_0) {
 void *forecMain(void *args) {
 	Arguments *arguments = (Arguments *)args;
 	int coreId = arguments->coreId;
-	int argc__main_0_0 = arguments->argc;
-	char **argv__main_0_0 = arguments->argv;
+	int argc__main_0_0 __attribute__((unused)) = arguments->argc;
+	char **argv__main_0_0 __attribute__((unused)) = arguments->argv;
 
 	// Variables for par()s ----------------------------------------
 	// par0
@@ -719,6 +752,11 @@ void *forecMain(void *args) {
 	int microseconds__main_0_0;
 
 mainParCore0: {
+	// forec:scheduler:counter:start
+	// Initialise and start timing each reaction.
+	clockTimeUs.previous = getClockTimeUs();
+	// forec:scheduler:counter:end
+	
 	//--------------------------------------------------------------
 
 	gettimeofday(&startTime__main_0_0, 0);
@@ -757,7 +795,10 @@ mainParCore0: {
 	// forec:statement:par:par0:start
 	// Set the par(...) information.
 	mainParParent.parId = 0;
+	pthread_mutex_lock(&mainParParent.parStatusLock);
 	mainParParent.parStatus = FOREC_PAR_ON;
+	pthread_cond_broadcast(&mainParParent.parStatusCond);
+	pthread_mutex_unlock(&mainParParent.parStatusLock);
 
 	// Link the threads and handlers together.
 	mainReactionStartMaster0.programCounter = &&mainReactionStartMaster0;
@@ -805,6 +846,7 @@ mainParCore0: {
 	par0JoinAddress_mainParCore0:;
 	// forec:statement:par:par0:end
 
+	printf("Here\n");
 	fclose(file_re_in__global_0_0);
 	fclose(file_im_in__global_0_0);
 	fclose(freq_sync_correl_2STS_out_I__global_0_0.value);
@@ -835,8 +877,17 @@ mainParCore0: {
 
 	//--------------------------------------------------------------
 
-
 	// forec:scheduler:threadRemove:main:start
+
+	// forec:scheduler:counter:start
+	clockTimeUs.current = getClockTimeUs();
+	clockTimeUs.elapsed = clockTimeUs.current - clockTimeUs.previous;
+	if (clockTimeUs.elapsed < 0) {
+		usleep(0 - clockTimeUs.elapsed);
+	}
+	clockTimeUs.previous = getClockTimeUs();
+	// forec:scheduler:counter:end
+	
 	pthread_exit(NULL);
 	// forec:scheduler:threadRemove:main:end
 } // mainParCore0
@@ -848,13 +899,19 @@ mainParHandlerMaster0: {
 		// Iteration
 		// Wait for other cores to complete their reaction.
 
+		pthread_mutex_lock(&mainParParent.parStatusLock);
 		mainParParent.parStatus = FOREC_PAR_OFF;
+		pthread_cond_broadcast(&mainParParent.parStatusCond);
+		pthread_mutex_unlock(&mainParParent.parStatusLock);
 		mainParParent.parId = -1;
 
 		// Set slave cores' status to reacting.
 
 		// Increment the reaction counter for synchronisation.
+		pthread_mutex_lock(&mainParReactionCounterLock);
 		mainParReactionCounter++;
+		pthread_cond_broadcast(&mainParReactionCounterCond);
+		pthread_mutex_unlock(&mainParReactionCounterLock);
 
 		// Return to thread main.
 		goto *mainParParent.programCounter;
@@ -1046,7 +1103,10 @@ stage6ParHandlerMaster0: {
 		// Iteration
 		// Wait for other cores to complete their reaction.
 
+		pthread_mutex_lock(&stage6ParParent.parStatusLock);
 		stage6ParParent.parStatus = FOREC_PAR_OFF;
+		pthread_cond_broadcast(&stage6ParParent.parStatusCond);
+		pthread_mutex_unlock(&stage6ParParent.parStatusLock);
 		stage6ParParent.parId = -1;
 
 		forec_mutex_value_stage6 = -1;
@@ -1054,7 +1114,10 @@ stage6ParHandlerMaster0: {
 		// Set slave cores' status to reacting.
 
 		// Increment the reaction counter for synchronisation.
+		pthread_mutex_lock(&stage6ParReactionCounterLock);
 		stage6ParReactionCounter++;
+		pthread_cond_broadcast(&stage6ParReactionCounterCond);
+		pthread_mutex_unlock(&stage6ParReactionCounterLock);
 
 		// Return to thread stage6.
 		goto *stage6ParParent.programCounter;
@@ -1065,13 +1128,19 @@ stage6ParHandlerMaster0: {
 
 		// Wait for other cores to complete their reaction.
 
+		pthread_mutex_lock(&stage6ParParent.parStatusLock);
 		stage6ParParent.parStatus = FOREC_PAR_OFF;
+		pthread_cond_broadcast(&stage6ParParent.parStatusCond);
+		pthread_mutex_unlock(&stage6ParParent.parStatusLock);
 		stage6ParParent.parId = -1;
 
 		// Set slave cores' status to reacting.
 
 		// Increment the reaction counter for synchronisation.
+		pthread_mutex_lock(&stage6ParReactionCounterLock);
 		stage6ParReactionCounter++;
+		pthread_cond_broadcast(&stage6ParReactionCounterCond);
+		pthread_mutex_unlock(&stage6ParReactionCounterLock);
 
 		// Delete this par(...) handler.
 		stage6ParHandlerMaster0.prevThread -> nextThread = stage6ParHandlerMaster0.nextThread;
@@ -1086,10 +1155,15 @@ stage6ParHandlerMaster0: {
 		stage6ParHandlerMaster0.programCounter = &&wrongParId_stage6ParHandlerMaster0;
 		wrongParId_stage6ParHandlerMaster0:;
 
+		pthread_mutex_lock(&stage6ParCore0.statusLock);
 		stage6ParCore0.status = FOREC_CORE_TERMINATED;
+		pthread_cond_signal(&stage6ParCore0.statusCond);
+		pthread_mutex_unlock(&stage6ParCore0.statusLock);
 
-		// Wait for the next reaction.
-		while (stage6ParCore0.reactionCounter == stage6ParReactionCounter);
+		// Wait for the next tick.
+		pthread_mutex_lock(&stage6ParReactionCounterLock);
+		while (stage6ParCore0.reactionCounter == stage6ParReactionCounter) { pthread_testcancel(); pthread_cond_wait(&stage6ParReactionCounterCond, &stage6ParReactionCounterLock); }
+		pthread_mutex_unlock(&stage6ParReactionCounterLock);
 		stage6ParCore0.reactionCounter++;
 
 		// Wait for the par(...) to terminate.
@@ -1133,11 +1207,14 @@ stage6ReactionStartMaster0: {
 	//-- main:
 mainReactionEndMaster0: {
 	// Determine if the core can still react or not.
+	pthread_mutex_lock(&mainParCore0.statusLock);
 	if (mainParCore0.activeThreads) {
 		mainParCore0.status = FOREC_CORE_REACTED;
 	} else {
 		mainParCore0.status = FOREC_CORE_TERMINATED;
 	}
+	pthread_cond_signal(&mainParCore0.statusCond);
+	pthread_mutex_unlock(&mainParCore0.statusLock);
 	
 	// Wait for other cores to complete their reaction.
 
@@ -1249,21 +1326,39 @@ mainReactionEndMaster0: {
 
 	// Return back to the parent thread if all the cores have terminated.
 	if (1 && mainParCore0.status == FOREC_CORE_TERMINATED) {
+		pthread_mutex_lock(&mainParParent.parStatusLock);
 		mainParParent.parStatus = FOREC_PAR_OFF;
+		pthread_cond_broadcast(&mainParParent.parStatusCond);
+		pthread_mutex_unlock(&mainParParent.parStatusLock);
 		mainParParent.parId = -1;
 		
 		// Set slave cores' status to reacting
 
 		// Increment the reaction counter for synchronization.
+		pthread_mutex_lock(&mainParReactionCounterLock);
 		mainParReactionCounter++;
+		pthread_cond_broadcast(&mainParReactionCounterCond);
+		pthread_mutex_unlock(&mainParReactionCounterLock);
 
 		goto *mainParParent.programCounter;
 	}
 
 	// Set slave cores' status to reacting
 
+	// forec:scheduler:counter:start
+	clockTimeUs.current = getClockTimeUs();
+	clockTimeUs.elapsed = clockTimeUs.current - clockTimeUs.previous;
+	if (clockTimeUs.elapsed < 0) {
+		usleep(0 - clockTimeUs.elapsed);
+	}
+	clockTimeUs.previous = getClockTimeUs();
+	// forec:scheduler:counter:end
+
 	// Increment the reaction counter for synchronization.
+	pthread_mutex_lock(&mainParReactionCounterLock);
 	mainParReactionCounter++;
+	pthread_cond_broadcast(&mainParReactionCounterCond);
+	pthread_mutex_unlock(&mainParReactionCounterLock);
 
 	// Go to the next thread.
 	goto *mainReactionEndMaster0.nextThread -> programCounter;
@@ -1274,11 +1369,14 @@ mainReactionEndMaster0: {
 	//-- stage6:
 stage6ReactionEndMaster0: {
 	// Determine if the core can still react or not.
+	pthread_mutex_lock(&stage6ParCore0.statusLock);
 	if (stage6ParCore0.activeThreads) {
 		stage6ParCore0.status = FOREC_CORE_REACTED;
 	} else {
 		stage6ParCore0.status = FOREC_CORE_TERMINATED;
 	}
+	pthread_cond_signal(&stage6ParCore0.statusCond);
+	pthread_mutex_unlock(&stage6ParCore0.statusLock);
 	
 	// Wait for other cores to complete their reaction.
 
@@ -1287,13 +1385,19 @@ stage6ReactionEndMaster0: {
 	if (1 && stage6ParCore0.status == FOREC_CORE_TERMINATED) {
 		forec_mutex_value_stage6 = -1;
 
+		pthread_mutex_lock(&stage6ParParent.parStatusLock);
 		stage6ParParent.parStatus = FOREC_PAR_OFF;
+		pthread_cond_broadcast(&stage6ParParent.parStatusCond);
+		pthread_mutex_unlock(&stage6ParParent.parStatusLock);
 		stage6ParParent.parId = -1;
 		
 		// Set slave cores' status to reacting
 
 		// Increment the reaction counter for synchronization.
+		pthread_mutex_lock(&stage6ParReactionCounterLock);
 		stage6ParReactionCounter++;
+		pthread_cond_broadcast(&stage6ParReactionCounterCond);
+		pthread_mutex_unlock(&stage6ParReactionCounterLock);
 
 		// Swap the reaction (start & end) handlers with (thread stage6 & nested par handler).
 		stage6ReactionStartMaster0.prevThread -> nextThread = &stage6__thread;
@@ -1309,7 +1413,10 @@ stage6ReactionEndMaster0: {
 	// Set slave cores' status to reacting
 
 	// Increment the reaction counter for synchronization.
+	pthread_mutex_lock(&stage6ParReactionCounterLock);
 	stage6ParReactionCounter++;
+	pthread_cond_broadcast(&stage6ParReactionCounterCond);
+	pthread_mutex_unlock(&stage6ParReactionCounterLock);
 
 	// Go to the next thread.
 	goto *stage6ReactionEndMaster0.nextThread -> programCounter;
@@ -3773,7 +3880,10 @@ stage6ReactionEndMaster0: {
 							// Set the par(...) information.
 							// forec:statement:par:par1:start
 							stage6ParParent.parId = 1;
+							pthread_mutex_lock(&stage6ParParent.parStatusLock);
 							stage6ParParent.parStatus = FOREC_PAR_ON;
+							pthread_cond_broadcast(&stage6ParParent.parStatusCond);
+							pthread_mutex_unlock(&stage6ParParent.parStatusLock);
 							stage6ParParent.programCounter = &&par1JoinAddress_stage6ParParent;
 
 							// Remove this thread from the linked list.
@@ -3787,7 +3897,10 @@ stage6ReactionEndMaster0: {
 							// Set the par(...) information.
 							// forec:statement:par:par2:start
 							stage6ParParent.parId = 2;
+							pthread_mutex_lock(&stage6ParParent.parStatusLock);
 							stage6ParParent.parStatus = FOREC_PAR_ON;
+							pthread_cond_broadcast(&stage6ParParent.parStatusCond);
+							pthread_mutex_unlock(&stage6ParParent.parStatusLock);
 							stage6ParParent.programCounter = &&par2JoinAddress_stage6ParParent;
 
 							// Remove this thread from the linked list.
@@ -3801,7 +3914,10 @@ stage6ReactionEndMaster0: {
 							// Set the par(...) information.
 							// forec:statement:par:par3:start
 							stage6ParParent.parId = 3;
+							pthread_mutex_lock(&stage6ParParent.parStatusLock);
 							stage6ParParent.parStatus = FOREC_PAR_ON;
+							pthread_cond_broadcast(&stage6ParParent.parStatusCond);
+							pthread_mutex_unlock(&stage6ParParent.parStatusLock);
 							stage6ParParent.programCounter = &&par3JoinAddress_stage6ParParent;
 
 							// Remove this thread from the linked list.
@@ -3815,7 +3931,10 @@ stage6ReactionEndMaster0: {
 							// Set the par(...) information.
 							// forec:statement:par:par4:start
 							stage6ParParent.parId = 4;
+							pthread_mutex_lock(&stage6ParParent.parStatusLock);
 							stage6ParParent.parStatus = FOREC_PAR_ON;
+							pthread_cond_broadcast(&stage6ParParent.parStatusCond);
+							pthread_mutex_unlock(&stage6ParParent.parStatusLock);
 							stage6ParParent.programCounter = &&par4JoinAddress_stage6ParParent;
 
 							// Remove this thread from the linked list.
@@ -3829,7 +3948,10 @@ stage6ReactionEndMaster0: {
 							// Set the par(...) information.
 							// forec:statement:par:par5:start
 							stage6ParParent.parId = 5;
+							pthread_mutex_lock(&stage6ParParent.parStatusLock);
 							stage6ParParent.parStatus = FOREC_PAR_ON;
+							pthread_cond_broadcast(&stage6ParParent.parStatusCond);
+							pthread_mutex_unlock(&stage6ParParent.parStatusLock);
 							stage6ParParent.programCounter = &&par5JoinAddress_stage6ParParent;
 
 							// Remove this thread from the linked list.
@@ -3913,7 +4035,10 @@ stage6ReactionEndMaster0: {
 			// forec:scheduler:iterationEnd:for1_27:start
 			// Synchronise end of iteration
 			stage6ParParent.parId = -2;
+			pthread_mutex_lock(&stage6ParParent.parStatusLock);
 			stage6ParParent.parStatus = FOREC_PAR_ON;
+			pthread_cond_broadcast(&stage6ParParent.parStatusCond);
+			pthread_mutex_unlock(&stage6ParParent.parStatusLock);
 			stage6ParParent.programCounter = &&for1_27_endAddress;
 			goto stage6ParHandlerMaster0;
 			for1_27_endAddress:;
