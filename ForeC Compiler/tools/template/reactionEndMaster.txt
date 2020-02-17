@@ -2,24 +2,33 @@
 	//-- %{threadScope}:
 %{handlerEndName}: {
 	// Determine if the core can still react or not.
+	pthread_mutex_lock(&%{threadScope}ParCore%{coreId}.statusLock);
 	if (%{threadScope}ParCore%{coreId}.activeThreads) {
 		%{threadScope}ParCore%{coreId}.status = FOREC_CORE_REACTED;
 	} else {
 		%{threadScope}ParCore%{coreId}.status = FOREC_CORE_TERMINATED;
 	}
+	pthread_cond_signal(&%{threadScope}ParCore%{coreId}.statusCond);
+	pthread_mutex_unlock(&%{threadScope}ParCore%{coreId}.statusLock);
 	
 	// Wait for other cores to complete their reaction.
 %{reactingCondition}
 %{resetMutex}%{combineShared}
 	// Return back to the parent thread if all the cores have terminated.
 	if (1%{terminatedCondition}) {%{resetLocalMutex}
+		pthread_mutex_lock(&%{threadScope}ParParent.parStatusLock);
 		%{threadScope}ParParent.parStatus = FOREC_PAR_OFF;
+		pthread_cond_broadcast(&%{threadScope}ParParent.parStatusCond);
+		pthread_mutex_unlock(&%{threadScope}ParParent.parStatusLock);
 		%{threadScope}ParParent.parId = -1;
 		
 		// Set slave cores' status to reacting
 %{setParCoresAsReactingIndented}
 		// Increment the reaction counter for synchronization.
-		%{threadScope}ParReactionCounter++;%{nestedSwap}
+		pthread_mutex_lock(&%{threadScope}ParReactionCounterLock);
+		%{threadScope}ParReactionCounter++;
+		pthread_cond_broadcast(&%{threadScope}ParReactionCounterCond);
+		pthread_mutex_unlock(&%{threadScope}ParReactionCounterLock);%{nestedSwap}
 
 		goto *%{threadScope}ParParent.programCounter;
 	}
@@ -27,7 +36,10 @@
 	// Set slave cores' status to reacting
 %{setParCoresAsReacting}%{reactionCounter}
 	// Increment the reaction counter for synchronization.
+	pthread_mutex_lock(&%{threadScope}ParReactionCounterLock);
 	%{threadScope}ParReactionCounter++;
+	pthread_cond_broadcast(&%{threadScope}ParReactionCounterCond);
+	pthread_mutex_unlock(&%{threadScope}ParReactionCounterLock);
 
 	// Go to the next thread.
 	goto *%{handlerEndName}.nextThread -> programCounter;

@@ -137,13 +137,15 @@ namespace tools {
 		std::ostringstream par;
 		for (std::map<std::string, std::vector<forec::ast::ParStatement *> >::const_iterator threadScope = parStatements.begin(); threadScope != parStatements.end(); ++ threadScope) {
 			par << "// Thread " << threadScope->first << " with par(...)s" << std::endl;
-			par << "volatile Parent " << threadScope->first << "ParParent;" << std::endl;
+			par << "Parent " << threadScope->first << "ParParent = { .parStatusCond = PTHREAD_COND_INITIALIZER, .parStatusLock = PTHREAD_MUTEX_INITIALIZER };" << std::endl;
 
 			for (std::set<std::string>::const_iterator coreId = coreIds[threadScope->first].begin(); coreId != coreIds[threadScope->first].end(); ++coreId) {
-				par << "volatile Core " << threadScope->first << "ParCore" << *coreId << ';' << std::endl;
+				par << "Core " << threadScope->first << "ParCore" << *coreId << " = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};" << std::endl;
 			}
 
-			par << "volatile int " << threadScope->first << "ParReactionCounter;" << std::endl << std::endl;
+			par << "volatile int " << threadScope->first << "ParReactionCounter;" << std::endl;
+			par << "pthread_cond_t " << threadScope->first << "ParReactionCounterCond = PTHREAD_COND_INITIALIZER;" << std::endl;
+			par << "pthread_mutex_t " << threadScope->first << "ParReactionCounterLock = PTHREAD_MUTEX_INITIALIZER;" << std::endl << std::endl;
 		}
 		Template::replace(content, "par", par.str());
 		
@@ -226,7 +228,9 @@ namespace tools {
 			}
 			for (std::set<std::string>::const_iterator core = cores.begin(); core != cores.end(); ++core) {
 				const std::string parCore = "mainParCore" + *core;
-				reactingCondition << "\t\twhile(" << parCore << ".status == FOREC_CORE_REACTING);" << std::endl;
+				reactingCondition << "\t\tpthread_mutex_lock(&" << parCore << ".statusLock);" << std::endl;
+				reactingCondition << "\t\twhile(" << parCore << ".status == FOREC_CORE_REACTING) { pthread_cond_wait(&" << parCore << ".statusCond, &" << parCore << ".statusLock); }" << std::endl;
+				reactingCondition << "\t\tpthread_mutex_unlock(&" << parCore << ".statusLock);" << std::endl;
 				setParCoresAsReacting << "\t\t" << parCore << ".status = FOREC_CORE_REACTING;" << std::endl;
 			}
 
@@ -236,13 +240,19 @@ namespace tools {
 			parHandler << "\t\t// Iteration" << std::endl;
 			parHandler << "\t\t// Wait for other cores to complete their reaction." << std::endl;
 			parHandler << reactingCondition.str() << std::endl;
+			parHandler << "\t\tpthread_mutex_lock(&mainParParent.parStatusLock);" << std::endl;
 			parHandler << "\t\tmainParParent.parStatus = FOREC_PAR_OFF;" << std::endl;
+			parHandler << "\t\tpthread_cond_broadcast(&mainParParent.parStatusCond);" << std::endl;
+			parHandler << "\t\tpthread_mutex_unlock(&mainParParent.parStatusLock);" << std::endl;
 			parHandler << "\t\tmainParParent.parId = -1;" << std::endl;
 			parHandler << std::endl;
 			parHandler << "\t\t// Set slave cores' status to reacting." << std::endl;
 			parHandler << setParCoresAsReacting.str() << std::endl;
 			parHandler << "\t\t// Increment the reaction counter for synchronisation." << std::endl;
+			parHandler << "\t\tpthread_mutex_lock(&mainParReactionCounterLock);" << std::endl;
 			parHandler << "\t\tmainParReactionCounter++;" << std::endl;
+			parHandler << "\t\tpthread_cond_broadcast(&mainParReactionCounterCond);" << std::endl;
+			parHandler << "\t\tpthread_mutex_unlock(&mainParReactionCounterLock);" << std::endl;
 			parHandler << std::endl;
 			parHandler << "\t\t// Return to thread main." << std::endl;
 			parHandler << "\t\tgoto *mainParParent.programCounter;" << std::endl;
@@ -478,7 +488,10 @@ namespace tools {
 		content << Tab::toString() << "// Set the par(...) information." << std::endl;
 		content << Tab::toString() << "// forec:statement:par:" << parId << ":start" << std::endl;
 		content << Tab::toString() << parParent << ".parId = " << parNumber << ';' << std::endl;
+		content << Tab::toString() << "pthread_mutex_lock(&" << parParent << ".parStatusLock);" << std::endl;
 		content << Tab::toString() << parParent << ".parStatus = FOREC_PAR_ON;" << std::endl;
+		content << Tab::toString() << "pthread_cond_broadcast(&" << parParent << ".parStatusCond);" << std::endl;
+		content << Tab::toString() << "pthread_mutex_unlock(&" << parParent << ".parStatusLock);" << std::endl;
 		content << Tab::toString() << parParent << ".programCounter = &&" << parId << "JoinAddress_" << parParent << ';' << std::endl;
 		content << std::endl;
 		content << Tab::toString() << "// Remove this thread from the linked list." << std::endl;
@@ -530,7 +543,7 @@ namespace tools {
 			for (std::set<std::string>::const_iterator slaveCoreId = slaveCoreIds.begin(); slaveCoreId != slaveCoreIds.end(); ++slaveCoreId) {
 				pthreadSlavesCreate << Tab::toString() << "Arguments arguments" << i << " = {.coreId = " << i << ", .argc = " << argcName << ", .argv = " << argvName << "};" << std::endl;
 				pthreadSlavesCreate << Tab::toString() << "pthread_create(&cores[" << i << "], &slaveCoreAttribute, forecMain, (void *)&arguments" << i << ");" << std::endl;
-				pthreadSlavesJoin   << Tab::toString() << "pthread_cancel(cores[" << i << "]);" << std::endl;
+				pthreadSlavesJoin   << Tab::toString() << "pthread_cond_broadcast(&mainParParent.parStatusCond);" << std::endl;
 				pthreadSlavesJoin   << Tab::toString() << "pthread_join(cores[" << i << "], NULL);" << std::endl;
 				++i;
 			}
@@ -777,7 +790,9 @@ namespace tools {
 			std::ostringstream setParCoresAsReactingIndented;
 			for (std::set<std::string>::const_iterator core = cores.begin(); core != cores.end(); ++core) {
 				const std::string parCore = threadScope + "ParCore" + *core;
-				reactingCondition << "\twhile(" << parCore << ".status == FOREC_CORE_REACTING);" << std::endl;
+				reactingCondition << "\tpthread_mutex_lock(&" << parCore << ".statusLock);" << std::endl;
+				reactingCondition << "\twhile(" << parCore << ".status == FOREC_CORE_REACTING) { pthread_cond_wait(&" << parCore << ".statusCond, &" << parCore << ".statusLock); }" << std::endl;
+				reactingCondition << "\tpthread_mutex_unlock(&" << parCore << ".statusLock);" << std::endl;
 				setParCoresAsReacting << "\t" << parCore << ".status = FOREC_CORE_REACTING;" << std::endl;
 				setParCoresAsReactingIndented << "\t\t" << parCore << ".status = FOREC_CORE_REACTING;" << std::endl;
 			}
@@ -933,6 +948,17 @@ namespace tools {
 			}
 
 			std::ostringstream reactionCounter;
+			if (Multicore::isArchitecture("x86") && threadScope.compare("main") == 0) {
+				reactionCounter << std::endl;
+				reactionCounter << Tab::toString() << "// forec:scheduler:counter:start" << std::endl;
+				reactionCounter << Tab::toString() << "clockTimeUs.current = getClockTimeUs();" << std::endl;
+				reactionCounter << Tab::toString() << "clockTimeUs.elapsed = clockTimeUs.current - clockTimeUs.previous;" << std::endl;
+				reactionCounter << Tab::toString() << "if (clockTimeUs.elapsed < " << global::minReactionTime << ") {" << std::endl;
+				reactionCounter << Tab::toString() << "\tusleep(" << global::minReactionTime << " - clockTimeUs.elapsed);" << std::endl;
+				reactionCounter << Tab::toString() << "}" << std::endl;
+				reactionCounter << Tab::toString() << "clockTimeUs.previous = getClockTimeUs();" << std::endl;
+				reactionCounter << Tab::toString() << "// forec:scheduler:counter:end" << std::endl;
+			}
 			if (global::debugLevel > 0) {
 				if (Multicore::isArchitecture("microblaze") && threadScope.compare("main") == 0) {
 					reactionCounter << std::endl;
@@ -1050,13 +1076,18 @@ namespace tools {
 			cores.erase(coreId);
 			for (std::set<std::string>::const_iterator core = cores.begin(); core != cores.end(); ++core) {
 				const std::string parCore = threadScope + "ParCore" + *core;
-				reactingCondition << "\t\twhile(" << parCore << ".status == FOREC_CORE_REACTING);" << std::endl;
+				reactingCondition << "\t\tpthread_mutex_lock(&" << parCore << ".statusLock);" << std::endl;
+				reactingCondition << "\t\twhile(" << parCore << ".status == FOREC_CORE_REACTING) { pthread_cond_wait(&" << parCore << ".statusCond, &" << parCore << ".statusLock); }" << std::endl;
+				reactingCondition << "\t\tpthread_mutex_unlock(&" << parCore << ".statusLock);" << std::endl;
 				setParCoresAsReacting << "\t\t" << parCore << ".status = FOREC_CORE_REACTING;" << std::endl;
 			}
 
 			forLoop << "\t\t// Wait for other cores to complete their reaction." << std::endl;
 			forLoop << reactingCondition.str() << std::endl;
+			forLoop << "\t\t" << "pthread_mutex_lock(&" << threadScope << "ParParent.parStatusLock);" << std::endl;
 			forLoop << "\t\t" << threadScope << "ParParent.parStatus = FOREC_PAR_OFF;" << std::endl;
+			forLoop << "\t\t" << "pthread_cond_broadcast(&" << threadScope << "ParParent.parStatusCond);" << std::endl;
+			forLoop << "\t\t" << "pthread_mutex_unlock(&" << threadScope << "ParParent.parStatusLock);" << std::endl;
 			forLoop << "\t\t" << threadScope << "ParParent.parId = -1;" << std::endl << std::endl;
 			if (Multicore::isArchitecture("x86") || Multicore::isArchitecture("ptarm")) {
 				forLoop << "\t\tforec_mutex_value_" << threadScope << " = -1;" << std::endl;
@@ -1068,20 +1099,29 @@ namespace tools {
 			forLoop << "\t\t// Set slave cores' status to reacting." << std::endl;
 			forLoop << setParCoresAsReacting.str() << std::endl;
 			forLoop << "\t\t// Increment the reaction counter for synchronisation." << std::endl;
+			forLoop << "\t\tpthread_mutex_lock(&" << threadScope << "ParReactionCounterLock);" << std::endl;
 			forLoop << "\t\t" << threadScope << "ParReactionCounter++;" << std::endl;
+			forLoop << "\t\tpthread_cond_broadcast(&" << threadScope << "ParReactionCounterCond);" << std::endl;
+			forLoop << "\t\tpthread_mutex_unlock(&" << threadScope << "ParReactionCounterLock);" << std::endl;
 			forLoop << std::endl;
 			forLoop << "\t\t// Return to thread " << threadScope << '.' << std::endl;
 			forLoop << "\t\tgoto *" << threadScope << "ParParent.programCounter;";
 
 			synchronise << "\t\t// Wait for other cores to complete their reaction." << std::endl;
 			synchronise << reactingCondition.str() << std::endl;
+			synchronise << "\t\t" << "pthread_mutex_lock(&" << threadScope << "ParParent.parStatusLock);" << std::endl;
 			synchronise << "\t\t" << threadScope << "ParParent.parStatus = FOREC_PAR_OFF;" << std::endl;
+			synchronise << "\t\t" << "pthread_cond_broadcast(&" << threadScope << "ParParent.parStatusCond);" << std::endl;
+			synchronise << "\t\t" << "pthread_mutex_unlock(&" << threadScope << "ParParent.parStatusLock);" << std::endl;
 			synchronise << "\t\t" << threadScope << "ParParent.parId = -1;" << std::endl;
 			synchronise << std::endl;
 			synchronise << "\t\t// Set slave cores' status to reacting." << std::endl;
 			synchronise << setParCoresAsReacting.str() << std::endl;
 			synchronise << "\t\t// Increment the reaction counter for synchronisation." << std::endl;
+			synchronise << "\t\tpthread_mutex_lock(&" << threadScope << "ParReactionCounterLock);" << std::endl;
 			synchronise << "\t\t" << threadScope << "ParReactionCounter++;" << std::endl;
+			synchronise << "\t\tpthread_cond_broadcast(&" << threadScope << "ParReactionCounterCond);" << std::endl;
+			synchronise << "\t\tpthread_mutex_unlock(&" << threadScope << "ParReactionCounterLock);" << std::endl;
 
 			nextThread << "\t\t// Return to thread " << threadScope << '.' << std::endl;
 			nextThread << "\t\tgoto *" << threadScope << "ParParent.programCounter;";
@@ -1102,19 +1142,29 @@ namespace tools {
 			mutex << "\t}" << std::endl;
 
 			forLoop << "\t\t" << threadScope << "ParCore" << coreId << ".reactionCounter = " << threadScope << "ParReactionCounter;" << std::endl;
+			forLoop << "\t\t" << "pthread_mutex_lock(&" << threadScope << "ParCore" << coreId << ".statusLock);" << std::endl;
 			forLoop << "\t\t" << threadScope << "ParCore" << coreId << ".status = FOREC_CORE_TERMINATED;" << std::endl;
+			forLoop << "\t\t" << "pthread_cond_signal(&" << threadScope << "ParCore" << coreId << ".statusCond);" << std::endl;
+			forLoop << "\t\t" << "pthread_mutex_unlock(&" << threadScope << "ParCore" << coreId << ".statusLock);" << std::endl;
 			forLoop << std::endl;
 			forLoop << "\t\t// Wait for the next reaction." << std::endl;
-			forLoop << "\t\t" << "while (" << threadScope << "ParCore" << coreId << ".reactionCounter == " << threadScope << "ParReactionCounter);" << std::endl;
+			forLoop << "\t\t" << "pthread_mutex_lock(&" << threadScope << "ParReactionCounterLock);" << std::endl;
+			forLoop << "\t\t" << "while (" << threadScope << "ParCore" << coreId << ".reactionCounter == " << threadScope << "ParReactionCounter) { pthread_cond_wait(&" << threadScope << "ParReactionCounterCond, &" << threadScope << "ParReactionCounterLock); }" << std::endl;
+			forLoop << "\t\t" << "pthread_mutex_unlock(&" << threadScope << "ParReactionCounterLock);" << std::endl;
 			forLoop << std::endl;
 			forLoop << "\t\t// Go to the next thread." << std::endl;
 			forLoop << "\t\tgoto " << handlerName << ';';
 
 			synchronise << "\t\t" << threadScope << "ParCore" << coreId << ".reactionCounter = " << threadScope << "ParReactionCounter;" << std::endl;
+			synchronise << "\t\t" << "pthread_mutex_lock(&" << threadScope << "ParCore" << coreId << ".statusLock);" << std::endl;
 			synchronise << "\t\t" << threadScope << "ParCore" << coreId << ".status = FOREC_CORE_TERMINATED;" << std::endl;
+			synchronise << "\t\t" << "pthread_cond_signal(&" << threadScope << "ParCore" << coreId << ".statusCond);" << std::endl;
+			synchronise << "\t\t" << "pthread_mutex_unlock(&" << threadScope << "ParCore" << coreId << ".statusLock);" << std::endl;
 			synchronise << std::endl;
 			synchronise << "\t\t// Wait for the next reaction." << std::endl;
-			synchronise << "\t\t" << "while (" << threadScope << "ParCore" << coreId << ".reactionCounter == " << threadScope << "ParReactionCounter);" << std::endl;
+			synchronise << "\t\t" << "pthread_mutex_lock(&" << threadScope << "ParReactionCounterLock);" << std::endl;
+			synchronise << "\t\t" << "while (" << threadScope << "ParCore" << coreId << ".reactionCounter == " << threadScope << "ParReactionCounter) { pthread_cond_wait(&" << threadScope << "ParReactionCounterCond, &" << threadScope << "ParReactionCounterLock); }" << std::endl;
+			synchronise << "\t\t" << "pthread_mutex_unlock(&" << threadScope << "ParReactionCounterLock);" << std::endl;
 
 			nextThread << "\t\t// Go to the next thread." << std::endl;
 			nextThread << "\t\tgoto *" << handlerName << ".nextThread -> programCounter;";

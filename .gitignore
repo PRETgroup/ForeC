@@ -32,11 +32,8 @@ information.xml
 debug.txt
 *.dot
 
-ForeC Compiler/forecc.dSYM/
 ForeC Benchmarks/ptarm/Pipelining/Pipelining.c
 ForeC Benchmarks/x86/Design patterns/Broadcast/Broadcast.c
-ForeC Compiler/ForeC Compiler.xcodeproj/project.xcworkspace/
-ForeC Compiler/ForeC Compiler.xcodeproj/xcshareddata/
 
 PTARM Processor/programs/memory/_build/memory.o.expanded.c
 PTARM Processor/programs/memory/_build/memory.elf

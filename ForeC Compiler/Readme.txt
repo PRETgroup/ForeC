@@ -1,12 +1,12 @@
 ForeC Compiler (multicore distribution)
-----------------------------------------
+---------------------------------------
 Compiles ForeC programs into an equivalent C program for 
 multicore execution on MicroBlaze, PTARM, or desktop
 computers (Pthreads).
 
 
 Author: Eugene Kin Chee Yip
-Date: 5 October 2014
+Date: 17 February 2020
 
 Pre-requisites:
 ---------------
@@ -55,9 +55,12 @@ Usage:
     the elapsed time after each program reaction.
   -i for checking instantaneous loops.
   -t<clock cycles> for creating time predictable code that
-    runs each global tick for at least <clock cycles> long.
+    runs each global tick for at least <clock cycles> long
+    on microblaze or ptarm platforms, or at least 
+    <microseconds> long on x86 platforms.
   -m<name> for embedding the program with <name> for the 
-    main function.
+    main function, with void * as the return type and 
+    void *_ for the function parameter.
 
 * Expected source file extension: *.forec
 * Expected header file extension: *.foreh

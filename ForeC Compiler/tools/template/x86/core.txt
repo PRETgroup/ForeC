@@ -1,4 +1,6 @@
-%{declareArgcArgv}	// Initialise ForeC specific values ---------------------------
+%{declareArgcArgv}	programStatus = RUNNING;
+
+	// Initialise ForeC specific values ---------------------------
 %{initialise}
 	// Reset ForeC mutex values
 %{resetMutexValues}

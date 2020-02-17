@@ -3,10 +3,15 @@
 %{handlerEndName}: {
 	// Determine if the core can still react or not.
 	if (%{threadScope}ParCore%{coreId}.activeThreads) {
+		pthread_mutex_lock(&%{threadScope}ParCore%{coreId}.statusLock);
 		%{threadScope}ParCore%{coreId}.status = FOREC_CORE_REACTED;
+		pthread_cond_signal(&%{threadScope}ParCore%{coreId}.statusCond);
+		pthread_mutex_unlock(&%{threadScope}ParCore%{coreId}.statusLock);
 		
 		// Wait for the next tick.
-		while (%{threadScope}ParCore%{coreId}.reactionCounter == %{threadScope}ParReactionCounter);
+		pthread_mutex_lock(&%{threadScope}ParReactionCounterLock);
+		while (%{threadScope}ParCore%{coreId}.reactionCounter == %{threadScope}ParReactionCounter) { pthread_cond_wait(&%{threadScope}ParReactionCounterCond, &%{threadScope}ParReactionCounterLock); }
+		pthread_mutex_unlock(&%{threadScope}ParReactionCounterLock);
 		%{threadScope}ParCore%{coreId}.reactionCounter++;
 		
 		// Continue reacting.
@@ -17,10 +22,15 @@
 		%{handlerEndName}.programCounter = &&terminated_%{handlerEndName};
 		terminated_%{handlerEndName}:;
 		
+		pthread_mutex_lock(&%{threadScope}ParCore%{coreId}.statusLock);
 		%{threadScope}ParCore%{coreId}.status = FOREC_CORE_TERMINATED;
+		pthread_cond_signal(&%{threadScope}ParCore%{coreId}.statusCond);
+		pthread_mutex_unlock(&%{threadScope}ParCore%{coreId}.statusLock);
 		
-		// Wait for the next reaction.
-		while (%{threadScope}ParCore%{coreId}.reactionCounter == %{threadScope}ParReactionCounter);
+		// Wait for the next tick.
+		pthread_mutex_lock(&%{threadScope}ParReactionCounterLock);
+		while (%{threadScope}ParCore%{coreId}.reactionCounter == %{threadScope}ParReactionCounter) { pthread_cond_wait(&%{threadScope}ParReactionCounterCond, &%{threadScope}ParReactionCounterLock); }
+		pthread_mutex_unlock(&%{threadScope}ParReactionCounterLock);
 		%{threadScope}ParCore%{coreId}.reactionCounter++;
 		
 		// Wait for the par(...) to terminate.

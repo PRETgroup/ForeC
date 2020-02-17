@@ -3,6 +3,28 @@
 | Cores, mutex and input/output information.
 *=============================================================*/
 #include <pthread.h>
+#include <time.h>
+#include <sys/time.h>
+#include <stdint.h>
+#include <unistd.h>
+
+typedef struct {
+	long long previous;
+	long long current;
+	long long elapsed;
+} ClockTimeUs;
+ClockTimeUs clockTimeUs;
+
+// Returns the current time in microseconds
+long long getClockTimeUs(void) {
+	struct timespec ts;
+
+	if (clock_gettime(CLOCK_MONOTONIC, &ts) == 0) {
+		return (long long) (ts.tv_sec * 1000000 + ts.tv_nsec / 1000);
+	} else {
+		return 0;
+	}
+}
 
 // Mapping Pthreads to processor cores
 pthread_t cores[%{coreCount}];
@@ -29,7 +51,11 @@ typedef enum {
 	// Shared variables
 	FOREC_SHARED_UNMODIFIED,	// 5
 	FOREC_SHARED_MODIFIED,		// 6
-	FOREC_SHARED_WAS_MODIFIED	// 7
+	FOREC_SHARED_WAS_MODIFIED,	// 7
+	
+	// Program termination
+	RUNNING,					// 8
+	TERMINATED					// 9
 } Status;
 
 // Store child thread information.
@@ -42,17 +68,23 @@ typedef struct _Thread {
 // Store parent thread information
 typedef struct {
 	void *programCounter;
-	int parStatus;
-	int parId;
+	volatile Status parStatus;
+	pthread_cond_t parStatusCond;
+	pthread_mutex_t parStatusLock;
+	volatile int parId;
 } Parent;
 
 // Keep track of child threads executing on
 // a processor core.
 typedef struct {
-	int sync;
-	int activeThreads;
-	int status;
-	int reactionCounter;
+	volatile int sync;
+	volatile int activeThreads;
+	volatile Status status;
+	pthread_cond_t statusCond;
+	pthread_mutex_t statusLock;
+	volatile int reactionCounter;
+	pthread_cond_t reactionCounterCond;
+	pthread_mutex_t reactionCounterLock;
 } Core;
 
 // Structure to pass input arguments into forecMain.
@@ -61,6 +93,9 @@ typedef struct {
 	int argc;
 	char **argv;
 } Arguments;
+
+// Shared control variable to signal program termination to the slave pthreads
+volatile Status programStatus;
 
 // Shared control variables for non-immediate aborts -----------
 %{abort}

@@ -2,7 +2,10 @@
 %{tab}// forec:statement:par:%{parId}:start
 %{tab}// Set the par(...) information.
 %{tab}mainParParent.parId = %{parNumber};
+%{tab}pthread_mutex_lock(&mainParParent.parStatusLock);
 %{tab}mainParParent.parStatus = FOREC_PAR_ON;
+%{tab}pthread_cond_broadcast(&mainParParent.parStatusCond);
+%{tab}pthread_mutex_unlock(&mainParParent.parStatusLock);
 
 %{tab}// Link the threads and handlers together.
 %{linkedList}
