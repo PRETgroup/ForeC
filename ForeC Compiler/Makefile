@@ -49,5 +49,5 @@ clean :
 	rm -rf lex.yy.cc
 	
 	# remove compiled files
-	rm -rf $(BIN) $(BIN).exe *.o $(AST_OBJS) $(TAROT_OBJS) $(TOOLS_OBJS)
+	rm -rf $(BIN) $(BIN).exe *.o *.dSYM $(AST_OBJS) $(TAROT_OBJS) $(TOOLS_OBJS)
 

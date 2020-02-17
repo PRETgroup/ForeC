@@ -1149,7 +1149,7 @@ namespace tools {
 			forLoop << std::endl;
 			forLoop << "\t\t// Wait for the next reaction." << std::endl;
 			forLoop << "\t\t" << "pthread_mutex_lock(&" << threadScope << "ParReactionCounterLock);" << std::endl;
-			forLoop << "\t\t" << "while (" << threadScope << "ParCore" << coreId << ".reactionCounter == " << threadScope << "ParReactionCounter) { pthread_cond_wait(&" << threadScope << "ParReactionCounterCond, &mainParReactionCounterLock); }" << std::endl;
+			forLoop << "\t\t" << "while (" << threadScope << "ParCore" << coreId << ".reactionCounter == " << threadScope << "ParReactionCounter) { pthread_cond_wait(&" << threadScope << "ParReactionCounterCond, &" << threadScope << "ParReactionCounterLock); }" << std::endl;
 			forLoop << "\t\t" << "pthread_mutex_unlock(&" << threadScope << "ParReactionCounterLock);" << std::endl;
 			forLoop << std::endl;
 			forLoop << "\t\t// Go to the next thread." << std::endl;
@@ -1163,7 +1163,7 @@ namespace tools {
 			synchronise << std::endl;
 			synchronise << "\t\t// Wait for the next reaction." << std::endl;
 			synchronise << "\t\t" << "pthread_mutex_lock(&" << threadScope << "ParReactionCounterLock);" << std::endl;
-			synchronise << "\t\t" << "while (" << threadScope << "ParCore" << coreId << ".reactionCounter == " << threadScope << "ParReactionCounter) { pthread_cond_wait(&" << threadScope << "ParReactionCounterCond, &mainParReactionCounterLock); }" << std::endl;
+			synchronise << "\t\t" << "while (" << threadScope << "ParCore" << coreId << ".reactionCounter == " << threadScope << "ParReactionCounter) { pthread_cond_wait(&" << threadScope << "ParReactionCounterCond, &" << threadScope << "ParReactionCounterLock); }" << std::endl;
 			synchronise << "\t\t" << "pthread_mutex_unlock(&" << threadScope << "ParReactionCounterLock);" << std::endl;
 
 			nextThread << "\t\t// Go to the next thread." << std::endl;
