@@ -4,4 +4,8 @@ parser.tab.*
 *.cc
 *.o
 *.dSYM
+
+test/*/*.c
+
 ForeC Compiler.xcodeproj/project.xcworkspace
+ForeC Compiler.xcodeproj/xcshareddata/
