@@ -1,12 +1,12 @@
 ForeC Compiler (multicore distribution)
-----------------------------------------
+---------------------------------------
 Compiles ForeC programs into an equivalent C program for 
 multicore execution on MicroBlaze, PTARM, or desktop
 computers (Pthreads).
 
 
 Author: Eugene Kin Chee Yip
-Date: 5 October 2014
+Date: 17 February 2020
 
 Pre-requisites:
 ---------------
