@@ -5,11 +5,12 @@ ifeq ($(shell uname), Linux)
 	CC					= clang++
 else ifeq ($(shell uname), Darwin)
 	CC					= clang++
+	HOMEBREW_INCLUDES	= -I/usr/local/Cellar/libelf/0.8.13_1/include/libelf
 else
 	CC					= g++
 endif
 
-CFLAGS	= -Wall -O3
+CFLAGS	= -Wall -O3 $(HOMEBREW_INCLUDES)
 LDFLAGS	= -lelf
 OBJS	= MicroBlaze.o System.o MicroBlazeElf.o Counter.o MutexEsterel.o MutexForeC.o Uart.o PrivateMemoryBus.o SharedMemoryBus.o ThreadQueue.o
 BIN		= mb-sim
