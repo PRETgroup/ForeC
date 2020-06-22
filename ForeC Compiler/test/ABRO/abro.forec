@@ -16,7 +16,7 @@ thread tDebug(void);
 
 shared const int MAX_TICK_NUMBER = 12;
 
-void main(int argc, char **argv) {
+int main(int argc, char **argv) {
 	par(tSetInputs, tDebug, tABRO);
 }
 
@@ -64,7 +64,7 @@ thread tABRO(void) {
 	for (int i = 0; i < MAX_TICK_NUMBER; i++) {
 		abort {			
 			// Reset output O to zero:
-			// Unlike Esterel, where signal presence is always cleared at the
+			// Unlike Esterel, where signal presence is always reset at the
 			// start of each tick, output variables in ForeC have persistent 
 			// values which need to be explicitly "cleared" by the programmer.
 			O = 0;

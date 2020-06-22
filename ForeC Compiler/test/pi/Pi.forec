@@ -59,8 +59,6 @@ integer main(integer argc, char **argv) {
 
 	printf("Pi1: %d.%ld\r\n", (integer)result.total, (long)((result.total - (integer)result.total) * 1000000000));
 	printf("Runtime: %ld.%.6d\r\n", seconds, microseconds);
-	
-	return 0;
 }
 
 

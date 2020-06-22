@@ -1,7 +1,7 @@
 all:
 	gcc SimpleP.c -o simple -lpthread
 	gcc MMP.c -o mmp -lpthread
-	gcc MMPOMP.c -o mmpomp -lpthread
+	clang MMPOMP.c -o mmpomp -fopenmp -lomp
 	
 clean:
 	rm -f simple mmp mmpomp

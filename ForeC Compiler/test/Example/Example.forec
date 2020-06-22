@@ -7,7 +7,7 @@ const int plus(const int *copy1, const int *copy2);
 
 shared int x = 0 combine with plus;
 
-void main(int argc, char **argv) {
+int main(int argc, char **argv) {
 	x = 1;
 	par(t0, t1);
 	x = x - 1;

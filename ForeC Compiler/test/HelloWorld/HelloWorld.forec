@@ -12,7 +12,7 @@ thread world(void);
 shared int state = 0;
 
 // Function main: The entry point of the program.
-void main(int argc, char **argv) {
+int main(int argc, char **argv) {
 	// par statement to fork two threads.
 	abort {
 		par(hello, world);

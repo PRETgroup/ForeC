@@ -1,0 +1,10 @@
+ParserMicroBlaze.tab.c
+ParserMicroBlaze.tab.h
+ParserPtarm.tab.c
+ParserPtarm.tab.h
+foreca
+lex.microBlaze.cc
+lex.ptarm.cc
+location.hh
+position.hh
+stack.hh

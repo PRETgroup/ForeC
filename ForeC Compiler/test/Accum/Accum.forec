@@ -13,7 +13,7 @@ thread accumulate(void);
 shared int count = 0 combine with plus;
 
 // Function main: The entry point of the program.
-void main(int argc, char **argv) {
+int main(int argc, char **argv) {
 	// par statement to fork three threads.
 	par(t1, t2, accumulate);
 }
