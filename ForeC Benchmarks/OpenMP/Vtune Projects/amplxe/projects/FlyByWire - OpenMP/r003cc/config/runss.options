@@ -1,0 +1,15 @@
+-r
+/home/useradmin/intel/amplxe/projects/FlyByWire - OpenMP/r003cc
+--data-limit-mb=500
+--stack-stitching
+--follow-child
+--type=frame:counters
+--stackwalk=offline
+--type=cpu:counters
+--type=cpu:stack
+--interval=10
+--type=threading:stack
+--type=waiting:stack
+--type=io:stack
+--
+/home/useradmin/ForeC/OpenMPnew/FlyByWire/FlyByWire_omp

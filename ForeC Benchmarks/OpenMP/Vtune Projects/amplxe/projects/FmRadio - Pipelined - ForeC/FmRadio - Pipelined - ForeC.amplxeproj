@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+ <connectionOption type="string"></connectionOption>
+ <rdmgr>
+  <timestamp type="u64_t">1390367104</timestamp>
+  <hostname type="string">en-311876</hostname>
+  <os type="string">linux</os>
+  <product type="string">Intel® VTune™ Amplifier XE 2013 Update 14</product>
+  <buildNumber type="s32_t">320457</buildNumber>
+  <logicalCPUCount type="s32_t">4</logicalCPUCount>
+  <CPUFrequency type="s64_t">3400000000</CPUFrequency>
+ </rdmgr>
+ <All_Configurations-All_Platforms>
+  <target_settings>
+   <selected_workload type="string">launch</selected_workload>
+   <result_pattern type="string">r@@@{at}</result_pattern>
+   <result_dir type="string">/home/useradmin/intel/amplxe/projects/FmRadio - Pipelined - ForeC</result_dir>
+   <workloads>
+    <attach type="pointer" type_id="dasID_cctrl2::AttachWorkload" ptr_type="dasID_cctrl2::IWorkload">
+     <workload>
+      <targetName type="string">attach</targetName>
+      <use_app_dir_as_work_dir type="bool">false</use_app_dir_as_work_dir>
+      <result_directory.path type="string">/home/useradmin/intel/amplxe/projects/FmRadio - Pipelined - ForeC/r@@@{at}</result_directory.path>
+      <search_directories type="bag"/>
+      <context>
+       <contextValue>
+        <id type="string">allowMultipleRuns</id>
+        <value type="bool">false</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">analyzeSystemWide</id>
+        <value type="bool">false</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">cpuMask</id>
+        <value type="string"></value>
+       </contextValue>
+       <contextValue>
+        <id type="string">dataLimit</id>
+        <value type="s32_t">500</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">followChild</id>
+        <value type="bool">true</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">followChildStrategy</id>
+        <value type="string"></value>
+       </contextValue>
+       <contextValue>
+        <id type="string">goodFastFrameThreshold</id>
+        <value type="double">100</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">mrteMode</id>
+        <value type="string">auto</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">slowGoodFrameThreshold</id>
+        <value type="double">40</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">targetDurationType</id>
+        <value type="string">short</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">targetType</id>
+        <value type="string">attach</value>
+       </contextValue>
+      </context>
+     </workload>
+    </attach>
+    <launch type="pointer" type_id="dasID_cctrl2::ApplicationWorkload" ptr_type="dasID_cctrl2::IWorkload">
+     <workload>
+      <targetName type="string">launch</targetName>
+      <use_app_dir_as_work_dir type="bool">true</use_app_dir_as_work_dir>
+      <launch_app.inherit_sys_environment type="bool">true</launch_app.inherit_sys_environment>
+      <result_directory.path type="string">/home/useradmin/intel/amplxe/projects/FmRadio - Pipelined - ForeC/r@@@{at}</result_directory.path>
+      <launch.userapppath type="string">/home/useradmin/ForeC/ForeC Benchmarks/FmRadio/pipelined/FmRadio</launch.userapppath>
+      <launch_app.app_to_launch type="string">/home/useradmin/ForeC/ForeC Benchmarks/FmRadio/pipelined/FmRadio</launch_app.app_to_launch>
+      <launch_app.working_folder type="string">/home/useradmin/ForeC/ForeC Benchmarks/FmRadio/pipelined</launch_app.working_folder>
+      <search_directories type="bag"/>
+      <context>
+       <contextValue>
+        <id type="string">allowMultipleRuns</id>
+        <value type="bool">false</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">analyzeSystemWide</id>
+        <value type="bool">false</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">cpuMask</id>
+        <value type="string"></value>
+       </contextValue>
+       <contextValue>
+        <id type="string">dataLimit</id>
+        <value type="s32_t">500</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">followChild</id>
+        <value type="bool">true</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">followChildStrategy</id>
+        <value type="string"></value>
+       </contextValue>
+       <contextValue>
+        <id type="string">goodFastFrameThreshold</id>
+        <value type="double">100</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">mrteMode</id>
+        <value type="string">auto</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">slowGoodFrameThreshold</id>
+        <value type="double">40</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">targetDurationType</id>
+        <value type="string">short</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">targetType</id>
+        <value type="string">launch</value>
+       </contextValue>
+      </context>
+     </workload>
+    </launch>
+    <system type="pointer" type_id="dasID_cctrl2::SystemWideWorkload" ptr_type="dasID_cctrl2::IWorkload">
+     <workload>
+      <targetName type="string">system</targetName>
+      <use_app_dir_as_work_dir type="bool">false</use_app_dir_as_work_dir>
+      <result_directory.path type="string">/home/useradmin/intel/amplxe/projects/FmRadio - Pipelined - ForeC/r@@@{at}</result_directory.path>
+      <search_directories type="bag"/>
+      <context>
+       <contextValue>
+        <id type="string">allowMultipleRuns</id>
+        <value type="bool">false</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">cpuMask</id>
+        <value type="string"></value>
+       </contextValue>
+       <contextValue>
+        <id type="string">dataLimit</id>
+        <value type="s32_t">500</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">followChild</id>
+        <value type="bool">true</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">goodFastFrameThreshold</id>
+        <value type="double">100</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">mrteMode</id>
+        <value type="string">native</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">slowGoodFrameThreshold</id>
+        <value type="double">40</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">targetDurationType</id>
+        <value type="string">short</value>
+       </contextValue>
+       <contextValue>
+        <id type="string">targetType</id>
+        <value type="string">system</value>
+       </contextValue>
+      </context>
+     </workload>
+    </system>
+   </workloads>
+  </target_settings>
+  <searchDirs>
+   <searchCategory>
+    <category type="u8_t">1</category>
+   </searchCategory>
+   <searchCategory>
+    <category type="u8_t">2</category>
+   </searchCategory>
+   <searchCategory>
+    <category type="u8_t">3</category>
+   </searchCategory>
+   <searchCategory>
+    <category type="u8_t">4</category>
+   </searchCategory>
+  </searchDirs>
+  <analysis_type_settings>
+   <selected_analysis_type_path type="string">/home/useradmin/intel/vtune_amplifier_xe_2013/config/analysis_type/concurrency.cfg</selected_analysis_type_path>
+  </analysis_type_settings>
+ </All_Configurations-All_Platforms>
+ <engine>
+  <knobs>
+   <frameThreshold type="string">
+&lt;bag xmlns:double=&quot;http://www.intel.com/2001/XMLSchema#double&quot;&gt;
+ &lt;minValueThresholds domain=&quot;&quot;&gt;
+  &lt;double:minValueThreshold name=&quot;%SlowFrame&quot;&gt;0&lt;/double:minValueThreshold&gt;
+  &lt;double:minValueThreshold name=&quot;%GoodFrame&quot;&gt;40&lt;/double:minValueThreshold&gt;
+  &lt;double:minValueThreshold name=&quot;%FastFrame&quot;&gt;100&lt;/double:minValueThreshold&gt;
+ &lt;/minValueThresholds&gt;
+&lt;/bag&gt;
+</frameThreshold>
+   <utilizationThreshold type="string">&lt;bag xmlns:double=&quot;http://www.w3.org/2001/XMLSchema#double&quot;
+                  xmlns:boolean=&quot;http://www.w3.org/2001/XMLSchema#boolean&quot;&gt;
+          &lt;minValueThresholds boolean:scaled=&quot;true&quot;&gt;
+            &lt;double:minValueThreshold name=&quot;%Idle&quot;&gt;-1&lt;/double:minValueThreshold&gt;
+            &lt;double:minValueThreshold name=&quot;%Poor&quot;&gt;0.0000001&lt;/double:minValueThreshold&gt;
+            &lt;double:minValueThreshold name=&quot;%Ok&quot;&gt;0.5001&lt;/double:minValueThreshold&gt;
+            &lt;double:minValueThreshold name=&quot;%Ideal&quot;&gt;0.85&lt;/double:minValueThreshold&gt;
+            &lt;double:minValueThreshold name=&quot;%Over&quot;&gt;1.15&lt;/double:minValueThreshold&gt;
+          &lt;/minValueThresholds&gt;
+        &lt;/bag&gt;</utilizationThreshold>
+  </knobs>
+ </engine>
+</root>

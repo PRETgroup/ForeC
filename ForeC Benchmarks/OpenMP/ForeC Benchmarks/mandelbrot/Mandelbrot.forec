@@ -1,0 +1,110 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <sys/time.h>
+
+/* Image size */
+shared int ASIZE = 1000;
+
+const int MAX_ITER = (1 << 14);
+
+unsigned mandel_double(const double cr, const double ci);
+void display_double(const int size, const double xmin, const double xmax, const double ymin, const double ymax, const int ystart, const int yrange);
+
+thread display_double0(void);
+thread display_double1(void);
+thread display_double2(void);
+thread display_double3(void);
+
+int main(int argc, char **argv) {
+	struct timeval startTime, endTime;
+	gettimeofday(&startTime, 0);
+	//- - - -
+
+	par(display_double0, display_double1, display_double2, display_double3);
+	
+	//- - - -
+	gettimeofday(&endTime,0);
+	long seconds = endTime.tv_sec - startTime.tv_sec;
+	int microseconds = endTime.tv_usec - startTime.tv_usec;
+	if (microseconds < 0) {
+		microseconds += 1000000;
+		seconds--;
+	}
+
+	printf("Runtime: %ld.%.6d\r\n", seconds, microseconds);
+	
+	return 0;
+}
+
+thread display_double0(void) {
+	double xmin = -2;
+	double xmax = 1.0;
+	double ymin = -1.5;
+	double ymax = 1.5;
+	display_double(ASIZE, xmin, xmax, ymin, ymax, 0, 415);
+}
+
+thread display_double1(void) {
+	double xmin = -2;
+	double xmax = 1.0;
+	double ymin = -1.5;
+	double ymax = 1.5;
+	display_double(ASIZE, xmin, xmax, ymin, ymax, 415, 85);
+}
+
+thread display_double2(void) {
+	double xmin = -2;
+	double xmax = 1.0;
+	double ymin = -1.5;
+	double ymax = 1.5;
+	display_double(ASIZE, xmin, xmax, ymin, ymax, 500, 85);
+}
+
+thread display_double3(void) {
+	double xmin = -2;
+	double xmax = 1.0;
+	double ymin = -1.5;
+	double ymax = 1.5;
+	display_double(ASIZE, xmin, xmax, ymin, ymax, 585, 415);
+}
+
+/* The Inner Loop */
+unsigned mandel_double(const double cr, const double ci) {
+	double zr = cr, zi = ci;
+	double tmp;
+	
+	unsigned i;
+	
+	for (i = 0; i < MAX_ITER; i++) {
+		tmp = zr * zr - zi * zi + cr;
+		zi *= 2 * zr;
+		zi += ci;
+		zr = tmp;
+		
+		if (zr * zr + zi * zi > 4.0) break;
+	}
+
+	return i;
+}
+
+/* For each point, evaluate its colour */
+void display_double(const int size, const double xmin, const double xmax, const double ymin, const double ymax, const int ystart, const int yrange) {
+	int x, y;
+	
+	double cr, ci;
+	
+	double xscal = (xmax - xmin) / size;
+	double yscal = (ymax - ymin) / size;
+	
+	unsigned counts;
+	
+	for (y = ystart; y < ystart + yrange; y++) {
+		for (x = 0; x < size; x++) {
+			cr = xmin + x * xscal;
+			ci = ymin + y * yscal;
+			
+			counts = mandel_double(cr, ci);
+		}
+	}
+}
+

@@ -1,0 +1,14 @@
+architecture:
+x86
+
+0:
+main
+ntaps_filter_ffd_0
+ntaps_filter_ffd_1
+
+1:
+ntaps_filter_ffd_2
+
+2:
+ntaps_filter_ffd_3
+

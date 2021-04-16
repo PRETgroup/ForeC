@@ -1,0 +1,449 @@
+////////////////////////////////////////////
+// ForeC Life
+// Based on:
+//   Copyright 2002, David Joiner and
+//   The Shodor Education Foundation, Inc.
+////////////////////////////////////////////
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <sys/time.h>
+#include <time.h>
+
+#include <X11/Xlib.h> // Every Xlib program must include this
+#include <assert.h>   // I include this to test return values the lazy way
+#include <unistd.h>   // So we got the profile for 10 seconds
+
+// X information, at some point this should be cleaned up so
+// that it does not use global variables
+typedef void Display;
+#define Display__global_0_0 Display
+shared Display *dpy;
+
+typedef void Window;
+#define Window__global_0_0 Window
+shared Window w;
+
+typedef void GC;
+#define GC__global_0_0 GC
+shared GC gc;
+
+typedef void Pixmap;
+#define Pixmap__global_0_0 Pixmap
+shared Pixmap buffer;
+
+typedef void Colormap;
+#define Colormap__global_0_0 Colormap
+Colormap theColormap;
+
+typedef void XColor;
+#define XColor__global_0_0 XColor
+XColor Xgrayscale_obj[10];
+shared XColor *Xgrayscale = Xgrayscale_obj;
+
+typedef void time_t;
+#define time_t__global_0_0 time_t
+
+typedef void XEvent;
+#define XEvent__global_0_0 XEvent
+
+int NULL;
+#define NULL__global_0_0 NULL
+
+int AllocNone;
+#define AllocNone__global_0_0 AllocNone
+
+int StructureNotifyMask;
+#define StructureNotifyMask__global_0_0 StructureNotifyMask
+
+int MapNotify;
+#define MapNotify__global_0_0 MapNotify
+
+int RAND_MAX;
+#define RAND_MAX__global_0_0 RAND_MAX
+
+shared int blackColor;
+int whiteColor;
+
+static const int FALSE = 0;
+static const int TRUE = 1;
+
+static const int MAX_GENERATIONS = 1000;
+
+struct life_datum {
+	int color;
+	int x1;
+	int y1;
+};
+
+struct life_datum** life_data;
+shared struct life_datum*** life_data_ptr = &life_data;
+
+int** grid;
+shared int*** grid_ptr = &grid;
+
+int** next_grid;
+shared int*** next_grid_ptr = &next_grid;
+
+void allocate_grid(const int ncols, const int nrows, int*** grid);
+void allocate_life_data(const int ncols, const int nrows, struct life_datum*** life_data);
+void cleanup_grid(const int ncols, const int nrows, int*** grid);
+void cleanup_life_data(const int ncols, const int nrows, struct life_datum*** life_data);
+void randomize_grid(const int ncols, const int nrows, int*** grid, const double prob);
+double rand_double(void);
+void random_initByTime(void);
+
+void update_grid(const int threadNumber, int ***next_grid, int **grid);
+void update_display(const int threadNumber, struct life_datum*** life_data_ptr, int **grid, XColor *Xgrayscale, int blackColor);
+
+thread initialise(void);
+thread setup_window(void);
+thread do_draw(void);
+thread do_step(void);
+
+thread do_step_0(void);
+thread do_step_1(void);
+thread do_step_2(void);
+thread do_step_3(void);
+
+thread do_draw_0(void);
+thread do_draw_1(void);
+thread do_draw_2(void);
+thread do_draw_3(void);
+
+int main(int argc, char **argv) {
+	struct timeval startTime, endTime;
+	gettimeofday(&startTime, 0);
+	//- - - -
+	
+	int ncols = 250;
+	int nrows = 25*4;
+	
+	par(setup_window, initialise);
+
+    int done = FALSE;
+    int generation = 0;
+
+    while (!done) #1000#1000 {
+        if (generation++ > MAX_GENERATIONS) {
+			done = TRUE;
+		}
+
+        par(do_step, do_draw);
+
+		// apply next generation
+		int i;
+        for (i = 0; i < ncols+2; i++) #252#252 {
+
+			int j;
+            for (j = 0; j < nrows+2; j++) #102#102 {
+                grid[i][j] = next_grid[i][j];
+            }
+        }
+    }
+
+    cleanup_grid(ncols, nrows, &grid);
+    cleanup_grid(ncols, nrows, &next_grid);
+	cleanup_life_data(ncols, nrows, &life_data);
+	//- - - -
+	gettimeofday(&endTime,0);
+	long seconds = endTime.tv_sec - startTime.tv_sec;
+	int microseconds = endTime.tv_usec - startTime.tv_usec;
+	if (microseconds < 0) {
+		microseconds += 1000000;
+		seconds--;
+	}
+	
+	printf("Runtime: %ld.%.6d\r\n", seconds, microseconds);
+	
+	return 0;
+}
+
+// setupWindow modified from the tutorial on
+// http://tronche.com/gui/x/xlib-tutorial/
+// by Christophe Tronche
+thread setup_window(void) {
+	int numXGrayscale = 10;
+	int TRUE = 1;
+	int LIFE_IMAGE_WIDTH = 250*4;
+	int LIFE_IMAGE_HEIGHT = 25*4*4;
+	
+	// Open the display
+	dpy = XOpenDisplay(NULL);
+	assert(dpy);
+
+	// Get some colors
+	blackColor = BlackPixel(dpy, DefaultScreen(dpy));
+	whiteColor = WhitePixel(dpy, DefaultScreen(dpy));
+
+	// Create the window
+	w = XCreateSimpleWindow(dpy, DefaultRootWindow(dpy), 0, 0, LIFE_IMAGE_WIDTH, LIFE_IMAGE_HEIGHT, 0, blackColor, blackColor);
+	buffer = XCreatePixmap(dpy, DefaultRootWindow(dpy), LIFE_IMAGE_WIDTH, LIFE_IMAGE_HEIGHT, DefaultDepth(dpy, DefaultScreen(dpy)));
+
+	theColormap = XCreateColormap(dpy, DefaultRootWindow(dpy), DefaultVisual(dpy, DefaultScreen(dpy)), AllocNone);
+
+	int i;
+	for (i = 0; i < numXGrayscale; i++) #10#10 {
+		int color = (int)((double)i*35535.0/(double)numXGrayscale) + 30000;
+		Xgrayscale[i].red = color;
+		Xgrayscale[i].green = color;
+		Xgrayscale[i].blue = color;
+		XAllocColor(dpy, theColormap, &(Xgrayscale[i]));
+	}
+
+	// We want to get MapNotify events
+	XSelectInput(dpy, w, StructureNotifyMask);
+
+	// "Map" the window (that is, make it appear on the screen)
+	XMapWindow(dpy, w);
+
+	// Create a "Graphics Context"
+	gc = XCreateGC(dpy, w, 0, NULL);
+
+	// Tell the GC we draw using the white color
+	XSetForeground(dpy, gc, whiteColor);
+
+	// Wait for the MapNotify event
+	while(TRUE) #1#1 {
+	    XEvent e;
+	    XNextEvent(dpy, &e);
+	    if (e.type == MapNotify) {
+			break;
+		}
+	}
+}
+
+thread initialise(void) {
+	int ncols = 250;
+	int nrows = 25*4;
+	
+	allocate_grid(ncols, nrows, grid_ptr);
+	allocate_grid(ncols, nrows, next_grid_ptr);
+	allocate_life_data(ncols, nrows, life_data_ptr);
+	random_initByTime();
+	randomize_grid(ncols, nrows, grid_ptr, 0.25);
+}
+
+thread do_step(void) {
+	int ncols = 250;
+	int nrows = 25*4;
+	
+    // top and bottom we get from current cell.
+    // left right and corners we get from neighboring grids.
+
+	// copy left and right
+	int i;
+	for (i = 0; i <= nrows + 1; i++) #252#252 {
+		(*grid_ptr)[0][i] = (*grid_ptr)[1][i];
+		(*grid_ptr)[ncols+1][i] = (*grid_ptr)[ncols][i];
+	}
+	
+	//copy top and bottom
+	for (i = 1; i <= ncols; i++) #100#100 {
+		(*grid_ptr)[i][0] = (*grid_ptr)[i][nrows];
+		(*grid_ptr)[i][nrows+1] = (*grid_ptr)[i][1];
+	}
+	
+    // copy corners
+	(*grid_ptr)[0][0] = (*grid_ptr)[0][nrows];
+	(*grid_ptr)[0][nrows+1] = (*grid_ptr)[0][1];
+	(*grid_ptr)[ncols+1][0] = (*grid_ptr)[ncols+1][nrows];
+	(*grid_ptr)[ncols+1][nrows+1] = (*grid_ptr)[ncols+1][1];
+
+	//update
+	par(do_step_0, do_step_1, do_step_2, do_step_3);
+}
+
+thread do_step_0(void) {
+	update_grid(0, next_grid_ptr, *grid_ptr);
+}
+
+thread do_step_1(void) {
+	update_grid(1, next_grid_ptr, *grid_ptr);
+}
+
+thread do_step_2(void) {
+	update_grid(2, next_grid_ptr, *grid_ptr);
+}
+
+thread do_step_3(void) {
+	update_grid(3, next_grid_ptr, *grid_ptr);
+}
+
+thread do_draw(void) {
+	int ncols = 250;
+	int nrows = 25*4;
+	int PIXEL_SIZE = 4 - 1;
+	int LIFE_IMAGE_WIDTH = 250*4;
+	int LIFE_IMAGE_HEIGHT = 25*4*4;
+	
+    XSetForeground(dpy, gc, blackColor);
+    XFillRectangle(dpy, buffer, gc, 0, 0, LIFE_IMAGE_WIDTH, LIFE_IMAGE_HEIGHT);
+	
+	grid_ptr = grid_ptr;	// Compiler doesn't recognise accesses to arrays properly.
+	par(do_draw_0, do_draw_1, do_draw_2, do_draw_3);
+
+	int i;
+    for (i = 0; i < ncols; i++) #250#250 {
+
+		int j;
+		for (j = 0; j < nrows; j++) #100#100 {
+			XSetForeground(dpy, gc, (*life_data_ptr)[i][j].color);
+        	XFillRectangle(dpy, buffer, gc, (*life_data_ptr)[i][j].x1, (*life_data_ptr)[i][j].y1, PIXEL_SIZE, PIXEL_SIZE);
+		}
+	}
+
+	XCopyArea(dpy, buffer, w, gc, 0, 0, LIFE_IMAGE_WIDTH, LIFE_IMAGE_HEIGHT, 0, 0);
+	XFlush(dpy);
+}
+
+thread do_draw_0(void) {
+	update_display(0, life_data_ptr, *grid_ptr, Xgrayscale, blackColor);
+}
+
+thread do_draw_1(void) {
+	update_display(1, life_data_ptr, *grid_ptr, Xgrayscale, blackColor);
+}
+
+thread do_draw_2(void) {
+	update_display(2, life_data_ptr, *grid_ptr, Xgrayscale, blackColor);
+}
+
+thread do_draw_3(void) {
+	update_display(3, life_data_ptr, *grid_ptr, Xgrayscale, blackColor);
+}
+
+void allocate_grid(const int ncols, const int nrows, int*** grid) {
+    (*grid) = (int**)malloc((ncols+2) * sizeof(int*));
+
+	int i;
+    for (i = 0; i < ncols+2; i++) #252#252 {
+        (*grid)[i] = (int*)malloc((nrows+2) * sizeof(int));
+
+		int j;
+		for (j = 0; j < nrows+2; j++) #102#102 {
+            (*grid)[i][j] = 0;
+        }
+    }
+}
+
+void allocate_life_data(const int ncols, const int nrows, struct life_datum*** life_data) {
+	(*life_data) = (struct life_datum**)malloc((ncols) * sizeof(struct life_datum*));
+
+	int i;
+	for (i = 0; i < ncols; i++) #250#250 {
+		(*life_data)[i] = (struct life_datum*)malloc((nrows) * sizeof(struct life_datum));
+	}
+}
+
+
+void cleanup_grid(const int ncols, const int nrows, int*** grid) {
+	int i;
+    for (i = 0; i < ncols+2; i++) #252#252 {
+        free((*grid)[i]);
+    }
+
+    free(*grid);
+}
+
+void cleanup_life_data(const int ncols, const int nrows, struct life_datum*** life_data) {
+	int i;
+    for (i = 0; i < ncols; i++) #100#100 {
+        free((*life_data)[i]);
+    }
+
+    free(*life_data);
+}
+
+void randomize_grid(const int ncols, const int nrows, int*** grid, const double prob) {
+	int i;
+    for (i = 1; i <= ncols; i++) #250#250 {
+		int j;
+		for (j = 1; j <= nrows; j++) #100#100 {
+            if (rand_double() < prob) {
+                (*grid)[i][j] = 1;
+            }
+        }
+    }
+}
+
+double rand_double(void) {
+    return (double)rand()/(double)RAND_MAX;
+}
+
+void random_initByTime(void) {
+    time_t ltime;
+
+    time(&ltime);
+    srand((unsigned) ltime);
+}
+
+void update_grid(const int threadNumber, int ***next_grid, int **grid) {
+	const int ncols = 250;
+	const int RANGE = 25;
+	const int startIndex = 1 + RANGE * threadNumber;
+	const int endIndex = RANGE * (threadNumber+1);
+	
+	int i;
+	for (i = 1; i <= ncols; i++) #250#250 {
+		int j;
+		for (j = startIndex; j <= endIndex; j++) #25#25 {
+			int neighbors = 0;
+
+			// 3x3 neighbours
+			int k;
+			for (k = i-1; k <= i+1; k++) #3#3 {
+
+				int l;
+				for (l = j-1; l <= j+1; l++) #3#3 {
+					if (!(k == i && l==j) && grid[k][l] > 0) {
+						neighbors++;
+					}
+				}
+				if (neighbors > 3) {
+					continue;
+				}
+			}
+			if (neighbors < 2 || neighbors > 3) {
+				(*next_grid)[i][j] = 0;
+			} else if (grid[i][j] > 0 || neighbors == 3) {
+				(*next_grid)[i][j] = grid[i][j]+1;
+			}
+		}
+	}
+}
+
+void update_display(const int threadNumber, struct life_datum*** life_data, int **grid, XColor *Xgrayscale, int blackColor) {
+	const int numXGrayscale = 10;
+	const int PIXEL_SIZE = 4 - 1;
+	const int RANGE = 25;
+	const int ncols = 250;
+	
+	const int y1StartIndex = 1 + RANGE * threadNumber;
+	const int y1EndIndex = RANGE * (threadNumber+1);
+
+	int i;
+	for (i = 1; i <= ncols; i++) #250#250 {
+		int x1 = (PIXEL_SIZE + 1) * (i - 1);
+
+		int j;
+		for (j = y1StartIndex; j <= y1EndIndex; j++) #25#25 {
+			int y1 = (PIXEL_SIZE + 1) * (j - 1);
+			
+			if (grid[i][j] > 0) {
+				int life = grid[i][j];
+				if (life > numXGrayscale-1) {
+					life = numXGrayscale-1;
+				}
+				(*life_data)[i-1][j-1].color = Xgrayscale[life].pixel;
+			} else {
+				(*life_data)[i-1][j-1].color = blackColor;
+			}
+
+			(*life_data)[i-1][j-1].x1 = x1;
+			(*life_data)[i-1][j-1].y1 = y1;
+		}
+	}
+}
+
+

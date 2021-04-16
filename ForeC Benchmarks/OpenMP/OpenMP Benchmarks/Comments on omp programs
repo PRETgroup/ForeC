@@ -1,0 +1,14 @@
+FlyByWire - parallelized the most inner computational function that is called the most. Simple #pragma omp for with reduction. Large increase in speed, and output is correct.
+
+Fm_radio - Original omp file was horribly wrong. Output was wrong and being run by each thread (copying it 4 times). After a day and a half of attempting to repair it, I have come to the realization/conclusion that the main for loop is inherently sequential and cannot be parallelized. Many variables within are manipulated and changed and then used in the next iteration.
+
+Life - Managed to parallelize several different for loops within the main block and functions. Achieved about 2x faster processing. Carefully dealt with private and shared values for each for loop. Output can be checked using the .visual file, however it is so large that it causes a crash due to the -lX11 not being able to cope. Much like Mandelbrot. Assuming it works.
+
+Lzss - Success
+
+Mandelbrot - Successfully parallelized the "outer" for loop/function but could not parallelize the inner loop due to its sequential nature. Managed to halve the run time. Checked the output again with the .visual file. Seems to work and display the same picture, however it eventually crashes again due to the -lX11 dependencies.
+
+MatrixMultiply - Successful. Program was easily setup for openmp parallelization... Just added parallel for loops where necessary without any modification. Just under 2x faster. Checked the output using a smaller matrix and displaying it... worked well every time, with all versions of it.
+
+
+
