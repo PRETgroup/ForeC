@@ -124,19 +124,19 @@ int main(int argc, char **argv) {
 	input_file = fopen("input.dat", "r");
 	if (input_file == NULL) {
 		printf("Cannot open input file input.dat\n");
-		return 1;
+		exit(1);
 	}
 	
 	output_file = fopen("FmRadio.raw", "w");
 	if (output_file == NULL) {
 		printf("Cannot open output file FmRadio.raw\n");
-		return 1;
+		exit(1);
 	}
 	
 	text_file = fopen("FmRadio.txt", "w");
 	if (text_file == NULL) {
 		printf("Cannot open output file FmRadio.txt\n");
-		return 1;
+		exit(1);
 	}
 
 	int final_audio_frequency = 64 * KSMPS;
@@ -214,8 +214,6 @@ int main(int argc, char **argv) {
 	}
 	
 	printf("Runtime: %ld.%.6d\r\n", seconds, microseconds);
-	
-	return 0;
 }
 
 // Stage 1

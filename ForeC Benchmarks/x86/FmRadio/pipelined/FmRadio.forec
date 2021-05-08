@@ -141,19 +141,19 @@ int main(int argc, char **argv) {
 	input_file = fopen("input.dat", "r");
 	if (input_file == NULL) {
 		printf("Cannot open input file input.dat\n");
-		return 1;
+		exit(1);
 	}
 	
 	output_file = fopen("FmRadio.raw", "w");
 	if (output_file == NULL) {
 		printf("Cannot open output file FmRadio.raw\n");
-		return 1;
+		exit(1);
 	}
 	
 	text_file = fopen("FmRadio.txt", "w");
 	if (text_file == NULL) {
 		printf("Cannot open output file FmRadio.txt\n");
-		return 1;
+		exit(1);
 	}
     
 	par(ntaps_filter_ffd_init0, ntaps_filter_ffd_init1, ntaps_filter_ffd_init2, ntaps_filter_ffd_init3, ntaps_filter_ffd_init4, ntaps_filter_ffd_init5);
@@ -192,8 +192,6 @@ int main(int argc, char **argv) {
 	}
 	
 	printf("Runtime: %ld.%.6d\r\n", seconds, microseconds);
-	
-	return 0;
 }
 
 thread ntaps_filter_ffd_init0(void) {

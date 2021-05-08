@@ -28,8 +28,8 @@ int EOF;
 shared FILE* inputFile;
 shared FILE* outputFile;
 
-shared long long radioDownTime;
-shared long long spiDownTime;
+long long radioDownTime = 0;
+long long spiDownTime = 0;
 
 int getMode(const int communicationInput);
 double autopilot(const int mode, const int communicationInput);
@@ -56,14 +56,13 @@ int main(int argc, char **argv) {
 	servoOutputs[1] = 0.0;
 	servoOutputs[2] = 0.0;
 	servoOutputs[3] = 0.0;
-
-	radioDownTime = 0;
-	spiDownTime = 0;
 	
 	while (!terminate) {
-		weak abort {
-			par(servo, timer, flight, failsafe);
-		} when immediate (!isSafe);
+        abort {
+            weak abort {
+                par(servo, timer, flight, failsafe);
+            } when immediate (!isSafe);
+        } when immediate (terminate);
 
 		pause;
 	}
@@ -77,34 +76,27 @@ int main(int argc, char **argv) {
 		seconds--;
 	}
 	
-	printf("Runtime: %ld.%.6d\r\n", seconds, microseconds);
-	
-	return 0;
+	printf("Runtime: %ld.%.6d\r\n", seconds, microseconds);	
 }
 
-thread flight(void) {
-	int mode;
-	
-	abort {
-		while (1) {
-			if (getMode(radioInput) != VALID) {
-				mode = getMode(radioInput);
-			}
-			
-			decision = autopilot(mode, radioInput);
-			pause;
-		}
-	} when immediate (terminate);
+thread flight(void) {	
+    while (1) {
+        int mode = 0;
+        if (getMode(radioInput) != VALID) {
+            mode = getMode(radioInput);
+        }
+        
+        decision = autopilot(mode, radioInput);
+        pause;
+    }
 }
 
 thread servo(void) {
-	abort {
-		while (1) {
-			par(servo0, servo1, servo2, servo3);
-			computation();
-			pause;
-		}
-	} when immediate (terminate);
+    while (1) {
+        par(servo0, servo1, servo2, servo3);
+        computation();
+        pause;
+    }
 }
 
 thread servo0(void) {
@@ -136,65 +128,61 @@ thread servo3(void) {
 }
 
 thread timer(void) {
-	abort {
-		while (1) {
-			if (_1Hz++ > 60) {
-				computation();
-				_1Hz = 0;
-			}
+    while (1) {
+        if (_1Hz++ > 60) {
+            computation();
+            _1Hz = 0;
+        }
 
-			if (_20Hz++ > 3) {
-				computation();
-				_20Hz = 0;
-			}
+        if (_20Hz++ > 3) {
+            computation();
+            _20Hz = 0;
+        }
 
-			radioInput = fgetc(inputFile);
-			spiInput = fgetc(inputFile);
-			
-			char newLine = fgetc(inputFile);
-			while (newLine == '\n' || newLine == '\r') #0#10 {
-				newLine = fgetc(inputFile);
-			}
-			ungetc(newLine, inputFile);
-			
-			if (radioInput == EOF || spiInput == EOF) {
-				terminate = 1;
-			}
-					
-			pause;
-		}
-	} when immediate (terminate);
+        radioInput = fgetc(inputFile);
+        spiInput = fgetc(inputFile);
+        
+        char newLine = fgetc(inputFile);
+        while (newLine == '\n' || newLine == '\r') #0#10 {
+            newLine = fgetc(inputFile);
+        }
+        ungetc(newLine, inputFile);
+        
+        if (radioInput == EOF || spiInput == EOF) {
+            terminate = 1;
+        }
+                
+        pause;
+    }
 }
 
 thread failsafe(void) {
-	abort {
-		while (1) {
-			computation();
-			computation();
-			computation();
-			computation();
-			
-			if (radioInput == INVALID) {
-				radioDownTime++;
-			} else {
-				radioDownTime = 0;
-			}
-			
-			computation();
-			computation();
-			computation();
-			computation();
-			if (spiInput == INVALID) {
-				spiDownTime++;
-			} else {
-				spiDownTime = 0;
-			}
-			
-			isSafe = (radioDownTime < MAX_DOWN_TIME) || (spiDownTime < MAX_DOWN_TIME);
-			fprintf(outputFile, "%d\n", isSafe);
-			pause;
-		}
-	} when immediate (terminate);
+    while (1) {
+        computation();
+        computation();
+        computation();
+        computation();
+        
+        if (radioInput == INVALID) {
+            radioDownTime++;
+        } else {
+            radioDownTime = 0;
+        }
+        
+        computation();
+        computation();
+        computation();
+        computation();
+        if (spiInput == INVALID) {
+            spiDownTime++;
+        } else {
+            spiDownTime = 0;
+        }
+        
+        isSafe = (radioDownTime < MAX_DOWN_TIME) || (spiDownTime < MAX_DOWN_TIME);
+        fprintf(outputFile, "%d\n", isSafe);
+        pause;
+    }
 }
 
 int getMode(const int communicationInput) {

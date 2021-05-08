@@ -250,8 +250,9 @@ void longestMatch(const Fifo win, const Fifo lk, int begin)
     int _matches = 0;
     matches_thread[begin] = 0;
     int i, j, k, _offset;
-    for (i = begin; i < win.written_size && Fifo_at(win, i);)
+    for (i = begin; i < win.written_size && Fifo_at(win, i); i += NUM_THREADS)
     {
+        _matches = 0;
         j = 0;
 
         _offset = i;
@@ -268,9 +269,6 @@ void longestMatch(const Fifo win, const Fifo lk, int begin)
             matches_thread[begin] = _matches;
             offset_thread[begin] = _offset;
         }
-
-        i += NUM_THREADS;
-        _matches = 0;
     }
 }
 

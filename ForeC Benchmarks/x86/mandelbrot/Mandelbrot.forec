@@ -32,8 +32,6 @@ int main(int argc, char **argv) {
 	}
 
 	printf("Runtime: %ld.%.6d\r\n", seconds, microseconds);
-	
-	return 0;
 }
 
 thread display_double0(void) {

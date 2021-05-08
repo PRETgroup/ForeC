@@ -4,13 +4,13 @@ ifeq ($(shell uname), Linux)
 else ifeq ($(shell uname), Darwin)
 	CC			= clang
 	CFLAGS		= -pthread -g
-	LDFLAGS		= -I/opt/X11/include -L/opt/X11/lib
+	LDFLAGS		= -I/usr/local/include/X11 -L/usr/local/include/X11
 else
 	CC			= gcc
 endif
 
 forec:
-	forecc Life.forec Life.1.foreh
+	forecc Life.forec Life.4.foreh
 
 c:
 	$(CC) $(CFLAGS) -Wall Life.c -o Life

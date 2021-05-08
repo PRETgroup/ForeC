@@ -69,9 +69,7 @@ int main(int argc, char **args) {
 		seconds--;
 	}
 
-	printf("Runtime: %ld.%.6d\r\n", seconds, microseconds);
-	
-	return 0;
+	printf("Runtime: %ld.%.6d\r\n", seconds, microseconds);	
 }
 
 thread initialiseMatrixA(void) {

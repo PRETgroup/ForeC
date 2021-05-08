@@ -83,7 +83,7 @@ int main(int argc, char* argv[]) {
 }
 
 void flight(void) {
-	int mode;
+	int mode = 0;
 	if (getMode(radioInput) != VALID) {
 		mode = getMode(radioInput);
 	}

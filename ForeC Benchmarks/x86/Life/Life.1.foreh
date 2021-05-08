@@ -3,6 +3,11 @@ x86
 
 0:
 main
+initialise_grid
+initialise_next_grid
+initialise_life_data
+random_initByTime
+initialise_randomize_grid
 do_draw
 do_step
 do_step_0
@@ -13,3 +18,7 @@ do_draw_0
 do_draw_1
 do_draw_2
 do_draw_3
+transfer_grid_0
+transfer_grid_1
+transfer_grid_2
+transfer_grid_3

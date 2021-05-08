@@ -9,7 +9,7 @@ else
 endif
 
 forec:
-	forecc MatrixMultiply.forec MatrixMultiply.1.foreh
+	forecc MatrixMultiply.forec MatrixMultiply.4.foreh
 
 c:
 	$(CC) $(CFLAGS) MatrixMultiply.c -o MatrixMultiply

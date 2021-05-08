@@ -76,25 +76,25 @@ struct life_datum {
 	int y1;
 };
 
-struct life_datum life_data[250+2][100+2];
-shared struct life_datum (*life_data_ptr)[250+2][100+2] = &life_data;
+struct life_datum **life_data;
+shared struct life_datum ***life_data_ptr = &life_data;
 
-int grid[250+2][100+2];
-shared int (*grid_ptr)[250+2][100+2] = &grid;
+int** grid;
+shared int (***grid_ptr) = &grid;
 
-int next_grid[250+2][100+2];
-shared int (*next_grid_ptr)[250+2][100+2] = &next_grid;
+int** next_grid;
+shared int (***next_grid_ptr) = &next_grid;
 
-//void allocate_grid(const int ncols, const int nrows, int*** grid);
-//void allocate_life_data(const int ncols, const int nrows, struct life_datum*** life_data);
-//void cleanup_grid(const int ncols, const int nrows, int*** grid);
-//void cleanup_life_data(const int ncols, const int nrows, struct life_datum*** life_data);
-void randomize_grid(const int ncols, const int nrows, int (*grid)[250+2][100+2], const double prob);
+void allocate_grid(const int ncols, const int nrows, int*** grid);
+void allocate_life_data(const int ncols, const int nrows, struct life_datum*** life_data);
+void cleanup_grid(const int ncols, const int nrows, int*** grid);
+void cleanup_life_data(const int ncols, const int nrows, struct life_datum*** life_data);
+void randomize_grid(const int ncols, const int nrows, int ***grid, const double prob);
 double rand_double(void);
 void random_initByTime(void);
 
-void update_grid(const int threadNumber, int (*next_grid)[250+2][100+2], int grid[250+2][100+2]);
-void update_display(const int threadNumber, struct life_datum (*life_data_ptr)[250+2][100+2], int grid[250+2][100+2], XColor *Xgrayscale, int blackColor);
+void update_grid(const int threadNumber, int ***next_grid, int **grid);
+void update_display(const int threadNumber, struct life_datum ***life_data_ptr, int** grid);
 
 thread initialise(void);
 thread setup_window(void);
@@ -141,9 +141,10 @@ int main(int argc, char **argv) {
         }
     }
 
-//	cleanup_grid(ncols, nrows, &grid);
-//	cleanup_grid(ncols, nrows, &next_grid);
-//	cleanup_life_data(ncols, nrows, &life_data);
+	cleanup_grid(ncols, nrows, &grid);
+	cleanup_grid(ncols, nrows, &next_grid);
+	cleanup_life_data(ncols, nrows, &life_data);
+
 	//- - - -
 	gettimeofday(&endTime,0);
 	long seconds = endTime.tv_sec - startTime.tv_sec;
@@ -311,7 +312,7 @@ thread do_draw_2(void) {
 thread do_draw_3(void) {
 	update_display(3, life_data_ptr, *grid_ptr, Xgrayscale, blackColor);
 }
-/*
+
 void allocate_grid(const int ncols, const int nrows, int*** grid) {
     (*grid) = (int**)malloc((ncols+2) * sizeof(int*));
 
@@ -335,7 +336,6 @@ void allocate_life_data(const int ncols, const int nrows, struct life_datum*** l
 	}
 }
 
-
 void cleanup_grid(const int ncols, const int nrows, int*** grid) {
 	int i;
     for (i = 0; i < ncols+2; i++) #252#252 {
@@ -353,8 +353,9 @@ void cleanup_life_data(const int ncols, const int nrows, struct life_datum*** li
 
     free(*life_data);
 }
-*/
-void randomize_grid(const int ncols, const int nrows, int (*grid)[250+2][100+2], const double prob) {
+
+
+void randomize_grid(const int ncols, const int nrows, int ***grid, const double prob) {
 	int i;
     for (i = 1; i <= ncols; i++) #250#250 {
 		int j;
@@ -377,7 +378,7 @@ void random_initByTime(void) {
     srand((unsigned) ltime);
 }
 
-void update_grid(const int threadNumber, int (*next_grid)[250+2][100+2], int grid[250+2][100+2]) {
+void update_grid(const int threadNumber, int ***next_grid, int **grid) {
 	const int ncols = 250;
 	const int RANGE = 25;
 	const int startIndex = 1 + RANGE * threadNumber;
@@ -412,7 +413,7 @@ void update_grid(const int threadNumber, int (*next_grid)[250+2][100+2], int gri
 	}
 }
 
-void update_display(const int threadNumber, struct life_datum (*life_data)[250+2][100+2], int grid[250+2][100+2], XColor *Xgrayscale, int blackColor) {
+void update_display(const int threadNumber, struct life_datum ***life_data, int **grid) {
 	const int numXGrayscale = 10;
 	const int PIXEL_SIZE = 4 - 1;
 	const int RANGE = 25;
