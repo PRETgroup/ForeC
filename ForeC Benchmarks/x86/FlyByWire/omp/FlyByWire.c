@@ -41,7 +41,7 @@ void failsafe(void);
 
 int main(int argc, char* argv[]) {
     int procNumber = omp_get_max_threads();
-    printf("Number of threads: %d\n ", procNumber);
+    printf("Number of threads: %d\n", procNumber);
     omp_set_num_threads(procNumber);
     
 	struct timeval startTime, endTime;

@@ -17,10 +17,10 @@ else
 endif
 
 c:
-	$(CC) $(CFLAGS) -Wall Mandelbrot.c -o Mandelbrot
+	$(CC) $(CFLAGS) -O0 -Wall Mandelbrot.c -o Mandelbrot
 
 visual.c:
-	$(CC) $(CFLAGS) -Wall Mandelbrot.visual.c -o Mandelbrot.visual $(LDFLAGS) -lX11
+	$(CC) $(CFLAGS) -O0 -Wall Mandelbrot.visual.c -o Mandelbrot.visual $(LDFLAGS) -lX11
 
 clean:
 	rm -f Mandelbrot Mandelbrot.visual *.exe

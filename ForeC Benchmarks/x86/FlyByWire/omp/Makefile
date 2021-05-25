@@ -9,7 +9,7 @@ else
 endif
 
 .c:
-	$(CC) $(CFLAGS) $(LDFLAGS) -Wall $< -o $*
+	$(CC) $(CFLAGS) $(LDFLAGS) -Wall -O0 $< -o $*
 
 diff:
 	- diff output.txt ../original/output.txt

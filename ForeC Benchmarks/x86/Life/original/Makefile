@@ -17,10 +17,10 @@ else
 endif
 
 c:
-	$(CC) $(CFLAGS) -Wall Life.c -o Life
+	$(CC) $(CFLAGS) -O0 -Wall Life.c -o Life
 
 visual.c:
-	$(CC) $(CFLAGS) -Wall Life.visual.c -o Life.visual $(LDFLAGS) -lX11
+	$(CC) $(CFLAGS) -O0 -Wall Life.visual.c -o Life.visual $(LDFLAGS) -lX11
 
 clean:
 	rm -f Life *.exe Life.visual

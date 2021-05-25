@@ -1,9 +1,9 @@
 ifeq ($(shell uname), Linux)
 	CC			= clang
-	CFLAGS		= -pthread -O3
+	CFLAGS		= -Wall -pthread -O0
 else ifeq ($(shell uname), Darwin)
 	CC			= clang
-	CFLAGS		= -pthread -O3
+	CFLAGS		= -Wall -pthread -O0
 else
 	CC			= gcc
 endif
@@ -12,7 +12,7 @@ forec:
 	forecc FmRadio.forec FmRadio.4.foreh
 
 c:
-	$(CC) $(CFLAGS) -Wall FmRadio.c -o FmRadio -lm
+	$(CC) $(CFLAGS) FmRadio.c -o FmRadio -lm
 
 dot:
 	dot -T pdf FmRadio.dot -o FmRadio.pdf

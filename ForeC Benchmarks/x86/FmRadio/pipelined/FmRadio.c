@@ -300,12 +300,12 @@ float subctract(const float i1, const float i2);
 // Global versions of local copies of shared variables -------------
 // main
 // ntaps_filter_ffd_0
+Shared_band_12__global_0_0 band_12__global_0_0_copy_ntaps_filter_ffd_0 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_fm_qd_value__global_0_0 fm_qd_value__global_0_0_copy_ntaps_filter_ffd_0 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_resume_1__global_0_0 resume_1__global_0_0_copy_ntaps_filter_ffd_0 = {.status = FOREC_SHARED_UNMODIFIED};
-Shared_band_12__global_0_0 band_12__global_0_0_copy_ntaps_filter_ffd_0 = {.status = FOREC_SHARED_UNMODIFIED};
 // ntaps_filter_ffd_1
-Shared_fm_qd_value__global_0_0 fm_qd_value__global_0_0_copy_ntaps_filter_ffd_1 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_band_12__global_0_0 band_12__global_0_0_copy_ntaps_filter_ffd_1 = {.status = FOREC_SHARED_UNMODIFIED};
+Shared_fm_qd_value__global_0_0 fm_qd_value__global_0_0_copy_ntaps_filter_ffd_1 = {.status = FOREC_SHARED_UNMODIFIED};
 // ntaps_filter_ffd_2
 Shared_band_22__global_0_0 band_22__global_0_0_copy_ntaps_filter_ffd_2 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_fm_qd_value__global_0_0 fm_qd_value__global_0_0_copy_ntaps_filter_ffd_2 = {.status = FOREC_SHARED_UNMODIFIED};
@@ -315,16 +315,16 @@ Shared_band_22__global_0_0 band_22__global_0_0_copy_ntaps_filter_ffd_3 = {.statu
 Shared_fm_qd_value__global_0_0 fm_qd_value__global_0_0_copy_ntaps_filter_ffd_3 = {.status = FOREC_SHARED_UNMODIFIED};
 // ntaps_filter_ffd_4
 Shared_output_file__global_0_0 output_file__global_0_0_copy_ntaps_filter_ffd_4 = {.status = FOREC_SHARED_UNMODIFIED};
-Shared_output1__global_0_0 output1__global_0_0_copy_ntaps_filter_ffd_4 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_band_3__global_0_0 band_3__global_0_0_copy_ntaps_filter_ffd_4 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_fm_qd_buffer__global_0_0 fm_qd_buffer__global_0_0_copy_ntaps_filter_ffd_4 = {.status = FOREC_SHARED_UNMODIFIED};
+Shared_output1__global_0_0 output1__global_0_0_copy_ntaps_filter_ffd_4 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_output2__global_0_0 output2__global_0_0_copy_ntaps_filter_ffd_4 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_output_short_1__global_0_0 output_short_1__global_0_0_copy_ntaps_filter_ffd_4 = {.status = FOREC_SHARED_UNMODIFIED};
 // ntaps_filter_ffd_5
 Shared_text_file__global_0_0 text_file__global_0_0_copy_ntaps_filter_ffd_5 = {.status = FOREC_SHARED_UNMODIFIED};
+Shared_band_3__global_0_0 band_3__global_0_0_copy_ntaps_filter_ffd_5 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_ffd_buffer__global_0_0 ffd_buffer__global_0_0_copy_ntaps_filter_ffd_5 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_output1__global_0_0 output1__global_0_0_copy_ntaps_filter_ffd_5 = {.status = FOREC_SHARED_UNMODIFIED};
-Shared_band_3__global_0_0 band_3__global_0_0_copy_ntaps_filter_ffd_5 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_output2__global_0_0 output2__global_0_0_copy_ntaps_filter_ffd_5 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_output_short_1__global_0_0 output_short_1__global_0_0_copy_ntaps_filter_ffd_5 = {.status = FOREC_SHARED_UNMODIFIED};
 // ntaps_filter_ffd_init0
@@ -780,6 +780,12 @@ mainReactionEndMaster0: {
 	int parId = mainParParent.parId;
 	if (parId == 1) {
 
+		// band_12__global_0_0
+		if (band_12__global_0_0_copy_ntaps_filter_ffd_1.status == FOREC_SHARED_MODIFIED) {
+			band_12__global_0_0_copy_ntaps_filter_ffd_1.status = FOREC_SHARED_UNMODIFIED;
+			band_12__global_0_0.value = band_12__global_0_0_copy_ntaps_filter_ffd_1.value;
+		}
+
 		// band_22__global_0_0
 		if (band_22__global_0_0_copy_ntaps_filter_ffd_3.status == FOREC_SHARED_MODIFIED) {
 			band_22__global_0_0_copy_ntaps_filter_ffd_3.status = FOREC_SHARED_UNMODIFIED;
@@ -792,12 +798,6 @@ mainReactionEndMaster0: {
 			resume_1__global_0_0.value = resume_1__global_0_0_copy_ntaps_filter_ffd_0.value;
 		}
 
-		// band_12__global_0_0
-		if (band_12__global_0_0_copy_ntaps_filter_ffd_1.status == FOREC_SHARED_MODIFIED) {
-			band_12__global_0_0_copy_ntaps_filter_ffd_1.status = FOREC_SHARED_UNMODIFIED;
-			band_12__global_0_0.value = band_12__global_0_0_copy_ntaps_filter_ffd_1.value;
-		}
-
 		// resume_2__global_0_0
 		if (resume_2__global_0_0_copy_ntaps_filter_ffd_2.status == FOREC_SHARED_MODIFIED) {
 			resume_2__global_0_0_copy_ntaps_filter_ffd_2.status = FOREC_SHARED_UNMODIFIED;
@@ -805,16 +805,16 @@ mainReactionEndMaster0: {
 		}
 	} else 	if (parId == 2) {
 
-		// output1__global_0_0
-		if (output1__global_0_0_copy_ntaps_filter_ffd_4.status == FOREC_SHARED_MODIFIED) {
-			output1__global_0_0_copy_ntaps_filter_ffd_4.status = FOREC_SHARED_UNMODIFIED;
-			output1__global_0_0.value = output1__global_0_0_copy_ntaps_filter_ffd_4.value;
-		}
-
 		// band_3__global_0_0
 		if (band_3__global_0_0_copy_ntaps_filter_ffd_5.status == FOREC_SHARED_MODIFIED) {
 			band_3__global_0_0_copy_ntaps_filter_ffd_5.status = FOREC_SHARED_UNMODIFIED;
 			band_3__global_0_0.value = band_3__global_0_0_copy_ntaps_filter_ffd_5.value;
+		}
+
+		// output1__global_0_0
+		if (output1__global_0_0_copy_ntaps_filter_ffd_4.status == FOREC_SHARED_MODIFIED) {
+			output1__global_0_0_copy_ntaps_filter_ffd_4.status = FOREC_SHARED_UNMODIFIED;
+			output1__global_0_0.value = output1__global_0_0_copy_ntaps_filter_ffd_4.value;
 		}
 
 		// output2__global_0_0
@@ -1395,19 +1395,19 @@ mainReactionEndSlave3: {
 	*-------------------------------------------------------------*/
 
 	// Thread local declarations -----------------------------------
+	Shared_band_12__global_0_0 band_12__global_0_0_copy_ntaps_filter_ffd_0_local;
 	Shared_fm_qd_value__global_0_0 fm_qd_value__global_0_0_copy_ntaps_filter_ffd_0_local;
 	Shared_resume_1__global_0_0 resume_1__global_0_0_copy_ntaps_filter_ffd_0_local;
-	Shared_band_12__global_0_0 band_12__global_0_0_copy_ntaps_filter_ffd_0_local;
 
 	// Thread body -------------------------------------------------
 	ntaps_filter_ffd_0__thread: {
 		// Initialise the local copies of shared variables.
+		band_12__global_0_0_copy_ntaps_filter_ffd_0_local.value = band_12__global_0_0.value;
+		band_12__global_0_0_copy_ntaps_filter_ffd_0_local.status = FOREC_SHARED_UNMODIFIED;
 		fm_qd_value__global_0_0_copy_ntaps_filter_ffd_0_local.value = fm_qd_value__global_0_0.value;
 		fm_qd_value__global_0_0_copy_ntaps_filter_ffd_0_local.status = FOREC_SHARED_UNMODIFIED;
 		resume_1__global_0_0_copy_ntaps_filter_ffd_0_local.value = resume_1__global_0_0.value;
 		resume_1__global_0_0_copy_ntaps_filter_ffd_0_local.status = FOREC_SHARED_UNMODIFIED;
-		band_12__global_0_0_copy_ntaps_filter_ffd_0_local.value = band_12__global_0_0.value;
-		band_12__global_0_0_copy_ntaps_filter_ffd_0_local.status = FOREC_SHARED_UNMODIFIED;
 		//--------------------------------------------------------------
 
 		band_11__global_0_0 = ntaps_filter_ffd(lp_11_conf_1__global_0_0, 1, &fm_qd_value__global_0_0_copy_ntaps_filter_ffd_0_local.value);
@@ -1421,9 +1421,9 @@ mainReactionEndSlave3: {
 		pause0:;
 		// forec:statement:pause:pause0:end
 		// Update the values of the used shared variables from their global copy.
+		band_12__global_0_0_copy_ntaps_filter_ffd_0_local = band_12__global_0_0;
 		fm_qd_value__global_0_0_copy_ntaps_filter_ffd_0_local = fm_qd_value__global_0_0;
 		resume_1__global_0_0_copy_ntaps_filter_ffd_0_local = resume_1__global_0_0;
-		band_12__global_0_0_copy_ntaps_filter_ffd_0_local = band_12__global_0_0;
 
 
 		resume_1__global_0_0_copy_ntaps_filter_ffd_0_local.value = subctract(band_11__global_0_0, band_12__global_0_0_copy_ntaps_filter_ffd_0_local.value);
@@ -1450,16 +1450,16 @@ mainReactionEndSlave3: {
 	*-------------------------------------------------------------*/
 
 	// Thread local declarations -----------------------------------
-	Shared_fm_qd_value__global_0_0 fm_qd_value__global_0_0_copy_ntaps_filter_ffd_1_local;
 	Shared_band_12__global_0_0 band_12__global_0_0_copy_ntaps_filter_ffd_1_local;
+	Shared_fm_qd_value__global_0_0 fm_qd_value__global_0_0_copy_ntaps_filter_ffd_1_local;
 
 	// Thread body -------------------------------------------------
 	ntaps_filter_ffd_1__thread: {
 		// Initialise the local copies of shared variables.
-		fm_qd_value__global_0_0_copy_ntaps_filter_ffd_1_local.value = fm_qd_value__global_0_0.value;
-		fm_qd_value__global_0_0_copy_ntaps_filter_ffd_1_local.status = FOREC_SHARED_UNMODIFIED;
 		band_12__global_0_0_copy_ntaps_filter_ffd_1_local.value = band_12__global_0_0.value;
 		band_12__global_0_0_copy_ntaps_filter_ffd_1_local.status = FOREC_SHARED_UNMODIFIED;
+		fm_qd_value__global_0_0_copy_ntaps_filter_ffd_1_local.value = fm_qd_value__global_0_0.value;
+		fm_qd_value__global_0_0_copy_ntaps_filter_ffd_1_local.status = FOREC_SHARED_UNMODIFIED;
 		//--------------------------------------------------------------
 
 		band_12__global_0_0_copy_ntaps_filter_ffd_1_local.value = ntaps_filter_ffd(lp_12_conf_1__global_0_0, 1, &fm_qd_value__global_0_0_copy_ntaps_filter_ffd_1_local.value);
@@ -1578,9 +1578,9 @@ mainReactionEndSlave3: {
 
 	// Thread local declarations -----------------------------------
 	Shared_output_file__global_0_0 output_file__global_0_0_copy_ntaps_filter_ffd_4_local;
-	Shared_output1__global_0_0 output1__global_0_0_copy_ntaps_filter_ffd_4_local;
 	Shared_band_3__global_0_0 band_3__global_0_0_copy_ntaps_filter_ffd_4_local;
 	Shared_fm_qd_buffer__global_0_0 fm_qd_buffer__global_0_0_copy_ntaps_filter_ffd_4_local;
+	Shared_output1__global_0_0 output1__global_0_0_copy_ntaps_filter_ffd_4_local;
 	Shared_output2__global_0_0 output2__global_0_0_copy_ntaps_filter_ffd_4_local;
 	Shared_output_short_1__global_0_0 output_short_1__global_0_0_copy_ntaps_filter_ffd_4_local;
 	float output1_copy__ntaps_filter_ffd_4_0_0, output2_copy__ntaps_filter_ffd_4_0_0;
@@ -1591,12 +1591,12 @@ mainReactionEndSlave3: {
 		// Initialise the local copies of shared variables.
 		output_file__global_0_0_copy_ntaps_filter_ffd_4_local.value = output_file__global_0_0.value;
 		output_file__global_0_0_copy_ntaps_filter_ffd_4_local.status = FOREC_SHARED_UNMODIFIED;
-		output1__global_0_0_copy_ntaps_filter_ffd_4_local.value = output1__global_0_0.value;
-		output1__global_0_0_copy_ntaps_filter_ffd_4_local.status = FOREC_SHARED_UNMODIFIED;
 		band_3__global_0_0_copy_ntaps_filter_ffd_4_local.value = band_3__global_0_0.value;
 		band_3__global_0_0_copy_ntaps_filter_ffd_4_local.status = FOREC_SHARED_UNMODIFIED;
 		fm_qd_buffer__global_0_0_copy_ntaps_filter_ffd_4_local.value = fm_qd_buffer__global_0_0.value;
 		fm_qd_buffer__global_0_0_copy_ntaps_filter_ffd_4_local.status = FOREC_SHARED_UNMODIFIED;
+		output1__global_0_0_copy_ntaps_filter_ffd_4_local.value = output1__global_0_0.value;
+		output1__global_0_0_copy_ntaps_filter_ffd_4_local.status = FOREC_SHARED_UNMODIFIED;
 		output2__global_0_0_copy_ntaps_filter_ffd_4_local.value = output2__global_0_0.value;
 		output2__global_0_0_copy_ntaps_filter_ffd_4_local.status = FOREC_SHARED_UNMODIFIED;
 		output_short_1__global_0_0_copy_ntaps_filter_ffd_4_local.value = output_short_1__global_0_0.value;
@@ -1616,9 +1616,9 @@ mainReactionEndSlave3: {
 		// forec:statement:pause:pause2:end
 		// Update the values of the used shared variables from their global copy.
 		output_file__global_0_0_copy_ntaps_filter_ffd_4_local = output_file__global_0_0;
-		output1__global_0_0_copy_ntaps_filter_ffd_4_local = output1__global_0_0;
 		band_3__global_0_0_copy_ntaps_filter_ffd_4_local = band_3__global_0_0;
 		fm_qd_buffer__global_0_0_copy_ntaps_filter_ffd_4_local = fm_qd_buffer__global_0_0;
+		output1__global_0_0_copy_ntaps_filter_ffd_4_local = output1__global_0_0;
 		output2__global_0_0_copy_ntaps_filter_ffd_4_local = output2__global_0_0;
 		output_short_1__global_0_0_copy_ntaps_filter_ffd_4_local = output_short_1__global_0_0;
 
@@ -1641,9 +1641,9 @@ mainReactionEndSlave3: {
 		// forec:statement:pause:pause3:end
 		// Update the values of the used shared variables from their global copy.
 		output_file__global_0_0_copy_ntaps_filter_ffd_4_local = output_file__global_0_0;
-		output1__global_0_0_copy_ntaps_filter_ffd_4_local = output1__global_0_0;
 		band_3__global_0_0_copy_ntaps_filter_ffd_4_local = band_3__global_0_0;
 		fm_qd_buffer__global_0_0_copy_ntaps_filter_ffd_4_local = fm_qd_buffer__global_0_0;
+		output1__global_0_0_copy_ntaps_filter_ffd_4_local = output1__global_0_0;
 		output2__global_0_0_copy_ntaps_filter_ffd_4_local = output2__global_0_0;
 		output_short_1__global_0_0_copy_ntaps_filter_ffd_4_local = output_short_1__global_0_0;
 
@@ -1675,9 +1675,9 @@ mainReactionEndSlave3: {
 
 	// Thread local declarations -----------------------------------
 	Shared_text_file__global_0_0 text_file__global_0_0_copy_ntaps_filter_ffd_5_local;
+	Shared_band_3__global_0_0 band_3__global_0_0_copy_ntaps_filter_ffd_5_local;
 	Shared_ffd_buffer__global_0_0 ffd_buffer__global_0_0_copy_ntaps_filter_ffd_5_local;
 	Shared_output1__global_0_0 output1__global_0_0_copy_ntaps_filter_ffd_5_local;
-	Shared_band_3__global_0_0 band_3__global_0_0_copy_ntaps_filter_ffd_5_local;
 	Shared_output2__global_0_0 output2__global_0_0_copy_ntaps_filter_ffd_5_local;
 	Shared_output_short_1__global_0_0 output_short_1__global_0_0_copy_ntaps_filter_ffd_5_local;
 
@@ -1686,12 +1686,12 @@ mainReactionEndSlave3: {
 		// Initialise the local copies of shared variables.
 		text_file__global_0_0_copy_ntaps_filter_ffd_5_local.value = text_file__global_0_0.value;
 		text_file__global_0_0_copy_ntaps_filter_ffd_5_local.status = FOREC_SHARED_UNMODIFIED;
+		band_3__global_0_0_copy_ntaps_filter_ffd_5_local.value = band_3__global_0_0.value;
+		band_3__global_0_0_copy_ntaps_filter_ffd_5_local.status = FOREC_SHARED_UNMODIFIED;
 		ffd_buffer__global_0_0_copy_ntaps_filter_ffd_5_local.value = ffd_buffer__global_0_0.value;
 		ffd_buffer__global_0_0_copy_ntaps_filter_ffd_5_local.status = FOREC_SHARED_UNMODIFIED;
 		output1__global_0_0_copy_ntaps_filter_ffd_5_local.value = output1__global_0_0.value;
 		output1__global_0_0_copy_ntaps_filter_ffd_5_local.status = FOREC_SHARED_UNMODIFIED;
-		band_3__global_0_0_copy_ntaps_filter_ffd_5_local.value = band_3__global_0_0.value;
-		band_3__global_0_0_copy_ntaps_filter_ffd_5_local.status = FOREC_SHARED_UNMODIFIED;
 		output2__global_0_0_copy_ntaps_filter_ffd_5_local.value = output2__global_0_0.value;
 		output2__global_0_0_copy_ntaps_filter_ffd_5_local.status = FOREC_SHARED_UNMODIFIED;
 		output_short_1__global_0_0_copy_ntaps_filter_ffd_5_local.value = output_short_1__global_0_0.value;
@@ -1712,9 +1712,9 @@ mainReactionEndSlave3: {
 		// forec:statement:pause:pause4:end
 		// Update the values of the used shared variables from their global copy.
 		text_file__global_0_0_copy_ntaps_filter_ffd_5_local = text_file__global_0_0;
+		band_3__global_0_0_copy_ntaps_filter_ffd_5_local = band_3__global_0_0;
 		ffd_buffer__global_0_0_copy_ntaps_filter_ffd_5_local = ffd_buffer__global_0_0;
 		output1__global_0_0_copy_ntaps_filter_ffd_5_local = output1__global_0_0;
-		band_3__global_0_0_copy_ntaps_filter_ffd_5_local = band_3__global_0_0;
 		output2__global_0_0_copy_ntaps_filter_ffd_5_local = output2__global_0_0;
 		output_short_1__global_0_0_copy_ntaps_filter_ffd_5_local = output_short_1__global_0_0;
 
@@ -1733,9 +1733,9 @@ mainReactionEndSlave3: {
 		// forec:statement:pause:pause5:end
 		// Update the values of the used shared variables from their global copy.
 		text_file__global_0_0_copy_ntaps_filter_ffd_5_local = text_file__global_0_0;
+		band_3__global_0_0_copy_ntaps_filter_ffd_5_local = band_3__global_0_0;
 		ffd_buffer__global_0_0_copy_ntaps_filter_ffd_5_local = ffd_buffer__global_0_0;
 		output1__global_0_0_copy_ntaps_filter_ffd_5_local = output1__global_0_0;
-		band_3__global_0_0_copy_ntaps_filter_ffd_5_local = band_3__global_0_0;
 		output2__global_0_0_copy_ntaps_filter_ffd_5_local = output2__global_0_0;
 		output_short_1__global_0_0_copy_ntaps_filter_ffd_5_local = output_short_1__global_0_0;
 

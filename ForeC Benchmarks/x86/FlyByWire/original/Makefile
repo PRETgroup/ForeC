@@ -7,7 +7,7 @@ else
 endif
 
 .c:
-	$(CC) $< -o $*
+	$(CC) -Wall -O0 $< -o $*
 
 clean:
 	rm -f FlyByWire *.exe *.txt

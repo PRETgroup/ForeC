@@ -9,7 +9,7 @@ else
 endif
 
 .c:
-	$(CC) $(CFLAGS) $(LDFLAGS) -Wall $< -o $*
+	$(CC) $(CFLAGS) $(LDFLAGS) -O0 -Wall $< -o $*
 
 clean:
 	rm -f Life *.exe

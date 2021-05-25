@@ -1,9 +1,9 @@
 ifeq ($(shell uname), Linux)
 	CC			= clang
-	CFLAGS		= -pthread
+	CFLAGS		= -O0 -Wall -pthread
 else ifeq ($(shell uname), Darwin)
 	CC			= clang
-	CFLAGS		= -pthread
+	CFLAGS		= -O0 -Wall -pthread
 else
 	CC			= gcc
 endif
@@ -12,7 +12,7 @@ forec:
 	forecc lzss.forec lzss.4.foreh
 
 c:
-	$(CC) $(CFLAGS) -Wall lzss.c -o lzss
+	$(CC) $(CFLAGS) lzss.c -o lzss
 
 compress:
 	./lzss -c result.lzs data.txt

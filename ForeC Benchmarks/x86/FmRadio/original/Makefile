@@ -7,7 +7,7 @@ else
 endif
 
 .c:
-	$(CC) $< -o $* -lm
+	$(CC) -O0 -Wall $< -o $* -lm
 
 clean:
 	rm -f FmRadio *.exe *.raw *.txt

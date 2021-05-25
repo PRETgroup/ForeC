@@ -7,7 +7,7 @@ else
 endif
 
 .c:
-	$(CC) -Wall $< -o $*
+	$(CC) -O0 -Wall $< -o $*
 
 compress:
 	./Lzss -c result.lzs data.txt

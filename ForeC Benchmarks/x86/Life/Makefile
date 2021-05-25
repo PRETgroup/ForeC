@@ -1,9 +1,9 @@
 ifeq ($(shell uname), Linux)
 	CC			= clang
-	CFLAGS		= -pthread -g
+	CFLAGS		= -O0 -Wall -pthread
 else ifeq ($(shell uname), Darwin)
 	CC			= clang
-	CFLAGS		= -pthread -g
+	CFLAGS		= -O0 -Wall -pthread
 	LDFLAGS		= -I/usr/local/include/X11 -L/usr/local/include/X11
 else
 	CC			= gcc
@@ -13,7 +13,7 @@ forec:
 	forecc Life.forec Life.4.foreh
 
 c:
-	$(CC) $(CFLAGS) -Wall Life.c -o Life
+	$(CC) $(CFLAGS) Life.c -o Life
 
 dot:
 	dot -T pdf Life.dot -o Life.pdf
@@ -22,7 +22,7 @@ visual.forec:
 	forecc Life.visual.forec Life.visual.foreh
 
 visual.c:
-	$(CC) $(CFLAGS) -Wall Life.visual.c -o Life.visual $(LDFLAGS) -lX11
+	$(CC) $(CFLAGS) Life.visual.c -o Life.visual $(LDFLAGS) -lX11
 
 visual.dot:
 	dot -T pdf Life.visual.dot -o Life.visual.pdf

@@ -9,7 +9,7 @@ else
 endif
 
 .c:
-	$(CC) $(CFLAGS) $(LDFLAGS) -Wall $< -o $*
+	$(CC) $(CFLAGS) $(LDFLAGS) -O0 -Wall $< -o $*
 
 compress:
 	./Lzss -c result.lzs data.txt

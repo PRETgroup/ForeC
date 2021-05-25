@@ -1,9 +1,9 @@
 ifeq ($(shell uname), Linux)
 	CC			= clang
-	CFLAGS		= -pthread -O3
+	CFLAGS		= -pthread -O0
 else ifeq ($(shell uname), Darwin)
 	CC			= clang
-	CFLAGS		= -pthread -O3
+	CFLAGS		= -pthread -O0
 else
 	CC			= gcc
 endif
