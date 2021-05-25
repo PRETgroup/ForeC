@@ -274,7 +274,7 @@ int read_opts(int argc, char* argv[], FILE** input_file, FILE** output_file, FIL
 /* *********************************************** main                 */
 
 int main(int argc, char* argv[]) {
-    int procNumber = omp_get_max_threads();
+    int procNumber = 4;
     printf("Number of threads: %d\n ", procNumber);
     omp_set_num_threads(procNumber);
     

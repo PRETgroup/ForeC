@@ -330,7 +330,7 @@ void writeToArchive(const Fifo fifo, int *offset, int *matches, struct fileStats
 void printResult(struct fileStats *fileInfo, struct fileStats *archiveInfo)
 {
     obtainFileInfo(archiveInfo);
-    printf("\nFiles compressed successfully.\nRatio %.3f:1  Saved %%%d\n", (float) fileInfo->totalSize/archiveInfo->filesize,
+    printf("\nFiles compressed successfully.\nRatio %.3f:1  Saved %d%%\n", (float) fileInfo->totalSize/archiveInfo->filesize,
            (int) (100.0*(1.0-(float) archiveInfo->filesize/fileInfo->totalSize)+0.5));  // +0.5 is for rounding.
     fflush(*stdout_ptr_1);
 }

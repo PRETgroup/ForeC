@@ -1310,7 +1310,7 @@ void writeToArchive(const Fifo__global_0_0 fifo__writeToArchive_0_0, int *offset
 
 void printResult(struct fileStats__global_0_0 *fileInfo__printResult_0_0, struct fileStats__global_0_0 *archiveInfo__printResult_0_0) {
 	obtainFileInfo(archiveInfo__printResult_0_0);
-	printf("\nFiles compressed successfully.\nRatio %.3f:1  Saved %%%d\n", (float)fileInfo__printResult_0_0->totalSize/archiveInfo__printResult_0_0->filesize, (int)(100.0*(1.0 - (float)archiveInfo__printResult_0_0->filesize/fileInfo__printResult_0_0->totalSize) + 0.5));
+	printf("\nFiles compressed successfully.\nRatio %.3f:1  Saved %d%%\n", (float)fileInfo__printResult_0_0->totalSize/archiveInfo__printResult_0_0->filesize, (int)(100.0*(1.0 - (float)archiveInfo__printResult_0_0->filesize/fileInfo__printResult_0_0->totalSize) + 0.5));
 	fflush(* stdout_ptr_1__global_0_0);
 }
 

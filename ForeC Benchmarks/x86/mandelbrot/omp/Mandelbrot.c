@@ -18,7 +18,7 @@ unsigned mandel_double(double cr, double ci);
 void display_double(int size, double xmin, double xmax, double ymin, double ymax);
 
 int main(void) {
-    int procNumber = omp_get_max_threads();
+    int procNumber = 4;
     printf("Number of threads: %d\n", procNumber);
     omp_set_num_threads(procNumber);
     

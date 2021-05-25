@@ -91,8 +91,8 @@ void obtainFileInfo(struct fileStats *);
  ******************************/
 int main(int argc, char *argv[])
 {
-    int procNumber = omp_get_max_threads();
-    printf("Number of threads: %d\n ", procNumber);
+    int procNumber = 4;
+    printf("Number of threads: %d\n", procNumber);
     omp_set_num_threads(procNumber);
     
     struct timeval startTime, endTime;
@@ -316,7 +316,7 @@ void printResult(void)
 {
     obtainFileInfo(&archiveInfo);
     printf("\nFiles compressed successfully.\n"
-           "Ratio %.3f:1  Saved %%%d\n", (float) fileInfo.totalSize/archiveInfo.filesize,
+           "Ratio %.3f:1  Saved %d%%\n", (float) fileInfo.totalSize/archiveInfo.filesize,
            (int) (100.0*(1.0-(float) archiveInfo.filesize/fileInfo.totalSize)+0.5));  // +0.5 is for rounding.
     fflush(stdout);
 }

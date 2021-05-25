@@ -1,9 +1,10 @@
+CC			= clang
+LDFLAGS		= -lomp -latomic
+
 ifeq ($(shell uname), Linux)
-	CC			= clang
+	CFLAGS		= -fopenmp
 else ifeq ($(shell uname), Darwin)
-	CC			= clang
 	CFLAGS		= -Xclang -fopenmp
-	LDFLAGS		= -lomp
 else
 	CC			= gcc
 endif

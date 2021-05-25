@@ -301,7 +301,7 @@ void printResult(void)
 {
     obtainFileInfo(&archiveInfo);
     printf("\nFiles compressed successfully.\n"
-           "Ratio %.3f:1  Saved %%%d\n", (float) fileInfo.totalSize/archiveInfo.filesize,
+           "Ratio %.3f:1  Saved %d%%\n", (float) fileInfo.totalSize/archiveInfo.filesize,
            (int) (100.0*(1.0-(float) archiveInfo.filesize/fileInfo.totalSize)+0.5));  // +0.5 is for rounding.
     fflush(stdout);
 }
@@ -491,7 +491,7 @@ int Fifo_push_back(Fifo *fifo, char c) {
     fifo->end++;
     if (fifo->end == fifo->size)
         fifo->end = 0;
-		
+	
 	return 0;
 }
 

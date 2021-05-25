@@ -25,7 +25,6 @@ transfer_grid_2
 
 3:
 random_initByTime
-
 do_draw_3
 do_step_3
 transfer_grid_3
