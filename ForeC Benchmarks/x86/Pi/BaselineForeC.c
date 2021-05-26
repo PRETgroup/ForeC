@@ -474,14 +474,14 @@ mainReactionEndMaster0: {
 			modified_pi__global_0_0[numberOfModifiedCopies] = &pi__global_0_0_copy_calculatePi3;
 			++numberOfModifiedCopies;
 		}
-//		// Assign the first modified copy.
-//		if (numberOfModifiedCopies > 0) {
-//			pi__global_0_0.value = modified_pi__global_0_0[0]->value;
-//		}
-//		// Combine with the remaining modified copies.
-//		for (index = 1; index < numberOfModifiedCopies; ++index) {
-//			pi__global_0_0.value = plus(&pi__global_0_0.value, &modified_pi__global_0_0[index]->value);
-//		}
+		// Assign the first modified copy.
+		if (numberOfModifiedCopies > 0) {
+			pi__global_0_0.value = modified_pi__global_0_0[0]->value;
+		}
+		// Combine with the remaining modified copies.
+		for (index = 1; index < numberOfModifiedCopies; ++index) {
+			pi__global_0_0.value = plus(&pi__global_0_0.value, &modified_pi__global_0_0[index]->value);
+		}
 	} else {
 		// Nothing.
 	}

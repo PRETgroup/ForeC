@@ -2,7 +2,7 @@ CC = clang
 FORECC = forecc
 
 CFLAGS = -O0 -Wall -Xclang -fopenmp -pthread
-LDFLAGS = -lomp
+LDFLAGS = -lomp -latomic
 
 % :: %.forec %.foreh
 	$(FORECC) $*.forec $*.foreh
@@ -13,4 +13,4 @@ LDFLAGS = -lomp
 	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@
 
 clean:
-	rm -f Test BaselineSequential BaselineOpenMP BaselineForeC 
+	rm -f Test BaselineSequential BaselineOpenMP BaselineForeC BaselinePthread
