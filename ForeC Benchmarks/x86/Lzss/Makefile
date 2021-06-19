@@ -9,20 +9,20 @@ else
 endif
 
 forec:
-	forecc lzss.forec lzss.4.foreh
+	forecc Lzss.forec Lzss.4.foreh
 
 c:
-	$(CC) $(CFLAGS) lzss.c -o lzss
+	$(CC) $(CFLAGS) Lzss.c -o Lzss
 
 compress:
-	./lzss -c result.lzs data.txt
+	./Lzss -c result.lzs data.txt
 	
 decompress:
-	./lzss -d result.lzs
+	./Lzss -d result.lzs
 
 dot:
-	dot -T pdf lzss.dot -o lzss.pdf
+	dot -T pdf Lzss.dot -o Lzss.pdf
 
 clean:
-	rm -f lzss *.exe *.dot *.c *.lzs result_data.txt debug.txt *.pdf *.xml
+	rm -f Lzss *.exe *.dot *.c *.lzs result_data.txt debug.txt *.pdf *.xml
 
