@@ -77,7 +77,7 @@ void display_double(int size, double xmin, double xmax, double ymin, double ymax
 	double yscal = (ymax - ymin) / size;
 	
 	unsigned counts;
-	#pragma omp parallel for firstprivate(xscal, yscal, xmin, ymin) private(y, x, cr, ci, counts)
+	#pragma omp parallel for firstprivate(xscal, yscal, xmin, ymin) private(y, x, cr, ci, counts) schedule(dynamic)
 	for (y = 0; y < size; y++) {
 		for (x = 0; x < size; x++) {
 			cr = xmin + x * xscal;

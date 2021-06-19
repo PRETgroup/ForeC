@@ -81,7 +81,7 @@ void allocateMatrix(int*** matrix) {
 	(*matrix) = (int**)malloc(SIZE * sizeof(int*));
 	
 	int i;
-	#pragma omp parallel for
+	#pragma omp parallel for schedule(dynamic)
 	for (i = 0; i < SIZE; i++) {
 		(*matrix)[i] = (int*)malloc(SIZE * sizeof(int));
 	}
@@ -91,7 +91,7 @@ void fillMatrix(int*** matrix) {
 	unsigned int seed = 10000;
 	
 	int i;
-	#pragma omp parallel for
+	#pragma omp parallel for schedule(dynamic)
 	for (i = 0; i < SIZE; i++) {
 		
 		int j;
@@ -103,7 +103,7 @@ void fillMatrix(int*** matrix) {
 
 void multiplyMatrix(int*** matrixA, int*** matrixB, int*** matrixC, const int startIndex) {
 	int i;
-	#pragma omp parallel for
+	#pragma omp parallel for schedule(dynamic)
 	for (i = startIndex; i < SIZE; i++) {
 		
 		int j;
