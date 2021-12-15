@@ -1,5 +1,5 @@
 CC			= clang
-LDFLAGS		= -lomp -latomic -lm
+LDFLAGS		= -lomp -lm
 
 ifeq ($(shell uname), Linux)
 	CFLAGS		= -fopenmp

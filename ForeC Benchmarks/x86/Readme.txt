@@ -8,6 +8,12 @@ Pre-requisites:
 * Pthread support
 * forecc (ForeC compiler)
 * GNU make
+* OpenMP libraries
+
+OpenMP Library for macOS:
+-------------------------
+Follow the instructions from https://mac.r-project.org/openmp/ 
+to download a compiled copy of libomp (.dylib and .h files).
 
 Benchmarks:
 -----------

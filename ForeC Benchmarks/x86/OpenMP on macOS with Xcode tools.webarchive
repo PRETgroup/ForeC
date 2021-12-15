@@ -1,0 +1,378 @@
+bplist00“_WebMainResource_WebSubresources’	
+_WebResourceFrameName_WebResourceData_WebResourceMIMEType_WebResourceTextEncodingName^WebResourceURLPO(ù<html><head>
+    <title>OpenMP on macOS with Xcode tools</title>
+    <link rel="stylesheet" href="../main.css" type="text/css">
+    <style type="text/css"> tt {color: #000080} #RC {background-color: #e0e0ff; border: 2px solid #c0c0ff; padding: 10px; margin: 7px}</style>
+  </head>
+  <body bgcolor="white">
+    <h1>OpenMP on macOS with Xcode tools</h1>
+    <p>
+      </p><div style="background: #ffe0e0; padding: 10px">
+	<b>Warning!</b> Everything described on this page is strictly
+	experimental and not officially supported by CRAN, R-core or R
+	Foundation. In may break at any time. The information is
+	provided in the hope of being useful to some tech-savvy
+	people. It is not intended for the regular R user.
+      </div>
+    <p>
+      For those impatient, skip to <a href="#do">how to enable OpenMP in
+	packages</a>.
+    </p>
+    <h2>OpenMP support in Xcode</h2>
+    <p>
+      Apple has explicitly disabled OpenMP support in compilers that
+    they ship in Xcode:
+
+    </p><pre>   $ clang -c omp.c -fopenmp
+   clang: error: unsupported option '-fopenmp'</pre>
+
+    even though <tt>clang</tt> had OpenMP support for quite a long
+    time now (great thanks to the folks at Intel providing their
+    library as open source!). In fact, the clang compiler in Xcode
+    can generate all the necessary code for OpenMP. It can be tricked
+    into performing its designed function by using
+    <tt>-Xclang -fopenmp</tt> flags.
+    <p></p>
+    <p>
+    The unfortunate part about this is that Apple is not shipping the
+    necesssary <tt>libomp.dylib</tt> run-time library needed for
+    OpenMP support. To make things worse, the version of the library
+    you need depends on the clang version used, which Apple
+    obfuscates so that it's non-trivial to reverse-engineer
+    it. Fortunately, some clever folks were able to find the
+    <a href="https://en.wikipedia.org/wiki/Xcode#Toolchain_versions">
+    traces in Apple's released source</a> so we can build the binaries
+    that correspond to the <tt>clang</tt> version used. It is
+    sometimes possible to use a more recent version of the runtime
+    than the version of Apple clang.
+
+    </p><h2>OpenMP run-time downloads</h2>
+    The follwing are links to <tt>libomp</tt> OpenMP run-time built
+    from official LLVM release sources using Xcode compilers. They
+    are signed and support macOS 10.13 (High Sierra) and higher. All
+    tar-balls contain the system tree <tt>usr/local/lib</tt>
+    and <tt>usr/local/include</tt> so the recommended installation is:
+    <pre>    curl -O https://mac.r-project.org/openmp/openmp-12.0.1-darwin20-Release.tar.gz
+    sudo tar fvxz openmp-12.0.1-darwin20-Release.tar.gz -C /</pre>
+    The contained set of files is the same in all tar balls:
+    <pre>    usr/local/lib/libomp.dylib
+    usr/local/include/ompt.h
+    usr/local/include/omp.h
+    usr/local/include/omp-tools.h</pre>
+    so you can simply remove those to uninstall. Note that any package
+    you compile against <tt>libomp.dylib</tt> will need that run-time
+    so you have to ship it with your package or have users install it.
+    You can verify the signature in the library via <tt>codetool</tt> (see below).
+    <p>
+    <table bgcolor="#ffffe0" border="0" cellspacing="0" cellpadding="3" width="100%">
+      <tbody><tr bgcolor="#c8c8ff"><th>Build</th><th>Download</th><th>SHA1 checksum</th></tr>
+      <tr valign="bottom" bgcolor="#ffffe0"><td><b>LLVM 13.0.0</b><br>(built on macOS 12, but works on macOS 11)</td>
+	<td><a href="openmp-13.0.0-darwin21-Release.tar.gz">openmp-13.0.0-darwin21-Release.tar.gz</a> (Release)<br>
+	  <a href="openmp-13.0.0-darwin21-Debug.tar.gz">openmp-13.0.0-darwin21-Debug.tar.gz</a> (Debug)</td>
+	<td>47af4cb0d1f3554969f2ec9dee450d728ea30024<br>f6f8f1f49c02d5ec0729b56ddc7eaf51e7f04714</td>
+      </tr>
+      <tr valign="bottom" bgcolor="#ffffa0"><td><b>LLVM 12.0.1</b><br>Xcode 13+ (Apple clang 1300.x)</td>
+	<td><a href="openmp-12.0.1-darwin20-Release.tar.gz">openmp-12.0.1-darwin20-Release.tar.gz</a> (Release)<br>
+	  <a href="openmp-12.0.1-darwin20-Debug.tar.gz">openmp-12.0.1-darwin20-Debug.tar.gz</a> (Debug)</td>
+	<td>4fab53ccc420ab882119256470af15c210d19e5e<br>58b4323e7933e12cba5c2996b4c9ef27567c41d9</td>
+      </tr>
+      <!-- don't show the git build - it was replaced by LLVM 11 + M1 patch, but we still keep the files for download
+      <tr valign=bottom bgcolor=#ffffa0><td><b>LLVM master (96efe90)</b><br>(this was our first M1 build - only for archives)</td>
+	<td><a href=openmp-96efe90-darwin20-Release.tar.gz>openmp-96efe90-darwin20-Release.tar.gz</a> (Release)<br>
+	  <a href=openmp-96efe90-darwin20-Debug.tar.gz>openmp-96efe90-darwin20-Debug.tar.gz</a> (Debug)</td>
+	<td>7adbe88c8882b7ab75f090ef83f77147d1866582<br>02e1a494e39f265766443007db49fb0d80ae93e4</td>
+      </tr> -->
+      <tr valign="bottom" bgcolor="#ffffe0"><td><b>LLVM 11.0.1</b> (+M1 patch)<br>Xcode 12.5 (Apple clang 1205.x)</td>
+	<td><a href="openmp-11.0.1-darwin20-Release.tar.gz">openmp-11.0.1-darwin20-Release.tar.gz</a> (Release)<br>
+	  <a href="openmp-11.0.1-darwin20-Debug.tar.gz">openmp-11.0.1-darwin20-Debug.tar.gz</a> (Debug)</td>
+	<td>0dcd19042f01c4f552914e2cf7a53186de397aa1<br>65e83ea667c72bbe44fea699776564d2f03a080f</td>
+      </tr>
+      <tr bgcolor="#ffe0e0"><td colspan="3"><center>(All binaries above include both arm64 and x86_64 and require macOS 11 or higher. Binaries below require macOS 10.13 or higher and are Intel-only)</center></td></tr>
+      <tr valign="bottom" bgcolor="#ffffa0"><td><b>LLVM 10.0.0</b><br>Xcode 12.0-12.4 (Apple clang 1200.x)</td>
+	<td><a href="openmp-10.0.0-darwin17-Release.tar.gz">openmp-10.0.0-darwin17-Release.tar.gz</a> (Release)<br>
+	  <a href="openmp-10.0.0-darwin17-Debug.tar.gz">openmp-10.0.0-darwin17-Debug.tar.gz</a> (Debug)</td>
+	<td>9bf16a64ab747528c5de7005a1ea1a9e318b3cf0<br>d4508d3f0c2952c3f984393b088e0b4beab33b58</td>
+      </tr>
+      <tr valign="bottom" bgcolor="#ffffe0"><td><b>LLVM 9.0.1</b><br>Xcode 11.4-11.7 (Apple clang 1103.x)</td>
+	<td><a href="openmp-9.0.1-darwin17-Release.tar.gz">openmp-9.0.1-darwin17-Release.tar.gz</a> (Release)<br>
+	  <a href="openmp-9.0.1-darwin17-Debug.tar.gz">openmp-9.0.1-darwin17-Debug.tar.gz</a> (Debug)</td>
+	<td>e5bd8501a3f957b4babe27b0a266d4fa15dbc23f<br>c4c8491631504fb060f7c25ec14324d02d617d5b</td>
+      </tr>
+      <tr valign="bottom" bgcolor="#ffffa0"><td><b>LLVM 8.0.1</b><br>Xcode 11.0-11.3.1 (Apple clang 1100.x)</td>
+	<td><a href="openmp-8.0.1-darwin17-Release.tar.gz">openmp-8.0.1-darwin17-Release.tar.gz</a> (Release)<br>
+	  <a href="openmp-8.0.1-darwin17-Debug.tar.gz">openmp-8.0.1-darwin17-Debug.tar.gz</a> (Debug)</td>
+	<td>e4612bfcb1bf520bf22844f7db764cadb7577c28<br>d6c83918b28405d43950d4b864ca8d1687eed4d1</td>
+      </tr>
+      <tr valign="bottom" bgcolor="#ffffe0"><td><b>LLVM 7.1.0</b><br>Xcode 10.2-10.3 (Apple clang 1001.x)</td>
+	<td><a href="openmp-7.1.0-darwin17-Release.tar.gz">openmp-7.1.0-darwin17-Release.tar.gz</a> (Release)<br>
+	  <a href="openmp-7.1.0-darwin17-Debug.tar.gz">openmp-7.1.0-darwin17-Debug.tar.gz</a> (Debug)</td>
+	<td>6891ff6f83f2ed83eeed42160de819b50cf643cd<br>34456adde62b9a1047f906e1d7f54990a1c15a34</td>
+      </tr>
+    </tbody></table>
+      
+    </p><h2><a name="do"></a>How to enable OpenMP in packages</h2>
+    <ul><li>Download the <tt>libomp</tt> run-time corresponding to the
+	Xcode version you use from the links above</li>
+	<li>add <tt>-Xclang -fopenmp</tt> to <tt>CPPFLAGS</tt>,
+	  add <tt>-lomp</tt> to <tt>LIBS</tt></li>
+    </ul>
+    How you do the latter depends on the package, but if the package does
+    not set these environment variables itself, you can try
+    <pre>    PKG_CPPFLAGS='-Xclang -fopenmp' PKG_LIBS=-lomp R CMD INSTALL myPackage</pre>
+
+    If that doesn't work, please consult the package's documentation, and
+    liaise with its maintainer.
+    
+    It is also possible to add those flags globally by
+    adding the following to <tt>~/.R/Makevars</tt>:
+    <pre>    CPPFLAGS += -Xclang -fopenmp
+    LDFLAGS += -lomp</pre>
+
+    but be very careful when doing this, always check
+    your <tt>~/.R/Makevars</tt> whenever you upgrade R, macOS or Xcode.
+
+    <h3>Side notes</h3>
+    It may be possible in principle to build static version of the run-time.
+    That can be done via <tt>-DLIBOMP_ENABLE_SHARED=OFF</tt>, but has not been
+    tested. There is a potential for chaos when more OMP run-times get
+    loaded into one process. Another interesting test would be to
+    try <tt>-DLIBOMP_FORTRAN_MODULES=ON</tt> and see which versions
+    are compatible with the GNU Fortran used in R. We are
+    intentionally removing the <tt>gomp</tt> symlink from the binary
+    so that <tt>iomp</tt> and <tt>gomp</tt> don't conflict.
+    
+    <h3>License and sources</h3>
+    All sources were obtained directly from the
+    <a href="https://releases.llvm.org/download.html">LLVM releases</a>
+    and copies are also available in the <a href="src/">src</a>
+    directory (including the build script). See <tt>LICENSE.txt</tt>
+    in the sources for the corresponding license and
+    <a href="https://openmp.llvm.org/">https://openmp.llvm.org/</a>
+    for details on the OpenMP run-time.
+    
+    <h3>Verifying code signatures</h3>
+    You can use codetools to verify the signature, for example you should see:
+    <pre>$ codesign -d -vv /usr/local/lib/libomp.dylib 
+Executable=/usr/local/lib/libomp.dylib
+Identifier=libomp
+Format=Mach-O universal (x86_64 arm64)
+CodeDirectory v=20400 size=5514 flags=0x0(none) hashes=167+2 location=embedded
+Signature size=8927
+Authority=Developer ID Application: Simon Urbanek (VZLD955F6P)
+Authority=Developer ID Certification Authority
+Authority=Apple Root CA
+Timestamp=11/11/2021 at 1:29:04 PM
+Info.plist=not bound
+TeamIdentifier=VZLD955F6P
+Sealed Resources=none
+Internal requirements count=1 size=168
+</pre>
+    
+    <h3>Acknowledgements</h3>
+    Thanks to John Clayden, Kevin Ushey and others who contributed to the discussion and testing.
+
+    <h3>Trademark notices</h3>
+    <ul>
+      <li>The OpenMP name and the OpenMP logo are registered trademarks of
+	the OpenMP Architecture Review Board.</li>
+      <li>Intel is a trademark of Intel Corporation in the U.S. and/or other countries.</li>
+      <li>Apple, Xcode and macOS are trademarks of Apple Inc., registered in the U.S. and other countries.</li>
+    </ul>
+    <p>
+      <i>Last modified on 2021/11/11 by Simon Urbanek</i>
+  
+
+    
+</p></body></html>Ytext/htmlUUTF-8_!https://mac.r-project.org/openmp/°‘_WebResourceResponseO
+6@media screen and (min-width: 50rem) {
+  body {
+    margin: 0.25rem auto 1rem auto;
+    padding: 1rem;
+    max-width: 70rem;
+  }
+}
+
+body, div, table, tt, td, thead, tbody, tr, span, a {
+  font-size: 11pt; 
+  font-family: -apple-system, BlinkMacSystemFont, ‚ÄúSegoe UI‚Äù, Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  aSCROLLBAR-TRACK-COLOR: #3188ff;
+  aSCROLLBAR-3DLIGHT-COLOR: #d2f2ff;
+  SCROLLBAR-HIGHLIGHT-COLOR: #000000;
+  SCROLLBAR-ARROW-COLOR: #d2f2ff;
+  SCROLLBAR-DARKSHADOW-COLOR: #3188ff;
+  SCROLLBAR-BASE-COLOR: #000000;
+}
+
+a:link, 
+a:visited, 
+a:active, 
+a:hover {
+  text-decoration: none; 
+  font-weight: bold;
+}
+
+a:hover { 
+  color: "c0c0ff"; 
+}
+
+#SUBTXT { 
+  font-size: 10pt; 
+}
+
+#MIC { 
+  font-size: 4pt; 
+}
+
+#H1 { 
+  font-size: 12pt;
+  font-weight: bold; 
+}
+
+#H2 { 
+  font-size: 14pt; 
+  font-weight: bold; 
+}
+
+ALL, p, td { 
+  font-size: 11pt; 
+}
+
+th { 
+  font-size: 12pt; 
+  font-weight: bold; 
+}
+
+pre,
+code {
+  font-family: SFMono-Regular, Menlo, Monaco, "Courier New", monospace;
+}
+
+tt {
+  color: #000080;
+  font-family: SFMono-Regular, Menlo, Monaco, "Courier New", monospace;
+} 
+
+.code-block-indent {
+  padding-top:1rem; 
+  padding-left:1rem;
+}
+
+#RC {
+  background-color: #e0e0ff; 
+  border: 2px solid #c0c0ff; 
+  padding: 10px;
+  margin: 7px;
+}
+
+.important {
+    background: #ffe0e0; 
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.noborder, 
+.noborder table, 
+.noborder thead, 
+.noborder tbody, 
+.noborder th,
+.noborder tr, 
+.noborder th, 
+.noborder td { 
+  border: none;
+}
+
+.build, 
+.build table, 
+.build thead, 
+.build tbody, 
+.build th,
+.build tr, 
+.build th, 
+.build td {
+  padding: 3px;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.build table {
+  table-layout: fixed;
+  background-color: #ffffe0;
+}
+
+.build table, 
+.build thead, 
+.build tbody,
+.build tr {
+  table-layout: auto;
+  margin: auto;
+  width: 100%;
+}
+
+.build thead,
+.build thead + th {
+  background-color: #c8c8ff;
+}
+
+.build .alt-1 {
+  vertical-align: bottom;
+  background-color: #ffffa0;
+}
+
+.build .alt-2 {
+  vertical-align: bottom;
+  background-color: #ffffe0;
+}
+
+
+.gui, 
+.gui table, 
+.gui thead, 
+.gui tbody, 
+.gui th,
+.gui tr, 
+.gui th {
+  padding: 3px;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.gui td {
+  padding: 6px;
+}
+
+.gui table {
+  table-layout: fixed;
+  background-color: #ffffe0;
+}
+
+.gui table, 
+.gui thead, 
+.gui tbody,
+.gui tr {
+  table-layout: auto;
+  margin: auto;
+  width: 100%;
+}
+
+.gui thead,
+.gui thead + th {
+  background-color: #c8c8ff;
+}
+
+.gui .alt-1 {
+  vertical-align: top;
+  background-color: #ffffa0;
+}
+
+.gui .alt-2 {
+  vertical-align: top;
+  background-color: #ffffe0;
+}
+Xtext/cssObplist00‘
+X$versionY$archiverT$topX$objects Ü†_NSKeyedArchiver—	_WebResourceResponseÄØ'-.4567MNOPQRSTUVWXYZ[\]aU$null› !"#$%&___nsurlrequest_proto_prop_obj_6___nsurlrequest_proto_prop_obj_3R$2___nsurlrequest_proto_prop_obj_0R$3___nsurlrequest_proto_prop_obj_4V$class___nsurlrequest_proto_prop_obj_1R$4R$0___nsurlrequest_proto_prop_obj_5___nsurlrequest_proto_prop_obj_2R$1ÄÄÄ	ÄÄÄÄ Ä”()$+,WNS.base[NS.relativeÄ ÄÄ_"https://mac.r-project.org/main.css“/012Z$classnameX$classesUNSURL¢13XNSObject#A√µYF˚6∆ »”89:CLWNS.keysZNS.objects®;<=>?@ABÄ	Ä
+ÄÄÄÄÄÄ®DFGHIJKÄÄÄÄÄÄÄÄÄVServer\Content-TypeX__hhaa__]Last-Modified]Accept-RangesTDate^Content-LengthTEtagUnginxXtext/css_l
+
+YnBsaXN0MDDXAQIDBAUGBwgKDA4QEhRWU2VydmVyXENvbnRlbnQtVHlwZV1MYXN0LU1vZGlmaWVkXUFjY2VwdC1SYW5nZXNURGF0ZV5Db250ZW50LUxlbmd0aFRFdGFnoQlVbmdpbnihC1h0ZXh0L2Nzc6ENXxAdU3VuLCAwMyBNYXkgMjAyMCAyMjoyNDoyNCBHTVShD1VieXRlc6ERXxAdV2VkLCAxNSBEZWMgMjAyMSAyMzoyNjo1MCBHTVShE1QyNjE0oRVeIjVlYWY0NDk4LWEzNiIIFx4rOUdMW2BiaGpzdZWXnZ+/wcbIAAAAAAAAAQEAAAAAAAAAFgAAAAAAAAAAAAAAAAAAANc=_Sun, 03 May 2020 22:24:24 GMTUbytes_Wed, 15 Dec 2021 23:26:50 GMTT2614^"5eaf4498-a36"“/0^__NSMutableDictionary£^`3\NSDictionary“/0bc_NSHTTPURLResponse£de3_NSHTTPURLResponse]NSURLResponse    $ ) 2 7 I L b d Ç à £ ≈ Á Í18Z]`Ç§ß©´≠Ø±≥µ∑∏∫ºæ¿«œ€›ﬂ·%(1:<>EMXacegikmoqz|~ÄÇÑÜàäåì†©∑≈ Ÿﬁ‰Ì]}É£®∑º“÷„Ë¸              f              "_"https://mac.r-project.org/main.css    1 < S e { ô ® ©)J)T)Z)~)Ä)â)ü3Ÿ3‚9Ù                           :

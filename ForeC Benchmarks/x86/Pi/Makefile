@@ -2,7 +2,7 @@ CC = clang
 FORECC = forecc
 
 CFLAGS = -O0 -Wall -Xclang -fopenmp -pthread
-LDFLAGS = -lomp -latomic
+LDFLAGS = -lomp
 
 % :: %.forec %.foreh
 	$(FORECC) $*.forec $*.foreh
