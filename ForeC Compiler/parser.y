@@ -4,13 +4,13 @@
  * To Public License, Version 2, as published by Sam Hocevar. See
  * http://sam.zoy.org/wtfpl/COPYING for more details. */
  
-%require "3.0"
+%require "3.6"
 %skeleton "lalr1.cc"
 %defines
 %locations
-%error-verbose
+%define parse.error verbose
 %define api.namespace {forec::loader}
-%define parser_class_name {Parser}
+%define api.parser.class {Parser}
 %parse-param {forec::loader::Scanner &scanner}
 %parse-param {forec::ast::Node &rootNode}
 %lex-param   {forec::loader::Scanner &scanner}
@@ -80,7 +80,6 @@
 	#include "ast/UnaryExpression.hpp"
 
 
-	
 	namespace forec {
 		namespace loader {
 			// Forward-declare the Scanner class; the Parser needs to be assigned a 
