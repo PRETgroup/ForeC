@@ -4,14 +4,14 @@
  * To Public License, Version 2, as published by Sam Hocevar. See
  * http://sam.zoy.org/wtfpl/COPYING for more details. */
  
-%require "3.0"
+%require "3.6"
 %skeleton "lalr1.cc"
 %defines
 %locations
-%error-verbose
+%define parse.error verbose
 %define api.prefix {ptarm}
 %define api.namespace {forec::loader}
-%define parser_class_name {ParserPtarm}
+%define api.parser.class {ParserPtarm}
 %parse-param {forec::loader::ScannerPtarm &scanner}
 %parse-param {forec::cfg::Node &rootNode}
 %lex-param   {forec::loader::ScannerPtarm &scanner}

@@ -4,14 +4,14 @@
  * To Public License, Version 2, as published by Sam Hocevar. See
  * http://sam.zoy.org/wtfpl/COPYING for more details. */
  
-%require "3.0"
+%require "3.6"
 %skeleton "lalr1.cc"
 %defines
 %locations
-%error-verbose
+%define parse.error verbose
 %define api.prefix {microBlaze}
 %define api.namespace {forec::loader}
-%define parser_class_name {ParserMicroBlaze}
+%define api.parser.class {ParserMicroBlaze}
 %parse-param {forec::loader::ScannerMicroBlaze &scanner}
 %parse-param {forec::cfg::Node &rootNode}
 %lex-param   {forec::loader::ScannerMicroBlaze &scanner}
