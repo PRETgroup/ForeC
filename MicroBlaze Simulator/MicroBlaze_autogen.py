@@ -65,7 +65,7 @@ def Get_Pcmp_Bf(topcode):
     assert topcode == 0x20
     out = []
     out.append("\n\t\tif ( iword & 0x400 ) {\n\t\t\ttemp = 0 ;\n")
-    for i in xrange(4):
+    for i in range(4):
         out.append("\t\t\tif ((( a >> %u ) & 0xff ) == (( b >> %u ) & 0xff ))" % (i * 8, i * 8))
         out.append(" { temp = %u ; }\n" % (4 - i))
     out.append("""
@@ -380,7 +380,7 @@ def Get_Float_Cmp(topcode):
         out.append('\t\t\t\t\t} else {\n')
         out.append('\t\t\t\t\t\t// Execute the instruction.\n')
         out.append('\t\t\t\t\t\tisMultiCycleInstruction = false;\n')
-        if ( mne is not 'fcmp.un' ):
+        if ( mne != 'fcmp.un' ):
             out.append('\t\t\t\t\t\ttemp = fb.f %s fa.f;\n' %java_op)
         else:
             out.append('\t\t\t\t\t\ttemp = 0;\n')
@@ -412,7 +412,7 @@ def Get_Float():
     out.append("\tswitch ( iword & 0x780 ) {\n")
 
     for (mne, opcode, java_op, remainingLatency) in FLOAT_OPS:
-        if (mne is 'fcmp'):
+        if (mne == 'fcmp'):
             out.append(Get_Float_Cmp(opcode))
         else:
             out.append('\t\tcase 0x%x : /* Float: %s */\n' % (opcode, mne) )
@@ -430,18 +430,18 @@ def Get_Float():
             out.append('\t\t\t\t// Execute the instruction.\n')
             out.append('\t\t\t\tisMultiCycleInstruction = false;\n')
 		    
-            if (java_op is not ''):
-				out.append('\t\t\t\tfd.f = fb.f %s fa.f ;\n' % java_op )
-				out.append('\t\t\t\t*MicroBlaze::getD ( ) = fd.i;\n' )
-				out.append('\t\t\t\tsnprintf ( name , MicroBlaze::NS , "' + mne + ': fd.f = %f ' + java_op + ' %f = %f\\n", fb.f, fa.f, fd.f ) ;\n' ) ; 
+            if (java_op != ''):
+                out.append('\t\t\t\tfd.f = fb.f %s fa.f ;\n' % java_op )
+                out.append('\t\t\t\t*MicroBlaze::getD ( ) = fd.i;\n' )
+                out.append('\t\t\t\tsnprintf ( name , MicroBlaze::NS , "' + mne + ': fd.f = %f ' + java_op + ' %f = %f\\n", fb.f, fa.f, fd.f ) ;\n' ) ;
 
-            elif (mne is 'flt'):
+            elif (mne == 'flt'):
                 out.append('\t\t\t\tfd.f = fa.i;\n')
                 out.append('\t\t\t\t*MicroBlaze::getD ( ) = fd.i;\n' )
-            elif (mne is 'fint'):
+            elif (mne == 'fint'):
                 out.append('\t\t\t\tfd.i = fa.f;\n')
                 out.append('\t\t\t\t*MicroBlaze::getD ( ) = fd.i;\n' )
-            elif (mne is 'fsqrt'):
+            elif (mne == 'fsqrt'):
                 out.append('\t\t\t\tfd.f = sqrt(fa.f);\n')
                 out.append('\t\t\t\t*MicroBlaze::getD ( ) = fd.i;\n' )
 				
@@ -463,7 +463,7 @@ def Get_Pycode():
     return ''.join(out)
 
 def Main():
-    fout = file('MicroBlaze_autogen.cpp', 'wt')
+    fout = open('MicroBlaze_autogen.cpp', 'wt')
     fout.write(Get_Pycode())
     fout.close()
 

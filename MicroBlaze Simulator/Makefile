@@ -20,7 +20,7 @@ BIN		= mb-sim
 all: Main
 
 MicroBlaze.o: MicroBlaze.cpp MicroBlaze_autogen.py
-	python MicroBlaze_autogen.py
+	python3 MicroBlaze_autogen.py
 	$(CC) -c MicroBlaze.cpp $(CFLAGS)
 
 Main: Main.o $(OBJS)
