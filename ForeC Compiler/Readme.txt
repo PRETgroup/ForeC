@@ -11,8 +11,8 @@ Date: 17 February 2020
 Pre-requisites:
 ---------------
 * Unix compatible system
-* Flex version 2.5.37 or later
-* Bison version 3.0 or later
+* Flex version 2.6.4 or later
+* Bison version 3.6 or later
 * C++ compiler
 * GNU make and relevant dependencies
 * Graphviz 2.34 or later
