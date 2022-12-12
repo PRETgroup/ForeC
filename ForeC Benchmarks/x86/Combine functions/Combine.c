@@ -3,6 +3,28 @@
 | Cores, mutex and input/output information.
 *=============================================================*/
 #include <pthread.h>
+#include <time.h>
+#include <sys/time.h>
+#include <stdint.h>
+#include <unistd.h>
+
+typedef struct {
+	long long previous;
+	long long current;
+	long long elapsed;
+} ClockTimeUs;
+ClockTimeUs clockTimeUs;
+
+// Returns the current time in microseconds
+long long getClockTimeUs(void) {
+	struct timespec ts;
+
+	if (clock_gettime(CLOCK_MONOTONIC, &ts) == 0) {
+		return (long long) (ts.tv_sec * 1000000 + ts.tv_nsec / 1000);
+	} else {
+		return 0;
+	}
+}
 
 // Mapping Pthreads to processor cores
 pthread_t cores[1];
@@ -29,7 +51,11 @@ typedef enum {
 	// Shared variables
 	FOREC_SHARED_UNMODIFIED,	// 5
 	FOREC_SHARED_MODIFIED,		// 6
-	FOREC_SHARED_WAS_MODIFIED	// 7
+	FOREC_SHARED_WAS_MODIFIED,	// 7
+	
+	// Program termination
+	RUNNING,					// 8
+	TERMINATED					// 9
 } Status;
 
 // Store child thread information.
@@ -42,17 +68,23 @@ typedef struct _Thread {
 // Store parent thread information
 typedef struct {
 	void *programCounter;
-	int parStatus;
-	int parId;
+	volatile Status parStatus;
+	pthread_cond_t parStatusCond;
+	pthread_mutex_t parStatusLock;
+	volatile int parId;
 } Parent;
 
 // Keep track of child threads executing on
 // a processor core.
 typedef struct {
-	int sync;
-	int activeThreads;
-	int status;
-	int reactionCounter;
+	volatile int sync;
+	volatile int activeThreads;
+	volatile Status status;
+	pthread_cond_t statusCond;
+	pthread_mutex_t statusLock;
+	volatile int reactionCounter;
+	pthread_cond_t reactionCounterCond;
+	pthread_mutex_t reactionCounterLock;
 } Core;
 
 // Structure to pass input arguments into forecMain.
@@ -62,12 +94,18 @@ typedef struct {
 	char **argv;
 } Arguments;
 
+// Shared control variable to signal program termination to the slave pthreads
+volatile Status programStatus;
 
-// Shared control variables for par(...)s -------------------------
+// Shared control variables for non-immediate aborts -----------
+
+// Shared control variables for par(...)s ----------------------
 // Thread main with par(...)s
-volatile Parent mainParParent;
-volatile Core mainParCore0;
+Parent mainParParent = { .parStatusCond = PTHREAD_COND_INITIALIZER, .parStatusLock = PTHREAD_MUTEX_INITIALIZER };
+Core mainParCore0 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
 volatile int mainParReactionCounter;
+pthread_cond_t mainParReactionCounterCond = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t mainParReactionCounterLock = PTHREAD_MUTEX_INITIALIZER;
 
 
 /*==============================================================
@@ -166,14 +204,41 @@ int lor(int *th1__lor_0_0, int *th2__lor_0_0) {
 typedef struct {
 	int value;
 	int min;
+} GlobalMin__global_0_0;
+
+typedef struct {
+	int value;
+	int min;
 	int max;
 } MinMax__global_0_0;
 
+typedef struct {
+	/* shared */ GlobalMin__global_0_0 value;
+	int status;
+} Shared_x_globalmin__global_0_0;
+Shared_x_globalmin__global_0_0 x_globalmin__global_0_0 = {.value = {.value = 0, .min = 10}, .status = FOREC_SHARED_UNMODIFIED} /* combine with globalmin */;
 typedef struct {
 	/* shared */ MinMax__global_0_0 value;
 	int status;
 } Shared_x_minmax__global_0_0;
 Shared_x_minmax__global_0_0 x_minmax__global_0_0 = {.value = {.value = 0, .min = 0, .max = 0}, .status = FOREC_SHARED_UNMODIFIED} /* combine with minmax */;
+
+GlobalMin__global_0_0 globalmin(GlobalMin__global_0_0 *th1__globalmin_0_0, GlobalMin__global_0_0 *th2__globalmin_0_0) {
+	GlobalMin__global_0_0 res__globalmin_0_0;
+	if (th1__globalmin_0_0->value > th2__globalmin_0_0->value) {
+		res__globalmin_0_0.value = th2__globalmin_0_0->value;
+	} else {
+		// ifElse2
+		res__globalmin_0_0.value = th1__globalmin_0_0->value;
+	}
+	if (th1__globalmin_0_0->min > res__globalmin_0_0.value) {
+		res__globalmin_0_0.min = res__globalmin_0_0.value;
+	} else {
+		// ifElse3
+		res__globalmin_0_0.min = th1__globalmin_0_0->min;
+	}
+	return res__globalmin_0_0;
+}
 
 MinMax__global_0_0 minmax(MinMax__global_0_0 *th1__minmax_0_0, MinMax__global_0_0 *th2__minmax_0_0) {
 	th1__minmax_0_0->min = min(&th1__minmax_0_0->value, &th2__minmax_0_0->value);
@@ -197,6 +262,7 @@ Shared_x_band__global_0_0 x_band__global_0_0_copy_t1 = {.status = FOREC_SHARED_U
 Shared_x_bor__global_0_0 x_bor__global_0_0_copy_t1 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_x_land__global_0_0 x_land__global_0_0_copy_t1 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_x_lor__global_0_0 x_lor__global_0_0_copy_t1 = {.status = FOREC_SHARED_UNMODIFIED};
+Shared_x_globalmin__global_0_0 x_globalmin__global_0_0_copy_t1 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_x_minmax__global_0_0 x_minmax__global_0_0_copy_t1 = {.status = FOREC_SHARED_UNMODIFIED};
 // t2
 Shared_x_min__global_0_0 x_min__global_0_0_copy_t2 = {.status = FOREC_SHARED_UNMODIFIED};
@@ -207,6 +273,7 @@ Shared_x_band__global_0_0 x_band__global_0_0_copy_t2 = {.status = FOREC_SHARED_U
 Shared_x_bor__global_0_0 x_bor__global_0_0_copy_t2 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_x_land__global_0_0 x_land__global_0_0_copy_t2 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_x_lor__global_0_0 x_lor__global_0_0_copy_t2 = {.status = FOREC_SHARED_UNMODIFIED};
+Shared_x_globalmin__global_0_0 x_globalmin__global_0_0_copy_t2 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_x_minmax__global_0_0 x_minmax__global_0_0_copy_t2 = {.status = FOREC_SHARED_UNMODIFIED};
 
 // forec:scheduler:boot:start
@@ -217,6 +284,8 @@ int main(int argc__main_0_0, char ** argv__main_0_0) {
 | Platform dependent code.  Core identifies itself and
 | executes its corresponding start up code.
 *=============================================================*/
+	programStatus = RUNNING;
+
 	// Initialise ForeC specific values ---------------------------
 	// Thread main with par(...)s
 	mainParParent.parStatus = FOREC_PAR_OFF;
@@ -231,7 +300,7 @@ int main(int argc__main_0_0, char ** argv__main_0_0) {
 	pthread_attr_init(&masterCoreAttribute);
 	pthread_attr_init(&slaveCoreAttribute);
 	pthread_attr_setdetachstate(&masterCoreAttribute, PTHREAD_CREATE_JOINABLE);
-	pthread_attr_setdetachstate(&slaveCoreAttribute, PTHREAD_CREATE_DETACHED);
+	pthread_attr_setdetachstate(&slaveCoreAttribute, PTHREAD_CREATE_JOINABLE);
 		
 	// Master core
 	Arguments arguments0 = {.coreId = 0, .argc = argc__main_0_0, .argv = argv__main_0_0};
@@ -252,8 +321,8 @@ int main(int argc__main_0_0, char ** argv__main_0_0) {
 void *forecMain(void *args) {
 	Arguments *arguments = (Arguments *)args;
 	int coreId = arguments->coreId;
-	int argc__main_0_0 = arguments->argc;
-	char **argv__main_0_0 = arguments->argv;
+	int argc__main_0_0 __attribute__((unused)) = arguments->argc;
+	char **argv__main_0_0 __attribute__((unused)) = arguments->argv;
 
 	// Variables for par()s ----------------------------------------
 	// par0
@@ -288,13 +357,21 @@ void *forecMain(void *args) {
 	// Thread local declarations -----------------------------------
 	// No declarations.
 mainParCore0: {
+	// forec:scheduler:counter:start
+	// Initialise and start timing each reaction.
+	clockTimeUs.previous = getClockTimeUs();
+	// forec:scheduler:counter:end
+	
 	//--------------------------------------------------------------
 
 	// par0(t1__thread, t2__thread);
 	// forec:statement:par:par0:start
 	// Set the par(...) information.
 	mainParParent.parId = 0;
+	pthread_mutex_lock(&mainParParent.parStatusLock);
 	mainParParent.parStatus = FOREC_PAR_ON;
+	pthread_cond_broadcast(&mainParParent.parStatusCond);
+	pthread_mutex_unlock(&mainParParent.parStatusLock);
 
 	// Link the threads and handlers together.
 	mainReactionStartMaster0.programCounter = &&mainReactionStartMaster0;
@@ -334,12 +411,23 @@ mainParCore0: {
 	printf("land(0x2,0x5) = 0x%x\n", x_land__global_0_0.value);
 	printf("lor(0x2,0x5)  = 0x%x\n", x_lor__global_0_0.value);
 	printf("\n");
+	printf("globalmin(2, 5) = {%d,%d}\n", x_globalmin__global_0_0.value.value, x_globalmin__global_0_0.value.min);
 	printf("minmax(2,5) = {%d,%d}\n", x_minmax__global_0_0.value.min, x_minmax__global_0_0.value.max);
 
 	//--------------------------------------------------------------
 
-
 	// forec:scheduler:threadRemove:main:start
+
+	// forec:scheduler:counter:start
+	clockTimeUs.current = getClockTimeUs();
+	clockTimeUs.elapsed = clockTimeUs.current - clockTimeUs.previous;
+	if (clockTimeUs.elapsed < 0) {
+		usleep(0 - clockTimeUs.elapsed);
+	}
+	clockTimeUs.previous = getClockTimeUs();
+	// forec:scheduler:counter:end
+	
+	programStatus = TERMINATED;
 	pthread_exit(NULL);
 	// forec:scheduler:threadRemove:main:end
 } // mainParCore0
@@ -351,13 +439,19 @@ mainParHandlerMaster0: {
 		// Iteration
 		// Wait for other cores to complete their reaction.
 
+		pthread_mutex_lock(&mainParParent.parStatusLock);
 		mainParParent.parStatus = FOREC_PAR_OFF;
+		pthread_cond_broadcast(&mainParParent.parStatusCond);
+		pthread_mutex_unlock(&mainParParent.parStatusLock);
 		mainParParent.parId = -1;
 
 		// Set slave cores' status to reacting.
 
 		// Increment the reaction counter for synchronisation.
+		pthread_mutex_lock(&mainParReactionCounterLock);
 		mainParReactionCounter++;
+		pthread_cond_broadcast(&mainParReactionCounterCond);
+		pthread_mutex_unlock(&mainParReactionCounterLock);
 
 		// Return to thread main.
 		goto *mainParParent.programCounter;
@@ -388,11 +482,14 @@ mainReactionStartMaster0: {
 	//-- main:
 mainReactionEndMaster0: {
 	// Determine if the core can still react or not.
+	pthread_mutex_lock(&mainParCore0.statusLock);
 	if (mainParCore0.activeThreads) {
 		mainParCore0.status = FOREC_CORE_REACTED;
 	} else {
 		mainParCore0.status = FOREC_CORE_TERMINATED;
 	}
+	pthread_cond_signal(&mainParCore0.statusCond);
+	pthread_mutex_unlock(&mainParCore0.statusLock);
 	
 	// Wait for other cores to complete their reaction.
 
@@ -588,6 +685,29 @@ mainReactionEndMaster0: {
 			x_lor__global_0_0.value = lor(&x_lor__global_0_0.value, &modified_x_lor__global_0_0[index]->value);
 		}
 
+		// x_globalmin__global_0_0
+		numberOfModifiedCopies = 0;
+		Shared_x_globalmin__global_0_0 *modified_x_globalmin__global_0_0[2];
+		// Find the modified copies.
+		if (x_globalmin__global_0_0_copy_t1.status == FOREC_SHARED_MODIFIED) {
+			x_globalmin__global_0_0_copy_t1.status = FOREC_SHARED_UNMODIFIED;
+			modified_x_globalmin__global_0_0[numberOfModifiedCopies] = &x_globalmin__global_0_0_copy_t1;
+			++numberOfModifiedCopies;
+		}
+		if (x_globalmin__global_0_0_copy_t2.status == FOREC_SHARED_MODIFIED) {
+			x_globalmin__global_0_0_copy_t2.status = FOREC_SHARED_UNMODIFIED;
+			modified_x_globalmin__global_0_0[numberOfModifiedCopies] = &x_globalmin__global_0_0_copy_t2;
+			++numberOfModifiedCopies;
+		}
+		// Assign the first modified copy.
+		if (numberOfModifiedCopies > 0) {
+			x_globalmin__global_0_0.value = modified_x_globalmin__global_0_0[0]->value;
+		}
+		// Combine with the remaining modified copies.
+		for (index = 1; index < numberOfModifiedCopies; ++index) {
+			x_globalmin__global_0_0.value = globalmin(&x_globalmin__global_0_0.value, &modified_x_globalmin__global_0_0[index]->value);
+		}
+
 		// x_minmax__global_0_0
 		numberOfModifiedCopies = 0;
 		Shared_x_minmax__global_0_0 *modified_x_minmax__global_0_0[2];
@@ -616,21 +736,39 @@ mainReactionEndMaster0: {
 
 	// Return back to the parent thread if all the cores have terminated.
 	if (1 && mainParCore0.status == FOREC_CORE_TERMINATED) {
+		pthread_mutex_lock(&mainParParent.parStatusLock);
 		mainParParent.parStatus = FOREC_PAR_OFF;
+		pthread_cond_broadcast(&mainParParent.parStatusCond);
+		pthread_mutex_unlock(&mainParParent.parStatusLock);
 		mainParParent.parId = -1;
 		
 		// Set slave cores' status to reacting
 
 		// Increment the reaction counter for synchronization.
+		pthread_mutex_lock(&mainParReactionCounterLock);
 		mainParReactionCounter++;
+		pthread_cond_broadcast(&mainParReactionCounterCond);
+		pthread_mutex_unlock(&mainParReactionCounterLock);
 
 		goto *mainParParent.programCounter;
 	}
 
 	// Set slave cores' status to reacting
 
+	// forec:scheduler:counter:start
+	clockTimeUs.current = getClockTimeUs();
+	clockTimeUs.elapsed = clockTimeUs.current - clockTimeUs.previous;
+	if (clockTimeUs.elapsed < 0) {
+		usleep(0 - clockTimeUs.elapsed);
+	}
+	clockTimeUs.previous = getClockTimeUs();
+	// forec:scheduler:counter:end
+
 	// Increment the reaction counter for synchronization.
+	pthread_mutex_lock(&mainParReactionCounterLock);
 	mainParReactionCounter++;
+	pthread_cond_broadcast(&mainParReactionCounterCond);
+	pthread_mutex_unlock(&mainParReactionCounterLock);
 
 	// Go to the next thread.
 	goto *mainReactionEndMaster0.nextThread -> programCounter;
@@ -662,6 +800,7 @@ mainReactionEndMaster0: {
 	Shared_x_bor__global_0_0 x_bor__global_0_0_copy_t1_local;
 	Shared_x_land__global_0_0 x_land__global_0_0_copy_t1_local;
 	Shared_x_lor__global_0_0 x_lor__global_0_0_copy_t1_local;
+	Shared_x_globalmin__global_0_0 x_globalmin__global_0_0_copy_t1_local;
 	Shared_x_minmax__global_0_0 x_minmax__global_0_0_copy_t1_local;
 
 	// Thread body -------------------------------------------------
@@ -683,6 +822,8 @@ mainReactionEndMaster0: {
 		x_land__global_0_0_copy_t1_local.status = FOREC_SHARED_UNMODIFIED;
 		x_lor__global_0_0_copy_t1_local.value = x_lor__global_0_0.value;
 		x_lor__global_0_0_copy_t1_local.status = FOREC_SHARED_UNMODIFIED;
+		x_globalmin__global_0_0_copy_t1_local.value = x_globalmin__global_0_0.value;
+		x_globalmin__global_0_0_copy_t1_local.status = FOREC_SHARED_UNMODIFIED;
 		x_minmax__global_0_0_copy_t1_local.value = x_minmax__global_0_0.value;
 		x_minmax__global_0_0_copy_t1_local.status = FOREC_SHARED_UNMODIFIED;
 		//--------------------------------------------------------------
@@ -697,6 +838,8 @@ mainReactionEndMaster0: {
 		x_land__global_0_0_copy_t1_local.status = FOREC_SHARED_MODIFIED;
 		x_bor__global_0_0_copy_t1_local.status = FOREC_SHARED_MODIFIED;
 		x_band__global_0_0_copy_t1_local.status = FOREC_SHARED_MODIFIED;
+		x_globalmin__global_0_0_copy_t1_local.value.value = 2;
+		x_globalmin__global_0_0_copy_t1_local.status = FOREC_SHARED_MODIFIED;
 		x_minmax__global_0_0_copy_t1_local.value.value = 2;
 		x_minmax__global_0_0_copy_t1_local.status = FOREC_SHARED_MODIFIED;
 
@@ -710,6 +853,7 @@ mainReactionEndMaster0: {
 		x_bor__global_0_0_copy_t1 = x_bor__global_0_0_copy_t1_local;
 		x_land__global_0_0_copy_t1 = x_land__global_0_0_copy_t1_local;
 		x_lor__global_0_0_copy_t1 = x_lor__global_0_0_copy_t1_local;
+		x_globalmin__global_0_0_copy_t1 = x_globalmin__global_0_0_copy_t1_local;
 		x_minmax__global_0_0_copy_t1 = x_minmax__global_0_0_copy_t1_local;
 
 		// forec:scheduler:threadRemove:t1:start
@@ -737,6 +881,7 @@ mainReactionEndMaster0: {
 	Shared_x_bor__global_0_0 x_bor__global_0_0_copy_t2_local;
 	Shared_x_land__global_0_0 x_land__global_0_0_copy_t2_local;
 	Shared_x_lor__global_0_0 x_lor__global_0_0_copy_t2_local;
+	Shared_x_globalmin__global_0_0 x_globalmin__global_0_0_copy_t2_local;
 	Shared_x_minmax__global_0_0 x_minmax__global_0_0_copy_t2_local;
 
 	// Thread body -------------------------------------------------
@@ -758,6 +903,8 @@ mainReactionEndMaster0: {
 		x_land__global_0_0_copy_t2_local.status = FOREC_SHARED_UNMODIFIED;
 		x_lor__global_0_0_copy_t2_local.value = x_lor__global_0_0.value;
 		x_lor__global_0_0_copy_t2_local.status = FOREC_SHARED_UNMODIFIED;
+		x_globalmin__global_0_0_copy_t2_local.value = x_globalmin__global_0_0.value;
+		x_globalmin__global_0_0_copy_t2_local.status = FOREC_SHARED_UNMODIFIED;
 		x_minmax__global_0_0_copy_t2_local.value = x_minmax__global_0_0.value;
 		x_minmax__global_0_0_copy_t2_local.status = FOREC_SHARED_UNMODIFIED;
 		//--------------------------------------------------------------
@@ -772,6 +919,8 @@ mainReactionEndMaster0: {
 		x_land__global_0_0_copy_t2_local.status = FOREC_SHARED_MODIFIED;
 		x_bor__global_0_0_copy_t2_local.status = FOREC_SHARED_MODIFIED;
 		x_band__global_0_0_copy_t2_local.status = FOREC_SHARED_MODIFIED;
+		x_globalmin__global_0_0_copy_t2_local.value.value = 5;
+		x_globalmin__global_0_0_copy_t2_local.status = FOREC_SHARED_MODIFIED;
 		x_minmax__global_0_0_copy_t2_local.value.value = 5;
 		x_minmax__global_0_0_copy_t2_local.status = FOREC_SHARED_MODIFIED;
 
@@ -785,6 +934,7 @@ mainReactionEndMaster0: {
 		x_bor__global_0_0_copy_t2 = x_bor__global_0_0_copy_t2_local;
 		x_land__global_0_0_copy_t2 = x_land__global_0_0_copy_t2_local;
 		x_lor__global_0_0_copy_t2 = x_lor__global_0_0_copy_t2_local;
+		x_globalmin__global_0_0_copy_t2 = x_globalmin__global_0_0_copy_t2_local;
 		x_minmax__global_0_0_copy_t2 = x_minmax__global_0_0_copy_t2_local;
 
 		// forec:scheduler:threadRemove:t2:start

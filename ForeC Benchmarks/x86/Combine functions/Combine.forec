@@ -48,7 +48,12 @@ int land(int *th1, int *th2) {
 
 int lor(int *th1, int *th2) {
 	return (*th1 || *th2);
-} 
+}
+
+typedef struct {
+	int value; 
+	int min;
+} GlobalMin;
 
 typedef struct {
 	int value;
@@ -56,7 +61,25 @@ typedef struct {
 	int max;
 } MinMax;
 
+shared GlobalMin x_globalmin = {.value = 0, .min = 10} combine with globalmin;
 shared MinMax x_minmax = {.value = 0, .min = 0, .max = 0} combine with minmax;
+
+GlobalMin globalmin(GlobalMin *th1, GlobalMin *th2) {
+	GlobalMin res;
+	if (th1->value > th2->value) {  // Calculate the min for the current tick
+        res.value = th2->value; 
+    } else { 
+        res.value = th1->value;
+    }
+
+    if (th1->min > res.value) {  // Calculate the min since the start of the program
+        res.min = res.value;
+    } else {
+        res.min = th1->min;
+    }
+    
+ 	return res;
+}
 
 MinMax minmax(MinMax *th1, MinMax *th2) {
 	th1->min = min(&th1->value, &th2->value);
@@ -80,18 +103,21 @@ void main(int argc, char **argv) {
 	printf("land(0x2,0x5) = 0x%x\n", x_land);	// 0x1
 	printf("lor(0x2,0x5)  = 0x%x\n", x_lor);	// 0x1
 	printf("\n");
+	printf("globalmin(2, 5) = {%d,%d}\n", x_globalmin.value, x_globalmin.min);	// {2,2}
 	printf("minmax(2,5) = {%d,%d}\n", x_minmax.min, x_minmax.max);	// {2,5}
 }
 
 thread t1(void) {
 	x_min = x_max = x_add = x_mul = 2;
 	x_band = x_bor = x_land = x_lor = 0x2;
+	x_globalmin.value = 2;
 	x_minmax.value = 2;
 }
 
 thread t2(void) {
 	x_min = x_max = x_add = x_mul = 5;
 	x_band = x_bor = x_land = x_lor = 0x5;
+	x_globalmin.value = 5;
 	x_minmax.value = 5;
 }
 

@@ -56,6 +56,7 @@
 				<variable id="x_bor__global_0_0" defines="2" combine="bor"/>
 				<variable id="x_land__global_0_0" defines="2" combine="land"/>
 				<variable id="x_lor__global_0_0" defines="2" combine="lor"/>
+				<variable id="x_globalmin__global_0_0" defines="2" combine="globalmin"/>
 				<variable id="x_minmax__global_0_0" defines="2" combine="minmax"/>
 			</par>
 		</threadScope>

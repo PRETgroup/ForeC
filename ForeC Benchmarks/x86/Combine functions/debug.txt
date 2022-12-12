@@ -1,10 +1,14 @@
 ForeC Compiler (multicore distribution)
-Version: 0.99 (5 October 2014)
+Version: 0.992 (17 February 2020)
 Debug output
 ---------------------------------------
 
+Debug level: 0
+Check instantaneous loops: no
+Minimum reaction time: 0 clock cycles
 Source file name: Combine.forec
 Header file name: Combine.foreh
+Embed main function: no)
 
 ============================
 tools::Multicore::toString()
@@ -48,6 +52,8 @@ Symbol tables:
 	Scope name: global
 		Scope level: 0
 			Instance: 0
+				(thread) t1__thread
+				(thread) t2__thread
 				(shared) x_min__global_0_0
 				(shared) x_max__global_0_0
 				(shared) x_add__global_0_0
@@ -56,10 +62,17 @@ Symbol tables:
 				(shared) x_bor__global_0_0
 				(shared) x_land__global_0_0
 				(shared) x_lor__global_0_0
+				(typedef) GlobalMin__global_0_0
 				(typedef) MinMax__global_0_0
+				(shared) x_globalmin__global_0_0
 				(shared) x_minmax__global_0_0
-				(thread) t1__thread
-				(thread) t2__thread
+
+	Scope name: globalmin
+		Scope level: 0
+			Instance: 0
+				(variable) th1__globalmin_0_0
+				(variable) th2__globalmin_0_0
+				(variable) res__globalmin_0_0
 
 	Scope name: land
 		Scope level: 0
@@ -115,6 +128,7 @@ Declared shared symbols:
 		(Shared_x_bor__global_0_0) x_bor__global_0_0
 		(Shared_x_land__global_0_0) x_land__global_0_0
 		(Shared_x_lor__global_0_0) x_lor__global_0_0
+		(Shared_x_globalmin__global_0_0) x_globalmin__global_0_0
 		(Shared_x_minmax__global_0_0) x_minmax__global_0_0
 
 
@@ -135,6 +149,16 @@ Use/Def of symbols:
 			(variable) th1__bor_0_0
 			(variable) th2__bor_0_0
 
+	Scope name: globalmin
+		def:
+			(typedef) GlobalMin__global_0_0
+			(variable) res__globalmin_0_0
+
+		use:
+			(variable) th1__globalmin_0_0
+			(variable) th2__globalmin_0_0
+			(variable) res__globalmin_0_0
+
 	Scope name: land
 		use:
 			(variable) th1__land_0_0
@@ -147,6 +171,8 @@ Use/Def of symbols:
 
 	Scope name: main
 		use:
+			(thread) t1__thread
+			(thread) t2__thread
 			(shared) x_min__global_0_0
 			(shared) x_max__global_0_0
 			(shared) x_add__global_0_0
@@ -155,9 +181,8 @@ Use/Def of symbols:
 			(shared) x_bor__global_0_0
 			(shared) x_land__global_0_0
 			(shared) x_lor__global_0_0
+			(shared) x_globalmin__global_0_0
 			(shared) x_minmax__global_0_0
-			(thread) t1__thread
-			(thread) t2__thread
 
 	Scope name: max
 		use:
@@ -193,6 +218,7 @@ Use/Def of symbols:
 			(shared) x_bor__global_0_0
 			(shared) x_land__global_0_0
 			(shared) x_lor__global_0_0
+			(shared) x_globalmin__global_0_0
 			(shared) x_minmax__global_0_0
 
 	Scope name: t2
@@ -205,6 +231,7 @@ Use/Def of symbols:
 			(shared) x_bor__global_0_0
 			(shared) x_land__global_0_0
 			(shared) x_lor__global_0_0
+			(shared) x_globalmin__global_0_0
 			(shared) x_minmax__global_0_0
 
 
@@ -233,6 +260,9 @@ Indirect use/def of symbols by parId:
 			def (root): t1 t2 
 
 		x_lor__global_0_0
+			def (root): t1 t2 
+
+		x_globalmin__global_0_0
 			def (root): t1 t2 
 
 		x_minmax__global_0_0
@@ -266,6 +296,9 @@ Indirect use/def of symbols by threadId:
 		x_lor__global_0_0
 			def (root): main 
 
+		x_globalmin__global_0_0
+			def (root): main 
+
 		x_minmax__global_0_0
 			def (root): main 
 
@@ -292,6 +325,9 @@ Indirect use/def of symbols by threadId:
 			def (intermediate): t1 
 
 		x_lor__global_0_0
+			def (intermediate): t1 
+
+		x_globalmin__global_0_0
 			def (intermediate): t1 
 
 		x_minmax__global_0_0
@@ -322,6 +358,9 @@ Indirect use/def of symbols by threadId:
 		x_lor__global_0_0
 			def (intermediate): t2 
 
+		x_globalmin__global_0_0
+			def (intermediate): t2 
+
 		x_minmax__global_0_0
 			def (intermediate): t2 
 
@@ -331,6 +370,7 @@ Functions used for combining shared variables:
 	add
 	band
 	bor
+	globalmin
 	land
 	lor
 	max
