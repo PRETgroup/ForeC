@@ -81,7 +81,7 @@ void allocateMatrix(int*** matrix) {
 	(*matrix) = (int**)malloc(SIZE * sizeof(int*));
 	
 	int i;
-	#pragma omp parallel for schedule(dynamic)
+	#pragma omp parallel for private(i) schedule(dynamic)
 	for (i = 0; i < SIZE; i++) {
 		(*matrix)[i] = (int*)malloc(SIZE * sizeof(int));
 	}
@@ -91,10 +91,10 @@ void fillMatrix(int*** matrix) {
 	unsigned int seed = 10000;
 	
 	int i;
-	#pragma omp parallel for schedule(dynamic)
+	int j;
+	#pragma omp parallel for private(i,j) schedule(dynamic)
 	for (i = 0; i < SIZE; i++) {
 		
-		int j;
 		for (j = 0; j < SIZE; j++) {
 			(*matrix)[i][j] = 1 + (int) (MAXINT * (rand_r(&seed) / (RAND_MAX + 1.0)));
 		}
@@ -103,14 +103,14 @@ void fillMatrix(int*** matrix) {
 
 void multiplyMatrix(int*** matrixA, int*** matrixB, int*** matrixC, const int startIndex) {
 	int i;
-	#pragma omp parallel for schedule(dynamic)
+	int j;
+	int k;
+	#pragma omp parallel for private(i,j,k) schedule(dynamic)
 	for (i = startIndex; i < SIZE; i++) {
 		
-		int j;
 		for (j = 0; j < SIZE; j++) {
 			int sum = 0;
 			
-			int k;
 			for (k = 0; k < SIZE; k++) {
 				sum += (*matrixA)[i][k] * (*matrixB)[k][j];
 			}
