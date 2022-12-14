@@ -16,7 +16,6 @@
 #include <stdio.h>
 
 static const int MAXINT = 10000;
-static const int RANGE = 150;
 static const int SIZE = 150 * 4;
 static const int REPEAT = 10;
 

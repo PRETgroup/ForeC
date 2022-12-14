@@ -127,7 +127,6 @@ int RAND_MAX__global_0_0;
 #define RAND_MAX__global_0_0 RAND_MAX
 
 static const int MAXINT__global_0_0 = 10000;
-static const int THREAD_COUNT__global_0_0 = 16;
 static const int REPEAT__global_0_0 = 10;
 int ** matrixA__global_0_0;
 int ** matrixB__global_0_0;
@@ -1254,10 +1253,10 @@ void fillMatrix(int *** matrix__fillMatrix_0_0) {
 	int SIZE__fillMatrix_0_0 = 150*4;
 	unsigned int seed__fillMatrix_0_0 = 10000;
 	int i__fillMatrix_0_0;
+	int j__fillMatrix_0_0;
 	for (i__fillMatrix_0_0 = 0; i__fillMatrix_0_0 < SIZE__fillMatrix_0_0; i__fillMatrix_0_0++) {
-		int j__fillMatrix_1_0;
-		for (j__fillMatrix_1_0 = 0; j__fillMatrix_1_0 < SIZE__fillMatrix_0_0; j__fillMatrix_1_0++) {
-			(* matrix__fillMatrix_0_0)[i__fillMatrix_0_0][j__fillMatrix_1_0] = 1 + (int)(MAXINT__global_0_0*(rand_r(&seed__fillMatrix_0_0)/(RAND_MAX__global_0_0 + 1.0)));
+		for (j__fillMatrix_0_0 = 0; j__fillMatrix_0_0 < SIZE__fillMatrix_0_0; j__fillMatrix_0_0++) {
+			(* matrix__fillMatrix_0_0)[i__fillMatrix_0_0][j__fillMatrix_0_0] = 1 + (int)(MAXINT__global_0_0*(rand_r(&seed__fillMatrix_0_0)/(RAND_MAX__global_0_0 + 1.0)));
 			// forec:iteration:for1_2:bound:600:600
 		}
 		// forec:iteration:for1_3:bound:600:600
@@ -1268,16 +1267,16 @@ void multiplyMatrix(int *** matrixA__multiplyMatrix_0_0, int *** matrixB__multip
 	int SIZE__multiplyMatrix_0_0 = 150*4;
 	int RANGE__multiplyMatrix_0_0 = 150;
 	int i__multiplyMatrix_0_0;
+	int j__multiplyMatrix_0_0;
+	int k__multiplyMatrix_0_0;
 	for (i__multiplyMatrix_0_0 = startIndex__multiplyMatrix_0_0; i__multiplyMatrix_0_0 < startIndex__multiplyMatrix_0_0 + RANGE__multiplyMatrix_0_0; i__multiplyMatrix_0_0++) {
-		int j__multiplyMatrix_1_0;
-		for (j__multiplyMatrix_1_0 = 0; j__multiplyMatrix_1_0 < SIZE__multiplyMatrix_0_0; j__multiplyMatrix_1_0++) {
+		for (j__multiplyMatrix_0_0 = 0; j__multiplyMatrix_0_0 < SIZE__multiplyMatrix_0_0; j__multiplyMatrix_0_0++) {
 			int sum__multiplyMatrix_2_0 = 0;
-			int k__multiplyMatrix_2_0;
-			for (k__multiplyMatrix_2_0 = 0; k__multiplyMatrix_2_0 < SIZE__multiplyMatrix_0_0; k__multiplyMatrix_2_0++) {
-				sum__multiplyMatrix_2_0 += (* matrixA__multiplyMatrix_0_0)[i__multiplyMatrix_0_0][k__multiplyMatrix_2_0]*(* matrixB__multiplyMatrix_0_0)[k__multiplyMatrix_2_0][j__multiplyMatrix_1_0];
+			for (k__multiplyMatrix_0_0 = 0; k__multiplyMatrix_0_0 < SIZE__multiplyMatrix_0_0; k__multiplyMatrix_0_0++) {
+				sum__multiplyMatrix_2_0 += (* matrixA__multiplyMatrix_0_0)[i__multiplyMatrix_0_0][k__multiplyMatrix_0_0]*(* matrixB__multiplyMatrix_0_0)[k__multiplyMatrix_0_0][j__multiplyMatrix_0_0];
 				// forec:iteration:for1_4:bound:600:600
 			}
-			(* matrixC__multiplyMatrix_0_0)[i__multiplyMatrix_0_0][j__multiplyMatrix_1_0] = sum__multiplyMatrix_2_0;
+			(* matrixC__multiplyMatrix_0_0)[i__multiplyMatrix_0_0][j__multiplyMatrix_0_0] = sum__multiplyMatrix_2_0;
 			// forec:iteration:for1_5:bound:600:600
 		}
 		// forec:iteration:for1_6:bound:150:150

@@ -38,7 +38,11 @@ void multiplyMatrix(int*** matrixA, int*** matrixB, int*** matrixC, const int st
  * Returns : NULL
  */
 int main(int argc, char *args[]) {
-    int procNumber = 4;
+    int procNumber = 1;
+    if (argc == 2) {
+    	procNumber = *args[1] - '0';
+    }
+    
     printf("Number of threads: %d\n", procNumber);
     omp_set_num_threads(procNumber);
     
