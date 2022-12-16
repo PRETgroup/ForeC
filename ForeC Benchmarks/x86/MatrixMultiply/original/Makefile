@@ -7,7 +7,7 @@ else
 endif
 
 .c:
-	$(CC) -O0 -Wall $< -o $*
+	$(CC) -g -Wall $< -o $*
 
 clean:
 	rm -f MatrixMultiply *.exe

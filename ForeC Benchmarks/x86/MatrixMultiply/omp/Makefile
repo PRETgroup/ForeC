@@ -10,7 +10,7 @@ else
 endif
 
 .c:
-	$(CC) $(CFLAGS) $(LDFLAGS) -O0 -Wall $< -o $*
+	$(CC) $(CFLAGS) $(LDFLAGS) -g -Wall $< -o $*
 
 clean:
 	rm -f MatrixMultiply *.exe

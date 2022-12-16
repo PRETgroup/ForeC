@@ -38,15 +38,15 @@ void multiplyMatrix(int*** matrixA, int*** matrixB, int*** matrixC, const int st
  * Returns : NULL
  */
 int main(int argc, char *args[]) {
-    int procNumber = 1;
-    if (argc == 2) {
-    	procNumber = *args[1] - '0';
-    }
+	int procNumber = 1;
+	if (argc == 2) {
+		procNumber = *args[1] - '0';
+	}
     
-    printf("Number of threads: %d\n", procNumber);
-    omp_set_num_threads(procNumber);
+	printf("Number of threads: %d\n", procNumber);
+	omp_set_num_threads(procNumber);
     
-    struct timeval startTime, endTime;
+	struct timeval startTime, endTime;
 	gettimeofday(&startTime, 0);
 	//- - - -
 
@@ -78,44 +78,36 @@ int main(int argc, char *args[]) {
 	}
 	
 	printf("Runtime: %ld.%.6d\r\n", seconds, microseconds);
+
 	return 0;
 }
 
 void allocateMatrix(int*** matrix) {
 	(*matrix) = (int**)malloc(SIZE * sizeof(int*));
 	
-	int i;
-	#pragma omp parallel for private(i) schedule(dynamic)
-	for (i = 0; i < SIZE; i++) {
+	#pragma omp parallel for schedule(dynamic)
+	for (int i = 0; i < SIZE; i++) {
 		(*matrix)[i] = (int*)malloc(SIZE * sizeof(int));
 	}
 }
 
 void fillMatrix(int*** matrix) {
 	unsigned int seed = 10000;
-	
-	int i;
-	int j;
-	#pragma omp parallel for private(i,j) schedule(dynamic)
-	for (i = 0; i < SIZE; i++) {
-		
-		for (j = 0; j < SIZE; j++) {
+
+	for (int i = 0; i < SIZE; i++) {
+		for (int j = 0; j < SIZE; j++) {
 			(*matrix)[i][j] = 1 + (int) (MAXINT * (rand_r(&seed) / (RAND_MAX + 1.0)));
 		}
 	}
 }
 
 void multiplyMatrix(int*** matrixA, int*** matrixB, int*** matrixC, const int startIndex) {
-	int i;
-	int j;
-	int k;
-	#pragma omp parallel for private(i,j,k) schedule(dynamic)
-	for (i = startIndex; i < SIZE; i++) {
-		
-		for (j = 0; j < SIZE; j++) {
+	#pragma omp parallel for schedule(dynamic)		
+	for (int j = 0; j < SIZE; j++) {
+		for (int i = startIndex; i < SIZE; i++) {
 			int sum = 0;
 			
-			for (k = 0; k < SIZE; k++) {
+			for (int k = 0; k < SIZE; k++) {
 				sum += (*matrixA)[i][k] * (*matrixB)[k][j];
 			}
 			
