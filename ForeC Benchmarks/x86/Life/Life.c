@@ -27,7 +27,7 @@ long long getClockTimeUs(void) {
 }
 
 // Mapping Pthreads to processor cores
-pthread_t cores[4];
+pthread_t cores[1];
 pthread_attr_t masterCoreAttribute;
 pthread_attr_t slaveCoreAttribute;
 
@@ -105,9 +105,6 @@ volatile Status programStatus;
 // Thread do_draw with par(...)s
 Parent do_drawParParent = { .parStatusCond = PTHREAD_COND_INITIALIZER, .parStatusLock = PTHREAD_MUTEX_INITIALIZER };
 Core do_drawParCore0 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
-Core do_drawParCore1 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
-Core do_drawParCore2 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
-Core do_drawParCore3 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
 volatile int do_drawParReactionCounter;
 pthread_cond_t do_drawParReactionCounterCond = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t do_drawParReactionCounterLock = PTHREAD_MUTEX_INITIALIZER;
@@ -115,9 +112,6 @@ pthread_mutex_t do_drawParReactionCounterLock = PTHREAD_MUTEX_INITIALIZER;
 // Thread do_step with par(...)s
 Parent do_stepParParent = { .parStatusCond = PTHREAD_COND_INITIALIZER, .parStatusLock = PTHREAD_MUTEX_INITIALIZER };
 Core do_stepParCore0 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
-Core do_stepParCore1 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
-Core do_stepParCore2 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
-Core do_stepParCore3 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
 volatile int do_stepParReactionCounter;
 pthread_cond_t do_stepParReactionCounterCond = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t do_stepParReactionCounterLock = PTHREAD_MUTEX_INITIALIZER;
@@ -125,9 +119,6 @@ pthread_mutex_t do_stepParReactionCounterLock = PTHREAD_MUTEX_INITIALIZER;
 // Thread main with par(...)s
 Parent mainParParent = { .parStatusCond = PTHREAD_COND_INITIALIZER, .parStatusLock = PTHREAD_MUTEX_INITIALIZER };
 Core mainParCore0 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
-Core mainParCore1 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
-Core mainParCore2 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
-Core mainParCore3 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
 volatile int mainParReactionCounter;
 pthread_cond_t mainParReactionCounterCond = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t mainParReactionCounterLock = PTHREAD_MUTEX_INITIALIZER;
@@ -275,36 +266,18 @@ int main(int argc__main_0_0, char ** argv__main_0_0) {
 	do_drawParParent.parStatus = FOREC_PAR_OFF;
 	do_drawParCore0.sync = 1;
 	do_drawParCore0.status = FOREC_CORE_REACTING;
-	do_drawParCore1.sync = 1;
-	do_drawParCore1.status = FOREC_CORE_REACTING;
-	do_drawParCore2.sync = 1;
-	do_drawParCore2.status = FOREC_CORE_REACTING;
-	do_drawParCore3.sync = 1;
-	do_drawParCore3.status = FOREC_CORE_REACTING;
 	do_drawParReactionCounter = 0;
 
 	// Thread do_step with par(...)s
 	do_stepParParent.parStatus = FOREC_PAR_OFF;
 	do_stepParCore0.sync = 1;
 	do_stepParCore0.status = FOREC_CORE_REACTING;
-	do_stepParCore1.sync = 1;
-	do_stepParCore1.status = FOREC_CORE_REACTING;
-	do_stepParCore2.sync = 1;
-	do_stepParCore2.status = FOREC_CORE_REACTING;
-	do_stepParCore3.sync = 1;
-	do_stepParCore3.status = FOREC_CORE_REACTING;
 	do_stepParReactionCounter = 0;
 
 	// Thread main with par(...)s
 	mainParParent.parStatus = FOREC_PAR_OFF;
 	mainParCore0.sync = 1;
 	mainParCore0.status = FOREC_CORE_REACTING;
-	mainParCore1.sync = 1;
-	mainParCore1.status = FOREC_CORE_REACTING;
-	mainParCore2.sync = 1;
-	mainParCore2.status = FOREC_CORE_REACTING;
-	mainParCore3.sync = 1;
-	mainParCore3.status = FOREC_CORE_REACTING;
 	mainParReactionCounter = 0;
 
 
@@ -322,27 +295,12 @@ int main(int argc__main_0_0, char ** argv__main_0_0) {
 	Arguments arguments0 = {.coreId = 0, .argc = argc__main_0_0, .argv = argv__main_0_0};
 	pthread_create(&cores[0], &masterCoreAttribute, forecMain, (void *)&arguments0);
 
-	// Slave cores
-	Arguments arguments1 = {.coreId = 1, .argc = argc__main_0_0, .argv = argv__main_0_0};
-	pthread_create(&cores[1], &slaveCoreAttribute, forecMain, (void *)&arguments1);
-	Arguments arguments2 = {.coreId = 2, .argc = argc__main_0_0, .argv = argv__main_0_0};
-	pthread_create(&cores[2], &slaveCoreAttribute, forecMain, (void *)&arguments2);
-	Arguments arguments3 = {.coreId = 3, .argc = argc__main_0_0, .argv = argv__main_0_0};
-	pthread_create(&cores[3], &slaveCoreAttribute, forecMain, (void *)&arguments3);
-
 	// End core execution
 	pthread_attr_destroy(&masterCoreAttribute);
 	pthread_attr_destroy(&slaveCoreAttribute);
 	
 	// Program termination
 	pthread_join(cores[0], NULL);
-	pthread_cond_broadcast(&mainParParent.parStatusCond);
-	pthread_join(cores[1], NULL);
-	pthread_cond_broadcast(&mainParParent.parStatusCond);
-	pthread_join(cores[2], NULL);
-	pthread_cond_broadcast(&mainParParent.parStatusCond);
-	pthread_join(cores[3], NULL);
-
 }
 
 
@@ -363,33 +321,15 @@ void *forecMain(void *args) {
 	Thread initialise_randomize_grid__thread;
 	Thread random_initByTime__thread;
 	Thread mainReactionStartMaster0;
-	Thread mainReactionStartSlave1;
-	Thread mainReactionStartSlave2;
-	Thread mainReactionStartSlave3;
 	Thread mainReactionEndMaster0;
-	Thread mainReactionEndSlave1;
-	Thread mainReactionEndSlave2;
-	Thread mainReactionEndSlave3;
 
 	// par1
 	Thread do_draw__thread;
 	Thread do_step__thread;
 	// Thread mainReactionStartMaster0;
-	// Thread mainReactionStartSlave1;
-	// Thread mainReactionStartSlave2;
-	// Thread mainReactionStartSlave3;
 	// Thread mainReactionEndMaster0;
-	// Thread mainReactionEndSlave1;
-	// Thread mainReactionEndSlave2;
-	// Thread mainReactionEndSlave3;
 	Thread do_drawParHandlerMaster0;
-	Thread do_drawParHandlerSlave1;
-	Thread do_drawParHandlerSlave2;
-	Thread do_drawParHandlerSlave3;
 	Thread do_stepParHandlerMaster0;
-	Thread do_stepParHandlerSlave1;
-	Thread do_stepParHandlerSlave2;
-	Thread do_stepParHandlerSlave3;
 
 	// par2
 	Thread transfer_grid_0__thread;
@@ -397,13 +337,7 @@ void *forecMain(void *args) {
 	Thread transfer_grid_2__thread;
 	Thread transfer_grid_3__thread;
 	// Thread mainReactionStartMaster0;
-	// Thread mainReactionStartSlave1;
-	// Thread mainReactionStartSlave2;
-	// Thread mainReactionStartSlave3;
 	// Thread mainReactionEndMaster0;
-	// Thread mainReactionEndSlave1;
-	// Thread mainReactionEndSlave2;
-	// Thread mainReactionEndSlave3;
 
 	// par3
 	Thread do_step_0__thread;
@@ -411,13 +345,7 @@ void *forecMain(void *args) {
 	Thread do_step_2__thread;
 	Thread do_step_3__thread;
 	Thread do_stepReactionStartMaster0;
-	Thread do_stepReactionStartSlave1;
-	Thread do_stepReactionStartSlave2;
-	Thread do_stepReactionStartSlave3;
 	Thread do_stepReactionEndMaster0;
-	Thread do_stepReactionEndSlave1;
-	Thread do_stepReactionEndSlave2;
-	Thread do_stepReactionEndSlave3;
 
 	// par4
 	Thread do_draw_0__thread;
@@ -425,28 +353,13 @@ void *forecMain(void *args) {
 	Thread do_draw_2__thread;
 	Thread do_draw_3__thread;
 	Thread do_drawReactionStartMaster0;
-	Thread do_drawReactionStartSlave1;
-	Thread do_drawReactionStartSlave2;
-	Thread do_drawReactionStartSlave3;
 	Thread do_drawReactionEndMaster0;
-	Thread do_drawReactionEndSlave1;
-	Thread do_drawReactionEndSlave2;
-	Thread do_drawReactionEndSlave3;
 
 
 	// Let cores jump to their code segment ------------------------
 	switch (coreId) {
 		case (0):
 			goto mainParCore0;
-
-		case (1):
-			goto mainParCore1;
-
-		case (2):
-			goto mainParCore2;
-
-		case (3):
-			goto mainParCore3;
 
 		default:
 			// Terminate unused cores.
@@ -500,9 +413,18 @@ mainParCore0: {
 	initialise_grid__thread.programCounter = &&initialise_grid__thread;
 	mainReactionStartMaster0.nextThread = &initialise_grid__thread;
 	initialise_grid__thread.prevThread = &mainReactionStartMaster0;
+	initialise_next_grid__thread.programCounter = &&initialise_next_grid__thread;
+	initialise_grid__thread.nextThread = &initialise_next_grid__thread;
+	initialise_next_grid__thread.prevThread = &initialise_grid__thread;
+	initialise_life_data__thread.programCounter = &&initialise_life_data__thread;
+	initialise_next_grid__thread.nextThread = &initialise_life_data__thread;
+	initialise_life_data__thread.prevThread = &initialise_next_grid__thread;
+	random_initByTime__thread.programCounter = &&random_initByTime__thread;
+	initialise_life_data__thread.nextThread = &random_initByTime__thread;
+	random_initByTime__thread.prevThread = &initialise_life_data__thread;
 	initialise_randomize_grid__thread.programCounter = &&initialise_randomize_grid__thread;
-	initialise_grid__thread.nextThread = &initialise_randomize_grid__thread;
-	initialise_randomize_grid__thread.prevThread = &initialise_grid__thread;
+	random_initByTime__thread.nextThread = &initialise_randomize_grid__thread;
+	initialise_randomize_grid__thread.prevThread = &random_initByTime__thread;
 	mainReactionEndMaster0.programCounter = &&mainReactionEndMaster0;
 	initialise_randomize_grid__thread.nextThread = &mainReactionEndMaster0;
 	mainReactionEndMaster0.prevThread = &initialise_randomize_grid__thread;
@@ -515,7 +437,7 @@ mainParCore0: {
 	mainParParent.programCounter = &&par0JoinAddress_mainParCore0;
 
 	// Set the core information.
-	mainParCore0.activeThreads = 2;
+	mainParCore0.activeThreads = 5;
 	mainParCore0.reactionCounter = mainParReactionCounter;
 
 	// Go to the first thread.
@@ -590,9 +512,18 @@ mainParCore0: {
 		transfer_grid_0__thread.programCounter = &&transfer_grid_0__thread;
 		mainReactionStartMaster0.nextThread = &transfer_grid_0__thread;
 		transfer_grid_0__thread.prevThread = &mainReactionStartMaster0;
+		transfer_grid_1__thread.programCounter = &&transfer_grid_1__thread;
+		transfer_grid_0__thread.nextThread = &transfer_grid_1__thread;
+		transfer_grid_1__thread.prevThread = &transfer_grid_0__thread;
+		transfer_grid_2__thread.programCounter = &&transfer_grid_2__thread;
+		transfer_grid_1__thread.nextThread = &transfer_grid_2__thread;
+		transfer_grid_2__thread.prevThread = &transfer_grid_1__thread;
+		transfer_grid_3__thread.programCounter = &&transfer_grid_3__thread;
+		transfer_grid_2__thread.nextThread = &transfer_grid_3__thread;
+		transfer_grid_3__thread.prevThread = &transfer_grid_2__thread;
 		mainReactionEndMaster0.programCounter = &&mainReactionEndMaster0;
-		transfer_grid_0__thread.nextThread = &mainReactionEndMaster0;
-		mainReactionEndMaster0.prevThread = &transfer_grid_0__thread;
+		transfer_grid_3__thread.nextThread = &mainReactionEndMaster0;
+		mainReactionEndMaster0.prevThread = &transfer_grid_3__thread;
 
 		// Link the last and first threads/handlers together.
 		mainReactionEndMaster0.nextThread = &mainReactionStartMaster0;
@@ -602,7 +533,7 @@ mainParCore0: {
 		mainParParent.programCounter = &&par2JoinAddress_mainParCore0;
 
 		// Set the core information.
-		mainParCore0.activeThreads = 1;
+		mainParCore0.activeThreads = 4;
 		mainParCore0.reactionCounter = mainParReactionCounter;
 
 		// Go to the first thread.
@@ -662,15 +593,6 @@ mainParHandlerMaster0: {
 	if (mainParParent.parId == -2) {
 		// Iteration
 		// Wait for other cores to complete their reaction.
-		pthread_mutex_lock(&mainParCore1.statusLock);
-		while(mainParCore1.status == FOREC_CORE_REACTING) { pthread_cond_wait(&mainParCore1.statusCond, &mainParCore1.statusLock); }
-		pthread_mutex_unlock(&mainParCore1.statusLock);
-		pthread_mutex_lock(&mainParCore2.statusLock);
-		while(mainParCore2.status == FOREC_CORE_REACTING) { pthread_cond_wait(&mainParCore2.statusCond, &mainParCore2.statusLock); }
-		pthread_mutex_unlock(&mainParCore2.statusLock);
-		pthread_mutex_lock(&mainParCore3.statusLock);
-		while(mainParCore3.status == FOREC_CORE_REACTING) { pthread_cond_wait(&mainParCore3.statusCond, &mainParCore3.statusLock); }
-		pthread_mutex_unlock(&mainParCore3.statusLock);
 
 		pthread_mutex_lock(&mainParParent.parStatusLock);
 		mainParParent.parStatus = FOREC_PAR_OFF;
@@ -679,9 +601,6 @@ mainParHandlerMaster0: {
 		mainParParent.parId = -1;
 
 		// Set slave cores' status to reacting.
-		mainParCore1.status = FOREC_CORE_REACTING;
-		mainParCore2.status = FOREC_CORE_REACTING;
-		mainParCore3.status = FOREC_CORE_REACTING;
 
 		// Increment the reaction counter for synchronisation.
 		pthread_mutex_lock(&mainParReactionCounterLock);
@@ -723,9 +642,18 @@ do_drawParHandlerMaster0: {
 		do_draw_0__thread.programCounter = &&do_draw_0__thread;
 		do_drawReactionStartMaster0.nextThread = &do_draw_0__thread;
 		do_draw_0__thread.prevThread = &do_drawReactionStartMaster0;
+		do_draw_1__thread.programCounter = &&do_draw_1__thread;
+		do_draw_0__thread.nextThread = &do_draw_1__thread;
+		do_draw_1__thread.prevThread = &do_draw_0__thread;
+		do_draw_2__thread.programCounter = &&do_draw_2__thread;
+		do_draw_1__thread.nextThread = &do_draw_2__thread;
+		do_draw_2__thread.prevThread = &do_draw_1__thread;
+		do_draw_3__thread.programCounter = &&do_draw_3__thread;
+		do_draw_2__thread.nextThread = &do_draw_3__thread;
+		do_draw_3__thread.prevThread = &do_draw_2__thread;
 		do_drawReactionEndMaster0.programCounter = &&do_drawReactionEndMaster0;
-		do_draw_0__thread.nextThread = &do_drawReactionEndMaster0;
-		do_drawReactionEndMaster0.prevThread = &do_draw_0__thread;
+		do_draw_3__thread.nextThread = &do_drawReactionEndMaster0;
+		do_drawReactionEndMaster0.prevThread = &do_draw_3__thread;
 
 		// Swap the nested par handler with the linked list.
 		do_drawParHandlerMaster0.prevThread -> nextThread = &do_drawReactionStartMaster0;
@@ -734,7 +662,7 @@ do_drawParHandlerMaster0: {
 		do_drawParHandlerMaster0.nextThread -> prevThread = &do_drawReactionEndMaster0;
 		
 		// Set the core information.
-		do_drawParCore0.activeThreads = 1;
+		do_drawParCore0.activeThreads = 4;
 		do_drawParCore0.reactionCounter = do_drawParReactionCounter;
 		
 		// Go to the first thread.
@@ -743,15 +671,6 @@ do_drawParHandlerMaster0: {
 	} else if (parId == -2) {
 		// Iteration
 		// Wait for other cores to complete their reaction.
-		pthread_mutex_lock(&do_drawParCore1.statusLock);
-		while(do_drawParCore1.status == FOREC_CORE_REACTING) { pthread_cond_wait(&do_drawParCore1.statusCond, &do_drawParCore1.statusLock); }
-		pthread_mutex_unlock(&do_drawParCore1.statusLock);
-		pthread_mutex_lock(&do_drawParCore2.statusLock);
-		while(do_drawParCore2.status == FOREC_CORE_REACTING) { pthread_cond_wait(&do_drawParCore2.statusCond, &do_drawParCore2.statusLock); }
-		pthread_mutex_unlock(&do_drawParCore2.statusLock);
-		pthread_mutex_lock(&do_drawParCore3.statusLock);
-		while(do_drawParCore3.status == FOREC_CORE_REACTING) { pthread_cond_wait(&do_drawParCore3.statusCond, &do_drawParCore3.statusLock); }
-		pthread_mutex_unlock(&do_drawParCore3.statusLock);
 
 		pthread_mutex_lock(&do_drawParParent.parStatusLock);
 		do_drawParParent.parStatus = FOREC_PAR_OFF;
@@ -762,9 +681,6 @@ do_drawParHandlerMaster0: {
 		forec_mutex_value_do_draw = -1;
 
 		// Set slave cores' status to reacting.
-		do_drawParCore1.status = FOREC_CORE_REACTING;
-		do_drawParCore2.status = FOREC_CORE_REACTING;
-		do_drawParCore3.status = FOREC_CORE_REACTING;
 
 		// Increment the reaction counter for synchronisation.
 		pthread_mutex_lock(&do_drawParReactionCounterLock);
@@ -780,15 +696,6 @@ do_drawParHandlerMaster0: {
 		do_drawParCore0.activeThreads--;
 
 		// Wait for other cores to complete their reaction.
-		pthread_mutex_lock(&do_drawParCore1.statusLock);
-		while(do_drawParCore1.status == FOREC_CORE_REACTING) { pthread_cond_wait(&do_drawParCore1.statusCond, &do_drawParCore1.statusLock); }
-		pthread_mutex_unlock(&do_drawParCore1.statusLock);
-		pthread_mutex_lock(&do_drawParCore2.statusLock);
-		while(do_drawParCore2.status == FOREC_CORE_REACTING) { pthread_cond_wait(&do_drawParCore2.statusCond, &do_drawParCore2.statusLock); }
-		pthread_mutex_unlock(&do_drawParCore2.statusLock);
-		pthread_mutex_lock(&do_drawParCore3.statusLock);
-		while(do_drawParCore3.status == FOREC_CORE_REACTING) { pthread_cond_wait(&do_drawParCore3.statusCond, &do_drawParCore3.statusLock); }
-		pthread_mutex_unlock(&do_drawParCore3.statusLock);
 
 		pthread_mutex_lock(&do_drawParParent.parStatusLock);
 		do_drawParParent.parStatus = FOREC_PAR_OFF;
@@ -797,9 +704,6 @@ do_drawParHandlerMaster0: {
 		do_drawParParent.parId = -1;
 
 		// Set slave cores' status to reacting.
-		do_drawParCore1.status = FOREC_CORE_REACTING;
-		do_drawParCore2.status = FOREC_CORE_REACTING;
-		do_drawParCore3.status = FOREC_CORE_REACTING;
 
 		// Increment the reaction counter for synchronisation.
 		pthread_mutex_lock(&do_drawParReactionCounterLock);
@@ -869,9 +773,18 @@ do_stepParHandlerMaster0: {
 		do_step_0__thread.programCounter = &&do_step_0__thread;
 		do_stepReactionStartMaster0.nextThread = &do_step_0__thread;
 		do_step_0__thread.prevThread = &do_stepReactionStartMaster0;
+		do_step_1__thread.programCounter = &&do_step_1__thread;
+		do_step_0__thread.nextThread = &do_step_1__thread;
+		do_step_1__thread.prevThread = &do_step_0__thread;
+		do_step_2__thread.programCounter = &&do_step_2__thread;
+		do_step_1__thread.nextThread = &do_step_2__thread;
+		do_step_2__thread.prevThread = &do_step_1__thread;
+		do_step_3__thread.programCounter = &&do_step_3__thread;
+		do_step_2__thread.nextThread = &do_step_3__thread;
+		do_step_3__thread.prevThread = &do_step_2__thread;
 		do_stepReactionEndMaster0.programCounter = &&do_stepReactionEndMaster0;
-		do_step_0__thread.nextThread = &do_stepReactionEndMaster0;
-		do_stepReactionEndMaster0.prevThread = &do_step_0__thread;
+		do_step_3__thread.nextThread = &do_stepReactionEndMaster0;
+		do_stepReactionEndMaster0.prevThread = &do_step_3__thread;
 
 		// Swap the nested par handler with the linked list.
 		do_stepParHandlerMaster0.prevThread -> nextThread = &do_stepReactionStartMaster0;
@@ -880,7 +793,7 @@ do_stepParHandlerMaster0: {
 		do_stepParHandlerMaster0.nextThread -> prevThread = &do_stepReactionEndMaster0;
 		
 		// Set the core information.
-		do_stepParCore0.activeThreads = 1;
+		do_stepParCore0.activeThreads = 4;
 		do_stepParCore0.reactionCounter = do_stepParReactionCounter;
 		
 		// Go to the first thread.
@@ -889,15 +802,6 @@ do_stepParHandlerMaster0: {
 	} else if (parId == -2) {
 		// Iteration
 		// Wait for other cores to complete their reaction.
-		pthread_mutex_lock(&do_stepParCore1.statusLock);
-		while(do_stepParCore1.status == FOREC_CORE_REACTING) { pthread_cond_wait(&do_stepParCore1.statusCond, &do_stepParCore1.statusLock); }
-		pthread_mutex_unlock(&do_stepParCore1.statusLock);
-		pthread_mutex_lock(&do_stepParCore2.statusLock);
-		while(do_stepParCore2.status == FOREC_CORE_REACTING) { pthread_cond_wait(&do_stepParCore2.statusCond, &do_stepParCore2.statusLock); }
-		pthread_mutex_unlock(&do_stepParCore2.statusLock);
-		pthread_mutex_lock(&do_stepParCore3.statusLock);
-		while(do_stepParCore3.status == FOREC_CORE_REACTING) { pthread_cond_wait(&do_stepParCore3.statusCond, &do_stepParCore3.statusLock); }
-		pthread_mutex_unlock(&do_stepParCore3.statusLock);
 
 		pthread_mutex_lock(&do_stepParParent.parStatusLock);
 		do_stepParParent.parStatus = FOREC_PAR_OFF;
@@ -908,9 +812,6 @@ do_stepParHandlerMaster0: {
 		forec_mutex_value_do_step = -1;
 
 		// Set slave cores' status to reacting.
-		do_stepParCore1.status = FOREC_CORE_REACTING;
-		do_stepParCore2.status = FOREC_CORE_REACTING;
-		do_stepParCore3.status = FOREC_CORE_REACTING;
 
 		// Increment the reaction counter for synchronisation.
 		pthread_mutex_lock(&do_stepParReactionCounterLock);
@@ -926,15 +827,6 @@ do_stepParHandlerMaster0: {
 		do_stepParCore0.activeThreads--;
 
 		// Wait for other cores to complete their reaction.
-		pthread_mutex_lock(&do_stepParCore1.statusLock);
-		while(do_stepParCore1.status == FOREC_CORE_REACTING) { pthread_cond_wait(&do_stepParCore1.statusCond, &do_stepParCore1.statusLock); }
-		pthread_mutex_unlock(&do_stepParCore1.statusLock);
-		pthread_mutex_lock(&do_stepParCore2.statusLock);
-		while(do_stepParCore2.status == FOREC_CORE_REACTING) { pthread_cond_wait(&do_stepParCore2.statusCond, &do_stepParCore2.statusLock); }
-		pthread_mutex_unlock(&do_stepParCore2.statusLock);
-		pthread_mutex_lock(&do_stepParCore3.statusLock);
-		while(do_stepParCore3.status == FOREC_CORE_REACTING) { pthread_cond_wait(&do_stepParCore3.statusCond, &do_stepParCore3.statusLock); }
-		pthread_mutex_unlock(&do_stepParCore3.statusLock);
 
 		pthread_mutex_lock(&do_stepParParent.parStatusLock);
 		do_stepParParent.parStatus = FOREC_PAR_OFF;
@@ -943,9 +835,6 @@ do_stepParHandlerMaster0: {
 		do_stepParParent.parId = -1;
 
 		// Set slave cores' status to reacting.
-		do_stepParCore1.status = FOREC_CORE_REACTING;
-		do_stepParCore2.status = FOREC_CORE_REACTING;
-		do_stepParCore3.status = FOREC_CORE_REACTING;
 
 		// Increment the reaction counter for synchronisation.
 		pthread_mutex_lock(&do_stepParReactionCounterLock);
@@ -1036,19 +925,10 @@ do_drawReactionEndMaster0: {
 	pthread_mutex_unlock(&do_drawParCore0.statusLock);
 	
 	// Wait for other cores to complete their reaction.
-	pthread_mutex_lock(&do_drawParCore1.statusLock);
-	while(do_drawParCore1.status == FOREC_CORE_REACTING) { pthread_cond_wait(&do_drawParCore1.statusCond, &do_drawParCore1.statusLock); }
-	pthread_mutex_unlock(&do_drawParCore1.statusLock);
-	pthread_mutex_lock(&do_drawParCore2.statusLock);
-	while(do_drawParCore2.status == FOREC_CORE_REACTING) { pthread_cond_wait(&do_drawParCore2.statusCond, &do_drawParCore2.statusLock); }
-	pthread_mutex_unlock(&do_drawParCore2.statusLock);
-	pthread_mutex_lock(&do_drawParCore3.statusLock);
-	while(do_drawParCore3.status == FOREC_CORE_REACTING) { pthread_cond_wait(&do_drawParCore3.statusCond, &do_drawParCore3.statusLock); }
-	pthread_mutex_unlock(&do_drawParCore3.statusLock);
 
 
 	// Return back to the parent thread if all the cores have terminated.
-	if (1 && do_drawParCore0.status == FOREC_CORE_TERMINATED && do_drawParCore1.status == FOREC_CORE_TERMINATED && do_drawParCore2.status == FOREC_CORE_TERMINATED && do_drawParCore3.status == FOREC_CORE_TERMINATED) {
+	if (1 && do_drawParCore0.status == FOREC_CORE_TERMINATED) {
 		forec_mutex_value_do_draw = -1;
 
 		pthread_mutex_lock(&do_drawParParent.parStatusLock);
@@ -1058,9 +938,6 @@ do_drawReactionEndMaster0: {
 		do_drawParParent.parId = -1;
 		
 		// Set slave cores' status to reacting
-		do_drawParCore1.status = FOREC_CORE_REACTING;
-		do_drawParCore2.status = FOREC_CORE_REACTING;
-		do_drawParCore3.status = FOREC_CORE_REACTING;
 
 		// Increment the reaction counter for synchronization.
 		pthread_mutex_lock(&do_drawParReactionCounterLock);
@@ -1080,9 +957,6 @@ do_drawReactionEndMaster0: {
 	}
 
 	// Set slave cores' status to reacting
-	do_drawParCore1.status = FOREC_CORE_REACTING;
-	do_drawParCore2.status = FOREC_CORE_REACTING;
-	do_drawParCore3.status = FOREC_CORE_REACTING;
 
 	// Increment the reaction counter for synchronization.
 	pthread_mutex_lock(&do_drawParReactionCounterLock);
@@ -1109,19 +983,10 @@ do_stepReactionEndMaster0: {
 	pthread_mutex_unlock(&do_stepParCore0.statusLock);
 	
 	// Wait for other cores to complete their reaction.
-	pthread_mutex_lock(&do_stepParCore1.statusLock);
-	while(do_stepParCore1.status == FOREC_CORE_REACTING) { pthread_cond_wait(&do_stepParCore1.statusCond, &do_stepParCore1.statusLock); }
-	pthread_mutex_unlock(&do_stepParCore1.statusLock);
-	pthread_mutex_lock(&do_stepParCore2.statusLock);
-	while(do_stepParCore2.status == FOREC_CORE_REACTING) { pthread_cond_wait(&do_stepParCore2.statusCond, &do_stepParCore2.statusLock); }
-	pthread_mutex_unlock(&do_stepParCore2.statusLock);
-	pthread_mutex_lock(&do_stepParCore3.statusLock);
-	while(do_stepParCore3.status == FOREC_CORE_REACTING) { pthread_cond_wait(&do_stepParCore3.statusCond, &do_stepParCore3.statusLock); }
-	pthread_mutex_unlock(&do_stepParCore3.statusLock);
 
 
 	// Return back to the parent thread if all the cores have terminated.
-	if (1 && do_stepParCore0.status == FOREC_CORE_TERMINATED && do_stepParCore1.status == FOREC_CORE_TERMINATED && do_stepParCore2.status == FOREC_CORE_TERMINATED && do_stepParCore3.status == FOREC_CORE_TERMINATED) {
+	if (1 && do_stepParCore0.status == FOREC_CORE_TERMINATED) {
 		forec_mutex_value_do_step = -1;
 
 		pthread_mutex_lock(&do_stepParParent.parStatusLock);
@@ -1131,9 +996,6 @@ do_stepReactionEndMaster0: {
 		do_stepParParent.parId = -1;
 		
 		// Set slave cores' status to reacting
-		do_stepParCore1.status = FOREC_CORE_REACTING;
-		do_stepParCore2.status = FOREC_CORE_REACTING;
-		do_stepParCore3.status = FOREC_CORE_REACTING;
 
 		// Increment the reaction counter for synchronization.
 		pthread_mutex_lock(&do_stepParReactionCounterLock);
@@ -1153,9 +1015,6 @@ do_stepReactionEndMaster0: {
 	}
 
 	// Set slave cores' status to reacting
-	do_stepParCore1.status = FOREC_CORE_REACTING;
-	do_stepParCore2.status = FOREC_CORE_REACTING;
-	do_stepParCore3.status = FOREC_CORE_REACTING;
 
 	// Increment the reaction counter for synchronization.
 	pthread_mutex_lock(&do_stepParReactionCounterLock);
@@ -1182,15 +1041,6 @@ mainReactionEndMaster0: {
 	pthread_mutex_unlock(&mainParCore0.statusLock);
 	
 	// Wait for other cores to complete their reaction.
-	pthread_mutex_lock(&mainParCore1.statusLock);
-	while(mainParCore1.status == FOREC_CORE_REACTING) { pthread_cond_wait(&mainParCore1.statusCond, &mainParCore1.statusLock); }
-	pthread_mutex_unlock(&mainParCore1.statusLock);
-	pthread_mutex_lock(&mainParCore2.statusLock);
-	while(mainParCore2.status == FOREC_CORE_REACTING) { pthread_cond_wait(&mainParCore2.statusCond, &mainParCore2.statusLock); }
-	pthread_mutex_unlock(&mainParCore2.statusLock);
-	pthread_mutex_lock(&mainParCore3.statusLock);
-	while(mainParCore3.status == FOREC_CORE_REACTING) { pthread_cond_wait(&mainParCore3.statusCond, &mainParCore3.statusLock); }
-	pthread_mutex_unlock(&mainParCore3.statusLock);
 
 	// Reset the mutex.
 	forec_mutex_value_do_draw = -1;
@@ -1210,7 +1060,7 @@ mainReactionEndMaster0: {
 	}
 
 	// Return back to the parent thread if all the cores have terminated.
-	if (1 && mainParCore0.status == FOREC_CORE_TERMINATED && mainParCore1.status == FOREC_CORE_TERMINATED && mainParCore2.status == FOREC_CORE_TERMINATED && mainParCore3.status == FOREC_CORE_TERMINATED) {
+	if (1 && mainParCore0.status == FOREC_CORE_TERMINATED) {
 		pthread_mutex_lock(&mainParParent.parStatusLock);
 		mainParParent.parStatus = FOREC_PAR_OFF;
 		pthread_cond_broadcast(&mainParParent.parStatusCond);
@@ -1218,9 +1068,6 @@ mainReactionEndMaster0: {
 		mainParParent.parId = -1;
 		
 		// Set slave cores' status to reacting
-		mainParCore1.status = FOREC_CORE_REACTING;
-		mainParCore2.status = FOREC_CORE_REACTING;
-		mainParCore3.status = FOREC_CORE_REACTING;
 
 		// Increment the reaction counter for synchronization.
 		pthread_mutex_lock(&mainParReactionCounterLock);
@@ -1232,9 +1079,6 @@ mainReactionEndMaster0: {
 	}
 
 	// Set slave cores' status to reacting
-	mainParCore1.status = FOREC_CORE_REACTING;
-	mainParCore2.status = FOREC_CORE_REACTING;
-	mainParCore3.status = FOREC_CORE_REACTING;
 
 	// forec:scheduler:counter:start
 	clockTimeUs.current = getClockTimeUs();
@@ -1260,1569 +1104,6 @@ mainReactionEndMaster0: {
 
 	// Abort check handlers ----------------------------------------
 
-
-// forec:scheduler:parHandler:main:slave:1:start
-/*--------------------------------------------------------------
-| Slave core: core1
-*-------------------------------------------------------------*/
-mainParCore1: {
-	// Check the execution status of the root par(...)s.
-	pthread_mutex_lock(&mainParParent.parStatusLock);
-	while (mainParParent.parStatus == FOREC_PAR_OFF) {
-		if (programStatus == TERMINATED) {
-			pthread_mutex_unlock(&mainParParent.parStatusLock);
-			pthread_exit(NULL);
-		}
-		pthread_cond_wait(&mainParParent.parStatusCond, &mainParParent.parStatusLock);
-	}
-	pthread_mutex_unlock(&mainParParent.parStatusLock);
-
-	int parId = mainParParent.parId;
-
-	// Check the par(...) ID.
-	if (parId == 0) {
-		asm("# par0 start");
-		// Link the threads and handlers together.
-		mainReactionStartSlave1.programCounter = &&mainReactionStartSlave1;
-		initialise_next_grid__thread.programCounter = &&initialise_next_grid__thread;
-		mainReactionStartSlave1.nextThread = &initialise_next_grid__thread;
-		initialise_next_grid__thread.prevThread = &mainReactionStartSlave1;
-		mainReactionEndSlave1.programCounter = &&mainReactionEndSlave1;
-		initialise_next_grid__thread.nextThread = &mainReactionEndSlave1;
-		mainReactionEndSlave1.prevThread = &initialise_next_grid__thread;
-
-		// Link the last and first threads/handlers together.
-		mainReactionEndSlave1.nextThread = &mainReactionStartSlave1;
-		mainReactionStartSlave1.prevThread = &mainReactionEndSlave1;
-
-		// Set the core information.
-		mainParCore1.activeThreads = 1;
-		mainParCore1.reactionCounter = mainParReactionCounter;
-
-		// Go to the first thread.
-		goto initialise_next_grid__thread;
-		asm("# par0 end");
-	} else if (parId == 1) {
-		asm("# par1 start");
-		// Link the threads and handlers together.
-		mainReactionStartSlave1.programCounter = &&mainReactionStartSlave1;
-		do_stepParHandlerSlave1.programCounter = &&do_stepParHandlerSlave1;
-		mainReactionStartSlave1.nextThread = &do_stepParHandlerSlave1;
-		do_stepParHandlerSlave1.prevThread = &mainReactionStartSlave1;
-		do_drawParHandlerSlave1.programCounter = &&do_drawParHandlerSlave1;
-		do_stepParHandlerSlave1.nextThread = &do_drawParHandlerSlave1;
-		do_drawParHandlerSlave1.prevThread = &do_stepParHandlerSlave1;
-		mainReactionEndSlave1.programCounter = &&mainReactionEndSlave1;
-		do_drawParHandlerSlave1.nextThread = &mainReactionEndSlave1;
-		mainReactionEndSlave1.prevThread = &do_drawParHandlerSlave1;
-
-		// Link the last and first threads/handlers together.
-		mainReactionEndSlave1.nextThread = &mainReactionStartSlave1;
-		mainReactionStartSlave1.prevThread = &mainReactionEndSlave1;
-
-		// Set the core information.
-		mainParCore1.activeThreads = 2;
-		mainParCore1.reactionCounter = mainParReactionCounter;
-
-		// Go to the first thread.
-		goto do_stepParHandlerSlave1;
-		asm("# par1 end");
-	} else if (parId == 2) {
-		asm("# par2 start");
-		// Link the threads and handlers together.
-		mainReactionStartSlave1.programCounter = &&mainReactionStartSlave1;
-		transfer_grid_1__thread.programCounter = &&transfer_grid_1__thread;
-		mainReactionStartSlave1.nextThread = &transfer_grid_1__thread;
-		transfer_grid_1__thread.prevThread = &mainReactionStartSlave1;
-		mainReactionEndSlave1.programCounter = &&mainReactionEndSlave1;
-		transfer_grid_1__thread.nextThread = &mainReactionEndSlave1;
-		mainReactionEndSlave1.prevThread = &transfer_grid_1__thread;
-
-		// Link the last and first threads/handlers together.
-		mainReactionEndSlave1.nextThread = &mainReactionStartSlave1;
-		mainReactionStartSlave1.prevThread = &mainReactionEndSlave1;
-
-		// Set the core information.
-		mainParCore1.activeThreads = 1;
-		mainParCore1.reactionCounter = mainParReactionCounter;
-
-		// Go to the first thread.
-		goto transfer_grid_1__thread;
-		asm("# par2 end");
-	} else {
-		// Unscheduled par(...)
-		mainParCore1.reactionCounter = mainParReactionCounter;
-		
-		// Wait for the par(...) to terminate.
-		do {
-			pthread_mutex_lock(&mainParCore1.statusLock);
-			mainParCore1.status = FOREC_CORE_TERMINATED;
-			pthread_cond_signal(&mainParCore1.statusCond);
-			pthread_mutex_unlock(&mainParCore1.statusLock);
-			
-			// Wait for the next tick.
-			pthread_mutex_lock(&mainParReactionCounterLock);
-			while (mainParCore1.reactionCounter == mainParReactionCounter) { pthread_cond_wait(&mainParReactionCounterCond, &mainParReactionCounterLock); }
-			pthread_mutex_unlock(&mainParReactionCounterLock);
-			mainParCore1.reactionCounter++;
-			
-		} while (mainParParent.parStatus == FOREC_PAR_ON && mainParParent.parId == parId);
-		
-		// Go back to the top and wait for the next nested par(...) 
-		goto mainParCore1;
-	}
-	
-	// Control shouldn't reach here.
-	goto mainParCore1;
-}
-// forec:scheduler:parHandler:main:slave:1:end
-
-	// Nested par(...) handlers ------------------------------------
-	// forec:scheduler:parHandler:do_draw:slave:1:start
-	//-- Thread do_draw par(...) handlers
-do_drawParHandlerSlave1: {
-	// Synchronise the checking of the nested par(...) via a mutex.
-	while ((unsigned)(forec_mutex_value_do_draw & 0x80000000) == (unsigned)0x80000000);
-
-	// Check the execution status of the nested par(...)s.
-	if (do_drawParParent.parStatus == FOREC_PAR_OFF) {
-		goto *do_drawParHandlerSlave1.nextThread -> programCounter;
-	}
-
-	int parId = do_drawParParent.parId;
-
-	// Check the par(...) ID.
-	if (parId == 4) {
-		asm ("# par4 begin");
-		// Link the threads and handlers together.
-		do_drawReactionStartSlave1.programCounter = &&do_drawReactionStartSlave1;
-		do_draw_1__thread.programCounter = &&do_draw_1__thread;
-		do_drawReactionStartSlave1.nextThread = &do_draw_1__thread;
-		do_draw_1__thread.prevThread = &do_drawReactionStartSlave1;
-		do_drawReactionEndSlave1.programCounter = &&do_drawReactionEndSlave1;
-		do_draw_1__thread.nextThread = &do_drawReactionEndSlave1;
-		do_drawReactionEndSlave1.prevThread = &do_draw_1__thread;
-
-		// Swap the nested par handler with the linked list.
-		do_drawParHandlerSlave1.prevThread -> nextThread = &do_drawReactionStartSlave1;
-		do_drawReactionStartSlave1.prevThread = do_drawParHandlerSlave1.prevThread;
-		do_drawReactionEndSlave1.nextThread = do_drawParHandlerSlave1.nextThread;
-		do_drawParHandlerSlave1.nextThread -> prevThread = &do_drawReactionEndSlave1;
-		
-		// Set the core information.
-		do_drawParCore1.activeThreads = 1;
-		do_drawParCore1.reactionCounter = do_drawParReactionCounter;
-		
-		// Go to the first thread.
-		goto do_draw_1__thread;
-		asm ("# par4 end");
-	} else if (parId == -2) {
-		// Iteration
-		do_drawParCore1.reactionCounter = do_drawParReactionCounter;
-		pthread_mutex_lock(&do_drawParCore1.statusLock);
-		do_drawParCore1.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_drawParCore1.statusCond);
-		pthread_mutex_unlock(&do_drawParCore1.statusLock);
-
-		// Wait for the next reaction.
-		pthread_mutex_lock(&do_drawParReactionCounterLock);
-		while (do_drawParCore1.reactionCounter == do_drawParReactionCounter) { pthread_cond_wait(&do_drawParReactionCounterCond, &do_drawParReactionCounterLock); }
-		pthread_mutex_unlock(&do_drawParReactionCounterLock);
-
-		// Go to the next thread.
-		goto do_drawParHandlerSlave1;
-	} else if (parId == -3) {
-		// Thread termination
-		mainParCore1.activeThreads--;
-		do_drawParCore1.activeThreads--;
-
-		do_drawParCore1.reactionCounter = do_drawParReactionCounter;
-		pthread_mutex_lock(&do_drawParCore1.statusLock);
-		do_drawParCore1.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_drawParCore1.statusCond);
-		pthread_mutex_unlock(&do_drawParCore1.statusLock);
-
-		// Wait for the next reaction.
-		pthread_mutex_lock(&do_drawParReactionCounterLock);
-		while (do_drawParCore1.reactionCounter == do_drawParReactionCounter) { pthread_cond_wait(&do_drawParReactionCounterCond, &do_drawParReactionCounterLock); }
-		pthread_mutex_unlock(&do_drawParReactionCounterLock);
-
-		// Delete this par(...) handler.
-		do_drawParHandlerSlave1.prevThread -> nextThread = do_drawParHandlerSlave1.nextThread;
-		do_drawParHandlerSlave1.nextThread -> prevThread = do_drawParHandlerSlave1.prevThread;
-			
-		// Go to the next thread.
-		goto *do_drawParHandlerSlave1.nextThread -> programCounter;
-	} else {
-		// Unscheduled par(...)
-		do_drawParCore1.reactionCounter = do_drawParReactionCounter;
-
-		do_drawParHandlerSlave1.programCounter = &&wrongParId_do_drawParHandlerSlave1;
-		wrongParId_do_drawParHandlerSlave1:;
-
-		pthread_mutex_lock(&do_drawParCore1.statusLock);
-		do_drawParCore1.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_drawParCore1.statusCond);
-		pthread_mutex_unlock(&do_drawParCore1.statusLock);
-
-		// Wait for the next tick.
-		pthread_mutex_lock(&do_drawParReactionCounterLock);
-		while (do_drawParCore1.reactionCounter == do_drawParReactionCounter) { pthread_cond_wait(&do_drawParReactionCounterCond, &do_drawParReactionCounterLock); }
-		pthread_mutex_unlock(&do_drawParReactionCounterLock);
-		do_drawParCore1.reactionCounter++;
-
-		// Wait for the par(...) to terminate.
-		if (do_drawParParent.parStatus == FOREC_PAR_ON && do_drawParParent.parId == parId) {
-			goto *do_drawParHandlerSlave1.nextThread -> programCounter;
-		}
-		
-		// Go back to the top and wait for the next nested par(...)
-		do_drawParHandlerSlave1.programCounter = &&do_drawParHandlerSlave1;
-		
-		goto do_drawParHandlerSlave1;
-	}
-	
-	// Control should not reach here.
-	goto do_drawParHandlerSlave1;
-}
-	// forec:scheduler:parHandler:do_draw:slave:1:end
- 	// forec:scheduler:parHandler:do_step:slave:1:start
-	//-- Thread do_step par(...) handlers
-do_stepParHandlerSlave1: {
-	// Synchronise the checking of the nested par(...) via a mutex.
-	while ((unsigned)(forec_mutex_value_do_step & 0x40000000) == (unsigned)0x40000000);
-
-	// Check the execution status of the nested par(...)s.
-	if (do_stepParParent.parStatus == FOREC_PAR_OFF) {
-		goto *do_stepParHandlerSlave1.nextThread -> programCounter;
-	}
-
-	int parId = do_stepParParent.parId;
-
-	// Check the par(...) ID.
-	if (parId == 3) {
-		asm ("# par3 begin");
-		// Link the threads and handlers together.
-		do_stepReactionStartSlave1.programCounter = &&do_stepReactionStartSlave1;
-		do_step_1__thread.programCounter = &&do_step_1__thread;
-		do_stepReactionStartSlave1.nextThread = &do_step_1__thread;
-		do_step_1__thread.prevThread = &do_stepReactionStartSlave1;
-		do_stepReactionEndSlave1.programCounter = &&do_stepReactionEndSlave1;
-		do_step_1__thread.nextThread = &do_stepReactionEndSlave1;
-		do_stepReactionEndSlave1.prevThread = &do_step_1__thread;
-
-		// Swap the nested par handler with the linked list.
-		do_stepParHandlerSlave1.prevThread -> nextThread = &do_stepReactionStartSlave1;
-		do_stepReactionStartSlave1.prevThread = do_stepParHandlerSlave1.prevThread;
-		do_stepReactionEndSlave1.nextThread = do_stepParHandlerSlave1.nextThread;
-		do_stepParHandlerSlave1.nextThread -> prevThread = &do_stepReactionEndSlave1;
-		
-		// Set the core information.
-		do_stepParCore1.activeThreads = 1;
-		do_stepParCore1.reactionCounter = do_stepParReactionCounter;
-		
-		// Go to the first thread.
-		goto do_step_1__thread;
-		asm ("# par3 end");
-	} else if (parId == -2) {
-		// Iteration
-		do_stepParCore1.reactionCounter = do_stepParReactionCounter;
-		pthread_mutex_lock(&do_stepParCore1.statusLock);
-		do_stepParCore1.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_stepParCore1.statusCond);
-		pthread_mutex_unlock(&do_stepParCore1.statusLock);
-
-		// Wait for the next reaction.
-		pthread_mutex_lock(&do_stepParReactionCounterLock);
-		while (do_stepParCore1.reactionCounter == do_stepParReactionCounter) { pthread_cond_wait(&do_stepParReactionCounterCond, &do_stepParReactionCounterLock); }
-		pthread_mutex_unlock(&do_stepParReactionCounterLock);
-
-		// Go to the next thread.
-		goto do_stepParHandlerSlave1;
-	} else if (parId == -3) {
-		// Thread termination
-		mainParCore1.activeThreads--;
-		do_stepParCore1.activeThreads--;
-
-		do_stepParCore1.reactionCounter = do_stepParReactionCounter;
-		pthread_mutex_lock(&do_stepParCore1.statusLock);
-		do_stepParCore1.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_stepParCore1.statusCond);
-		pthread_mutex_unlock(&do_stepParCore1.statusLock);
-
-		// Wait for the next reaction.
-		pthread_mutex_lock(&do_stepParReactionCounterLock);
-		while (do_stepParCore1.reactionCounter == do_stepParReactionCounter) { pthread_cond_wait(&do_stepParReactionCounterCond, &do_stepParReactionCounterLock); }
-		pthread_mutex_unlock(&do_stepParReactionCounterLock);
-
-		// Delete this par(...) handler.
-		do_stepParHandlerSlave1.prevThread -> nextThread = do_stepParHandlerSlave1.nextThread;
-		do_stepParHandlerSlave1.nextThread -> prevThread = do_stepParHandlerSlave1.prevThread;
-			
-		// Go to the next thread.
-		goto *do_stepParHandlerSlave1.nextThread -> programCounter;
-	} else {
-		// Unscheduled par(...)
-		do_stepParCore1.reactionCounter = do_stepParReactionCounter;
-
-		do_stepParHandlerSlave1.programCounter = &&wrongParId_do_stepParHandlerSlave1;
-		wrongParId_do_stepParHandlerSlave1:;
-
-		pthread_mutex_lock(&do_stepParCore1.statusLock);
-		do_stepParCore1.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_stepParCore1.statusCond);
-		pthread_mutex_unlock(&do_stepParCore1.statusLock);
-
-		// Wait for the next tick.
-		pthread_mutex_lock(&do_stepParReactionCounterLock);
-		while (do_stepParCore1.reactionCounter == do_stepParReactionCounter) { pthread_cond_wait(&do_stepParReactionCounterCond, &do_stepParReactionCounterLock); }
-		pthread_mutex_unlock(&do_stepParReactionCounterLock);
-		do_stepParCore1.reactionCounter++;
-
-		// Wait for the par(...) to terminate.
-		if (do_stepParParent.parStatus == FOREC_PAR_ON && do_stepParParent.parId == parId) {
-			goto *do_stepParHandlerSlave1.nextThread -> programCounter;
-		}
-		
-		// Go back to the top and wait for the next nested par(...)
-		do_stepParHandlerSlave1.programCounter = &&do_stepParHandlerSlave1;
-		
-		goto do_stepParHandlerSlave1;
-	}
-	
-	// Control should not reach here.
-	goto do_stepParHandlerSlave1;
-}
-	// forec:scheduler:parHandler:do_step:slave:1:end
- 
-
-	// Reaction start handlers ---------------------------------------
-	// forec:scheduler:reactionStart:do_draw:slave:1:start
-	//-- do_draw:
-do_drawReactionStartSlave1: {
-	// Go to the next thread.
-	goto *do_drawReactionStartSlave1.nextThread -> programCounter;
-}
-	// forec:scheduler:reactionStart:do_draw:slave:1:end
- 
-	// forec:scheduler:reactionStart:do_step:slave:1:start
-	//-- do_step:
-do_stepReactionStartSlave1: {
-	// Go to the next thread.
-	goto *do_stepReactionStartSlave1.nextThread -> programCounter;
-}
-	// forec:scheduler:reactionStart:do_step:slave:1:end
- 
-	// forec:scheduler:reactionStart:main:slave:1:start
-	//-- main:
-mainReactionStartSlave1: {
-	// Go to the next thread.
-	goto *mainReactionStartSlave1.nextThread -> programCounter;
-}
-	// forec:scheduler:reactionStart:main:slave:1:end
- 
-
-
-	// Reaction end handlers ---------------------------------------
-	// forec:scheduler:reactionEnd:do_draw:slave:1:start
-	//-- do_draw:
-do_drawReactionEndSlave1: {
-	// Determine if the core can still react or not.
-	if (do_drawParCore1.activeThreads) {
-		pthread_mutex_lock(&do_drawParCore1.statusLock);
-		do_drawParCore1.status = FOREC_CORE_REACTED;
-		pthread_cond_signal(&do_drawParCore1.statusCond);
-		pthread_mutex_unlock(&do_drawParCore1.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&do_drawParReactionCounterLock);
-		while (do_drawParCore1.reactionCounter == do_drawParReactionCounter) { pthread_cond_wait(&do_drawParReactionCounterCond, &do_drawParReactionCounterLock); }
-		pthread_mutex_unlock(&do_drawParReactionCounterLock);
-		do_drawParCore1.reactionCounter++;
-		
-		// Continue reacting.
-		goto *do_drawReactionEndSlave1.nextThread -> programCounter;
-	} else {
-		int parId = do_drawParParent.parId;
-
-		do_drawReactionEndSlave1.programCounter = &&terminated_do_drawReactionEndSlave1;
-		terminated_do_drawReactionEndSlave1:;
-		
-		pthread_mutex_lock(&do_drawParCore1.statusLock);
-		do_drawParCore1.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_drawParCore1.statusCond);
-		pthread_mutex_unlock(&do_drawParCore1.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&do_drawParReactionCounterLock);
-		while (do_drawParCore1.reactionCounter == do_drawParReactionCounter) { pthread_cond_wait(&do_drawParReactionCounterCond, &do_drawParReactionCounterLock); }
-		pthread_mutex_unlock(&do_drawParReactionCounterLock);
-		do_drawParCore1.reactionCounter++;
-		
-		// Wait for the par(...) to terminate.
-		if (do_drawParParent.parStatus == FOREC_PAR_ON && do_drawParParent.parId == parId) {
-			goto *do_drawReactionEndSlave1.nextThread -> programCounter;
-		}
-
-		// Swap the reaction (start & end) handlers with the nested par handler.
-		do_drawReactionStartSlave1.prevThread -> nextThread = &do_drawParHandlerSlave1;
-		do_drawParHandlerSlave1.prevThread = do_drawReactionStartSlave1.prevThread;
-		do_drawParHandlerSlave1.nextThread = do_drawReactionEndSlave1.nextThread;
-		do_drawReactionEndSlave1.nextThread -> prevThread = &do_drawParHandlerSlave1;
-		goto do_drawParHandlerSlave1;
-	}
-	
-	// Control shouldn't reach here.
-	goto do_drawReactionEndSlave1;
-}
-	// forec:scheduler:reactionEnd:do_draw:slave:1:end
- 
-	// forec:scheduler:reactionEnd:do_step:slave:1:start
-	//-- do_step:
-do_stepReactionEndSlave1: {
-	// Determine if the core can still react or not.
-	if (do_stepParCore1.activeThreads) {
-		pthread_mutex_lock(&do_stepParCore1.statusLock);
-		do_stepParCore1.status = FOREC_CORE_REACTED;
-		pthread_cond_signal(&do_stepParCore1.statusCond);
-		pthread_mutex_unlock(&do_stepParCore1.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&do_stepParReactionCounterLock);
-		while (do_stepParCore1.reactionCounter == do_stepParReactionCounter) { pthread_cond_wait(&do_stepParReactionCounterCond, &do_stepParReactionCounterLock); }
-		pthread_mutex_unlock(&do_stepParReactionCounterLock);
-		do_stepParCore1.reactionCounter++;
-		
-		// Continue reacting.
-		goto *do_stepReactionEndSlave1.nextThread -> programCounter;
-	} else {
-		int parId = do_stepParParent.parId;
-
-		do_stepReactionEndSlave1.programCounter = &&terminated_do_stepReactionEndSlave1;
-		terminated_do_stepReactionEndSlave1:;
-		
-		pthread_mutex_lock(&do_stepParCore1.statusLock);
-		do_stepParCore1.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_stepParCore1.statusCond);
-		pthread_mutex_unlock(&do_stepParCore1.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&do_stepParReactionCounterLock);
-		while (do_stepParCore1.reactionCounter == do_stepParReactionCounter) { pthread_cond_wait(&do_stepParReactionCounterCond, &do_stepParReactionCounterLock); }
-		pthread_mutex_unlock(&do_stepParReactionCounterLock);
-		do_stepParCore1.reactionCounter++;
-		
-		// Wait for the par(...) to terminate.
-		if (do_stepParParent.parStatus == FOREC_PAR_ON && do_stepParParent.parId == parId) {
-			goto *do_stepReactionEndSlave1.nextThread -> programCounter;
-		}
-
-		// Swap the reaction (start & end) handlers with the nested par handler.
-		do_stepReactionStartSlave1.prevThread -> nextThread = &do_stepParHandlerSlave1;
-		do_stepParHandlerSlave1.prevThread = do_stepReactionStartSlave1.prevThread;
-		do_stepParHandlerSlave1.nextThread = do_stepReactionEndSlave1.nextThread;
-		do_stepReactionEndSlave1.nextThread -> prevThread = &do_stepParHandlerSlave1;
-		goto do_stepParHandlerSlave1;
-	}
-	
-	// Control shouldn't reach here.
-	goto do_stepReactionEndSlave1;
-}
-	// forec:scheduler:reactionEnd:do_step:slave:1:end
- 
-	// forec:scheduler:reactionEnd:main:slave:1:start
-	//-- main:
-mainReactionEndSlave1: {
-	// Determine if the core can still react or not.
-	if (mainParCore1.activeThreads) {
-		pthread_mutex_lock(&mainParCore1.statusLock);
-		mainParCore1.status = FOREC_CORE_REACTED;
-		pthread_cond_signal(&mainParCore1.statusCond);
-		pthread_mutex_unlock(&mainParCore1.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&mainParReactionCounterLock);
-		while (mainParCore1.reactionCounter == mainParReactionCounter) { pthread_cond_wait(&mainParReactionCounterCond, &mainParReactionCounterLock); }
-		pthread_mutex_unlock(&mainParReactionCounterLock);
-		mainParCore1.reactionCounter++;
-		
-		// Continue reacting.
-		goto *mainReactionEndSlave1.nextThread -> programCounter;
-	} else {
-		int parId = mainParParent.parId;
-
-		mainReactionEndSlave1.programCounter = &&terminated_mainReactionEndSlave1;
-		terminated_mainReactionEndSlave1:;
-		
-		pthread_mutex_lock(&mainParCore1.statusLock);
-		mainParCore1.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&mainParCore1.statusCond);
-		pthread_mutex_unlock(&mainParCore1.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&mainParReactionCounterLock);
-		while (mainParCore1.reactionCounter == mainParReactionCounter) { pthread_cond_wait(&mainParReactionCounterCond, &mainParReactionCounterLock); }
-		pthread_mutex_unlock(&mainParReactionCounterLock);
-		mainParCore1.reactionCounter++;
-		
-		// Wait for the par(...) to terminate.
-		if (mainParParent.parStatus == FOREC_PAR_ON && mainParParent.parId == parId) {
-			goto *mainReactionEndSlave1.nextThread -> programCounter;
-		}
-
-		goto mainParCore1;
-	}
-	
-	// Control shouldn't reach here.
-	goto mainReactionEndSlave1;
-}
-	// forec:scheduler:reactionEnd:main:slave:1:end
- 
-
-
-	// Abort check handlers ----------------------------------------
-
-// forec:scheduler:parHandler:main:slave:2:start
-/*--------------------------------------------------------------
-| Slave core: core2
-*-------------------------------------------------------------*/
-mainParCore2: {
-	// Check the execution status of the root par(...)s.
-	pthread_mutex_lock(&mainParParent.parStatusLock);
-	while (mainParParent.parStatus == FOREC_PAR_OFF) {
-		if (programStatus == TERMINATED) {
-			pthread_mutex_unlock(&mainParParent.parStatusLock);
-			pthread_exit(NULL);
-		}
-		pthread_cond_wait(&mainParParent.parStatusCond, &mainParParent.parStatusLock);
-	}
-	pthread_mutex_unlock(&mainParParent.parStatusLock);
-
-	int parId = mainParParent.parId;
-
-	// Check the par(...) ID.
-	if (parId == 0) {
-		asm("# par0 start");
-		// Link the threads and handlers together.
-		mainReactionStartSlave2.programCounter = &&mainReactionStartSlave2;
-		initialise_life_data__thread.programCounter = &&initialise_life_data__thread;
-		mainReactionStartSlave2.nextThread = &initialise_life_data__thread;
-		initialise_life_data__thread.prevThread = &mainReactionStartSlave2;
-		mainReactionEndSlave2.programCounter = &&mainReactionEndSlave2;
-		initialise_life_data__thread.nextThread = &mainReactionEndSlave2;
-		mainReactionEndSlave2.prevThread = &initialise_life_data__thread;
-
-		// Link the last and first threads/handlers together.
-		mainReactionEndSlave2.nextThread = &mainReactionStartSlave2;
-		mainReactionStartSlave2.prevThread = &mainReactionEndSlave2;
-
-		// Set the core information.
-		mainParCore2.activeThreads = 1;
-		mainParCore2.reactionCounter = mainParReactionCounter;
-
-		// Go to the first thread.
-		goto initialise_life_data__thread;
-		asm("# par0 end");
-	} else if (parId == 1) {
-		asm("# par1 start");
-		// Link the threads and handlers together.
-		mainReactionStartSlave2.programCounter = &&mainReactionStartSlave2;
-		do_stepParHandlerSlave2.programCounter = &&do_stepParHandlerSlave2;
-		mainReactionStartSlave2.nextThread = &do_stepParHandlerSlave2;
-		do_stepParHandlerSlave2.prevThread = &mainReactionStartSlave2;
-		do_drawParHandlerSlave2.programCounter = &&do_drawParHandlerSlave2;
-		do_stepParHandlerSlave2.nextThread = &do_drawParHandlerSlave2;
-		do_drawParHandlerSlave2.prevThread = &do_stepParHandlerSlave2;
-		mainReactionEndSlave2.programCounter = &&mainReactionEndSlave2;
-		do_drawParHandlerSlave2.nextThread = &mainReactionEndSlave2;
-		mainReactionEndSlave2.prevThread = &do_drawParHandlerSlave2;
-
-		// Link the last and first threads/handlers together.
-		mainReactionEndSlave2.nextThread = &mainReactionStartSlave2;
-		mainReactionStartSlave2.prevThread = &mainReactionEndSlave2;
-
-		// Set the core information.
-		mainParCore2.activeThreads = 2;
-		mainParCore2.reactionCounter = mainParReactionCounter;
-
-		// Go to the first thread.
-		goto do_stepParHandlerSlave2;
-		asm("# par1 end");
-	} else if (parId == 2) {
-		asm("# par2 start");
-		// Link the threads and handlers together.
-		mainReactionStartSlave2.programCounter = &&mainReactionStartSlave2;
-		transfer_grid_2__thread.programCounter = &&transfer_grid_2__thread;
-		mainReactionStartSlave2.nextThread = &transfer_grid_2__thread;
-		transfer_grid_2__thread.prevThread = &mainReactionStartSlave2;
-		mainReactionEndSlave2.programCounter = &&mainReactionEndSlave2;
-		transfer_grid_2__thread.nextThread = &mainReactionEndSlave2;
-		mainReactionEndSlave2.prevThread = &transfer_grid_2__thread;
-
-		// Link the last and first threads/handlers together.
-		mainReactionEndSlave2.nextThread = &mainReactionStartSlave2;
-		mainReactionStartSlave2.prevThread = &mainReactionEndSlave2;
-
-		// Set the core information.
-		mainParCore2.activeThreads = 1;
-		mainParCore2.reactionCounter = mainParReactionCounter;
-
-		// Go to the first thread.
-		goto transfer_grid_2__thread;
-		asm("# par2 end");
-	} else {
-		// Unscheduled par(...)
-		mainParCore2.reactionCounter = mainParReactionCounter;
-		
-		// Wait for the par(...) to terminate.
-		do {
-			pthread_mutex_lock(&mainParCore2.statusLock);
-			mainParCore2.status = FOREC_CORE_TERMINATED;
-			pthread_cond_signal(&mainParCore2.statusCond);
-			pthread_mutex_unlock(&mainParCore2.statusLock);
-			
-			// Wait for the next tick.
-			pthread_mutex_lock(&mainParReactionCounterLock);
-			while (mainParCore2.reactionCounter == mainParReactionCounter) { pthread_cond_wait(&mainParReactionCounterCond, &mainParReactionCounterLock); }
-			pthread_mutex_unlock(&mainParReactionCounterLock);
-			mainParCore2.reactionCounter++;
-			
-		} while (mainParParent.parStatus == FOREC_PAR_ON && mainParParent.parId == parId);
-		
-		// Go back to the top and wait for the next nested par(...) 
-		goto mainParCore2;
-	}
-	
-	// Control shouldn't reach here.
-	goto mainParCore2;
-}
-// forec:scheduler:parHandler:main:slave:2:end
-
-	// Nested par(...) handlers ------------------------------------
-	// forec:scheduler:parHandler:do_draw:slave:2:start
-	//-- Thread do_draw par(...) handlers
-do_drawParHandlerSlave2: {
-	// Synchronise the checking of the nested par(...) via a mutex.
-	while ((unsigned)(forec_mutex_value_do_draw & 0x80000000) == (unsigned)0x80000000);
-
-	// Check the execution status of the nested par(...)s.
-	if (do_drawParParent.parStatus == FOREC_PAR_OFF) {
-		goto *do_drawParHandlerSlave2.nextThread -> programCounter;
-	}
-
-	int parId = do_drawParParent.parId;
-
-	// Check the par(...) ID.
-	if (parId == 4) {
-		asm ("# par4 begin");
-		// Link the threads and handlers together.
-		do_drawReactionStartSlave2.programCounter = &&do_drawReactionStartSlave2;
-		do_draw_2__thread.programCounter = &&do_draw_2__thread;
-		do_drawReactionStartSlave2.nextThread = &do_draw_2__thread;
-		do_draw_2__thread.prevThread = &do_drawReactionStartSlave2;
-		do_drawReactionEndSlave2.programCounter = &&do_drawReactionEndSlave2;
-		do_draw_2__thread.nextThread = &do_drawReactionEndSlave2;
-		do_drawReactionEndSlave2.prevThread = &do_draw_2__thread;
-
-		// Swap the nested par handler with the linked list.
-		do_drawParHandlerSlave2.prevThread -> nextThread = &do_drawReactionStartSlave2;
-		do_drawReactionStartSlave2.prevThread = do_drawParHandlerSlave2.prevThread;
-		do_drawReactionEndSlave2.nextThread = do_drawParHandlerSlave2.nextThread;
-		do_drawParHandlerSlave2.nextThread -> prevThread = &do_drawReactionEndSlave2;
-		
-		// Set the core information.
-		do_drawParCore2.activeThreads = 1;
-		do_drawParCore2.reactionCounter = do_drawParReactionCounter;
-		
-		// Go to the first thread.
-		goto do_draw_2__thread;
-		asm ("# par4 end");
-	} else if (parId == -2) {
-		// Iteration
-		do_drawParCore2.reactionCounter = do_drawParReactionCounter;
-		pthread_mutex_lock(&do_drawParCore2.statusLock);
-		do_drawParCore2.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_drawParCore2.statusCond);
-		pthread_mutex_unlock(&do_drawParCore2.statusLock);
-
-		// Wait for the next reaction.
-		pthread_mutex_lock(&do_drawParReactionCounterLock);
-		while (do_drawParCore2.reactionCounter == do_drawParReactionCounter) { pthread_cond_wait(&do_drawParReactionCounterCond, &do_drawParReactionCounterLock); }
-		pthread_mutex_unlock(&do_drawParReactionCounterLock);
-
-		// Go to the next thread.
-		goto do_drawParHandlerSlave2;
-	} else if (parId == -3) {
-		// Thread termination
-		mainParCore2.activeThreads--;
-		do_drawParCore2.activeThreads--;
-
-		do_drawParCore2.reactionCounter = do_drawParReactionCounter;
-		pthread_mutex_lock(&do_drawParCore2.statusLock);
-		do_drawParCore2.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_drawParCore2.statusCond);
-		pthread_mutex_unlock(&do_drawParCore2.statusLock);
-
-		// Wait for the next reaction.
-		pthread_mutex_lock(&do_drawParReactionCounterLock);
-		while (do_drawParCore2.reactionCounter == do_drawParReactionCounter) { pthread_cond_wait(&do_drawParReactionCounterCond, &do_drawParReactionCounterLock); }
-		pthread_mutex_unlock(&do_drawParReactionCounterLock);
-
-		// Delete this par(...) handler.
-		do_drawParHandlerSlave2.prevThread -> nextThread = do_drawParHandlerSlave2.nextThread;
-		do_drawParHandlerSlave2.nextThread -> prevThread = do_drawParHandlerSlave2.prevThread;
-			
-		// Go to the next thread.
-		goto *do_drawParHandlerSlave2.nextThread -> programCounter;
-	} else {
-		// Unscheduled par(...)
-		do_drawParCore2.reactionCounter = do_drawParReactionCounter;
-
-		do_drawParHandlerSlave2.programCounter = &&wrongParId_do_drawParHandlerSlave2;
-		wrongParId_do_drawParHandlerSlave2:;
-
-		pthread_mutex_lock(&do_drawParCore2.statusLock);
-		do_drawParCore2.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_drawParCore2.statusCond);
-		pthread_mutex_unlock(&do_drawParCore2.statusLock);
-
-		// Wait for the next tick.
-		pthread_mutex_lock(&do_drawParReactionCounterLock);
-		while (do_drawParCore2.reactionCounter == do_drawParReactionCounter) { pthread_cond_wait(&do_drawParReactionCounterCond, &do_drawParReactionCounterLock); }
-		pthread_mutex_unlock(&do_drawParReactionCounterLock);
-		do_drawParCore2.reactionCounter++;
-
-		// Wait for the par(...) to terminate.
-		if (do_drawParParent.parStatus == FOREC_PAR_ON && do_drawParParent.parId == parId) {
-			goto *do_drawParHandlerSlave2.nextThread -> programCounter;
-		}
-		
-		// Go back to the top and wait for the next nested par(...)
-		do_drawParHandlerSlave2.programCounter = &&do_drawParHandlerSlave2;
-		
-		goto do_drawParHandlerSlave2;
-	}
-	
-	// Control should not reach here.
-	goto do_drawParHandlerSlave2;
-}
-	// forec:scheduler:parHandler:do_draw:slave:2:end
- 	// forec:scheduler:parHandler:do_step:slave:2:start
-	//-- Thread do_step par(...) handlers
-do_stepParHandlerSlave2: {
-	// Synchronise the checking of the nested par(...) via a mutex.
-	while ((unsigned)(forec_mutex_value_do_step & 0x40000000) == (unsigned)0x40000000);
-
-	// Check the execution status of the nested par(...)s.
-	if (do_stepParParent.parStatus == FOREC_PAR_OFF) {
-		goto *do_stepParHandlerSlave2.nextThread -> programCounter;
-	}
-
-	int parId = do_stepParParent.parId;
-
-	// Check the par(...) ID.
-	if (parId == 3) {
-		asm ("# par3 begin");
-		// Link the threads and handlers together.
-		do_stepReactionStartSlave2.programCounter = &&do_stepReactionStartSlave2;
-		do_step_2__thread.programCounter = &&do_step_2__thread;
-		do_stepReactionStartSlave2.nextThread = &do_step_2__thread;
-		do_step_2__thread.prevThread = &do_stepReactionStartSlave2;
-		do_stepReactionEndSlave2.programCounter = &&do_stepReactionEndSlave2;
-		do_step_2__thread.nextThread = &do_stepReactionEndSlave2;
-		do_stepReactionEndSlave2.prevThread = &do_step_2__thread;
-
-		// Swap the nested par handler with the linked list.
-		do_stepParHandlerSlave2.prevThread -> nextThread = &do_stepReactionStartSlave2;
-		do_stepReactionStartSlave2.prevThread = do_stepParHandlerSlave2.prevThread;
-		do_stepReactionEndSlave2.nextThread = do_stepParHandlerSlave2.nextThread;
-		do_stepParHandlerSlave2.nextThread -> prevThread = &do_stepReactionEndSlave2;
-		
-		// Set the core information.
-		do_stepParCore2.activeThreads = 1;
-		do_stepParCore2.reactionCounter = do_stepParReactionCounter;
-		
-		// Go to the first thread.
-		goto do_step_2__thread;
-		asm ("# par3 end");
-	} else if (parId == -2) {
-		// Iteration
-		do_stepParCore2.reactionCounter = do_stepParReactionCounter;
-		pthread_mutex_lock(&do_stepParCore2.statusLock);
-		do_stepParCore2.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_stepParCore2.statusCond);
-		pthread_mutex_unlock(&do_stepParCore2.statusLock);
-
-		// Wait for the next reaction.
-		pthread_mutex_lock(&do_stepParReactionCounterLock);
-		while (do_stepParCore2.reactionCounter == do_stepParReactionCounter) { pthread_cond_wait(&do_stepParReactionCounterCond, &do_stepParReactionCounterLock); }
-		pthread_mutex_unlock(&do_stepParReactionCounterLock);
-
-		// Go to the next thread.
-		goto do_stepParHandlerSlave2;
-	} else if (parId == -3) {
-		// Thread termination
-		mainParCore2.activeThreads--;
-		do_stepParCore2.activeThreads--;
-
-		do_stepParCore2.reactionCounter = do_stepParReactionCounter;
-		pthread_mutex_lock(&do_stepParCore2.statusLock);
-		do_stepParCore2.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_stepParCore2.statusCond);
-		pthread_mutex_unlock(&do_stepParCore2.statusLock);
-
-		// Wait for the next reaction.
-		pthread_mutex_lock(&do_stepParReactionCounterLock);
-		while (do_stepParCore2.reactionCounter == do_stepParReactionCounter) { pthread_cond_wait(&do_stepParReactionCounterCond, &do_stepParReactionCounterLock); }
-		pthread_mutex_unlock(&do_stepParReactionCounterLock);
-
-		// Delete this par(...) handler.
-		do_stepParHandlerSlave2.prevThread -> nextThread = do_stepParHandlerSlave2.nextThread;
-		do_stepParHandlerSlave2.nextThread -> prevThread = do_stepParHandlerSlave2.prevThread;
-			
-		// Go to the next thread.
-		goto *do_stepParHandlerSlave2.nextThread -> programCounter;
-	} else {
-		// Unscheduled par(...)
-		do_stepParCore2.reactionCounter = do_stepParReactionCounter;
-
-		do_stepParHandlerSlave2.programCounter = &&wrongParId_do_stepParHandlerSlave2;
-		wrongParId_do_stepParHandlerSlave2:;
-
-		pthread_mutex_lock(&do_stepParCore2.statusLock);
-		do_stepParCore2.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_stepParCore2.statusCond);
-		pthread_mutex_unlock(&do_stepParCore2.statusLock);
-
-		// Wait for the next tick.
-		pthread_mutex_lock(&do_stepParReactionCounterLock);
-		while (do_stepParCore2.reactionCounter == do_stepParReactionCounter) { pthread_cond_wait(&do_stepParReactionCounterCond, &do_stepParReactionCounterLock); }
-		pthread_mutex_unlock(&do_stepParReactionCounterLock);
-		do_stepParCore2.reactionCounter++;
-
-		// Wait for the par(...) to terminate.
-		if (do_stepParParent.parStatus == FOREC_PAR_ON && do_stepParParent.parId == parId) {
-			goto *do_stepParHandlerSlave2.nextThread -> programCounter;
-		}
-		
-		// Go back to the top and wait for the next nested par(...)
-		do_stepParHandlerSlave2.programCounter = &&do_stepParHandlerSlave2;
-		
-		goto do_stepParHandlerSlave2;
-	}
-	
-	// Control should not reach here.
-	goto do_stepParHandlerSlave2;
-}
-	// forec:scheduler:parHandler:do_step:slave:2:end
- 
-
-	// Reaction start handlers ---------------------------------------
-	// forec:scheduler:reactionStart:do_draw:slave:2:start
-	//-- do_draw:
-do_drawReactionStartSlave2: {
-	// Go to the next thread.
-	goto *do_drawReactionStartSlave2.nextThread -> programCounter;
-}
-	// forec:scheduler:reactionStart:do_draw:slave:2:end
- 
-	// forec:scheduler:reactionStart:do_step:slave:2:start
-	//-- do_step:
-do_stepReactionStartSlave2: {
-	// Go to the next thread.
-	goto *do_stepReactionStartSlave2.nextThread -> programCounter;
-}
-	// forec:scheduler:reactionStart:do_step:slave:2:end
- 
-	// forec:scheduler:reactionStart:main:slave:2:start
-	//-- main:
-mainReactionStartSlave2: {
-	// Go to the next thread.
-	goto *mainReactionStartSlave2.nextThread -> programCounter;
-}
-	// forec:scheduler:reactionStart:main:slave:2:end
- 
-
-
-	// Reaction end handlers ---------------------------------------
-	// forec:scheduler:reactionEnd:do_draw:slave:2:start
-	//-- do_draw:
-do_drawReactionEndSlave2: {
-	// Determine if the core can still react or not.
-	if (do_drawParCore2.activeThreads) {
-		pthread_mutex_lock(&do_drawParCore2.statusLock);
-		do_drawParCore2.status = FOREC_CORE_REACTED;
-		pthread_cond_signal(&do_drawParCore2.statusCond);
-		pthread_mutex_unlock(&do_drawParCore2.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&do_drawParReactionCounterLock);
-		while (do_drawParCore2.reactionCounter == do_drawParReactionCounter) { pthread_cond_wait(&do_drawParReactionCounterCond, &do_drawParReactionCounterLock); }
-		pthread_mutex_unlock(&do_drawParReactionCounterLock);
-		do_drawParCore2.reactionCounter++;
-		
-		// Continue reacting.
-		goto *do_drawReactionEndSlave2.nextThread -> programCounter;
-	} else {
-		int parId = do_drawParParent.parId;
-
-		do_drawReactionEndSlave2.programCounter = &&terminated_do_drawReactionEndSlave2;
-		terminated_do_drawReactionEndSlave2:;
-		
-		pthread_mutex_lock(&do_drawParCore2.statusLock);
-		do_drawParCore2.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_drawParCore2.statusCond);
-		pthread_mutex_unlock(&do_drawParCore2.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&do_drawParReactionCounterLock);
-		while (do_drawParCore2.reactionCounter == do_drawParReactionCounter) { pthread_cond_wait(&do_drawParReactionCounterCond, &do_drawParReactionCounterLock); }
-		pthread_mutex_unlock(&do_drawParReactionCounterLock);
-		do_drawParCore2.reactionCounter++;
-		
-		// Wait for the par(...) to terminate.
-		if (do_drawParParent.parStatus == FOREC_PAR_ON && do_drawParParent.parId == parId) {
-			goto *do_drawReactionEndSlave2.nextThread -> programCounter;
-		}
-
-		// Swap the reaction (start & end) handlers with the nested par handler.
-		do_drawReactionStartSlave2.prevThread -> nextThread = &do_drawParHandlerSlave2;
-		do_drawParHandlerSlave2.prevThread = do_drawReactionStartSlave2.prevThread;
-		do_drawParHandlerSlave2.nextThread = do_drawReactionEndSlave2.nextThread;
-		do_drawReactionEndSlave2.nextThread -> prevThread = &do_drawParHandlerSlave2;
-		goto do_drawParHandlerSlave2;
-	}
-	
-	// Control shouldn't reach here.
-	goto do_drawReactionEndSlave2;
-}
-	// forec:scheduler:reactionEnd:do_draw:slave:2:end
- 
-	// forec:scheduler:reactionEnd:do_step:slave:2:start
-	//-- do_step:
-do_stepReactionEndSlave2: {
-	// Determine if the core can still react or not.
-	if (do_stepParCore2.activeThreads) {
-		pthread_mutex_lock(&do_stepParCore2.statusLock);
-		do_stepParCore2.status = FOREC_CORE_REACTED;
-		pthread_cond_signal(&do_stepParCore2.statusCond);
-		pthread_mutex_unlock(&do_stepParCore2.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&do_stepParReactionCounterLock);
-		while (do_stepParCore2.reactionCounter == do_stepParReactionCounter) { pthread_cond_wait(&do_stepParReactionCounterCond, &do_stepParReactionCounterLock); }
-		pthread_mutex_unlock(&do_stepParReactionCounterLock);
-		do_stepParCore2.reactionCounter++;
-		
-		// Continue reacting.
-		goto *do_stepReactionEndSlave2.nextThread -> programCounter;
-	} else {
-		int parId = do_stepParParent.parId;
-
-		do_stepReactionEndSlave2.programCounter = &&terminated_do_stepReactionEndSlave2;
-		terminated_do_stepReactionEndSlave2:;
-		
-		pthread_mutex_lock(&do_stepParCore2.statusLock);
-		do_stepParCore2.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_stepParCore2.statusCond);
-		pthread_mutex_unlock(&do_stepParCore2.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&do_stepParReactionCounterLock);
-		while (do_stepParCore2.reactionCounter == do_stepParReactionCounter) { pthread_cond_wait(&do_stepParReactionCounterCond, &do_stepParReactionCounterLock); }
-		pthread_mutex_unlock(&do_stepParReactionCounterLock);
-		do_stepParCore2.reactionCounter++;
-		
-		// Wait for the par(...) to terminate.
-		if (do_stepParParent.parStatus == FOREC_PAR_ON && do_stepParParent.parId == parId) {
-			goto *do_stepReactionEndSlave2.nextThread -> programCounter;
-		}
-
-		// Swap the reaction (start & end) handlers with the nested par handler.
-		do_stepReactionStartSlave2.prevThread -> nextThread = &do_stepParHandlerSlave2;
-		do_stepParHandlerSlave2.prevThread = do_stepReactionStartSlave2.prevThread;
-		do_stepParHandlerSlave2.nextThread = do_stepReactionEndSlave2.nextThread;
-		do_stepReactionEndSlave2.nextThread -> prevThread = &do_stepParHandlerSlave2;
-		goto do_stepParHandlerSlave2;
-	}
-	
-	// Control shouldn't reach here.
-	goto do_stepReactionEndSlave2;
-}
-	// forec:scheduler:reactionEnd:do_step:slave:2:end
- 
-	// forec:scheduler:reactionEnd:main:slave:2:start
-	//-- main:
-mainReactionEndSlave2: {
-	// Determine if the core can still react or not.
-	if (mainParCore2.activeThreads) {
-		pthread_mutex_lock(&mainParCore2.statusLock);
-		mainParCore2.status = FOREC_CORE_REACTED;
-		pthread_cond_signal(&mainParCore2.statusCond);
-		pthread_mutex_unlock(&mainParCore2.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&mainParReactionCounterLock);
-		while (mainParCore2.reactionCounter == mainParReactionCounter) { pthread_cond_wait(&mainParReactionCounterCond, &mainParReactionCounterLock); }
-		pthread_mutex_unlock(&mainParReactionCounterLock);
-		mainParCore2.reactionCounter++;
-		
-		// Continue reacting.
-		goto *mainReactionEndSlave2.nextThread -> programCounter;
-	} else {
-		int parId = mainParParent.parId;
-
-		mainReactionEndSlave2.programCounter = &&terminated_mainReactionEndSlave2;
-		terminated_mainReactionEndSlave2:;
-		
-		pthread_mutex_lock(&mainParCore2.statusLock);
-		mainParCore2.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&mainParCore2.statusCond);
-		pthread_mutex_unlock(&mainParCore2.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&mainParReactionCounterLock);
-		while (mainParCore2.reactionCounter == mainParReactionCounter) { pthread_cond_wait(&mainParReactionCounterCond, &mainParReactionCounterLock); }
-		pthread_mutex_unlock(&mainParReactionCounterLock);
-		mainParCore2.reactionCounter++;
-		
-		// Wait for the par(...) to terminate.
-		if (mainParParent.parStatus == FOREC_PAR_ON && mainParParent.parId == parId) {
-			goto *mainReactionEndSlave2.nextThread -> programCounter;
-		}
-
-		goto mainParCore2;
-	}
-	
-	// Control shouldn't reach here.
-	goto mainReactionEndSlave2;
-}
-	// forec:scheduler:reactionEnd:main:slave:2:end
- 
-
-
-	// Abort check handlers ----------------------------------------
-
-// forec:scheduler:parHandler:main:slave:3:start
-/*--------------------------------------------------------------
-| Slave core: core3
-*-------------------------------------------------------------*/
-mainParCore3: {
-	// Check the execution status of the root par(...)s.
-	pthread_mutex_lock(&mainParParent.parStatusLock);
-	while (mainParParent.parStatus == FOREC_PAR_OFF) {
-		if (programStatus == TERMINATED) {
-			pthread_mutex_unlock(&mainParParent.parStatusLock);
-			pthread_exit(NULL);
-		}
-		pthread_cond_wait(&mainParParent.parStatusCond, &mainParParent.parStatusLock);
-	}
-	pthread_mutex_unlock(&mainParParent.parStatusLock);
-
-	int parId = mainParParent.parId;
-
-	// Check the par(...) ID.
-	if (parId == 0) {
-		asm("# par0 start");
-		// Link the threads and handlers together.
-		mainReactionStartSlave3.programCounter = &&mainReactionStartSlave3;
-		random_initByTime__thread.programCounter = &&random_initByTime__thread;
-		mainReactionStartSlave3.nextThread = &random_initByTime__thread;
-		random_initByTime__thread.prevThread = &mainReactionStartSlave3;
-		mainReactionEndSlave3.programCounter = &&mainReactionEndSlave3;
-		random_initByTime__thread.nextThread = &mainReactionEndSlave3;
-		mainReactionEndSlave3.prevThread = &random_initByTime__thread;
-
-		// Link the last and first threads/handlers together.
-		mainReactionEndSlave3.nextThread = &mainReactionStartSlave3;
-		mainReactionStartSlave3.prevThread = &mainReactionEndSlave3;
-
-		// Set the core information.
-		mainParCore3.activeThreads = 1;
-		mainParCore3.reactionCounter = mainParReactionCounter;
-
-		// Go to the first thread.
-		goto random_initByTime__thread;
-		asm("# par0 end");
-	} else if (parId == 1) {
-		asm("# par1 start");
-		// Link the threads and handlers together.
-		mainReactionStartSlave3.programCounter = &&mainReactionStartSlave3;
-		do_stepParHandlerSlave3.programCounter = &&do_stepParHandlerSlave3;
-		mainReactionStartSlave3.nextThread = &do_stepParHandlerSlave3;
-		do_stepParHandlerSlave3.prevThread = &mainReactionStartSlave3;
-		do_drawParHandlerSlave3.programCounter = &&do_drawParHandlerSlave3;
-		do_stepParHandlerSlave3.nextThread = &do_drawParHandlerSlave3;
-		do_drawParHandlerSlave3.prevThread = &do_stepParHandlerSlave3;
-		mainReactionEndSlave3.programCounter = &&mainReactionEndSlave3;
-		do_drawParHandlerSlave3.nextThread = &mainReactionEndSlave3;
-		mainReactionEndSlave3.prevThread = &do_drawParHandlerSlave3;
-
-		// Link the last and first threads/handlers together.
-		mainReactionEndSlave3.nextThread = &mainReactionStartSlave3;
-		mainReactionStartSlave3.prevThread = &mainReactionEndSlave3;
-
-		// Set the core information.
-		mainParCore3.activeThreads = 2;
-		mainParCore3.reactionCounter = mainParReactionCounter;
-
-		// Go to the first thread.
-		goto do_stepParHandlerSlave3;
-		asm("# par1 end");
-	} else if (parId == 2) {
-		asm("# par2 start");
-		// Link the threads and handlers together.
-		mainReactionStartSlave3.programCounter = &&mainReactionStartSlave3;
-		transfer_grid_3__thread.programCounter = &&transfer_grid_3__thread;
-		mainReactionStartSlave3.nextThread = &transfer_grid_3__thread;
-		transfer_grid_3__thread.prevThread = &mainReactionStartSlave3;
-		mainReactionEndSlave3.programCounter = &&mainReactionEndSlave3;
-		transfer_grid_3__thread.nextThread = &mainReactionEndSlave3;
-		mainReactionEndSlave3.prevThread = &transfer_grid_3__thread;
-
-		// Link the last and first threads/handlers together.
-		mainReactionEndSlave3.nextThread = &mainReactionStartSlave3;
-		mainReactionStartSlave3.prevThread = &mainReactionEndSlave3;
-
-		// Set the core information.
-		mainParCore3.activeThreads = 1;
-		mainParCore3.reactionCounter = mainParReactionCounter;
-
-		// Go to the first thread.
-		goto transfer_grid_3__thread;
-		asm("# par2 end");
-	} else {
-		// Unscheduled par(...)
-		mainParCore3.reactionCounter = mainParReactionCounter;
-		
-		// Wait for the par(...) to terminate.
-		do {
-			pthread_mutex_lock(&mainParCore3.statusLock);
-			mainParCore3.status = FOREC_CORE_TERMINATED;
-			pthread_cond_signal(&mainParCore3.statusCond);
-			pthread_mutex_unlock(&mainParCore3.statusLock);
-			
-			// Wait for the next tick.
-			pthread_mutex_lock(&mainParReactionCounterLock);
-			while (mainParCore3.reactionCounter == mainParReactionCounter) { pthread_cond_wait(&mainParReactionCounterCond, &mainParReactionCounterLock); }
-			pthread_mutex_unlock(&mainParReactionCounterLock);
-			mainParCore3.reactionCounter++;
-			
-		} while (mainParParent.parStatus == FOREC_PAR_ON && mainParParent.parId == parId);
-		
-		// Go back to the top and wait for the next nested par(...) 
-		goto mainParCore3;
-	}
-	
-	// Control shouldn't reach here.
-	goto mainParCore3;
-}
-// forec:scheduler:parHandler:main:slave:3:end
-
-	// Nested par(...) handlers ------------------------------------
-	// forec:scheduler:parHandler:do_draw:slave:3:start
-	//-- Thread do_draw par(...) handlers
-do_drawParHandlerSlave3: {
-	// Synchronise the checking of the nested par(...) via a mutex.
-	while ((unsigned)(forec_mutex_value_do_draw & 0x80000000) == (unsigned)0x80000000);
-
-	// Check the execution status of the nested par(...)s.
-	if (do_drawParParent.parStatus == FOREC_PAR_OFF) {
-		goto *do_drawParHandlerSlave3.nextThread -> programCounter;
-	}
-
-	int parId = do_drawParParent.parId;
-
-	// Check the par(...) ID.
-	if (parId == 4) {
-		asm ("# par4 begin");
-		// Link the threads and handlers together.
-		do_drawReactionStartSlave3.programCounter = &&do_drawReactionStartSlave3;
-		do_draw_3__thread.programCounter = &&do_draw_3__thread;
-		do_drawReactionStartSlave3.nextThread = &do_draw_3__thread;
-		do_draw_3__thread.prevThread = &do_drawReactionStartSlave3;
-		do_drawReactionEndSlave3.programCounter = &&do_drawReactionEndSlave3;
-		do_draw_3__thread.nextThread = &do_drawReactionEndSlave3;
-		do_drawReactionEndSlave3.prevThread = &do_draw_3__thread;
-
-		// Swap the nested par handler with the linked list.
-		do_drawParHandlerSlave3.prevThread -> nextThread = &do_drawReactionStartSlave3;
-		do_drawReactionStartSlave3.prevThread = do_drawParHandlerSlave3.prevThread;
-		do_drawReactionEndSlave3.nextThread = do_drawParHandlerSlave3.nextThread;
-		do_drawParHandlerSlave3.nextThread -> prevThread = &do_drawReactionEndSlave3;
-		
-		// Set the core information.
-		do_drawParCore3.activeThreads = 1;
-		do_drawParCore3.reactionCounter = do_drawParReactionCounter;
-		
-		// Go to the first thread.
-		goto do_draw_3__thread;
-		asm ("# par4 end");
-	} else if (parId == -2) {
-		// Iteration
-		do_drawParCore3.reactionCounter = do_drawParReactionCounter;
-		pthread_mutex_lock(&do_drawParCore3.statusLock);
-		do_drawParCore3.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_drawParCore3.statusCond);
-		pthread_mutex_unlock(&do_drawParCore3.statusLock);
-
-		// Wait for the next reaction.
-		pthread_mutex_lock(&do_drawParReactionCounterLock);
-		while (do_drawParCore3.reactionCounter == do_drawParReactionCounter) { pthread_cond_wait(&do_drawParReactionCounterCond, &do_drawParReactionCounterLock); }
-		pthread_mutex_unlock(&do_drawParReactionCounterLock);
-
-		// Go to the next thread.
-		goto do_drawParHandlerSlave3;
-	} else if (parId == -3) {
-		// Thread termination
-		mainParCore3.activeThreads--;
-		do_drawParCore3.activeThreads--;
-
-		do_drawParCore3.reactionCounter = do_drawParReactionCounter;
-		pthread_mutex_lock(&do_drawParCore3.statusLock);
-		do_drawParCore3.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_drawParCore3.statusCond);
-		pthread_mutex_unlock(&do_drawParCore3.statusLock);
-
-		// Wait for the next reaction.
-		pthread_mutex_lock(&do_drawParReactionCounterLock);
-		while (do_drawParCore3.reactionCounter == do_drawParReactionCounter) { pthread_cond_wait(&do_drawParReactionCounterCond, &do_drawParReactionCounterLock); }
-		pthread_mutex_unlock(&do_drawParReactionCounterLock);
-
-		// Delete this par(...) handler.
-		do_drawParHandlerSlave3.prevThread -> nextThread = do_drawParHandlerSlave3.nextThread;
-		do_drawParHandlerSlave3.nextThread -> prevThread = do_drawParHandlerSlave3.prevThread;
-			
-		// Go to the next thread.
-		goto *do_drawParHandlerSlave3.nextThread -> programCounter;
-	} else {
-		// Unscheduled par(...)
-		do_drawParCore3.reactionCounter = do_drawParReactionCounter;
-
-		do_drawParHandlerSlave3.programCounter = &&wrongParId_do_drawParHandlerSlave3;
-		wrongParId_do_drawParHandlerSlave3:;
-
-		pthread_mutex_lock(&do_drawParCore3.statusLock);
-		do_drawParCore3.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_drawParCore3.statusCond);
-		pthread_mutex_unlock(&do_drawParCore3.statusLock);
-
-		// Wait for the next tick.
-		pthread_mutex_lock(&do_drawParReactionCounterLock);
-		while (do_drawParCore3.reactionCounter == do_drawParReactionCounter) { pthread_cond_wait(&do_drawParReactionCounterCond, &do_drawParReactionCounterLock); }
-		pthread_mutex_unlock(&do_drawParReactionCounterLock);
-		do_drawParCore3.reactionCounter++;
-
-		// Wait for the par(...) to terminate.
-		if (do_drawParParent.parStatus == FOREC_PAR_ON && do_drawParParent.parId == parId) {
-			goto *do_drawParHandlerSlave3.nextThread -> programCounter;
-		}
-		
-		// Go back to the top and wait for the next nested par(...)
-		do_drawParHandlerSlave3.programCounter = &&do_drawParHandlerSlave3;
-		
-		goto do_drawParHandlerSlave3;
-	}
-	
-	// Control should not reach here.
-	goto do_drawParHandlerSlave3;
-}
-	// forec:scheduler:parHandler:do_draw:slave:3:end
- 	// forec:scheduler:parHandler:do_step:slave:3:start
-	//-- Thread do_step par(...) handlers
-do_stepParHandlerSlave3: {
-	// Synchronise the checking of the nested par(...) via a mutex.
-	while ((unsigned)(forec_mutex_value_do_step & 0x40000000) == (unsigned)0x40000000);
-
-	// Check the execution status of the nested par(...)s.
-	if (do_stepParParent.parStatus == FOREC_PAR_OFF) {
-		goto *do_stepParHandlerSlave3.nextThread -> programCounter;
-	}
-
-	int parId = do_stepParParent.parId;
-
-	// Check the par(...) ID.
-	if (parId == 3) {
-		asm ("# par3 begin");
-		// Link the threads and handlers together.
-		do_stepReactionStartSlave3.programCounter = &&do_stepReactionStartSlave3;
-		do_step_3__thread.programCounter = &&do_step_3__thread;
-		do_stepReactionStartSlave3.nextThread = &do_step_3__thread;
-		do_step_3__thread.prevThread = &do_stepReactionStartSlave3;
-		do_stepReactionEndSlave3.programCounter = &&do_stepReactionEndSlave3;
-		do_step_3__thread.nextThread = &do_stepReactionEndSlave3;
-		do_stepReactionEndSlave3.prevThread = &do_step_3__thread;
-
-		// Swap the nested par handler with the linked list.
-		do_stepParHandlerSlave3.prevThread -> nextThread = &do_stepReactionStartSlave3;
-		do_stepReactionStartSlave3.prevThread = do_stepParHandlerSlave3.prevThread;
-		do_stepReactionEndSlave3.nextThread = do_stepParHandlerSlave3.nextThread;
-		do_stepParHandlerSlave3.nextThread -> prevThread = &do_stepReactionEndSlave3;
-		
-		// Set the core information.
-		do_stepParCore3.activeThreads = 1;
-		do_stepParCore3.reactionCounter = do_stepParReactionCounter;
-		
-		// Go to the first thread.
-		goto do_step_3__thread;
-		asm ("# par3 end");
-	} else if (parId == -2) {
-		// Iteration
-		do_stepParCore3.reactionCounter = do_stepParReactionCounter;
-		pthread_mutex_lock(&do_stepParCore3.statusLock);
-		do_stepParCore3.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_stepParCore3.statusCond);
-		pthread_mutex_unlock(&do_stepParCore3.statusLock);
-
-		// Wait for the next reaction.
-		pthread_mutex_lock(&do_stepParReactionCounterLock);
-		while (do_stepParCore3.reactionCounter == do_stepParReactionCounter) { pthread_cond_wait(&do_stepParReactionCounterCond, &do_stepParReactionCounterLock); }
-		pthread_mutex_unlock(&do_stepParReactionCounterLock);
-
-		// Go to the next thread.
-		goto do_stepParHandlerSlave3;
-	} else if (parId == -3) {
-		// Thread termination
-		mainParCore3.activeThreads--;
-		do_stepParCore3.activeThreads--;
-
-		do_stepParCore3.reactionCounter = do_stepParReactionCounter;
-		pthread_mutex_lock(&do_stepParCore3.statusLock);
-		do_stepParCore3.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_stepParCore3.statusCond);
-		pthread_mutex_unlock(&do_stepParCore3.statusLock);
-
-		// Wait for the next reaction.
-		pthread_mutex_lock(&do_stepParReactionCounterLock);
-		while (do_stepParCore3.reactionCounter == do_stepParReactionCounter) { pthread_cond_wait(&do_stepParReactionCounterCond, &do_stepParReactionCounterLock); }
-		pthread_mutex_unlock(&do_stepParReactionCounterLock);
-
-		// Delete this par(...) handler.
-		do_stepParHandlerSlave3.prevThread -> nextThread = do_stepParHandlerSlave3.nextThread;
-		do_stepParHandlerSlave3.nextThread -> prevThread = do_stepParHandlerSlave3.prevThread;
-			
-		// Go to the next thread.
-		goto *do_stepParHandlerSlave3.nextThread -> programCounter;
-	} else {
-		// Unscheduled par(...)
-		do_stepParCore3.reactionCounter = do_stepParReactionCounter;
-
-		do_stepParHandlerSlave3.programCounter = &&wrongParId_do_stepParHandlerSlave3;
-		wrongParId_do_stepParHandlerSlave3:;
-
-		pthread_mutex_lock(&do_stepParCore3.statusLock);
-		do_stepParCore3.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_stepParCore3.statusCond);
-		pthread_mutex_unlock(&do_stepParCore3.statusLock);
-
-		// Wait for the next tick.
-		pthread_mutex_lock(&do_stepParReactionCounterLock);
-		while (do_stepParCore3.reactionCounter == do_stepParReactionCounter) { pthread_cond_wait(&do_stepParReactionCounterCond, &do_stepParReactionCounterLock); }
-		pthread_mutex_unlock(&do_stepParReactionCounterLock);
-		do_stepParCore3.reactionCounter++;
-
-		// Wait for the par(...) to terminate.
-		if (do_stepParParent.parStatus == FOREC_PAR_ON && do_stepParParent.parId == parId) {
-			goto *do_stepParHandlerSlave3.nextThread -> programCounter;
-		}
-		
-		// Go back to the top and wait for the next nested par(...)
-		do_stepParHandlerSlave3.programCounter = &&do_stepParHandlerSlave3;
-		
-		goto do_stepParHandlerSlave3;
-	}
-	
-	// Control should not reach here.
-	goto do_stepParHandlerSlave3;
-}
-	// forec:scheduler:parHandler:do_step:slave:3:end
- 
-
-	// Reaction start handlers ---------------------------------------
-	// forec:scheduler:reactionStart:do_draw:slave:3:start
-	//-- do_draw:
-do_drawReactionStartSlave3: {
-	// Go to the next thread.
-	goto *do_drawReactionStartSlave3.nextThread -> programCounter;
-}
-	// forec:scheduler:reactionStart:do_draw:slave:3:end
- 
-	// forec:scheduler:reactionStart:do_step:slave:3:start
-	//-- do_step:
-do_stepReactionStartSlave3: {
-	// Go to the next thread.
-	goto *do_stepReactionStartSlave3.nextThread -> programCounter;
-}
-	// forec:scheduler:reactionStart:do_step:slave:3:end
- 
-	// forec:scheduler:reactionStart:main:slave:3:start
-	//-- main:
-mainReactionStartSlave3: {
-	// Go to the next thread.
-	goto *mainReactionStartSlave3.nextThread -> programCounter;
-}
-	// forec:scheduler:reactionStart:main:slave:3:end
- 
-
-
-	// Reaction end handlers ---------------------------------------
-	// forec:scheduler:reactionEnd:do_draw:slave:3:start
-	//-- do_draw:
-do_drawReactionEndSlave3: {
-	// Determine if the core can still react or not.
-	if (do_drawParCore3.activeThreads) {
-		pthread_mutex_lock(&do_drawParCore3.statusLock);
-		do_drawParCore3.status = FOREC_CORE_REACTED;
-		pthread_cond_signal(&do_drawParCore3.statusCond);
-		pthread_mutex_unlock(&do_drawParCore3.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&do_drawParReactionCounterLock);
-		while (do_drawParCore3.reactionCounter == do_drawParReactionCounter) { pthread_cond_wait(&do_drawParReactionCounterCond, &do_drawParReactionCounterLock); }
-		pthread_mutex_unlock(&do_drawParReactionCounterLock);
-		do_drawParCore3.reactionCounter++;
-		
-		// Continue reacting.
-		goto *do_drawReactionEndSlave3.nextThread -> programCounter;
-	} else {
-		int parId = do_drawParParent.parId;
-
-		do_drawReactionEndSlave3.programCounter = &&terminated_do_drawReactionEndSlave3;
-		terminated_do_drawReactionEndSlave3:;
-		
-		pthread_mutex_lock(&do_drawParCore3.statusLock);
-		do_drawParCore3.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_drawParCore3.statusCond);
-		pthread_mutex_unlock(&do_drawParCore3.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&do_drawParReactionCounterLock);
-		while (do_drawParCore3.reactionCounter == do_drawParReactionCounter) { pthread_cond_wait(&do_drawParReactionCounterCond, &do_drawParReactionCounterLock); }
-		pthread_mutex_unlock(&do_drawParReactionCounterLock);
-		do_drawParCore3.reactionCounter++;
-		
-		// Wait for the par(...) to terminate.
-		if (do_drawParParent.parStatus == FOREC_PAR_ON && do_drawParParent.parId == parId) {
-			goto *do_drawReactionEndSlave3.nextThread -> programCounter;
-		}
-
-		// Swap the reaction (start & end) handlers with the nested par handler.
-		do_drawReactionStartSlave3.prevThread -> nextThread = &do_drawParHandlerSlave3;
-		do_drawParHandlerSlave3.prevThread = do_drawReactionStartSlave3.prevThread;
-		do_drawParHandlerSlave3.nextThread = do_drawReactionEndSlave3.nextThread;
-		do_drawReactionEndSlave3.nextThread -> prevThread = &do_drawParHandlerSlave3;
-		goto do_drawParHandlerSlave3;
-	}
-	
-	// Control shouldn't reach here.
-	goto do_drawReactionEndSlave3;
-}
-	// forec:scheduler:reactionEnd:do_draw:slave:3:end
- 
-	// forec:scheduler:reactionEnd:do_step:slave:3:start
-	//-- do_step:
-do_stepReactionEndSlave3: {
-	// Determine if the core can still react or not.
-	if (do_stepParCore3.activeThreads) {
-		pthread_mutex_lock(&do_stepParCore3.statusLock);
-		do_stepParCore3.status = FOREC_CORE_REACTED;
-		pthread_cond_signal(&do_stepParCore3.statusCond);
-		pthread_mutex_unlock(&do_stepParCore3.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&do_stepParReactionCounterLock);
-		while (do_stepParCore3.reactionCounter == do_stepParReactionCounter) { pthread_cond_wait(&do_stepParReactionCounterCond, &do_stepParReactionCounterLock); }
-		pthread_mutex_unlock(&do_stepParReactionCounterLock);
-		do_stepParCore3.reactionCounter++;
-		
-		// Continue reacting.
-		goto *do_stepReactionEndSlave3.nextThread -> programCounter;
-	} else {
-		int parId = do_stepParParent.parId;
-
-		do_stepReactionEndSlave3.programCounter = &&terminated_do_stepReactionEndSlave3;
-		terminated_do_stepReactionEndSlave3:;
-		
-		pthread_mutex_lock(&do_stepParCore3.statusLock);
-		do_stepParCore3.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&do_stepParCore3.statusCond);
-		pthread_mutex_unlock(&do_stepParCore3.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&do_stepParReactionCounterLock);
-		while (do_stepParCore3.reactionCounter == do_stepParReactionCounter) { pthread_cond_wait(&do_stepParReactionCounterCond, &do_stepParReactionCounterLock); }
-		pthread_mutex_unlock(&do_stepParReactionCounterLock);
-		do_stepParCore3.reactionCounter++;
-		
-		// Wait for the par(...) to terminate.
-		if (do_stepParParent.parStatus == FOREC_PAR_ON && do_stepParParent.parId == parId) {
-			goto *do_stepReactionEndSlave3.nextThread -> programCounter;
-		}
-
-		// Swap the reaction (start & end) handlers with the nested par handler.
-		do_stepReactionStartSlave3.prevThread -> nextThread = &do_stepParHandlerSlave3;
-		do_stepParHandlerSlave3.prevThread = do_stepReactionStartSlave3.prevThread;
-		do_stepParHandlerSlave3.nextThread = do_stepReactionEndSlave3.nextThread;
-		do_stepReactionEndSlave3.nextThread -> prevThread = &do_stepParHandlerSlave3;
-		goto do_stepParHandlerSlave3;
-	}
-	
-	// Control shouldn't reach here.
-	goto do_stepReactionEndSlave3;
-}
-	// forec:scheduler:reactionEnd:do_step:slave:3:end
- 
-	// forec:scheduler:reactionEnd:main:slave:3:start
-	//-- main:
-mainReactionEndSlave3: {
-	// Determine if the core can still react or not.
-	if (mainParCore3.activeThreads) {
-		pthread_mutex_lock(&mainParCore3.statusLock);
-		mainParCore3.status = FOREC_CORE_REACTED;
-		pthread_cond_signal(&mainParCore3.statusCond);
-		pthread_mutex_unlock(&mainParCore3.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&mainParReactionCounterLock);
-		while (mainParCore3.reactionCounter == mainParReactionCounter) { pthread_cond_wait(&mainParReactionCounterCond, &mainParReactionCounterLock); }
-		pthread_mutex_unlock(&mainParReactionCounterLock);
-		mainParCore3.reactionCounter++;
-		
-		// Continue reacting.
-		goto *mainReactionEndSlave3.nextThread -> programCounter;
-	} else {
-		int parId = mainParParent.parId;
-
-		mainReactionEndSlave3.programCounter = &&terminated_mainReactionEndSlave3;
-		terminated_mainReactionEndSlave3:;
-		
-		pthread_mutex_lock(&mainParCore3.statusLock);
-		mainParCore3.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&mainParCore3.statusCond);
-		pthread_mutex_unlock(&mainParCore3.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&mainParReactionCounterLock);
-		while (mainParCore3.reactionCounter == mainParReactionCounter) { pthread_cond_wait(&mainParReactionCounterCond, &mainParReactionCounterLock); }
-		pthread_mutex_unlock(&mainParReactionCounterLock);
-		mainParCore3.reactionCounter++;
-		
-		// Wait for the par(...) to terminate.
-		if (mainParParent.parStatus == FOREC_PAR_ON && mainParParent.parId == parId) {
-			goto *mainReactionEndSlave3.nextThread -> programCounter;
-		}
-
-		goto mainParCore3;
-	}
-	
-	// Control shouldn't reach here.
-	goto mainReactionEndSlave3;
-}
-	// forec:scheduler:reactionEnd:main:slave:3:end
- 
-
-
-	// Abort check handlers ----------------------------------------
 
 
 
@@ -2946,7 +1227,7 @@ mainReactionEndSlave3: {
 		// forec:scheduler:threadRemove:do_draw_1:start
 
 		// Delete thread from the linked list and core.
-		do_drawParCore1.activeThreads--;
+		do_drawParCore0.activeThreads--;
 		do_draw_1__thread.nextThread -> prevThread = do_draw_1__thread.prevThread;
 		do_draw_1__thread.prevThread -> nextThread = do_draw_1__thread.nextThread;
 		goto *do_draw_1__thread.nextThread -> programCounter;
@@ -2977,7 +1258,7 @@ mainReactionEndSlave3: {
 		// forec:scheduler:threadRemove:do_draw_2:start
 
 		// Delete thread from the linked list and core.
-		do_drawParCore2.activeThreads--;
+		do_drawParCore0.activeThreads--;
 		do_draw_2__thread.nextThread -> prevThread = do_draw_2__thread.prevThread;
 		do_draw_2__thread.prevThread -> nextThread = do_draw_2__thread.nextThread;
 		goto *do_draw_2__thread.nextThread -> programCounter;
@@ -3008,7 +1289,7 @@ mainReactionEndSlave3: {
 		// forec:scheduler:threadRemove:do_draw_3:start
 
 		// Delete thread from the linked list and core.
-		do_drawParCore3.activeThreads--;
+		do_drawParCore0.activeThreads--;
 		do_draw_3__thread.nextThread -> prevThread = do_draw_3__thread.prevThread;
 		do_draw_3__thread.prevThread -> nextThread = do_draw_3__thread.nextThread;
 		goto *do_draw_3__thread.nextThread -> programCounter;
@@ -3156,7 +1437,7 @@ mainReactionEndSlave3: {
 		// forec:scheduler:threadRemove:do_step_1:start
 
 		// Delete thread from the linked list and core.
-		do_stepParCore1.activeThreads--;
+		do_stepParCore0.activeThreads--;
 		do_step_1__thread.nextThread -> prevThread = do_step_1__thread.prevThread;
 		do_step_1__thread.prevThread -> nextThread = do_step_1__thread.nextThread;
 		goto *do_step_1__thread.nextThread -> programCounter;
@@ -3187,7 +1468,7 @@ mainReactionEndSlave3: {
 		// forec:scheduler:threadRemove:do_step_2:start
 
 		// Delete thread from the linked list and core.
-		do_stepParCore2.activeThreads--;
+		do_stepParCore0.activeThreads--;
 		do_step_2__thread.nextThread -> prevThread = do_step_2__thread.prevThread;
 		do_step_2__thread.prevThread -> nextThread = do_step_2__thread.nextThread;
 		goto *do_step_2__thread.nextThread -> programCounter;
@@ -3218,7 +1499,7 @@ mainReactionEndSlave3: {
 		// forec:scheduler:threadRemove:do_step_3:start
 
 		// Delete thread from the linked list and core.
-		do_stepParCore3.activeThreads--;
+		do_stepParCore0.activeThreads--;
 		do_step_3__thread.nextThread -> prevThread = do_step_3__thread.prevThread;
 		do_step_3__thread.prevThread -> nextThread = do_step_3__thread.nextThread;
 		goto *do_step_3__thread.nextThread -> programCounter;
@@ -3282,7 +1563,7 @@ mainReactionEndSlave3: {
 		// forec:scheduler:threadRemove:initialise_life_data:start
 
 		// Delete thread from the linked list and core.
-		mainParCore2.activeThreads--;
+		mainParCore0.activeThreads--;
 		initialise_life_data__thread.nextThread -> prevThread = initialise_life_data__thread.prevThread;
 		initialise_life_data__thread.prevThread -> nextThread = initialise_life_data__thread.nextThread;
 		goto *initialise_life_data__thread.nextThread -> programCounter;
@@ -3314,7 +1595,7 @@ mainReactionEndSlave3: {
 		// forec:scheduler:threadRemove:initialise_next_grid:start
 
 		// Delete thread from the linked list and core.
-		mainParCore1.activeThreads--;
+		mainParCore0.activeThreads--;
 		initialise_next_grid__thread.nextThread -> prevThread = initialise_next_grid__thread.prevThread;
 		initialise_next_grid__thread.prevThread -> nextThread = initialise_next_grid__thread.nextThread;
 		goto *initialise_next_grid__thread.nextThread -> programCounter;
@@ -3376,7 +1657,7 @@ mainReactionEndSlave3: {
 		// forec:scheduler:threadRemove:random_initByTime:start
 
 		// Delete thread from the linked list and core.
-		mainParCore3.activeThreads--;
+		mainParCore0.activeThreads--;
 		random_initByTime__thread.nextThread -> prevThread = random_initByTime__thread.prevThread;
 		random_initByTime__thread.prevThread -> nextThread = random_initByTime__thread.nextThread;
 		goto *random_initByTime__thread.nextThread -> programCounter;
@@ -3438,7 +1719,7 @@ mainReactionEndSlave3: {
 		// forec:scheduler:threadRemove:transfer_grid_1:start
 
 		// Delete thread from the linked list and core.
-		mainParCore1.activeThreads--;
+		mainParCore0.activeThreads--;
 		transfer_grid_1__thread.nextThread -> prevThread = transfer_grid_1__thread.prevThread;
 		transfer_grid_1__thread.prevThread -> nextThread = transfer_grid_1__thread.nextThread;
 		goto *transfer_grid_1__thread.nextThread -> programCounter;
@@ -3469,7 +1750,7 @@ mainReactionEndSlave3: {
 		// forec:scheduler:threadRemove:transfer_grid_2:start
 
 		// Delete thread from the linked list and core.
-		mainParCore2.activeThreads--;
+		mainParCore0.activeThreads--;
 		transfer_grid_2__thread.nextThread -> prevThread = transfer_grid_2__thread.prevThread;
 		transfer_grid_2__thread.prevThread -> nextThread = transfer_grid_2__thread.nextThread;
 		goto *transfer_grid_2__thread.nextThread -> programCounter;
@@ -3500,7 +1781,7 @@ mainReactionEndSlave3: {
 		// forec:scheduler:threadRemove:transfer_grid_3:start
 
 		// Delete thread from the linked list and core.
-		mainParCore3.activeThreads--;
+		mainParCore0.activeThreads--;
 		transfer_grid_3__thread.nextThread -> prevThread = transfer_grid_3__thread.prevThread;
 		transfer_grid_3__thread.prevThread -> nextThread = transfer_grid_3__thread.nextThread;
 		goto *transfer_grid_3__thread.nextThread -> programCounter;

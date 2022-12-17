@@ -10,7 +10,7 @@ else
 endif
 
 forec:
-	forecc Mandelbrot.forec Mandelbrot.4.foreh
+	forecc Mandelbrot.forec Mandelbrot.1.foreh
 
 c:
 	$(CC) $(CFLAGS) Mandelbrot.c -o Mandelbrot

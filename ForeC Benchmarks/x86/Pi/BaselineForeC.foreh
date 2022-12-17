@@ -4,12 +4,6 @@ x86
 0:
 main
 calculatePi0
-
-1:
 calculatePi1
-
-2:
 calculatePi2
-
-3:
 calculatePi3

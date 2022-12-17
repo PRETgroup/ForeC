@@ -38,9 +38,13 @@ void do_step(const int ncols, const int nrows,int*** grid,int*** next_grid);
 void random_initByTime(void);
 
 int main(int argc, char* argv[]) {
-    int procNumber = omp_get_max_threads();
-    printf("Number of threads: %d\n ", procNumber);
-    omp_set_num_threads(procNumber);
+	int procNumber = 1;
+	if (argc == 2) {
+		procNumber = *argv[1] - '0';
+	}
+    
+	printf("Number of threads: %d\n", procNumber);
+	omp_set_num_threads(procNumber);
     
 	struct timeval startTime, endTime;
 	gettimeofday(&startTime, 0);

@@ -9,7 +9,7 @@ else
 endif
 
 forec:
-	forecc FmRadio.forec FmRadio.4.foreh
+	forecc FmRadio.forec FmRadio.1.foreh
 
 c:
 	$(CC) $(CFLAGS) FmRadio.c -o FmRadio -lm

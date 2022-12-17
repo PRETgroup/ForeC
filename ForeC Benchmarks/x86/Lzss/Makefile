@@ -9,7 +9,7 @@ else
 endif
 
 forec:
-	forecc Lzss.forec Lzss.4.foreh
+	forecc Lzss.forec Lzss.1.foreh
 
 c:
 	$(CC) $(CFLAGS) Lzss.c -o Lzss

@@ -27,7 +27,7 @@ long long getClockTimeUs(void) {
 }
 
 // Mapping Pthreads to processor cores
-pthread_t cores[4];
+pthread_t cores[1];
 pthread_attr_t masterCoreAttribute;
 pthread_attr_t slaveCoreAttribute;
 
@@ -104,9 +104,6 @@ volatile Status programStatus;
 // Thread main with par(...)s
 Parent mainParParent = { .parStatusCond = PTHREAD_COND_INITIALIZER, .parStatusLock = PTHREAD_MUTEX_INITIALIZER };
 Core mainParCore0 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
-Core mainParCore1 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
-Core mainParCore2 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
-Core mainParCore3 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
 volatile int mainParReactionCounter;
 pthread_cond_t mainParReactionCounterCond = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t mainParReactionCounterLock = PTHREAD_MUTEX_INITIALIZER;
@@ -114,9 +111,6 @@ pthread_mutex_t mainParReactionCounterLock = PTHREAD_MUTEX_INITIALIZER;
 // Thread servo with par(...)s
 Parent servoParParent = { .parStatusCond = PTHREAD_COND_INITIALIZER, .parStatusLock = PTHREAD_MUTEX_INITIALIZER };
 Core servoParCore0 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
-Core servoParCore1 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
-Core servoParCore2 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
-Core servoParCore3 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
 volatile int servoParReactionCounter;
 pthread_cond_t servoParReactionCounterCond = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t servoParReactionCounterLock = PTHREAD_MUTEX_INITIALIZER;
@@ -223,24 +217,12 @@ int main(int argc__main_0_0, char ** argv__main_0_0) {
 	mainParParent.parStatus = FOREC_PAR_OFF;
 	mainParCore0.sync = 1;
 	mainParCore0.status = FOREC_CORE_REACTING;
-	mainParCore1.sync = 1;
-	mainParCore1.status = FOREC_CORE_REACTING;
-	mainParCore2.sync = 1;
-	mainParCore2.status = FOREC_CORE_REACTING;
-	mainParCore3.sync = 1;
-	mainParCore3.status = FOREC_CORE_REACTING;
 	mainParReactionCounter = 0;
 
 	// Thread servo with par(...)s
 	servoParParent.parStatus = FOREC_PAR_OFF;
 	servoParCore0.sync = 1;
 	servoParCore0.status = FOREC_CORE_REACTING;
-	servoParCore1.sync = 1;
-	servoParCore1.status = FOREC_CORE_REACTING;
-	servoParCore2.sync = 1;
-	servoParCore2.status = FOREC_CORE_REACTING;
-	servoParCore3.sync = 1;
-	servoParCore3.status = FOREC_CORE_REACTING;
 	servoParReactionCounter = 0;
 
 
@@ -257,27 +239,12 @@ int main(int argc__main_0_0, char ** argv__main_0_0) {
 	Arguments arguments0 = {.coreId = 0, .argc = argc__main_0_0, .argv = argv__main_0_0};
 	pthread_create(&cores[0], &masterCoreAttribute, forecMain, (void *)&arguments0);
 
-	// Slave cores
-	Arguments arguments1 = {.coreId = 1, .argc = argc__main_0_0, .argv = argv__main_0_0};
-	pthread_create(&cores[1], &slaveCoreAttribute, forecMain, (void *)&arguments1);
-	Arguments arguments2 = {.coreId = 2, .argc = argc__main_0_0, .argv = argv__main_0_0};
-	pthread_create(&cores[2], &slaveCoreAttribute, forecMain, (void *)&arguments2);
-	Arguments arguments3 = {.coreId = 3, .argc = argc__main_0_0, .argv = argv__main_0_0};
-	pthread_create(&cores[3], &slaveCoreAttribute, forecMain, (void *)&arguments3);
-
 	// End core execution
 	pthread_attr_destroy(&masterCoreAttribute);
 	pthread_attr_destroy(&slaveCoreAttribute);
 	
 	// Program termination
 	pthread_join(cores[0], NULL);
-	pthread_cond_broadcast(&mainParParent.parStatusCond);
-	pthread_join(cores[1], NULL);
-	pthread_cond_broadcast(&mainParParent.parStatusCond);
-	pthread_join(cores[2], NULL);
-	pthread_cond_broadcast(&mainParParent.parStatusCond);
-	pthread_join(cores[3], NULL);
-
 }
 
 
@@ -297,25 +264,10 @@ void *forecMain(void *args) {
 	Thread servo__thread;
 	Thread timer__thread;
 	Thread mainReactionStartMaster0;
-	Thread mainReactionStartSlave1;
-	Thread mainReactionStartSlave2;
-	Thread mainReactionStartSlave3;
 	Thread mainReactionEndMaster0;
-	Thread mainReactionEndSlave1;
-	Thread mainReactionEndSlave2;
-	Thread mainReactionEndSlave3;
 	Thread servoParHandlerMaster0;
-	Thread servoParHandlerSlave1;
-	Thread servoParHandlerSlave2;
-	Thread servoParHandlerSlave3;
 	Thread abortWeakImmediate0Check0;
-	Thread abortWeakImmediate0Check1;
-	Thread abortWeakImmediate0Check2;
-	Thread abortWeakImmediate0Check3;
 	Thread abortStrongImmediate1Check0;
-	Thread abortStrongImmediate1Check1;
-	Thread abortStrongImmediate1Check2;
-	Thread abortStrongImmediate1Check3;
 
 	// par1
 	Thread servo0__thread;
@@ -323,28 +275,13 @@ void *forecMain(void *args) {
 	Thread servo2__thread;
 	Thread servo3__thread;
 	Thread servoReactionStartMaster0;
-	Thread servoReactionStartSlave1;
-	Thread servoReactionStartSlave2;
-	Thread servoReactionStartSlave3;
 	Thread servoReactionEndMaster0;
-	Thread servoReactionEndSlave1;
-	Thread servoReactionEndSlave2;
-	Thread servoReactionEndSlave3;
 
 
 	// Let cores jump to their code segment ------------------------
 	switch (coreId) {
 		case (0):
 			goto mainParCore0;
-
-		case (1):
-			goto mainParCore1;
-
-		case (2):
-			goto mainParCore2;
-
-		case (3):
-			goto mainParCore3;
 
 		default:
 			// Terminate unused cores.
@@ -413,9 +350,18 @@ mainParCore0: {
 				servoParHandlerMaster0.programCounter = &&servoParHandlerMaster0;
 				servo__thread.nextThread = &servoParHandlerMaster0;
 				servoParHandlerMaster0.prevThread = &servo__thread;
+				timer__thread.programCounter = &&timer__thread;
+				servoParHandlerMaster0.nextThread = &timer__thread;
+				timer__thread.prevThread = &servoParHandlerMaster0;
+				flight__thread.programCounter = &&flight__thread;
+				timer__thread.nextThread = &flight__thread;
+				flight__thread.prevThread = &timer__thread;
+				failsafe__thread.programCounter = &&failsafe__thread;
+				flight__thread.nextThread = &failsafe__thread;
+				failsafe__thread.prevThread = &flight__thread;
 				abortWeakImmediate0Check0.programCounter = &&abortWeakImmediate0Check0;
-				servoParHandlerMaster0.nextThread = &abortWeakImmediate0Check0;
-				abortWeakImmediate0Check0.prevThread = &servoParHandlerMaster0;
+				failsafe__thread.nextThread = &abortWeakImmediate0Check0;
+				abortWeakImmediate0Check0.prevThread = &failsafe__thread;
 				mainReactionEndMaster0.programCounter = &&mainReactionEndMaster0;
 				abortWeakImmediate0Check0.nextThread = &mainReactionEndMaster0;
 				mainReactionEndMaster0.prevThread = &abortWeakImmediate0Check0;
@@ -428,7 +374,7 @@ mainParCore0: {
 				mainParParent.programCounter = &&par0JoinAddress_mainParCore0;
 
 				// Set the core information.
-				mainParCore0.activeThreads = 2;
+				mainParCore0.activeThreads = 5;
 				mainParCore0.reactionCounter = mainParReactionCounter;
 
 				// Go to the first thread.
@@ -496,15 +442,6 @@ mainParHandlerMaster0: {
 	if (mainParParent.parId == -2) {
 		// Iteration
 		// Wait for other cores to complete their reaction.
-		pthread_mutex_lock(&mainParCore1.statusLock);
-		while(mainParCore1.status == FOREC_CORE_REACTING) { pthread_cond_wait(&mainParCore1.statusCond, &mainParCore1.statusLock); }
-		pthread_mutex_unlock(&mainParCore1.statusLock);
-		pthread_mutex_lock(&mainParCore2.statusLock);
-		while(mainParCore2.status == FOREC_CORE_REACTING) { pthread_cond_wait(&mainParCore2.statusCond, &mainParCore2.statusLock); }
-		pthread_mutex_unlock(&mainParCore2.statusLock);
-		pthread_mutex_lock(&mainParCore3.statusLock);
-		while(mainParCore3.status == FOREC_CORE_REACTING) { pthread_cond_wait(&mainParCore3.statusCond, &mainParCore3.statusLock); }
-		pthread_mutex_unlock(&mainParCore3.statusLock);
 
 		pthread_mutex_lock(&mainParParent.parStatusLock);
 		mainParParent.parStatus = FOREC_PAR_OFF;
@@ -513,9 +450,6 @@ mainParHandlerMaster0: {
 		mainParParent.parId = -1;
 
 		// Set slave cores' status to reacting.
-		mainParCore1.status = FOREC_CORE_REACTING;
-		mainParCore2.status = FOREC_CORE_REACTING;
-		mainParCore3.status = FOREC_CORE_REACTING;
 
 		// Increment the reaction counter for synchronisation.
 		pthread_mutex_lock(&mainParReactionCounterLock);
@@ -557,9 +491,18 @@ servoParHandlerMaster0: {
 		servo0__thread.programCounter = &&servo0__thread;
 		servoReactionStartMaster0.nextThread = &servo0__thread;
 		servo0__thread.prevThread = &servoReactionStartMaster0;
+		servo1__thread.programCounter = &&servo1__thread;
+		servo0__thread.nextThread = &servo1__thread;
+		servo1__thread.prevThread = &servo0__thread;
+		servo2__thread.programCounter = &&servo2__thread;
+		servo1__thread.nextThread = &servo2__thread;
+		servo2__thread.prevThread = &servo1__thread;
+		servo3__thread.programCounter = &&servo3__thread;
+		servo2__thread.nextThread = &servo3__thread;
+		servo3__thread.prevThread = &servo2__thread;
 		servoReactionEndMaster0.programCounter = &&servoReactionEndMaster0;
-		servo0__thread.nextThread = &servoReactionEndMaster0;
-		servoReactionEndMaster0.prevThread = &servo0__thread;
+		servo3__thread.nextThread = &servoReactionEndMaster0;
+		servoReactionEndMaster0.prevThread = &servo3__thread;
 
 		// Swap the nested par handler with the linked list.
 		servoParHandlerMaster0.prevThread -> nextThread = &servoReactionStartMaster0;
@@ -568,7 +511,7 @@ servoParHandlerMaster0: {
 		servoParHandlerMaster0.nextThread -> prevThread = &servoReactionEndMaster0;
 		
 		// Set the core information.
-		servoParCore0.activeThreads = 1;
+		servoParCore0.activeThreads = 4;
 		servoParCore0.reactionCounter = servoParReactionCounter;
 		
 		// Go to the first thread.
@@ -577,15 +520,6 @@ servoParHandlerMaster0: {
 	} else if (parId == -2) {
 		// Iteration
 		// Wait for other cores to complete their reaction.
-		pthread_mutex_lock(&servoParCore1.statusLock);
-		while(servoParCore1.status == FOREC_CORE_REACTING) { pthread_cond_wait(&servoParCore1.statusCond, &servoParCore1.statusLock); }
-		pthread_mutex_unlock(&servoParCore1.statusLock);
-		pthread_mutex_lock(&servoParCore2.statusLock);
-		while(servoParCore2.status == FOREC_CORE_REACTING) { pthread_cond_wait(&servoParCore2.statusCond, &servoParCore2.statusLock); }
-		pthread_mutex_unlock(&servoParCore2.statusLock);
-		pthread_mutex_lock(&servoParCore3.statusLock);
-		while(servoParCore3.status == FOREC_CORE_REACTING) { pthread_cond_wait(&servoParCore3.statusCond, &servoParCore3.statusLock); }
-		pthread_mutex_unlock(&servoParCore3.statusLock);
 
 		pthread_mutex_lock(&servoParParent.parStatusLock);
 		servoParParent.parStatus = FOREC_PAR_OFF;
@@ -596,9 +530,6 @@ servoParHandlerMaster0: {
 		forec_mutex_value_servo = -1;
 
 		// Set slave cores' status to reacting.
-		servoParCore1.status = FOREC_CORE_REACTING;
-		servoParCore2.status = FOREC_CORE_REACTING;
-		servoParCore3.status = FOREC_CORE_REACTING;
 
 		// Increment the reaction counter for synchronisation.
 		pthread_mutex_lock(&servoParReactionCounterLock);
@@ -614,15 +545,6 @@ servoParHandlerMaster0: {
 		servoParCore0.activeThreads--;
 
 		// Wait for other cores to complete their reaction.
-		pthread_mutex_lock(&servoParCore1.statusLock);
-		while(servoParCore1.status == FOREC_CORE_REACTING) { pthread_cond_wait(&servoParCore1.statusCond, &servoParCore1.statusLock); }
-		pthread_mutex_unlock(&servoParCore1.statusLock);
-		pthread_mutex_lock(&servoParCore2.statusLock);
-		while(servoParCore2.status == FOREC_CORE_REACTING) { pthread_cond_wait(&servoParCore2.statusCond, &servoParCore2.statusLock); }
-		pthread_mutex_unlock(&servoParCore2.statusLock);
-		pthread_mutex_lock(&servoParCore3.statusLock);
-		while(servoParCore3.status == FOREC_CORE_REACTING) { pthread_cond_wait(&servoParCore3.statusCond, &servoParCore3.statusLock); }
-		pthread_mutex_unlock(&servoParCore3.statusLock);
 
 		pthread_mutex_lock(&servoParParent.parStatusLock);
 		servoParParent.parStatus = FOREC_PAR_OFF;
@@ -631,9 +553,6 @@ servoParHandlerMaster0: {
 		servoParParent.parId = -1;
 
 		// Set slave cores' status to reacting.
-		servoParCore1.status = FOREC_CORE_REACTING;
-		servoParCore2.status = FOREC_CORE_REACTING;
-		servoParCore3.status = FOREC_CORE_REACTING;
 
 		// Increment the reaction counter for synchronisation.
 		pthread_mutex_lock(&servoParReactionCounterLock);
@@ -716,15 +635,6 @@ mainReactionEndMaster0: {
 	pthread_mutex_unlock(&mainParCore0.statusLock);
 	
 	// Wait for other cores to complete their reaction.
-	pthread_mutex_lock(&mainParCore1.statusLock);
-	while(mainParCore1.status == FOREC_CORE_REACTING) { pthread_cond_wait(&mainParCore1.statusCond, &mainParCore1.statusLock); }
-	pthread_mutex_unlock(&mainParCore1.statusLock);
-	pthread_mutex_lock(&mainParCore2.statusLock);
-	while(mainParCore2.status == FOREC_CORE_REACTING) { pthread_cond_wait(&mainParCore2.statusCond, &mainParCore2.statusLock); }
-	pthread_mutex_unlock(&mainParCore2.statusLock);
-	pthread_mutex_lock(&mainParCore3.statusLock);
-	while(mainParCore3.status == FOREC_CORE_REACTING) { pthread_cond_wait(&mainParCore3.statusCond, &mainParCore3.statusLock); }
-	pthread_mutex_unlock(&mainParCore3.statusLock);
 
 	// Reset the mutex.
 	forec_mutex_value_servo = -1;
@@ -749,7 +659,7 @@ mainReactionEndMaster0: {
 	}
 
 	// Return back to the parent thread if all the cores have terminated.
-	if (1 && mainParCore0.status == FOREC_CORE_TERMINATED && mainParCore1.status == FOREC_CORE_TERMINATED && mainParCore2.status == FOREC_CORE_TERMINATED && mainParCore3.status == FOREC_CORE_TERMINATED) {
+	if (1 && mainParCore0.status == FOREC_CORE_TERMINATED) {
 		pthread_mutex_lock(&mainParParent.parStatusLock);
 		mainParParent.parStatus = FOREC_PAR_OFF;
 		pthread_cond_broadcast(&mainParParent.parStatusCond);
@@ -757,9 +667,6 @@ mainReactionEndMaster0: {
 		mainParParent.parId = -1;
 		
 		// Set slave cores' status to reacting
-		mainParCore1.status = FOREC_CORE_REACTING;
-		mainParCore2.status = FOREC_CORE_REACTING;
-		mainParCore3.status = FOREC_CORE_REACTING;
 
 		// Increment the reaction counter for synchronization.
 		pthread_mutex_lock(&mainParReactionCounterLock);
@@ -771,9 +678,6 @@ mainReactionEndMaster0: {
 	}
 
 	// Set slave cores' status to reacting
-	mainParCore1.status = FOREC_CORE_REACTING;
-	mainParCore2.status = FOREC_CORE_REACTING;
-	mainParCore3.status = FOREC_CORE_REACTING;
 
 	// forec:scheduler:counter:start
 	clockTimeUs.current = getClockTimeUs();
@@ -809,19 +713,10 @@ servoReactionEndMaster0: {
 	pthread_mutex_unlock(&servoParCore0.statusLock);
 	
 	// Wait for other cores to complete their reaction.
-	pthread_mutex_lock(&servoParCore1.statusLock);
-	while(servoParCore1.status == FOREC_CORE_REACTING) { pthread_cond_wait(&servoParCore1.statusCond, &servoParCore1.statusLock); }
-	pthread_mutex_unlock(&servoParCore1.statusLock);
-	pthread_mutex_lock(&servoParCore2.statusLock);
-	while(servoParCore2.status == FOREC_CORE_REACTING) { pthread_cond_wait(&servoParCore2.statusCond, &servoParCore2.statusLock); }
-	pthread_mutex_unlock(&servoParCore2.statusLock);
-	pthread_mutex_lock(&servoParCore3.statusLock);
-	while(servoParCore3.status == FOREC_CORE_REACTING) { pthread_cond_wait(&servoParCore3.statusCond, &servoParCore3.statusLock); }
-	pthread_mutex_unlock(&servoParCore3.statusLock);
 
 
 	// Return back to the parent thread if all the cores have terminated.
-	if (1 && servoParCore0.status == FOREC_CORE_TERMINATED && servoParCore1.status == FOREC_CORE_TERMINATED && servoParCore2.status == FOREC_CORE_TERMINATED && servoParCore3.status == FOREC_CORE_TERMINATED) {
+	if (1 && servoParCore0.status == FOREC_CORE_TERMINATED) {
 		forec_mutex_value_servo = -1;
 
 		pthread_mutex_lock(&servoParParent.parStatusLock);
@@ -831,9 +726,6 @@ servoReactionEndMaster0: {
 		servoParParent.parId = -1;
 		
 		// Set slave cores' status to reacting
-		servoParCore1.status = FOREC_CORE_REACTING;
-		servoParCore2.status = FOREC_CORE_REACTING;
-		servoParCore3.status = FOREC_CORE_REACTING;
 
 		// Increment the reaction counter for synchronization.
 		pthread_mutex_lock(&servoParReactionCounterLock);
@@ -853,9 +745,6 @@ servoReactionEndMaster0: {
 	}
 
 	// Set slave cores' status to reacting
-	servoParCore1.status = FOREC_CORE_REACTING;
-	servoParCore2.status = FOREC_CORE_REACTING;
-	servoParCore3.status = FOREC_CORE_REACTING;
 
 	// Increment the reaction counter for synchronization.
 	pthread_mutex_lock(&servoParReactionCounterLock);
@@ -908,1038 +797,6 @@ abortWeakImmediate0Check0: {
 }
 	// forec:scheduler:abortHandler:abortWeakImmediate0:0:end
 
-
-// forec:scheduler:parHandler:main:slave:1:start
-/*--------------------------------------------------------------
-| Slave core: core1
-*-------------------------------------------------------------*/
-mainParCore1: {
-	// Check the execution status of the root par(...)s.
-	pthread_mutex_lock(&mainParParent.parStatusLock);
-	while (mainParParent.parStatus == FOREC_PAR_OFF) {
-		if (programStatus == TERMINATED) {
-			pthread_mutex_unlock(&mainParParent.parStatusLock);
-			pthread_exit(NULL);
-		}
-		pthread_cond_wait(&mainParParent.parStatusCond, &mainParParent.parStatusLock);
-	}
-	pthread_mutex_unlock(&mainParParent.parStatusLock);
-
-	int parId = mainParParent.parId;
-
-	// Check the par(...) ID.
-	if (parId == 0) {
-		asm("# par0 start");
-		// Link the threads and handlers together.
-		mainReactionStartSlave1.programCounter = &&mainReactionStartSlave1;
-		abortStrongImmediate1Check1.programCounter = &&abortStrongImmediate1Check1;
-		mainReactionStartSlave1.nextThread = &abortStrongImmediate1Check1;
-		abortStrongImmediate1Check1.prevThread = &mainReactionStartSlave1;
-		servoParHandlerSlave1.programCounter = &&servoParHandlerSlave1;
-		abortStrongImmediate1Check1.nextThread = &servoParHandlerSlave1;
-		servoParHandlerSlave1.prevThread = &abortStrongImmediate1Check1;
-		failsafe__thread.programCounter = &&failsafe__thread;
-		servoParHandlerSlave1.nextThread = &failsafe__thread;
-		failsafe__thread.prevThread = &servoParHandlerSlave1;
-		abortWeakImmediate0Check1.programCounter = &&abortWeakImmediate0Check1;
-		failsafe__thread.nextThread = &abortWeakImmediate0Check1;
-		abortWeakImmediate0Check1.prevThread = &failsafe__thread;
-		mainReactionEndSlave1.programCounter = &&mainReactionEndSlave1;
-		abortWeakImmediate0Check1.nextThread = &mainReactionEndSlave1;
-		mainReactionEndSlave1.prevThread = &abortWeakImmediate0Check1;
-
-		// Link the last and first threads/handlers together.
-		mainReactionEndSlave1.nextThread = &mainReactionStartSlave1;
-		mainReactionStartSlave1.prevThread = &mainReactionEndSlave1;
-
-		// Set the core information.
-		mainParCore1.activeThreads = 2;
-		mainParCore1.reactionCounter = mainParReactionCounter;
-
-		// Go to the first thread.
-		goto servoParHandlerSlave1;
-		asm("# par0 end");
-	} else {
-		// Unscheduled par(...)
-		mainParCore1.reactionCounter = mainParReactionCounter;
-		
-		// Wait for the par(...) to terminate.
-		do {
-			pthread_mutex_lock(&mainParCore1.statusLock);
-			mainParCore1.status = FOREC_CORE_TERMINATED;
-			pthread_cond_signal(&mainParCore1.statusCond);
-			pthread_mutex_unlock(&mainParCore1.statusLock);
-			
-			// Wait for the next tick.
-			pthread_mutex_lock(&mainParReactionCounterLock);
-			while (mainParCore1.reactionCounter == mainParReactionCounter) { pthread_cond_wait(&mainParReactionCounterCond, &mainParReactionCounterLock); }
-			pthread_mutex_unlock(&mainParReactionCounterLock);
-			mainParCore1.reactionCounter++;
-			
-		} while (mainParParent.parStatus == FOREC_PAR_ON && mainParParent.parId == parId);
-		
-		// Go back to the top and wait for the next nested par(...) 
-		goto mainParCore1;
-	}
-	
-	// Control shouldn't reach here.
-	goto mainParCore1;
-}
-// forec:scheduler:parHandler:main:slave:1:end
-
-	// Nested par(...) handlers ------------------------------------
-	// forec:scheduler:parHandler:servo:slave:1:start
-	//-- Thread servo par(...) handlers
-servoParHandlerSlave1: {
-	// Synchronise the checking of the nested par(...) via a mutex.
-	while ((unsigned)(forec_mutex_value_servo & 0x80000000) == (unsigned)0x80000000);
-
-	// Check the execution status of the nested par(...)s.
-	if (servoParParent.parStatus == FOREC_PAR_OFF) {
-		goto *servoParHandlerSlave1.nextThread -> programCounter;
-	}
-
-	int parId = servoParParent.parId;
-
-	// Check the par(...) ID.
-	if (parId == 1) {
-		asm ("# par1 begin");
-		// Link the threads and handlers together.
-		servoReactionStartSlave1.programCounter = &&servoReactionStartSlave1;
-		servo1__thread.programCounter = &&servo1__thread;
-		servoReactionStartSlave1.nextThread = &servo1__thread;
-		servo1__thread.prevThread = &servoReactionStartSlave1;
-		servoReactionEndSlave1.programCounter = &&servoReactionEndSlave1;
-		servo1__thread.nextThread = &servoReactionEndSlave1;
-		servoReactionEndSlave1.prevThread = &servo1__thread;
-
-		// Swap the nested par handler with the linked list.
-		servoParHandlerSlave1.prevThread -> nextThread = &servoReactionStartSlave1;
-		servoReactionStartSlave1.prevThread = servoParHandlerSlave1.prevThread;
-		servoReactionEndSlave1.nextThread = servoParHandlerSlave1.nextThread;
-		servoParHandlerSlave1.nextThread -> prevThread = &servoReactionEndSlave1;
-		
-		// Set the core information.
-		servoParCore1.activeThreads = 1;
-		servoParCore1.reactionCounter = servoParReactionCounter;
-		
-		// Go to the first thread.
-		goto servo1__thread;
-		asm ("# par1 end");
-	} else if (parId == -2) {
-		// Iteration
-		servoParCore1.reactionCounter = servoParReactionCounter;
-		pthread_mutex_lock(&servoParCore1.statusLock);
-		servoParCore1.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&servoParCore1.statusCond);
-		pthread_mutex_unlock(&servoParCore1.statusLock);
-
-		// Wait for the next reaction.
-		pthread_mutex_lock(&servoParReactionCounterLock);
-		while (servoParCore1.reactionCounter == servoParReactionCounter) { pthread_cond_wait(&servoParReactionCounterCond, &servoParReactionCounterLock); }
-		pthread_mutex_unlock(&servoParReactionCounterLock);
-
-		// Go to the next thread.
-		goto servoParHandlerSlave1;
-	} else if (parId == -3) {
-		// Thread termination
-		mainParCore1.activeThreads--;
-		servoParCore1.activeThreads--;
-
-		servoParCore1.reactionCounter = servoParReactionCounter;
-		pthread_mutex_lock(&servoParCore1.statusLock);
-		servoParCore1.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&servoParCore1.statusCond);
-		pthread_mutex_unlock(&servoParCore1.statusLock);
-
-		// Wait for the next reaction.
-		pthread_mutex_lock(&servoParReactionCounterLock);
-		while (servoParCore1.reactionCounter == servoParReactionCounter) { pthread_cond_wait(&servoParReactionCounterCond, &servoParReactionCounterLock); }
-		pthread_mutex_unlock(&servoParReactionCounterLock);
-
-		// Delete this par(...) handler.
-		servoParHandlerSlave1.prevThread -> nextThread = servoParHandlerSlave1.nextThread;
-		servoParHandlerSlave1.nextThread -> prevThread = servoParHandlerSlave1.prevThread;
-			
-		// Go to the next thread.
-		goto *servoParHandlerSlave1.nextThread -> programCounter;
-	} else {
-		// Unscheduled par(...)
-		servoParCore1.reactionCounter = servoParReactionCounter;
-
-		servoParHandlerSlave1.programCounter = &&wrongParId_servoParHandlerSlave1;
-		wrongParId_servoParHandlerSlave1:;
-
-		pthread_mutex_lock(&servoParCore1.statusLock);
-		servoParCore1.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&servoParCore1.statusCond);
-		pthread_mutex_unlock(&servoParCore1.statusLock);
-
-		// Wait for the next tick.
-		pthread_mutex_lock(&servoParReactionCounterLock);
-		while (servoParCore1.reactionCounter == servoParReactionCounter) { pthread_cond_wait(&servoParReactionCounterCond, &servoParReactionCounterLock); }
-		pthread_mutex_unlock(&servoParReactionCounterLock);
-		servoParCore1.reactionCounter++;
-
-		// Wait for the par(...) to terminate.
-		if (servoParParent.parStatus == FOREC_PAR_ON && servoParParent.parId == parId) {
-			goto *servoParHandlerSlave1.nextThread -> programCounter;
-		}
-		
-		// Go back to the top and wait for the next nested par(...)
-		servoParHandlerSlave1.programCounter = &&servoParHandlerSlave1;
-		
-		goto servoParHandlerSlave1;
-	}
-	
-	// Control should not reach here.
-	goto servoParHandlerSlave1;
-}
-	// forec:scheduler:parHandler:servo:slave:1:end
- 
-
-	// Reaction start handlers ---------------------------------------
-	// forec:scheduler:reactionStart:main:slave:1:start
-	//-- main:
-mainReactionStartSlave1: {
-	// Go to the next thread.
-	goto *mainReactionStartSlave1.nextThread -> programCounter;
-}
-	// forec:scheduler:reactionStart:main:slave:1:end
- 
-	// forec:scheduler:reactionStart:servo:slave:1:start
-	//-- servo:
-servoReactionStartSlave1: {
-	// Go to the next thread.
-	goto *servoReactionStartSlave1.nextThread -> programCounter;
-}
-	// forec:scheduler:reactionStart:servo:slave:1:end
- 
-
-
-	// Reaction end handlers ---------------------------------------
-	// forec:scheduler:reactionEnd:main:slave:1:start
-	//-- main:
-mainReactionEndSlave1: {
-	// Determine if the core can still react or not.
-	if (mainParCore1.activeThreads) {
-		pthread_mutex_lock(&mainParCore1.statusLock);
-		mainParCore1.status = FOREC_CORE_REACTED;
-		pthread_cond_signal(&mainParCore1.statusCond);
-		pthread_mutex_unlock(&mainParCore1.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&mainParReactionCounterLock);
-		while (mainParCore1.reactionCounter == mainParReactionCounter) { pthread_cond_wait(&mainParReactionCounterCond, &mainParReactionCounterLock); }
-		pthread_mutex_unlock(&mainParReactionCounterLock);
-		mainParCore1.reactionCounter++;
-		
-		// Continue reacting.
-		goto *mainReactionEndSlave1.nextThread -> programCounter;
-	} else {
-		int parId = mainParParent.parId;
-
-		mainReactionEndSlave1.programCounter = &&terminated_mainReactionEndSlave1;
-		terminated_mainReactionEndSlave1:;
-		
-		pthread_mutex_lock(&mainParCore1.statusLock);
-		mainParCore1.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&mainParCore1.statusCond);
-		pthread_mutex_unlock(&mainParCore1.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&mainParReactionCounterLock);
-		while (mainParCore1.reactionCounter == mainParReactionCounter) { pthread_cond_wait(&mainParReactionCounterCond, &mainParReactionCounterLock); }
-		pthread_mutex_unlock(&mainParReactionCounterLock);
-		mainParCore1.reactionCounter++;
-		
-		// Wait for the par(...) to terminate.
-		if (mainParParent.parStatus == FOREC_PAR_ON && mainParParent.parId == parId) {
-			goto *mainReactionEndSlave1.nextThread -> programCounter;
-		}
-
-		goto mainParCore1;
-	}
-	
-	// Control shouldn't reach here.
-	goto mainReactionEndSlave1;
-}
-	// forec:scheduler:reactionEnd:main:slave:1:end
- 
-	// forec:scheduler:reactionEnd:servo:slave:1:start
-	//-- servo:
-servoReactionEndSlave1: {
-	// Determine if the core can still react or not.
-	if (servoParCore1.activeThreads) {
-		pthread_mutex_lock(&servoParCore1.statusLock);
-		servoParCore1.status = FOREC_CORE_REACTED;
-		pthread_cond_signal(&servoParCore1.statusCond);
-		pthread_mutex_unlock(&servoParCore1.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&servoParReactionCounterLock);
-		while (servoParCore1.reactionCounter == servoParReactionCounter) { pthread_cond_wait(&servoParReactionCounterCond, &servoParReactionCounterLock); }
-		pthread_mutex_unlock(&servoParReactionCounterLock);
-		servoParCore1.reactionCounter++;
-		
-		// Continue reacting.
-		goto *servoReactionEndSlave1.nextThread -> programCounter;
-	} else {
-		int parId = servoParParent.parId;
-
-		servoReactionEndSlave1.programCounter = &&terminated_servoReactionEndSlave1;
-		terminated_servoReactionEndSlave1:;
-		
-		pthread_mutex_lock(&servoParCore1.statusLock);
-		servoParCore1.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&servoParCore1.statusCond);
-		pthread_mutex_unlock(&servoParCore1.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&servoParReactionCounterLock);
-		while (servoParCore1.reactionCounter == servoParReactionCounter) { pthread_cond_wait(&servoParReactionCounterCond, &servoParReactionCounterLock); }
-		pthread_mutex_unlock(&servoParReactionCounterLock);
-		servoParCore1.reactionCounter++;
-		
-		// Wait for the par(...) to terminate.
-		if (servoParParent.parStatus == FOREC_PAR_ON && servoParParent.parId == parId) {
-			goto *servoReactionEndSlave1.nextThread -> programCounter;
-		}
-
-		// Swap the reaction (start & end) handlers with the nested par handler.
-		servoReactionStartSlave1.prevThread -> nextThread = &servoParHandlerSlave1;
-		servoParHandlerSlave1.prevThread = servoReactionStartSlave1.prevThread;
-		servoParHandlerSlave1.nextThread = servoReactionEndSlave1.nextThread;
-		servoReactionEndSlave1.nextThread -> prevThread = &servoParHandlerSlave1;
-		goto servoParHandlerSlave1;
-	}
-	
-	// Control shouldn't reach here.
-	goto servoReactionEndSlave1;
-}
-	// forec:scheduler:reactionEnd:servo:slave:1:end
- 
-
-
-	// Abort check handlers ----------------------------------------
-	// forec:scheduler:abortHandler:abortStrongImmediate1:1:start
-	// abortStrongImmediate1 (terminate__global_0_0.value)
-abortStrongImmediate1Check1: {
-	// Check the abort condition.
-	if (terminate__global_0_0.value) {
-		// Force the reaction end handler to terminate the par(...).
-		mainParCore1.activeThreads = 0;
-		
-		goto mainReactionEndSlave1;
-	}
-	
-	// Continue to the next thread.
-	goto *abortStrongImmediate1Check1.nextThread -> programCounter;
-}
-	// forec:scheduler:abortHandler:abortStrongImmediate1:1:end
-	// forec:scheduler:abortHandler:abortWeakImmediate0:1:start
-	// abortWeakImmediate0 (!isSafe__global_0_0.value)
-abortWeakImmediate0Check1: {
-	// Check the abort condition.
-	if (!isSafe__global_0_0.value) {
-		// Force the reaction end handler to terminate the par(...).
-		mainParCore1.activeThreads = 0;
-		
-		goto mainReactionEndSlave1;
-	}
-	
-	// Continue to the next thread.
-	goto *abortWeakImmediate0Check1.nextThread -> programCounter;
-}
-	// forec:scheduler:abortHandler:abortWeakImmediate0:1:end
-
-// forec:scheduler:parHandler:main:slave:2:start
-/*--------------------------------------------------------------
-| Slave core: core2
-*-------------------------------------------------------------*/
-mainParCore2: {
-	// Check the execution status of the root par(...)s.
-	pthread_mutex_lock(&mainParParent.parStatusLock);
-	while (mainParParent.parStatus == FOREC_PAR_OFF) {
-		if (programStatus == TERMINATED) {
-			pthread_mutex_unlock(&mainParParent.parStatusLock);
-			pthread_exit(NULL);
-		}
-		pthread_cond_wait(&mainParParent.parStatusCond, &mainParParent.parStatusLock);
-	}
-	pthread_mutex_unlock(&mainParParent.parStatusLock);
-
-	int parId = mainParParent.parId;
-
-	// Check the par(...) ID.
-	if (parId == 0) {
-		asm("# par0 start");
-		// Link the threads and handlers together.
-		mainReactionStartSlave2.programCounter = &&mainReactionStartSlave2;
-		abortStrongImmediate1Check2.programCounter = &&abortStrongImmediate1Check2;
-		mainReactionStartSlave2.nextThread = &abortStrongImmediate1Check2;
-		abortStrongImmediate1Check2.prevThread = &mainReactionStartSlave2;
-		servoParHandlerSlave2.programCounter = &&servoParHandlerSlave2;
-		abortStrongImmediate1Check2.nextThread = &servoParHandlerSlave2;
-		servoParHandlerSlave2.prevThread = &abortStrongImmediate1Check2;
-		timer__thread.programCounter = &&timer__thread;
-		servoParHandlerSlave2.nextThread = &timer__thread;
-		timer__thread.prevThread = &servoParHandlerSlave2;
-		abortWeakImmediate0Check2.programCounter = &&abortWeakImmediate0Check2;
-		timer__thread.nextThread = &abortWeakImmediate0Check2;
-		abortWeakImmediate0Check2.prevThread = &timer__thread;
-		mainReactionEndSlave2.programCounter = &&mainReactionEndSlave2;
-		abortWeakImmediate0Check2.nextThread = &mainReactionEndSlave2;
-		mainReactionEndSlave2.prevThread = &abortWeakImmediate0Check2;
-
-		// Link the last and first threads/handlers together.
-		mainReactionEndSlave2.nextThread = &mainReactionStartSlave2;
-		mainReactionStartSlave2.prevThread = &mainReactionEndSlave2;
-
-		// Set the core information.
-		mainParCore2.activeThreads = 2;
-		mainParCore2.reactionCounter = mainParReactionCounter;
-
-		// Go to the first thread.
-		goto servoParHandlerSlave2;
-		asm("# par0 end");
-	} else {
-		// Unscheduled par(...)
-		mainParCore2.reactionCounter = mainParReactionCounter;
-		
-		// Wait for the par(...) to terminate.
-		do {
-			pthread_mutex_lock(&mainParCore2.statusLock);
-			mainParCore2.status = FOREC_CORE_TERMINATED;
-			pthread_cond_signal(&mainParCore2.statusCond);
-			pthread_mutex_unlock(&mainParCore2.statusLock);
-			
-			// Wait for the next tick.
-			pthread_mutex_lock(&mainParReactionCounterLock);
-			while (mainParCore2.reactionCounter == mainParReactionCounter) { pthread_cond_wait(&mainParReactionCounterCond, &mainParReactionCounterLock); }
-			pthread_mutex_unlock(&mainParReactionCounterLock);
-			mainParCore2.reactionCounter++;
-			
-		} while (mainParParent.parStatus == FOREC_PAR_ON && mainParParent.parId == parId);
-		
-		// Go back to the top and wait for the next nested par(...) 
-		goto mainParCore2;
-	}
-	
-	// Control shouldn't reach here.
-	goto mainParCore2;
-}
-// forec:scheduler:parHandler:main:slave:2:end
-
-	// Nested par(...) handlers ------------------------------------
-	// forec:scheduler:parHandler:servo:slave:2:start
-	//-- Thread servo par(...) handlers
-servoParHandlerSlave2: {
-	// Synchronise the checking of the nested par(...) via a mutex.
-	while ((unsigned)(forec_mutex_value_servo & 0x80000000) == (unsigned)0x80000000);
-
-	// Check the execution status of the nested par(...)s.
-	if (servoParParent.parStatus == FOREC_PAR_OFF) {
-		goto *servoParHandlerSlave2.nextThread -> programCounter;
-	}
-
-	int parId = servoParParent.parId;
-
-	// Check the par(...) ID.
-	if (parId == 1) {
-		asm ("# par1 begin");
-		// Link the threads and handlers together.
-		servoReactionStartSlave2.programCounter = &&servoReactionStartSlave2;
-		servo2__thread.programCounter = &&servo2__thread;
-		servoReactionStartSlave2.nextThread = &servo2__thread;
-		servo2__thread.prevThread = &servoReactionStartSlave2;
-		servoReactionEndSlave2.programCounter = &&servoReactionEndSlave2;
-		servo2__thread.nextThread = &servoReactionEndSlave2;
-		servoReactionEndSlave2.prevThread = &servo2__thread;
-
-		// Swap the nested par handler with the linked list.
-		servoParHandlerSlave2.prevThread -> nextThread = &servoReactionStartSlave2;
-		servoReactionStartSlave2.prevThread = servoParHandlerSlave2.prevThread;
-		servoReactionEndSlave2.nextThread = servoParHandlerSlave2.nextThread;
-		servoParHandlerSlave2.nextThread -> prevThread = &servoReactionEndSlave2;
-		
-		// Set the core information.
-		servoParCore2.activeThreads = 1;
-		servoParCore2.reactionCounter = servoParReactionCounter;
-		
-		// Go to the first thread.
-		goto servo2__thread;
-		asm ("# par1 end");
-	} else if (parId == -2) {
-		// Iteration
-		servoParCore2.reactionCounter = servoParReactionCounter;
-		pthread_mutex_lock(&servoParCore2.statusLock);
-		servoParCore2.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&servoParCore2.statusCond);
-		pthread_mutex_unlock(&servoParCore2.statusLock);
-
-		// Wait for the next reaction.
-		pthread_mutex_lock(&servoParReactionCounterLock);
-		while (servoParCore2.reactionCounter == servoParReactionCounter) { pthread_cond_wait(&servoParReactionCounterCond, &servoParReactionCounterLock); }
-		pthread_mutex_unlock(&servoParReactionCounterLock);
-
-		// Go to the next thread.
-		goto servoParHandlerSlave2;
-	} else if (parId == -3) {
-		// Thread termination
-		mainParCore2.activeThreads--;
-		servoParCore2.activeThreads--;
-
-		servoParCore2.reactionCounter = servoParReactionCounter;
-		pthread_mutex_lock(&servoParCore2.statusLock);
-		servoParCore2.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&servoParCore2.statusCond);
-		pthread_mutex_unlock(&servoParCore2.statusLock);
-
-		// Wait for the next reaction.
-		pthread_mutex_lock(&servoParReactionCounterLock);
-		while (servoParCore2.reactionCounter == servoParReactionCounter) { pthread_cond_wait(&servoParReactionCounterCond, &servoParReactionCounterLock); }
-		pthread_mutex_unlock(&servoParReactionCounterLock);
-
-		// Delete this par(...) handler.
-		servoParHandlerSlave2.prevThread -> nextThread = servoParHandlerSlave2.nextThread;
-		servoParHandlerSlave2.nextThread -> prevThread = servoParHandlerSlave2.prevThread;
-			
-		// Go to the next thread.
-		goto *servoParHandlerSlave2.nextThread -> programCounter;
-	} else {
-		// Unscheduled par(...)
-		servoParCore2.reactionCounter = servoParReactionCounter;
-
-		servoParHandlerSlave2.programCounter = &&wrongParId_servoParHandlerSlave2;
-		wrongParId_servoParHandlerSlave2:;
-
-		pthread_mutex_lock(&servoParCore2.statusLock);
-		servoParCore2.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&servoParCore2.statusCond);
-		pthread_mutex_unlock(&servoParCore2.statusLock);
-
-		// Wait for the next tick.
-		pthread_mutex_lock(&servoParReactionCounterLock);
-		while (servoParCore2.reactionCounter == servoParReactionCounter) { pthread_cond_wait(&servoParReactionCounterCond, &servoParReactionCounterLock); }
-		pthread_mutex_unlock(&servoParReactionCounterLock);
-		servoParCore2.reactionCounter++;
-
-		// Wait for the par(...) to terminate.
-		if (servoParParent.parStatus == FOREC_PAR_ON && servoParParent.parId == parId) {
-			goto *servoParHandlerSlave2.nextThread -> programCounter;
-		}
-		
-		// Go back to the top and wait for the next nested par(...)
-		servoParHandlerSlave2.programCounter = &&servoParHandlerSlave2;
-		
-		goto servoParHandlerSlave2;
-	}
-	
-	// Control should not reach here.
-	goto servoParHandlerSlave2;
-}
-	// forec:scheduler:parHandler:servo:slave:2:end
- 
-
-	// Reaction start handlers ---------------------------------------
-	// forec:scheduler:reactionStart:main:slave:2:start
-	//-- main:
-mainReactionStartSlave2: {
-	// Go to the next thread.
-	goto *mainReactionStartSlave2.nextThread -> programCounter;
-}
-	// forec:scheduler:reactionStart:main:slave:2:end
- 
-	// forec:scheduler:reactionStart:servo:slave:2:start
-	//-- servo:
-servoReactionStartSlave2: {
-	// Go to the next thread.
-	goto *servoReactionStartSlave2.nextThread -> programCounter;
-}
-	// forec:scheduler:reactionStart:servo:slave:2:end
- 
-
-
-	// Reaction end handlers ---------------------------------------
-	// forec:scheduler:reactionEnd:main:slave:2:start
-	//-- main:
-mainReactionEndSlave2: {
-	// Determine if the core can still react or not.
-	if (mainParCore2.activeThreads) {
-		pthread_mutex_lock(&mainParCore2.statusLock);
-		mainParCore2.status = FOREC_CORE_REACTED;
-		pthread_cond_signal(&mainParCore2.statusCond);
-		pthread_mutex_unlock(&mainParCore2.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&mainParReactionCounterLock);
-		while (mainParCore2.reactionCounter == mainParReactionCounter) { pthread_cond_wait(&mainParReactionCounterCond, &mainParReactionCounterLock); }
-		pthread_mutex_unlock(&mainParReactionCounterLock);
-		mainParCore2.reactionCounter++;
-		
-		// Continue reacting.
-		goto *mainReactionEndSlave2.nextThread -> programCounter;
-	} else {
-		int parId = mainParParent.parId;
-
-		mainReactionEndSlave2.programCounter = &&terminated_mainReactionEndSlave2;
-		terminated_mainReactionEndSlave2:;
-		
-		pthread_mutex_lock(&mainParCore2.statusLock);
-		mainParCore2.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&mainParCore2.statusCond);
-		pthread_mutex_unlock(&mainParCore2.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&mainParReactionCounterLock);
-		while (mainParCore2.reactionCounter == mainParReactionCounter) { pthread_cond_wait(&mainParReactionCounterCond, &mainParReactionCounterLock); }
-		pthread_mutex_unlock(&mainParReactionCounterLock);
-		mainParCore2.reactionCounter++;
-		
-		// Wait for the par(...) to terminate.
-		if (mainParParent.parStatus == FOREC_PAR_ON && mainParParent.parId == parId) {
-			goto *mainReactionEndSlave2.nextThread -> programCounter;
-		}
-
-		goto mainParCore2;
-	}
-	
-	// Control shouldn't reach here.
-	goto mainReactionEndSlave2;
-}
-	// forec:scheduler:reactionEnd:main:slave:2:end
- 
-	// forec:scheduler:reactionEnd:servo:slave:2:start
-	//-- servo:
-servoReactionEndSlave2: {
-	// Determine if the core can still react or not.
-	if (servoParCore2.activeThreads) {
-		pthread_mutex_lock(&servoParCore2.statusLock);
-		servoParCore2.status = FOREC_CORE_REACTED;
-		pthread_cond_signal(&servoParCore2.statusCond);
-		pthread_mutex_unlock(&servoParCore2.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&servoParReactionCounterLock);
-		while (servoParCore2.reactionCounter == servoParReactionCounter) { pthread_cond_wait(&servoParReactionCounterCond, &servoParReactionCounterLock); }
-		pthread_mutex_unlock(&servoParReactionCounterLock);
-		servoParCore2.reactionCounter++;
-		
-		// Continue reacting.
-		goto *servoReactionEndSlave2.nextThread -> programCounter;
-	} else {
-		int parId = servoParParent.parId;
-
-		servoReactionEndSlave2.programCounter = &&terminated_servoReactionEndSlave2;
-		terminated_servoReactionEndSlave2:;
-		
-		pthread_mutex_lock(&servoParCore2.statusLock);
-		servoParCore2.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&servoParCore2.statusCond);
-		pthread_mutex_unlock(&servoParCore2.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&servoParReactionCounterLock);
-		while (servoParCore2.reactionCounter == servoParReactionCounter) { pthread_cond_wait(&servoParReactionCounterCond, &servoParReactionCounterLock); }
-		pthread_mutex_unlock(&servoParReactionCounterLock);
-		servoParCore2.reactionCounter++;
-		
-		// Wait for the par(...) to terminate.
-		if (servoParParent.parStatus == FOREC_PAR_ON && servoParParent.parId == parId) {
-			goto *servoReactionEndSlave2.nextThread -> programCounter;
-		}
-
-		// Swap the reaction (start & end) handlers with the nested par handler.
-		servoReactionStartSlave2.prevThread -> nextThread = &servoParHandlerSlave2;
-		servoParHandlerSlave2.prevThread = servoReactionStartSlave2.prevThread;
-		servoParHandlerSlave2.nextThread = servoReactionEndSlave2.nextThread;
-		servoReactionEndSlave2.nextThread -> prevThread = &servoParHandlerSlave2;
-		goto servoParHandlerSlave2;
-	}
-	
-	// Control shouldn't reach here.
-	goto servoReactionEndSlave2;
-}
-	// forec:scheduler:reactionEnd:servo:slave:2:end
- 
-
-
-	// Abort check handlers ----------------------------------------
-	// forec:scheduler:abortHandler:abortStrongImmediate1:2:start
-	// abortStrongImmediate1 (terminate__global_0_0.value)
-abortStrongImmediate1Check2: {
-	// Check the abort condition.
-	if (terminate__global_0_0.value) {
-		// Force the reaction end handler to terminate the par(...).
-		mainParCore2.activeThreads = 0;
-		
-		goto mainReactionEndSlave2;
-	}
-	
-	// Continue to the next thread.
-	goto *abortStrongImmediate1Check2.nextThread -> programCounter;
-}
-	// forec:scheduler:abortHandler:abortStrongImmediate1:2:end
-	// forec:scheduler:abortHandler:abortWeakImmediate0:2:start
-	// abortWeakImmediate0 (!isSafe__global_0_0.value)
-abortWeakImmediate0Check2: {
-	// Check the abort condition.
-	if (!isSafe__global_0_0.value) {
-		// Force the reaction end handler to terminate the par(...).
-		mainParCore2.activeThreads = 0;
-		
-		goto mainReactionEndSlave2;
-	}
-	
-	// Continue to the next thread.
-	goto *abortWeakImmediate0Check2.nextThread -> programCounter;
-}
-	// forec:scheduler:abortHandler:abortWeakImmediate0:2:end
-
-// forec:scheduler:parHandler:main:slave:3:start
-/*--------------------------------------------------------------
-| Slave core: core3
-*-------------------------------------------------------------*/
-mainParCore3: {
-	// Check the execution status of the root par(...)s.
-	pthread_mutex_lock(&mainParParent.parStatusLock);
-	while (mainParParent.parStatus == FOREC_PAR_OFF) {
-		if (programStatus == TERMINATED) {
-			pthread_mutex_unlock(&mainParParent.parStatusLock);
-			pthread_exit(NULL);
-		}
-		pthread_cond_wait(&mainParParent.parStatusCond, &mainParParent.parStatusLock);
-	}
-	pthread_mutex_unlock(&mainParParent.parStatusLock);
-
-	int parId = mainParParent.parId;
-
-	// Check the par(...) ID.
-	if (parId == 0) {
-		asm("# par0 start");
-		// Link the threads and handlers together.
-		mainReactionStartSlave3.programCounter = &&mainReactionStartSlave3;
-		abortStrongImmediate1Check3.programCounter = &&abortStrongImmediate1Check3;
-		mainReactionStartSlave3.nextThread = &abortStrongImmediate1Check3;
-		abortStrongImmediate1Check3.prevThread = &mainReactionStartSlave3;
-		servoParHandlerSlave3.programCounter = &&servoParHandlerSlave3;
-		abortStrongImmediate1Check3.nextThread = &servoParHandlerSlave3;
-		servoParHandlerSlave3.prevThread = &abortStrongImmediate1Check3;
-		flight__thread.programCounter = &&flight__thread;
-		servoParHandlerSlave3.nextThread = &flight__thread;
-		flight__thread.prevThread = &servoParHandlerSlave3;
-		abortWeakImmediate0Check3.programCounter = &&abortWeakImmediate0Check3;
-		flight__thread.nextThread = &abortWeakImmediate0Check3;
-		abortWeakImmediate0Check3.prevThread = &flight__thread;
-		mainReactionEndSlave3.programCounter = &&mainReactionEndSlave3;
-		abortWeakImmediate0Check3.nextThread = &mainReactionEndSlave3;
-		mainReactionEndSlave3.prevThread = &abortWeakImmediate0Check3;
-
-		// Link the last and first threads/handlers together.
-		mainReactionEndSlave3.nextThread = &mainReactionStartSlave3;
-		mainReactionStartSlave3.prevThread = &mainReactionEndSlave3;
-
-		// Set the core information.
-		mainParCore3.activeThreads = 2;
-		mainParCore3.reactionCounter = mainParReactionCounter;
-
-		// Go to the first thread.
-		goto servoParHandlerSlave3;
-		asm("# par0 end");
-	} else {
-		// Unscheduled par(...)
-		mainParCore3.reactionCounter = mainParReactionCounter;
-		
-		// Wait for the par(...) to terminate.
-		do {
-			pthread_mutex_lock(&mainParCore3.statusLock);
-			mainParCore3.status = FOREC_CORE_TERMINATED;
-			pthread_cond_signal(&mainParCore3.statusCond);
-			pthread_mutex_unlock(&mainParCore3.statusLock);
-			
-			// Wait for the next tick.
-			pthread_mutex_lock(&mainParReactionCounterLock);
-			while (mainParCore3.reactionCounter == mainParReactionCounter) { pthread_cond_wait(&mainParReactionCounterCond, &mainParReactionCounterLock); }
-			pthread_mutex_unlock(&mainParReactionCounterLock);
-			mainParCore3.reactionCounter++;
-			
-		} while (mainParParent.parStatus == FOREC_PAR_ON && mainParParent.parId == parId);
-		
-		// Go back to the top and wait for the next nested par(...) 
-		goto mainParCore3;
-	}
-	
-	// Control shouldn't reach here.
-	goto mainParCore3;
-}
-// forec:scheduler:parHandler:main:slave:3:end
-
-	// Nested par(...) handlers ------------------------------------
-	// forec:scheduler:parHandler:servo:slave:3:start
-	//-- Thread servo par(...) handlers
-servoParHandlerSlave3: {
-	// Synchronise the checking of the nested par(...) via a mutex.
-	while ((unsigned)(forec_mutex_value_servo & 0x80000000) == (unsigned)0x80000000);
-
-	// Check the execution status of the nested par(...)s.
-	if (servoParParent.parStatus == FOREC_PAR_OFF) {
-		goto *servoParHandlerSlave3.nextThread -> programCounter;
-	}
-
-	int parId = servoParParent.parId;
-
-	// Check the par(...) ID.
-	if (parId == 1) {
-		asm ("# par1 begin");
-		// Link the threads and handlers together.
-		servoReactionStartSlave3.programCounter = &&servoReactionStartSlave3;
-		servo3__thread.programCounter = &&servo3__thread;
-		servoReactionStartSlave3.nextThread = &servo3__thread;
-		servo3__thread.prevThread = &servoReactionStartSlave3;
-		servoReactionEndSlave3.programCounter = &&servoReactionEndSlave3;
-		servo3__thread.nextThread = &servoReactionEndSlave3;
-		servoReactionEndSlave3.prevThread = &servo3__thread;
-
-		// Swap the nested par handler with the linked list.
-		servoParHandlerSlave3.prevThread -> nextThread = &servoReactionStartSlave3;
-		servoReactionStartSlave3.prevThread = servoParHandlerSlave3.prevThread;
-		servoReactionEndSlave3.nextThread = servoParHandlerSlave3.nextThread;
-		servoParHandlerSlave3.nextThread -> prevThread = &servoReactionEndSlave3;
-		
-		// Set the core information.
-		servoParCore3.activeThreads = 1;
-		servoParCore3.reactionCounter = servoParReactionCounter;
-		
-		// Go to the first thread.
-		goto servo3__thread;
-		asm ("# par1 end");
-	} else if (parId == -2) {
-		// Iteration
-		servoParCore3.reactionCounter = servoParReactionCounter;
-		pthread_mutex_lock(&servoParCore3.statusLock);
-		servoParCore3.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&servoParCore3.statusCond);
-		pthread_mutex_unlock(&servoParCore3.statusLock);
-
-		// Wait for the next reaction.
-		pthread_mutex_lock(&servoParReactionCounterLock);
-		while (servoParCore3.reactionCounter == servoParReactionCounter) { pthread_cond_wait(&servoParReactionCounterCond, &servoParReactionCounterLock); }
-		pthread_mutex_unlock(&servoParReactionCounterLock);
-
-		// Go to the next thread.
-		goto servoParHandlerSlave3;
-	} else if (parId == -3) {
-		// Thread termination
-		mainParCore3.activeThreads--;
-		servoParCore3.activeThreads--;
-
-		servoParCore3.reactionCounter = servoParReactionCounter;
-		pthread_mutex_lock(&servoParCore3.statusLock);
-		servoParCore3.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&servoParCore3.statusCond);
-		pthread_mutex_unlock(&servoParCore3.statusLock);
-
-		// Wait for the next reaction.
-		pthread_mutex_lock(&servoParReactionCounterLock);
-		while (servoParCore3.reactionCounter == servoParReactionCounter) { pthread_cond_wait(&servoParReactionCounterCond, &servoParReactionCounterLock); }
-		pthread_mutex_unlock(&servoParReactionCounterLock);
-
-		// Delete this par(...) handler.
-		servoParHandlerSlave3.prevThread -> nextThread = servoParHandlerSlave3.nextThread;
-		servoParHandlerSlave3.nextThread -> prevThread = servoParHandlerSlave3.prevThread;
-			
-		// Go to the next thread.
-		goto *servoParHandlerSlave3.nextThread -> programCounter;
-	} else {
-		// Unscheduled par(...)
-		servoParCore3.reactionCounter = servoParReactionCounter;
-
-		servoParHandlerSlave3.programCounter = &&wrongParId_servoParHandlerSlave3;
-		wrongParId_servoParHandlerSlave3:;
-
-		pthread_mutex_lock(&servoParCore3.statusLock);
-		servoParCore3.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&servoParCore3.statusCond);
-		pthread_mutex_unlock(&servoParCore3.statusLock);
-
-		// Wait for the next tick.
-		pthread_mutex_lock(&servoParReactionCounterLock);
-		while (servoParCore3.reactionCounter == servoParReactionCounter) { pthread_cond_wait(&servoParReactionCounterCond, &servoParReactionCounterLock); }
-		pthread_mutex_unlock(&servoParReactionCounterLock);
-		servoParCore3.reactionCounter++;
-
-		// Wait for the par(...) to terminate.
-		if (servoParParent.parStatus == FOREC_PAR_ON && servoParParent.parId == parId) {
-			goto *servoParHandlerSlave3.nextThread -> programCounter;
-		}
-		
-		// Go back to the top and wait for the next nested par(...)
-		servoParHandlerSlave3.programCounter = &&servoParHandlerSlave3;
-		
-		goto servoParHandlerSlave3;
-	}
-	
-	// Control should not reach here.
-	goto servoParHandlerSlave3;
-}
-	// forec:scheduler:parHandler:servo:slave:3:end
- 
-
-	// Reaction start handlers ---------------------------------------
-	// forec:scheduler:reactionStart:main:slave:3:start
-	//-- main:
-mainReactionStartSlave3: {
-	// Go to the next thread.
-	goto *mainReactionStartSlave3.nextThread -> programCounter;
-}
-	// forec:scheduler:reactionStart:main:slave:3:end
- 
-	// forec:scheduler:reactionStart:servo:slave:3:start
-	//-- servo:
-servoReactionStartSlave3: {
-	// Go to the next thread.
-	goto *servoReactionStartSlave3.nextThread -> programCounter;
-}
-	// forec:scheduler:reactionStart:servo:slave:3:end
- 
-
-
-	// Reaction end handlers ---------------------------------------
-	// forec:scheduler:reactionEnd:main:slave:3:start
-	//-- main:
-mainReactionEndSlave3: {
-	// Determine if the core can still react or not.
-	if (mainParCore3.activeThreads) {
-		pthread_mutex_lock(&mainParCore3.statusLock);
-		mainParCore3.status = FOREC_CORE_REACTED;
-		pthread_cond_signal(&mainParCore3.statusCond);
-		pthread_mutex_unlock(&mainParCore3.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&mainParReactionCounterLock);
-		while (mainParCore3.reactionCounter == mainParReactionCounter) { pthread_cond_wait(&mainParReactionCounterCond, &mainParReactionCounterLock); }
-		pthread_mutex_unlock(&mainParReactionCounterLock);
-		mainParCore3.reactionCounter++;
-		
-		// Continue reacting.
-		goto *mainReactionEndSlave3.nextThread -> programCounter;
-	} else {
-		int parId = mainParParent.parId;
-
-		mainReactionEndSlave3.programCounter = &&terminated_mainReactionEndSlave3;
-		terminated_mainReactionEndSlave3:;
-		
-		pthread_mutex_lock(&mainParCore3.statusLock);
-		mainParCore3.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&mainParCore3.statusCond);
-		pthread_mutex_unlock(&mainParCore3.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&mainParReactionCounterLock);
-		while (mainParCore3.reactionCounter == mainParReactionCounter) { pthread_cond_wait(&mainParReactionCounterCond, &mainParReactionCounterLock); }
-		pthread_mutex_unlock(&mainParReactionCounterLock);
-		mainParCore3.reactionCounter++;
-		
-		// Wait for the par(...) to terminate.
-		if (mainParParent.parStatus == FOREC_PAR_ON && mainParParent.parId == parId) {
-			goto *mainReactionEndSlave3.nextThread -> programCounter;
-		}
-
-		goto mainParCore3;
-	}
-	
-	// Control shouldn't reach here.
-	goto mainReactionEndSlave3;
-}
-	// forec:scheduler:reactionEnd:main:slave:3:end
- 
-	// forec:scheduler:reactionEnd:servo:slave:3:start
-	//-- servo:
-servoReactionEndSlave3: {
-	// Determine if the core can still react or not.
-	if (servoParCore3.activeThreads) {
-		pthread_mutex_lock(&servoParCore3.statusLock);
-		servoParCore3.status = FOREC_CORE_REACTED;
-		pthread_cond_signal(&servoParCore3.statusCond);
-		pthread_mutex_unlock(&servoParCore3.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&servoParReactionCounterLock);
-		while (servoParCore3.reactionCounter == servoParReactionCounter) { pthread_cond_wait(&servoParReactionCounterCond, &servoParReactionCounterLock); }
-		pthread_mutex_unlock(&servoParReactionCounterLock);
-		servoParCore3.reactionCounter++;
-		
-		// Continue reacting.
-		goto *servoReactionEndSlave3.nextThread -> programCounter;
-	} else {
-		int parId = servoParParent.parId;
-
-		servoReactionEndSlave3.programCounter = &&terminated_servoReactionEndSlave3;
-		terminated_servoReactionEndSlave3:;
-		
-		pthread_mutex_lock(&servoParCore3.statusLock);
-		servoParCore3.status = FOREC_CORE_TERMINATED;
-		pthread_cond_signal(&servoParCore3.statusCond);
-		pthread_mutex_unlock(&servoParCore3.statusLock);
-		
-		// Wait for the next tick.
-		pthread_mutex_lock(&servoParReactionCounterLock);
-		while (servoParCore3.reactionCounter == servoParReactionCounter) { pthread_cond_wait(&servoParReactionCounterCond, &servoParReactionCounterLock); }
-		pthread_mutex_unlock(&servoParReactionCounterLock);
-		servoParCore3.reactionCounter++;
-		
-		// Wait for the par(...) to terminate.
-		if (servoParParent.parStatus == FOREC_PAR_ON && servoParParent.parId == parId) {
-			goto *servoReactionEndSlave3.nextThread -> programCounter;
-		}
-
-		// Swap the reaction (start & end) handlers with the nested par handler.
-		servoReactionStartSlave3.prevThread -> nextThread = &servoParHandlerSlave3;
-		servoParHandlerSlave3.prevThread = servoReactionStartSlave3.prevThread;
-		servoParHandlerSlave3.nextThread = servoReactionEndSlave3.nextThread;
-		servoReactionEndSlave3.nextThread -> prevThread = &servoParHandlerSlave3;
-		goto servoParHandlerSlave3;
-	}
-	
-	// Control shouldn't reach here.
-	goto servoReactionEndSlave3;
-}
-	// forec:scheduler:reactionEnd:servo:slave:3:end
- 
-
-
-	// Abort check handlers ----------------------------------------
-	// forec:scheduler:abortHandler:abortStrongImmediate1:3:start
-	// abortStrongImmediate1 (terminate__global_0_0.value)
-abortStrongImmediate1Check3: {
-	// Check the abort condition.
-	if (terminate__global_0_0.value) {
-		// Force the reaction end handler to terminate the par(...).
-		mainParCore3.activeThreads = 0;
-		
-		goto mainReactionEndSlave3;
-	}
-	
-	// Continue to the next thread.
-	goto *abortStrongImmediate1Check3.nextThread -> programCounter;
-}
-	// forec:scheduler:abortHandler:abortStrongImmediate1:3:end
-	// forec:scheduler:abortHandler:abortWeakImmediate0:3:start
-	// abortWeakImmediate0 (!isSafe__global_0_0.value)
-abortWeakImmediate0Check3: {
-	// Check the abort condition.
-	if (!isSafe__global_0_0.value) {
-		// Force the reaction end handler to terminate the par(...).
-		mainParCore3.activeThreads = 0;
-		
-		goto mainReactionEndSlave3;
-	}
-	
-	// Continue to the next thread.
-	goto *abortWeakImmediate0Check3.nextThread -> programCounter;
-}
-	// forec:scheduler:abortHandler:abortWeakImmediate0:3:end
 
 
 
@@ -2011,7 +868,7 @@ abortWeakImmediate0Check3: {
 		// forec:scheduler:threadRemove:failsafe:start
 
 		// Delete thread from the linked list and core.
-		mainParCore1.activeThreads--;
+		mainParCore0.activeThreads--;
 		failsafe__thread.nextThread -> prevThread = failsafe__thread.prevThread;
 		failsafe__thread.prevThread -> nextThread = failsafe__thread.nextThread;
 		goto *failsafe__thread.nextThread -> programCounter;
@@ -2056,7 +913,7 @@ abortWeakImmediate0Check3: {
 		// forec:scheduler:threadRemove:flight:start
 
 		// Delete thread from the linked list and core.
-		mainParCore3.activeThreads--;
+		mainParCore0.activeThreads--;
 		flight__thread.nextThread -> prevThread = flight__thread.prevThread;
 		flight__thread.prevThread -> nextThread = flight__thread.nextThread;
 		goto *flight__thread.nextThread -> programCounter;
@@ -2194,7 +1051,7 @@ abortWeakImmediate0Check3: {
 		// forec:scheduler:threadRemove:servo1:start
 
 		// Delete thread from the linked list and core.
-		servoParCore1.activeThreads--;
+		servoParCore0.activeThreads--;
 		servo1__thread.nextThread -> prevThread = servo1__thread.prevThread;
 		servo1__thread.prevThread -> nextThread = servo1__thread.nextThread;
 		goto *servo1__thread.nextThread -> programCounter;
@@ -2226,7 +1083,7 @@ abortWeakImmediate0Check3: {
 		// forec:scheduler:threadRemove:servo2:start
 
 		// Delete thread from the linked list and core.
-		servoParCore2.activeThreads--;
+		servoParCore0.activeThreads--;
 		servo2__thread.nextThread -> prevThread = servo2__thread.prevThread;
 		servo2__thread.prevThread -> nextThread = servo2__thread.nextThread;
 		goto *servo2__thread.nextThread -> programCounter;
@@ -2258,7 +1115,7 @@ abortWeakImmediate0Check3: {
 		// forec:scheduler:threadRemove:servo3:start
 
 		// Delete thread from the linked list and core.
-		servoParCore3.activeThreads--;
+		servoParCore0.activeThreads--;
 		servo3__thread.nextThread -> prevThread = servo3__thread.prevThread;
 		servo3__thread.prevThread -> nextThread = servo3__thread.nextThread;
 		goto *servo3__thread.nextThread -> programCounter;
@@ -2334,7 +1191,7 @@ abortWeakImmediate0Check3: {
 		// forec:scheduler:threadRemove:timer:start
 
 		// Delete thread from the linked list and core.
-		mainParCore2.activeThreads--;
+		mainParCore0.activeThreads--;
 		timer__thread.nextThread -> prevThread = timer__thread.prevThread;
 		timer__thread.prevThread -> nextThread = timer__thread.nextThread;
 		goto *timer__thread.nextThread -> programCounter;

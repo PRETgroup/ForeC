@@ -37,10 +37,10 @@ void multiplyMatrix(int*** matrixA, int*** matrixB, int*** matrixC, const int st
  * Args    : args - Thread arguments.
  * Returns : NULL
  */
-int main(int argc, char *args[]) {
+int main(int argc, char *argv[]) {
 	int procNumber = 1;
 	if (argc == 2) {
-		procNumber = *args[1] - '0';
+		procNumber = *argv[1] - '0';
 	}
     
 	printf("Number of threads: %d\n", procNumber);

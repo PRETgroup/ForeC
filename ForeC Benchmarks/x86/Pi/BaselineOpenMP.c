@@ -5,20 +5,24 @@
 long double calculatePi(const int range, int threadId);
 
 int main(int argc, char **argv) {
-    const int THREADS = 4;
-    printf("Number of threads: %d\n", THREADS);
-    omp_set_num_threads(THREADS);
+	int procNumber = 1;
+	if (argc == 2) {
+		procNumber = *argv[1] - '0';
+	}
+    
+	printf("Number of threads: %d\n", procNumber);
+	omp_set_num_threads(procNumber);
     
     struct timeval startTime, endTime;
     gettimeofday(&startTime, 0);
     //- - - -
     
     const int RANGE = 1000000000;
-    const int SUBRANGE = RANGE/THREADS;
+    const int SUBRANGE = RANGE/procNumber;
     
     long double pi = 0;
-    #pragma omp parallel for reduction(+: pi)
-    for (int i = 0; i < THREADS; ++i) {
+    #pragma omp parallel for reduction(+:pi)
+    for (int i = 0; i < procNumber; ++i) {
         pi += calculatePi(SUBRANGE, i);
     }
     

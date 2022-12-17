@@ -10,7 +10,7 @@ else
 endif
 
 forec:
-	forecc Life.forec Life.4.foreh
+	forecc Life.forec Life.1.foreh
 
 c:
 	$(CC) $(CFLAGS) Life.c -o Life
