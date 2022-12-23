@@ -1,0 +1,48 @@
+/*Thread t1 */
+t1:
+asm("#@PRET_Thread start t1");
+{
+	static int d;
+	printf("my b %i \n",b);
+	EOT17
+	EOT_17:;
+	asm("#@PRET_EOT end");
+	b++;
+	printf("my b %i \n",b);
+	EOT20
+	EOT_20:;
+	asm("#@PRET_EOT end");
+	b++;
+	printf("my b %i \n",b);
+	EOT23
+	EOT_23:;
+	asm("#@PRET_EOT end");
+	b++;
+	printf("my b %i \n",b);
+	EOT26
+	EOT_26:;
+	asm("#@PRET_EOT end");
+	b++;
+	printf("my b %i \n",b);
+	t1_death:
+	KILL_t1
+}
+/*Thread t2 */
+t2:
+asm("#@PRET_Thread start t2");
+{
+	printf("my b2 %i \n",b);
+	EOT31
+	EOT_31:;
+	asm("#@PRET_EOT end");
+	b++;
+	printf("my b2 %i \n",b);
+	EOT34
+	EOT_34:;
+	asm("#@PRET_EOT end");
+	b++;
+	printf("my b2 %i \n",b);
+	t2_death:
+	KILL_t2
+}
+

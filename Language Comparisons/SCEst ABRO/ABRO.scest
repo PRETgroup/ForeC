@@ -1,0 +1,21 @@
+module ABRO:
+input A, B, R;
+output O;
+
+loop
+  abort
+    [ 
+      abort 
+        loop pause end 
+      when A
+    || 
+      abort 
+        loop pause end 
+      when B
+    ];
+    emit O;
+    loop pause end
+  when R
+end
+
+end module

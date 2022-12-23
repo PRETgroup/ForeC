@@ -1,0 +1,64 @@
+#include "a.PRET.h"
+//Reactive Input
+ int a = 0;
+int main()
+{
+	while(1)
+	{
+		apple();
+	}
+	int f;
+}
+int apple()
+{
+	//global thread state vars 
+	static Node PRET_Node_main_ID_0,GlobalTick,PRET_Node_t1_ID_1,PRET_Node_t2_ID_2; static Node* activeNode = &PRET_Node_main_ID_0; 
+	static char PRET_FIRST_ENTER = 1; 
+	if (PRET_FIRST_ENTER == 0) { 
+		goto *(activeNode->PC); 
+	}else{
+		PRET_FIRST_ENTER = 0; 
+	}	//setup code 
+	GlobalTick.PC = &&GlobalTick_function;
+	GlobalTick.prev=&PRET_Node_main_ID_0;
+	GlobalTick.next=&PRET_Node_main_ID_0;
+	GlobalTick.parent=0;
+	PRET_Node_main_ID_0.prev=&GlobalTick;
+	PRET_Node_main_ID_0.next=&GlobalTick;
+	PRET_Node_main_ID_0.parent=0; /*its parent is null*/
+	PRET_Node_main_ID_0.spawnCtr=0;
+	//setup code 
+	asm("#@PRET_Parse start");
+	PRET_Node_main_ID_0:;
+	asm("#@PRET_Thread start PRET_Node_main_ID_0");
+	static int b = 3;
+	EOT7
+	EOT_7:;
+	asm("#@PRET_EOT end");
+	b++;
+	printf("my bz %i \n",b);
+	EOT10
+	EOT_10:;
+	asm("#@PRET_EOT end");
+	//PAR ID: 11 Threads: [t1, t2] 
+	PAR11
+	apple_join11:;
+	asm("#@PRET_PAR end");
+	EOT12
+	EOT_12:;
+	asm("#@PRET_EOT end");
+	static int c;
+	activeNode->PC = &&PRET_END;
+	PRET_END:; 
+	asm("#@PRET_EOT start");\
+	return;
+	asm("#@PRET_EOT end");\
+	goto PRET_END;
+	#include "a.thd.h"
+	GlobalTick_function:; 
+	asm("#@PRET_Thread start GlobalTick_function");
+	asm("#@PRET_Parse end");
+		activeNode = GlobalTick.next;
+	return;
+}
+

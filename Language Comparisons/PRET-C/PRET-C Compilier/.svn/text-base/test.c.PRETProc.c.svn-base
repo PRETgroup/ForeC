@@ -1,0 +1,76 @@
+ReactiveInput int a = 0;
+int main(){
+while(1){
+apple();
+
+}
+
+int f;
+
+}
+int apple(){
+int b = 3;
+
+EOT;
+
+b++;
+
+printf("my bz %i \n",b);
+
+EOT;
+
+PAR(t1,t2);
+
+EOT;
+
+int c;
+
+}
+thread t1(void) {
+int d;
+
+printf("my b %i \n",b);
+
+EOT;
+
+b++;
+
+printf("my b %i \n",b);
+
+EOT;
+
+b++;
+
+printf("my b %i \n",b);
+
+EOT;
+
+b++;
+
+printf("my b %i \n",b);
+
+EOT;
+
+b++;
+
+printf("my b %i \n",b);
+
+}
+
+thread t2(void) {
+printf("my b2 %i \n",b);
+
+EOT;
+
+b++;
+
+printf("my b2 %i \n",b);
+
+EOT;
+
+b++;
+
+printf("my b2 %i \n",b);
+
+}
+

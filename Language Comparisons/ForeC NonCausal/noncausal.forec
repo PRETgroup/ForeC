@@ -1,0 +1,30 @@
+#include <stdio.h>
+
+shared int X = 0 combine with max;
+shared int Y = 0 combine with max;
+
+int max(int *lhs, int *rhs) {
+	return 0;
+}
+
+void t0(void);
+void t1(void);
+
+void main(int argc, char **argv) {
+  X = 0; Y = 0;
+  if (X == 1) { /* Nothing */ } else { X = 1; }
+  printf("X = %d Y = %d\n", X, Y);
+
+  pause;
+  X = 0; Y = 0;
+  par(t0, t1);
+  printf("X = %d Y = %d\n", X, Y);
+}
+
+thread t0(void) {
+  if (X == 1) { /* Nothing */ } else { Y = 1; }
+}
+
+thread t1(void) {
+  if (Y == 1) { X = 1; }
+}

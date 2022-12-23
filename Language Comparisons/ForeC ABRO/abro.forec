@@ -1,0 +1,77 @@
+#include <stdio.h>
+
+const int INPUT_SEQUENCE = 7;
+const int I[INPUT_SEQUENCE][3] = {
+//	  A, B, R
+	{ 1, 1, 0},
+	{ 1, 1, 0},
+	{ 0, 0, 0},
+	{ 0, 0, 1},
+	{ 1, 1, 0},
+	{ 1, 1, 1},
+	{ 1, 1, 0}
+};
+
+shared int tick = 0;
+
+input int A;
+input int B;
+input int R;
+output int O = 0;
+
+thread abro(void);
+thread tA(void);
+thread tB(void);
+thread Inputs(void);
+thread Results(void);
+
+void main(int argc, char **argv) {
+  printf("        A B R  O\n");
+  abort {
+    par(Inputs, abro, Results);
+  } when (tick == INPUT_SEQUENCE);
+}
+
+thread abro(void) {
+  // Loop each R
+  while (1) {
+    O = 0;
+    abort {
+      // Await A and B
+      par(tA, tB);
+
+      // Emit O
+      O = 1;
+      while (1) { pause; O = 0; }      
+    } when (R == 1);
+  }
+}
+
+thread tA(void) {
+  do {
+    pause;
+  } while (A != 1);
+}
+
+thread tB(void) {
+  do {
+    pause;
+  } while (B != 1);
+}
+
+thread Inputs() {
+  while (1) {
+    A = I[tick][0];
+    B = I[tick][1];
+    R = I[tick][2]; 
+    pause;
+  }
+}
+
+thread Results() {
+  while (1) {
+    printf("Tick %d: %d %d %d  %d\n", tick, A, B, R, O);
+    tick += 1;
+    pause;
+  }
+}

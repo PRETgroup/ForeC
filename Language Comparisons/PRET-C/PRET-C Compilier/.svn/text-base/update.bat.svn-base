@@ -1,0 +1,16 @@
+cd ..
+cd "PRET C Compilier"
+copy StatementNode.java ..\eclipse\src
+copy ScopeNode.java ..\eclipse\src
+copy TimeMeSimulation.java ..\eclipse\src
+copy TimeMeNotify.java ..\eclipse\src
+cd output
+copy PreProcMain.java ..\..\eclipse\src
+copy PretCParser.java ..\..\eclipse\src
+copy PretCLexer.java ..\..\eclipse\src
+copy PretCTreeGrammar.java ..\..\eclipse\src
+copy PretCPreprocessorLexer.java ..\..\eclipse\src
+copy PretCPreprocessorParser.java ..\..\eclipse\src
+copy PreProcMain.java ..\..\eclipse\src
+copy PRETCCompilier.java ..\..\eclipse\src
+cmd

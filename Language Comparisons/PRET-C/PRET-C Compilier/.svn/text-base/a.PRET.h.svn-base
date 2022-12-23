@@ -1,0 +1,131 @@
+typedef struct _Node{
+	void *PC;
+	void *deathAddr;
+	int spawnCtr;
+	struct _Node *next;
+	struct _Node *prev;
+	struct _Node *parent;
+} Node;
+#define EOT7 \
+asm("#@PRET_EOT start");\
+activeNode->PC = &&EOT_7;\
+activeNode = activeNode->next;\
+goto *(activeNode->PC);\
+
+#define EOT10 \
+asm("#@PRET_EOT start");\
+activeNode->PC = &&EOT_10;\
+activeNode = activeNode->next;\
+goto *(activeNode->PC);\
+
+#define PAR11 \
+asm("#@PRET_PAR start");\
+asm("#@PRET_GroupID 11" );\
+(*activeNode).PC = &&apple_join11;\
+(*activeNode).spawnCtr += 2;\
+/*update the next pointers of parent node*/\
+(*activeNode).prev->next = &PRET_Node_t1_ID_1;\
+(*activeNode).next->prev = &PRET_Node_t2_ID_2;\
+/*update next*/\
+PRET_Node_t1_ID_1.next=&PRET_Node_t2_ID_2;\
+PRET_Node_t2_ID_2.next=(*activeNode).next;\
+/*updade prev*/\
+PRET_Node_t1_ID_1.prev=(*activeNode).prev;\
+PRET_Node_t2_ID_2.prev=&PRET_Node_t1_ID_1;\
+PRET_Node_t1_ID_1.spawnCtr=0;\
+PRET_Node_t2_ID_2.spawnCtr=0;\
+PRET_Node_t1_ID_1.deathAddr=&&t1_death;\
+PRET_Node_t2_ID_2.deathAddr=&&t2_death;\
+PRET_Node_t1_ID_1.parent=&(*activeNode);\
+PRET_Node_t2_ID_2.parent=&(*activeNode);\
+asm("#@PRET_Child0 address");\
+PRET_Node_t1_ID_1.PC = &&t1;\
+asm("#@PRET_Child1 address");\
+PRET_Node_t2_ID_2.PC = &&t2;\
+/*change active thread*/ \
+activeNode=&PRET_Node_t1_ID_1;\
+goto *PRET_Node_t1_ID_1.PC;\
+
+#define EOT12 \
+asm("#@PRET_EOT start");\
+activeNode->PC = &&EOT_12;\
+activeNode = activeNode->next;\
+goto *(activeNode->PC);\
+
+#define EOT17 \
+asm("#@PRET_EOT start");\
+activeNode->PC = &&EOT_17;\
+activeNode = activeNode->next;\
+goto *(activeNode->PC);\
+
+#define EOT20 \
+asm("#@PRET_EOT start");\
+activeNode->PC = &&EOT_20;\
+activeNode = activeNode->next;\
+goto *(activeNode->PC);\
+
+#define EOT23 \
+asm("#@PRET_EOT start");\
+activeNode->PC = &&EOT_23;\
+activeNode = activeNode->next;\
+goto *(activeNode->PC);\
+
+#define EOT26 \
+asm("#@PRET_EOT start");\
+activeNode->PC = &&EOT_26;\
+activeNode = activeNode->next;\
+goto *(activeNode->PC);\
+
+#define KILL_t1 \
+asm("#@PRET_KILL start");\
+asm("#@PRET_GroupID 11");\
+(activeNode->parent)->spawnCtr--;\
+if((activeNode->parent)->spawnCtr==0) /* means all children are dead, revive parent thread */\
+{\
+	(activeNode->prev)->next = (activeNode->parent);\
+	(activeNode->next)->prev = (activeNode->parent);\
+	(activeNode->parent)->prev=activeNode->prev;\
+	(activeNode->parent)->next=activeNode->next;\
+	activeNode=activeNode->parent;\
+	goto *(activeNode->PC);\
+}else{\
+	(activeNode->prev)->next = activeNode->next;\
+	(activeNode->next)->prev = activeNode->prev;\
+	activeNode=activeNode->next;\
+	goto *(activeNode->PC);\
+	asm("#@PRET_KILL end");\
+}\
+
+#define EOT31 \
+asm("#@PRET_EOT start");\
+activeNode->PC = &&EOT_31;\
+activeNode = activeNode->next;\
+goto *(activeNode->PC);\
+
+#define EOT34 \
+asm("#@PRET_EOT start");\
+activeNode->PC = &&EOT_34;\
+activeNode = activeNode->next;\
+goto *(activeNode->PC);\
+
+#define KILL_t2 \
+asm("#@PRET_KILL start");\
+asm("#@PRET_GroupID 11");\
+(activeNode->parent)->spawnCtr--;\
+if((activeNode->parent)->spawnCtr==0) /* means all children are dead, revive parent thread */\
+{\
+	(activeNode->prev)->next = (activeNode->parent);\
+	(activeNode->next)->prev = (activeNode->parent);\
+	(activeNode->parent)->prev=activeNode->prev;\
+	(activeNode->parent)->next=activeNode->next;\
+	activeNode=activeNode->parent;\
+	goto *(activeNode->PC);\
+}else{\
+	(activeNode->prev)->next = activeNode->next;\
+	(activeNode->next)->prev = activeNode->prev;\
+	activeNode=activeNode->next;\
+	goto *(activeNode->PC);\
+	asm("#@PRET_KILL end");\
+}\
+
+

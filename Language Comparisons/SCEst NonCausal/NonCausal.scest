@@ -1,0 +1,13 @@
+module NonCausal:
+
+signal X, Y in
+  present X else emit X end;
+  pause;
+  [ 
+    present X else emit Y end 
+  || 
+    present Y then emit X end
+  ]
+end
+
+end module
