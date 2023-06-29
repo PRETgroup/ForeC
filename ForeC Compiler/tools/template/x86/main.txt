@@ -33,7 +33,7 @@ mainParCore%{masterCoreId}: {
 	// forec:scheduler:counter:start
 	clockTimeUs.current = getClockTimeUs();
 	clockTimeUs.elapsed = clockTimeUs.current - clockTimeUs.previous;
-	if (clockTimeUs.elapsed < %{minReactionTime}) {
+	if (%{minReactionTime} != 0 && clockTimeUs.elapsed < %{minReactionTime}) {
 		usleep(%{minReactionTime} - clockTimeUs.elapsed);
 	}
 	clockTimeUs.previous = getClockTimeUs();
