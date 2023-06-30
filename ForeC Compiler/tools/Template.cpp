@@ -953,7 +953,7 @@ namespace tools {
 				reactionCounter << Tab::toString() << "// forec:scheduler:counter:start" << std::endl;
 				reactionCounter << Tab::toString() << "clockTimeUs.current = getClockTimeUs();" << std::endl;
 				reactionCounter << Tab::toString() << "clockTimeUs.elapsed = clockTimeUs.current - clockTimeUs.previous;" << std::endl;
-				reactionCounter << Tab::toString() << "if (" << global::minReactionTime << " != 0 && clockTimeUs.elapsed < " << global::minReactionTime << ") {" << std::endl;
+				reactionCounter << Tab::toString() << "if (0 <= clockTimeUs.elapsed && clockTimeUs.elapsed < " << global::minReactionTime << ") {" << std::endl;
 				reactionCounter << Tab::toString() << "\tusleep(" << global::minReactionTime << " - clockTimeUs.elapsed);" << std::endl;
 				reactionCounter << Tab::toString() << "}" << std::endl;
 				reactionCounter << Tab::toString() << "clockTimeUs.previous = getClockTimeUs();" << std::endl;

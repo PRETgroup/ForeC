@@ -20,7 +20,7 @@ long long getClockTimeUs(void) {
 	struct timespec ts;
 
 	if (clock_gettime(CLOCK_MONOTONIC, &ts) == 0) {
-		return (long long) (ts.tv_sec * 1000000 + ts.tv_nsec / 1000);
+		return (long long) (((long long)ts.tv_sec) * 1000000 + ts.tv_nsec / 1000);
 	} else {
 		return 0;
 	}
