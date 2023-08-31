@@ -9,6 +9,7 @@
 
 #include <fstream>
 #include <ostream>
+#include <algorithm>
 #include <regex.h>
 
 #include "ScannerMicroBlaze.hpp"
