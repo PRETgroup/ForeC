@@ -162,12 +162,10 @@ namespace tools {
 		traces.push_back(startingTrace);
 
 		bool branchEncountered = false;
-		bool terminateEncountered = false;
 
 		// While branches are occuring.
 		do {
 			branchEncountered = false;
-			terminateEncountered = false;
 
 			// For each trace.
 			for (std::vector<struct Function::Trace>::iterator trace = traces.begin(); trace != traces.end(); ++trace) {
@@ -187,7 +185,6 @@ namespace tools {
 							break;
 						} else if (result == Function::terminated) {
 							// End the traversal.
-							terminateEncountered = true;
 							break;
 						}
 					} else if (currentProgramCounter->isType("Label")) {
