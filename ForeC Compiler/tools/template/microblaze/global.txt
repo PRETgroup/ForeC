@@ -27,18 +27,18 @@ Counter counter;
 // Status values.
 typedef enum {
 	// PAR
-	FOREC_PAR_OFF,				// 0
-	FOREC_PAR_ON,				// 1
+	FOREC_PAR_OFF,              // 0
+	FOREC_PAR_ON,               // 1
 
 	// Core
-	FOREC_CORE_REACTING,		// 2
-	FOREC_CORE_REACTED,			// 3
-	FOREC_CORE_TERMINATED,		// 4
+	FOREC_CORE_REACTING,        // 2
+	FOREC_CORE_REACTED,         // 3
+	FOREC_CORE_TERMINATED,      // 4
 	
 	// Shared variables
-	FOREC_SHARED_UNMODIFIED,	// 5
-	FOREC_SHARED_MODIFIED,		// 6
-	FOREC_SHARED_WAS_MODIFIED	// 7
+	FOREC_SHARED_UNMODIFIED,    // 5
+	FOREC_SHARED_MODIFIED,      // 6
+	FOREC_SHARED_WAS_MODIFIED   // 7
 } Status;
 
 // Store child thread information.

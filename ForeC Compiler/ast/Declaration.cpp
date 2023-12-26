@@ -95,7 +95,11 @@ namespace forec {
 		
 		void Declaration::updateSymbolTable(const std::string &type, const bool isUsage, const bool isRead) {
 			if (has("StorageClassSpecifier", "typedef")) {
-				children[0]->updateSymbolTable("typedef");
+				if (has("StorageClassSpecifier", "extern")) {
+					children[0]->updateSymbolTable("extern");
+				} else {
+					children[0]->updateSymbolTable("typedef");
+				}
 			} else if (isVariant("threadDeclaration")) {
 				children[0]->updateSymbolTable("thread");
 			} else {
@@ -155,6 +159,8 @@ namespace forec {
 					}
 				} else if (has("DirectDeclarator", "function0") || has("DirectDeclarator", "function1") || has("DirectDeclarator", "function2")) {
 					children[1]->updateSymbolTable("function", true, isRead);
+				} else if (has("StorageClassSpecifier", "extern")) {
+					children[1]->updateSymbolTable("extern");
 				} else {
 					children[1]->updateSymbolTable("variable");
 				}
@@ -162,6 +168,11 @@ namespace forec {
 		}
 		
 		void Declaration::prettyPrint(std::ostream &output) {
+			// "extern typedef" is a ForeC workaround to adding externally defined typedefs into the symbol table without mangling their names.
+			if (has("StorageClassSpecifier", "extern") && has("StorageClassSpecifier", "typedef")) {
+				return;
+			}
+		
 			if (isVariant("threadDeclaration")) {
 				output << "// thread ";
 			} else if (has("TypeQualifier", "shared") && !has("TypeQualifier", "const")) {

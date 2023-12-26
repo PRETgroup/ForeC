@@ -163,11 +163,12 @@ would be required.
 
 ## Limitations
 * Lexical:
+  - Avoid mangling externally defined typedef names with the ForeC supported `extern typedef` combination of storage specifiers.
   - Cannot `typedef` within a storage definition.
+  - Cannot declare `extern shared` variables.
   - Scoping within storage definitions is ignored.
   - Correct C-code assumed to be written.
   - User definitions for storages and types must be defined within the `*.forec` file.
-  - Extern(ally) declared variable and typedef names get mangled.
   - All global variables have to be declared before the `main(...)` function.
   - The arguments of the `main(...)` function are expected to be `int argc, char **argv`.
 

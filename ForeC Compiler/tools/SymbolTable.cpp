@@ -112,8 +112,8 @@ namespace tools {
 		std::ostringstream suffix;
 		if (type.compare("thread") == 0) {
 			suffix << "__thread";
-		} else if (type.compare("function") == 0 || type.compare("enumeration") == 0) {
-			// Do nothing. Function and enumeration names are already unique.
+		} else if (type.compare("function") == 0 || type.compare("enumeration") == 0 || type.compare("extern") == 0) {
+			// Do nothing. Function, enumeration, and external names are already unique.
 		} else {
 			suffix << "__" << SymbolTable::getScopeName() << '_' << SymbolTable::currentLevel << '_' << SymbolTable::getInstance();
 		}

@@ -143,7 +143,8 @@ namespace forec {
 				} else {
 					// Add declaration.
 					this->declaration = this;
-					if (type.compare("function") == 0 || type.compare("enumeration") == 0) {
+					
+					if (type.compare("function") == 0 || type.compare("enumeration") == 0 || type.compare("extern") == 0) {
 						tools::SymbolTable::addDeclaration(type, *this);
 					} else {
 						this->suffix = tools::SymbolTable::addDeclaration(type, *this);

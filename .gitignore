@@ -34,6 +34,9 @@ debug.txt
 
 ForeC Benchmarks/ptarm/Pipelining/Pipelining.c
 ForeC Benchmarks/x86/Design patterns/Broadcast/Broadcast.c
+ForeC Benchmarks/x86/Pi/BaselineOpenMP
+ForeC Benchmarks/x86/Pi/Test
+ForeC Benchmarks/x86/Pi/BaselineSequential
 
 PTARM Processor/programs/memory/_build/memory.o.expanded.c
 PTARM Processor/programs/memory/_build/memory.elf
