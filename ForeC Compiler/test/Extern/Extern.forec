@@ -1,0 +1,30 @@
+#include <stdio.h>
+
+struct thing {
+	int i;
+};
+typedef struct thing Thing;
+Thing t;
+
+typedef struct {
+	int j;
+} Stuff;
+Stuff s;
+
+extern int a;
+
+extern struct timeval;
+extern typedef void pthread_mutex_t;
+extern pthread_mutex_t mutex;
+
+int printf(const char * __restrict, ...);
+
+int main(int argc, char **argv) {
+	struct timeval startTime;
+	pthread_mutex_t dyn_containers_mutex;
+	
+	t.i = 10;
+	s.j = 11;
+	
+	printf("t.i = %d, s.j = %d\n", t.i, s.j);
+}

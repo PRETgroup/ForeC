@@ -40,12 +40,12 @@ namespace forec {
 			if (type.compare("usage") == 0) {
 				// Workaround when a struct or union declaration is actually followed by a declarator, in which case
 				// the struct name is being used (not declared).
-				children[0]->updateSymbolTable(newType, true, isRead);
+				children[0]->updateSymbolTable(newType, isUsage, isRead);
 			} else if (isVariant("definition")) {
 				children[0]->updateSymbolTable(newType, false, isRead);
-				children[1]->updateSymbolTable(newType, true, isRead);
+				children[1]->updateSymbolTable(newType, isUsage, isRead);
 			} else if (isVariant("anonymous")) {
-				children[0]->updateSymbolTable(newType, true, isRead);
+				children[0]->updateSymbolTable(newType, isUsage, isRead);
 			} else if (isVariant("declaration")) {
 				children[0]->updateSymbolTable(newType, isUsage, isRead);
 			}

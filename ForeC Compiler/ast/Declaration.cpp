@@ -94,20 +94,26 @@ namespace forec {
 		}
 		
 		void Declaration::updateSymbolTable(const std::string &type, const bool isUsage, const bool isRead) {
-		//	std::cout << "Declaration: " << *children[0] << ' ' << type << ' ' << isUsage << std::endl;
+			// Declaration specifiers
 			if (has("StorageClassSpecifier", "extern")) {
-				children[0]->updateSymbolTable("extern");
+				// isUsage needs to be false when declaration is an extern typedef.
+				const bool hasTypedefKeyword = has("StorageClassSpecifier", "typedef");
+				const bool hasTypedefName = has("TypeSpecifier", "typedef");
+				const bool newUsage = isUsage || (!hasTypedefKeyword && hasTypedefName);
+//				std::cout << "Declaration: " << *children[0] << ' ' << type << ' ' << newUsage << ' ' << hasTypedefKeyword << ' ' << hasTypedefName << std::endl;
+				children[0]->updateSymbolTable("extern", newUsage);
 			} else if (has("StructUnionSpecifier", "declaration") && has("InitDeclaratorList", "none")) {
-			//	std::cout << "structorunion" << std::endl;
 				children[0]->updateSymbolTable("usage", true, isRead);
 			} else if (has("StorageClassSpecifier", "typedef")) {
 				children[0]->updateSymbolTable("typedef");
 			} else if (isVariant("threadDeclaration")) {
 				children[0]->updateSymbolTable("thread");
 			} else {
+//				std::cout << "Declaration: " << *children[0] << ' ' << type << ' ' << isUsage << std::endl;
 				children[0]->updateSymbolTable("none", true, isRead);
 			}
 			
+			// Init declarator list
 			if (isVariant("initDeclaration")) {
 				if (has("TypeQualifier", "input")) {
 					children[1]->updateSymbolTable("input");
