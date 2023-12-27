@@ -3,6 +3,13 @@
 #include <omp.h>
 #include <unistd.h>
 
+// ForeC workaround to external declarations.
+extern struct timeval;
+
+// C standard function prototypes
+int gettimeofday(struct timeval * __restrict, void * __restrict);
+int printf(const char * __restrict, ...);
+
 
 long double calculatePi(const int range, int threadId);
 

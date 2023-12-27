@@ -2,8 +2,20 @@
 #include <stdio.h>
 #include <string.h>
 
-typedef int FILE;
-#define FILE__global_0_0 FILE
+// ForeC workaround to external declarations.
+extern struct timeval;
+extern typedef int FILE;
+
+// C standard function prototypes
+// char *strcpy(char *destination, const char *source);
+int gettimeofday(struct timeval *__restrict, void *__restrict);
+int printf(const char *__restrict, ...);
+int strcmp(const char *str1, const char *str2);
+void rewind(FILE *stream);
+int fgetc(FILE *stream);
+int ungetc(int character, FILE *stream);
+int fclose(FILE *stream);
+FILE *fopen(const char *filename, const char *mode);
 
 int NULL;
 #define NULL__global_0_0 NULL
