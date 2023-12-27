@@ -7,41 +7,62 @@
 #include <X11/Xutil.h>
 
 /* X11 data */
-typedef void Display;
-#define Display__global_0_0 Display
+extern typedef void Display;
 shared Display *dpy;
 
-typedef void Window;
-#define Window__global_0_0 Window
+extern typedef void Window;
 shared Window win;
 
-typedef void XImage;
-#define XImage__global_0_0 XImage
+extern typedef void XImage;
 shared XImage *bitmap;
 
-typedef void Atom;
-#define Atom__global_0_0 Atom
+extern typedef void Atom;
 Atom wmDeleteMessage;
 
-typedef void GC;
-#define GC__global_0_0 GC
+extern typedef void GC;
 GC gc_obj;
 shared GC *gc = &gc_obj;
 
-typedef void XEvent;
-#define XEvent__global_0_0 XEvent
+// ForeC workaround to external declarations.
+extern struct timeval;
+extern typedef int size_t;
+extern typedef void XEvent;
+extern typedef void XTextProperty;
+extern typedef void Status;
+extern typedef void Visual;
+extern typedef void Drawable;
+extern typedef void XSetWindowAttributes;
+extern typedef void XGCValues;
+extern typedef void Bool;
 
-typedef void XTextProperty;
-#define XTextProperty__global_0_0 XTextProperty
-
-typedef void Status;
-#define Status__global_0_0 Status
-
-typedef void Visual;
-#define Visual__global_0_0 Visual
+// C standard function prototypes
+int gettimeofday(struct timeval * __restrict, void * __restrict);
+int printf(const char * __restrict, ...);
+int rand(void);
+void exit(int status);
+void *malloc(size_t size);
+int XPutImage(Display *display, Drawable d, GC gc, XImage *image, int src_x, int src_y, int dest_x, int dest_y, unsigned int width, unsigned int height);
+int XFlush(Display *display);
+int XCloseDisplay(Display *display);
+Window XCreateWindow(Display *display, Window parent, int x, int y, unsigned int width, unsigned int height, unsigned int border_width, int depth, unsigned int class, Visual *visual, unsigned long valuemask, XSetWindowAttributes *attributes);
+Window XCreateSimpleWindow(Display *display, Window parent, int x, int y, unsigned int width, unsigned int height, unsigned int border_width, unsigned long border, unsigned long background);
+int XSelectInput(Display *display, Window w, long event_mask);
+int XMapWindow(Display *display, Window w);
+int XNextEvent(Display *display, XEvent *event_return);
+Status XStringListToTextProperty(char **list, int count, XTextProperty *text_prop_return);
+void XSetWMName(Display *display, Window w, XTextProperty *text_prop);
+XImage *XCreateImage(Display *display, Visual *visual,
+unsigned int depth, int format, int offset, char *data, unsigned int width, unsigned int height, int bitmap_pad, int bytes_per_line);
+GC XCreateGC(Display *display, Drawable d, unsigned long valuemask, XGCValues *values);
+int XSetForeground(Display *display, GC gc, unsigned long foreground);
+Status XSetWMProtocols(Display *display, Window w, Atom *protocols, int count);
+int XDestroyWindow(Display *display, Window w);
 
 int NULL;
 #define NULL__global_0_0 NULL
+
+int False;
+#define False__global_0_0 False
 
 int StructureNotifyMask;
 #define StructureNotifyMask__global_0_0 StructureNotifyMask
@@ -58,8 +79,32 @@ int KeyPressMask;
 int ExposureMask;
 #define ExposureMask__global_0_0 ExposureMask
 
-int False;
-#define False__global_0_0 False
+int WhitePixel;
+#define WhitePixel__global_0_0 WhitePixel
+
+int BlackPixel;
+#define BlackPixel__global_0_0 BlackPixel
+
+int DefaultScreen;
+#define DefaultScreen__global_0_0 DefaultScreen
+
+int DefaultRootWindow;
+#define DefaultRootWindow__global_0_0 DefaultRootWindow
+
+int DefaultDepth;
+#define DefaultDepth__global_0_0 DefaultDepth
+
+int DefaultVisual;
+#define DefaultVisual__global_0_0 DefaultVisual
+
+int XOpenDisplay;
+#define XOpenDisplay__global_0_0 XOpenDisplay
+
+int XInternAtom;
+#define XInternAtom__global_0_0 XInternAtom
+
+int XDestroyImage;
+#define XDestroyImage__global_0_0 XDestroyImage
 
 /* Image size */
 shared int ASIZE = 1000;
@@ -102,8 +147,6 @@ int main(int argc, char **argv) {
 	}
 
 	printf("Runtime: %ld.%.6d\r\n", seconds, microseconds);
-	
-	return 0;
 }
 
 thread display_double0(void) {

@@ -13,7 +13,8 @@ forec:
 
 c:
 	$(CC) $(CFLAGS) -Wall 802_11a.c -o 802_11a
-
+	mkdir -p plainC_SimOutput
+	
 dot:
 	dot -T pdf 802_11a.dot -o 802_11a.pdf
 

@@ -15,19 +15,19 @@ extern typedef int FILE;
 extern typedef int size_t;
 
 // C standard function prototypes
-int printf ( const char * format, ... );
-int atoi ( const char * str );
-double atof ( const char * str );
+int printf(const char *format, ...);
+int atoi(const char *str);
+double atof(const char *str);
 int stat(const char *path, struct stat *buf);
-int gettimeofday(struct timeval * __restrict, void * __restrict);
+int gettimeofday(struct timeval *__restrict, void *__restrict);
 void *malloc(size_t size);
 
 // FILE handling function prototypes
-FILE * fopen ( const char * filename, const char * mode );
-int fclose ( FILE * stream );
-int fprintf ( FILE * stream, const char * format, ... );
-int feof ( FILE * stream );
-char * fgets ( char * str, int num, FILE * stream );
+FILE *fopen(const char *filename, const char *mode);
+int fclose(FILE *stream);
+int fprintf(FILE *stream, const char *format, ...);
+int feof(FILE *stream);
+char *fgets(char *str, int num, FILE *stream);
 
 // FILE handling variables
 FILE *file_re_in, *file_im_in;

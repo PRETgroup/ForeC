@@ -40,14 +40,21 @@ ForeC Benchmarks/x86/Pi/BaselineSequential
 ForeC Benchmarks/x86/Pi/BaselineForeC
 ForeC Benchmarks/x86/Pi/BaselineForeC.c
 ForeC Benchmarks/x86/Lzss/result_data.txt
+ForeC Benchmarks/x86/Nokia 802_11a/Original/802_11a
 ForeC Benchmarks/x86/Nokia 802_11a/Pipelined/802_11a
+ForeC Benchmarks/x86/Nokia 802_11a/Pipelined/802_11a.c
 ForeC Benchmarks/x86/Nokia 802_11a/Pipelined/plainC_SimOutput/
 ForeC Benchmarks/x86/Nokia 802_11a/Pipelined (predicated execution, old)/802_11a
+ForeC Benchmarks/x86/Nokia 802_11a/Pipelined (predicated execution, old)/802_11a.c
 ForeC Benchmarks/x86/Nokia 802_11a/Pipelined (predicated execution, old)/plainC_SimOutput/
 ForeC Benchmarks/x86/FmRadio/pipelined/FmRadio.c
 ForeC Benchmarks/x86/WordSearch/WordSearch
 ForeC Benchmarks/x86/WordSearch/WordSearch.c
 ForeC Benchmarks/x86/WordSearch/debug.txt
+ForeC Benchmarks/x86/mandelbrot/Mandelbrot.visual
+ForeC Benchmarks/x86/mandelbrot/Mandelbrot.visual.c
+ForeC Benchmarks/x86/mandelbrot/Mandelbrot
+ForeC Benchmarks/x86/mandelbrot/Mandelbrot.c
 
 PTARM Processor/programs/memory/_build/memory.o.expanded.c
 PTARM Processor/programs/memory/_build/memory.elf

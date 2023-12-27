@@ -5,10 +5,14 @@ x86
 main
 init_x11
 display_double0
-display_double1
 
 1:
+display_double1
+
+2:
 init_colours
 display_double2
+
+3:
 display_double3
 
