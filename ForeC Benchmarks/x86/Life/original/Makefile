@@ -11,7 +11,7 @@ ifeq ($(shell uname), Linux)
 	CC			= clang
 else ifeq ($(shell uname), Darwin)
 	CC			= clang
-	LDFLAGS		= -L/usr/X11R6/lib
+	LDFLAGS		= -I/usr/X11R6/include -L/usr/X11R6/lib
 else
 	CC			= gcc
 endif

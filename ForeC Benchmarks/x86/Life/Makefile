@@ -4,7 +4,7 @@ ifeq ($(shell uname), Linux)
 else ifeq ($(shell uname), Darwin)
 	CC			= clang
 	CFLAGS		= -O0 -Wall -pthread
-	LDFLAGS		= -I/usr/local/include/X11 -L/usr/local/include/X11
+	LDFLAGS		= -I/usr/X11R6/include -L/usr/X11R6/lib
 else
 	CC			= gcc
 endif

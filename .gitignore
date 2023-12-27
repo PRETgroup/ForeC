@@ -32,6 +32,8 @@ information.xml
 debug.txt
 *.dot
 
+ForeC Compiler/test/Aborts/aborts.pdf
+
 ForeC Benchmarks/ptarm/Pipelining/Pipelining.c
 ForeC Benchmarks/x86/Design patterns/Broadcast/Broadcast.c
 ForeC Benchmarks/x86/Pi/BaselineOpenMP
@@ -67,6 +69,8 @@ ForeC Benchmarks/x86/mandelbrot/Mandelbrot.visual
 ForeC Benchmarks/x86/mandelbrot/Mandelbrot.visual.c
 ForeC Benchmarks/x86/mandelbrot/Mandelbrot
 ForeC Benchmarks/x86/mandelbrot/Mandelbrot.c
+ForeC Benchmarks/x86/Mandelbrot/original/Mandelbrot.visual
+ForeC Benchmarks/x86/Mandelbrot/original/Mandelbrot
 ForeC Benchmarks/x86/Life/Life.visual
 ForeC Benchmarks/x86/Life/Life.visual.c
 ForeC Benchmarks/x86/Life/Life.c
