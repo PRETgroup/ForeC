@@ -1,3 +1,7 @@
+% On Ubuntu, the following stat function returns a file size that can be
+% larger than it should  be, leading to a crash when decompressing an Lzss file.
+% int stat(const char *restrict path, struct stat *restrict buf);
+
 % Modified 31 Oct 2005:  Conditioning fallacy alluded to.
 % This chapter has been modified on 6-4-05.
 % There are two \choice
@@ -2060,7 +2064,6 @@ of probability, not all sets have probabilities.
 
 \end{enumerate}
 
-
 \i\label{exer 1.2.28}
 (from Sholander\footnote{M. Sholander, Problem \#1034, \emx {Mathematics Magazine,} vol.~52,
 no.\ 3 (May 1979), p.~183.})\index{SHOLANDER, M.}\index{clover-leaf interchange} In a standard
@@ -2069,10 +2072,8 @@ four ramps, there are four more ramps for making left-hand turns.  Your car appr
 interchange from the south.  A mechanism has been installed so that at each point where there
 exists a choice of directions, the car turns to the right with fixed probability~$r$. 
 \begin{enumerate}
-\item
-If $r = 1/2$, what is your chance of emerging from the interchange going west?
-\item
-Find the value of $r$ that maximizes your chance of a westward departure from the interchange.
+\item If $r = 1/2$, what is your chance of emerging from the interchange going west?
+\item Find the value of $r$ that maximizes your chance of a westward departure from the interchange.
 \end{enumerate}
 
 \i\label{exer 1.2.29}
@@ -2099,18 +2100,14 @@ points: `Which tire was it?' What was the probability that both students would s
 same thing? My dad and I think it's 1 in 16. Is that right?"
 \end{quote}
 
-
 \begin{enumerate}
-\item
-Is the answer 1/16?
-\item
-The following question was asked of a class of students.  ``I was driving to
+\item Is the answer 1/16?
+\item The following question was asked of a class of students.  ``I was driving to
 school today, and one of my tires went flat.  Which tire do you think it was?"
 The responses were as follows:  right front, 58\%, left front, 11\%, right rear, 
 18\%, left rear, 13\%.  Suppose that this distribution holds in the general population,
 and assume that the two test-takers are randomly chosen from the general population.  What
 is the probability that they will give the same answer to the second question?
 \end{enumerate}
-
 
 \end{LJSItem}

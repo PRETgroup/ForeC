@@ -16,17 +16,37 @@
 #include <string.h>
 #include <sys/time.h>
 
-typedef int FILE;
-#define FILE__global_0_0 FILE
+// ForeC workaround to external declarations.
+extern struct timeval;
+extern typedef int FILE;
+extern typedef int size_t;
 
 int NULL;
 #define NULL__global_0_0 NULL
 
+int assert;
+#define assert__global_0_0 assert
+
+#undef M_PI
+
+// C standard function prototypes
+int gettimeofday(struct timeval * __restrict, void * __restrict);
+int printf(const char * __restrict, ...);
+int fprintf(FILE *stream, const char *format, ...);
+FILE *fopen(const char *filename, const char *mode);
+size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
+size_t fwrite(const void* buffer, size_t size, size_t count, FILE* stream);
+int fclose(FILE *stream);
+void exit(int status);
+void *malloc(size_t size);
+void free(void *ptr);
+double atan2(double y, double x);
+double cos(double x);
+double sin(double x);
+
 FILE* input_file;
 FILE* output_file;
 FILE* text_file;
-
-#undef M_PI
 
 static const int KSMPS = 1024;
 static const int FM_MAX = 5;

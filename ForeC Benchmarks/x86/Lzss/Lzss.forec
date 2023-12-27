@@ -17,13 +17,17 @@
 #include <sys/time.h>
 
 // ForeC workaround to external declarations.
-// extern int EOF;
-// extern int S_ISDIR(mode_t m);
 extern struct timeval;
 extern struct stat;
 extern typedef int FILE;
 extern typedef int mode_t;
 extern typedef int size_t;
+
+#undef EOF
+int EOF = -1;
+
+int S_ISDIR;
+#define S_ISDIR__global_0_0 S_ISDIR
 
 // C standard function prototypes
 int gettimeofday(struct timeval * __restrict, void * __restrict);
@@ -93,9 +97,6 @@ struct fileStats {
 } fileInfo, archiveInfo;
 
 void *null = (void *)0;
-
-#undef EOF
-int EOF = -1;
 
 FILE *stderr;
 #define stderr__global_0_0 stderr
@@ -284,6 +285,7 @@ void obtainFileInfo(struct fileStats *fileInfo) {
     struct stat filestats;
     stat(fileInfo->filename, &filestats);
     fileInfo->filesize = (int) filestats.st_size;
+
     fileInfo->isDir = S_ISDIR(filestats.st_mode);
     if (!fileInfo->isDir) {
         fileInfo->totalSize += fileInfo->filesize;
@@ -329,7 +331,6 @@ void longestMatch(const Fifo win, const Fifo lk, int begin, int **offset_thread,
 
 void writeToArchive(const Fifo fifo, int *offset, int *matches, struct fileStats *archiveInfo, int *offset_thread, int *matches_thread) {
 	int NUM_THREADS = 4;
-	int EOF = -1;
 	
 	*matches = 0;
 	int i;
@@ -340,7 +341,7 @@ void writeToArchive(const Fifo fifo, int *offset, int *matches, struct fileStats
 		}
 	}
 
-    int encode=0x800000;
+    int encode = 0x800000;
     encode += (*offset << 6) + (*matches - 1); // 0 matches will actually mean 1 match, matches range from 0~15, 4 bits.
 
     if (*matches > 2) {
@@ -369,14 +370,14 @@ void printResult(struct fileStats *fileInfo, struct fileStats *archiveInfo)
 //*******************************************************
 void unpackArchive(char *filename, int *offset, int *matches, struct fileStats *fileInfo, struct fileStats *archiveInfo)
 {
-	void *null = (void *)0;
+    void *null = (void *)0;
 	
     int countFiles = 0;
 
     archiveInfo->filename = filename;
     obtainFileInfo(archiveInfo);
 
-    if ((archiveInfo->p_file=fopen(archiveInfo->filename, "r")) == null) {
+    if ((archiveInfo->p_file = fopen(archiveInfo->filename, "r")) == null) {
         fprintf(*stderr_ptr_1, "Error opening file '%s'.\n", archiveInfo->filename);
         exit(1);
     } else if (archiveInfo->isDir) {
@@ -429,7 +430,6 @@ void decompressFile(int *offset, int *matches, struct fileStats *fileInfo, struc
 {
 	void *null = (void *)0;
 	int WINLENGTH = 131072;
-	int EOF = -1;
 	
     int sizeCount = 1; // Size of the file start at 1 because the first character is guaranteed to be written to the file.
     char *p_slashPos, *p_stringStart = fileInfo->filename;
@@ -444,12 +444,12 @@ void decompressFile(int *offset, int *matches, struct fileStats *fileInfo, struc
         p_stringStart = ++p_slashPos;  // New string starting point to search for the next occurance of a slash
     }
 
-    if ((fileInfo->p_file=fopen(fileInfo->filename, "w")) == null) {
+    if ((fileInfo->p_file = fopen(fileInfo->filename, "w")) == null) {
         fprintf(*stderr_ptr_2, "Error writing to file '%s'.", fileInfo->filename);
         exit(1);
     }
 
-	Fifo window;
+    Fifo window;
     Fifo_init(&window, WINLENGTH);
     Fifo_push_back(&window, fgetc(archiveInfo->p_file));
 
