@@ -20,7 +20,7 @@ long long getClockTimeUs(void) {
 	struct timespec ts;
 
 	if (clock_gettime(CLOCK_MONOTONIC, &ts) == 0) {
-		return (long long) (ts.tv_sec * 1000000 + ts.tv_nsec / 1000);
+		return (((long long)ts.tv_sec) * 1000000 + ts.tv_nsec / 1000);
 	} else {
 		return 0;
 	}
@@ -40,22 +40,22 @@ pthread_attr_t slaveCoreAttribute;
 // Status values.
 typedef enum {
 	// PAR
-	FOREC_PAR_OFF,				// 0
-	FOREC_PAR_ON,				// 1
+	FOREC_PAR_OFF,              // 0
+	FOREC_PAR_ON,               // 1
 
 	// Core
-	FOREC_CORE_REACTING,		// 2
-	FOREC_CORE_REACTED,			// 3
-	FOREC_CORE_TERMINATED,		// 4
+	FOREC_CORE_REACTING,        // 2
+	FOREC_CORE_REACTED,         // 3
+	FOREC_CORE_TERMINATED,      // 4
 	
 	// Shared variables
-	FOREC_SHARED_UNMODIFIED,	// 5
-	FOREC_SHARED_MODIFIED,		// 6
-	FOREC_SHARED_WAS_MODIFIED,	// 7
+	FOREC_SHARED_UNMODIFIED,    // 5
+	FOREC_SHARED_MODIFIED,      // 6
+	FOREC_SHARED_WAS_MODIFIED,  // 7
 	
 	// Program termination
-	RUNNING,					// 8
-	TERMINATED					// 9
+	RUNNING,                    // 8
+	TERMINATED                  // 9
 } Status;
 
 // Store child thread information.
@@ -121,6 +121,39 @@ void *forecMain(void *args);
 #include <sys/stat.h>
 #include <sys/time.h>
 
+/* ForeC workaround to external declarations:
+extern struct timeval; */
+/* ForeC workaround to external declarations:
+extern struct stat; */
+/* ForeC workaround to external declarations:
+extern typedef int FILE; */
+/* ForeC workaround to external declarations:
+extern typedef int mode_t; */
+/* ForeC workaround to external declarations:
+extern typedef int size_t; */
+
+int gettimeofday(struct timeval *__restrict, void *__restrict);
+int strcmp(const char *str1, const char *str2);
+void exit(int status);
+int printf(const char *__restrict, ...);
+int fprintf(FILE *stream, const char *format, ...);
+int fgetc(FILE *stream);
+int fflush(FILE *stream);
+int fputc(int character, FILE *stream);
+int fclose(FILE *stream);
+int mkdir(const char *path, mode_t mode);
+int feof(FILE *stream);
+long int ftell(FILE *stream);
+void *malloc(size_t size);
+char *strchr(const char *str, int character);
+int putchar(int character);
+void free(void *ptr);
+int fputs(const char *str, FILE *stream);
+FILE *fopen(const char *filename, const char *mode);
+size_t fwrite(const void *buffer, size_t size, size_t count, FILE *stream);
+size_t strlen(const char *str);
+size_t fread(void *buffer, size_t size, size_t count, FILE *stream);
+
 typedef struct _Fifo__global_0_0 {
 	char *data;
 	unsigned size;
@@ -159,12 +192,8 @@ typedef struct {
 } Shared_matches_thread_ptr__global_0_0;
 Shared_matches_thread_ptr__global_0_0 matches_thread_ptr__global_0_0 = {.value = matches_thread__global_0_0, .status = FOREC_SHARED_UNMODIFIED};
 
-typedef int FILE__global_0_0;
-
-#define FILE__global_0_0 FILE
-
 struct fileStats__global_0_0 {
-	FILE__global_0_0 *p_file;
+	FILE *p_file;
 	char filenameArray[512];
 	char *filename;
 	int filesize;
@@ -177,21 +206,21 @@ void *null__global_0_0 = (void *)0;
 #undef EOF
 
 int EOF__global_0_0 = -1;
-FILE__global_0_0 *stderr__global_0_0;
+FILE *stderr__global_0_0;
 
 #define stderr__global_0_0 stderr
 
-FILE__global_0_0 ** stderr_ptr_0__global_0_0 = &stderr__global_0_0;
-FILE__global_0_0 ** stderr_ptr_1__global_0_0 = &stderr__global_0_0;
-FILE__global_0_0 ** stderr_ptr_2__global_0_0 = &stderr__global_0_0;
-FILE__global_0_0 ** stderr_ptr_3__global_0_0 = &stderr__global_0_0;
-FILE__global_0_0 *stdout__global_0_0;
+FILE ** stderr_ptr_0__global_0_0 = &stderr__global_0_0;
+FILE ** stderr_ptr_1__global_0_0 = &stderr__global_0_0;
+FILE ** stderr_ptr_2__global_0_0 = &stderr__global_0_0;
+FILE ** stderr_ptr_3__global_0_0 = &stderr__global_0_0;
+FILE *stdout__global_0_0;
 
 #define stdout__global_0_0 stdout
 
-FILE__global_0_0 ** stdout_ptr_0__global_0_0 = &stdout__global_0_0;
-FILE__global_0_0 ** stdout_ptr_1__global_0_0 = &stdout__global_0_0;
-FILE__global_0_0 ** stdout_ptr_2__global_0_0 = &stdout__global_0_0;
+FILE ** stdout_ptr_0__global_0_0 = &stdout__global_0_0;
+FILE ** stdout_ptr_1__global_0_0 = &stdout__global_0_0;
+FILE ** stdout_ptr_2__global_0_0 = &stdout__global_0_0;
 
 typedef struct {
 	/* shared */ Fifo__global_0_0 value;
@@ -239,6 +268,9 @@ Shared_lookAhead__global_0_0 lookAhead__global_0_0_copy_longestMatch3 = {.status
 // main
 
 // forec:scheduler:boot:start
+
+/* Original return type:
+int */
 int main(int argc__main_0_0, char ** argv__main_0_0) {
 
 /*==============================================================
@@ -489,7 +521,7 @@ mainParCore0: {
 	// forec:scheduler:counter:start
 	clockTimeUs.current = getClockTimeUs();
 	clockTimeUs.elapsed = clockTimeUs.current - clockTimeUs.previous;
-	if (clockTimeUs.elapsed < 0) {
+	if (0 <= clockTimeUs.elapsed && clockTimeUs.elapsed < 0) {
 		usleep(0 - clockTimeUs.elapsed);
 	}
 	clockTimeUs.previous = getClockTimeUs();
@@ -587,7 +619,7 @@ mainReactionEndMaster0: {
 	// forec:scheduler:counter:start
 	clockTimeUs.current = getClockTimeUs();
 	clockTimeUs.elapsed = clockTimeUs.current - clockTimeUs.previous;
-	if (clockTimeUs.elapsed < 0) {
+	if (0 <= clockTimeUs.elapsed && clockTimeUs.elapsed < 0) {
 		usleep(0 - clockTimeUs.elapsed);
 	}
 	clockTimeUs.previous = getClockTimeUs();

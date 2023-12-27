@@ -9,15 +9,20 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
+/// ForeC workaround to external declarations
+extern struct timeval;
+extern typedef int FILE;
+extern typedef int size_t;
+
 // C standard function prototypes
 int printf ( const char * format, ... );
 int atoi ( const char * str );
 double atof ( const char * str );
 int stat(const char *path, struct stat *buf);
+int gettimeofday(struct timeval * __restrict, void * __restrict);
+void *malloc(size_t size);
 
 // FILE handling function prototypes
-typedef int FILE;
-#define FILE__global_0_0 FILE
 FILE * fopen ( const char * filename, const char * mode );
 int fclose ( FILE * stream );
 int fprintf ( FILE * stream, const char * format, ... );

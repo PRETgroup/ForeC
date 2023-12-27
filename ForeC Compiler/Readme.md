@@ -163,7 +163,8 @@ would be required.
 
 ## Limitations
 * Lexical:
-  - Avoid mangling externally defined typedef names with the ForeC supported `extern typedef` combination of storage specifiers.
+  - Avoid mangling externally defined typedef and struct names with the ForeC supported 
+    `extern typedef` and `extern struct` combination of storage specifiers.
   - Cannot `typedef` within a storage definition.
   - Cannot declare `extern shared` variables.
   - Scoping within storage definitions is ignored.

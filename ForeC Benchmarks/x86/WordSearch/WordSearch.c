@@ -3,6 +3,28 @@
 | Cores, mutex and input/output information.
 *=============================================================*/
 #include <pthread.h>
+#include <time.h>
+#include <sys/time.h>
+#include <stdint.h>
+#include <unistd.h>
+
+typedef struct {
+	long long previous;
+	long long current;
+	long long elapsed;
+} ClockTimeUs;
+ClockTimeUs clockTimeUs;
+
+// Returns the current time in microseconds
+long long getClockTimeUs(void) {
+	struct timespec ts;
+
+	if (clock_gettime(CLOCK_MONOTONIC, &ts) == 0) {
+		return (((long long)ts.tv_sec) * 1000000 + ts.tv_nsec / 1000);
+	} else {
+		return 0;
+	}
+}
 
 // Mapping Pthreads to processor cores
 pthread_t cores[1];
@@ -18,18 +40,22 @@ pthread_attr_t slaveCoreAttribute;
 // Status values.
 typedef enum {
 	// PAR
-	FOREC_PAR_OFF,				// 0
-	FOREC_PAR_ON,				// 1
+	FOREC_PAR_OFF,              // 0
+	FOREC_PAR_ON,               // 1
 
 	// Core
-	FOREC_CORE_REACTING,		// 2
-	FOREC_CORE_REACTED,			// 3
-	FOREC_CORE_TERMINATED,		// 4
+	FOREC_CORE_REACTING,        // 2
+	FOREC_CORE_REACTED,         // 3
+	FOREC_CORE_TERMINATED,      // 4
 	
 	// Shared variables
-	FOREC_SHARED_UNMODIFIED,	// 5
-	FOREC_SHARED_MODIFIED,		// 6
-	FOREC_SHARED_WAS_MODIFIED	// 7
+	FOREC_SHARED_UNMODIFIED,    // 5
+	FOREC_SHARED_MODIFIED,      // 6
+	FOREC_SHARED_WAS_MODIFIED,  // 7
+	
+	// Program termination
+	RUNNING,                    // 8
+	TERMINATED                  // 9
 } Status;
 
 // Store child thread information.
@@ -42,17 +68,23 @@ typedef struct _Thread {
 // Store parent thread information
 typedef struct {
 	void *programCounter;
-	int parStatus;
-	int parId;
+	volatile Status parStatus;
+	pthread_cond_t parStatusCond;
+	pthread_mutex_t parStatusLock;
+	volatile int parId;
 } Parent;
 
 // Keep track of child threads executing on
 // a processor core.
 typedef struct {
-	int sync;
-	int activeThreads;
-	int status;
-	int reactionCounter;
+	volatile int sync;
+	volatile int activeThreads;
+	volatile Status status;
+	pthread_cond_t statusCond;
+	pthread_mutex_t statusLock;
+	volatile int reactionCounter;
+	pthread_cond_t reactionCounterCond;
+	pthread_mutex_t reactionCounterLock;
 } Core;
 
 // Structure to pass input arguments into forecMain.
@@ -62,13 +94,18 @@ typedef struct {
 	char **argv;
 } Arguments;
 
+// Shared control variable to signal program termination to the slave pthreads
+volatile Status programStatus;
+
 // Shared control variables for non-immediate aborts -----------
 
 // Shared control variables for par(...)s ----------------------
 // Thread main with par(...)s
-volatile Parent mainParParent;
-volatile Core mainParCore0;
+Parent mainParParent = { .parStatusCond = PTHREAD_COND_INITIALIZER, .parStatusLock = PTHREAD_MUTEX_INITIALIZER };
+Core mainParCore0 = { .statusCond = PTHREAD_COND_INITIALIZER, .statusLock = PTHREAD_MUTEX_INITIALIZER, .reactionCounterCond = PTHREAD_COND_INITIALIZER, .reactionCounterLock = PTHREAD_MUTEX_INITIALIZER};
 volatile int mainParReactionCounter;
+pthread_cond_t mainParReactionCounterCond = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t mainParReactionCounterLock = PTHREAD_MUTEX_INITIALIZER;
 
 
 /*==============================================================
@@ -147,6 +184,9 @@ Shared_file2__global_0_0 file2__global_0_0_copy_search2 = {.status = FOREC_SHARE
 Shared_found__global_0_0 found__global_0_0_copy_search2 = {.status = FOREC_SHARED_UNMODIFIED};
 
 // forec:scheduler:boot:start
+
+/* Original return type:
+int */
 int main(int argc__main_0_0, char ** argv__main_0_0) {
 
 /*==============================================================
@@ -154,6 +194,8 @@ int main(int argc__main_0_0, char ** argv__main_0_0) {
 | Platform dependent code.  Core identifies itself and
 | executes its corresponding start up code.
 *=============================================================*/
+	programStatus = RUNNING;
+
 	// Initialise ForeC specific values ---------------------------
 	// Thread main with par(...)s
 	mainParParent.parStatus = FOREC_PAR_OFF;
@@ -168,7 +210,7 @@ int main(int argc__main_0_0, char ** argv__main_0_0) {
 	pthread_attr_init(&masterCoreAttribute);
 	pthread_attr_init(&slaveCoreAttribute);
 	pthread_attr_setdetachstate(&masterCoreAttribute, PTHREAD_CREATE_JOINABLE);
-	pthread_attr_setdetachstate(&slaveCoreAttribute, PTHREAD_CREATE_DETACHED);
+	pthread_attr_setdetachstate(&slaveCoreAttribute, PTHREAD_CREATE_JOINABLE);
 		
 	// Master core
 	Arguments arguments0 = {.coreId = 0, .argc = argc__main_0_0, .argv = argv__main_0_0};
@@ -189,8 +231,8 @@ int main(int argc__main_0_0, char ** argv__main_0_0) {
 void *forecMain(void *args) {
 	Arguments *arguments = (Arguments *)args;
 	int coreId = arguments->coreId;
-	int argc__main_0_0 = arguments->argc;
-	char **argv__main_0_0 = arguments->argv;
+	int argc__main_0_0 __attribute__((unused)) = arguments->argc;
+	char **argv__main_0_0 __attribute__((unused)) = arguments->argv;
 
 	// Variables for par()s ----------------------------------------
 	// par0
@@ -232,6 +274,11 @@ void *forecMain(void *args) {
 	int microseconds__main_0_0;
 
 mainParCore0: {
+	// forec:scheduler:counter:start
+	// Initialise and start timing each reaction.
+	clockTimeUs.previous = getClockTimeUs();
+	// forec:scheduler:counter:end
+	
 	//--------------------------------------------------------------
 
 	gettimeofday(&startTime__main_0_0, 0);
@@ -273,7 +320,10 @@ mainParCore0: {
 			// forec:statement:par:par0:start
 			// Set the par(...) information.
 			mainParParent.parId = 0;
+			pthread_mutex_lock(&mainParParent.parStatusLock);
 			mainParParent.parStatus = FOREC_PAR_ON;
+			pthread_cond_broadcast(&mainParParent.parStatusCond);
+			pthread_mutex_unlock(&mainParParent.parStatusLock);
 
 			// Link the threads and handlers together.
 			mainReactionStartMaster0.programCounter = &&mainReactionStartMaster0;
@@ -324,7 +374,10 @@ mainParCore0: {
 		// forec:scheduler:iterationEnd:for3_0:start
 		// Synchronise end of iteration
 		mainParParent.parId = -2;
+		pthread_mutex_lock(&mainParParent.parStatusLock);
 		mainParParent.parStatus = FOREC_PAR_ON;
+		pthread_cond_broadcast(&mainParParent.parStatusCond);
+		pthread_mutex_unlock(&mainParParent.parStatusLock);
 		mainParParent.programCounter = &&for3_0_endAddress;
 		goto mainParHandlerMaster0;
 		for3_0_endAddress:;
@@ -348,8 +401,18 @@ mainParCore0: {
 
 	//--------------------------------------------------------------
 
-
 	// forec:scheduler:threadRemove:main:start
+
+	// forec:scheduler:counter:start
+	clockTimeUs.current = getClockTimeUs();
+	clockTimeUs.elapsed = clockTimeUs.current - clockTimeUs.previous;
+	if (0 <= clockTimeUs.elapsed && clockTimeUs.elapsed < 0) {
+		usleep(0 - clockTimeUs.elapsed);
+	}
+	clockTimeUs.previous = getClockTimeUs();
+	// forec:scheduler:counter:end
+	
+	programStatus = TERMINATED;
 	pthread_exit(NULL);
 	// forec:scheduler:threadRemove:main:end
 } // mainParCore0
@@ -361,13 +424,19 @@ mainParHandlerMaster0: {
 		// Iteration
 		// Wait for other cores to complete their reaction.
 
+		pthread_mutex_lock(&mainParParent.parStatusLock);
 		mainParParent.parStatus = FOREC_PAR_OFF;
+		pthread_cond_broadcast(&mainParParent.parStatusCond);
+		pthread_mutex_unlock(&mainParParent.parStatusLock);
 		mainParParent.parId = -1;
 
 		// Set slave cores' status to reacting.
 
 		// Increment the reaction counter for synchronisation.
+		pthread_mutex_lock(&mainParReactionCounterLock);
 		mainParReactionCounter++;
+		pthread_cond_broadcast(&mainParReactionCounterCond);
+		pthread_mutex_unlock(&mainParReactionCounterLock);
 
 		// Return to thread main.
 		goto *mainParParent.programCounter;
@@ -398,11 +467,14 @@ mainReactionStartMaster0: {
 	//-- main:
 mainReactionEndMaster0: {
 	// Determine if the core can still react or not.
+	pthread_mutex_lock(&mainParCore0.statusLock);
 	if (mainParCore0.activeThreads) {
 		mainParCore0.status = FOREC_CORE_REACTED;
 	} else {
 		mainParCore0.status = FOREC_CORE_TERMINATED;
 	}
+	pthread_cond_signal(&mainParCore0.statusCond);
+	pthread_mutex_unlock(&mainParCore0.statusLock);
 	
 	// Wait for other cores to complete their reaction.
 
@@ -442,21 +514,39 @@ mainReactionEndMaster0: {
 
 	// Return back to the parent thread if all the cores have terminated.
 	if (1 && mainParCore0.status == FOREC_CORE_TERMINATED) {
+		pthread_mutex_lock(&mainParParent.parStatusLock);
 		mainParParent.parStatus = FOREC_PAR_OFF;
+		pthread_cond_broadcast(&mainParParent.parStatusCond);
+		pthread_mutex_unlock(&mainParParent.parStatusLock);
 		mainParParent.parId = -1;
 		
 		// Set slave cores' status to reacting
 
 		// Increment the reaction counter for synchronization.
+		pthread_mutex_lock(&mainParReactionCounterLock);
 		mainParReactionCounter++;
+		pthread_cond_broadcast(&mainParReactionCounterCond);
+		pthread_mutex_unlock(&mainParReactionCounterLock);
 
 		goto *mainParParent.programCounter;
 	}
 
 	// Set slave cores' status to reacting
 
+	// forec:scheduler:counter:start
+	clockTimeUs.current = getClockTimeUs();
+	clockTimeUs.elapsed = clockTimeUs.current - clockTimeUs.previous;
+	if (0 <= clockTimeUs.elapsed && clockTimeUs.elapsed < 0) {
+		usleep(0 - clockTimeUs.elapsed);
+	}
+	clockTimeUs.previous = getClockTimeUs();
+	// forec:scheduler:counter:end
+
 	// Increment the reaction counter for synchronization.
+	pthread_mutex_lock(&mainParReactionCounterLock);
 	mainParReactionCounter++;
+	pthread_cond_broadcast(&mainParReactionCounterCond);
+	pthread_mutex_unlock(&mainParReactionCounterLock);
 
 	// Go to the next thread.
 	goto *mainReactionEndMaster0.nextThread -> programCounter;

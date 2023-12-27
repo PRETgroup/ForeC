@@ -15,6 +15,9 @@ compress:
 decompress:
 	./Lzss -d result.lzs
 
+diff:
+	- diff result_data.txt data.txt
+
 clean:
 	rm -f Lzss *.exe *.lzs result_data.txt
 

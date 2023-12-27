@@ -131,6 +131,7 @@ namespace forec {
 			this->scopeName = tools::SymbolTable::getScopeName();
 			this->type = type;
 			
+		//	std::cout << "PrimaryExpression: " << *this << ' ' << type << ' ' << variant  << ' ' << isUsage << std::endl;
 			if (isVariant("identifier")) {
 				// Check if identifier is being accessed or declared.
 				if (isUsage) {
@@ -168,6 +169,7 @@ namespace forec {
 		}
 
 		void PrimaryExpression::prettyPrint(std::ostream &output) {
+		//	std::cout << "Out: " << terminal  << suffix << " " << this->getVariant() << std::endl;
 			if (isVariant("identifier")) {
 				output << terminal << suffix;
 				if (this->declaration != NULL && this->declaration->getType().compare("shared") == 0) {

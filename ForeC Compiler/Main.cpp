@@ -27,7 +27,7 @@
 #include "tools/Tab.hpp"
 
 
-const std::string version = "Version: 0.993 (30 June 2023)";
+const std::string version = "Version: 0.994 (27 Dec 2023)";
 std::ofstream debugFile;
 
 namespace global {

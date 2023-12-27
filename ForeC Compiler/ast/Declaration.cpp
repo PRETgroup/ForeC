@@ -94,12 +94,14 @@ namespace forec {
 		}
 		
 		void Declaration::updateSymbolTable(const std::string &type, const bool isUsage, const bool isRead) {
-			if (has("StorageClassSpecifier", "typedef")) {
-				if (has("StorageClassSpecifier", "extern")) {
-					children[0]->updateSymbolTable("extern");
-				} else {
-					children[0]->updateSymbolTable("typedef");
-				}
+		//	std::cout << "Declaration: " << *children[0] << ' ' << type << ' ' << isUsage << std::endl;
+			if (has("StorageClassSpecifier", "extern")) {
+				children[0]->updateSymbolTable("extern");
+			} else if (has("StructUnionSpecifier", "declaration") && has("InitDeclaratorList", "none")) {
+			//	std::cout << "structorunion" << std::endl;
+				children[0]->updateSymbolTable("usage", true, isRead);
+			} else if (has("StorageClassSpecifier", "typedef")) {
+				children[0]->updateSymbolTable("typedef");
 			} else if (isVariant("threadDeclaration")) {
 				children[0]->updateSymbolTable("thread");
 			} else {
@@ -168,9 +170,12 @@ namespace forec {
 		}
 		
 		void Declaration::prettyPrint(std::ostream &output) {
-			// "extern typedef" is a ForeC workaround to adding externally defined typedefs into the symbol table without mangling their names.
-			if (has("StorageClassSpecifier", "extern") && has("StorageClassSpecifier", "typedef")) {
-				return;
+		//	std::cout << "Out: " << children[0]->getParent()->getParent()->getType() << std::endl;
+		
+			// "extern typedef" and "extern struct" are ForeC workarounds to adding externally defined typedefs and structs to the symbol table without mangling their names.
+			const bool isExternIgnore = (has("StorageClassSpecifier", "extern") && (has("StorageClassSpecifier", "typedef") || has("StructUnionSpecifier", "definition") || has("StructUnionSpecifier", "declaration")));
+			if (isExternIgnore) {
+				output << "/* ForeC workaround to external declarations:" << std::endl << tools::Tab::toString();
 			}
 		
 			if (isVariant("threadDeclaration")) {
@@ -193,6 +198,10 @@ namespace forec {
 			}
 			
 			output << ";";
+			
+			if (isExternIgnore) {
+				output << " */";
+			}
 		}
 
 	}

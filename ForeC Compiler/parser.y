@@ -399,7 +399,7 @@ type_specifier
 struct_or_union_specifier
 	: struct_or_union IDENTIFIER '{' struct_declaration_list '}'	{ $$ = new forec::ast::StructUnionSpecifier(*$1, *(new forec::ast::PrimaryExpression(*$2, @2.begin.line, "identifier")), *$4, "definition"); }
 	| struct_or_union '{' struct_declaration_list '}'				{ $$ = new forec::ast::StructUnionSpecifier(*$1, *$3, "anonymous"); }
-	| struct_or_union IDENTIFIER									{ $$ = new forec::ast::StructUnionSpecifier(*$1, *(new forec::ast::PrimaryExpression(*$2, @2.begin.line, "identifier")), "declaration"); }
+	| struct_or_union IDENTIFIER									{ $$ = new forec::ast::StructUnionSpecifier(*$1, *(new forec::ast::PrimaryExpression(*$2, @2.begin.line, "identifier")), "declaration"); }  // Could also be usage if followed by a declarator!
 	;
 
 struct_or_union

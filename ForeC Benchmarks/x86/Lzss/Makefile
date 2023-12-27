@@ -20,6 +20,9 @@ compress:
 decompress:
 	./Lzss -d result.lzs
 
+diff:
+	- diff result_data.txt data.txt
+
 dot:
 	dot -T pdf Lzss.dot -o Lzss.pdf
 

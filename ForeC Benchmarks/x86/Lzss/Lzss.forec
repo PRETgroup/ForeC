@@ -16,6 +16,38 @@
 #include <sys/stat.h>
 #include <sys/time.h>
 
+// ForeC workaround to external declarations.
+// extern int EOF;
+// extern int S_ISDIR(mode_t m);
+extern struct timeval;
+extern struct stat;
+extern typedef int FILE;
+extern typedef int mode_t;
+extern typedef int size_t;
+
+// C standard function prototypes
+int gettimeofday(struct timeval * __restrict, void * __restrict);
+int strcmp(const char *str1, const char *str2);
+void exit(int status);
+int printf(const char * __restrict, ...);
+int fprintf(FILE *stream, const char *format, ...);
+int fgetc(FILE *stream);
+int fflush(FILE *stream);
+int fputc(int character, FILE *stream);
+int fclose(FILE *stream);
+int mkdir(const char *path, mode_t mode);
+int feof(FILE *stream);
+long int ftell(FILE * stream);
+void *malloc(size_t size);
+char *strchr(const char *str, int character);
+int putchar(int character);
+void free(void *ptr);
+int fputs(const char *str, FILE *stream);
+FILE *fopen(const char *filename, const char *mode);
+size_t fwrite(const void* buffer, size_t size, size_t count, FILE* stream);
+size_t strlen(const char * str);
+size_t fread(void *buffer, size_t size, size_t count, FILE *stream);
+
 typedef struct _Fifo {
     char *data;
     unsigned size;
@@ -51,9 +83,6 @@ shared int *matches_thread_ptr = matches_thread;
 
 /* It is more sensible to group all the information about the file requested into.
    a structure. */
-typedef int FILE;
-#define FILE__global_0_0 FILE
-
 struct fileStats {
     FILE *p_file;
     char filenameArray[512];
@@ -62,7 +91,6 @@ struct fileStats {
     int totalSize;
     int isDir;
 } fileInfo, archiveInfo;
-//#undef FILE__global_0_0
 
 void *null = (void *)0;
 

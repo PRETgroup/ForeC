@@ -135,6 +135,10 @@ namespace forec {
 			if (identifier.compare("main") == 0) {
 				output << tools::Template::formatSharedSymbols() << std::endl;
 				output << "// forec:scheduler:boot:start" << std::endl;
+				output << std::endl;
+				output << "/* Original return type:" << std::endl;
+				output << *children[0] << " */" << std::endl;
+				
 				if (global::embeddedMainFunctionName.empty()) {
 					output << "int ";
 				} else {

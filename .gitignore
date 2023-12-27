@@ -37,6 +37,11 @@ ForeC Benchmarks/x86/Design patterns/Broadcast/Broadcast.c
 ForeC Benchmarks/x86/Pi/BaselineOpenMP
 ForeC Benchmarks/x86/Pi/Test
 ForeC Benchmarks/x86/Pi/BaselineSequential
+ForeC Benchmarks/x86/Lzss/result_data.txt
+ForeC Benchmarks/x86/Nokia 802_11a/Pipelined/802_11a
+ForeC Benchmarks/x86/Nokia 802_11a/Pipelined/plainC_SimOutput/
+ForeC Benchmarks/x86/Nokia 802_11a/Pipelined (predicated execution, old)/802_11a
+ForeC Benchmarks/x86/Nokia 802_11a/Pipelined (predicated execution, old)/plainC_SimOutput/
 
 PTARM Processor/programs/memory/_build/memory.o.expanded.c
 PTARM Processor/programs/memory/_build/memory.elf

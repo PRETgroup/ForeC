@@ -20,7 +20,7 @@ long long getClockTimeUs(void) {
 	struct timespec ts;
 
 	if (clock_gettime(CLOCK_MONOTONIC, &ts) == 0) {
-		return (long long) (ts.tv_sec * 1000000 + ts.tv_nsec / 1000);
+		return (((long long)ts.tv_sec) * 1000000 + ts.tv_nsec / 1000);
 	} else {
 		return 0;
 	}
@@ -41,18 +41,22 @@ unsigned int forec_mutex_value_stage6;
 // Status values.
 typedef enum {
 	// PAR
-	FOREC_PAR_OFF,				// 0
-	FOREC_PAR_ON,				// 1
+	FOREC_PAR_OFF,              // 0
+	FOREC_PAR_ON,               // 1
 
 	// Core
-	FOREC_CORE_REACTING,		// 2
-	FOREC_CORE_REACTED,			// 3
-	FOREC_CORE_TERMINATED,		// 4
+	FOREC_CORE_REACTING,        // 2
+	FOREC_CORE_REACTED,         // 3
+	FOREC_CORE_TERMINATED,      // 4
 	
 	// Shared variables
-	FOREC_SHARED_UNMODIFIED,	// 5
-	FOREC_SHARED_MODIFIED,		// 6
-	FOREC_SHARED_WAS_MODIFIED	// 7
+	FOREC_SHARED_UNMODIFIED,    // 5
+	FOREC_SHARED_MODIFIED,      // 6
+	FOREC_SHARED_WAS_MODIFIED,  // 7
+	
+	// Program termination
+	RUNNING,                    // 8
+	TERMINATED                  // 9
 } Status;
 
 // Store child thread information.
@@ -65,7 +69,7 @@ typedef struct _Thread {
 // Store parent thread information
 typedef struct {
 	void *programCounter;
-	volatile int parStatus;
+	volatile Status parStatus;
 	pthread_cond_t parStatusCond;
 	pthread_mutex_t parStatusLock;
 	volatile int parId;
@@ -76,7 +80,7 @@ typedef struct {
 typedef struct {
 	volatile int sync;
 	volatile int activeThreads;
-	volatile int status;
+	volatile Status status;
 	pthread_cond_t statusCond;
 	pthread_mutex_t statusLock;
 	volatile int reactionCounter;
@@ -90,6 +94,9 @@ typedef struct {
 	int argc;
 	char **argv;
 } Arguments;
+
+// Shared control variable to signal program termination to the slave pthreads
+volatile Status programStatus;
 
 // Shared control variables for non-immediate aborts -----------
 
@@ -121,90 +128,94 @@ void *forecMain(void *args);
 #include <stdlib.h>
 #include <sys/time.h>
 
+/* ForeC workaround to external declarations:
+extern struct timeval; */
+/* ForeC workaround to external declarations:
+extern typedef int FILE; */
+/* ForeC workaround to external declarations:
+extern typedef int size_t; */
+
 int printf(const char *format, ...);
 int atoi(const char *str);
 double atof(const char *str);
 int stat(const char *path, struct stat *buf);
+int gettimeofday(struct timeval *__restrict, void *__restrict);
+void *malloc(size_t size);
+FILE *fopen(const char *filename, const char *mode);
+int fclose(FILE *stream);
+int fprintf(FILE *stream, const char *format, ...);
+int feof(FILE *stream);
+char *fgets(char *str, int num, FILE *stream);
 
-typedef int FILE__global_0_0;
-
-#define FILE__global_0_0 FILE
-
-FILE__global_0_0 *fopen(const char *filename, const char *mode);
-int fclose(FILE__global_0_0 *stream);
-int fprintf(FILE__global_0_0 *stream, const char *format, ...);
-int feof(FILE__global_0_0 *stream);
-char *fgets(char *str, int num, FILE__global_0_0 *stream);
-
-FILE__global_0_0 *file_re_in__global_0_0, *file_im_in__global_0_0;
+FILE *file_re_in__global_0_0, *file_im_in__global_0_0;
 
 typedef struct {
-	/* shared */ FILE__global_0_0 *value;
+	/* shared */ FILE *value;
 	int status;
 } Shared_freq_sync_correl_2STS_out_I__global_0_0;
 Shared_freq_sync_correl_2STS_out_I__global_0_0 freq_sync_correl_2STS_out_I__global_0_0;
 typedef struct {
-	/* shared */ FILE__global_0_0 *value;
+	/* shared */ FILE *value;
 	int status;
 } Shared_freq_sync_correl_2STS_out_Q__global_0_0;
 Shared_freq_sync_correl_2STS_out_Q__global_0_0 freq_sync_correl_2STS_out_Q__global_0_0;
 typedef struct {
-	/* shared */ FILE__global_0_0 *value;
+	/* shared */ FILE *value;
 	int status;
 } Shared_FS_single_correl_I__global_0_0;
 Shared_FS_single_correl_I__global_0_0 FS_single_correl_I__global_0_0;
 typedef struct {
-	/* shared */ FILE__global_0_0 *value;
+	/* shared */ FILE *value;
 	int status;
 } Shared_FS_single_correl_Q__global_0_0;
 Shared_FS_single_correl_Q__global_0_0 FS_single_correl_Q__global_0_0;
 typedef struct {
-	/* shared */ FILE__global_0_0 *value;
+	/* shared */ FILE *value;
 	int status;
 } Shared_fft_re_reversed__global_0_0;
 Shared_fft_re_reversed__global_0_0 fft_re_reversed__global_0_0;
 typedef struct {
-	/* shared */ FILE__global_0_0 *value;
+	/* shared */ FILE *value;
 	int status;
 } Shared_fft_im_reversed__global_0_0;
 Shared_fft_im_reversed__global_0_0 fft_im_reversed__global_0_0;
 typedef struct {
-	/* shared */ FILE__global_0_0 *value;
+	/* shared */ FILE *value;
 	int status;
 } Shared_freq_est_phase_out_I__global_0_0;
 Shared_freq_est_phase_out_I__global_0_0 freq_est_phase_out_I__global_0_0;
 typedef struct {
-	/* shared */ FILE__global_0_0 *value;
+	/* shared */ FILE *value;
 	int status;
 } Shared_freq_est_phase_out_Q__global_0_0;
 Shared_freq_est_phase_out_Q__global_0_0 freq_est_phase_out_Q__global_0_0;
 typedef struct {
-	/* shared */ FILE__global_0_0 *value;
+	/* shared */ FILE *value;
 	int status;
 } Shared_CHE_out_I__global_0_0;
 Shared_CHE_out_I__global_0_0 CHE_out_I__global_0_0;
 typedef struct {
-	/* shared */ FILE__global_0_0 *value;
+	/* shared */ FILE *value;
 	int status;
 } Shared_CHE_out_Q__global_0_0;
 Shared_CHE_out_Q__global_0_0 CHE_out_Q__global_0_0;
 typedef struct {
-	/* shared */ FILE__global_0_0 *value;
+	/* shared */ FILE *value;
 	int status;
 } Shared_CHC_out_I__global_0_0;
 Shared_CHC_out_I__global_0_0 CHC_out_I__global_0_0;
 typedef struct {
-	/* shared */ FILE__global_0_0 *value;
+	/* shared */ FILE *value;
 	int status;
 } Shared_CHC_out_Q__global_0_0;
 Shared_CHC_out_Q__global_0_0 CHC_out_Q__global_0_0;
 typedef struct {
-	/* shared */ FILE__global_0_0 *value;
+	/* shared */ FILE *value;
 	int status;
 } Shared_fft_re_out__global_0_0;
 Shared_fft_re_out__global_0_0 fft_re_out__global_0_0;
 typedef struct {
-	/* shared */ FILE__global_0_0 *value;
+	/* shared */ FILE *value;
 	int status;
 } Shared_fft_im_out__global_0_0;
 Shared_fft_im_out__global_0_0 fft_im_out__global_0_0;
@@ -555,17 +566,15 @@ Shared_imag_out_demux__global_0_0 imag_out_demux__global_0_0_copy_removeReorder0
 Shared_real_out_demux__global_0_0 real_out_demux__global_0_0_copy_removeReorder1 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_imag_out_demux__global_0_0 imag_out_demux__global_0_0_copy_removeReorder1 = {.status = FOREC_SHARED_UNMODIFIED};
 // stage0
-Shared_freq_sync_correl_2STS_out_I__global_0_0 freq_sync_correl_2STS_out_I__global_0_0_copy_stage0 = {.status = FOREC_SHARED_UNMODIFIED};
-Shared_freq_sync_correl_2STS_out_Q__global_0_0 freq_sync_correl_2STS_out_Q__global_0_0_copy_stage0 = {.status = FOREC_SHARED_UNMODIFIED};
-Shared_FS_single_correl_I__global_0_0 FS_single_correl_I__global_0_0_copy_stage0 = {.status = FOREC_SHARED_UNMODIFIED};
-Shared_FS_single_correl_Q__global_0_0 FS_single_correl_Q__global_0_0_copy_stage0 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_input_size__global_0_0 input_size__global_0_0_copy_stage0 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_inputData__global_0_0 inputData__global_0_0_copy_stage0 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_freq_sync_correl_2STS_output_stage_0_1__global_0_0 freq_sync_correl_2STS_output_stage_0_1__global_0_0_copy_stage0 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_correlation_1ST_stage_0_1__global_0_0 correlation_1ST_stage_0_1__global_0_0_copy_stage0 = {.status = FOREC_SHARED_UNMODIFIED};
+Shared_freq_sync_correl_2STS_out_I__global_0_0 freq_sync_correl_2STS_out_I__global_0_0_copy_stage0 = {.status = FOREC_SHARED_UNMODIFIED};
+Shared_freq_sync_correl_2STS_out_Q__global_0_0 freq_sync_correl_2STS_out_Q__global_0_0_copy_stage0 = {.status = FOREC_SHARED_UNMODIFIED};
+Shared_FS_single_correl_I__global_0_0 FS_single_correl_I__global_0_0_copy_stage0 = {.status = FOREC_SHARED_UNMODIFIED};
+Shared_FS_single_correl_Q__global_0_0 FS_single_correl_Q__global_0_0_copy_stage0 = {.status = FOREC_SHARED_UNMODIFIED};
 // stage1
-Shared_freq_est_phase_out_I__global_0_0 freq_est_phase_out_I__global_0_0_copy_stage1 = {.status = FOREC_SHARED_UNMODIFIED};
-Shared_freq_est_phase_out_Q__global_0_0 freq_est_phase_out_Q__global_0_0_copy_stage1 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_input_size__global_0_0 input_size__global_0_0_copy_stage1 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_freq_sync_correl_2STS_output_stage_0_1__global_0_0 freq_sync_correl_2STS_output_stage_0_1__global_0_0_copy_stage1 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_freq_sync_correl_2STS_output_stage_1_2__global_0_0 freq_sync_correl_2STS_output_stage_1_2__global_0_0_copy_stage1 = {.status = FOREC_SHARED_UNMODIFIED};
@@ -573,6 +582,8 @@ Shared_correlation_1ST_stage_0_1__global_0_0 correlation_1ST_stage_0_1__global_0
 Shared_burst_found_pulse_out_stage_1_2__global_0_0 burst_found_pulse_out_stage_1_2__global_0_0_copy_stage1 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_freq_est_phase_out_stage_1_2__global_0_0 freq_est_phase_out_stage_1_2__global_0_0_copy_stage1 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_burst_found_pulse_for_FT_stage_1_2__global_0_0 burst_found_pulse_for_FT_stage_1_2__global_0_0_copy_stage1 = {.status = FOREC_SHARED_UNMODIFIED};
+Shared_freq_est_phase_out_I__global_0_0 freq_est_phase_out_I__global_0_0_copy_stage1 = {.status = FOREC_SHARED_UNMODIFIED};
+Shared_freq_est_phase_out_Q__global_0_0 freq_est_phase_out_Q__global_0_0_copy_stage1 = {.status = FOREC_SHARED_UNMODIFIED};
 // stage2
 Shared_input_size__global_0_0 input_size__global_0_0_copy_stage2 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_freq_sync_correl_2STS_output_stage_1_2__global_0_0 freq_sync_correl_2STS_output_stage_1_2__global_0_0_copy_stage2 = {.status = FOREC_SHARED_UNMODIFIED};
@@ -596,27 +607,30 @@ Shared_data_out_FT_stage_4_5__global_0_0 data_out_FT_stage_4_5__global_0_0_copy_
 Shared_maximum_found_stage_4_5__global_0_0 maximum_found_stage_4_5__global_0_0_copy_stage4 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_burst_found_pulse_for_FT_stage_3_4__global_0_0 burst_found_pulse_for_FT_stage_3_4__global_0_0_copy_stage4 = {.status = FOREC_SHARED_UNMODIFIED};
 // stage5
-Shared_fft_re_reversed__global_0_0 fft_re_reversed__global_0_0_copy_stage5 = {.status = FOREC_SHARED_UNMODIFIED};
-Shared_fft_im_reversed__global_0_0 fft_im_reversed__global_0_0_copy_stage5 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_input_size__global_0_0 input_size__global_0_0_copy_stage5 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_data_out_FT_stage_4_5__global_0_0 data_out_FT_stage_4_5__global_0_0_copy_stage5 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_maximum_found_stage_4_5__global_0_0 maximum_found_stage_4_5__global_0_0_copy_stage5 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_maximum_found_stage_5_6__global_0_0 maximum_found_stage_5_6__global_0_0_copy_stage5 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_re_out__global_0_0 re_out__global_0_0_copy_stage5 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_im_out__global_0_0 im_out__global_0_0_copy_stage5 = {.status = FOREC_SHARED_UNMODIFIED};
+Shared_fft_re_reversed__global_0_0 fft_re_reversed__global_0_0_copy_stage5 = {.status = FOREC_SHARED_UNMODIFIED};
+Shared_fft_im_reversed__global_0_0 fft_im_reversed__global_0_0_copy_stage5 = {.status = FOREC_SHARED_UNMODIFIED};
 // stage6
+Shared_input_size__global_0_0 input_size__global_0_0_copy_stage6 = {.status = FOREC_SHARED_UNMODIFIED};
+Shared_maximum_found_stage_5_6__global_0_0 maximum_found_stage_5_6__global_0_0_copy_stage6 = {.status = FOREC_SHARED_UNMODIFIED};
+Shared_re_out__global_0_0 re_out__global_0_0_copy_stage6 = {.status = FOREC_SHARED_UNMODIFIED};
+Shared_im_out__global_0_0 im_out__global_0_0_copy_stage6 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_CHE_out_I__global_0_0 CHE_out_I__global_0_0_copy_stage6 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_CHE_out_Q__global_0_0 CHE_out_Q__global_0_0_copy_stage6 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_CHC_out_I__global_0_0 CHC_out_I__global_0_0_copy_stage6 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_CHC_out_Q__global_0_0 CHC_out_Q__global_0_0_copy_stage6 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_fft_re_out__global_0_0 fft_re_out__global_0_0_copy_stage6 = {.status = FOREC_SHARED_UNMODIFIED};
 Shared_fft_im_out__global_0_0 fft_im_out__global_0_0_copy_stage6 = {.status = FOREC_SHARED_UNMODIFIED};
-Shared_input_size__global_0_0 input_size__global_0_0_copy_stage6 = {.status = FOREC_SHARED_UNMODIFIED};
-Shared_maximum_found_stage_5_6__global_0_0 maximum_found_stage_5_6__global_0_0_copy_stage6 = {.status = FOREC_SHARED_UNMODIFIED};
-Shared_re_out__global_0_0 re_out__global_0_0_copy_stage6 = {.status = FOREC_SHARED_UNMODIFIED};
-Shared_im_out__global_0_0 im_out__global_0_0_copy_stage6 = {.status = FOREC_SHARED_UNMODIFIED};
 
 // forec:scheduler:boot:start
+
+/* Original return type:
+int */
 int main(int argc__main_0_0, char ** argv__main_0_0) {
 
 /*==============================================================
@@ -624,6 +638,8 @@ int main(int argc__main_0_0, char ** argv__main_0_0) {
 | Platform dependent code.  Core identifies itself and
 | executes its corresponding start up code.
 *=============================================================*/
+	programStatus = RUNNING;
+
 	// Initialise ForeC specific values ---------------------------
 	// Thread main with par(...)s
 	mainParParent.parStatus = FOREC_PAR_OFF;
@@ -846,7 +862,6 @@ mainParCore0: {
 	par0JoinAddress_mainParCore0:;
 	// forec:statement:par:par0:end
 
-	printf("Here\n");
 	fclose(file_re_in__global_0_0);
 	fclose(file_im_in__global_0_0);
 	fclose(freq_sync_correl_2STS_out_I__global_0_0.value);
@@ -882,12 +897,13 @@ mainParCore0: {
 	// forec:scheduler:counter:start
 	clockTimeUs.current = getClockTimeUs();
 	clockTimeUs.elapsed = clockTimeUs.current - clockTimeUs.previous;
-	if (clockTimeUs.elapsed < 0) {
+	if (0 <= clockTimeUs.elapsed && clockTimeUs.elapsed < 0) {
 		usleep(0 - clockTimeUs.elapsed);
 	}
 	clockTimeUs.previous = getClockTimeUs();
 	// forec:scheduler:counter:end
 	
+	programStatus = TERMINATED;
 	pthread_exit(NULL);
 	// forec:scheduler:threadRemove:main:end
 } // mainParCore0
@@ -1162,7 +1178,7 @@ stage6ParHandlerMaster0: {
 
 		// Wait for the next tick.
 		pthread_mutex_lock(&stage6ParReactionCounterLock);
-		while (stage6ParCore0.reactionCounter == stage6ParReactionCounter) { pthread_testcancel(); pthread_cond_wait(&stage6ParReactionCounterCond, &stage6ParReactionCounterLock); }
+		while (stage6ParCore0.reactionCounter == stage6ParReactionCounter) { pthread_cond_wait(&stage6ParReactionCounterCond, &stage6ParReactionCounterLock); }
 		pthread_mutex_unlock(&stage6ParReactionCounterLock);
 		stage6ParCore0.reactionCounter++;
 
@@ -1348,7 +1364,7 @@ mainReactionEndMaster0: {
 	// forec:scheduler:counter:start
 	clockTimeUs.current = getClockTimeUs();
 	clockTimeUs.elapsed = clockTimeUs.current - clockTimeUs.previous;
-	if (clockTimeUs.elapsed < 0) {
+	if (0 <= clockTimeUs.elapsed && clockTimeUs.elapsed < 0) {
 		usleep(0 - clockTimeUs.elapsed);
 	}
 	clockTimeUs.previous = getClockTimeUs();
@@ -2352,14 +2368,14 @@ stage6ReactionEndMaster0: {
 	*-------------------------------------------------------------*/
 
 	// Thread local declarations -----------------------------------
-	Shared_freq_sync_correl_2STS_out_I__global_0_0 freq_sync_correl_2STS_out_I__global_0_0_copy_stage0_local;
-	Shared_freq_sync_correl_2STS_out_Q__global_0_0 freq_sync_correl_2STS_out_Q__global_0_0_copy_stage0_local;
-	Shared_FS_single_correl_I__global_0_0 FS_single_correl_I__global_0_0_copy_stage0_local;
-	Shared_FS_single_correl_Q__global_0_0 FS_single_correl_Q__global_0_0_copy_stage0_local;
 	Shared_input_size__global_0_0 input_size__global_0_0_copy_stage0_local;
 	Shared_inputData__global_0_0 inputData__global_0_0_copy_stage0_local;
 	Shared_freq_sync_correl_2STS_output_stage_0_1__global_0_0 freq_sync_correl_2STS_output_stage_0_1__global_0_0_copy_stage0_local;
 	Shared_correlation_1ST_stage_0_1__global_0_0 correlation_1ST_stage_0_1__global_0_0_copy_stage0_local;
+	Shared_freq_sync_correl_2STS_out_I__global_0_0 freq_sync_correl_2STS_out_I__global_0_0_copy_stage0_local;
+	Shared_freq_sync_correl_2STS_out_Q__global_0_0 freq_sync_correl_2STS_out_Q__global_0_0_copy_stage0_local;
+	Shared_FS_single_correl_I__global_0_0 FS_single_correl_I__global_0_0_copy_stage0_local;
+	Shared_FS_single_correl_Q__global_0_0 FS_single_correl_Q__global_0_0_copy_stage0_local;
 	int data_store_real_0__stage0_0_0[32*2];
 	int data_store_imag_0__stage0_0_0[32*2];
 	int i__stage0_0_0;
@@ -2370,14 +2386,6 @@ stage6ReactionEndMaster0: {
 	// Thread body -------------------------------------------------
 	stage0__thread: {
 		// Initialise the local copies of shared variables.
-		freq_sync_correl_2STS_out_I__global_0_0_copy_stage0_local.value = freq_sync_correl_2STS_out_I__global_0_0.value;
-		freq_sync_correl_2STS_out_I__global_0_0_copy_stage0_local.status = FOREC_SHARED_UNMODIFIED;
-		freq_sync_correl_2STS_out_Q__global_0_0_copy_stage0_local.value = freq_sync_correl_2STS_out_Q__global_0_0.value;
-		freq_sync_correl_2STS_out_Q__global_0_0_copy_stage0_local.status = FOREC_SHARED_UNMODIFIED;
-		FS_single_correl_I__global_0_0_copy_stage0_local.value = FS_single_correl_I__global_0_0.value;
-		FS_single_correl_I__global_0_0_copy_stage0_local.status = FOREC_SHARED_UNMODIFIED;
-		FS_single_correl_Q__global_0_0_copy_stage0_local.value = FS_single_correl_Q__global_0_0.value;
-		FS_single_correl_Q__global_0_0_copy_stage0_local.status = FOREC_SHARED_UNMODIFIED;
 		input_size__global_0_0_copy_stage0_local.value = input_size__global_0_0.value;
 		input_size__global_0_0_copy_stage0_local.status = FOREC_SHARED_UNMODIFIED;
 		inputData__global_0_0_copy_stage0_local.value = inputData__global_0_0.value;
@@ -2386,6 +2394,14 @@ stage6ReactionEndMaster0: {
 		freq_sync_correl_2STS_output_stage_0_1__global_0_0_copy_stage0_local.status = FOREC_SHARED_UNMODIFIED;
 		correlation_1ST_stage_0_1__global_0_0_copy_stage0_local.value = correlation_1ST_stage_0_1__global_0_0.value;
 		correlation_1ST_stage_0_1__global_0_0_copy_stage0_local.status = FOREC_SHARED_UNMODIFIED;
+		freq_sync_correl_2STS_out_I__global_0_0_copy_stage0_local.value = freq_sync_correl_2STS_out_I__global_0_0.value;
+		freq_sync_correl_2STS_out_I__global_0_0_copy_stage0_local.status = FOREC_SHARED_UNMODIFIED;
+		freq_sync_correl_2STS_out_Q__global_0_0_copy_stage0_local.value = freq_sync_correl_2STS_out_Q__global_0_0.value;
+		freq_sync_correl_2STS_out_Q__global_0_0_copy_stage0_local.status = FOREC_SHARED_UNMODIFIED;
+		FS_single_correl_I__global_0_0_copy_stage0_local.value = FS_single_correl_I__global_0_0.value;
+		FS_single_correl_I__global_0_0_copy_stage0_local.status = FOREC_SHARED_UNMODIFIED;
+		FS_single_correl_Q__global_0_0_copy_stage0_local.value = FS_single_correl_Q__global_0_0.value;
+		FS_single_correl_Q__global_0_0_copy_stage0_local.status = FOREC_SHARED_UNMODIFIED;
 		//--------------------------------------------------------------
 
 		for (i__stage0_0_0 = 0; i__stage0_0_0 < 32*2; i__stage0_0_0++) {
@@ -2421,14 +2437,14 @@ stage6ReactionEndMaster0: {
 			pause0:;
 			// forec:statement:pause:pause0:end
 			// Update the values of the used shared variables from their global copy.
-			freq_sync_correl_2STS_out_I__global_0_0_copy_stage0_local = freq_sync_correl_2STS_out_I__global_0_0;
-			freq_sync_correl_2STS_out_Q__global_0_0_copy_stage0_local = freq_sync_correl_2STS_out_Q__global_0_0;
-			FS_single_correl_I__global_0_0_copy_stage0_local = FS_single_correl_I__global_0_0;
-			FS_single_correl_Q__global_0_0_copy_stage0_local = FS_single_correl_Q__global_0_0;
 			input_size__global_0_0_copy_stage0_local = input_size__global_0_0;
 			inputData__global_0_0_copy_stage0_local = inputData__global_0_0;
 			freq_sync_correl_2STS_output_stage_0_1__global_0_0_copy_stage0_local = freq_sync_correl_2STS_output_stage_0_1__global_0_0;
 			correlation_1ST_stage_0_1__global_0_0_copy_stage0_local = correlation_1ST_stage_0_1__global_0_0;
+			freq_sync_correl_2STS_out_I__global_0_0_copy_stage0_local = freq_sync_correl_2STS_out_I__global_0_0;
+			freq_sync_correl_2STS_out_Q__global_0_0_copy_stage0_local = freq_sync_correl_2STS_out_Q__global_0_0;
+			FS_single_correl_I__global_0_0_copy_stage0_local = FS_single_correl_I__global_0_0;
+			FS_single_correl_Q__global_0_0_copy_stage0_local = FS_single_correl_Q__global_0_0;
 
 			// forec:iteration:for1_2:bound:7:7
 		}
@@ -2455,8 +2471,6 @@ stage6ReactionEndMaster0: {
 	*-------------------------------------------------------------*/
 
 	// Thread local declarations -----------------------------------
-	Shared_freq_est_phase_out_I__global_0_0 freq_est_phase_out_I__global_0_0_copy_stage1_local;
-	Shared_freq_est_phase_out_Q__global_0_0 freq_est_phase_out_Q__global_0_0_copy_stage1_local;
 	Shared_input_size__global_0_0 input_size__global_0_0_copy_stage1_local;
 	Shared_freq_sync_correl_2STS_output_stage_0_1__global_0_0 freq_sync_correl_2STS_output_stage_0_1__global_0_0_copy_stage1_local;
 	Shared_freq_sync_correl_2STS_output_stage_1_2__global_0_0 freq_sync_correl_2STS_output_stage_1_2__global_0_0_copy_stage1_local;
@@ -2464,6 +2478,8 @@ stage6ReactionEndMaster0: {
 	Shared_burst_found_pulse_out_stage_1_2__global_0_0 burst_found_pulse_out_stage_1_2__global_0_0_copy_stage1_local;
 	Shared_freq_est_phase_out_stage_1_2__global_0_0 freq_est_phase_out_stage_1_2__global_0_0_copy_stage1_local;
 	Shared_burst_found_pulse_for_FT_stage_1_2__global_0_0 burst_found_pulse_for_FT_stage_1_2__global_0_0_copy_stage1_local;
+	Shared_freq_est_phase_out_I__global_0_0 freq_est_phase_out_I__global_0_0_copy_stage1_local;
+	Shared_freq_est_phase_out_Q__global_0_0 freq_est_phase_out_Q__global_0_0_copy_stage1_local;
 	int freq2_i__stage1_0_0;
 	int freq2_q__stage1_0_0;
 	int freq1_i__stage1_0_0;
@@ -2484,10 +2500,6 @@ stage6ReactionEndMaster0: {
 	// Thread body -------------------------------------------------
 	stage1__thread: {
 		// Initialise the local copies of shared variables.
-		freq_est_phase_out_I__global_0_0_copy_stage1_local.value = freq_est_phase_out_I__global_0_0.value;
-		freq_est_phase_out_I__global_0_0_copy_stage1_local.status = FOREC_SHARED_UNMODIFIED;
-		freq_est_phase_out_Q__global_0_0_copy_stage1_local.value = freq_est_phase_out_Q__global_0_0.value;
-		freq_est_phase_out_Q__global_0_0_copy_stage1_local.status = FOREC_SHARED_UNMODIFIED;
 		input_size__global_0_0_copy_stage1_local.value = input_size__global_0_0.value;
 		input_size__global_0_0_copy_stage1_local.status = FOREC_SHARED_UNMODIFIED;
 		freq_sync_correl_2STS_output_stage_0_1__global_0_0_copy_stage1_local.value = freq_sync_correl_2STS_output_stage_0_1__global_0_0.value;
@@ -2502,6 +2514,10 @@ stage6ReactionEndMaster0: {
 		freq_est_phase_out_stage_1_2__global_0_0_copy_stage1_local.status = FOREC_SHARED_UNMODIFIED;
 		burst_found_pulse_for_FT_stage_1_2__global_0_0_copy_stage1_local.value = burst_found_pulse_for_FT_stage_1_2__global_0_0.value;
 		burst_found_pulse_for_FT_stage_1_2__global_0_0_copy_stage1_local.status = FOREC_SHARED_UNMODIFIED;
+		freq_est_phase_out_I__global_0_0_copy_stage1_local.value = freq_est_phase_out_I__global_0_0.value;
+		freq_est_phase_out_I__global_0_0_copy_stage1_local.status = FOREC_SHARED_UNMODIFIED;
+		freq_est_phase_out_Q__global_0_0_copy_stage1_local.value = freq_est_phase_out_Q__global_0_0.value;
+		freq_est_phase_out_Q__global_0_0_copy_stage1_local.status = FOREC_SHARED_UNMODIFIED;
 		//--------------------------------------------------------------
 
 		freq2_i__stage1_0_0 = 0;
@@ -2521,8 +2537,6 @@ stage6ReactionEndMaster0: {
 		pause1:;
 		// forec:statement:pause:pause1:end
 		// Update the values of the used shared variables from their global copy.
-		freq_est_phase_out_I__global_0_0_copy_stage1_local = freq_est_phase_out_I__global_0_0;
-		freq_est_phase_out_Q__global_0_0_copy_stage1_local = freq_est_phase_out_Q__global_0_0;
 		input_size__global_0_0_copy_stage1_local = input_size__global_0_0;
 		freq_sync_correl_2STS_output_stage_0_1__global_0_0_copy_stage1_local = freq_sync_correl_2STS_output_stage_0_1__global_0_0;
 		freq_sync_correl_2STS_output_stage_1_2__global_0_0_copy_stage1_local = freq_sync_correl_2STS_output_stage_1_2__global_0_0;
@@ -2530,6 +2544,8 @@ stage6ReactionEndMaster0: {
 		burst_found_pulse_out_stage_1_2__global_0_0_copy_stage1_local = burst_found_pulse_out_stage_1_2__global_0_0;
 		freq_est_phase_out_stage_1_2__global_0_0_copy_stage1_local = freq_est_phase_out_stage_1_2__global_0_0;
 		burst_found_pulse_for_FT_stage_1_2__global_0_0_copy_stage1_local = burst_found_pulse_for_FT_stage_1_2__global_0_0;
+		freq_est_phase_out_I__global_0_0_copy_stage1_local = freq_est_phase_out_I__global_0_0;
+		freq_est_phase_out_Q__global_0_0_copy_stage1_local = freq_est_phase_out_Q__global_0_0;
 
 
 		for (i__stage1_0_0 = 0; i__stage1_0_0 < (correl_sum_len__global_0_0); i__stage1_0_0++) {
@@ -2573,8 +2589,6 @@ stage6ReactionEndMaster0: {
 		pause2:;
 		// forec:statement:pause:pause2:end
 		// Update the values of the used shared variables from their global copy.
-		freq_est_phase_out_I__global_0_0_copy_stage1_local = freq_est_phase_out_I__global_0_0;
-		freq_est_phase_out_Q__global_0_0_copy_stage1_local = freq_est_phase_out_Q__global_0_0;
 		input_size__global_0_0_copy_stage1_local = input_size__global_0_0;
 		freq_sync_correl_2STS_output_stage_0_1__global_0_0_copy_stage1_local = freq_sync_correl_2STS_output_stage_0_1__global_0_0;
 		freq_sync_correl_2STS_output_stage_1_2__global_0_0_copy_stage1_local = freq_sync_correl_2STS_output_stage_1_2__global_0_0;
@@ -2582,6 +2596,8 @@ stage6ReactionEndMaster0: {
 		burst_found_pulse_out_stage_1_2__global_0_0_copy_stage1_local = burst_found_pulse_out_stage_1_2__global_0_0;
 		freq_est_phase_out_stage_1_2__global_0_0_copy_stage1_local = freq_est_phase_out_stage_1_2__global_0_0;
 		burst_found_pulse_for_FT_stage_1_2__global_0_0_copy_stage1_local = burst_found_pulse_for_FT_stage_1_2__global_0_0;
+		freq_est_phase_out_I__global_0_0_copy_stage1_local = freq_est_phase_out_I__global_0_0;
+		freq_est_phase_out_Q__global_0_0_copy_stage1_local = freq_est_phase_out_Q__global_0_0;
 
 
 		for (k__stage1_0_0 = 0; k__stage1_0_0 < input_size__global_0_0_copy_stage1_local.value - 1; ++k__stage1_0_0) {
@@ -2615,8 +2631,6 @@ stage6ReactionEndMaster0: {
 			pause3:;
 			// forec:statement:pause:pause3:end
 			// Update the values of the used shared variables from their global copy.
-			freq_est_phase_out_I__global_0_0_copy_stage1_local = freq_est_phase_out_I__global_0_0;
-			freq_est_phase_out_Q__global_0_0_copy_stage1_local = freq_est_phase_out_Q__global_0_0;
 			input_size__global_0_0_copy_stage1_local = input_size__global_0_0;
 			freq_sync_correl_2STS_output_stage_0_1__global_0_0_copy_stage1_local = freq_sync_correl_2STS_output_stage_0_1__global_0_0;
 			freq_sync_correl_2STS_output_stage_1_2__global_0_0_copy_stage1_local = freq_sync_correl_2STS_output_stage_1_2__global_0_0;
@@ -2624,6 +2638,8 @@ stage6ReactionEndMaster0: {
 			burst_found_pulse_out_stage_1_2__global_0_0_copy_stage1_local = burst_found_pulse_out_stage_1_2__global_0_0;
 			freq_est_phase_out_stage_1_2__global_0_0_copy_stage1_local = freq_est_phase_out_stage_1_2__global_0_0;
 			burst_found_pulse_for_FT_stage_1_2__global_0_0_copy_stage1_local = burst_found_pulse_for_FT_stage_1_2__global_0_0;
+			freq_est_phase_out_I__global_0_0_copy_stage1_local = freq_est_phase_out_I__global_0_0;
+			freq_est_phase_out_Q__global_0_0_copy_stage1_local = freq_est_phase_out_Q__global_0_0;
 
 			// forec:iteration:for1_6:bound:7:7
 		}
@@ -3146,14 +3162,14 @@ stage6ReactionEndMaster0: {
 	*-------------------------------------------------------------*/
 
 	// Thread local declarations -----------------------------------
-	Shared_fft_re_reversed__global_0_0 fft_re_reversed__global_0_0_copy_stage5_local;
-	Shared_fft_im_reversed__global_0_0 fft_im_reversed__global_0_0_copy_stage5_local;
 	Shared_input_size__global_0_0 input_size__global_0_0_copy_stage5_local;
 	Shared_data_out_FT_stage_4_5__global_0_0 data_out_FT_stage_4_5__global_0_0_copy_stage5_local;
 	Shared_maximum_found_stage_4_5__global_0_0 maximum_found_stage_4_5__global_0_0_copy_stage5_local;
 	Shared_maximum_found_stage_5_6__global_0_0 maximum_found_stage_5_6__global_0_0_copy_stage5_local;
 	Shared_re_out__global_0_0 re_out__global_0_0_copy_stage5_local;
 	Shared_im_out__global_0_0 im_out__global_0_0_copy_stage5_local;
+	Shared_fft_re_reversed__global_0_0 fft_re_reversed__global_0_0_copy_stage5_local;
+	Shared_fft_im_reversed__global_0_0 fft_im_reversed__global_0_0_copy_stage5_local;
 	int cnt_16__stage5_0_0;
 	int cnt_64__stage5_0_0;
 	int cnt_128__stage5_0_0;
@@ -3245,10 +3261,6 @@ stage6ReactionEndMaster0: {
 	// Thread body -------------------------------------------------
 	stage5__thread: {
 		// Initialise the local copies of shared variables.
-		fft_re_reversed__global_0_0_copy_stage5_local.value = fft_re_reversed__global_0_0.value;
-		fft_re_reversed__global_0_0_copy_stage5_local.status = FOREC_SHARED_UNMODIFIED;
-		fft_im_reversed__global_0_0_copy_stage5_local.value = fft_im_reversed__global_0_0.value;
-		fft_im_reversed__global_0_0_copy_stage5_local.status = FOREC_SHARED_UNMODIFIED;
 		input_size__global_0_0_copy_stage5_local.value = input_size__global_0_0.value;
 		input_size__global_0_0_copy_stage5_local.status = FOREC_SHARED_UNMODIFIED;
 		data_out_FT_stage_4_5__global_0_0_copy_stage5_local.value = data_out_FT_stage_4_5__global_0_0.value;
@@ -3261,6 +3273,10 @@ stage6ReactionEndMaster0: {
 		re_out__global_0_0_copy_stage5_local.status = FOREC_SHARED_UNMODIFIED;
 		im_out__global_0_0_copy_stage5_local.value = im_out__global_0_0.value;
 		im_out__global_0_0_copy_stage5_local.status = FOREC_SHARED_UNMODIFIED;
+		fft_re_reversed__global_0_0_copy_stage5_local.value = fft_re_reversed__global_0_0.value;
+		fft_re_reversed__global_0_0_copy_stage5_local.status = FOREC_SHARED_UNMODIFIED;
+		fft_im_reversed__global_0_0_copy_stage5_local.value = fft_im_reversed__global_0_0.value;
+		fft_im_reversed__global_0_0_copy_stage5_local.status = FOREC_SHARED_UNMODIFIED;
 		//--------------------------------------------------------------
 
 		cnt_16__stage5_0_0 = 0;
@@ -3358,14 +3374,14 @@ stage6ReactionEndMaster0: {
 		pause19:;
 		// forec:statement:pause:pause19:end
 		// Update the values of the used shared variables from their global copy.
-		fft_re_reversed__global_0_0_copy_stage5_local = fft_re_reversed__global_0_0;
-		fft_im_reversed__global_0_0_copy_stage5_local = fft_im_reversed__global_0_0;
 		input_size__global_0_0_copy_stage5_local = input_size__global_0_0;
 		data_out_FT_stage_4_5__global_0_0_copy_stage5_local = data_out_FT_stage_4_5__global_0_0;
 		maximum_found_stage_4_5__global_0_0_copy_stage5_local = maximum_found_stage_4_5__global_0_0;
 		maximum_found_stage_5_6__global_0_0_copy_stage5_local = maximum_found_stage_5_6__global_0_0;
 		re_out__global_0_0_copy_stage5_local = re_out__global_0_0;
 		im_out__global_0_0_copy_stage5_local = im_out__global_0_0;
+		fft_re_reversed__global_0_0_copy_stage5_local = fft_re_reversed__global_0_0;
+		fft_im_reversed__global_0_0_copy_stage5_local = fft_im_reversed__global_0_0;
 
 
 		// pause;
@@ -3379,14 +3395,14 @@ stage6ReactionEndMaster0: {
 		pause20:;
 		// forec:statement:pause:pause20:end
 		// Update the values of the used shared variables from their global copy.
-		fft_re_reversed__global_0_0_copy_stage5_local = fft_re_reversed__global_0_0;
-		fft_im_reversed__global_0_0_copy_stage5_local = fft_im_reversed__global_0_0;
 		input_size__global_0_0_copy_stage5_local = input_size__global_0_0;
 		data_out_FT_stage_4_5__global_0_0_copy_stage5_local = data_out_FT_stage_4_5__global_0_0;
 		maximum_found_stage_4_5__global_0_0_copy_stage5_local = maximum_found_stage_4_5__global_0_0;
 		maximum_found_stage_5_6__global_0_0_copy_stage5_local = maximum_found_stage_5_6__global_0_0;
 		re_out__global_0_0_copy_stage5_local = re_out__global_0_0;
 		im_out__global_0_0_copy_stage5_local = im_out__global_0_0;
+		fft_re_reversed__global_0_0_copy_stage5_local = fft_re_reversed__global_0_0;
+		fft_im_reversed__global_0_0_copy_stage5_local = fft_im_reversed__global_0_0;
 
 
 		// pause;
@@ -3400,14 +3416,14 @@ stage6ReactionEndMaster0: {
 		pause21:;
 		// forec:statement:pause:pause21:end
 		// Update the values of the used shared variables from their global copy.
-		fft_re_reversed__global_0_0_copy_stage5_local = fft_re_reversed__global_0_0;
-		fft_im_reversed__global_0_0_copy_stage5_local = fft_im_reversed__global_0_0;
 		input_size__global_0_0_copy_stage5_local = input_size__global_0_0;
 		data_out_FT_stage_4_5__global_0_0_copy_stage5_local = data_out_FT_stage_4_5__global_0_0;
 		maximum_found_stage_4_5__global_0_0_copy_stage5_local = maximum_found_stage_4_5__global_0_0;
 		maximum_found_stage_5_6__global_0_0_copy_stage5_local = maximum_found_stage_5_6__global_0_0;
 		re_out__global_0_0_copy_stage5_local = re_out__global_0_0;
 		im_out__global_0_0_copy_stage5_local = im_out__global_0_0;
+		fft_re_reversed__global_0_0_copy_stage5_local = fft_re_reversed__global_0_0;
+		fft_im_reversed__global_0_0_copy_stage5_local = fft_im_reversed__global_0_0;
 
 
 		// pause;
@@ -3421,14 +3437,14 @@ stage6ReactionEndMaster0: {
 		pause22:;
 		// forec:statement:pause:pause22:end
 		// Update the values of the used shared variables from their global copy.
-		fft_re_reversed__global_0_0_copy_stage5_local = fft_re_reversed__global_0_0;
-		fft_im_reversed__global_0_0_copy_stage5_local = fft_im_reversed__global_0_0;
 		input_size__global_0_0_copy_stage5_local = input_size__global_0_0;
 		data_out_FT_stage_4_5__global_0_0_copy_stage5_local = data_out_FT_stage_4_5__global_0_0;
 		maximum_found_stage_4_5__global_0_0_copy_stage5_local = maximum_found_stage_4_5__global_0_0;
 		maximum_found_stage_5_6__global_0_0_copy_stage5_local = maximum_found_stage_5_6__global_0_0;
 		re_out__global_0_0_copy_stage5_local = re_out__global_0_0;
 		im_out__global_0_0_copy_stage5_local = im_out__global_0_0;
+		fft_re_reversed__global_0_0_copy_stage5_local = fft_re_reversed__global_0_0;
+		fft_im_reversed__global_0_0_copy_stage5_local = fft_im_reversed__global_0_0;
 
 
 		maximum_found_stage_5_6__global_0_0_copy_stage5_local.value = maximum_found_stage_4_5__global_0_0_copy_stage5_local.value;
@@ -3445,14 +3461,14 @@ stage6ReactionEndMaster0: {
 		pause23:;
 		// forec:statement:pause:pause23:end
 		// Update the values of the used shared variables from their global copy.
-		fft_re_reversed__global_0_0_copy_stage5_local = fft_re_reversed__global_0_0;
-		fft_im_reversed__global_0_0_copy_stage5_local = fft_im_reversed__global_0_0;
 		input_size__global_0_0_copy_stage5_local = input_size__global_0_0;
 		data_out_FT_stage_4_5__global_0_0_copy_stage5_local = data_out_FT_stage_4_5__global_0_0;
 		maximum_found_stage_4_5__global_0_0_copy_stage5_local = maximum_found_stage_4_5__global_0_0;
 		maximum_found_stage_5_6__global_0_0_copy_stage5_local = maximum_found_stage_5_6__global_0_0;
 		re_out__global_0_0_copy_stage5_local = re_out__global_0_0;
 		im_out__global_0_0_copy_stage5_local = im_out__global_0_0;
+		fft_re_reversed__global_0_0_copy_stage5_local = fft_re_reversed__global_0_0;
+		fft_im_reversed__global_0_0_copy_stage5_local = fft_im_reversed__global_0_0;
 
 
 		for (k__stage5_0_0 = 0; k__stage5_0_0 < input_size__global_0_0_copy_stage5_local.value; ++k__stage5_0_0) {
@@ -3600,14 +3616,14 @@ stage6ReactionEndMaster0: {
 			pause24:;
 			// forec:statement:pause:pause24:end
 			// Update the values of the used shared variables from their global copy.
-			fft_re_reversed__global_0_0_copy_stage5_local = fft_re_reversed__global_0_0;
-			fft_im_reversed__global_0_0_copy_stage5_local = fft_im_reversed__global_0_0;
 			input_size__global_0_0_copy_stage5_local = input_size__global_0_0;
 			data_out_FT_stage_4_5__global_0_0_copy_stage5_local = data_out_FT_stage_4_5__global_0_0;
 			maximum_found_stage_4_5__global_0_0_copy_stage5_local = maximum_found_stage_4_5__global_0_0;
 			maximum_found_stage_5_6__global_0_0_copy_stage5_local = maximum_found_stage_5_6__global_0_0;
 			re_out__global_0_0_copy_stage5_local = re_out__global_0_0;
 			im_out__global_0_0_copy_stage5_local = im_out__global_0_0;
+			fft_re_reversed__global_0_0_copy_stage5_local = fft_re_reversed__global_0_0;
+			fft_im_reversed__global_0_0_copy_stage5_local = fft_im_reversed__global_0_0;
 
 			// forec:iteration:for1_21:bound:7:7
 		}
@@ -3635,16 +3651,16 @@ stage6ReactionEndMaster0: {
 	*-------------------------------------------------------------*/
 
 	// Thread local declarations -----------------------------------
+	Shared_input_size__global_0_0 input_size__global_0_0_copy_stage6_local;
+	Shared_maximum_found_stage_5_6__global_0_0 maximum_found_stage_5_6__global_0_0_copy_stage6_local;
+	Shared_re_out__global_0_0 re_out__global_0_0_copy_stage6_local;
+	Shared_im_out__global_0_0 im_out__global_0_0_copy_stage6_local;
 	Shared_CHE_out_I__global_0_0 CHE_out_I__global_0_0_copy_stage6_local;
 	Shared_CHE_out_Q__global_0_0 CHE_out_Q__global_0_0_copy_stage6_local;
 	Shared_CHC_out_I__global_0_0 CHC_out_I__global_0_0_copy_stage6_local;
 	Shared_CHC_out_Q__global_0_0 CHC_out_Q__global_0_0_copy_stage6_local;
 	Shared_fft_re_out__global_0_0 fft_re_out__global_0_0_copy_stage6_local;
 	Shared_fft_im_out__global_0_0 fft_im_out__global_0_0_copy_stage6_local;
-	Shared_input_size__global_0_0 input_size__global_0_0_copy_stage6_local;
-	Shared_maximum_found_stage_5_6__global_0_0 maximum_found_stage_5_6__global_0_0_copy_stage6_local;
-	Shared_re_out__global_0_0 re_out__global_0_0_copy_stage6_local;
-	Shared_im_out__global_0_0 im_out__global_0_0_copy_stage6_local;
 	int cnt_16__stage6_0_0;
 	int cnt_64__stage6_0_0;
 	int cnt_128__stage6_0_0;
@@ -3666,6 +3682,14 @@ stage6ReactionEndMaster0: {
 	// Thread body -------------------------------------------------
 	stage6__thread: {
 		// Initialise the local copies of shared variables.
+		input_size__global_0_0_copy_stage6_local.value = input_size__global_0_0.value;
+		input_size__global_0_0_copy_stage6_local.status = FOREC_SHARED_UNMODIFIED;
+		maximum_found_stage_5_6__global_0_0_copy_stage6_local.value = maximum_found_stage_5_6__global_0_0.value;
+		maximum_found_stage_5_6__global_0_0_copy_stage6_local.status = FOREC_SHARED_UNMODIFIED;
+		re_out__global_0_0_copy_stage6_local.value = re_out__global_0_0.value;
+		re_out__global_0_0_copy_stage6_local.status = FOREC_SHARED_UNMODIFIED;
+		im_out__global_0_0_copy_stage6_local.value = im_out__global_0_0.value;
+		im_out__global_0_0_copy_stage6_local.status = FOREC_SHARED_UNMODIFIED;
 		CHE_out_I__global_0_0_copy_stage6_local.value = CHE_out_I__global_0_0.value;
 		CHE_out_I__global_0_0_copy_stage6_local.status = FOREC_SHARED_UNMODIFIED;
 		CHE_out_Q__global_0_0_copy_stage6_local.value = CHE_out_Q__global_0_0.value;
@@ -3678,14 +3702,6 @@ stage6ReactionEndMaster0: {
 		fft_re_out__global_0_0_copy_stage6_local.status = FOREC_SHARED_UNMODIFIED;
 		fft_im_out__global_0_0_copy_stage6_local.value = fft_im_out__global_0_0.value;
 		fft_im_out__global_0_0_copy_stage6_local.status = FOREC_SHARED_UNMODIFIED;
-		input_size__global_0_0_copy_stage6_local.value = input_size__global_0_0.value;
-		input_size__global_0_0_copy_stage6_local.status = FOREC_SHARED_UNMODIFIED;
-		maximum_found_stage_5_6__global_0_0_copy_stage6_local.value = maximum_found_stage_5_6__global_0_0.value;
-		maximum_found_stage_5_6__global_0_0_copy_stage6_local.status = FOREC_SHARED_UNMODIFIED;
-		re_out__global_0_0_copy_stage6_local.value = re_out__global_0_0.value;
-		re_out__global_0_0_copy_stage6_local.status = FOREC_SHARED_UNMODIFIED;
-		im_out__global_0_0_copy_stage6_local.value = im_out__global_0_0.value;
-		im_out__global_0_0_copy_stage6_local.status = FOREC_SHARED_UNMODIFIED;
 		//--------------------------------------------------------------
 
 		cnt_16__stage6_0_0 = 0;
@@ -3710,16 +3726,16 @@ stage6ReactionEndMaster0: {
 		pause25:;
 		// forec:statement:pause:pause25:end
 		// Update the values of the used shared variables from their global copy.
+		input_size__global_0_0_copy_stage6_local = input_size__global_0_0;
+		maximum_found_stage_5_6__global_0_0_copy_stage6_local = maximum_found_stage_5_6__global_0_0;
+		re_out__global_0_0_copy_stage6_local = re_out__global_0_0;
+		im_out__global_0_0_copy_stage6_local = im_out__global_0_0;
 		CHE_out_I__global_0_0_copy_stage6_local = CHE_out_I__global_0_0;
 		CHE_out_Q__global_0_0_copy_stage6_local = CHE_out_Q__global_0_0;
 		CHC_out_I__global_0_0_copy_stage6_local = CHC_out_I__global_0_0;
 		CHC_out_Q__global_0_0_copy_stage6_local = CHC_out_Q__global_0_0;
 		fft_re_out__global_0_0_copy_stage6_local = fft_re_out__global_0_0;
 		fft_im_out__global_0_0_copy_stage6_local = fft_im_out__global_0_0;
-		input_size__global_0_0_copy_stage6_local = input_size__global_0_0;
-		maximum_found_stage_5_6__global_0_0_copy_stage6_local = maximum_found_stage_5_6__global_0_0;
-		re_out__global_0_0_copy_stage6_local = re_out__global_0_0;
-		im_out__global_0_0_copy_stage6_local = im_out__global_0_0;
 
 
 		// pause;
@@ -3729,16 +3745,16 @@ stage6ReactionEndMaster0: {
 		pause26:;
 		// forec:statement:pause:pause26:end
 		// Update the values of the used shared variables from their global copy.
+		input_size__global_0_0_copy_stage6_local = input_size__global_0_0;
+		maximum_found_stage_5_6__global_0_0_copy_stage6_local = maximum_found_stage_5_6__global_0_0;
+		re_out__global_0_0_copy_stage6_local = re_out__global_0_0;
+		im_out__global_0_0_copy_stage6_local = im_out__global_0_0;
 		CHE_out_I__global_0_0_copy_stage6_local = CHE_out_I__global_0_0;
 		CHE_out_Q__global_0_0_copy_stage6_local = CHE_out_Q__global_0_0;
 		CHC_out_I__global_0_0_copy_stage6_local = CHC_out_I__global_0_0;
 		CHC_out_Q__global_0_0_copy_stage6_local = CHC_out_Q__global_0_0;
 		fft_re_out__global_0_0_copy_stage6_local = fft_re_out__global_0_0;
 		fft_im_out__global_0_0_copy_stage6_local = fft_im_out__global_0_0;
-		input_size__global_0_0_copy_stage6_local = input_size__global_0_0;
-		maximum_found_stage_5_6__global_0_0_copy_stage6_local = maximum_found_stage_5_6__global_0_0;
-		re_out__global_0_0_copy_stage6_local = re_out__global_0_0;
-		im_out__global_0_0_copy_stage6_local = im_out__global_0_0;
 
 
 		// pause;
@@ -3748,16 +3764,16 @@ stage6ReactionEndMaster0: {
 		pause27:;
 		// forec:statement:pause:pause27:end
 		// Update the values of the used shared variables from their global copy.
+		input_size__global_0_0_copy_stage6_local = input_size__global_0_0;
+		maximum_found_stage_5_6__global_0_0_copy_stage6_local = maximum_found_stage_5_6__global_0_0;
+		re_out__global_0_0_copy_stage6_local = re_out__global_0_0;
+		im_out__global_0_0_copy_stage6_local = im_out__global_0_0;
 		CHE_out_I__global_0_0_copy_stage6_local = CHE_out_I__global_0_0;
 		CHE_out_Q__global_0_0_copy_stage6_local = CHE_out_Q__global_0_0;
 		CHC_out_I__global_0_0_copy_stage6_local = CHC_out_I__global_0_0;
 		CHC_out_Q__global_0_0_copy_stage6_local = CHC_out_Q__global_0_0;
 		fft_re_out__global_0_0_copy_stage6_local = fft_re_out__global_0_0;
 		fft_im_out__global_0_0_copy_stage6_local = fft_im_out__global_0_0;
-		input_size__global_0_0_copy_stage6_local = input_size__global_0_0;
-		maximum_found_stage_5_6__global_0_0_copy_stage6_local = maximum_found_stage_5_6__global_0_0;
-		re_out__global_0_0_copy_stage6_local = re_out__global_0_0;
-		im_out__global_0_0_copy_stage6_local = im_out__global_0_0;
 
 
 		// pause;
@@ -3767,16 +3783,16 @@ stage6ReactionEndMaster0: {
 		pause28:;
 		// forec:statement:pause:pause28:end
 		// Update the values of the used shared variables from their global copy.
+		input_size__global_0_0_copy_stage6_local = input_size__global_0_0;
+		maximum_found_stage_5_6__global_0_0_copy_stage6_local = maximum_found_stage_5_6__global_0_0;
+		re_out__global_0_0_copy_stage6_local = re_out__global_0_0;
+		im_out__global_0_0_copy_stage6_local = im_out__global_0_0;
 		CHE_out_I__global_0_0_copy_stage6_local = CHE_out_I__global_0_0;
 		CHE_out_Q__global_0_0_copy_stage6_local = CHE_out_Q__global_0_0;
 		CHC_out_I__global_0_0_copy_stage6_local = CHC_out_I__global_0_0;
 		CHC_out_Q__global_0_0_copy_stage6_local = CHC_out_Q__global_0_0;
 		fft_re_out__global_0_0_copy_stage6_local = fft_re_out__global_0_0;
 		fft_im_out__global_0_0_copy_stage6_local = fft_im_out__global_0_0;
-		input_size__global_0_0_copy_stage6_local = input_size__global_0_0;
-		maximum_found_stage_5_6__global_0_0_copy_stage6_local = maximum_found_stage_5_6__global_0_0;
-		re_out__global_0_0_copy_stage6_local = re_out__global_0_0;
-		im_out__global_0_0_copy_stage6_local = im_out__global_0_0;
 
 
 		// pause;
@@ -3786,16 +3802,16 @@ stage6ReactionEndMaster0: {
 		pause29:;
 		// forec:statement:pause:pause29:end
 		// Update the values of the used shared variables from their global copy.
+		input_size__global_0_0_copy_stage6_local = input_size__global_0_0;
+		maximum_found_stage_5_6__global_0_0_copy_stage6_local = maximum_found_stage_5_6__global_0_0;
+		re_out__global_0_0_copy_stage6_local = re_out__global_0_0;
+		im_out__global_0_0_copy_stage6_local = im_out__global_0_0;
 		CHE_out_I__global_0_0_copy_stage6_local = CHE_out_I__global_0_0;
 		CHE_out_Q__global_0_0_copy_stage6_local = CHE_out_Q__global_0_0;
 		CHC_out_I__global_0_0_copy_stage6_local = CHC_out_I__global_0_0;
 		CHC_out_Q__global_0_0_copy_stage6_local = CHC_out_Q__global_0_0;
 		fft_re_out__global_0_0_copy_stage6_local = fft_re_out__global_0_0;
 		fft_im_out__global_0_0_copy_stage6_local = fft_im_out__global_0_0;
-		input_size__global_0_0_copy_stage6_local = input_size__global_0_0;
-		maximum_found_stage_5_6__global_0_0_copy_stage6_local = maximum_found_stage_5_6__global_0_0;
-		re_out__global_0_0_copy_stage6_local = re_out__global_0_0;
-		im_out__global_0_0_copy_stage6_local = im_out__global_0_0;
 
 
 		// pause;
@@ -3805,16 +3821,16 @@ stage6ReactionEndMaster0: {
 		pause30:;
 		// forec:statement:pause:pause30:end
 		// Update the values of the used shared variables from their global copy.
+		input_size__global_0_0_copy_stage6_local = input_size__global_0_0;
+		maximum_found_stage_5_6__global_0_0_copy_stage6_local = maximum_found_stage_5_6__global_0_0;
+		re_out__global_0_0_copy_stage6_local = re_out__global_0_0;
+		im_out__global_0_0_copy_stage6_local = im_out__global_0_0;
 		CHE_out_I__global_0_0_copy_stage6_local = CHE_out_I__global_0_0;
 		CHE_out_Q__global_0_0_copy_stage6_local = CHE_out_Q__global_0_0;
 		CHC_out_I__global_0_0_copy_stage6_local = CHC_out_I__global_0_0;
 		CHC_out_Q__global_0_0_copy_stage6_local = CHC_out_Q__global_0_0;
 		fft_re_out__global_0_0_copy_stage6_local = fft_re_out__global_0_0;
 		fft_im_out__global_0_0_copy_stage6_local = fft_im_out__global_0_0;
-		input_size__global_0_0_copy_stage6_local = input_size__global_0_0;
-		maximum_found_stage_5_6__global_0_0_copy_stage6_local = maximum_found_stage_5_6__global_0_0;
-		re_out__global_0_0_copy_stage6_local = re_out__global_0_0;
-		im_out__global_0_0_copy_stage6_local = im_out__global_0_0;
 
 
 		for (k__stage6_0_0 = 0; k__stage6_0_0 < input_size__global_0_0_copy_stage6_local.value; ++k__stage6_0_0) {
@@ -4020,16 +4036,16 @@ stage6ReactionEndMaster0: {
 			pause31:;
 			// forec:statement:pause:pause31:end
 			// Update the values of the used shared variables from their global copy.
+			input_size__global_0_0_copy_stage6_local = input_size__global_0_0;
+			maximum_found_stage_5_6__global_0_0_copy_stage6_local = maximum_found_stage_5_6__global_0_0;
+			re_out__global_0_0_copy_stage6_local = re_out__global_0_0;
+			im_out__global_0_0_copy_stage6_local = im_out__global_0_0;
 			CHE_out_I__global_0_0_copy_stage6_local = CHE_out_I__global_0_0;
 			CHE_out_Q__global_0_0_copy_stage6_local = CHE_out_Q__global_0_0;
 			CHC_out_I__global_0_0_copy_stage6_local = CHC_out_I__global_0_0;
 			CHC_out_Q__global_0_0_copy_stage6_local = CHC_out_Q__global_0_0;
 			fft_re_out__global_0_0_copy_stage6_local = fft_re_out__global_0_0;
 			fft_im_out__global_0_0_copy_stage6_local = fft_im_out__global_0_0;
-			input_size__global_0_0_copy_stage6_local = input_size__global_0_0;
-			maximum_found_stage_5_6__global_0_0_copy_stage6_local = maximum_found_stage_5_6__global_0_0;
-			re_out__global_0_0_copy_stage6_local = re_out__global_0_0;
-			im_out__global_0_0_copy_stage6_local = im_out__global_0_0;
 
 
 			// forec:scheduler:iterationEnd:for1_27:start

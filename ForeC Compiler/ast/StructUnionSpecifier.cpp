@@ -34,13 +34,20 @@ namespace forec {
 		}
 		
 		void StructUnionSpecifier::updateSymbolTable(const std::string &type, const bool isUsage, const bool isRead) {
-			if (isVariant("definition")) {
-				children[0]->updateSymbolTable("storage", false, isRead);
-				children[1]->updateSymbolTable("storage", true, isRead);
+			std::string newType = (type.compare("extern") == 0) ? "extern" : "storage";
+		//	std::cout << "StructUnionSpecifier: " << *this << ' ' << type << ' ' << newType << ' ' << variant << ' ' << isUsage << std::endl;
+
+			if (type.compare("usage") == 0) {
+				// Workaround when a struct or union declaration is actually followed by a declarator, in which case
+				// the struct name is being used (not declared).
+				children[0]->updateSymbolTable(newType, true, isRead);
+			} else if (isVariant("definition")) {
+				children[0]->updateSymbolTable(newType, false, isRead);
+				children[1]->updateSymbolTable(newType, true, isRead);
 			} else if (isVariant("anonymous")) {
-				children[0]->updateSymbolTable("storage", true, isRead);
+				children[0]->updateSymbolTable(newType, true, isRead);
 			} else if (isVariant("declaration")) {
-				children[0]->updateSymbolTable("storage", true, isRead);
+				children[0]->updateSymbolTable(newType, isUsage, isRead);
 			}
 		}
 		

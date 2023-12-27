@@ -1,13 +1,14 @@
 ForeC Compiler (multicore distribution)
-Version: 0.99 (5 October 2014)
+Version: 0.994 (27 Dec 2023)
 Debug output
 ---------------------------------------
 
 Debug level: 0
-Check instantaneous loops: false
+Check instantaneous loops: no
 Minimum reaction time: 0 clock cycles
 Source file name: WordSearch.forec
 Header file name: WordSearch.1.foreh
+Embed main function: no)
 
 ============================
 tools::Multicore::toString()
@@ -116,10 +117,10 @@ Use/Def of symbols:
 -------------------
 	Scope name: fgetw
 		def:
-			(typedef) FILE__global_0_0
 			(variable) wordFound__fgetw_0_0
 			(variable) length__fgetw_0_0
 			(variable) c__fgetw_0_0
+			(typedef) FILE__global_0_0
 
 		use:
 			(variable) file__fgetw_0_0
@@ -143,13 +144,15 @@ Use/Def of symbols:
 
 	Scope name: main
 		def:
+			(variable) preemptionOccured__main_1_3
 			(shared) file1__global_0_0
 			(shared) file2__global_0_0
 			(shared) found__global_0_0
-			(variable) preemptionOccured__main_1_3
 			(variable) microseconds__main_0_0
 
 		use:
+			(variable) i__main_1_3
+			(variable) preemptionOccured__main_1_3
 			(variable) NULL__global_0_0
 			(input) newWord__global_0_0
 			(variable) oldWord__global_0_0
@@ -164,8 +167,6 @@ Use/Def of symbols:
 			(variable) argv__main_0_0
 			(variable) startTime__main_0_0
 			(variable) endTime__main_0_0
-			(variable) i__main_1_3
-			(variable) preemptionOccured__main_1_3
 			(variable) seconds__main_0_0
 			(variable) microseconds__main_0_0
 
@@ -179,8 +180,8 @@ Use/Def of symbols:
 
 	Scope name: plus
 		def:
-			(typedef) Accum__global_0_0
 			(variable) lhs__plus_0_0
+			(typedef) Accum__global_0_0
 
 		use:
 			(variable) lhs__plus_0_0
