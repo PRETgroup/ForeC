@@ -1,6 +1,6 @@
 ifeq ($(shell uname), Linux)
 	CC			= clang
-	CFLAGS		= -O0 -Wall -pthread
+	CFLAGS		= -g -Wall -pthread
 else ifeq ($(shell uname), Darwin)
 	CC			= clang
 	CFLAGS		= -O0 -Wall -pthread

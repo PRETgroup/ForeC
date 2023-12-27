@@ -55,6 +55,12 @@ ForeC Benchmarks/x86/mandelbrot/Mandelbrot.visual
 ForeC Benchmarks/x86/mandelbrot/Mandelbrot.visual.c
 ForeC Benchmarks/x86/mandelbrot/Mandelbrot
 ForeC Benchmarks/x86/mandelbrot/Mandelbrot.c
+ForeC Benchmarks/x86/Life/Life.visual
+ForeC Benchmarks/x86/Life/Life.visual.c
+ForeC Benchmarks/x86/Life/Life.c
+ForeC Benchmarks/x86/Life/original/Life
+ForeC Benchmarks/x86/Life/original/Life.visual
+
 
 PTARM Processor/programs/memory/_build/memory.o.expanded.c
 PTARM Processor/programs/memory/_build/memory.elf

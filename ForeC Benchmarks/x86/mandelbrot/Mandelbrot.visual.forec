@@ -46,13 +46,12 @@ int XFlush(Display *display);
 int XCloseDisplay(Display *display);
 Window XCreateWindow(Display *display, Window parent, int x, int y, unsigned int width, unsigned int height, unsigned int border_width, int depth, unsigned int class, Visual *visual, unsigned long valuemask, XSetWindowAttributes *attributes);
 Window XCreateSimpleWindow(Display *display, Window parent, int x, int y, unsigned int width, unsigned int height, unsigned int border_width, unsigned long border, unsigned long background);
+XImage *XCreateImage(Display *display, Visual *visual, unsigned int depth, int format, int offset, char *data, unsigned int width, unsigned int height, int bitmap_pad, int bytes_per_line);
 int XSelectInput(Display *display, Window w, long event_mask);
 int XMapWindow(Display *display, Window w);
 int XNextEvent(Display *display, XEvent *event_return);
 Status XStringListToTextProperty(char **list, int count, XTextProperty *text_prop_return);
 void XSetWMName(Display *display, Window w, XTextProperty *text_prop);
-XImage *XCreateImage(Display *display, Visual *visual,
-unsigned int depth, int format, int offset, char *data, unsigned int width, unsigned int height, int bitmap_pad, int bytes_per_line);
 GC XCreateGC(Display *display, Drawable d, unsigned long valuemask, XGCValues *values);
 int XSetForeground(Display *display, GC gc, unsigned long foreground);
 Status XSetWMProtocols(Display *display, Window w, Atom *protocols, int count);
@@ -260,13 +259,7 @@ thread init_x11(void) {
 	unsigned long white = WhitePixel(dpy,DefaultScreen(dpy));
 	unsigned long black = BlackPixel(dpy,DefaultScreen(dpy));
 	
-	
-	win = XCreateSimpleWindow(dpy,
-							  DefaultRootWindow(dpy),
-							  0, 0,
-							  ASIZE, ASIZE,
-							  0, black,
-							  white);
+	win = XCreateSimpleWindow(dpy, DefaultRootWindow(dpy), 0, 0, ASIZE, ASIZE, 0, black, white);
 	
 	/* We want to be notified when the window appears */
 	XSelectInput(dpy, win, StructureNotifyMask);
@@ -308,13 +301,10 @@ thread init_x11(void) {
 	
 	if (bytes_per_pixel != 4) {
 		printf("Need 32bit colour screen!");
-		
 	}
 	
 	/* Make bitmap */
-	bitmap = XCreateImage(dpy, visual, depth,
-						  ZPixmap, 0, malloc(total),
-						  ASIZE, ASIZE, 32, 0);
+	bitmap = XCreateImage(dpy, visual, depth, ZPixmap, 0, malloc(total), ASIZE, ASIZE, 32, 0);
 	
 	/* Init GC */
 	*gc = XCreateGC(dpy, win, 0, NULL);
