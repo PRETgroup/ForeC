@@ -100,7 +100,6 @@ namespace forec {
 				const bool hasTypedefKeyword = has("StorageClassSpecifier", "typedef");
 				const bool hasTypedefName = has("TypeSpecifier", "typedef");
 				const bool newUsage = isUsage || (!hasTypedefKeyword && hasTypedefName);
-//				std::cout << "Declaration: " << *children[0] << ' ' << type << ' ' << newUsage << ' ' << hasTypedefKeyword << ' ' << hasTypedefName << std::endl;
 				children[0]->updateSymbolTable("extern", newUsage);
 			} else if (has("StructUnionSpecifier", "declaration") && has("InitDeclaratorList", "none")) {
 				children[0]->updateSymbolTable("usage", true, isRead);
@@ -109,7 +108,6 @@ namespace forec {
 			} else if (isVariant("threadDeclaration")) {
 				children[0]->updateSymbolTable("thread");
 			} else {
-//				std::cout << "Declaration: " << *children[0] << ' ' << type << ' ' << isUsage << std::endl;
 				children[0]->updateSymbolTable("none", true, isRead);
 			}
 			
@@ -175,9 +173,7 @@ namespace forec {
 			}
 		}
 		
-		void Declaration::prettyPrint(std::ostream &output) {
-		//	std::cout << "Out: " << children[0]->getParent()->getParent()->getType() << std::endl;
-		
+		void Declaration::prettyPrint(std::ostream &output) {		
 			// "extern typedef" and "extern struct" are ForeC workarounds to adding externally defined typedefs and structs to the symbol table without mangling their names.
 			const bool isExternIgnore = (has("StorageClassSpecifier", "extern") && (has("StorageClassSpecifier", "typedef") || has("StructUnionSpecifier", "definition") || has("StructUnionSpecifier", "declaration")));
 			if (isExternIgnore) {

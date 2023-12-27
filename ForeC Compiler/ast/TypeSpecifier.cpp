@@ -32,7 +32,6 @@ namespace forec {
 		
 		void TypeSpecifier::updateSymbolTable(const std::string &type, const bool isUsage, const bool isRead) {
 			if (isVariant("typedef")) {
-//				std::cout << "TypeSpecifier: " << *terminal << ' ' << type << ' ' << isUsage << std::endl;
 				terminal->updateSymbolTable(type, isUsage, isRead);
 			}
 		}

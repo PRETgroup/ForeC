@@ -167,6 +167,7 @@ would be required.
     `extern typedef` and `extern struct` combination of storage specifiers.
   - Cannot `typedef` within a storage definition.
   - Cannot declare `extern shared` variables.
+  - Cannot forward declare `struct`s.
   - Scoping within storage definitions is ignored.
   - Correct C-code assumed to be written.
   - User definitions for storages and types must be defined within the `*.forec` file.
