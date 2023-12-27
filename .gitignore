@@ -72,7 +72,9 @@ ForeC Benchmarks/x86/Life/Life.visual.c
 ForeC Benchmarks/x86/Life/Life.c
 ForeC Benchmarks/x86/Life/original/Life
 ForeC Benchmarks/x86/Life/original/Life.visual
+ForeC Benchmarks/x86/FlyByWire/FlyByWire
 ForeC Benchmarks/x86/FlyByWire/FlyByWire.c
+ForeC Benchmarks/x86/FlyByWire/output.txt
 
 PTARM Processor/programs/memory/_build/memory.o.expanded.c
 PTARM Processor/programs/memory/_build/memory.elf

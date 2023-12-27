@@ -9,7 +9,7 @@ else
 endif
 
 forec:
-	forecc FlyByWire.forec FlyByWire.1.foreh
+	forecc FlyByWire.forec FlyByWire.4.foreh
 
 c:
 	$(CC) $(CFLAGS) FlyByWire.c -o FlyByWire

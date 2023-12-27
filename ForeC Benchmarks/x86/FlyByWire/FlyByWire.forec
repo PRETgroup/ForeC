@@ -19,11 +19,20 @@ const char VALID = '1';
 const int MANUAL = 0;
 const int AUTOMATIC = 1;
 
-typedef int FILE;
-#define FILE__global_0_0 FILE
+// ForeC workaround to external declarations.
+extern struct timeval;
+extern typedef int FILE;
 
-int EOF;
-#define EOF__global_0_0 EOF
+#undef EOF
+char EOF = -1;
+
+// C standard function prototypes
+int gettimeofday(struct timeval * __restrict, void * __restrict);
+int printf(const char * __restrict, ...);
+int fprintf(FILE *stream, const char *format, ...);
+int fgetc(FILE *stream);
+int ungetc(int ch, FILE *stream);
+FILE *fopen(const char *filename, const char *mode);
 
 shared FILE* inputFile;
 shared FILE* outputFile;
