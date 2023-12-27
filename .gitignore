@@ -32,7 +32,7 @@ information.xml
 debug.txt
 *.dot
 
-ForeC Compiler/test/Aborts/aborts.pdf
+ForeC Compiler/test/**/*.pdf
 
 ForeC Benchmarks/ptarm/Pipelining/Pipelining.c
 ForeC Benchmarks/x86/Design patterns/Broadcast/Broadcast.c
