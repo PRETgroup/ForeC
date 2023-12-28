@@ -14,7 +14,6 @@
 		47377B2E1336BA1800FAEE4F /* global.txt */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = global.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
 		47377B2F1336BA1800FAEE4F /* main.txt */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = main.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
 		4740B86C17518DD100EB7834 /* nestedHandler.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = nestedHandler.txt; path = tools/template/nestedHandler.txt; sourceTree = SOURCE_ROOT; };
-		475CC783135F9E87007011FC /* Readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = Readme.txt; sourceTree = "<group>"; };
 		476824E4139903A100A461DF /* File.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 2; path = File.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		476ED84C132D6DCB006D1815 /* Main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 2; path = Main.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		476ED84D132D6DCB006D1815 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; lineEnding = 2; path = Makefile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.sh; };
@@ -189,6 +188,7 @@
 		47CF56931399A329008286BC /* Tab.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Tab.hpp; sourceTree = "<group>"; };
 		47CF56951399A329008286BC /* Thread.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Thread.cpp; sourceTree = "<group>"; };
 		47CF56961399A329008286BC /* Thread.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Thread.hpp; sourceTree = "<group>"; };
+		47D2425B2B3E146A00A00B37 /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 		47EBB79516E35070008ADDDE /* Function.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Function.cpp; path = tools/Function.cpp; sourceTree = "<group>"; };
 		47EBB79616E35070008ADDDE /* Function.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Function.hpp; path = tools/Function.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -219,7 +219,7 @@
 		476ED834132D6AC8006D1815 = {
 			isa = PBXGroup;
 			children = (
-				475CC783135F9E87007011FC /* Readme.txt */,
+				47D2425B2B3E146A00A00B37 /* Readme.md */,
 				476ED84D132D6DCB006D1815 /* Makefile */,
 				476ED84C132D6DCB006D1815 /* Main.cpp */,
 				476824E4139903A100A461DF /* File.hpp */,
