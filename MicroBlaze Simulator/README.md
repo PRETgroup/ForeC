@@ -1,18 +1,15 @@
-Multicore Xilinx MicroBlaze Simulator
--------------------------------------
+# Multicore Xilinx MicroBlaze Simulator
+
 Simulates a multicore MicroBlaze system where
 cores connect to main memory via a TDMA bus.
 
-Based on the MicroBlaze/SMMU Simulator
-** For information about the SMMU please visit
-** http://www.jwhitham.org.uk/c/smmu.html
+Based on the [MicroBlaze/SMMU Simulator by Jack Whitham](http://www.jwhitham.org.uk/c/smmu.html)
 
-Author: Eugene Kin Chee Yip
-Date: 5 October 2014
+Author: Eugene Kin Chee Yip   
+Date: 5 October 2014   
 
 
-Pre-requisites:
----------------
+## Pre-requisites
 * Unix compatible system
 * Python
 * libelf-dev
@@ -20,19 +17,21 @@ Pre-requisites:
 * GNU make and relevant dependencies
 
 
-Installing:
------------
-To create the "mb-sim" executable, the following commands need to be executed:
+## Installing
+To create the `mb-sim` executable, the following commands need to be executed:
+```bash
  $ make clean
  $ make
+```
 
 The Makefile specifies the C++ compiler used to compile the ForeC compiler.
-This can be changed by modifying "CC" in the Makefile to your liking.
+This can be changed by modifying `CC` in the Makefile to your liking.
 
 
-Usage:
-------
-* $ mb-sim <cores> <name>.elf [-debug]
+## Usage
+```bash
+$ mb-sim <cores> <name>.elf [-verbose]
+```
 
 * cores:
   * An integer representing the number of cores in the system.
@@ -43,6 +42,6 @@ Usage:
 * name:
   * The name of the MicroBlaze elf file to simulate.
 
-* -debug option:
-  -verbose for showing the instruction fetched in each clock cycle.
+* `-verbose` option:
+  * Show the instruction fetched in each clock cycle.
 
