@@ -18,4 +18,4 @@ jobs:
     - name: make
       run: cd "ForeC Compiler"; make -j; echo "FOREC_COMPILER_PATH=`pwd`" >> $GITHUB_ENV
     - name: Test
-      run: cd "ForeC Compiler\test\Aborts"; make
+      run: cd "ForeC Compiler/test/Aborts"; make
