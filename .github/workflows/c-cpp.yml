@@ -16,6 +16,6 @@ jobs:
     - name: Install flex-dev, graphviz
       run: sudo apt-get install -y libfl-dev graphviz
     - name: make
-      run: cd "ForeC/ForeC Compiler"; make -j; echo "FOREC_COMPILER_PATH=`pwd`" >> $GITHUB_ENV
+      run: cd "ForeC Compiler"; make -j; echo "FOREC_COMPILER_PATH=`pwd`" >> $GITHUB_ENV
     - name: Test
-      run: cd "ForeC/ForeC Compiler\test\Aborts"; make
+      run: cd "ForeC Compiler\test\Aborts"; make
