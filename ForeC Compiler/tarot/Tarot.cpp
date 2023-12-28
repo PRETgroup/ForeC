@@ -1199,28 +1199,17 @@ namespace forec {
 
 			output << "digraph \"" << fileName << "\" {" << std::endl;
 			Tab::indent("");
-			output << Tab::toString() << "ordering = out" << std::endl;
-			output << std::endl;
-			output << Tab::toString() << "labeljust = l" << std::endl;
-			output << Tab::toString() << "node [shape = box, fixedsize = true, height = 0.7, width = 1.1]" << std::endl;
-			output << std::endl;
-			output << Tab::toString() << "start [shape = plaintext, height = 0.4]" << std::endl;
+			output << Tab::toString() << "start [shape = plaintext]" << std::endl;
 			output << std::endl;
 
 			std::string previousNode = "start";
-			std::string edgeAttributes = " /*[headport = n, tailport = s]*/";
+			std::string edgeAttributes = "";
 			std::ostringstream abortScope;
 			Tarot::threads["main"]->toDot(output, previousNode, edgeAttributes, true, abortScope);
 
-			output << Tab::toString() << previousNode << " -> end" << edgeAttributes << std::endl;
+			output << Tab::toString() << previousNode << " -> end [headport = n, tailport = s]" << std::endl;
 			output << std::endl;
-			output << Tab::toString() << "end [shape = plaintext, height = 0.4]" << std::endl;
-
-			output << Tab::toString() << '{' << std::endl;
-			output << Tab::toString() << "\tedge[style = invis]" << std::endl;
-			output << Tab::toString() << "\tstart -> " << Tarot::threads["main"]->getTopNode() << std::endl;
-			output << Tab::toString() << '\t' << Tarot::threads["main"]->getBottomNode() << " -> end" << std::endl;
-			output << Tab::toString() << '}' << std::endl;
+			output << Tab::toString() << "end [shape = plaintext]" << std::endl;
 			
 			output << Tab::toString() << "label = \"" << fileName << ".forec\"" << std::endl;
 			output << Tab::toString() << "labelloc = t" << std::endl;

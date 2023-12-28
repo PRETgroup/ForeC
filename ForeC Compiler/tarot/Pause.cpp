@@ -64,12 +64,12 @@ namespace forec {
 			output << abortScope.str();
 			abortScope.str("");
 
-			output << Tab::toString() << getId() << '_' << getInternalId() << " [label = \"\", shape = box, height = 0.4, style = filled, fillcolor = black]" << std::endl;
+			output << Tab::toString() << getId() << '_' << getInternalId() << " [shape = box, height = 0.4, style = filled, fillcolor = black]" << std::endl;
 
 			std::ostringstream previousNodeString;
 			previousNodeString << getId() << '_' << getInternalId();
 			previousNode = previousNodeString.str();
-			edgeAttributes = " [headport = n, tailport = s]";
+			edgeAttributes = "";
 
 			incrementInternalId();
 		}

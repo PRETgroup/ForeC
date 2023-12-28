@@ -195,10 +195,10 @@ namespace forec {
 
 				output << Tab::toString() << getId() << '_' << getInternalId() << "Start [label = " << getIdNumber() << ", shape = diamond]" << std::endl;
 
-				edgeAttributes = " [label = true, headport = n, tailport = s, weight = 2]";
+				edgeAttributes = " [label = true]";
 			} else {
 				setInternalId(selectionIfTarot->getInternalId());
-				edgeAttributes = " [label = false, headport = n/*, tailport = e*/]";
+				edgeAttributes = " [label = false]";
 			}
 
 			std::ostringstream previousNodeString;
@@ -219,7 +219,7 @@ namespace forec {
 				output << Tab::toString() << getId() << '_' << getInternalId() << "End [label = " << getIdNumber() << ", shape = point, width = 0.01]" << std::endl;
 			}
 
-			edgeAttributes = " [headport = n, tailport = s]";
+			edgeAttributes = "";
 
 			previousNodeString.str("");
 			previousNodeString << getId() << '_' << getInternalId() << "End";

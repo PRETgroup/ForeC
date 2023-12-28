@@ -144,11 +144,7 @@ namespace forec {
 			output << abortScope.str();
 			abortScope.str("");
 
-			if (threadScope.compare("main") == 0) {
-				edgeAttributes = " [label = main, headport = n, tailport = s, weight = 2]";
-			} else {
-				edgeAttributes = " [label = " + getId() + ", fontcolor = blue, sametail = 0, headport = n, tailport = s]";
-			}
+			edgeAttributes = " [label = " + getId() + ", fontcolor = blue]";
 
 			for (std::vector<Node *>::const_iterator i = children.begin(); i != children.end(); ++i) {
 				(*i)->toDot(output, previousNode, edgeAttributes, toggle, abortScope);

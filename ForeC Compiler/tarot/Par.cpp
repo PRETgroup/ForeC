@@ -208,8 +208,14 @@ namespace forec {
 		void Par::toDot(std::ostream &output, std::string &previousNode, std::string &edgeAttributes, const bool toggle, std::ostringstream &abortScope) {
 			setInternalId();
 
+//			if (!abortScope.str().empty()) {
+//				Tab::dedent();
+//			}
 			output << Tab::toString() << previousNode << " -> " << getId() << '_' << getInternalId() << "Start" << edgeAttributes << std::endl;
-
+//			if (!abortScope.str().empty()) {
+//				Tab::indent("");
+//			}
+			
 			output << abortScope.str();
 			abortScope.str("");
 
@@ -223,7 +229,7 @@ namespace forec {
 
 			std::ostringstream previousNodeString;
 			previousNodeString << getId() << '_' << getInternalId() << "Start";
-			edgeAttributes = "[headport = n, tailport = s]";
+			edgeAttributes = "";
 			std::vector<std::string> topNodes;
 			std::vector<std::string> bottomNodes;
 			for (std::vector<Node *>::const_iterator i = children.begin(); i != children.end(); ++i) {
@@ -235,7 +241,7 @@ namespace forec {
 					topNodes.push_back((*i)->getTopNode());
 					bottomNodes.push_back((*i)->getBottomNode());
 				} else {
-					output << Tab::toString() << getId() << '_' << getInternalId() << "Start -> " << getId() << '_' << getInternalId() << "End [label = " << ((Thread *)(*i))->getId() << ", fontcolor = blue, sametail = 0, samehead = 0, headport = n, tailport = s]" << std::endl;
+					output << Tab::toString() << getId() << '_' << getInternalId() << "Start -> " << getId() << '_' << getInternalId() << "End [label = " << ((Thread *)(*i))->getId() << ", fontcolor = blue]" << std::endl;
 				}
 			}
 

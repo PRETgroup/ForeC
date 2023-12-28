@@ -133,16 +133,16 @@ namespace forec {
 			
 			output << Tab::toString() << getId() << '_' << getInternalId() << " [label = " << getIdNumber() << ", shape = diamond]" << std::endl;
 
-			edgeAttributes = " [label = true, headport = n, tailport = s, weight = 2]";
-
 			std::ostringstream previousNodeString;
 			previousNodeString << getId() << '_' << getInternalId();
 			previousNode = previousNodeString.str();
+			edgeAttributes = " [label = true]";
+
 			for (std::vector<Node *>::const_iterator i = children.begin(); i != children.end(); ++i) {
 				(*i)->toDot(output, previousNode, edgeAttributes, toggle, abortScope);
 			}
 
-			output << Tab::toString() << previousNode << " -> " << getId() << '_' << getInternalId() << " [/*headport = w,*/ constraint = false, tailport = s]" << std::endl;
+			output << Tab::toString() << previousNode << " -> " << getId() << '_' << getInternalId() << " [tailport = s, constraint = false]" << std::endl;
 
 			Tab::dedent();
 			output << Tab::toString() << '}' << std::endl;
@@ -150,7 +150,7 @@ namespace forec {
 			previousNodeString.str("");
 			previousNodeString << getId() << '_' << getInternalId();
 			previousNode = previousNodeString.str();
-			edgeAttributes = " [label = false, headport = n/*, tailport = e*/]";
+			edgeAttributes = " [label = false]";
 
 			incrementInternalId();
 		}
