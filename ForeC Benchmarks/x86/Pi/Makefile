@@ -7,6 +7,7 @@ LDFLAGS = -lomp
 % :: %.forec %.foreh
 	$(FORECC) $*.forec $*.foreh
 	$(CC) $(CFLAGS) $(LDFLAGS) $*.c -o $*
+	dot -T pdf $*.dot -o $*.pdf
 	rm -f $*.dot debug.txt information.xml
 
 % :: %.c

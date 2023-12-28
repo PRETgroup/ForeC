@@ -35,6 +35,7 @@ debug.txt
 ForeC Compiler/test/**/*.pdf
 
 ForeC Benchmarks/ptarm/Pipelining/Pipelining.c
+ForeC Benchmarks/x86/**/*.pdf
 ForeC Benchmarks/x86/Design patterns/Broadcast/Broadcast.c
 ForeC Benchmarks/x86/Pi/BaselineOpenMP
 ForeC Benchmarks/x86/Pi/Test
