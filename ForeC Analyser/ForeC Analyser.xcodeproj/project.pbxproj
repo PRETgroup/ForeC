@@ -15,6 +15,12 @@
 		4749103B14425FC200B0C2B0 /* Costing.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Costing.hpp; sourceTree = "<group>"; };
 		47520726144C3D7600702C24 /* ObjectDump.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectDump.cpp; sourceTree = "<group>"; };
 		47520727144C3D7600702C24 /* ObjectDump.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ObjectDump.hpp; sourceTree = "<group>"; };
+		475E45572BC9A394002CB1B5 /* Reachability.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Reachability.hpp; path = reachability/Reachability.hpp; sourceTree = "<group>"; };
+		475E45582BC9A394002CB1B5 /* Reaction.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Reaction.hpp; path = reachability/Reaction.hpp; sourceTree = "<group>"; };
+		475E45592BC9A394002CB1B5 /* Threading.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Threading.cpp; path = reachability/Threading.cpp; sourceTree = "<group>"; };
+		475E455A2BC9A394002CB1B5 /* Reaction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Reaction.cpp; path = reachability/Reaction.cpp; sourceTree = "<group>"; };
+		475E455B2BC9A394002CB1B5 /* Reachability.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Reachability.cpp; path = reachability/Reachability.cpp; sourceTree = "<group>"; };
+		475E455C2BC9A394002CB1B5 /* Threading.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Threading.hpp; path = reachability/Threading.hpp; sourceTree = "<group>"; };
 		47696F1F16E2195E004A863E /* Optimise.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Optimise.hpp; sourceTree = "<group>"; };
 		47696F2016E2195E004A863E /* Shared.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Shared.hpp; sourceTree = "<group>"; };
 		47696F2116E2195E004A863E /* Uppaal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Uppaal.hpp; sourceTree = "<group>"; };
@@ -29,10 +35,6 @@
 		4789CD9816106A38003C4015 /* Reaction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Reaction.hpp; sourceTree = "<group>"; };
 		478D6AD2144D8B180064ABFA /* Link.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Link.cpp; sourceTree = "<group>"; };
 		478D6AD3144D8B180064ABFA /* Link.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Link.hpp; sourceTree = "<group>"; };
-		4791576815F40ABD00DDD547 /* Reaction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = Reaction.cpp; path = reachability/Reaction.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		4791576915F40ABD00DDD547 /* Threading.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Threading.cpp; path = reachability/Threading.cpp; sourceTree = SOURCE_ROOT; };
-		4791576A15F40ABD00DDD547 /* Reaction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Reaction.hpp; path = reachability/Reaction.hpp; sourceTree = SOURCE_ROOT; };
-		4791576B15F40ABD00DDD547 /* Threading.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Threading.hpp; path = reachability/Threading.hpp; sourceTree = SOURCE_ROOT; };
 		4791576E15F40B1B00DDD547 /* MaxPlus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = MaxPlus.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		4791576F15F40B1B00DDD547 /* MaxPlus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MaxPlus.hpp; sourceTree = "<group>"; };
 		4791577015F40B1B00DDD547 /* Threading.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Threading.cpp; sourceTree = "<group>"; };
@@ -44,8 +46,6 @@
 		47B99A121454C07A00369730 /* rapidxml.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = rapidxml.hpp; sourceTree = "<group>"; };
 		47B99A141454C5FF00369730 /* Multicore.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Multicore.cpp; sourceTree = "<group>"; };
 		47B99A151454C5FF00369730 /* Multicore.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Multicore.hpp; sourceTree = "<group>"; };
-		47BD9D2A14517679002A2710 /* Reachability.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Reachability.cpp; path = reachability/Reachability.cpp; sourceTree = SOURCE_ROOT; };
-		47BD9D2B14517679002A2710 /* Reachability.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Reachability.hpp; path = reachability/Reachability.hpp; sourceTree = SOURCE_ROOT; };
 		47C5B02B16DF385A00D00F05 /* File.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = File.hpp; sourceTree = "<group>"; };
 		47C5B02F16DF691100D00F05 /* ScannerPtarm.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScannerPtarm.hpp; sourceTree = "<group>"; };
 		47C6C5341440343B0030E592 /* NodeList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NodeList.cpp; sourceTree = "<group>"; };
@@ -93,6 +93,19 @@
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		475E45562BC9A368002CB1B5 /* reachability */ = {
+			isa = PBXGroup;
+			children = (
+				475E455B2BC9A394002CB1B5 /* Reachability.cpp */,
+				475E45572BC9A394002CB1B5 /* Reachability.hpp */,
+				475E455A2BC9A394002CB1B5 /* Reaction.cpp */,
+				475E45582BC9A394002CB1B5 /* Reaction.hpp */,
+				475E45592BC9A394002CB1B5 /* Threading.cpp */,
+				475E455C2BC9A394002CB1B5 /* Threading.hpp */,
+			);
+			name = reachability;
+			sourceTree = "<group>";
+		};
 		4791576D15F40B1B00DDD547 /* maxplus */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,7 +134,7 @@
 				47FCF75316CA34650037FA61 /* ParserPtarm.y */,
 				47CF509F143C0AC3008DF081 /* cfg */,
 				4791576D15F40B1B00DDD547 /* maxplus */,
-				47CF50B2143C0AC3008DF081 /* reachability */,
+				475E45562BC9A368002CB1B5 /* reachability */,
 				47CF50B5143C0AC3008DF081 /* tools */,
 			);
 			sourceTree = "<group>";
@@ -165,20 +178,6 @@
 				47D3E17914499DA000AD801F /* Thread.hpp */,
 			);
 			path = cfg;
-			sourceTree = "<group>";
-		};
-		47CF50B2143C0AC3008DF081 /* reachability */ = {
-			isa = PBXGroup;
-			children = (
-				47BD9D2A14517679002A2710 /* Reachability.cpp */,
-				47BD9D2B14517679002A2710 /* Reachability.hpp */,
-				4791576815F40ABD00DDD547 /* Reaction.cpp */,
-				4791576A15F40ABD00DDD547 /* Reaction.hpp */,
-				4791576915F40ABD00DDD547 /* Threading.cpp */,
-				4791576B15F40ABD00DDD547 /* Threading.hpp */,
-			);
-			name = reachability;
-			path = timing;
 			sourceTree = "<group>";
 		};
 		47CF50B5143C0AC3008DF081 /* tools */ = {
