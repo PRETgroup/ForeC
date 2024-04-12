@@ -269,7 +269,7 @@ void updateSymbolTable(forec::ast::Root &astRoot) {
 	} 
 	
 	std::set<forec::ast::PrimaryExpression *> combineUnneeded;
-	// uneeded = specified - needed
+	// unneeded = specified - needed
 	std::set_difference(combineSpecified.begin(), combineSpecified.end(), combineNeeded.begin(), combineNeeded.end(), std::inserter(combineUnneeded, combineUnneeded.end()));
 	if (!combineUnneeded.empty()) {
 		std::cout << std::endl << "* These variables do not need a combine function:" << std::endl;

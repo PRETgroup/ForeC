@@ -45,7 +45,7 @@ can be added to the `PATH` environment variable. Be careful of spaces in the pat
 ## Usage
 * `$ forecc [options] <source filename> <header filename>`
 
-* Options can be:
+* Options can be a combination of:
   * `-v` for version information.
   * `-d1` for including print statements that will print out
     the elapsed time after each program reaction.
@@ -125,13 +125,13 @@ Syntax colouring/highlighting files are located in `./syntax colouring/` and sup
 * Support scalar shared variables and whether they need a combine function.
 * Check for potentially instantaneous loops.
 
-A ForeC source program is mapped directly into a graph that is 
-constructed from a set of connected blocks. The 
-graph represents the program's control-flow and 
-concurrency. Hence, we call this graph a Concurrent Control-Flow 
-Graph (CCFG). There are two classes of blocks: asynchronous and 
-synchronous. Asynchronous blocks correspond to C-statements while 
-synchronous blocks correspond to ForeC statements. In addition 
+A ForeC source program is parsed into an abstract syntax tree and 
+then transformed into a control-flow graph that represents both the 
+concurrency threads and the control-flow of each thread.
+Hence, we call this graph a Concurrent Control-Flow 
+Graph (CCFG). There are two types of CCFG nodes: asynchronous and 
+synchronous. Asynchronous nodes correspond to C-statements while 
+synchronous nodes correspond to ForeC statements. In addition 
 to forming the foundations of an intermediate format, this 
 graph can be visualised to provide a graphical means for inspecting 
 the program. Using this visualisation, explicit parallelism is 
@@ -139,27 +139,25 @@ made obvious and control-flow patterns can be identified and
 improved.
 
 Given the allocation of threads-to-cores, it is possible to 
-take the CCFG and derive new graphs (tarots) to show each 
-core's allocation of threads. For the allocation to be effective, 
-it may be necessary to replicate the parallel statements in 
-each graph. These new graphs make it easier to see the 
-distribution of control and the relevant inter-core dependencies 
-required to preserve program behaviour. During compilation, 
-each core's tarot may be optimised and these are preserved during 
-code generation.
+take the CCFG and to derive new graphs (tarots) that encode the 
+concurrenct threads that each core participates in. Each per-core
+graph is a copy of the original CCFG, but containing only the 
+allocated threads and stubs for their parent threads. These new per-core 
+graphs make it easier to see the distribution of control and the 
+relevant inter-core dependencies required to preserve program 
+behaviour. Intuitively, the fork-join nodes in each per-core graph 
+indicate when master and slave cores need to synchronise 
+to participate in thread execution.
+Each core's tarot may be optimised before code generation.
 
 The idea of distribution is to spread the workload over available 
 cores for faster execution but to orchestrate the execution to 
 give the illusion that the execution is on a single powerful core. 
 When a core executes a parallel statement, it becomes the master 
 of that parallel statement. Then, other cores involved with executing 
-the child threads become slaves of the master.
-
-Intuitively, the replicated parallel statements in each graph 
-indicate when master and slave cores are involved in the execution 
-of threads. If all threads of a parallel statement were allocated 
-to the same core, then no replication of the parallel statement
-would be required.
+the child threads become slaves of the master. Each (nested) parallel
+statement may have a different master core, determined by the core
+allocation of its parent thread.
 
 ## Limitations
 * Lexical:

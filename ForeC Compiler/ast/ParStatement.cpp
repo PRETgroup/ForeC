@@ -88,8 +88,8 @@ namespace forec {
 				std::map<PrimaryExpression *, std::map<std::string, std::pair<tools::SymbolTable::UpdateType, std::set<std::string> > > > subResults = thread->pullUpIndirectParallelVariables();
 				for (std::map<PrimaryExpression *, std::map<std::string, std::pair<tools::SymbolTable::UpdateType, std::set<std::string> > > >::iterator variable = subResults.begin(); variable != subResults.end(); ++variable) {
 					for (std::map<std::string, std::pair<tools::SymbolTable::UpdateType, std::set<std::string> > >::iterator useDef = variable->second.begin(); useDef != variable->second.end(); ++useDef) {
-						indirectParallelVariables[variable->first][useDef->first].second.insert(*currentThreadId);
 						indirectParallelVariables[variable->first][useDef->first].first = tools::SymbolTable::skip;
+						indirectParallelVariables[variable->first][useDef->first].second.insert(*currentThreadId);
 					}
 				}
 			}

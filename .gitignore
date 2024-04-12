@@ -32,6 +32,10 @@ information.xml
 debug.txt
 *.dot
 
+ForeC Analyser/ForeC Analyser.xcodeproj/project.xcworkspace/xcuserdata/kinchee.xcuserdatad/
+ForeC Analyser/ForeC Analyser.xcodeproj/xcuserdata/kinchee.xcuserdatad/
+
+ForeC Compiler/ForeC Compiler.xcodeproj/xcuserdata/kinchee.xcuserdatad/
 ForeC Compiler/test/**/*.pdf
 
 ForeC Benchmarks/ptarm/Pipelining/Pipelining.c
