@@ -10,122 +10,132 @@ Date: 5 October 2014
 
 ## Pre-requisites:
 * Unix compatible system
-* Flex version 2.5.37 or later
-* Bison version 3.0 or later
-* C++ compiler
-* mb-gcc v4.1.2 (MicroBlaze compiler and objdump v2.16)
-  * Download from http://www.xilinx.com/guest_resources/gnu/
-  * Select "GNU Tools for MicroBlaze (gcc 4.1.2, gdb 6.5, binutils 2.16, newlib 1.14)".
-* arm-linux-gnueabi-gcc or arm-none-eabi-gcc v4.7.1 (ARM compiler and objdump)
+* `Flex` version 2.5.37 or later
+* `Bison` version 3.0 or later
+* `C++` compiler
+* `mb-gcc` v4.1.2 (MicroBlaze compiler and `objdump` v2.16)
+  * Download from https://github.com/Xilinx/gcc/tree/gcc-4_1-branch
+* `gdb` 6.5: https://sourceware.org/gdb/download/
+* `binutils` 2.16: https://www.gnu.org/software/binutils/
+* `newlib` 1.14: https://sourceware.org/newlib/
+* `arm-linux-gnueabi-gcc` or `arm-none-eabi-gcc` v4.7.1 (ARM compiler and objdump)
   * For Windows and Mac: Download from http://sourceforge.net/projects/yagarto/files
-  * Note: objdump.c in binutils has to be amended to properly intermix the source code
+  * Note: `objdump.c` in `binutils` has to be amended to properly intermix the source code
           with assembly instructions.
 * GNU make and relevant dependencies
 
 
 ## Installing on Linux:
-To create the "foreca" executable, the following commands need to be executed:
- $ make clean
- $ make
+To build the `foreca` executable, the following commands need to be executed:
+```
+$ make clean
+$ make
+```
 
-The Makefile uses the "CC" variable to specify the C++ compiler to compile the 
-ForeC analyser. A different C++ compiler can be specified by modifying "CC" in 
-the Makefile to your liking.
+The `Makefile` uses the `CC` variable to specify the C++ compiler to compile the 
+ForeC analyser. A different C++ compiler can be specified by modifying `CC` in 
+the `Makefile` to your liking.
 
 The analyser makes use of the system libraries and header files of the 
 implemented MicroBlaze system to automatically generate the program
-binary for you. These files are stored in the "microblaze" folder. 
+binary for you. These files are stored in the `microblaze` folder. 
 Note that the contents of this folder must be consistent with the 
 one used by the simulator. The analyser needs to know where the
-"microblaze" folder is located. This is achieved by setting the 
-environment variable "FOREC_ANALYSER_PATH" to the folder location. 
+`microblaze` folder is located. This is achieved by setting the 
+environment variable `FOREC_ANALYSER_PATH` to the folder location. 
 Thus, the following commands should be issued:
-
- $ FOREC_ANALYSER_PATH=<root path to the analyser>
- $ export FOREC_ANALYSER_PATH
-
+```
+$ FOREC_ANALYSER_PATH=<root path to the analyser>
+$ export FOREC_ANALYSER_PATH
+```
 Note that the path must have a trailing slash.
 
 To execute the analyser from any directory, the root path to the analyser
-can be added to the PATH environment variable:
- $ PATH=$PATH:$FOREC_ANALYSER_PATH
- $ export PATH
-
+can be added to the `PATH` environment variable:
+```
+$ PATH=$PATH:$FOREC_ANALYSER_PATH
+$ export PATH
+```
 Be careful of spaces in the path.
 
 
 ## Usage:
-$ foreca [-merge, -ccfg, uppaal] <-approach> [-debug] <source filename> <information filename>
+```
+$ foreca [-merge, -ccfg, -uppaal] <approach> [debug] <source filename> <information filename>
+```
 
-* -merge option:
-  By default, CFG nodes along each path are merged together, excluding those 
-  with global memory accesses.
-  -merge for merging pure computation nodes that do not access global memory.
-  -merge-b is -merge and also merges edges.
-  -merge-g is -merge and also merges nodes that access global memory 
-           (worst-case global access times are used).
-  -merge-bg is -merge-b and -merge-g.
+Options can be a combination of:
+* `-merge`: By default, CFG nodes along each path are merged together, excluding those 
+  with global memory accesses. This option merges pure computation nodes that do not access global memory.  
+  `-merge-b` is `-merge` and also merges edges.  
+  `-merge-g` is `-merge` and also merges nodes that access global memory
+           (worst-case global access times are used).  
+  `-merge-bg` is `-merge-b` and `-merge-g`.
 
-* -ccfg option:
-  Output the CCFG output of the program and then terminate.
+* `-ccfg`: Output the CCFG output of the program and then terminate.
 
-* -uppaal option:
-  Output the UPPAAL model of the program and then terminate.
+* `-uppaal`: Output the UPPAAL model of the program and then terminate.
 
-* -approach:
-  -maxplus for simple Max-Plus.
-  -maxplus-i for Max-Plus-Parallel adapted to multicores.
-  -reachability for Reachability.
+* Aapproach can be:  
+  `-maxplus` for simple Max-Plus.  
+  `-maxplus-i` for Max-Plus-Parallel adapted to multicores.  
+  `-reachability` for Reachability.
 
-* -debug option:
-  -t1 for trace output only to the console.
-  -t2 for trace output only to a trace.xml file.
-  -t3 for trace output to the console and to a trace.xml file.
+* Debug can be:  
+  `-t1` for trace output only to the console.  
+  `-t2` for trace output only to a `trace.xml` file.  
+  `-t3` for trace output to the console and to a `trace.xml` file.
 
-* <source filename>
+* Source filename: 
   The source file can be the C code generated by the ForeC compiler. 
   In this case, the analyser will automatically compile the C code 
   into binary and create an object dump file. The source can also be the
   object dump file generated by a previous analysis. This will allow
   the generation of the dump file to be skipped.
-  * Expected source code file extension: *.c
-  * Expected object dump file extension: *.dump
+  * Expected source code file extension: `*.c`
+  * Expected object dump file extension: `*.dump`
 
-* <information filename>
+* Information filename:
   The information file that was generated automatically by the ForeC compiler.
-  * Expected information file extension: *.xml
+  * Expected information file extension: `*.xml`
 
-* $ foreca -v 
-  Returns the version information.
+* `-v` by itself for version information.
 
 
 ## Outputs:
-* trace.xml
+* `trace.xml`
   * Optional trace information in XML format.
-* analysis.txt
+* `analysis.txt`
   * Debugging information for each stage of analysis.
 
 
 ## Object File:
 Debugging information is expected to be in the object file. For GCC,
 this would require compilation with the following commands:
- $ gcc -E -CC <source filename>.c -o <source filename>_preprocessed.c
- $ gcc -O0 -g <source filename>_preprocessed.c -o <source filename>.elf
+```
+$ gcc -E -CC <source filename>.c -o <source filename>_preprocessed.c
+$ gcc -O0 -g <source filename>_preprocessed.c -o <source filename>.elf
+```
 
 An example compilation for Xilinx MicroBlaze:
- $ mb-gcc -E -CC prog.c -o prog_expanded.c -I../microblaze_0/include/ -I../drivers/counter_dfsl_v1_00_a/src/ -I../drivers/forec_mutex_v1_00_a/src/
- $ mb-gcc -O0 -g prog_expanded.c -o prog.elf -mno-xl-soft-mul -mhard-float -mxl-float-convert -mxl-float-sqrt -mno-xl-soft-div -mcpu=v8.00.b -T forec_linker_script.ld -L../microblaze_0/lib/
-
+```
+$ mb-gcc -E -CC prog.c -o prog_expanded.c -I../microblaze_0/include/ -I../drivers/counter_dfsl_v1_00_a/src/ -I../drivers/forec_mutex_v1_00_a/src/
+$ mb-gcc -O0 -g prog_expanded.c -o prog.elf -mno-xl-soft-mul -mhard-float -mxl-float-convert -mxl-float-sqrt -mno-xl-soft-div -mcpu=v8.00.b -T forec_linker_script.ld -L../microblaze_0/lib/
+```
 
 ## Object Dump File:
 The object dump file is expected to be produced from the compiled ForeC program
-(objectFile.elf) with the following command:
- $ objdump -dCrS -j .text <object name>.elf > <object name>.dump
+(`objectFile.elf`) with the following command:
+```
+$ objdump -dCrS -j .text <object name>.elf > <object name>.dump
+```
 
 An example decompilation for Xilinx MicroBlaze:
- $ mb-objdump -dCrS -j .text prog.elf > prog.dump
+```
+$ mb-objdump -dCrS -j .text prog.elf > prog.dump
+```
 
-Important!: Over the years, objdump used different algorithms for intermixing the source code 
+**Important!** Over the years, objdump used different algorithms for intermixing the source code 
 with the assembly code. Binutils before version 2.18 used a better algorithm that inserted assembly 
 instructions into the source code. Binutils version 2.18 and later used a different algorithm that
 inserted source lines into the assessembly code. The latter algorithm: 1) would only show up to 5 
@@ -143,44 +153,46 @@ http://gcc.gnu.org/gcc-4.5/changes.html
 ## Information File:
 Expected to contain the following information in xml format:
 * Thread-to-core allocation
-* Allocated cores per par(...) statement (Cores allocated to execute the child threads of a par(...)).
-* Active cores per par(...) statement (Cores allocated to execute all of the par(..)s in a thread).
+* Allocated cores per `par(...)` statement (Cores allocated to execute the child threads of a `par(...)`).
+* Active cores per `par(...)` statement (Cores allocated to execute all of the `par(..)`s in a thread).
 * Thread graph
 * Use/define of shared variables.
 
 
 ## Notes and Limitations:
 * Only worst-case estimations are used for instructions.
-* For TDMA arbitration, the worst-case delay is (slot size) * (number of cores - 1) + (memory access delay - 1)
+* For TDMA arbitration, the worst-case delay is `(slot size) * (number of cores - 1) + (memory access delay - 1)`
 * Access to global data is assumed when:
-  - The second operand of a load or store instruction is "r0".
-  - A load or store instruction follows from the instruction sequence [imm, add*, (sw|lw)*]
-  - Cannot detect global accesses when the immediate value is reused:
+  - The second operand of a load or store instruction is `r0`.
+  - A load or store instruction follows from the instruction sequence `[imm, add*, (sw|lw)*]`
+  - Cannot detect global accesses when the immediate value is reused:   
     Example C statement:
-      x__global_0_0[1] = 0;
+      `x__global_0_0[1] = 0;`  
     Assembly instructions:
+    ```
       imm   -31431
       lwi   r3, r0, 12     # Detected as a global access.
       addik r3, r3, 4      # Not detected as an add to the global memory address.
       addk  r4, r0, r0
       swi   r4, r3, 0      # Thus, not detected as a global access.
+    ```
   - Most problems occur when arrays and pointers are used.
 * The following CFG nodes are not candidates for merging:
   - Pause node.
   - Par node.
   - Scheduler node.
   - Node with an iteration bound.
-  - Node with a global memory access (unless -merge-bg is used).
+  - Node with a global memory access (unless `-merge-bg` is used).
 * The following program characteristics affect the complexity of path exploration:
-  - Conditional execution of par(...) statements. Branches to par(...) statements cannot be merged, limiting the
+  - Conditional execution of `par(...)` statements. Branches to `par(...)` statements cannot be merged, limiting the
     number of paths that can be reduced.
-  - Bounded loops with a range of iterations (#x#y, where x != y). Iterations x to y have to be explored. The larger
+  - Bounded loops with a range of iterations (`#x#y`, where x != y). Iterations x to y have to be explored. The larger
     the range, the more alternate paths that have to be explored.
-  - The conditional execution of global memory accesses if -merge-bg is not used. Nodes with global memory accesses
+  - The conditional execution of global memory accesses if `-merge-bg` is not used. Nodes with global memory accesses
     cannot be merged, limiting the number of paths that can be reduced.
   - The number of parallel threads. The thread interleaving have to be explored. All conditional executions have to be
     explored for each interleaving.
-  - Conditional updating of copies of shared variables (policy "mod") when a par(...) terminates.
+  - Conditional updating of copies of shared variables (policy `mod`) when a `par(...)` terminates.
 * Instantaneous loops may not be detected by the analysis algorithm.
   - The ForeC compiler will pessimistically alert the programmer to loops that may be instantaneous.
   - As an additional line of defence, the analyser will also try and detect instantaneous loops.
@@ -192,11 +204,11 @@ Expected to contain the following information in xml format:
   - Over-estimation of local memory accesses as global accesses.
   - Combining of shared variables:
     If no copies satisify the combine policy, then the analyser should not add the cost of combining.
-	This cost is incurred when a par(...) pauses or terminates.
+	This cost is incurred when a `par(...)` pauses or terminates.
   - Inter-core synchronisation:
     Timing over-estimation in the receiving of thread/core statuses. Always assume that the statuses are 
 	available just after they have been checked.
-  - merge-g option:
+  - `-merge-g` option:
     This option merges the execution time of a sequence of instructions. Global memory accesses must be estimated
 	safely. We must consider the delay that the first global memory access in the sequence access can experience.
 	Thereafter, all bus alignments for global memory accesses can be computed safely from the elapsed time. To consider
